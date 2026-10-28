@@ -4026,7 +4026,75 @@ function _artSetLink(card, url, tipo){
   b.textContent = tipo === 'pdf' ? '📄 Abrir em PDF' : (tipo === 'oa' ? '📄 Texto completo grátis' : '🔒 Abrir na revista');
   if(tipo === 'pdf') card.dataset.pdf = url; else delete card.dataset.pdf;
   delete card.dataset.resolvendo;
+  if(tipo === 'none') _artAddGratis(card);
 }
+
+/* ── "Tentar grátis": procura cópia gratuita legal (OpenAlex, Semantic Scholar) ── */
+function _artAddGratis(card){
+  if(card.querySelector('.btn-gratis')) return;
+  var b = card.querySelector('a.link-btn.pub');
+  if(!b) return;
+  var g = document.createElement('button');
+  g.className = 'link-btn pub btn-gratis';
+  g.textContent = '🔎 Tentar grátis';
+  b.insertAdjacentElement('afterend', g);
+}
+
+function _comTempo(prom, ms){
+  return new Promise(function(ok, err){ var t = setTimeout(err, ms); prom.then(function(v){ clearTimeout(t); ok(v); }, function(e){ clearTimeout(t); err(e); }); });
+}
+function _primeiroQueAchar(lista){
+  return new Promise(function(ok, err){
+    var falhas = 0; if(!lista.length) return err();
+    lista.forEach(function(p){ p.then(ok, function(){ if(++falhas === lista.length) err(); }); });
+  });
+}
+
+function _artTentarGratis(card, btn){
+  var doi = card.dataset.doi || '';
+  var titulo = card.getAttribute('data-ai-title') || ((card.querySelector('.art-title') || {}).textContent || '');
+  var w = window.open('about:blank', '_blank');
+  var ir = function(u){ if(w){ try { w.opener = null; } catch(x){} w.location.href = u; } else { window.open(u, '_blank', 'noopener'); } };
+  if(btn){ btn.disabled = true; btn.textContent = '⏳ Procurando…'; }
+  var json = function(u){ return _comTempo(fetch(u).then(function(r){ if(!r.ok) throw 0; return r.json(); }), 9000); };
+  var fontes = [];
+  if(doi){
+    fontes.push(json('https://api.openalex.org/works/doi:' + encodeURI(doi) + '?select=best_oa_location,oa_locations').then(function(d){
+      var l = [d.best_oa_location].concat(d.oa_locations || []).filter(function(x){ return x && x.pdf_url; })[0];
+      if(!l) throw 0; return l.pdf_url;
+    }));
+    fontes.push(json('https://api.semanticscholar.org/graph/v1/paper/DOI:' + encodeURI(doi) + '?fields=openAccessPdf').then(function(d){
+      var u = d && d.openAccessPdf && d.openAccessPdf.url;
+      if(!u) throw 0; return u;
+    }));
+  }
+  _primeiroQueAchar(fontes).then(function(u){
+    ir(u);
+    card.dataset.pdf = u;
+    var b = card.querySelector('a.link-btn.pub:not(.btn-gratis)');
+    if(b){ b.href = u; b.textContent = '📄 Abrir em PDF'; }
+    if(btn) btn.remove();
+    toast('✅', 'Versão gratuita encontrada.');
+  }).catch(function(){
+    ir('https://scholar.google.com/scholar?q=' + encodeURIComponent(titulo ? '"' + titulo + '"' : doi));
+    if(btn){ btn.disabled = false; btn.textContent = '🔎 Tentar grátis'; }
+    toast('🔎', 'Sem PDF gratuito nas bases. Abri o Google Acadêmico: procure [PDF] à direita ou "Todas as versões". Se não houver, use o Portal CAPES.');
+  });
+}
+
+document.addEventListener('click', function(e){
+  var g = e.target.closest('.btn-gratis');
+  if(!g) return;
+  e.preventDefault(); e.stopPropagation();
+  var card = g.closest('.art-card');
+  if(card) _artTentarGratis(card, g);
+}, true);
+
+/* artigos fixos pagos (data-oa="false") também ganham o botão */
+(function(){
+  var fixar = function(){ Array.prototype.forEach.call(document.querySelectorAll('.art-card[data-oa="false"][data-doi]'), _artAddGratis); };
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fixar); else fixar();
+})();
 
 /* Europe PMC: acha o PDF gratuito (PMC, repositórios e Unpaywall) pelo PMID */
 function _artResolverPdfs(cards){
