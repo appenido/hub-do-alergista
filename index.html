@@ -97,6 +97,9 @@ body{
 .scroll-area{
   padding-bottom:24px;
 }
+.fb-back{position:fixed;left:14px;bottom:calc(var(--bottomnav-h,64px) + 14px);z-index:120;display:none;align-items:center;gap:6px;border:none;border-radius:999px;padding:11px 18px 11px 14px;background:linear-gradient(135deg,var(--navy,#1a2e4a),var(--teal-mid,#2a9fad));color:#fff;font-size:14px;font-weight:800;box-shadow:0 6px 18px rgba(13,31,45,.3);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.fb-back.show{display:flex;}
+.fb-back:active{transform:scale(.96);}
 .page{display:none;}
 .page.active{display:block;}
 
@@ -2513,6 +2516,7 @@ body{
 </div>
 
 <!-- TOAST -->
+<button class="fb-back" id="fbBack" aria-label="Voltar">‹ Voltar</button>
 <div class="toast" id="toast"><span id="toastIcon">✅</span><span id="toastMsg">Feito!</span></div>
 
 <script>
@@ -2560,9 +2564,15 @@ function navTo(page){
     if(logo)    logo.style.display = 'none';
   }
 
+  var _fb = document.getElementById('fbBack');
+  if(_fb) _fb.classList.toggle('show', page !== 'dashboard');
+
   if(page === 'artigos' && !_feedLoaded){ _feedLoaded = true; renderFeedChips(); carregarFeed('todos'); }
   if(page === 'imuno' && !_radarLoaded){ _radarLoaded = true; carregarRadar(false); }
 }
+
+var _fbBack = document.getElementById('fbBack');
+if(_fbBack) _fbBack.addEventListener('click', function(){ var t=document.getElementById('tbBack'); if(t) t.click(); });
 
 // Back button click
 var _tbBack = document.getElementById('tbBack');
