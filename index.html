@@ -97,6 +97,37 @@ body{
 .scroll-area{
   padding-bottom:24px;
 }
+.act-wrap{animation:actIn .35s ease both;}
+@keyframes actIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.act-tabs{display:flex;gap:6px;background:var(--gray-50,#f4f7fa);padding:4px;border-radius:12px;margin-bottom:14px;}
+.act-tab{flex:1;border:none;background:transparent;border-radius:9px;padding:8px 6px;font-size:12px;font-weight:700;color:var(--gray-500,#64748b);cursor:pointer;}
+.act-tab.on{background:#fff;color:var(--navy,#1a2e4a);box-shadow:0 2px 8px rgba(13,31,45,.08);}
+.act-top{display:flex;justify-content:space-between;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--teal-mid,#2a9fad);margin-bottom:8px;}
+.act-prog{height:6px;border-radius:6px;background:var(--gray-100,#eef2f6);overflow:hidden;margin-bottom:16px;}
+.act-prog-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#2a9fad,#5ce0ec);transition:width .45s ease;}
+.act-q{font-size:16px;font-weight:800;line-height:1.4;color:var(--navy,#1a2e4a);margin-bottom:14px;}
+.act-opts{display:flex;flex-direction:column;gap:8px;}
+.act-opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px 14px;border:1.5px solid var(--gray-100,#e2e8f0);border-radius:13px;background:#fff;cursor:pointer;transition:transform .15s,border-color .15s,background .15s,box-shadow .15s;}
+.act-opt:hover{border-color:#5ce0ec;box-shadow:0 4px 14px rgba(42,159,173,.12);transform:translateY(-1px);}
+.act-opt.sel{border-color:#2a9fad;background:linear-gradient(135deg,rgba(42,159,173,.10),rgba(92,224,236,.10));}
+.act-dot{width:18px;height:18px;border-radius:50%;border:2px solid #cbd5e1;flex-shrink:0;transition:all .2s;}
+.act-opt.sel .act-dot{border-color:#2a9fad;background:radial-gradient(circle,#2a9fad 45%,transparent 50%);}
+.act-lbl{font-size:14px;color:var(--navy,#1a2e4a);line-height:1.35;}
+.act-nav{margin-top:16px;display:flex;justify-content:space-between;align-items:center;min-height:40px;}
+.act-btn{border:none;border-radius:11px;padding:11px 18px;font-size:13.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,#2a9fad,#3bbfcc);cursor:pointer;box-shadow:0 6px 16px rgba(42,159,173,.28);}
+.act-btn.sec{background:#fff;color:#2a9fad;border:1.5px solid rgba(42,159,173,.4);box-shadow:none;}
+.act-res{text-align:center;}
+.act-ring{position:relative;width:170px;height:170px;margin:6px auto 4px;}
+.act-ring svg{width:100%;height:100%;transform:rotate(-90deg);}
+.act-trilho{fill:none;stroke:#eef2f6;stroke-width:10;}
+.act-arco{fill:none;stroke:var(--cor,#2a9fad);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.1s cubic-bezier(.2,.8,.2,1);}
+.act-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.act-num b{font-size:42px;font-weight:900;letter-spacing:-1px;color:var(--navy,#1a2e4a);line-height:1;}
+.act-num span{font-size:12px;color:var(--gray-500,#64748b);margin-top:4px;}
+.act-faixa{display:inline-block;margin-top:6px;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:800;color:#fff;background:var(--cor,#2a9fad);}
+.act-msg{font-size:14px;line-height:1.55;color:var(--navy,#1a2e4a);margin:14px auto 0;max-width:320px;}
+.act-aviso{font-size:11px;line-height:1.5;color:var(--gray-500,#64748b);margin-top:14px;padding:10px 12px;background:var(--gray-50,#f4f7fa);border-radius:10px;}
+@media (prefers-reduced-motion: reduce){.act-wrap,.act-arco,.act-prog-fill{animation:none!important;transition:none!important;}}
 .fb-back{position:fixed;left:14px;bottom:calc(var(--bottomnav-h,64px) + 14px);z-index:120;display:none;align-items:center;gap:6px;border:none;border-radius:999px;padding:11px 18px 11px 14px;background:linear-gradient(135deg,var(--navy,#1a2e4a),var(--teal-mid,#2a9fad));color:#fff;font-size:14px;font-weight:800;box-shadow:0 6px 18px rgba(13,31,45,.3);cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .fb-back.show{display:flex;}
 .fb-back:active{transform:scale(.96);}
@@ -2912,12 +2943,100 @@ if(_aiInput){
 /* ── SCORES MODAL ── */
 var SCORES={
   icpeUce:{title:'🔬 ICPE-UCE — Endótipo e Conduta na UCE',desc:'Estima o endótipo da urticária crônica espontânea usando apenas biomarcadores laboratoriais de rotina (Eixo A: assinatura tipo IIb; Eixo B: inflamação) e sugere a conduta mais lógica frente ao omalizumabe. SII e SIRI são calculados automaticamente a partir do hemograma. Para a atividade clínica, use os scores UAS7 e UCT.',fields:[{id:'ic_ige',lbl:'IgE total (UI/mL)',opts:['≥70 (0 pt)','40–70 (1 pt)','20–39 (2 pt)','<20 (3 pt)']},{id:'ic_tpo',lbl:'IgG anti-TPO',opts:['Negativo (0 pt)','Positivo até 3× LSM (1 pt)','Positivo >3× LSM (2 pt)']},{id:'ic_tg',lbl:'Anti-tireoglobulina IgG',opts:['Negativo (0 pt)','Positivo (1 pt)']},{id:'ic_fan',lbl:'FAN',opts:['Negativo ou ≤1:80 (0 pt)','1:160 (1 pt)','≥1:320 (2 pt)']},{id:'ic_eos',lbl:'Eosinófilos absolutos',opts:['≥100/µL (0 pt)','50–99/µL (1 pt)','<50/µL (2 pt)','0–10/µL persistente s/ corticoide (3 pt)']},{id:'ic_bas',lbl:'Basófilos absolutos',opts:['≥10/µL (0 pt)','<10/µL ou 0 (2 pt)']},{id:'ic_tir',lbl:'Função/autoimunidade tireoidiana',opts:['TSH/T4 normais, sem autoanticorpos (0 pt)','Disfunção autoimune ou tireoidite (1 pt)']},{id:'ic_pcr',lbl:'PCR (mg/L) — 1 mg/dL = 10 mg/L',opts:['<5 (0 pt)','5–10 (1 pt)','10–30 (2 pt)','>30 (3 pt)']},{id:'ic_vhs',lbl:'VHS (mm/h)',opts:['≤20 (0 pt)','21–40 (1 pt)','41–70 (2 pt)','>70 (3 pt)']},{id:'ic_plaq',lbl:'Plaquetas (para SII)',type:'num',ph:'ex: 250 (10⁹/L) ou 250000'},{id:'ic_neut',lbl:'Neutrófilos absolutos (para SII/SIRI)',type:'num',ph:'ex: 4,5 (10⁹/L) ou 4500'},{id:'ic_linf',lbl:'Linfócitos absolutos (para SII/SIRI)',type:'num',ph:'ex: 2,0 (10⁹/L) ou 2000'},{id:'ic_mono',lbl:'Monócitos absolutos (para SIRI)',type:'num',ph:'ex: 0,5 (10⁹/L) ou 500'}],calc:function(v){var basoPts=[0,2][v[5]];var eixoA=v[0]+v[1]+v[2]+v[3]+v[4]+basoPts+v[6];function _u(x,big){if(x===null||x===undefined||isNaN(x))return null;return x>big?x/1000:x;}var plaq=_u(v[9],2000),neut=_u(v[10],100),linf=_u(v[11],100),mono=_u(v[12],100);var sii=null,siri=null,siiPts=0,siriPts=0,hemoTxt='';if(plaq!==null&&neut!==null&&linf!==null&&linf>0){sii=plaq*neut/linf;siiPts=sii<480?0:(sii<=1000?1:2);}if(neut!==null&&mono!==null&&linf!==null&&linf>0){siri=neut*mono/linf;siriPts=siri<1.2?0:(siri<=2.0?1:2);}var siiSiri=Math.min(siiPts+siriPts,3);var eixoB=v[7]+v[8]+siiSiri;if(sii!==null){hemoTxt+=' SII='+Math.round(sii)+' (+'+siiPts+').';}else{hemoTxt+=' SII não calculado (hemograma incompleto).';}if(siri!==null){hemoTxt+=' SIRI='+(Math.round(siri*100)/100).toString().replace('.',',')+' (+'+siriPts+').';}else{hemoTxt+=' SIRI não calculado.';}var igeAlta=(v[0]===0);var tipo,grau,conf,cor;if(eixoA<=3){tipo='UCE TIPO I';grau='autoalérgica (IgE-mediada)';conf=igeAlta?'moderada':'baixa';cor='linear-gradient(135deg,#1a4a5c,#2e8b57)';}else{tipo='UCE TIPO IIb';grau='autoimune';if(eixoA<=6){grau='autoimune (assinatura possível)';conf='baixa';}else if(eixoA<=10){grau='autoimune (assinatura provável)';conf='moderada';}else{grau='autoimune (assinatura forte)';conf='alta';}cor=(eixoB>=6)?'linear-gradient(135deg,#0d1f2d,#c0392b)':'linear-gradient(135deg,#1f6980,#c9a84c)';}var infl,inflTxt;if(eixoB<=2){infl='sem inflamação sistêmica relevante';inflTxt='';}else if(eixoB<=5){infl='inflamação leve/moderada';inflTxt=' Componente inflamatório leve/moderado — interpretar junto à clínica.';}else if(eixoB<=7){infl='inflamação sistêmica relevante';inflTxt=' Componente inflamatório sistêmico relevante — procurar fator perpetuador (foco infeccioso/inflamatório ou doença sistêmica associada).';}else{infl='inflamação sistêmica forte';inflTxt=' Forte componente inflamatório — investigar ativamente foco infeccioso/inflamatório ou doença sistêmica antes de atribuir tudo ao endótipo.';}var alerta='';if(v[7]===3||v[8]===3)alerta=' ALERTA: PCR/VHS elevados — investigar foco infeccioso/inflamatório ou doença sistêmica.';var faixaA=eixoA<=3?'baixa':(eixoA<=6?'possível':(eixoA<=10?'provável':'forte'));var tipoIIb=(eixoA>=4);var iibForte=(eixoA>=7);var igeMuitoBaixa=(v[0]===3);var eosBaixo=(v[4]>=2);var basopenia=(v[5]===1);var marcGraves=(igeMuitoBaixa?1:0)+(eosBaixo?1:0)+(basopenia?1:0);var conduta;if(iibForte&&marcGraves>=2){conduta=' CONDUTA — tipo IIb forte com marcadores laboratoriais de refratariedade (IgE muito baixa, eosinopenia e/ou basopenia): menor expectativa de resposta ao omalizumabe em dose padrão. Reavaliar cedo e NÃO prolongar passivamente a mesma estratégia — considerar updosing precoce e já planejar mudança de mecanismo (ciclosporina como opção clássica; BTKi/anti-KIT conforme disponibilidade). Correlacionar com UAS7/UCT.';}else if(iibForte){conduta=' CONDUTA — tipo IIb forte: se não houver melhora objetiva, não esperar passivamente. Considerar otimização precoce do omalizumabe (updosing / encurtar intervalo) e já planejar mudança de mecanismo — ciclosporina é a opção clássica.';}else if(tipoIIb){conduta=' CONDUTA — assinatura tipo IIb: reduz o limiar para otimizar ou trocar o tratamento mais cedo. Havendo alguma melhora, NÃO trocar diretamente — pode ser respondedor parcial ou lento (resposta tardia é característica do tipo IIb).';}else{conduta=' CONDUTA — perfil tipo I/autoalérgico: maior chance de resposta ao omalizumabe. Vale aguardar e otimizar antes de trocar de mecanismo.';}var msgPratica=' MENSAGEM PRÁTICA: o perfil tipo IIb reduz o limiar para otimizar ou trocar o tratamento, mas NÃO justifica declarar falha do omalizumabe precocemente.';var leituraTempo;if(!tipoIIb){leituraTempo=' LEITURA DE TEMPO: perfil com maior probabilidade de resposta ao anti-IgE — se ainda sem resposta objetiva, respeitar o tempo adequado e otimizar antes de trocar de mecanismo.';}else if(iibForte&&eixoB>=6){leituraTempo=' LEITURA DE TEMPO: assinatura IIb forte com inflamação sistêmica — limiar menor para otimizar cedo; reavaliar objetivamente aos 3 meses e, sem melhora, planejar mudança de mecanismo.';}else if(iibForte){leituraTempo=' LEITURA DE TEMPO: assinatura IIb forte — pode ser respondedor parcial ou tardio (12–16 semanas); não trocar precocemente, reavaliar objetivamente aos 3 meses.';}else{leituraTempo=' LEITURA DE TEMPO: assinatura IIb — resposta costuma ser tardia (12–16 semanas) em relação à rápida (4–6 semanas); reavaliar aos 3 meses antes de trocar.';}var marcosResp=' MARCOS DE AVALIAÇÃO: resposta pode ser rápida (4–6 semanas) ou tardia (12–16 semanas); 3 meses = ponto de decisão entre otimizar e trocar; 6 meses = momento mais seguro para declarar ausência de resposta verdadeira. Ausência de resposta precoce não é sinônimo de falha terapêutica.';return{score:'A '+eixoA+'/14 · B '+eixoB+'/9',lbl:tipo+' — '+grau,desc:'Eixo A (assinatura tipo IIb): '+eixoA+'/14 — '+faixaA+'. Eixo B (inflamação): '+eixoB+'/9 — '+infl+'.'+hemoTxt+inflTxt+' Confiança: '+conf+'.'+alerta+conduta+msgPratica+leituraTempo+marcosResp+' A confirmação do tipo IIb exige BAT, BHRA ou ASST — biomarcadores de rotina indicam a assinatura, não fecham o endótipo. Ferramenta operacional; não substitui avaliação médica.',color:cor};}},cortico:{title:'💊 Corticoides — Conversão de dose',desc:'Converte a dose entre corticoides pela potência anti-inflamatória. Escolha o corticoide de origem, a dose e o corticoide de destino.',fields:[{id:'co1',lbl:'Corticoide de origem',opts:['Prednisona / Prednisolona','Metilprednisolona','Dexametasona','Betametasona','Hidrocortisona']},{id:'co2',lbl:'Dose de origem (mg)',type:'num',ph:'ex: 40'},{id:'co3',lbl:'Corticoide de destino',opts:['Prednisona / Prednisolona','Metilprednisolona','Dexametasona','Betametasona','Hidrocortisona']}],calc:function(v){var eq=[5,4,0.75,0.6,20];var nomes=['Prednisona/Prednisolona','Metilprednisolona','Dexametasona','Betametasona','Hidrocortisona'];var src=v[0];var dst=v[2];var dose=(v[1]===null||v[1]===undefined||isNaN(v[1]))?null:v[1];if(dose===null||dose<=0){return{score:'—',lbl:'Informe a dose de origem',desc:'Digite a dose (em mg) do corticoide de origem para calcular a conversão.',color:'linear-gradient(135deg,#0d1f2d,#1f6980)'};}var doseDst=dose*(eq[dst]/eq[src]);var dstTxt=(Math.round(doseDst*100)/100).toString().replace('.',',');var srcTxt=(Math.round(dose*100)/100).toString().replace('.',',');var linhas=[];for(var i=0;i<eq.length;i++){var d=dose*(eq[i]/eq[src]);var t=(Math.round(d*100)/100).toString().replace('.',',');var marca=(i===src)?' (origem)':((i===dst)?' ← destino':'');linhas.push(nomes[i]+': '+t+' mg'+marca);}var alerta='';if(dst===2||dst===3){alerta=' Atenção: dexametasona/betametasona têm meia-vida longa e efeito mineralocorticoide desprezível — não são ideais para reposição fisiológica.';}if(src===4||dst===4){alerta+=' A hidrocortisona tem forte efeito mineralocorticoide — considere isso na equivalência.';}var mesmo=(src===dst)?' (origem e destino iguais)':'';return{score:srcTxt+' mg → '+dstTxt+' mg',lbl:nomes[src]+' → '+nomes[dst]+mesmo,desc:'Fonte: Schimmer BP, Parker KL. Adrenocorticotropic hormone; adrenocortical steroids and their synthetic analogs; inhibitors of the synthesis and actions of adrenocortical hormones. In: Goodman & Gilman\'s The Pharmacological Basis of Therapeutics. 12. ed. New York: McGraw-Hill; 2011.',color:'linear-gradient(135deg,#0d1f2d,#c9a84c)'};}},
-  act:{title:'🫁 ACT — Asthma Control Test',desc:'Avalia controle da asma nas últimas 4 semanas. 5 questões, 1 (pior) a 5 (melhor). Score máximo: 25.',fields:[{id:'a1',lbl:'1. Asma impediu atividades?',opts:['Todo o tempo (1)','Muitas vezes (2)','Às vezes (3)','Raramente (4)','Nunca (5)']},{id:'a2',lbl:'2. Frequência de falta de ar?',opts:['Mais de 1× ao dia (1)','1× ao dia (2)','3–6× por semana (3)','1–2× por semana (4)','Nenhuma vez (5)']},{id:'a3',lbl:'3. Sintomas noturnos?',opts:['4+ noites/semana (1)','2–3 noites/semana (2)','1× por semana (3)','1–2× no mês (4)','Nenhuma vez (5)']},{id:'a4',lbl:'4. Uso de broncodilatador?',opts:['3+ vezes ao dia (1)','1–2× ao dia (2)','2–3× por semana (3)','≤1× por semana (4)','Nenhuma vez (5)']},{id:'a5',lbl:'5. Como avalia o controle?',opts:['Nada controlada (1)','Mal controlada (2)','Mais ou menos (3)','Bem controlada (4)','Completamente (5)']}],calc:function(v){var s=v.reduce(function(a,b){return a+b;},0);if(s>=20)return{score:s+'/25',lbl:'✅ Asma Controlada',desc:'Score ≥20: bem controlada. Manter tratamento e monitorar.',color:'linear-gradient(135deg,#0d1f2d,#16a085)'};if(s>=16)return{score:s+'/25',lbl:'⚠️ Parcialmente Controlada',desc:'Score 16–19: controle parcial. Avaliar adesão e técnica inalatória. Step up GINA se necessário.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};return{score:s+'/25',lbl:'🔴 Não Controlada',desc:'Score ≤15: não controlada. Revisar diagnóstico, adesão e gatilhos. Avaliar asma grave.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
+  act:{title:'🫁 ACT — Controle da asma',desc:'Assistente passo a passo: 5 perguntas (adulto) ou 7 (criança).',special:'act',fields:[],calc:function(){return null;}},
   easi:{title:'🩹 EASI — Eczema Area & Severity Index',desc:'Avalia gravidade da DA por região corporal. Score 0–72.',fields:[{id:'e1',lbl:'Cabeça/pescoço (peso 0,1)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']},{id:'e2',lbl:'Membros superiores (peso 0,2)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']},{id:'e3',lbl:'Tronco (peso 0,3)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']},{id:'e4',lbl:'Membros inferiores (peso 0,4)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']}],calc:function(v){var w=[0.1,0.2,0.3,0.4],pts=[0,1.5,3,6,9,12];var s=parseFloat(v.reduce(function(a,vi,i){return a+pts[vi]*w[i]*6;},0).toFixed(1));if(s<7)return{score:s+'/72',lbl:'🟡 DA Leve',desc:'EASI <7: emolientes e corticoide tópico conforme necessário.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};if(s<21)return{score:s+'/72',lbl:'🟠 DA Moderada',desc:'EASI 7–21: considerar imunomoduladores tópicos ou sistêmicos.',color:'linear-gradient(135deg,#0d1f2d,#e67e22)'};return{score:s+'/72',lbl:'🔴 DA Grave',desc:'EASI >21: candidato a imunobiológico (dupilumabe, tralokinumabe) ou inibidor de JAK.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
   uas:{title:'🔴 UAS7 \u2014 Urticaria Activity Score',desc:'Registre 1 vez por dia, SEMPRE \u00e0 noite antes de dormir, durante 7 dias seguidos. Cada dia: p\u00e1pulas (0\u20133) + prurido (0\u20133). Total 0\u201342.',special:'uas7',fields:[],calc:function(v){var s=0;for(var k=0;k<v.length;k++){s+=(v[k]||0);}if(s===0)return{score:'0/42',lbl:'\u2705 Urtic\u00e1ria Inativa',desc:'UAS7=0: remiss\u00e3o completa. Considerar redu\u00e7\u00e3o gradual.',color:'linear-gradient(135deg,#0d1f2d,#16a085)'};if(s<=6)return{score:s+'/42',lbl:'🟡 Bem Controlada',desc:'UAS7 1\u20136: atividade leve. Manter anti-H1 e monitorar.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};if(s<=15)return{score:s+'/42',lbl:'🟠 Moderada',desc:'UAS7 7\u201315: avaliar aumento do anti-H1 at\u00e9 4\u00d7 a dose padr\u00e3o.',color:'linear-gradient(135deg,#0d1f2d,#e67e22)'};if(s<=27)return{score:s+'/42',lbl:'🔴 Muito Ativa',desc:'UAS7 16\u201327: doen\u00e7a muito ativa. Se refrat\u00e1ria ao anti-H1 otimizado, considerar omalizumabe (a DUT 65.11 da ANS exige UAS7 \u2265 28).',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};return{score:s+'/42',lbl:'🔴 Grav\u00edssima',desc:'UAS7 28\u201342: crit\u00e9rio de UAS7 da DUT 65.11 (ANS) para omalizumabe. Se refrat\u00e1ria: dupilumabe (ANVISA, \u2265 2 anos) ou ciclosporina. Remibrutinibe aprovado nos EUA/UE; barzolvolimabe ainda em estudo.',color:'linear-gradient(135deg,#0d1f2d,#7b241c)'};}},
   uct:{title:'🎯 UCT — Urticaria Control Test',desc:'Controle da urticária nos últimos 28 dias. Some os 4 itens (0–16). UCT ≥ 12 = bem controlada; < 12 = controle insuficiente.',fields:[{id:'uc1',lbl:'1. Nos últimos 28 dias, em que medida sua urticária afetou sua qualidade de vida?',opts:['Muito severamente (0)','Severamente (1)','Moderadamente (2)','Levemente (3)','Nada (4)']},{id:'uc2',lbl:'2. Nos últimos 28 dias, em que medida o tratamento atual controlou sua urticária?',opts:['Nada (0)','Pouco (1)','Moderadamente (2)','Bem (3)','Completamente (4)']},{id:'uc3',lbl:'3. Nos últimos 28 dias, quantas vezes você teve sintomas de urticária (vergões, coceira, inchaço)?',opts:['Todos os dias (0)','Mais de 2 vezes por semana (1)','2 vezes por semana (2)','1 vez por semana (3)','Nenhuma vez (4)']},{id:'uc4',lbl:'4. Nos últimos 28 dias, quão incomodado(a) você ficou com a urticária?',opts:['Extremamente (0)','Muito (1)','Moderadamente (2)','Levemente (3)','Nada (4)']}],calc:function(v){var t=v.reduce(function(a,b){return a+b;},0);if(t>=12)return{score:t+'/16',lbl:'✅ Bem controlada',desc:'UCT ≥ 12: controle adequado. Manter a terapia atual e reavaliar periodicamente.',color:'linear-gradient(135deg,#0d1f2d,#16a085)'};if(t>=7)return{score:t+'/16',lbl:'⚠️ Controle insuficiente',desc:'UCT 7–11: controle abaixo do ideal. Otimizar anti-H1 (até 4× a dose) e considerar avançar para omalizumabe se ainda não controlada.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};return{score:t+'/16',lbl:'🔴 Não controlada',desc:'UCT < 7: controle inadequado. Revisar adesão e diagnóstico; escalar terapia — omalizumabe se anti-H1 em dose otimizada for insuficiente.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
   scorad:{title:'📊 SCORAD — Scoring Atopic Dermatitis',desc:'Score composto da DA: extensão + intensidade + sintomas subjetivos. Score 0–103.',fields:[{id:'s1',lbl:'Extensão corporal afetada',opts:['< 5%','5–15%','16–30%','31–50%','51–70%','> 70%']},{id:'s2',lbl:'Intensidade média das lesões',opts:['0 — Sem lesões','2 — Muito leve','4 — Leve','6 — Moderada','10 — Grave','12 — Muito grave']},{id:'s3',lbl:'Prurido médio (0–10)',opts:['0','1','2','3','4','5','6','7','8','9','10']},{id:'s4',lbl:'Perda de sono (0–10)',opts:['0','1','2','3','4','5','6','7','8','9','10']}],calc:function(v){var ext=[2,10,20,40,60,80];var s=parseFloat((ext[v[0]]/5+7*v[1]/2+(v[2]+v[3])/5).toFixed(1));if(s<25)return{score:s+'/103',lbl:'🟡 DA Leve',desc:'SCORAD <25: cuidados locais e corticoide tópico.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};if(s<50)return{score:s+'/103',lbl:'🟠 DA Moderada',desc:'SCORAD 25–50: avaliar imunomoduladores.',color:'linear-gradient(135deg,#0d1f2d,#e67e22)'};return{score:s+'/103',lbl:'🔴 DA Grave',desc:'SCORAD >50: candidato a imunobiológico ou JAKi.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
   };
+
+/* ══ ACT — controle da asma: assistente passo a passo (adulto e criança) ══ */
+var _ACT_BANDAS = [['Nenhum dia',5],['1 a 3 dias',4],['4 a 10 dias',3],['11 a 18 dias',2],['19 a 24 dias',1],['Todos os dias',0]];
+var _ACT = {
+  adulto: { nome:'Adulto e adolescente (12 anos ou mais)', max:25, itens:[
+    { q:'Nas últimas semanas, quanto a asma limitou o seu trabalho, os estudos ou as tarefas de casa?',
+      o:[['O tempo todo',1],['Na maior parte do tempo',2],['Em parte do tempo',3],['Quase nunca',4],['Em nenhum momento',5]] },
+    { q:'Com que frequência você sentiu falta de ar no último mês?',
+      o:[['Várias vezes ao dia',1],['Uma vez ao dia',2],['De 3 a 6 vezes por semana',3],['1 ou 2 vezes por semana',4],['Nenhuma vez',5]] },
+    { q:'No último mês, em quantas noites os sintomas tiraram o seu sono ou fizeram você acordar mais cedo?',
+      o:[['4 noites ou mais por semana',1],['2 a 3 noites por semana',2],['Uma vez por semana',3],['1 ou 2 noites no mês',4],['Nenhuma noite',5]] },
+    { q:'Quantas vezes você precisou usar a bombinha de alívio no último mês?',
+      o:[['3 vezes ou mais ao dia',1],['1 ou 2 vezes ao dia',2],['2 ou 3 vezes por semana',3],['Uma vez por semana ou menos',4],['Nenhuma vez',5]] },
+    { q:'Como você avalia o controle da sua asma no último mês?',
+      o:[['Nenhum controle',1],['Controle bem fraco',2],['Controle regular',3],['Controle bom',4],['Controle total',5]] }
+  ], faixas:[
+    [25,'Controle total','Ótimo: no último mês a asma ficou totalmente sob controle. Mantenha o tratamento combinado com o seu médico.','#16a085'],
+    [20,'Bem controlada','A asma esteve bem controlada, com episódios ocasionais. Vale conversar com o médico para manter ou ajustar o plano.','#2a9fad'],
+    [0,'Não controlada','A asma pode não estar bem controlada. Procure o médico para revisar o tratamento, a técnica do inalador e o plano de ação.','#c0392b']
+  ]},
+  crianca: { nome:'Criança (4 a 11 anos)', max:27, itens:[
+    { q:'Como você está se sentindo com a sua asma hoje?',
+      o:[['Muito bem',3],['Bem',2],['Mais ou menos',1],['Mal',0]] },
+    { q:'A asma atrapalha você de correr, brincar ou praticar esportes?',
+      o:[['De jeito nenhum',3],['Um pouquinho',2],['Bastante',1],['Não consigo fazer nada',0]] },
+    { q:'A tosse da criança vem por causa da asma?',
+      o:[['Não tosso',3],['Tosso um pouquinho',2],['Tosso bastante',1],['Tosso o tempo todo',0]] },
+    { q:'A asma faz você acordar durante a noite?',
+      o:[['Não acordo',3],['Acordo um pouquinho',2],['Acordo bastante',1],['Acordo o tempo todo',0]] },
+    { q:'(Responsável) Nos últimos 28 dias, em quantos dias a criança teve sintomas durante o dia?', o:_ACT_BANDAS },
+    { q:'(Responsável) Nos últimos 28 dias, em quantos dias a criança chiou no peito durante o dia?', o:_ACT_BANDAS },
+    { q:'(Responsável) Nos últimos 28 dias, em quantas noites a criança acordou por causa da asma?', o:_ACT_BANDAS }
+  ], faixas:[
+    [20,'Aparentemente controlada','A asma da criança parece bem controlada. Continue o acompanhamento regular com o pediatra.','#16a085'],
+    [0,'Não controlada','A asma da criança pode não estar controlada. Leve este resultado ao médico para ajustar o tratamento e o plano de ação.','#c0392b']
+  ]}
+};
+window._actSt = { modo:'adulto', i:0, r:[] };
+
+function _actModo(m){ _actSt = { modo:m, i:0, r:[] }; _actUI(); }
+function _actEscolher(k){
+  var st = _actSt, it = _ACT[st.modo].itens[st.i];
+  st.r[st.i] = it.o[k][1];
+  setTimeout(function(){ st.i++; _actUI(); }, 260);
+  _actUI();
+}
+function _actVoltar(){ if(_actSt.i > 0){ _actSt.i--; _actUI(); } }
+function _actRecomecar(){ _actSt = { modo:_actSt.modo, i:0, r:[] }; _actUI(); }
+
+function _actUI(){
+  var st = _actSt, cfg = _ACT[st.modo], box = document.getElementById('mFields');
+  if(!box) return;
+  if(st.i >= cfg.itens.length){ box.innerHTML = _actResultado(); return; }
+  var total = cfg.itens.length, it = cfg.itens[st.i], pct = Math.round(st.i / total * 100);
+  var tabs = ['adulto','crianca'].map(function(m){
+    return '<button class="act-tab' + (m === st.modo ? ' on' : '') + '" onclick="_actModo(\'' + m + '\')">' + (m === 'adulto' ? 'Adulto e adolescente' : 'Criança 4 a 11') + '</button>';
+  }).join('');
+  var ops = it.o.map(function(o, k){
+    var sel = st.r[st.i] === o[1];
+    return '<button class="act-opt' + (sel ? ' sel' : '') + '" onclick="_actEscolher(' + k + ')"><span class="act-dot"></span><span class="act-lbl">' + o[0] + '</span></button>';
+  }).join('');
+  box.innerHTML = '<div class="act-wrap" key="' + st.i + '">'
+    + '<div class="act-tabs">' + tabs + '</div>'
+    + '<div class="act-top"><span class="act-step">Pergunta ' + (st.i + 1) + ' de ' + total + '</span><span class="act-pct">' + pct + '%</span></div>'
+    + '<div class="act-prog"><div class="act-prog-fill" style="width:' + pct + '%"></div></div>'
+    + '<div class="act-q">' + it.q + '</div>'
+    + '<div class="act-opts">' + ops + '</div>'
+    + '<div class="act-nav">' + (st.i > 0 ? '<button class="act-btn sec" onclick="_actVoltar()">← Anterior</button>' : '<span></span>') + '</div>'
+    + '</div>';
+}
+
+function _actResultado(){
+  var st = _actSt, cfg = _ACT[st.modo];
+  var soma = st.r.reduce(function(a, b){ return a + b; }, 0);
+  var f = cfg.faixas.filter(function(x){ return soma >= x[0]; })[0] || cfg.faixas[cfg.faixas.length - 1];
+  var C = 2 * Math.PI * 54, alvo = C * (1 - soma / cfg.max);
+  setTimeout(function(){ var c = document.getElementById('actArco'); if(c) c.style.strokeDashoffset = alvo; }, 60);
+  return '<div class="act-wrap act-res" style="--cor:' + f[3] + '">'
+    + '<div class="act-tabs">' + ['adulto','crianca'].map(function(m){ return '<button class="act-tab' + (m === st.modo ? ' on' : '') + '" onclick="_actModo(\'' + m + '\')">' + (m === 'adulto' ? 'Adulto e adolescente' : 'Criança 4 a 11') + '</button>'; }).join('') + '</div>'
+    + '<div class="act-ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" class="act-trilho"/>'
+    + '<circle id="actArco" cx="60" cy="60" r="54" class="act-arco" style="stroke-dasharray:' + C.toFixed(1) + ';stroke-dashoffset:' + C.toFixed(1) + '"/></svg>'
+    + '<div class="act-num"><b>' + soma + '</b><span>de ' + cfg.max + '</span></div></div>'
+    + '<div class="act-faixa">' + f[1] + '</div>'
+    + '<div class="act-msg">' + f[2] + '</div>'
+    + '<div class="act-aviso">Ferramenta de apoio educativo. Não substitui a consulta médica e nunca deve levar à mudança de medicamentos sem orientação.</div>'
+    + '<div class="act-nav"><button class="act-btn" onclick="_actRecomecar()">Refazer</button></div>'
+    + '</div>';
+}
 
 var currentScore=null;
 
@@ -2926,6 +3045,14 @@ function openScore(key){
   currentScore=key;
   document.getElementById('mTitle').textContent=s.title;
   document.getElementById('mDesc').textContent=s.desc;
+  var _mcBtn=document.getElementById('mCalc'); if(_mcBtn) _mcBtn.style.display = (s.special==='act') ? 'none' : '';
+  if(s.special==='act'){
+    _actSt = { modo:'adulto', i:0, r:[] };
+    document.getElementById('mResult').className='score-result';
+    document.getElementById('overlay').classList.add('open');
+    _actUI();
+    return;
+  }
   // UAS7 tem interface própria (7 dias + histórico semanal)
   if(s.special==='uas7'){
     document.getElementById('mFields').innerHTML=_uas7RenderCampos();
