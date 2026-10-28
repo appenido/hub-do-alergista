@@ -233,6 +233,8 @@ body{
 .art-title-pt{font-size:12px;color:var(--gray-500);font-style:italic;line-height:1.35;}
 .art-src{display:flex;align-items:center;gap:7px;margin-bottom:6px;min-width:0;}
 .j-badge{flex-shrink:0;min-width:30px;height:22px;padding:0 6px;border-radius:6px;color:#fff;font-size:9.5px;font-weight:800;letter-spacing:.02em;display:flex;align-items:center;justify-content:center;}
+.j-ico{background:#fff;border:1px solid var(--gray-100);min-width:24px;width:24px;height:24px;padding:0;}
+.j-ico img{width:18px;height:18px;border-radius:3px;display:block;}
 .j-nome{font-size:11px;font-weight:700;color:var(--teal-mid);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
 .j-data{font-size:10.5px;color:var(--gray-300);white-space:nowrap;flex-shrink:0;}
 .j-data:before{content:'· ';}
@@ -252,13 +254,13 @@ body{
   -webkit-overflow-scrolling:touch;scrollbar-width:none;
 }
 .filter-chips::-webkit-scrollbar{height:0;}
-.fchip{
+.fchip,.hchip{
   flex-shrink:0;font-size:11px;font-weight:700;
   padding:6px 13px;border-radius:20px;
   background:#fff;border:1.5px solid var(--gray-100);color:var(--gray-500);
   cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s;
 }
-.fchip.on{background:var(--teal-mid);color:#fff;border-color:var(--teal-mid);}
+.fchip.on,.hchip.on{background:var(--teal-mid);color:#fff;border-color:var(--teal-mid);}
 
 /* ── GUIDE CARD ── */
 .guide-card{
@@ -714,6 +716,7 @@ body{
     </div>
 
     <div class="sec-hdr" style="margin-top:8px"><h2>Artigos Recentes</h2><span class="see-all" data-nav="artigos">Ver todos</span></div>
+    <div class="filter-chips" id="homeChips" style="padding:0 0 10px"></div>
     <div class="gap-list" id="homeArtigos">
       <div class="art-card" data-topic="eoe" data-oa="true" data-ai-title="Dupilumab for eosinophilic gastritis: the DEGAS randomized phase 2 trial">
         <span class="art-journal">Lancet G&H · jun/2026</span>
@@ -3858,7 +3861,7 @@ function renderFeedChips(){
 
 function _feedEscape(str){
   if(!str) return '';
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
 /* ══ RADAR REGULATÓRIO — Supabase Edge Function ══ */
@@ -3972,6 +3975,16 @@ var _J_SIGLAS = {
   'Ann Allergy Asthma Immunol':'AAAI', 'Clin Exp Allergy':'CEA', 'Pediatr Allergy Immunol':'PAI',
   'World Allergy Organ J':'WAO', 'N Engl J Med':'NEJM', 'Lancet':'LCT', 'JAMA':'JAMA'
 };
+var _J_SITES = {
+  'J Allergy Clin Immunol':'jacionline.org', 'J Allergy Clin Immunol Pract':'jaci-inpractice.org',
+  'Allergy':'onlinelibrary.wiley.com', 'Ann Allergy Asthma Immunol':'annallergy.org',
+  'Clin Exp Allergy':'onlinelibrary.wiley.com', 'Pediatr Allergy Immunol':'onlinelibrary.wiley.com',
+  'World Allergy Organ J':'worldallergyorganizationjournal.org', 'N Engl J Med':'nejm.org',
+  'Lancet':'thelancet.com', 'JAMA':'jamanetwork.com'
+};
+var _DOI_SITES = {'10.1016':'sciencedirect.com','10.1111':'onlinelibrary.wiley.com','10.1002':'onlinelibrary.wiley.com','10.1056':'nejm.org','10.1001':'jamanetwork.com','10.1183':'ersnet.org','10.3389':'frontiersin.org','10.1186':'biomedcentral.com','10.1038':'nature.com','10.1007':'springer.com','10.1093':'academic.oup.com','10.1097':'journals.lww.com','10.1371':'plos.org','10.3390':'mdpi.com','10.1164':'atsjournals.org','10.1136':'bmj.com'};
+function _jSite(abrev, doi){ return _J_SITES[abrev] || _DOI_SITES[String(doi||'').split('/')[0]] || ''; }
+function _jFalhou(img){ var b = img.parentNode; if(!b) return; b.className = 'j-badge'; b.style.background = b.getAttribute('data-cor'); b.textContent = b.getAttribute('data-sigla'); }
 var _J_CORES = ['#1a2e4a','#2a9fad','#b8860b','#1f6f8b','#3d5a80','#16808a'];
 
 function _jSigla(abrev, nome){
@@ -4009,7 +4022,9 @@ function _artCardHtml(uid, a, extras){
   var pubmed = 'https://pubmed.ncbi.nlm.nih.gov/' + uid + '/';
   var titulo = String(a.title || '').replace(/\.$/, '');
   return '<div class="art-card" data-feed="1" data-pmid="' + uid + '" data-doi="' + _feedEscape(doi) + '" data-pmc="' + _feedEscape(pmc) + '" data-ai-title="' + _feedEscape(titulo) + '" style="margin-bottom:10px">' +
-    '<div class="art-src"><span class="j-badge" style="background:' + _jCor(abrev) + '">' + _feedEscape(sigla) + '</span>' +
+    '<div class="art-src">' + (_jSite(abrev, doi)
+        ? '<span class="j-badge j-ico" data-cor="' + _jCor(abrev) + '" data-sigla="' + _feedEscape(sigla) + '" title="' + _feedEscape(nome) + '"><img src="https://www.google.com/s2/favicons?sz=64&domain=' + _jSite(abrev, doi) + '" alt="" loading="lazy" onerror="_jFalhou(this)"></span>'
+        : '<span class="j-badge" style="background:' + _jCor(abrev) + '">' + _feedEscape(sigla) + '</span>') +
       '<span class="j-nome">' + _feedEscape(nome) + '</span><span class="j-data">' + _feedEscape(_jData(a.pubdate)) + '</span></div>' +
     '<div class="art-title">' + _feedEscape(titulo) + '</div>' +
     '<div class="art-title-pt art-orig" style="display:none"></div>' +
@@ -4198,30 +4213,53 @@ function renderFeed(d2, box){
 
 /* ══ HOME: artigos recentes automáticos do PubMed (com fallback estático) ══ */
 var _homeFeedLoaded = false;
+var _homeTema = 'todos';
+var _homeFallback = null;
 
-function carregarFeedHome(){
-  if(_homeFeedLoaded) return;          // carrega uma vez por sessão
+function renderHomeChips(){
+  var box = document.getElementById('homeChips');
+  if(!box) return;
+  box.innerHTML = FEED_TEMAS.map(function(t){
+    return '<button type="button" class="hchip' + (t.id === _homeTema ? ' on' : '') + '" data-hometema="' + t.id + '">' + t.label + '</button>';
+  }).join('');
+}
+document.addEventListener('click', function(e){
+  var c = e.target.closest('[data-hometema]');
+  if(!c) return;
+  e.preventDefault();
+  carregarFeedHome(c.getAttribute('data-hometema'));
+});
+
+function carregarFeedHome(tema){
   var box = document.getElementById('homeArtigos');
   if(!box || !window.fetch) return;    // sem container ou sem fetch → mantém os estáticos
+  if(_homeFallback === null) _homeFallback = box.innerHTML;   // artigos fixos, caso a busca falhe
+  if(tema){ if(tema === _homeTema && _homeFeedLoaded) return; _homeTema = tema; }
+  else if(_homeFeedLoaded) return;
+  renderHomeChips();
 
-  // guarda o conteúdo estático como fallback (caso a busca falhe)
-  var fallback = box.innerHTML;
-
-  // "Todos os temas" nos periódicos-alvo, últimos anos, ordenado por data
-  var term = FEED_TEMAS[0].q + ' AND ' + FEED_JOURNALS + ' AND ("last 2 years"[dp])';
+  var t = FEED_TEMAS.filter(function(x){ return x.id === _homeTema; })[0] || FEED_TEMAS[0];
+  var term = t.q + ' AND ' + FEED_JOURNALS + ' AND ("last 2 years"[dp])';
   var base = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
-  var esearch = base + 'esearch.fcgi?db=pubmed&retmode=json&sort=date&retmax=3&tool=HubClinico&term=' + encodeURIComponent(term);
+  var esearch = base + 'esearch.fcgi?db=pubmed&retmode=json&sort=date&retmax=4&tool=HubClinico&term=' + encodeURIComponent(term);
+  var meu = _homeTema;
+  var aviso = function(msg){ box.innerHTML = '<div style="background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:14px;font-size:12px;color:var(--gray-500);text-align:center;line-height:1.5">' + msg + '</div>'; };
+  if(tema) aviso('⏳ Buscando os artigos mais recentes de ' + t.label.toLowerCase() + '…');
 
   fetch(esearch).then(function(r){ return r.json(); }).then(function(d){
+    if(meu !== _homeTema) return;
     var ids = (d && d.esearchresult && d.esearchresult.idlist) ? d.esearchresult.idlist : [];
-    if(!ids.length){ return; }         // sem resultados → mantém fallback
+    if(!ids.length){ if(meu !== 'todos') aviso('Nenhum artigo nos últimos 2 anos neste tema, nas revistas selecionadas.'); return; }
     var esum = base + 'esummary.fcgi?db=pubmed&retmode=json&tool=HubClinico&id=' + ids.join(',');
     return fetch(esum).then(function(r2){ return r2.json(); }).then(function(d2){
+      if(meu !== _homeTema) return;
       var html = _renderFeedHome(d2);
       if(html){ box.innerHTML = html; _homeFeedLoaded = true; _artEnriquecer(box); }
     });
   }).catch(function(){
-    box.innerHTML = fallback;           // erro/sem internet → volta os estáticos
+    if(meu !== _homeTema) return;
+    if(meu === 'todos') box.innerHTML = _homeFallback;     // erro/sem internet → volta os fixos
+    else aviso('Não foi possível buscar agora. <a href="https://pubmed.ncbi.nlm.nih.gov/?sort=date&term=' + encodeURIComponent(t.q) + '" target="_blank" rel="noopener" style="color:var(--teal-mid);font-weight:700">Ver no PubMed</a>');
   });
 }
 
