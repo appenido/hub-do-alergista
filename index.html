@@ -128,6 +128,11 @@ body{
 .act-msg{font-size:14px;line-height:1.55;color:var(--navy,#1a2e4a);margin:14px auto 0;max-width:320px;}
 .act-aviso{font-size:11px;line-height:1.5;color:var(--gray-500,#64748b);margin-top:14px;padding:10px 12px;background:var(--gray-50,#f4f7fa);border-radius:10px;}
 @media (prefers-reduced-motion: reduce){.act-wrap,.act-arco,.act-prog-fill{animation:none!important;transition:none!important;}}
+.sc-reg{margin:10px 0;}.sc-reg-top{display:flex;justify-content:space-between;font-size:13.5px;font-weight:700;color:var(--navy,#1a2e4a);margin-bottom:4px;}.sc-reg-top small{color:var(--gray-500,#64748b);font-weight:400;}.sc-reg-top b{color:#2a9fad;}
+.sc-reg input,.sc-slider input{width:100%;accent-color:#2a9fad;}
+.sc-total{margin-top:14px;padding:12px;border-radius:12px;background:linear-gradient(135deg,rgba(42,159,173,.10),rgba(92,224,236,.10));font-size:14px;color:var(--navy,#1a2e4a);text-align:center;}.sc-total b{font-size:18px;color:#2a9fad;}
+.sc-slider{text-align:center;padding:10px 0;}.sc-nota{font-size:56px;font-weight:900;color:#2a9fad;line-height:1;margin-bottom:12px;}.sc-escala{display:flex;justify-content:space-between;font-size:11px;color:var(--gray-500,#64748b);margin-top:6px;}
+.sc-quebra{display:flex;gap:8px;margin-top:14px;}.sc-quebra div{flex:1;background:var(--gray-50,#f4f7fa);border-radius:12px;padding:10px 6px;display:flex;flex-direction:column;gap:4px;}.sc-quebra span{font-size:10.5px;color:var(--gray-500,#64748b);}.sc-quebra b{font-size:15px;color:var(--navy,#1a2e4a);}
 .fb-back{position:fixed;left:14px;bottom:calc(var(--bottomnav-h,64px) + 14px);z-index:120;display:none;align-items:center;gap:6px;border:none;border-radius:999px;padding:11px 18px 11px 14px;background:linear-gradient(135deg,var(--navy,#1a2e4a),var(--teal-mid,#2a9fad));color:#fff;font-size:14px;font-weight:800;box-shadow:0 6px 18px rgba(13,31,45,.3);cursor:pointer;-webkit-tap-highlight-color:transparent;}
 .fb-back.show{display:flex;}
 .fb-back:active{transform:scale(.96);}
@@ -2947,7 +2952,7 @@ var SCORES={
   easi:{title:'🩹 EASI — Eczema Area & Severity Index',desc:'Avalia gravidade da DA por região corporal. Score 0–72.',fields:[{id:'e1',lbl:'Cabeça/pescoço (peso 0,1)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']},{id:'e2',lbl:'Membros superiores (peso 0,2)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']},{id:'e3',lbl:'Tronco (peso 0,3)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']},{id:'e4',lbl:'Membros inferiores (peso 0,4)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']}],calc:function(v){var w=[0.1,0.2,0.3,0.4],pts=[0,1.5,3,6,9,12];var s=parseFloat(v.reduce(function(a,vi,i){return a+pts[vi]*w[i]*6;},0).toFixed(1));if(s<7)return{score:s+'/72',lbl:'🟡 DA Leve',desc:'EASI <7: emolientes e corticoide tópico conforme necessário.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};if(s<21)return{score:s+'/72',lbl:'🟠 DA Moderada',desc:'EASI 7–21: considerar imunomoduladores tópicos ou sistêmicos.',color:'linear-gradient(135deg,#0d1f2d,#e67e22)'};return{score:s+'/72',lbl:'🔴 DA Grave',desc:'EASI >21: candidato a imunobiológico (dupilumabe, tralokinumabe) ou inibidor de JAK.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
   uas:{title:'🔴 UAS7 \u2014 Urticaria Activity Score',desc:'Registre 1 vez por dia, SEMPRE \u00e0 noite antes de dormir, durante 7 dias seguidos. Cada dia: p\u00e1pulas (0\u20133) + prurido (0\u20133). Total 0\u201342.',special:'uas7',fields:[],calc:function(v){var s=0;for(var k=0;k<v.length;k++){s+=(v[k]||0);}if(s===0)return{score:'0/42',lbl:'\u2705 Urtic\u00e1ria Inativa',desc:'UAS7=0: remiss\u00e3o completa. Considerar redu\u00e7\u00e3o gradual.',color:'linear-gradient(135deg,#0d1f2d,#16a085)'};if(s<=6)return{score:s+'/42',lbl:'🟡 Bem Controlada',desc:'UAS7 1\u20136: atividade leve. Manter anti-H1 e monitorar.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};if(s<=15)return{score:s+'/42',lbl:'🟠 Moderada',desc:'UAS7 7\u201315: avaliar aumento do anti-H1 at\u00e9 4\u00d7 a dose padr\u00e3o.',color:'linear-gradient(135deg,#0d1f2d,#e67e22)'};if(s<=27)return{score:s+'/42',lbl:'🔴 Muito Ativa',desc:'UAS7 16\u201327: doen\u00e7a muito ativa. Se refrat\u00e1ria ao anti-H1 otimizado, considerar omalizumabe (a DUT 65.11 da ANS exige UAS7 \u2265 28).',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};return{score:s+'/42',lbl:'🔴 Grav\u00edssima',desc:'UAS7 28\u201342: crit\u00e9rio de UAS7 da DUT 65.11 (ANS) para omalizumabe. Se refrat\u00e1ria: dupilumabe (ANVISA, \u2265 2 anos) ou ciclosporina. Remibrutinibe aprovado nos EUA/UE; barzolvolimabe ainda em estudo.',color:'linear-gradient(135deg,#0d1f2d,#7b241c)'};}},
   uct:{title:'🎯 UCT — Urticaria Control Test',desc:'Controle da urticária nos últimos 28 dias. Some os 4 itens (0–16). UCT ≥ 12 = bem controlada; < 12 = controle insuficiente.',fields:[{id:'uc1',lbl:'1. Nos últimos 28 dias, em que medida sua urticária afetou sua qualidade de vida?',opts:['Muito severamente (0)','Severamente (1)','Moderadamente (2)','Levemente (3)','Nada (4)']},{id:'uc2',lbl:'2. Nos últimos 28 dias, em que medida o tratamento atual controlou sua urticária?',opts:['Nada (0)','Pouco (1)','Moderadamente (2)','Bem (3)','Completamente (4)']},{id:'uc3',lbl:'3. Nos últimos 28 dias, quantas vezes você teve sintomas de urticária (vergões, coceira, inchaço)?',opts:['Todos os dias (0)','Mais de 2 vezes por semana (1)','2 vezes por semana (2)','1 vez por semana (3)','Nenhuma vez (4)']},{id:'uc4',lbl:'4. Nos últimos 28 dias, quão incomodado(a) você ficou com a urticária?',opts:['Extremamente (0)','Muito (1)','Moderadamente (2)','Levemente (3)','Nada (4)']}],calc:function(v){var t=v.reduce(function(a,b){return a+b;},0);if(t>=12)return{score:t+'/16',lbl:'✅ Bem controlada',desc:'UCT ≥ 12: controle adequado. Manter a terapia atual e reavaliar periodicamente.',color:'linear-gradient(135deg,#0d1f2d,#16a085)'};if(t>=7)return{score:t+'/16',lbl:'⚠️ Controle insuficiente',desc:'UCT 7–11: controle abaixo do ideal. Otimizar anti-H1 (até 4× a dose) e considerar avançar para omalizumabe se ainda não controlada.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};return{score:t+'/16',lbl:'🔴 Não controlada',desc:'UCT < 7: controle inadequado. Revisar adesão e diagnóstico; escalar terapia — omalizumabe se anti-H1 em dose otimizada for insuficiente.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
-  scorad:{title:'📊 SCORAD — Scoring Atopic Dermatitis',desc:'Score composto da DA: extensão + intensidade + sintomas subjetivos. Score 0–103.',fields:[{id:'s1',lbl:'Extensão corporal afetada',opts:['< 5%','5–15%','16–30%','31–50%','51–70%','> 70%']},{id:'s2',lbl:'Intensidade média das lesões',opts:['0 — Sem lesões','2 — Muito leve','4 — Leve','6 — Moderada','10 — Grave','12 — Muito grave']},{id:'s3',lbl:'Prurido médio (0–10)',opts:['0','1','2','3','4','5','6','7','8','9','10']},{id:'s4',lbl:'Perda de sono (0–10)',opts:['0','1','2','3','4','5','6','7','8','9','10']}],calc:function(v){var ext=[2,10,20,40,60,80];var s=parseFloat((ext[v[0]]/5+7*v[1]/2+(v[2]+v[3])/5).toFixed(1));if(s<25)return{score:s+'/103',lbl:'🟡 DA Leve',desc:'SCORAD <25: cuidados locais e corticoide tópico.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};if(s<50)return{score:s+'/103',lbl:'🟠 DA Moderada',desc:'SCORAD 25–50: avaliar imunomoduladores.',color:'linear-gradient(135deg,#0d1f2d,#e67e22)'};return{score:s+'/103',lbl:'🔴 DA Grave',desc:'SCORAD >50: candidato a imunobiológico ou JAKi.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
+  scorad:{title:'📊 SCORAD — Dermatite atópica',desc:'Assistente passo a passo: extensão (regra dos nove), intensidade de 6 sinais e sintomas. Score 0–103.',special:'scorad',fields:[],calc:function(){return null;}},
   };
 
 /* ══ ACT — controle da asma: assistente passo a passo (adulto e criança) ══ */
@@ -3038,6 +3043,78 @@ function _actResultado(){
     + '</div>';
 }
 
+/* ══ SCORAD — assistente passo a passo: extensão (regra dos nove), intensidade, sintomas ══ */
+var _SC_REG = [['Cabeça e pescoço',9],['Tronco',36],['Braço direito',9],['Braço esquerdo',9],['Perna direita',18],['Perna esquerda',18],['Genitália',1]];
+var _SC_SIG = ['Eritema','Edema e pápulas','Exsudação e crostas','Escoriação','Liquenificação','Xerose'];
+var _SC_INT = [['Ausente',0],['Leve',1],['Moderada',2],['Grave',3]];
+window._scSt = { p:0, reg:[0,0,0,0,0,0,0], sig:[null,null,null,null,null,null], pru:0, son:0 };
+
+function _scA(){ var t=0; for(var i=0;i<_SC_REG.length;i++){ t += _SC_REG[i][1] * _scSt.reg[i] / 100; } return Math.round(t*10)/10; }
+function _scB(){ return _scSt.sig.reduce(function(a,b){ return a + (b||0); }, 0); }
+function _scC(){ return _scSt.pru + _scSt.son; }
+function _scTotal(){ return Math.round((_scA()/5 + 3.5*_scB() + _scC()) * 10) / 10; }
+
+function _scReg(i, v){ _scSt.reg[i] = +v; var el=document.getElementById('scReg'+i); if(el) el.textContent = v + '%'; var t=document.getElementById('scBsa'); if(t) t.textContent = _scA().toFixed(1) + '%'; }
+function _scSig(k){ var p=_scSt.p; _scSt.sig[p-1] = _SC_INT[k][1]; _scUI(); setTimeout(function(){ _scSt.p++; _scUI(); }, 260); }
+function _scNota(v){ var p=_scSt.p; if(p===7) _scSt.pru=+v; else _scSt.son=+v; var el=document.getElementById('scNota'); if(el) el.textContent = v; }
+function _scNext(){ _scSt.p++; _scUI(); }
+function _scVoltar(){ if(_scSt.p>0){ _scSt.p--; _scUI(); } }
+function _scRecomecar(){ _scSt = { p:0, reg:[0,0,0,0,0,0,0], sig:[null,null,null,null,null,null], pru:0, son:0 }; _scUI(); }
+
+function _scUI(){
+  var box = document.getElementById('mFields'); if(!box) return;
+  var st = _scSt;
+  if(st.p >= 9){ box.innerHTML = _scResultado(); return; }
+  var pct = Math.round(st.p / 9 * 100), corpo = '', titulo = '';
+  var nav = '<button class="act-btn sec" onclick="_scVoltar()" ' + (st.p===0?'style="visibility:hidden"':'') + '>← Anterior</button>';
+  if(st.p === 0){
+    titulo = 'Extensão (BSA)';
+    corpo = '<div class="act-q">Quanto da pele de cada região está afetado?</div>' + _SC_REG.map(function(r, i){
+      return '<div class="sc-reg"><div class="sc-reg-top"><span>' + r[0] + ' <small>(' + r[1] + '% do corpo)</small></span><b id="scReg' + i + '">' + st.reg[i] + '%</b></div>'
+        + '<input type="range" min="0" max="100" step="5" value="' + st.reg[i] + '" oninput="_scReg(' + i + ',this.value)"></div>';
+    }).join('') + '<div class="sc-total">Extensão total: <b id="scBsa">' + _scA().toFixed(1) + '%</b></div>';
+    nav += '<button class="act-btn" onclick="_scNext()">Continuar →</button>';
+  } else if(st.p <= 6){
+    var nome = _SC_SIG[st.p-1];
+    titulo = 'Intensidade · ' + st.p + ' de 6';
+    corpo = '<div class="act-q">' + nome + ': qual a intensidade?</div><div class="act-opts">' + _SC_INT.map(function(o, k){
+      var sel = st.sig[st.p-1] === o[1];
+      return '<button class="act-opt' + (sel?' sel':'') + '" onclick="_scSig(' + k + ')"><span class="act-dot"></span><span class="act-lbl">' + o[0] + '</span><span class="act-pts">' + o[1] + '</span></button>';
+    }).join('') + '</div>';
+    nav = '<button class="act-btn sec" onclick="_scVoltar()">← Anterior</button><span></span>';
+  } else {
+    var cor = st.p === 7 ? st.pru : st.son;
+    titulo = 'Sintomas · ' + (st.p-6) + ' de 2';
+    corpo = '<div class="act-q">' + (st.p===7 ? 'Qual foi a intensidade do prurido (coceira) nos últimos 3 dias?' : 'Qual foi a falta de sono causada pela doença nos últimos 3 dias?') + '</div>'
+      + '<div class="sc-slider"><div class="sc-nota" id="scNota">' + cor + '</div><input type="range" min="0" max="10" step="1" value="' + cor + '" oninput="_scNota(this.value)"><div class="sc-escala"><span>0 · nenhum</span><span>10 · máximo</span></div></div>';
+    nav += '<button class="act-btn" onclick="_scNext()">' + (st.p===8 ? 'Ver resultado' : 'Continuar') + ' →</button>';
+  }
+  box.innerHTML = '<div class="act-wrap" key="' + st.p + '">'
+    + '<div class="act-top"><span class="act-step">' + titulo + '</span><span class="act-pct">' + pct + '%</span></div>'
+    + '<div class="act-prog"><div class="act-prog-fill" style="width:' + pct + '%"></div></div>'
+    + corpo + '<div class="act-nav">' + nav + '</div></div>';
+}
+
+function _scResultado(){
+  var t = _scTotal(), A=_scA(), B=_scB(), C=_scC();
+  var f, cor, msg;
+  if(t <= 25){ f='Suave'; cor='#d4a017'; msg='Doença leve pela pontuação. Mantenha os cuidados locais e reavalie conforme a evolução.'; }
+  else if(t <= 50){ f='Moderada'; cor='#e67e22'; msg='Doença moderada pela pontuação. Reavalie a adesão ao tratamento e as opções de controle com o médico.'; }
+  else { f='Grave'; cor='#c0392b'; msg='Doença grave pela pontuação. Vale considerar encaminhamento e opções terapêuticas mais intensas, conforme as diretrizes.'; }
+  var Cc = 2*Math.PI*54, alvo = Cc * (1 - Math.min(t,103)/103);
+  setTimeout(function(){ var c=document.getElementById('scArco'); if(c) c.style.strokeDashoffset = alvo; }, 60);
+  return '<div class="act-wrap act-res" style="--cor:' + cor + '">'
+    + '<div class="act-ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" class="act-trilho"/>'
+    + '<circle id="scArco" cx="60" cy="60" r="54" class="act-arco" style="stroke-dasharray:' + Cc.toFixed(1) + ';stroke-dashoffset:' + Cc.toFixed(1) + '"/></svg>'
+    + '<div class="act-num"><b>' + t.toFixed(1) + '</b><span>de 103</span></div></div>'
+    + '<div class="act-faixa">' + f + '</div>'
+    + '<div class="act-msg">' + msg + '</div>'
+    + '<div class="sc-quebra"><div><span>Extensão (A)</span><b>' + A.toFixed(1) + '%</b></div><div><span>Intensidade (B)</span><b>' + B + '/18</b></div><div><span>Sintomas (C)</span><b>' + C + '/20</b></div></div>'
+    + '<div class="act-aviso">Pontuação SCORAD: A/5 + 7B/2 + C. Ferramenta de apoio clínico. Não substitui a avaliação médica.</div>'
+    + '<div class="act-nav"><button class="act-btn" onclick="_scRecomecar()">Refazer</button></div>'
+    + '</div>';
+}
+
 var currentScore=null;
 
 function openScore(key){
@@ -3045,7 +3122,14 @@ function openScore(key){
   currentScore=key;
   document.getElementById('mTitle').textContent=s.title;
   document.getElementById('mDesc').textContent=s.desc;
-  var _mcBtn=document.getElementById('mCalc'); if(_mcBtn) _mcBtn.style.display = (s.special==='act') ? 'none' : '';
+  var _mcBtn=document.getElementById('mCalc'); if(_mcBtn) _mcBtn.style.display = (s.special==='act'||s.special==='scorad') ? 'none' : '';
+  if(s.special==='scorad'){
+    _scSt = { p:0, reg:[0,0,0,0,0,0,0], sig:[null,null,null,null,null,null], pru:0, son:0 };
+    document.getElementById('mResult').className='score-result';
+    document.getElementById('overlay').classList.add('open');
+    _scUI();
+    return;
+  }
   if(s.special==='act'){
     _actSt = { modo:'adulto', i:0, r:[] };
     document.getElementById('mResult').className='score-result';
