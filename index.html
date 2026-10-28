@@ -2896,7 +2896,7 @@ var SCORES={
   act:{title:'🫁 ACT — Asthma Control Test',desc:'Avalia controle da asma nas últimas 4 semanas. 5 questões, 1 (pior) a 5 (melhor). Score máximo: 25.',fields:[{id:'a1',lbl:'1. Asma impediu atividades?',opts:['Todo o tempo (1)','Muitas vezes (2)','Às vezes (3)','Raramente (4)','Nunca (5)']},{id:'a2',lbl:'2. Frequência de falta de ar?',opts:['Mais de 1× ao dia (1)','1× ao dia (2)','3–6× por semana (3)','1–2× por semana (4)','Nenhuma vez (5)']},{id:'a3',lbl:'3. Sintomas noturnos?',opts:['4+ noites/semana (1)','2–3 noites/semana (2)','1× por semana (3)','1–2× no mês (4)','Nenhuma vez (5)']},{id:'a4',lbl:'4. Uso de broncodilatador?',opts:['3+ vezes ao dia (1)','1–2× ao dia (2)','2–3× por semana (3)','≤1× por semana (4)','Nenhuma vez (5)']},{id:'a5',lbl:'5. Como avalia o controle?',opts:['Nada controlada (1)','Mal controlada (2)','Mais ou menos (3)','Bem controlada (4)','Completamente (5)']}],calc:function(v){var s=v.reduce(function(a,b){return a+b;},0);if(s>=20)return{score:s+'/25',lbl:'✅ Asma Controlada',desc:'Score ≥20: bem controlada. Manter tratamento e monitorar.',color:'linear-gradient(135deg,#0d1f2d,#16a085)'};if(s>=16)return{score:s+'/25',lbl:'⚠️ Parcialmente Controlada',desc:'Score 16–19: controle parcial. Avaliar adesão e técnica inalatória. Step up GINA se necessário.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};return{score:s+'/25',lbl:'🔴 Não Controlada',desc:'Score ≤15: não controlada. Revisar diagnóstico, adesão e gatilhos. Avaliar asma grave.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
   easi:{title:'🩹 EASI — Eczema Area & Severity Index',desc:'Avalia gravidade da DA por região corporal. Score 0–72.',fields:[{id:'e1',lbl:'Cabeça/pescoço (peso 0,1)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']},{id:'e2',lbl:'Membros superiores (peso 0,2)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']},{id:'e3',lbl:'Tronco (peso 0,3)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']},{id:'e4',lbl:'Membros inferiores (peso 0,4)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']}],calc:function(v){var w=[0.1,0.2,0.3,0.4],pts=[0,1.5,3,6,9,12];var s=parseFloat(v.reduce(function(a,vi,i){return a+pts[vi]*w[i]*6;},0).toFixed(1));if(s<7)return{score:s+'/72',lbl:'🟡 DA Leve',desc:'EASI <7: emolientes e corticoide tópico conforme necessário.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};if(s<21)return{score:s+'/72',lbl:'🟠 DA Moderada',desc:'EASI 7–21: considerar imunomoduladores tópicos ou sistêmicos.',color:'linear-gradient(135deg,#0d1f2d,#e67e22)'};return{score:s+'/72',lbl:'🔴 DA Grave',desc:'EASI >21: candidato a imunobiológico (dupilumabe, tralokinumabe) ou inibidor de JAK.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
   uas:{title:'🔴 UAS7 \u2014 Urticaria Activity Score',desc:'Registre 1 vez por dia, SEMPRE \u00e0 noite antes de dormir, durante 7 dias seguidos. Cada dia: p\u00e1pulas (0\u20133) + prurido (0\u20133). Total 0\u201342.',special:'uas7',fields:[],calc:function(v){var s=0;for(var k=0;k<v.length;k++){s+=(v[k]||0);}if(s===0)return{score:'0/42',lbl:'\u2705 Urtic\u00e1ria Inativa',desc:'UAS7=0: remiss\u00e3o completa. Considerar redu\u00e7\u00e3o gradual.',color:'linear-gradient(135deg,#0d1f2d,#16a085)'};if(s<=6)return{score:s+'/42',lbl:'🟡 Bem Controlada',desc:'UAS7 1\u20136: atividade leve. Manter anti-H1 e monitorar.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};if(s<=15)return{score:s+'/42',lbl:'🟠 Moderada',desc:'UAS7 7\u201315: avaliar aumento do anti-H1 at\u00e9 4\u00d7 a dose padr\u00e3o.',color:'linear-gradient(135deg,#0d1f2d,#e67e22)'};if(s<=27)return{score:s+'/42',lbl:'🔴 Muito Ativa',desc:'UAS7 16\u201327: doen\u00e7a muito ativa. Se refrat\u00e1ria ao anti-H1 otimizado, considerar omalizumabe (a DUT 65.11 da ANS exige UAS7 \u2265 28).',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};return{score:s+'/42',lbl:'🔴 Grav\u00edssima',desc:'UAS7 28\u201342: crit\u00e9rio de UAS7 da DUT 65.11 (ANS) para omalizumabe. Se refrat\u00e1ria: dupilumabe (ANVISA, \u2265 2 anos) ou ciclosporina. Remibrutinibe aprovado nos EUA/UE; barzolvolimabe ainda em estudo.',color:'linear-gradient(135deg,#0d1f2d,#7b241c)'};}},
-  uct:{title:'🎯 UCT — Urticaria Control Test',desc:'Controle da urticária nos últimos 28 dias. Some os 4 itens (0–16). UCT ≥ 12 = bem controlada; < 12 = controle insuficiente.',special:'uct',fields:[{id:'uc1',lbl:'1. Nos últimos 28 dias, em que medida sua urticária afetou sua qualidade de vida?',opts:['Muito severamente (0)','Severamente (1)','Moderadamente (2)','Levemente (3)','Nada (4)']},{id:'uc2',lbl:'2. Nos últimos 28 dias, em que medida o tratamento atual controlou sua urticária?',opts:['Nada (0)','Pouco (1)','Moderadamente (2)','Bem (3)','Completamente (4)']},{id:'uc3',lbl:'3. Nos últimos 28 dias, quantas vezes você teve sintomas de urticária (vergões, coceira, inchaço)?',opts:['Todos os dias (0)','Mais de 2 vezes por semana (1)','2 vezes por semana (2)','1 vez por semana (3)','Nenhuma vez (4)']},{id:'uc4',lbl:'4. Nos últimos 28 dias, quão incomodado(a) você ficou com a urticária?',opts:['Extremamente (0)','Muito (1)','Moderadamente (2)','Levemente (3)','Nada (4)']}],calc:function(v){var t=v.reduce(function(a,b){return a+b;},0);if(t>=12)return{score:t+'/16',lbl:'✅ Bem controlada',desc:'UCT ≥ 12: controle adequado. Manter a terapia atual e reavaliar periodicamente.',color:'linear-gradient(135deg,#0d1f2d,#16a085)'};if(t>=7)return{score:t+'/16',lbl:'⚠️ Controle insuficiente',desc:'UCT 7–11: controle abaixo do ideal. Otimizar anti-H1 (até 4× a dose) e considerar avançar para omalizumabe se ainda não controlada.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};return{score:t+'/16',lbl:'🔴 Não controlada',desc:'UCT < 7: controle inadequado. Revisar adesão e diagnóstico; escalar terapia — omalizumabe se anti-H1 em dose otimizada for insuficiente.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
+  uct:{title:'🎯 UCT — Urticaria Control Test',desc:'Controle da urticária nos últimos 28 dias. Some os 4 itens (0–16). UCT ≥ 12 = bem controlada; < 12 = controle insuficiente.',fields:[{id:'uc1',lbl:'1. Nos últimos 28 dias, em que medida sua urticária afetou sua qualidade de vida?',opts:['Muito severamente (0)','Severamente (1)','Moderadamente (2)','Levemente (3)','Nada (4)']},{id:'uc2',lbl:'2. Nos últimos 28 dias, em que medida o tratamento atual controlou sua urticária?',opts:['Nada (0)','Pouco (1)','Moderadamente (2)','Bem (3)','Completamente (4)']},{id:'uc3',lbl:'3. Nos últimos 28 dias, quantas vezes você teve sintomas de urticária (vergões, coceira, inchaço)?',opts:['Todos os dias (0)','Mais de 2 vezes por semana (1)','2 vezes por semana (2)','1 vez por semana (3)','Nenhuma vez (4)']},{id:'uc4',lbl:'4. Nos últimos 28 dias, quão incomodado(a) você ficou com a urticária?',opts:['Extremamente (0)','Muito (1)','Moderadamente (2)','Levemente (3)','Nada (4)']}],calc:function(v){var t=v.reduce(function(a,b){return a+b;},0);if(t>=12)return{score:t+'/16',lbl:'✅ Bem controlada',desc:'UCT ≥ 12: controle adequado. Manter a terapia atual e reavaliar periodicamente.',color:'linear-gradient(135deg,#0d1f2d,#16a085)'};if(t>=7)return{score:t+'/16',lbl:'⚠️ Controle insuficiente',desc:'UCT 7–11: controle abaixo do ideal. Otimizar anti-H1 (até 4× a dose) e considerar avançar para omalizumabe se ainda não controlada.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};return{score:t+'/16',lbl:'🔴 Não controlada',desc:'UCT < 7: controle inadequado. Revisar adesão e diagnóstico; escalar terapia — omalizumabe se anti-H1 em dose otimizada for insuficiente.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
   scorad:{title:'📊 SCORAD — Scoring Atopic Dermatitis',desc:'Score composto da DA: extensão + intensidade + sintomas subjetivos. Score 0–103.',fields:[{id:'s1',lbl:'Extensão corporal afetada',opts:['< 5%','5–15%','16–30%','31–50%','51–70%','> 70%']},{id:'s2',lbl:'Intensidade média das lesões',opts:['0 — Sem lesões','2 — Muito leve','4 — Leve','6 — Moderada','10 — Grave','12 — Muito grave']},{id:'s3',lbl:'Prurido médio (0–10)',opts:['0','1','2','3','4','5','6','7','8','9','10']},{id:'s4',lbl:'Perda de sono (0–10)',opts:['0','1','2','3','4','5','6','7','8','9','10']}],calc:function(v){var ext=[2,10,20,40,60,80];var s=parseFloat((ext[v[0]]/5+7*v[1]/2+(v[2]+v[3])/5).toFixed(1));if(s<25)return{score:s+'/103',lbl:'🟡 DA Leve',desc:'SCORAD <25: cuidados locais e corticoide tópico.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};if(s<50)return{score:s+'/103',lbl:'🟠 DA Moderada',desc:'SCORAD 25–50: avaliar imunomoduladores.',color:'linear-gradient(135deg,#0d1f2d,#e67e22)'};return{score:s+'/103',lbl:'🔴 DA Grave',desc:'SCORAD >50: candidato a imunobiológico ou JAKi.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
   };
 
@@ -2912,14 +2912,7 @@ function openScore(key){
     document.getElementById('mFields').innerHTML=_uas7RenderCampos();
     document.getElementById('mResult').className='score-result';
     document.getElementById('overlay').classList.add('open');
-    return;
-  }
-  // UCT tem interface própria (QR Code para paciente + histórico)
-  if(s.special==='uct'){
-    document.getElementById('mFields').innerHTML=_uctRenderModal();
-    document.getElementById('mResult').className='score-result';
-    document.getElementById('overlay').classList.add('open');
-    _uctIniciarSessao();
+    _uasAtualizarTodos();
     return;
   }
   var html='';
@@ -2945,6 +2938,7 @@ var _UAS7_DIAS = ['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Doming
 
 function _uas7RenderCampos(){
   var html = '';
+  html += _uasDiarioBloco();
   // aviso: sempre à noite, antes de dormir
   html += '<div style="background:rgba(59,191,204,.10);border:1px solid rgba(59,191,204,.35);border-radius:10px;padding:11px 13px;margin-bottom:14px;display:flex;gap:9px;align-items:flex-start">';
   html += '<span style="font-size:17px;line-height:1">🌙</span>';
@@ -3047,138 +3041,165 @@ function _uas7Ordinal(n){
   return n + '\u00aa semana';
 }
 
-/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 UCT \u2014 QR Code para paciente + polling Supabase + hist\u00f3rico \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
-var _uctSessaoId = null;
-var _uctPollTimer = null;
-var _uctPatientUrl = 'https://hubalergista.netlify.app/uct-paciente.html';
+/* ══════════════ UAS7 — diário do paciente (QR/link + Supabase) ══════════════ */
 var _SUPA_URL = 'https://jpdtqtenlivxgjkyizcg.supabase.co';
-var _SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwZHRxdGVubGl2eGdqa3lpemNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3MzkxMzgsImV4cCI6MjA2MjMxNTEzOH0.OCSGTv1HD6CLCbPVAgZwplkFMLGS0JuiT1XMRESYkWI';
+var _SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwZHRxdGVubGl2eGdqa3lpemNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5MTg3NTMsImV4cCI6MjEwNjQ5NDc1M30.OCSGTv1HD6CLCbPVAgZwplkFMLGS0JuiT1XMRESYkWI';
 
-function _uctRenderModal(){
-  var html = '';
-  html += '<div style="background:rgba(59,191,204,.10);border:1px solid rgba(59,191,204,.35);border-radius:10px;padding:11px 13px;margin-bottom:14px;display:flex;gap:9px;align-items:flex-start">';
-  html += '<span style="font-size:17px;line-height:1">\ud83d\udcf1</span>';
-  html += '<div style="font-size:12px;color:var(--navy);line-height:1.5"><strong>Pe\u00e7a ao paciente que escaneie o QR Code</strong> com a c\u00e2mera do celular. Ele preencher\u00e1 o UCT e o resultado chegar\u00e1 aqui automaticamente.</div></div>';
-  html += '<div id="uct-qr-wrap" style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:16px">';
-  html += '<div id="uct-qr-canvas" style="background:#fff;border-radius:12px;padding:10px;width:180px;height:180px;display:flex;align-items:center;justify-content:center"><span style="color:#aaa;font-size:12px">Gerando\u2026</span></div>';
-  html += '<div id="uct-sessao-txt" style="font-size:10px;color:var(--gray-500)">Aguardando\u2026</div>';
-  html += '</div>';
-  html += '<div id="uct-aguardando" style="text-align:center;padding:12px;background:var(--gray-50);border-radius:10px;margin-bottom:14px;font-size:13px;color:var(--gray-500)">';
-  html += '\u23f3 Aguardando o paciente preencher o formul\u00e1rio\u2026</div>';
-  html += '<div id="uct-resultado" style="display:none;border-radius:12px;padding:14px;margin-bottom:14px;text-align:center"></div>';
-  html += '<div id="uct-historico-wrap">' + _uctRenderHistorico() + '</div>';
-  return html;
+function _uasEsc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+
+function _uasDiarioUrl(id){
+  var base = /netlify\.app$/.test(location.hostname) ? location.origin : 'https://hubalergista.netlify.app';
+  return base + '/uas7-paciente.html?s=' + id;
 }
 
-function _uctIniciarSessao(){
-  if(!window.QRCode){
+function _uasNovoId(){
+  var a = new Uint8Array(15);
+  (window.crypto || window.msCrypto).getRandomValues(a);
+  var s = 'u7';
+  for(var i=0;i<a.length;i++){ s += ('0' + a[i].toString(16)).slice(-2); }
+  return s;   // 32 caracteres, impossível de adivinhar
+}
+
+function _uasSessoes(){ try { return JSON.parse(localStorage.getItem('hub_uas7_sessoes') || '[]'); } catch(e){ return []; } }
+function _uasGravar(l){ try { localStorage.setItem('hub_uas7_sessoes', JSON.stringify(l.slice(0,40))); } catch(e){} }
+
+function _uasRpc(fn, body){
+  return fetch(_SUPA_URL + '/rest/v1/rpc/' + fn, {
+    method:'POST',
+    headers:{'Content-Type':'application/json','apikey':_SUPA_KEY,'Authorization':'Bearer ' + _SUPA_KEY},
+    body: JSON.stringify(body)
+  }).then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+}
+
+function _uasDiarioBloco(){
+  var h = '';
+  h += '<div style="border:1px solid rgba(59,191,204,.4);background:rgba(59,191,204,.07);border-radius:12px;padding:12px 13px;margin-bottom:16px">';
+  h += '<div style="font-size:12px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px">📱 Diário do paciente</div>';
+  h += '<div style="font-size:12px;color:var(--navy);line-height:1.5;margin-bottom:10px">O paciente registra em casa, toda noite, por 7 dias. As respostas chegam aqui.</div>';
+  h += '<input id="uasRotulo" type="text" maxlength="40" placeholder="Identificação (opcional, fica só neste aparelho)" style="width:100%;box-sizing:border-box;border:1px solid var(--gray-100);border-radius:9px;padding:9px 11px;font-size:14px;color:var(--navy);background:#fff;margin-bottom:8px;outline:none">';
+  h += '<button onclick="_uasGerarDiario()" style="width:100%;border:none;border-radius:10px;padding:11px;font-size:13.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--teal-mid),var(--teal));cursor:pointer">Gerar QR / link para o paciente</button>';
+  h += '<div id="uasQrBox" style="display:none;margin-top:12px;text-align:center"></div>';
+  h += '<div id="uasLista" style="margin-top:12px">' + _uasListaHtml() + '</div>';
+  h += '</div>';
+  return h;
+}
+
+function _uasGerarDiario(){
+  var id = _uasNovoId();
+  var rot = (document.getElementById('uasRotulo') || {}).value || '';
+  var l = _uasSessoes();
+  l.unshift({ id:id, criado:_relDataHoje(), rotulo:rot.trim(), n:0, total:null, nome:'', dias:[] });
+  _uasGravar(l);
+  var r = document.getElementById('uasRotulo'); if(r) r.value = '';
+  _uasMostrarQr(id);
+  _uasRenderLista();
+}
+
+function _uasMostrarQr(id){
+  var box = document.getElementById('uasQrBox');
+  if(!box) return;
+  var url = _uasDiarioUrl(id);
+  box.style.display = 'block';
+  box.innerHTML = '<div id="uasQr" style="background:#fff;border-radius:12px;padding:10px;width:180px;height:180px;margin:0 auto;display:flex;align-items:center;justify-content:center"><span style="color:#aaa;font-size:12px">Gerando…</span></div>'
+    + '<div style="font-size:11.5px;color:var(--navy);margin-top:8px;line-height:1.4">Paciente escaneia com a câmera e salva o link.</div>'
+    + '<div style="display:flex;gap:6px;margin-top:9px">'
+    + '<button onclick="_uasCopiar(\'' + id + '\')" style="flex:1;border:1px solid rgba(42,159,173,.45);background:#fff;color:var(--teal-mid);border-radius:9px;padding:9px 6px;font-size:12px;font-weight:700;cursor:pointer">📋 Copiar link</button>'
+    + '<button onclick="_uasWhats(\'' + id + '\')" style="flex:1;border:none;background:#25a35a;color:#fff;border-radius:9px;padding:9px 6px;font-size:12px;font-weight:700;cursor:pointer">WhatsApp</button>'
+    + '</div>';
+  var desenhar = function(){
+    var w = document.getElementById('uasQr'); if(!w) return;
+    w.innerHTML = '';
+    try { new QRCode(w, { text:url, width:160, height:160, colorDark:'#0d1f2d', colorLight:'#ffffff', correctLevel:QRCode.CorrectLevel.M }); }
+    catch(e){ w.innerHTML = '<span style="font-size:10px;word-break:break-all;color:#333">' + url + '</span>'; }
+  };
+  if(window.QRCode){ desenhar(); }
+  else {
     var sc = document.createElement('script');
     sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
-    sc.onload = function(){ _uctGerarQR(); };
+    sc.onload = desenhar;
+    sc.onerror = function(){ var w=document.getElementById('uasQr'); if(w) w.innerHTML='<span style="font-size:10px;word-break:break-all;color:#333">' + url + '</span>'; };
     document.head.appendChild(sc);
-  } else {
-    _uctGerarQR();
   }
 }
 
-function _uctGerarQR(){
-  _uctSessaoId = 'uct-' + Date.now();
-  var url = _uctPatientUrl + '?s=' + _uctSessaoId;
-  var wrap = document.getElementById('uct-qr-canvas');
-  if(!wrap) return;
-  wrap.innerHTML = '';
-  try {
-    new QRCode(wrap, { text: url, width: 160, height: 160, colorDark: '#0d1f2d', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
-  } catch(e) {
-    wrap.innerHTML = '<span style="font-size:10px;word-break:break-all;color:#333">' + url + '</span>';
-  }
-  var txt = document.getElementById('uct-sessao-txt');
-  if(txt) txt.textContent = 'Sess\u00e3o: ' + _uctSessaoId;
-  _uctIniciarPolling();
+function _uasCopiar(id){
+  var url = _uasDiarioUrl(id);
+  var ok = function(){ toast('📋','Link copiado.'); };
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(ok, function(){ prompt('Copie o link:', url); }); }
+  else { prompt('Copie o link:', url); }
 }
 
-function _uctIniciarPolling(){
-  _uctPararPolling();
-  _uctPollTimer = setInterval(_uctChecar, 3000);
+function _uasWhats(id){
+  var msg = 'Olá! Este é o seu diário da urticária (UAS7). Registre toda noite, por 7 dias: ' + _uasDiarioUrl(id);
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
 }
 
-function _uctPararPolling(){
-  if(_uctPollTimer){ clearInterval(_uctPollTimer); _uctPollTimer = null; }
-}
-
-function _uctChecar(){
-  if(!_uctSessaoId) return;
-  fetch(_SUPA_URL + '/rest/v1/uct_results?sessao_id=eq.' + encodeURIComponent(_uctSessaoId) + '&order=created_at.desc&limit=1', {
-    headers: { 'apikey': _SUPA_KEY, 'Authorization': 'Bearer ' + _SUPA_KEY }
-  }).then(function(r){ return r.json(); }).then(function(rows){
-    if(!rows || !rows.length) return;
-    _uctPararPolling();
-    _uctMostrarResultado(rows[0]);
-    _uctSalvarHistorico(rows[0]);
-    var hist = document.getElementById('uct-historico-wrap');
-    if(hist) hist.innerHTML = _uctRenderHistorico();
-  }).catch(function(){});
-}
-
-function _uctMostrarResultado(row){
-  var aw = document.getElementById('uct-aguardando');
-  if(aw) aw.style.display = 'none';
-  var res = document.getElementById('uct-resultado');
-  if(!res) return;
-  var t = (row.total !== undefined && row.total !== null) ? row.total : (row.q1+row.q2+row.q3+row.q4);
-  var lbl, cor;
-  if(t >= 12){ lbl = '\u2705 Bem controlada'; cor = '#16a085'; }
-  else if(t >= 7){ lbl = '\u26a0\ufe0f Controle insuficiente'; cor = '#d4a017'; }
-  else { lbl = '\ud83d\udd34 N\u00e3o controlada'; cor = '#c0392b'; }
-  var nome = row.paciente_nome ? row.paciente_nome : 'Paciente';
-  res.style.display = 'block';
-  res.style.background = 'linear-gradient(135deg,#0d1f2d,' + cor + ')';
-  res.innerHTML = '<div style="font-size:22px;font-weight:900;color:#fff">' + t + '/16</div>'
-    + '<div style="font-size:14px;font-weight:700;color:#fff;margin-top:4px">' + lbl + '</div>'
-    + '<div style="font-size:11px;color:rgba(255,255,255,.75);margin-top:4px">' + nome + ' \u00b7 ' + new Date(row.created_at).toLocaleDateString('pt-BR') + '</div>'
-    + '<div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:6px">Q1:' + row.q1 + ' Q2:' + row.q2 + ' Q3:' + row.q3 + ' Q4:' + row.q4 + '</div>';
-  toast('\ud83c\udfaf', 'UCT recebido: ' + t + '/16 \u2014 ' + lbl.replace(/[\u2705\u26a0\ufe0f\ud83d\udd34] /,''));
-}
-
-function _uctGetHist(){
-  try { return JSON.parse(localStorage.getItem('hub_uct_hist')||'[]'); } catch(e){ return []; }
-}
-
-function _uctSalvarHistorico(row){
-  var h = _uctGetHist();
-  var t = (row.total !== undefined && row.total !== null) ? row.total : (row.q1+row.q2+row.q3+row.q4);
-  h.unshift({ d: new Date(row.created_at).toLocaleDateString('pt-BR'), t: t, nome: row.paciente_nome||'\u2014', q1:row.q1, q2:row.q2, q3:row.q3, q4:row.q4 });
-  if(h.length > 50) h = h.slice(0,50);
-  try { localStorage.setItem('hub_uct_hist', JSON.stringify(h)); } catch(e){}
-}
-
-function _uctRenderHistorico(){
-  var h = _uctGetHist();
-  if(!h.length) return '<div style="font-size:12px;color:var(--gray-500);text-align:center;padding:10px">Nenhum resultado ainda.</div>';
-  var html = '<div style="margin-top:6px">';
-  html += '<div style="font-size:12px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Hist\u00f3rico de UCTs</div>';
-  h.forEach(function(e){
-    var cor = e.t >= 12 ? '#16a085' : (e.t >= 7 ? '#d4a017' : '#c0392b');
-    var lbl = e.t >= 12 ? 'Bem controlada' : (e.t >= 7 ? 'Insuficiente' : 'N\u00e3o controlada');
-    html += '<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--gray-100);border-radius:9px;margin-bottom:6px;background:#fff">';
-    html += '<div style="min-width:36px;height:36px;border-radius:8px;background:' + cor + ';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff">' + e.t + '</div>';
-    html += '<div style="flex:1;min-width:0">';
-    html += '<div style="font-size:12px;font-weight:700;color:var(--navy)">' + (e.nome||'\u2014') + '</div>';
-    html += '<div style="font-size:10.5px;color:var(--gray-500)">' + e.d + ' \u00b7 ' + lbl + '</div>';
-    html += '</div>';
-    html += '<div style="font-size:9.5px;color:var(--gray-500)">Q1:' + e.q1 + ' Q2:' + e.q2 + ' Q3:' + e.q3 + ' Q4:' + e.q4 + '</div>';
-    html += '</div>';
+function _uasListaHtml(){
+  var l = _uasSessoes();
+  if(!l.length) return '';
+  var h = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">'
+    + '<div style="font-size:11px;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em">Diários enviados</div>'
+    + '<span onclick="_uasAtualizarTodos()" style="font-size:11px;color:var(--teal-mid);cursor:pointer;font-weight:700">↻ Atualizar</span></div>';
+  l.forEach(function(s){
+    var nome = s.rotulo || s.nome || 'Paciente';
+    var cor = s.n === 7 ? '#16a085' : (s.n > 0 ? '#d4a017' : '#94a3b8');
+    var meio = s.n === 7 ? ('Completo · <b>' + s.total + '/42</b>') : (s.n + '/7 dias');
+    h += '<div style="display:flex;align-items:center;gap:8px;padding:8px 9px;border:1px solid var(--gray-100);border-radius:9px;margin-bottom:6px;background:#fff">';
+    h += '<div style="min-width:34px;height:34px;border-radius:8px;background:' + cor + ';color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900">' + s.n + '/7</div>';
+    h += '<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + _uasEsc(nome) + (s.rotulo && s.nome ? ' <span style="font-weight:400;color:var(--gray-500)">(' + _uasEsc(s.nome) + ')</span>' : '') + '</div>';
+    h += '<div style="font-size:10.5px;color:var(--gray-500)">Enviado ' + _uasEsc(s.criado) + ' · ' + meio + '</div></div>';
+    if(s.n > 0) h += '<button onclick="_uasUsar(\'' + s.id + '\')" style="border:none;background:var(--teal-mid);color:#fff;border-radius:7px;padding:6px 8px;font-size:11px;font-weight:700;cursor:pointer">Usar</button>';
+    h += '<button onclick="_uasMostrarQr(\'' + s.id + '\')" title="Mostrar QR" style="border:1px solid var(--gray-100);background:#fff;border-radius:7px;padding:5px 7px;font-size:12px;cursor:pointer">▦</button>';
+    h += '<button onclick="_uasRemover(\'' + s.id + '\')" title="Tirar da lista" style="border:none;background:none;color:var(--gray-300);font-size:14px;cursor:pointer;padding:2px 4px">✕</button>';
+    h += '</div>';
   });
-  html += '<div style="text-align:right;margin-top:4px"><button onclick="_uctLimparHistorico()" style="font-size:10px;color:var(--gray-500);background:none;border:none;cursor:pointer;padding:0">\ud83d\uddd1\ufe0f Apagar hist\u00f3rico</button></div>';
-  html += '</div>';
-  return html;
+  return h;
 }
 
-function _uctLimparHistorico(){
-  try { localStorage.removeItem('hub_uct_hist'); } catch(e){}
-  var w = document.getElementById('uct-historico-wrap');
-  if(w) w.innerHTML = _uctRenderHistorico();
-  toast('\ud83d\uddd1\ufe0f','Hist\u00f3rico do UCT apagado.');
+function _uasRenderLista(){ var el = document.getElementById('uasLista'); if(el) el.innerHTML = _uasListaHtml(); }
+
+function _uasAtualizarTodos(){
+  var l = _uasSessoes();
+  if(!l.length) return;
+  Promise.all(l.map(function(s){
+    if(s.n === 7) return Promise.resolve(s);   // completo: não muda mais
+    return _uasRpc('uas7_da_sessao', { p_sessao:s.id }).then(function(rows){
+      s.dias = (rows || []).map(function(r){ return { d:r.dia, p:r.papulas, i:r.prurido }; });
+      s.n = s.dias.length;
+      s.total = s.n === 7 ? s.dias.reduce(function(a,x){ return a + x.p + x.i; }, 0) : null;
+      var comNome = (rows || []).filter(function(r){ return r.paciente; })[0];
+      if(comNome) s.nome = comNome.paciente;
+      return s;
+    }).catch(function(){ s._erro = true; return s; });
+  })).then(function(res){
+    var falhou = res.some(function(s){ return s._erro; });
+    res.forEach(function(s){ delete s._erro; });
+    _uasGravar(res);
+    _uasRenderLista();
+    if(falhou) toast('⚠️','Sem conexão com o servidor — lista pode estar desatualizada.');
+  });
+}
+
+function _uasUsar(id){
+  var s = _uasSessoes().filter(function(x){ return x.id === id; })[0];
+  if(!s || !s.dias.length) return;
+  for(var d=0; d<7; d++){
+    var p = document.getElementById('uasP'+d), i = document.getElementById('uasI'+d);
+    if(p) p.value = '0'; if(i) i.value = '0';
+  }
+  s.dias.forEach(function(x){
+    var p = document.getElementById('uasP'+(x.d-1)), i = document.getElementById('uasI'+(x.d-1));
+    if(p) p.value = String(x.p); if(i) i.value = String(x.i);
+  });
+  var falta = 7 - s.dias.length;
+  toast('✅', falta ? ('Carregado. Atenção: ' + falta + ' dia(s) sem registro ficaram como 0.') : 'Diário carregado. Toque em Calcular.');
+  var p0 = document.getElementById('uasP0'); if(p0) p0.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function _uasRemover(id){
+  if(!confirm('Tirar este diário da lista? (Os dados do paciente não são apagados.)')) return;
+  _uasGravar(_uasSessoes().filter(function(x){ return x.id !== id; }));
+  _uasRenderLista();
 }
 
 function doCalc(){
@@ -3204,7 +3225,7 @@ function doCalc(){
   if(s.special==='uas7'){ _uas7Salvar(r); }
 }
 
-function closeModal(){document.getElementById('overlay').classList.remove('open');_uctPararPolling();}
+function closeModal(){document.getElementById('overlay').classList.remove('open');}
 
 // Botão "Abrir em PDF": usa data-pdf do art-card, fallback Unpaywall
 document.addEventListener('click', function(e){

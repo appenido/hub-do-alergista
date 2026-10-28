@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1a2e4a">
+<title>Diário da Urticária — UAS7</title>
+<style>
+  :root{
+    --navy:#1a2e4a; --navy2:#2a4a6e; --teal:#3bbfcc; --teal-mid:#2a9fad; --aqua:#5ce0ec;
+    --gold:#d4a017; --red:#c0392b; --green:#16a085;
+    --bg:#f0f4f8; --card:#fff; --gray:#64748b; --light:#e2e8f0; --soft:#f7fafc;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--navy);min-height:100vh;padding-bottom:40px;-webkit-text-size-adjust:100%}
+  .header{background:linear-gradient(135deg,var(--navy),var(--navy2));padding:22px 18px 18px;text-align:center;color:#fff}
+  .header h1{font-size:19px;font-weight:800;letter-spacing:-.3px}
+  .header p{font-size:12.5px;opacity:.8;margin-top:4px}
+  .progress{margin:14px auto 0;max-width:280px}
+  .progress-bar{height:8px;background:rgba(255,255,255,.18);border-radius:6px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--aqua));transition:width .4s}
+  .progress-txt{font-size:11.5px;opacity:.85;margin-top:6px}
+  .wrap{max-width:520px;margin:0 auto;padding:0 14px}
+  .card{background:var(--card);border-radius:16px;margin-top:14px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+  .intro{font-size:13.5px;line-height:1.6;color:var(--gray)}
+  .intro strong{color:var(--navy)}
+  .moon{display:flex;gap:10px;align-items:flex-start;background:rgba(59,191,204,.10);border:1px solid rgba(59,191,204,.35);border-radius:12px;padding:11px 12px;margin-top:12px;font-size:13px;line-height:1.5}
+  label.lbl{display:block;font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+  input[type=text]{width:100%;border:1.5px solid var(--light);border-radius:10px;padding:11px 12px;font-size:16px;color:var(--navy);outline:none}
+  input[type=text]:focus{border-color:var(--teal)}
+  .day{display:flex;align-items:center;gap:12px;padding:11px 12px;border:1.5px solid var(--light);border-radius:12px;margin-top:8px;background:#fff}
+  .day .num{min-width:40px;height:40px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;font-size:11px;line-height:1.1;background:var(--soft);color:var(--gray)}
+  .day .num b{font-size:16px}
+  .day .info{flex:1;min-width:0}
+  .day .t1{font-size:13.5px;font-weight:700}
+  .day .t2{font-size:11.5px;color:var(--gray);margin-top:2px}
+  .day.done{border-color:rgba(22,160,133,.35)}
+  .day.done .num{background:var(--green);color:#fff}
+  .day.open{border-color:var(--teal);background:rgba(59,191,204,.05)}
+  .day.open .num{background:var(--teal);color:#fff}
+  .day.miss .num{background:#fde8e6;color:var(--red)}
+  .day.lock{opacity:.55}
+  .day button{border:none;border-radius:9px;padding:8px 12px;font-size:12.5px;font-weight:700;cursor:pointer;background:var(--teal-mid);color:#fff;white-space:nowrap}
+  .day button.ghost{background:transparent;color:var(--teal-mid);border:1.5px solid rgba(42,159,173,.4)}
+  .q-title{font-size:15px;font-weight:800;margin-bottom:4px}
+  .q-sub{font-size:12px;color:var(--gray);margin-bottom:10px;line-height:1.5}
+  .opts{display:flex;flex-direction:column;gap:7px}
+  .opt{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border:1.5px solid var(--light);border-radius:11px;cursor:pointer;background:#fff;transition:all .15s}
+  .opt.sel{border-color:var(--teal);background:rgba(59,191,204,.08)}
+  .dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--light);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center}
+  .opt.sel .dot{border-color:var(--teal);background:var(--teal)}
+  .opt.sel .dot::after{content:'';width:7px;height:7px;border-radius:50%;background:#fff}
+  .opt .o1{font-size:14px;font-weight:700}
+  .opt .o2{font-size:12px;color:var(--gray);margin-top:2px;line-height:1.4}
+  .btn{width:100%;padding:15px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--teal-mid),var(--teal));color:#fff;font-size:15.5px;font-weight:800;cursor:pointer;margin-top:14px}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .btn.sec{background:#fff;color:var(--teal-mid);border:1.5px solid rgba(42,159,173,.4);font-size:13.5px;padding:12px}
+  .link{background:none;border:none;color:var(--gray);font-size:12.5px;text-decoration:underline;cursor:pointer;margin-top:10px;width:100%}
+  .total{text-align:center}
+  .total .n{font-size:46px;font-weight:900;letter-spacing:-2px;color:var(--teal-mid)}
+  .total .s{font-size:13.5px;color:var(--gray);line-height:1.6;margin-top:6px}
+  .msg{font-size:13px;line-height:1.5;border-radius:11px;padding:11px 12px;margin-top:12px}
+  .msg.err{background:#fde8e6;color:var(--red)}
+  .msg.ok{background:rgba(22,160,133,.1);color:var(--green);font-weight:700}
+  .hidden{display:none}
+  .footer{text-align:center;font-size:11px;color:var(--gray);margin-top:22px;padding:0 20px;line-height:1.6}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;font-size:13.5px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.25);transition:transform .3s;z-index:9;max-width:90vw;text-align:center}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📔 Diário da Urticária</h1>
+  <p>UAS7 · 7 dias · 1 registro por noite</p>
+  <div class="progress"><div class="progress-bar"><div class="progress-fill" id="pFill"></div></div><div class="progress-txt" id="pTxt">Carregando…</div></div>
+</div>
+
+<div class="wrap">
+
+  <div id="erroLink" class="card hidden">
+    <div class="intro"><strong>Este link não está completo.</strong><br>Peça ao consultório um novo link ou QR Code.</div>
+  </div>
+
+  <div id="app" class="hidden">
+
+    <div class="card" id="introCard">
+      <div class="intro"><strong>Olá!</strong> Seu médico pediu que você registre, por <strong>7 dias seguidos</strong>, como a urticária se comportou em cada dia. Leva menos de 1 minuto.</div>
+      <div class="moon"><span style="font-size:18px">🌙</span><div><strong>Toda noite, antes de dormir</strong>, responda pensando nas <strong>últimas 24 horas</strong>. Esqueceu? Dá para registrar o dia anterior na manhã seguinte.</div></div>
+    </div>
+
+    <div class="card" id="nomeCard">
+      <label class="lbl" for="nome">Seu nome</label>
+      <input type="text" id="nome" placeholder="Nome e sobrenome" autocomplete="name" maxlength="80">
+    </div>
+
+    <!-- Formulário do dia -->
+    <div class="card hidden" id="formCard">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px">
+        <div style="font-size:12px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em" id="formDia">Dia 1</div>
+        <div style="font-size:12px;color:var(--gray)" id="formData"></div>
+      </div>
+
+      <div class="q-title">1. Pápulas (vergões / placas)</div>
+      <div class="q-sub">Quantas pápulas apareceram nas últimas 24 horas?</div>
+      <div class="opts" data-q="p">
+        <div class="opt" data-v="0"><div class="dot"></div><div><div class="o1">Nenhuma</div></div></div>
+        <div class="opt" data-v="1"><div class="dot"></div><div><div class="o1">Poucas</div><div class="o2">Menos de 20 no dia</div></div></div>
+        <div class="opt" data-v="2"><div class="dot"></div><div><div class="o1">Moderadas</div><div class="o2">De 20 a 50 no dia</div></div></div>
+        <div class="opt" data-v="3"><div class="dot"></div><div><div class="o1">Muitas</div><div class="o2">Mais de 50, ou grandes áreas juntas</div></div></div>
+      </div>
+
+      <div class="q-title" style="margin-top:18px">2. Coceira</div>
+      <div class="q-sub">Como foi a coceira nas últimas 24 horas?</div>
+      <div class="opts" data-q="i">
+        <div class="opt" data-v="0"><div class="dot"></div><div><div class="o1">Nenhuma</div></div></div>
+        <div class="opt" data-v="1"><div class="dot"></div><div><div class="o1">Leve</div><div class="o2">Presente, mas não incomoda</div></div></div>
+        <div class="opt" data-v="2"><div class="dot"></div><div><div class="o1">Moderada</div><div class="o2">Incomoda, mas não atrapalha o dia nem o sono</div></div></div>
+        <div class="opt" data-v="3"><div class="dot"></div><div><div class="o1">Intensa</div><div class="o2">Atrapalha as atividades do dia ou o sono</div></div></div>
+      </div>
+
+      <button class="btn" id="btnEnviar" disabled>Salvar este dia</button>
+      <button class="link" id="btnCancelar">Voltar</button>
+      <div id="formMsg"></div>
+    </div>
+
+    <!-- Lista dos 7 dias -->
+    <div class="card" id="diasCard">
+      <div style="font-size:12px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em">Seus 7 dias</div>
+      <div id="dias"></div>
+      <div id="listaMsg"></div>
+    </div>
+
+    <!-- Total ao completar -->
+    <div class="card hidden" id="totalCard">
+      <div class="total">
+        <div style="font-size:30px">✅</div>
+        <div class="n" id="totalN">—</div>
+        <div class="s">Diário completo e <strong>enviado ao consultório</strong>.<br>Seu médico vai avaliar no retorno. Obrigado!</div>
+      </div>
+    </div>
+
+    <div class="card" id="dicaCard">
+      <div class="intro" style="font-size:12.5px"><strong>Para não esquecer:</strong> salve este link nos favoritos ou adicione à tela inicial do celular. Volte aqui toda noite.</div>
+      <button class="btn sec" id="btnLembrete">⏰ Adicionar lembrete diário às 21h</button>
+    </div>
+
+  </div>
+
+  <div class="footer">Diário de uso clínico · Os dados vão apenas para o seu médico.<br>Consultório do Dr. Antônio Penido · Alergia e Imunologia</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var SUPA_URL = 'https://jpdtqtenlivxgjkyizcg.supabase.co';
+  var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwZHRxdGVubGl2eGdqa3lpemNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5MTg3NTMsImV4cCI6MjEwNjQ5NDc1M30.OCSGTv1HD6CLCbPVAgZwplkFMLGS0JuiT1XMRESYkWI';
+  var SEMANA = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+
+  var sessao = new URLSearchParams(location.search).get('s') || '';
+  var $ = function(id){ return document.getElementById(id); };
+
+  if(!/^[A-Za-z0-9_-]{16,64}$/.test(sessao)){
+    $('erroLink').classList.remove('hidden');
+    $('pTxt').textContent = '';
+    return;
+  }
+  $('app').classList.remove('hidden');
+
+  /* ---------- datas locais (nunca UTC: às 22h no Brasil o UTC já é o dia seguinte) ---------- */
+  function hojeISO(){ var d=new Date(); return iso(d.getFullYear(), d.getMonth()+1, d.getDate()); }
+  function iso(y,m,d){ return y+'-'+('0'+m).slice(-2)+'-'+('0'+d).slice(-2); }
+  function partes(s){ var a=s.split('-'); return [+a[0], +a[1], +a[2]]; }
+  function diasEntre(a,b){ var x=partes(a), y=partes(b); return Math.round((Date.UTC(y[0],y[1]-1,y[2]) - Date.UTC(x[0],x[1]-1,x[2]))/86400000); }
+  function somaDias(s,n){ var p=partes(s); var d=new Date(Date.UTC(p[0],p[1]-1,p[2]+n)); return iso(d.getUTCFullYear(), d.getUTCMonth()+1, d.getUTCDate()); }
+  function rotuloData(s){ var p=partes(s); var d=new Date(Date.UTC(p[0],p[1]-1,p[2])); return SEMANA[d.getUTCDay()] + ', ' + ('0'+p[2]).slice(-2) + '/' + ('0'+p[1]).slice(-2); }
+
+  /* ---------- estado ---------- */
+  var kIni = 'uas7_inicio_' + sessao, kNome = 'uas7_nome';
+  var registros = {};   // dia -> {p, i, data}
+  var inicio = null;
+  var diaAtual = null, resp = {p:null, i:null};
+
+  try { $('nome').value = localStorage.getItem(kNome) || ''; } catch(e){}
+
+  function rpc(fn, body){
+    return fetch(SUPA_URL + '/rest/v1/rpc/' + fn, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY},
+      body: JSON.stringify(body)
+    }).then(function(r){
+      if(!r.ok) throw new Error('HTTP ' + r.status);
+      return r.status === 204 ? null : r.json();
+    });
+  }
+
+  function toast(msg){
+    var t=$('toast'); t.textContent=msg; t.classList.add('show');
+    clearTimeout(toast._t); toast._t=setTimeout(function(){ t.classList.remove('show'); }, 2600);
+  }
+
+  function carregar(){
+    $('pTxt').textContent = 'Carregando…';
+    rpc('uas7_da_sessao', {p_sessao: sessao}).then(function(rows){
+      registros = {};
+      (rows||[]).forEach(function(r){ registros[r.dia] = {p:r.papulas, i:r.prurido, data:r.data_ref}; });
+      var dias = Object.keys(registros);
+      if(dias.length){
+        var d = +dias[0];
+        inicio = somaDias(registros[d].data, -(d-1));
+        if(rows[0].paciente && !$('nome').value) $('nome').value = rows[0].paciente;
+      } else {
+        try { inicio = localStorage.getItem(kIni); } catch(e){}
+        if(!inicio) inicio = hojeISO();
+      }
+      render();
+    }).catch(function(){
+      $('pTxt').textContent = '';
+      $('listaMsg').innerHTML = '<div class="msg err">Não foi possível conectar. Verifique a internet e <a href="#" id="tentar" style="color:inherit;font-weight:700">tente de novo</a>.</div>';
+      var t=$('tentar'); if(t) t.onclick=function(e){ e.preventDefault(); $('listaMsg').innerHTML=''; carregar(); };
+    });
+  }
+
+  function render(){
+    var hoje = hojeISO();
+    var idxHoje = diasEntre(inicio, hoje) + 1;   // 1 = primeiro dia
+    var feitos = Object.keys(registros).length;
+
+    $('pFill').style.width = Math.round(feitos/7*100) + '%';
+    $('pTxt').textContent = feitos + ' de 7 dias registrados';
+
+    var h = '';
+    for(var d=1; d<=7; d++){
+      var data = somaDias(inicio, d-1);
+      var r = registros[d];
+      var cls, t2, btn = '';
+      if(r){
+        cls = 'done';
+        t2 = 'Pápulas ' + r.p + ' · Coceira ' + r.i + ' · ' + (r.p + r.i) + ' pontos';
+        if(d === idxHoje || d === idxHoje-1) btn = '<button class="ghost" data-dia="'+d+'">Corrigir</button>';
+      } else if(d === idxHoje){
+        cls = 'open'; t2 = 'Registre hoje à noite'; btn = '<button data-dia="'+d+'">Registrar</button>';
+      } else if(d === idxHoje-1){
+        cls = 'open'; t2 = 'Ainda dá para registrar (ontem)'; btn = '<button data-dia="'+d+'">Registrar</button>';
+      } else if(d < idxHoje-1){
+        cls = 'miss'; t2 = 'Não registrado';
+      } else {
+        cls = 'lock'; t2 = 'Disponível neste dia';
+      }
+      h += '<div class="day '+cls+'"><div class="num">Dia<b>'+d+'</b></div><div class="info"><div class="t1">'+rotuloData(data)+'</div><div class="t2">'+t2+'</div></div>'+btn+'</div>';
+    }
+    $('dias').innerHTML = h;
+    Array.prototype.forEach.call($('dias').querySelectorAll('button[data-dia]'), function(b){
+      b.onclick = function(){ abrirForm(+b.getAttribute('data-dia')); };
+    });
+
+    if(feitos === 7){
+      var tot = 0; for(var k=1;k<=7;k++) tot += registros[k].p + registros[k].i;
+      $('totalN').textContent = tot + '/42';
+      $('totalCard').classList.remove('hidden');
+      $('introCard').classList.add('hidden');
+      $('dicaCard').classList.add('hidden');
+    } else if(idxHoje > 8){
+      $('listaMsg').innerHTML = '<div class="msg err">O período deste diário terminou. Os dias registrados já estão com o seu médico.</div>';
+      $('dicaCard').classList.add('hidden');
+    }
+  }
+
+  function abrirForm(d){
+    diaAtual = d;
+    var r = registros[d];
+    resp = {p: r ? r.p : null, i: r ? r.i : null};
+    $('formDia').textContent = 'Dia ' + d + ' de 7';
+    $('formData').textContent = rotuloData(somaDias(inicio, d-1));
+    Array.prototype.forEach.call(document.querySelectorAll('.opts'), function(g){
+      var q = g.getAttribute('data-q');
+      Array.prototype.forEach.call(g.querySelectorAll('.opt'), function(o){
+        o.classList.toggle('sel', resp[q] !== null && +o.getAttribute('data-v') === resp[q]);
+      });
+    });
+    $('formMsg').innerHTML = '';
+    $('btnEnviar').textContent = 'Salvar este dia';
+    checar();
+    $('diasCard').classList.add('hidden');
+    $('formCard').classList.remove('hidden');
+    $('formCard').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function fecharForm(){
+    $('formCard').classList.add('hidden');
+    $('diasCard').classList.remove('hidden');
+    diaAtual = null;
+  }
+
+  function checar(){ $('btnEnviar').disabled = (resp.p === null || resp.i === null); }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.opts'), function(g){
+    var q = g.getAttribute('data-q');
+    Array.prototype.forEach.call(g.querySelectorAll('.opt'), function(o){
+      o.onclick = function(){
+        Array.prototype.forEach.call(g.querySelectorAll('.opt'), function(x){ x.classList.remove('sel'); });
+        o.classList.add('sel');
+        resp[q] = +o.getAttribute('data-v');
+        checar();
+      };
+    });
+  });
+
+  $('btnCancelar').onclick = fecharForm;
+
+  $('btnEnviar').onclick = function(){
+    var nome = $('nome').value.trim();
+    if(!nome){
+      $('formMsg').innerHTML = '<div class="msg err">Escreva seu nome no início da página antes de salvar.</div>';
+      $('nomeCard').scrollIntoView({behavior:'smooth'}); $('nome').focus();
+      return;
+    }
+    try { localStorage.setItem(kNome, nome); localStorage.setItem(kIni, inicio); } catch(e){}
+    var btn = $('btnEnviar'); btn.disabled = true; btn.textContent = 'Salvando…';
+    var d = diaAtual, data = somaDias(inicio, d-1);
+    rpc('uas7_registrar', {p_sessao:sessao, p_dia:d, p_data:data, p_papulas:resp.p, p_prurido:resp.i, p_paciente:nome})
+      .then(function(){
+        registros[d] = {p:resp.p, i:resp.i, data:data};
+        fecharForm(); render();
+        toast('✅ Dia ' + d + ' salvo e enviado');
+        window.scrollTo({top:0, behavior:'smooth'});
+      })
+      .catch(function(){
+        btn.textContent = 'Tentar de novo'; btn.disabled = false;
+        $('formMsg').innerHTML = '<div class="msg err">Não foi enviado (sem conexão?). Suas respostas continuam marcadas — toque em "Tentar de novo".</div>';
+      });
+  };
+
+  /* ---------- lembrete diário (arquivo de calendário .ics) ---------- */
+  $('btnLembrete').onclick = function(){
+    var p = partes(inicio), hoje = hojeISO();
+    var ini = diasEntre(inicio, hoje) > 0 ? hoje : inicio;
+    var restantes = Math.max(1, 7 - diasEntre(inicio, ini));
+    var q = partes(ini);
+    var dt = q[0] + ('0'+q[1]).slice(-2) + ('0'+q[2]).slice(-2);
+    var ics = [
+      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Diario Urticaria//PT','CALSCALE:GREGORIAN',
+      'BEGIN:VEVENT',
+      'UID:' + sessao + '@diario-urticaria',
+      'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z',
+      'DTSTART:' + dt + 'T210000',
+      'DURATION:PT10M',
+      'RRULE:FREQ=DAILY;COUNT=' + restantes,
+      'SUMMARY:Diário da urticária (UAS7)',
+      'DESCRIPTION:Registre o dia de hoje: ' + location.href,
+      'URL:' + location.href,
+      'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Registrar o diário da urticária','TRIGGER:PT0M','END:VALARM',
+      'END:VEVENT','END:VCALENDAR'
+    ].join('\r\n');
+    var blob = new Blob([ics], {type:'text/calendar;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'lembrete-diario-urticaria.ics';
+    document.body.appendChild(a); a.click(); a.remove();
+    toast('Abra o arquivo para adicionar ao calendário');
+  };
+
+  carregar();
+})();
+</script>
+</body>
+</html>
