@@ -2700,7 +2700,7 @@ function openAiSheet(card) {
   }
 
   var linksEl = document.getElementById('aiSheetLinks');
-  linksEl.innerHTML = '<a class="link-btn pub" href="' + pubmed + '" target="_blank" rel="noopener" style="flex:1;justify-content:center">\ud83d\udd0d Ver no PubMed</a>';
+  linksEl.innerHTML = '<a class="link-btn pub" href="' + pubmed + '" target="_blank" rel="noopener" style="flex:1;justify-content:center">\ud83d\udcc4 Abrir em PDF</a>';
 
   var bodyEl = document.getElementById('aiSheetBody');
   bodyEl.innerHTML = '<div class="ai-sheet-loading">\u23f3 Gerando resumo cl\u00ednico completo...</div>';
@@ -3966,7 +3966,7 @@ function renderFeed(d2, box){
       '<span class="art-journal">' + _feedEscape(journal) + ' · ' + _feedEscape(date) + '</span>' +
       '<div class="art-title" style="margin-top:2px">' + _feedEscape(a.title) + '</div>' +
       (authors ? '<div style="font-size:11px;color:var(--gray-500);margin-top:5px">' + _feedEscape(authors) + '</div>' : '') +
-      '<div class="art-links" style="margin-top:9px"><a class="link-btn pub" href="' + url + '" target="_blank" rel="noopener">🔍 Abrir no PubMed</a></div>' +
+      '<div class="art-links" style="margin-top:9px"><a class="link-btn pub" href="' + url + '" target="_blank" rel="noopener">0001F4C4 ABRIR EM PDF</A></div>' +
       '</div>';
   }
   box.innerHTML = html;
@@ -4017,7 +4017,7 @@ function _renderFeedHome(d2){
       '<span class="art-journal">' + _feedEscape(journal) + ' · ' + _feedEscape(date) + '</span>' +
       '<div class="art-title" style="margin-top:2px">' + _feedEscape(a.title) + '</div>' +
       '<div class="art-links" style="margin-top:9px">' +
-        '<a class="link-btn pub" href="' + url + '" target="_blank" rel="noopener">🔍 Abrir no PubMed</a>' +
+        '<a class="link-btn pub" href="' + url + '" target="_blank" rel="noopener">0001F4C4 ABRIR EM PDF</A>' +
         '<button class="link-btn ai btn-ai-summary">📊 Análise estatística</button>' +
       '</div></div>';
   }
