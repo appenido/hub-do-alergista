@@ -231,6 +231,12 @@ body{
 .art-journal{font-size:10px;color:var(--gray-300);font-weight:600;margin-left:auto;}
 .art-title{font-size:13.5px;font-weight:700;color:var(--navy);line-height:1.4;}
 .art-title-pt{font-size:12px;color:var(--gray-500);font-style:italic;line-height:1.35;}
+.art-src{display:flex;align-items:center;gap:7px;margin-bottom:6px;min-width:0;}
+.j-badge{flex-shrink:0;min-width:30px;height:22px;padding:0 6px;border-radius:6px;color:#fff;font-size:9.5px;font-weight:800;letter-spacing:.02em;display:flex;align-items:center;justify-content:center;}
+.j-nome{font-size:11px;font-weight:700;color:var(--teal-mid);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
+.j-data{font-size:10.5px;color:var(--gray-300);white-space:nowrap;flex-shrink:0;}
+.j-data:before{content:'· ';}
+.art-orig{margin-top:3px;font-size:11px;}
 .art-body{font-size:12.5px;color:var(--gray-500);line-height:1.6;}
 .art-why{font-size:12px;color:var(--navy);font-weight:700;line-height:1.5;}
 .art-footer{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
@@ -3227,23 +3233,21 @@ function doCalc(){
 
 function closeModal(){document.getElementById('overlay').classList.remove('open');}
 
-// Botão "Abrir em PDF": usa data-pdf do art-card, fallback Unpaywall
+// Botão "Abrir em PDF": abre o PDF direto; se ainda está localizando, espera e abre
 document.addEventListener('click', function(e){
   var btn = e.target.closest('a.link-btn.pub');
   if(!btn) return;
   var card = btn.closest('.art-card');
   if(!card) return;
-  var pdf = card.dataset.pdf;
-  var doi = card.dataset.doi;
-  if(pdf && !btn.href.endsWith('.pdf') && !btn.href.includes('/pdf')){
-    // href estático aponta para PubMed; redirecionar para PDF
+  if(card.dataset.resolvendo === '1' && card._pdfPromise){
     e.preventDefault();
-    window.open(pdf, '_blank', 'noopener');
-  } else if(!pdf && doi){
-    e.preventDefault();
-    window.open('https://unpaywall.org/' + doi, '_blank', 'noopener');
+    var w = window.open('about:blank', '_blank');
+    card._pdfPromise.then(function(u){ if(w){ try { w.opener = null; } catch(x){} w.location.href = u; } else { location.href = u; } });
+    return;
   }
-  // se href já for PDF/PMC direto, deixa o <a> agir normalmente
+  var pdf = card.dataset.pdf, doi = card.dataset.doi;
+  if(pdf && btn.href !== pdf){ e.preventDefault(); window.open(pdf, '_blank', 'noopener'); }
+  else if(!pdf && doi && /pubmed\.ncbi/.test(btn.href)){ e.preventDefault(); window.open('https://doi.org/' + doi, '_blank', 'noopener'); }
 });
 var _ov=document.getElementById('overlay');if(_ov)_ov.addEventListener('click',function(e){if(e.target===this)closeModal();});
 var _mc=document.getElementById('mCalc');if(_mc)_mc.addEventListener('click',doCalc);
@@ -3961,6 +3965,148 @@ function carregarFeed(tema){
   });
 }
 
+/* ══ Cards de artigos do PubMed: revista no topo, título traduzido, PDF direto ══ */
+var _MESES_PT = {Jan:'jan',Feb:'fev',Mar:'mar',Apr:'abr',May:'mai',Jun:'jun',Jul:'jul',Aug:'ago',Sep:'set',Oct:'out',Nov:'nov',Dec:'dez'};
+var _J_SIGLAS = {
+  'J Allergy Clin Immunol':'JACI', 'J Allergy Clin Immunol Pract':'JACI·P', 'Allergy':'ALL',
+  'Ann Allergy Asthma Immunol':'AAAI', 'Clin Exp Allergy':'CEA', 'Pediatr Allergy Immunol':'PAI',
+  'World Allergy Organ J':'WAO', 'N Engl J Med':'NEJM', 'Lancet':'LCT', 'JAMA':'JAMA'
+};
+var _J_CORES = ['#1a2e4a','#2a9fad','#b8860b','#1f6f8b','#3d5a80','#16808a'];
+
+function _jSigla(abrev, nome){
+  if(_J_SIGLAS[abrev]) return _J_SIGLAS[abrev];
+  var w = String(nome || abrev || '?').replace(/[^A-Za-z\s]/g,' ').split(/\s+/).filter(function(x){ return x && !/^(the|of|and|for|in|de|da|do)$/i.test(x); });
+  return (w.map(function(x){ return x[0]; }).join('').toUpperCase().slice(0,4)) || '?';
+}
+function _jCor(s){ var h = 0; s = String(s||''); for(var i=0;i<s.length;i++){ h = (h*31 + s.charCodeAt(i)) >>> 0; } return _J_CORES[h % _J_CORES.length]; }
+function _jNome(full, abrev){
+  if(!full) return abrev || '';
+  var peq = /^(of|and|the|in|for|on|de|da|do|e)$/i;
+  return full.split(' ').map(function(w, i){
+    if(i > 0 && peq.test(w)) return w.toLowerCase();
+    return w.charAt(0).toUpperCase() + w.slice(1);
+  }).join(' ').replace(/\s*:\s*.*$/, function(m){ return m.length > 40 ? '' : m; });
+}
+function _jData(pd){
+  var p = String(pd||'').split(' ');
+  return p.length > 1 && _MESES_PT[p[1]] ? (_MESES_PT[p[1]] + '/' + p[0]) : (p[0] || '');
+}
+
+/* monta um card; extras = HTML de botões adicionais */
+function _artCardHtml(uid, a, extras){
+  var doi = '', pmc = '';
+  (a.articleids || []).forEach(function(x){
+    if(x.idtype === 'doi') doi = x.value;
+    if(x.idtype === 'pmc') pmc = x.value;
+    if(x.idtype === 'pmcid' && /embargo-date:\s*(\d{4})\/(\d{2})\/(\d{2})/.test(x.value)){
+      var m = x.value.match(/embargo-date:\s*(\d{4})\/(\d{2})\/(\d{2})/);
+      if(new Date(+m[1], +m[2]-1, +m[3]) > new Date()) pmc = '';   // ainda sob embargo
+    }
+  });
+  var abrev = a.source || '', nome = _jNome(a.fulljournalname, abrev);
+  var sigla = _jSigla(abrev, a.fulljournalname);
+  var pubmed = 'https://pubmed.ncbi.nlm.nih.gov/' + uid + '/';
+  var titulo = String(a.title || '').replace(/\.$/, '');
+  return '<div class="art-card" data-feed="1" data-pmid="' + uid + '" data-doi="' + _feedEscape(doi) + '" data-pmc="' + _feedEscape(pmc) + '" data-ai-title="' + _feedEscape(titulo) + '" style="margin-bottom:10px">' +
+    '<div class="art-src"><span class="j-badge" style="background:' + _jCor(abrev) + '">' + _feedEscape(sigla) + '</span>' +
+      '<span class="j-nome">' + _feedEscape(nome) + '</span><span class="j-data">' + _feedEscape(_jData(a.pubdate)) + '</span></div>' +
+    '<div class="art-title">' + _feedEscape(titulo) + '</div>' +
+    '<div class="art-title-pt art-orig" style="display:none"></div>' +
+    '<div class="art-links" style="margin-top:9px">' +
+      '<a class="link-btn pub" href="' + (doi ? 'https://doi.org/' + _feedEscape(doi) : pubmed) + '" target="_blank" rel="noopener">⏳ Localizando PDF…</a>' +
+      (extras || '') +
+    '</div></div>';
+}
+
+function _artSetLink(card, url, tipo){
+  var b = card.querySelector('a.link-btn.pub');
+  if(!b) return;
+  b.href = url;
+  b.textContent = tipo === 'pdf' ? '📄 Abrir em PDF' : (tipo === 'oa' ? '📄 Texto completo grátis' : '🔒 Abrir na revista');
+  if(tipo === 'pdf') card.dataset.pdf = url; else delete card.dataset.pdf;
+  delete card.dataset.resolvendo;
+}
+
+/* Europe PMC: acha o PDF gratuito (PMC, repositórios e Unpaywall) pelo PMID */
+function _artResolverPdfs(cards){
+  if(!cards.length) return;
+  var fallback = function(c){
+    if(c.dataset.pmc) return { url:'https://pmc.ncbi.nlm.nih.gov/articles/' + c.dataset.pmc + '/pdf/', tipo:'pdf' };
+    return { url: c.dataset.doi ? 'https://doi.org/' + c.dataset.doi : 'https://pubmed.ncbi.nlm.nih.gov/' + c.dataset.pmid + '/', tipo:'none' };
+  };
+  var q = '(' + cards.map(function(c){ return 'EXT_ID:' + c.dataset.pmid; }).join(' OR ') + ') AND SRC:MED';
+  var url = 'https://www.ebi.ac.uk/europepmc/webservices/rest/search?resultType=core&format=json&pageSize=' + cards.length + '&query=' + encodeURIComponent(q);
+  var prom = fetch(url).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(d){
+    var mapa = {};
+    ((d.resultList && d.resultList.result) || []).forEach(function(x){
+      var lista = (x.fullTextUrlList && x.fullTextUrlList.fullTextUrl) || [];
+      var livres = lista.filter(function(f){ return f.availabilityCode === 'OA' || f.availabilityCode === 'F'; });
+      var pdfs = livres.filter(function(f){ return f.documentStyle === 'pdf'; });
+      pdfs.sort(function(a, b){ return (b.site === 'Europe_PMC') - (a.site === 'Europe_PMC'); });
+      var html = livres.filter(function(f){ return f.documentStyle === 'html'; });
+      if(pdfs.length) mapa[x.pmid] = { url:pdfs[0].url, tipo:'pdf' };
+      else if(html.length) mapa[x.pmid] = { url:html[0].url, tipo:'oa' };
+    });
+    return mapa;
+  }).catch(function(){ return {}; });
+
+  cards.forEach(function(c){
+    c.dataset.resolvendo = '1';
+    c._pdfPromise = prom.then(function(mapa){
+      var r = mapa[c.dataset.pmid];
+      if(!r || (r.tipo !== 'pdf' && c.dataset.pmc)) r = fallback(c);
+      _artSetLink(c, r.url, r.tipo);
+      return r.url;
+    });
+  });
+}
+
+/* tradução do título (Google → MyMemory), com cache no aparelho */
+var _TR_KEY = 'hub_trad_titulos';
+function _trCache(){ try { return JSON.parse(localStorage.getItem(_TR_KEY) || '{}'); } catch(e){ return {}; } }
+function _trGuardar(orig, pt){
+  try {
+    var c = _trCache(), k = Object.keys(c);
+    if(k.length > 300) k.slice(0, 100).forEach(function(x){ delete c[x]; });
+    c[orig] = pt; localStorage.setItem(_TR_KEY, JSON.stringify(c));
+  } catch(e){}
+}
+function _traduzir(txt){
+  var c = _trCache();
+  if(c[txt]) return Promise.resolve(c[txt]);
+  var g = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=pt&dt=t&q=' + encodeURIComponent(txt);
+  return fetch(g).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(d){
+    var s = (d && d[0] || []).map(function(p){ return p[0]; }).join('');
+    if(!s) throw 0; return s;
+  }).catch(function(){
+    var m = 'https://api.mymemory.translated.net/get?langpair=en|pt-BR&q=' + encodeURIComponent(txt);
+    return fetch(m).then(function(r){ return r.json(); }).then(function(d){
+      var s = d && d.responseData && d.responseData.translatedText;
+      if(!s || /MYMEMORY WARNING|QUERY LENGTH/i.test(s) || d.responseStatus !== 200) throw 0;
+      return s;
+    });
+  }).then(function(s){ _trGuardar(txt, s); return s; });
+}
+function _artTraduzirTitulos(cards){
+  cards.forEach(function(c){
+    var orig = c.getAttribute('data-ai-title');
+    if(!orig) return;
+    _traduzir(orig).then(function(pt){
+      if(!pt || pt.toLowerCase() === orig.toLowerCase()) return;
+      c.querySelector('.art-title').textContent = pt;
+      var o = c.querySelector('.art-orig');
+      o.textContent = orig; o.style.display = 'block';
+    }).catch(function(){});
+  });
+}
+
+function _artEnriquecer(box){
+  var cards = Array.prototype.slice.call(box.querySelectorAll('.art-card[data-feed]'));
+  _artResolverPdfs(cards);
+  _artTraduzirTitulos(cards);
+}
+
 function renderFeed(d2, box){
   var res = d2 ? d2.result : null;
   if(!res || !res.uids){
@@ -3969,28 +4115,17 @@ function renderFeed(d2, box){
   }
   var html = '';
   for(var u=0;u<res.uids.length;u++){
-    var uid = res.uids[u];
-    var a = res[uid];
+    var uid = res.uids[u], a = res[uid];
     if(!a) continue;
-    var authors = '';
+    var autores = '';
     if(a.authors && a.authors.length){
-      var names = [];
-      for(var n=0;n<a.authors.length && n<3;n++){ names.push(a.authors[n].name); }
-      authors = names.join(', ') + (a.authors.length>3 ? ' et al.' : '');
+      autores = a.authors.slice(0,3).map(function(x){ return x.name; }).join(', ') + (a.authors.length > 3 ? ' et al.' : '');
     }
-    var journal = a.source || a.fulljournalname || '';
-    var date = a.pubdate || '';
-    var url = 'https://pubmed.ncbi.nlm.nih.gov/' + uid + '/';
-    var doi = '';
-    if(a.elocationid && a.elocationid.indexOf('doi') > -1){ doi = a.elocationid; }
-    html += '<div class="art-card" style="margin-bottom:10px">' +
-      '<span class="art-journal">' + _feedEscape(journal) + ' · ' + _feedEscape(date) + '</span>' +
-      '<div class="art-title" style="margin-top:2px">' + _feedEscape(a.title) + '</div>' +
-      (authors ? '<div style="font-size:11px;color:var(--gray-500);margin-top:5px">' + _feedEscape(authors) + '</div>' : '') +
-      '<div class="art-links" style="margin-top:9px"><a class="link-btn pub" href="' + url + '" target="_blank" rel="noopener">0001F4C4 ABRIR EM PDF</A></div>' +
-      '</div>';
+    html += _artCardHtml(uid, a, '<button class="link-btn ai btn-ai-summary">📊 Análise estatística</button>')
+      .replace('<div class="art-links"', (autores ? '<div style="font-size:11px;color:var(--gray-500);margin-top:5px">' + _feedEscape(autores) + '</div>' : '') + '<div class="art-links"');
   }
   box.innerHTML = html;
+  _artEnriquecer(box);
 }
 
 /* ══ HOME: artigos recentes automáticos do PubMed (com fallback estático) ══ */
@@ -4015,7 +4150,7 @@ function carregarFeedHome(){
     var esum = base + 'esummary.fcgi?db=pubmed&retmode=json&tool=HubClinico&id=' + ids.join(',');
     return fetch(esum).then(function(r2){ return r2.json(); }).then(function(d2){
       var html = _renderFeedHome(d2);
-      if(html){ box.innerHTML = html; _homeFeedLoaded = true; }
+      if(html){ box.innerHTML = html; _homeFeedLoaded = true; _artEnriquecer(box); }
     });
   }).catch(function(){
     box.innerHTML = fallback;           // erro/sem internet → volta os estáticos
@@ -4028,19 +4163,9 @@ function _renderFeedHome(d2){
   if(!res || !res.uids || !res.uids.length) return '';
   var html = '';
   for(var u=0; u<res.uids.length; u++){
-    var uid = res.uids[u];
-    var a = res[uid];
+    var uid = res.uids[u], a = res[uid];
     if(!a) continue;
-    var journal = a.source || a.fulljournalname || '';
-    var date = a.pubdate || '';
-    var url = 'https://pubmed.ncbi.nlm.nih.gov/' + uid + '/';
-    html += '<div class="art-card" data-oa="true" data-ai-title="' + _feedEscape(a.title) + '" style="margin-bottom:10px">' +
-      '<span class="art-journal">' + _feedEscape(journal) + ' · ' + _feedEscape(date) + '</span>' +
-      '<div class="art-title" style="margin-top:2px">' + _feedEscape(a.title) + '</div>' +
-      '<div class="art-links" style="margin-top:9px">' +
-        '<a class="link-btn pub" href="' + url + '" target="_blank" rel="noopener">0001F4C4 ABRIR EM PDF</A>' +
-        '<button class="link-btn ai btn-ai-summary">📊 Análise estatística</button>' +
-      '</div></div>';
+    html += _artCardHtml(uid, a, '<button class="link-btn ai btn-ai-summary">📊 Análise estatística</button>');
   }
   return html;
 }
