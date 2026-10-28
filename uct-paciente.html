@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>UCT — Teste de Controle da Urticária</title>
+<style>
+  :root {
+    --navy:#1a2e4a; --teal:#3bbfcc; --teal-mid:#2a9fad; --aqua:#5ce0ec;
+    --gold:#d4a017; --red:#c0392b; --green:#27ae60;
+    --bg:#f0f4f8; --card:#fff; --gray:#64748b; --light:#e2e8f0;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+         background:var(--bg); min-height:100vh; padding:0 0 40px; }
+
+  /* Header */
+  .header { background:linear-gradient(135deg,var(--navy),#2a4a6e);
+             padding:24px 20px 20px; text-align:center; color:#fff; }
+  .header-logo { font-size:28px; margin-bottom:6px; }
+  .header h1 { font-size:19px; font-weight:800; letter-spacing:-.3px; }
+  .header p { font-size:12px; opacity:.75; margin-top:4px; }
+
+  /* Card */
+  .card { background:var(--card); border-radius:16px; margin:16px 16px 0;
+          padding:18px; box-shadow:0 2px 12px rgba(0,0,0,.08); }
+
+  /* Intro */
+  .intro-text { font-size:13px; color:var(--gray); line-height:1.6; }
+  .intro-text strong { color:var(--navy); }
+
+  /* Paciente fields */
+  .field-label { font-size:11px; font-weight:700; color:var(--gray);
+                 text-transform:uppercase; letter-spacing:.08em; margin-bottom:5px; }
+  input[type=text] { width:100%; border:1.5px solid var(--light); border-radius:10px;
+                     padding:10px 12px; font-size:14px; color:var(--navy);
+                     outline:none; transition:border .2s; }
+  input[type=text]:focus { border-color:var(--teal); }
+
+  /* Pergunta */
+  .q-block { margin-top:0; }
+  .q-num { font-size:10px; font-weight:700; color:var(--teal-mid);
+           text-transform:uppercase; letter-spacing:.1em; margin-bottom:4px; }
+  .q-text { font-size:14px; font-weight:700; color:var(--navy); line-height:1.5;
+             margin-bottom:12px; }
+  .q-options { display:flex; flex-direction:column; gap:7px; }
+  .q-opt { display:flex; align-items:flex-start; gap:10px; padding:10px 12px;
+            border:1.5px solid var(--light); border-radius:10px; cursor:pointer;
+            transition:all .15s; background:#fff; }
+  .q-opt.sel { border-color:var(--teal); background:rgba(59,191,204,.07); }
+  .q-opt input { display:none; }
+  .q-dot { width:18px; height:18px; border-radius:50%; border:2px solid var(--light);
+            flex-shrink:0; margin-top:1px; transition:all .15s; display:flex;
+            align-items:center; justify-content:center; }
+  .q-opt.sel .q-dot { border-color:var(--teal); background:var(--teal); }
+  .q-dot::after { content:''; width:7px; height:7px; border-radius:50%;
+                  background:#fff; display:none; }
+  .q-opt.sel .q-dot::after { display:block; }
+  .q-opt-text { font-size:13px; color:var(--navy); line-height:1.4; }
+  .q-score-label { font-size:10px; color:var(--gray); margin-top:2px; }
+
+  /* Divider */
+  .divider { height:1px; background:var(--light); margin:16px 0; }
+
+  /* Btn */
+  .btn-enviar { width:100%; padding:15px; border:none; border-radius:12px;
+                background:linear-gradient(135deg,var(--teal-mid),var(--teal));
+                color:#fff; font-size:15px; font-weight:800; cursor:pointer;
+                letter-spacing:-.2px; transition:opacity .2s; }
+  .btn-enviar:disabled { opacity:.4; cursor:not-allowed; }
+  .btn-enviar:not(:disabled):active { opacity:.85; }
+
+  /* Resultado */
+  #resultado { display:none; }
+  .result-score { font-size:52px; font-weight:900; text-align:center;
+                  letter-spacing:-2px; margin:8px 0 4px; }
+  .result-label { font-size:14px; font-weight:700; text-align:center; padding:6px 16px;
+                  border-radius:20px; display:inline-block; }
+  .result-center { text-align:center; }
+  .result-interp { font-size:13px; color:var(--gray); line-height:1.6;
+                   margin-top:12px; text-align:center; }
+  .result-ok { font-size:36px; margin-bottom:8px; display:block; text-align:center; }
+  .sent-msg { font-size:14px; color:var(--green); font-weight:700;
+              text-align:center; margin-top:10px; }
+
+  /* Footer */
+  .footer { text-align:center; font-size:11px; color:var(--gray); margin-top:20px;
+            padding:0 20px; line-height:1.6; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">🎯</div>
+  <h1>UCT — Controle da Urticária</h1>
+  <p>Responda as perguntas abaixo e envie ao seu médico</p>
+</div>
+
+<!-- Formulário -->
+<div id="formulario">
+
+  <div class="card">
+    <div class="intro-text">
+      <strong>Olá!</strong> Seu médico pediu que você responda este questionário sobre como a urticária tem afetado sua vida nas <strong>últimas 4 semanas</strong>.<br><br>
+      Responda com calma — não há respostas certas ou erradas.
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <div class="field-label">Seu nome</div>
+    <input type="text" id="nome" placeholder="Nome completo" autocomplete="name">
+  </div>
+
+  <!-- Perguntas -->
+  <form id="uct-form">
+
+    <!-- Q1 -->
+    <div class="card" style="margin-top:12px">
+      <div class="q-block">
+        <div class="q-num">Pergunta 1 de 4</div>
+        <div class="q-text">Nas últimas 4 semanas, quanto a urticária crônica (erupções/angioedema) afetou sua qualidade de vida?</div>
+        <div class="q-options" data-q="q1">
+          <label class="q-opt"><input type="radio" name="q1" value="0"><div class="q-dot"></div><div><div class="q-opt-text">Muito — a urticária dominou minha vida</div><div class="q-score-label">0 pontos</div></div></label>
+          <label class="q-opt"><input type="radio" name="q1" value="1"><div class="q-dot"></div><div><div class="q-opt-text">Bastante</div><div class="q-score-label">1 ponto</div></div></label>
+          <label class="q-opt"><input type="radio" name="q1" value="2"><div class="q-dot"></div><div><div class="q-opt-text">Moderadamente</div><div class="q-score-label">2 pontos</div></div></label>
+          <label class="q-opt"><input type="radio" name="q1" value="3"><div class="q-dot"></div><div><div class="q-opt-text">Um pouco</div><div class="q-score-label">3 pontos</div></div></label>
+          <label class="q-opt"><input type="radio" name="q1" value="4"><div class="q-dot"></div><div><div class="q-opt-text">Nada — não afetou minha vida</div><div class="q-score-label">4 pontos</div></div></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="card" style="margin-top:12px">
+      <div class="q-block">
+        <div class="q-num">Pergunta 2 de 4</div>
+        <div class="q-text">Nas últimas 4 semanas, com que frequência seus sintomas de urticária crônica foram tão graves que você não conseguia suportar?</div>
+        <div class="q-options" data-q="q2">
+          <label class="q-opt"><input type="radio" name="q2" value="0"><div class="q-dot"></div><div><div class="q-opt-text">Com muita frequência — praticamente todos os dias</div><div class="q-score-label">0 pontos</div></div></label>
+          <label class="q-opt"><input type="radio" name="q2" value="1"><div class="q-dot"></div><div><div class="q-opt-text">Frequentemente — mais de dois dias por semana</div><div class="q-score-label">1 ponto</div></div></label>
+          <label class="q-opt"><input type="radio" name="q2" value="2"><div class="q-dot"></div><div><div class="q-opt-text">Às vezes — até dois dias por semana</div><div class="q-score-label">2 pontos</div></div></label>
+          <label class="q-opt"><input type="radio" name="q2" value="3"><div class="q-dot"></div><div><div class="q-opt-text">Raramente — em um ou dois dias no total</div><div class="q-score-label">3 pontos</div></div></label>
+          <label class="q-opt"><input type="radio" name="q2" value="4"><div class="q-dot"></div><div><div class="q-opt-text">Nunca</div><div class="q-score-label">4 pontos</div></div></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="card" style="margin-top:12px">
+      <div class="q-block">
+        <div class="q-num">Pergunta 3 de 4</div>
+        <div class="q-text">Nas últimas 4 semanas, com que frequência você sofreu de urticária crônica (erupções/angioedema)?</div>
+        <div class="q-options" data-q="q3">
+          <label class="q-opt"><input type="radio" name="q3" value="0"><div class="q-dot"></div><div><div class="q-opt-text">Muito frequentemente — praticamente todos os dias</div><div class="q-score-label">0 pontos</div></div></label>
+          <label class="q-opt"><input type="radio" name="q3" value="1"><div class="q-dot"></div><div><div class="q-opt-text">Frequentemente — mais de dois dias por semana</div><div class="q-score-label">1 ponto</div></div></label>
+          <label class="q-opt"><input type="radio" name="q3" value="2"><div class="q-dot"></div><div><div class="q-opt-text">Às vezes — até dois dias por semana</div><div class="q-score-label">2 pontos</div></div></label>
+          <label class="q-opt"><input type="radio" name="q3" value="3"><div class="q-dot"></div><div><div class="q-opt-text">Raramente — em um ou dois dias no total</div><div class="q-score-label">3 pontos</div></div></label>
+          <label class="q-opt"><input type="radio" name="q3" value="4"><div class="q-dot"></div><div><div class="q-opt-text">Nunca</div><div class="q-score-label">4 pontos</div></div></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="card" style="margin-top:12px">
+      <div class="q-block">
+        <div class="q-num">Pergunta 4 de 4</div>
+        <div class="q-text">Nas últimas 4 semanas, como foi o controle da sua urticária crônica com o tratamento?</div>
+        <div class="q-options" data-q="q4">
+          <label class="q-opt"><input type="radio" name="q4" value="0"><div class="q-dot"></div><div><div class="q-opt-text">Nenhum controle</div><div class="q-score-label">0 pontos</div></div></label>
+          <label class="q-opt"><input type="radio" name="q4" value="1"><div class="q-dot"></div><div><div class="q-opt-text">Muito pouco controle</div><div class="q-score-label">1 ponto</div></div></label>
+          <label class="q-opt"><input type="radio" name="q4" value="2"><div class="q-dot"></div><div><div class="q-opt-text">Algum controle</div><div class="q-score-label">2 pontos</div></div></label>
+          <label class="q-opt"><input type="radio" name="q4" value="3"><div class="q-dot"></div><div><div class="q-opt-text">Bom controle</div><div class="q-score-label">3 pontos</div></div></label>
+          <label class="q-opt"><input type="radio" name="q4" value="4"><div class="q-dot"></div><div><div class="q-opt-text">Controle total</div><div class="q-score-label">4 pontos</div></div></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <button type="button" class="btn-enviar" id="btn-enviar" disabled>Enviar para o médico →</button>
+    </div>
+
+  </form>
+</div>
+
+<!-- Resultado -->
+<div id="resultado">
+  <div class="card" style="margin-top:16px">
+    <span class="result-ok">✅</span>
+    <div class="result-center">
+      <div class="result-score" id="res-score" style="color:var(--teal-mid)">—</div>
+      <div><span class="result-label" id="res-label">—</span></div>
+      <div class="result-interp" id="res-interp"></div>
+    </div>
+    <div class="divider"></div>
+    <div class="sent-msg">✔ Resultado enviado ao consultório</div>
+  </div>
+</div>
+
+<div class="footer">
+  Este questionário é de uso clínico.<br>
+  Desenvolvido para o consultório do Dr. Antônio Penido · Alergologia e Imunologia
+</div>
+
+<script>
+const SUPABASE_URL = 'https://jpdtqtenlivxgjkyizcg.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwZHRxdGVubGl2eGdqa3lpemNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5MTg3NTMsImV4cCI6MjEwNjQ5NDc1M30.OCSGTv1HD6CLCbPVAgZwplkFMLGS0JuiT1XMRESYkWI';
+
+// Pega sessao_id da URL (?s=xxx)
+const params = new URLSearchParams(location.search);
+const sessaoId = params.get('s') || 'avulso-' + Date.now();
+
+// Highlight opções
+document.querySelectorAll('.q-options').forEach(group => {
+  group.querySelectorAll('.q-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      group.querySelectorAll('.q-opt').forEach(o => o.classList.remove('sel'));
+      opt.classList.add('sel');
+      opt.querySelector('input').checked = true;
+      checkReady();
+    });
+  });
+});
+
+function checkReady() {
+  const answered = ['q1','q2','q3','q4'].every(q => document.querySelector(`input[name="${q}"]:checked`));
+  document.getElementById('btn-enviar').disabled = !answered;
+}
+
+function getScore() {
+  return ['q1','q2','q3','q4'].reduce((sum, q) => {
+    const el = document.querySelector(`input[name="${q}"]:checked`);
+    return sum + (el ? parseInt(el.value) : 0);
+  }, 0);
+}
+
+function interpretacao(score) {
+  if (score <= 11) return { label:'Não controlada', color:'var(--red)',
+    text:'Sua urticária não está controlada. O médico vai revisar seu tratamento.' };
+  if (score <= 15) return { label:'Parcialmente controlada', color:'var(--gold)',
+    text:'Há algum controle, mas ainda há sintomas. O médico pode precisar ajustar o tratamento.' };
+  return { label:'Bem controlada', color:'var(--green)',
+    text:'Sua urticária está bem controlada. Continue o tratamento atual.' };
+}
+
+document.getElementById('btn-enviar').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-enviar');
+  btn.disabled = true;
+  btn.textContent = 'Enviando…';
+
+  const vals = {};
+  ['q1','q2','q3','q4'].forEach(q => {
+    vals[q] = parseInt(document.querySelector(`input[name="${q}"]:checked`).value);
+  });
+
+  const nome = document.getElementById('nome').value.trim() || 'Paciente';
+
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/uct_results`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ ...vals, paciente_nome: nome, sessao_id: sessaoId, medico_id: 'dr-antonio' })
+    });
+  } catch(e) { /* silencioso — resultado já calculado */ }
+
+  // Mostra resultado
+  const score = getScore();
+  const interp = interpretacao(score);
+  document.getElementById('res-score').textContent = score + '/16';
+  document.getElementById('res-score').style.color = interp.color;
+  const lbl = document.getElementById('res-label');
+  lbl.textContent = interp.label;
+  lbl.style.background = interp.color + '22';
+  lbl.style.color = interp.color;
+  document.getElementById('res-interp').textContent = interp.text;
+
+  document.getElementById('formulario').style.display = 'none';
+  document.getElementById('resultado').style.display = 'block';
+  window.scrollTo(0, 0);
+});
+</script>
+</body>
+</html>
