@@ -97,45 +97,6 @@ body{
 .scroll-area{
   padding-bottom:24px;
 }
-.act-wrap{animation:actIn .35s ease both;}
-@keyframes actIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.act-tabs{display:flex;gap:6px;background:var(--gray-50,#f4f7fa);padding:4px;border-radius:12px;margin-bottom:14px;}
-.act-tab{flex:1;border:none;background:transparent;border-radius:9px;padding:8px 6px;font-size:12px;font-weight:700;color:var(--gray-500,#64748b);cursor:pointer;}
-.act-tab.on{background:#fff;color:var(--navy,#1a2e4a);box-shadow:0 2px 8px rgba(13,31,45,.08);}
-.act-top{display:flex;justify-content:space-between;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--teal-mid,#2a9fad);margin-bottom:8px;}
-.act-prog{height:6px;border-radius:6px;background:var(--gray-100,#eef2f6);overflow:hidden;margin-bottom:16px;}
-.act-prog-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,#2a9fad,#5ce0ec);transition:width .45s ease;}
-.act-q{font-size:16px;font-weight:800;line-height:1.4;color:var(--navy,#1a2e4a);margin-bottom:14px;}
-.act-opts{display:flex;flex-direction:column;gap:8px;}
-.act-opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px 14px;border:1.5px solid var(--gray-100,#e2e8f0);border-radius:13px;background:#fff;cursor:pointer;transition:transform .15s,border-color .15s,background .15s,box-shadow .15s;}
-.act-opt:hover{border-color:#5ce0ec;box-shadow:0 4px 14px rgba(42,159,173,.12);transform:translateY(-1px);}
-.act-opt.sel{border-color:#2a9fad;background:linear-gradient(135deg,rgba(42,159,173,.10),rgba(92,224,236,.10));}
-.act-dot{width:18px;height:18px;border-radius:50%;border:2px solid #cbd5e1;flex-shrink:0;transition:all .2s;}
-.act-opt.sel .act-dot{border-color:#2a9fad;background:radial-gradient(circle,#2a9fad 45%,transparent 50%);}
-.act-lbl{font-size:14px;color:var(--navy,#1a2e4a);line-height:1.35;}
-.act-nav{margin-top:16px;display:flex;justify-content:space-between;align-items:center;min-height:40px;}
-.act-btn{border:none;border-radius:11px;padding:11px 18px;font-size:13.5px;font-weight:800;color:#fff;background:linear-gradient(135deg,#2a9fad,#3bbfcc);cursor:pointer;box-shadow:0 6px 16px rgba(42,159,173,.28);}
-.act-btn.sec{background:#fff;color:#2a9fad;border:1.5px solid rgba(42,159,173,.4);box-shadow:none;}
-.act-res{text-align:center;}
-.act-ring{position:relative;width:170px;height:170px;margin:6px auto 4px;}
-.act-ring svg{width:100%;height:100%;transform:rotate(-90deg);}
-.act-trilho{fill:none;stroke:#eef2f6;stroke-width:10;}
-.act-arco{fill:none;stroke:var(--cor,#2a9fad);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.1s cubic-bezier(.2,.8,.2,1);}
-.act-num{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.act-num b{font-size:42px;font-weight:900;letter-spacing:-1px;color:var(--navy,#1a2e4a);line-height:1;}
-.act-num span{font-size:12px;color:var(--gray-500,#64748b);margin-top:4px;}
-.act-faixa{display:inline-block;margin-top:6px;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:800;color:#fff;background:var(--cor,#2a9fad);}
-.act-msg{font-size:14px;line-height:1.55;color:var(--navy,#1a2e4a);margin:14px auto 0;max-width:320px;}
-.act-aviso{font-size:11px;line-height:1.5;color:var(--gray-500,#64748b);margin-top:14px;padding:10px 12px;background:var(--gray-50,#f4f7fa);border-radius:10px;}
-@media (prefers-reduced-motion: reduce){.act-wrap,.act-arco,.act-prog-fill{animation:none!important;transition:none!important;}}
-.sc-reg{margin:10px 0;}.sc-reg-top{display:flex;justify-content:space-between;font-size:13.5px;font-weight:700;color:var(--navy,#1a2e4a);margin-bottom:4px;}.sc-reg-top small{color:var(--gray-500,#64748b);font-weight:400;}.sc-reg-top b{color:#2a9fad;}
-.sc-reg input,.sc-slider input{width:100%;accent-color:#2a9fad;}
-.sc-total{margin-top:14px;padding:12px;border-radius:12px;background:linear-gradient(135deg,rgba(42,159,173,.10),rgba(92,224,236,.10));font-size:14px;color:var(--navy,#1a2e4a);text-align:center;}.sc-total b{font-size:18px;color:#2a9fad;}
-.sc-slider{text-align:center;padding:10px 0;}.sc-nota{font-size:56px;font-weight:900;color:#2a9fad;line-height:1;margin-bottom:12px;}.sc-escala{display:flex;justify-content:space-between;font-size:11px;color:var(--gray-500,#64748b);margin-top:6px;}
-.sc-quebra{display:flex;gap:8px;margin-top:14px;}.sc-quebra div{flex:1;background:var(--gray-50,#f4f7fa);border-radius:12px;padding:10px 6px;display:flex;flex-direction:column;gap:4px;}.sc-quebra span{font-size:10.5px;color:var(--gray-500,#64748b);}.sc-quebra b{font-size:15px;color:var(--navy,#1a2e4a);}
-.fb-back{position:fixed;left:14px;bottom:calc(var(--bottomnav-h,64px) + 14px);z-index:120;display:none;align-items:center;gap:6px;border:none;border-radius:999px;padding:11px 18px 11px 14px;background:linear-gradient(135deg,var(--navy,#1a2e4a),var(--teal-mid,#2a9fad));color:#fff;font-size:14px;font-weight:800;box-shadow:0 6px 18px rgba(13,31,45,.3);cursor:pointer;-webkit-tap-highlight-color:transparent;}
-.fb-back.show{display:flex;}
-.fb-back:active{transform:scale(.96);}
 .page{display:none;}
 .page.active{display:block;}
 
@@ -270,14 +231,6 @@ body{
 .art-journal{font-size:10px;color:var(--gray-300);font-weight:600;margin-left:auto;}
 .art-title{font-size:13.5px;font-weight:700;color:var(--navy);line-height:1.4;}
 .art-title-pt{font-size:12px;color:var(--gray-500);font-style:italic;line-height:1.35;}
-.art-src{display:flex;align-items:center;gap:7px;margin-bottom:6px;min-width:0;}
-.j-badge{flex-shrink:0;min-width:30px;height:22px;padding:0 6px;border-radius:6px;color:#fff;font-size:9.5px;font-weight:800;letter-spacing:.02em;display:flex;align-items:center;justify-content:center;}
-.j-ico{background:#fff;border:1px solid var(--gray-100);min-width:24px;width:24px;height:24px;padding:0;}
-.j-ico img{width:18px;height:18px;border-radius:3px;display:block;}
-.j-nome{font-size:11px;font-weight:700;color:var(--teal-mid);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;}
-.j-data{font-size:10.5px;color:var(--gray-300);white-space:nowrap;flex-shrink:0;}
-.j-data:before{content:'· ';}
-.art-orig{margin-top:3px;font-size:11px;}
 .art-body{font-size:12.5px;color:var(--gray-500);line-height:1.6;}
 .art-why{font-size:12px;color:var(--navy);font-weight:700;line-height:1.5;}
 .art-footer{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
@@ -293,13 +246,13 @@ body{
   -webkit-overflow-scrolling:touch;scrollbar-width:none;
 }
 .filter-chips::-webkit-scrollbar{height:0;}
-.fchip,.hchip{
+.fchip{
   flex-shrink:0;font-size:11px;font-weight:700;
   padding:6px 13px;border-radius:20px;
   background:#fff;border:1.5px solid var(--gray-100);color:var(--gray-500);
   cursor:pointer;-webkit-tap-highlight-color:transparent;transition:all .15s;
 }
-.fchip.on,.hchip.on{background:var(--teal-mid);color:#fff;border-color:var(--teal-mid);}
+.fchip.on{background:var(--teal-mid);color:#fff;border-color:var(--teal-mid);}
 
 /* ── GUIDE CARD ── */
 .guide-card{
@@ -755,7 +708,6 @@ body{
     </div>
 
     <div class="sec-hdr" style="margin-top:8px"><h2>Artigos Recentes</h2><span class="see-all" data-nav="artigos">Ver todos</span></div>
-    <div class="filter-chips" id="homeChips" style="padding:0 0 10px"></div>
     <div class="gap-list" id="homeArtigos">
       <div class="art-card" data-topic="eoe" data-oa="true" data-ai-title="Dupilumab for eosinophilic gastritis: the DEGAS randomized phase 2 trial">
         <span class="art-journal">Lancet G&H · jun/2026</span>
@@ -764,7 +716,7 @@ body{
         <div class="art-title-pt">Dupilumabe na gastrite eosinofílica: ensaio fase 2 DEGAS</div>
         <div class="art-body">Estudo CEGIR (11 centros): dupilumabe reduziu significativamente eosinófilos gástricos e sintomas na gastrite eosinofílica (EoG), doença alérgica rara do estômago. Amplia o uso do anti-IL4/13 além da EoE.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · fase II</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Dupilumab%20for%20eosinophilic%20gastritis%3A%20the%20DEGAS%20randomized%20phase%202%20trial" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Dupilumab%20for%20eosinophilic%20gastritis%3A%20the%20DEGAS%20randomized%20phase%202%20trial" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="asma" data-oa="true" data-ai-title="One-year clinical remission with tezepelumab in severe asthma: TERESA single-arm prospective study">
         <span class="art-journal">JACI · mai/2026</span>
@@ -773,7 +725,7 @@ body{
         <div class="art-title-pt">Remissão clínica em 1 ano com tezepelumabe na asma grave (TERESA)</div>
         <div class="art-body">Estudo fase 4 prospectivo: ~1/3 dos pacientes atingiu remissão clínica em 52 semanas. Bem maior em virgens de biológico (47% vs 20%); eosinófilos ≥300 e ausência de biológico prévio previram resposta.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · fase IV</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=One-year%20clinical%20remission%20with%20tezepelumab%20in%20severe%20asthma%3A%20TERESA%20single-arm%20prospective%20study" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=One-year%20clinical%20remission%20with%20tezepelumab%20in%20severe%20asthma%3A%20TERESA%20single-arm%20prospective%20study" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="da" data-oa="true" data-ai-title="Efficacy and Safety of Nemolizumab at Week 48: ARCADIA 1 and 2 maintenance in moderate-to-severe atopic dermatitis">
         <span class="art-journal">Acta DV · abr/2026</span>
@@ -782,7 +734,7 @@ body{
         <div class="art-title-pt">Nemolizumabe (anti-IL-31) em 48 semanas: manutenção ARCADIA 1 e 2</div>
         <div class="art-body">Anti-IL-31 (nemolizumabe) com corticoide tópico manteve melhora de lesões, prurido e sono até a semana 48 na DA moderada a grave. Reforça o alvo do prurido como opção de manutenção.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · fase III</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Efficacy%20and%20Safety%20of%20Nemolizumab%20at%20Week%2048%3A%20ARCADIA%201%20and%202%20maintenance%20in%20moderate-to-severe%20atopic%20dermatitis" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Efficacy%20and%20Safety%20of%20Nemolizumab%20at%20Week%2048%3A%20ARCADIA%201%20and%202%20maintenance%20in%20moderate-to-severe%20atopic%20dermatitis" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="asma" data-oa="true" data-ai-title="Biologics in the treatment of severe asthma in children and adults: updates 2024-2025">
         <span class="art-journal">JACI · jan/2026</span>
@@ -791,7 +743,7 @@ body{
         <div class="art-title-pt">Biológicos na asma grave em crianças e adultos: atualizações 2024-2025</div>
         <div class="art-body">Revisão com as evidências mais recentes: remissão clínica com dupilumabe (QUEST/TRAVERSE, 37% vs 22%) e tezepelumabe, efeito prolongado pós-suspensão (DESTINATION) e biomarcadores preditivos de resposta.</div>
         <div class="art-footer"><span class="ev-badge">NE 1a · revisão 2026</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Biologics%20in%20the%20treatment%20of%20severe%20asthma%20in%20children%20and%20adults%3A%20updates%202024-2025" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Biologics%20in%20the%20treatment%20of%20severe%20asthma%20in%20children%20and%20adults%3A%20updates%202024-2025" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
     </div>
 
@@ -862,7 +814,7 @@ body{
         <div class="art-title-pt">Dupilumabe na gastrite eosinofílica: ensaio fase 2 DEGAS</div>
         <div class="art-body">Estudo CEGIR (11 centros): dupilumabe reduziu significativamente eosinófilos gástricos e sintomas na gastrite eosinofílica (EoG), doença alérgica rara do estômago. Amplia o uso do anti-IL4/13 além da EoE.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · fase II</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Dupilumab%20for%20eosinophilic%20gastritis%3A%20the%20DEGAS%20randomized%20phase%202%20trial" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Dupilumab%20for%20eosinophilic%20gastritis%3A%20the%20DEGAS%20randomized%20phase%202%20trial" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="asma" data-oa="true" data-ai-title="One-year clinical remission with tezepelumab in severe asthma: TERESA single-arm prospective study">
         <span class="art-journal">JACI · mai/2026</span>
@@ -871,7 +823,7 @@ body{
         <div class="art-title-pt">Remissão clínica em 1 ano com tezepelumabe na asma grave (TERESA)</div>
         <div class="art-body">Estudo fase 4 prospectivo: ~1/3 dos pacientes atingiu remissão clínica em 52 semanas. Bem maior em virgens de biológico (47% vs 20%); eosinófilos ≥300 e ausência de biológico prévio previram resposta.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · fase IV</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=One-year%20clinical%20remission%20with%20tezepelumab%20in%20severe%20asthma%3A%20TERESA%20single-arm%20prospective%20study" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=One-year%20clinical%20remission%20with%20tezepelumab%20in%20severe%20asthma%3A%20TERESA%20single-arm%20prospective%20study" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="da" data-oa="true" data-ai-title="Efficacy and Safety of Nemolizumab at Week 48: ARCADIA 1 and 2 maintenance in moderate-to-severe atopic dermatitis">
         <span class="art-journal">Acta DV · abr/2026</span>
@@ -880,7 +832,7 @@ body{
         <div class="art-title-pt">Nemolizumabe (anti-IL-31) em 48 semanas: manutenção ARCADIA 1 e 2</div>
         <div class="art-body">Anti-IL-31 (nemolizumabe) com corticoide tópico manteve melhora de lesões, prurido e sono até a semana 48 na DA moderada a grave. Reforça o alvo do prurido como opção de manutenção.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · fase III</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Efficacy%20and%20Safety%20of%20Nemolizumab%20at%20Week%2048%3A%20ARCADIA%201%20and%202%20maintenance%20in%20moderate-to-severe%20atopic%20dermatitis" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Efficacy%20and%20Safety%20of%20Nemolizumab%20at%20Week%2048%3A%20ARCADIA%201%20and%202%20maintenance%20in%20moderate-to-severe%20atopic%20dermatitis" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="asma" data-oa="true" data-ai-title="Biologics in the treatment of severe asthma in children and adults: updates 2024-2025">
         <span class="art-journal">JACI · jan/2026</span>
@@ -889,7 +841,7 @@ body{
         <div class="art-title-pt">Biológicos na asma grave em crianças e adultos: atualizações 2024-2025</div>
         <div class="art-body">Revisão com as evidências mais recentes: remissão clínica com dupilumabe (QUEST/TRAVERSE, 37% vs 22%) e tezepelumabe, efeito prolongado pós-suspensão (DESTINATION) e biomarcadores preditivos de resposta.</div>
         <div class="art-footer"><span class="ev-badge">NE 1a · revisão 2026</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Biologics%20in%20the%20treatment%20of%20severe%20asthma%20in%20children%20and%20adults%3A%20updates%202024-2025" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Biologics%20in%20the%20treatment%20of%20severe%20asthma%20in%20children%20and%20adults%3A%20updates%202024-2025" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="urticaria" data-oa="true" data-ai-title="Remibrutinib in chronic spontaneous urticaria: 52-week results from two phase 3 studies">
         <span class="art-journal">JACI · out/2025</span>
@@ -898,7 +850,7 @@ body{
         <div class="art-title-pt">Remibrutinibe na urticária crônica espontânea: 52 semanas (REMIX-1 e REMIX-2)</div>
         <div class="art-body">Primeiro BTKi oral aprovado pelo FDA (set/2025) para USC refratária a anti-H1. ~1/3 com resolução completa em 12 semanas, controle mantido em 52 semanas, sem monitorização laboratorial de rotina.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · fase III</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Remibrutinib%20in%20chronic%20spontaneous%20urticaria%3A%2052-week%20results%20from%20two%20phase%203%20studies" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Remibrutinib%20in%20chronic%20spontaneous%20urticaria%3A%2052-week%20results%20from%20two%20phase%203%20studies" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="urticaria" data-doi="10.1111/all.16598" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12186586/pdf/" data-pub="https://onlinelibrary.wiley.com/doi/10.1111/all.16598" data-oa="true" data-ai-title="Anti-KIT Monoclonal Antibody (Barzolvolimab) for CSU Refractory to Omalizumab">
         <span class="art-journal">Allergy · nov/2025</span>
@@ -908,7 +860,7 @@ body{
         <div class="art-title-pt">Anti-KIT (barzolvolimabe) para USC refratária ao omalizumabe</div>
         <div class="art-body">UCT ≥12 em 12 semanas: 58% barzolvolimabe vs 18% placebo. Mecanismo distinto do omalizumabe.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · fase II</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12186586/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12186586/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="asma" data-doi="10.1111/all.16590" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12186586/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12186586/" data-oa="true" data-ai-title="Clinical and Biological Remission With Tezepelumab in Severe Uncontrolled Asthma">
         <span class="art-journal">Allergy · set/2025</span>
@@ -918,7 +870,7 @@ body{
         <div class="art-title-pt">Remissão clínica e biológica com tezepelumabe em asma grave não controlada</div>
         <div class="art-body">175 pacientes · remissão 36% (T2-alto 55%, T2-baixo 19%) · exacerbações 3,1→0,8/ano.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · coorte</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12186586/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12186586/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="asma" data-doi="10.1183/23120541.00314-2025" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12400181/pdf/" data-pub="https://publications.ersnet.org/content/erjor/11/5/00314-2025" data-oa="true" data-ai-title="Real-world evidence of tezepelumab for severe asthma: a retrospective multicentre cohort">
         <span class="art-journal">ERJ-OR · jun/2025</span>
@@ -928,7 +880,7 @@ body{
         <div class="art-title-pt">Evidência real do tezepelumabe em asma grave: coorte multicêntrica</div>
         <div class="art-body">103 pacientes · redução 66,7% nas exacerbações · eosinófilos &lt;150: redução 62%.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · coorte</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12400181/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12400181/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="rinite" data-doi="10.1111/all.70100" data-pdf="https://pmc.ncbi.nlm.nih.gov/articles/PMC12862529/pdf/" data-pub="https://pmc.ncbi.nlm.nih.gov/articles/PMC12862529/" data-oa="true" data-ai-title="ARIA/EAACI Guidelines 2024-2025: Allergic Rhinitis and Its Impact on Asthma">
         <span class="art-journal">Allergy · mar/2025</span>
@@ -938,7 +890,7 @@ body{
         <div class="art-title-pt">Diretrizes ARIA/EAACI 2024-2025: rinite alérgica e seu impacto na asma</div>
         <div class="art-body">Atualização ARIA 2025: fenótipos, classificação, escada terapêutica e indicação de imunoterapia.</div>
         <div class="art-footer"><span class="ev-badge">NE 1 · diretriz</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12862529/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12862529/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="anafilaxia" data-doi="10.1016/j.jaip.2024.09.014" data-pdf="https://www.sciencedirect.com/science/article/pii/S2213219824010018" data-pub="https://www.sciencedirect.com/science/article/pii/S2213219824010018" data-oa="false" data-ai-title="Perioperative Anaphylaxis: Diagnosis, Investigation, and Management">
         <span class="art-journal">JACI-IP · jan/2025</span>
@@ -948,7 +900,7 @@ body{
         <div class="art-title-pt">Anafilaxia perioperatória: diagnóstico, investigação e manejo</div>
         <div class="art-body">Algoritmo com timing de triptase (1h, 4h, 24h), painel anti-PEG IgE, protocolo de encaminhamento.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · revisão</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S2213219824010018" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S2213219824010018" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="medicam" data-doi="10.1016/j.anai.2023.09.015" data-pdf="https://www.sciencedirect.com/science/article/pii/S1081120623007469" data-pub="https://www.sciencedirect.com/science/article/pii/S1081120623007469" data-oa="false" data-ai-title="Drug Allergy: A 2023 Practice Parameter Update (AAAAI/ACAAI)">
         <span class="art-journal">AAAI Ann · jan/2024</span>
@@ -958,7 +910,7 @@ body{
         <div class="art-title-pt">Alergia a medicamentos: parâmetro prático 2023 AAAAI/ACAAI</div>
         <div class="art-body">Classificação temporal, indicação de teste cutâneo vs provocação, dessensibilização e alternativas.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · diretriz</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S1081120623007469" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S1081120623007469" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="rinite" data-doi="10.1016/j.bjorl.2023.101284" data-pdf="https://pmc.ncbi.nlm.nih.gov/articles/PMC10637984/pdf/" data-pub="https://pmc.ncbi.nlm.nih.gov/articles/PMC10637984/" data-oa="true" data-ai-title="Consenso Brasileiro sobre Rinite — ASBAI 2023">
         <span class="art-journal">BJORL · nov/2023</span>
@@ -968,7 +920,7 @@ body{
         <div class="art-title-pt">Consenso Brasileiro sobre Rinite — ASBAI 2023</div>
         <div class="art-body">Diretriz nacional: classificação, diagnóstico, tratamento escalonado e imunoterapia específica.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · consenso nacional</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10637984/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10637984/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="da" data-doi="10.1016/j.jaci.2023.01.010" data-pdf="https://www.sciencedirect.com/science/article/pii/S0091674923001987" data-pub="https://www.sciencedirect.com/science/article/pii/S0091674923001987" data-oa="false" data-ai-title="International Consensus on Atopic Dermatitis (ICOADS) — Biologics & JAK Inhibitors">
         <span class="art-journal">JACI · jul/2023</span>
@@ -978,7 +930,7 @@ body{
         <div class="art-title-pt">Consenso internacional sobre DA — biológicos e inibidores de JAK</div>
         <div class="art-body">Critérios de seleção entre dupilumabe, tralokinumabe e JAKi conforme fenótipo e comorbidades.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · consenso</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S0091674923001987" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S0091674923001987" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="urticaria" data-doi="10.1016/j.jaci.2023.06.001" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10551837/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10551837/" data-oa="true" data-ai-title="Real-world effectiveness and safety of omalizumab in chronic spontaneous urticaria">
         <span class="art-journal">JACI · jun/2023</span>
@@ -988,7 +940,7 @@ body{
         <div class="art-title-pt">Efetividade e segurança reais do omalizumabe em USC</div>
         <div class="art-body">Metanálise 47 estudos: UCT ≥12 em 64%, resposta completa 44%. Perfil de segurança excelente.</div>
         <div class="art-footer"><span class="ev-badge">NE 1a · metanálise</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10551837/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10551837/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="aa" data-doi="10.1016/j.jaci.2022.09.025" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9939861/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9939861/" data-oa="true" data-ai-title="Palforzia (AR101) peanut oral immunotherapy: long-term outcomes and desensitization durability">
         <span class="art-journal">JACI · fev/2023</span>
@@ -998,7 +950,7 @@ body{
         <div class="art-title-pt">Imunoterapia oral para amendoim: desfechos de longo prazo e durabilidade</div>
         <div class="art-body">Dessensibilização mantida em 67% após 2 anos. Descontinuação = perda de proteção.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · extensão</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9939861/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9939861/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="eii" data-doi="10.3389/fimmu.2022.1080693" data-pdf="https://pmc.ncbi.nlm.nih.gov/articles/PMC9898518/pdf/" data-pub="https://pmc.ncbi.nlm.nih.gov/articles/PMC9898518/" data-oa="true" data-ai-title="Diagnosis and Management of Primary Immunodeficiencies — ESID 2023">
         <span class="art-journal">Front. Immunol. · fev/2023</span>
@@ -1008,7 +960,7 @@ body{
         <div class="art-title-pt">Diagnóstico e manejo de imunodeficiências primárias — ESID 2023</div>
         <div class="art-body">Critérios diagnósticos, indicações de IGIV/IGSC, vacinação e seguimento em longo prazo.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · diretriz</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9898518/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9898518/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="eoe" data-doi="10.1016/j.cgh.2022.06.028" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9812870/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9812870/" data-oa="true" data-ai-title="Food elimination diets in eosinophilic esophagitis: systematic review and meta-analysis">
         <span class="art-journal">CGH · jan/2023</span>
@@ -1018,7 +970,7 @@ body{
         <div class="art-title-pt">Dietas de eliminação na esofagite eosinofílica: revisão sistemática e metanálise</div>
         <div class="art-body">Eliminação 6 alimentos: remissão 72%. Leite principal alérgeno (65-85%). Dieta 2 alimentos como alternativa.</div>
         <div class="art-footer"><span class="ev-badge">NE 1a · metanálise</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9812870/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9812870/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="masto" data-doi="10.1016/j.jaci.2022.09.024" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9898321/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9898321/" data-oa="true" data-ai-title="Consensus on Management of Mastocytosis — ECNM">
         <span class="art-journal">JACI · jan/2023</span>
@@ -1028,7 +980,7 @@ body{
         <div class="art-title-pt">Consenso ECNM sobre manejo de mastocitose</div>
         <div class="art-body">Critérios WHO 2022, estratificação de risco, midostaurina/avapritinibe e manejo de anafilaxia.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · consenso</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9898321/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9898321/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="eii" data-doi="10.1016/j.jaci.2021.12.788" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9054105/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9054105/" data-oa="true" data-ai-title="The 2022 update of the IUIS Phenotypic Classification for Inborn Errors of Immunity">
         <span class="art-journal">JACI · dez/2022</span>
@@ -1038,7 +990,7 @@ body{
         <div class="art-title-pt">Classificação IUIS 2022 para erros inatos da imunidade</div>
         <div class="art-body">Nova classificação com 485 doenças em 10 categorias. Novos fenótipos autoimunes e disregulação.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · classificação</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9054105/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9054105/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="eoe" data-doi="10.1056/NEJMoa2205982" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9757625/pdf/" data-pub="https://www.nejm.org/doi/full/10.1056/NEJMoa2205982" data-oa="true" data-ai-title="Dupilumab in Eosinophilic Esophagitis (BOREAS trial)">
         <span class="art-journal">NEJM · dez/2022</span>
@@ -1048,7 +1000,7 @@ body{
         <div class="art-title-pt">Dupilumabe na esofagite eosinofílica — ensaio BOREAS</div>
         <div class="art-body">≤6 eos/HPF em 60% vs 5% placebo. DSQ (disfagia) melhorado significativamente em 24 semanas.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT fase 3</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9757625/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9757625/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="himen" data-doi="10.1111/all.15239" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9546417/pdf/" data-pub="https://onlinelibrary.wiley.com/doi/10.1111/all.15239" data-oa="true" data-ai-title="EAACI Guidelines on Allergen Immunotherapy: Hymenoptera Venom Allergy">
         <span class="art-journal">Allergy · ago/2022</span>
@@ -1058,7 +1010,7 @@ body{
         <div class="art-title-pt">Diretrizes EAACI sobre imunoterapia: alergia ao veneno de himenópteros</div>
         <div class="art-body">Indicações, contraindicações, protocolos e duração da imunoterapia. Omalizumabe como adjuvante.</div>
         <div class="art-footer"><span class="ev-badge">NE 1 · diretriz</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9546417/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9546417/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="eii" data-doi="10.1016/j.clim.2022.109032" data-pdf="https://www.sciencedirect.com/science/article/pii/S1521661622001620" data-pub="https://www.sciencedirect.com/science/article/pii/S1521661622001620" data-oa="false" data-ai-title="Machine learning for early diagnosis of primary antibody deficiencies">
         <span class="art-journal">Clin. Immunol. · ago/2022</span>
@@ -1068,7 +1020,7 @@ body{
         <div class="art-title-pt">Aprendizado de máquina para diagnóstico precoce de imunodeficiências primárias</div>
         <div class="art-body">Random forest — sensibilidade 89%, especificidade 82%, AUC 0,92. Tempo diagnóstico reduzido.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · ML</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S1521661622001620" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S1521661622001620" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="medicam" data-doi="10.1111/all.15223" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9546345/pdf/" data-pub="https://onlinelibrary.wiley.com/doi/10.1111/all.15223" data-oa="true" data-ai-title="EAACI Position Paper: Drug Desensitization in Oncology Patients">
         <span class="art-journal">Allergy · jun/2022</span>
@@ -1078,7 +1030,7 @@ body{
         <div class="art-title-pt">Documento de posição EAACI: dessensibilização medicamentosa em oncologia</div>
         <div class="art-body">Protocolo padronizado para carboplatina, rituximabe, taxanos. Critérios de segurança e monitoramento.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · posição</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9546345/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9546345/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="asma" data-doi="10.1056/NEJMoa2211700" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9897722/pdf/" data-pub="https://www.nejm.org/doi/full/10.1056/NEJMoa2211700" data-oa="true" data-ai-title="Tezepelumab in Adults with Severe Uncontrolled Asthma (NAVIGATOR)">
         <span class="art-journal">NEJM · mai/2022</span>
@@ -1088,7 +1040,7 @@ body{
         <div class="art-title-pt">Tezepelumabe em adultos com asma grave não controlada — NAVIGATOR</div>
         <div class="art-body">Redução de 70% nas exacerbações vs placebo em T2-alto e T2-baixo. Ensaio pivotal fase 3.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT fase 3</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9897722/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9897722/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="eoe" data-doi="10.1053/j.gastro.2022.03.071" data-pdf="https://www.sciencedirect.com/science/article/pii/S0016508522003766" data-pub="https://www.sciencedirect.com/science/article/pii/S0016508522003766" data-oa="false" data-ai-title="Updated International Consensus Diagnostic Criteria for Eosinophilic Esophagitis">
         <span class="art-journal">Gastro · mai/2022</span>
@@ -1098,7 +1050,7 @@ body{
         <div class="art-title-pt">Critérios diagnósticos internacionais atualizados para esofagite eosinofílica</div>
         <div class="art-body">≥15 eosinófilos/HPF + sintomas de disfunção esofágica. Papel do IBP trial na diferenciação.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · consenso</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S0016508522003766" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S0016508522003766" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="dc" data-doi="10.1111/cod.14121" data-pdf="https://onlinelibrary.wiley.com/doi/10.1111/cod.14121" data-pub="https://onlinelibrary.wiley.com/doi/10.1111/cod.14121" data-oa="false" data-ai-title="ESCD Guidelines for Patch Testing — 2022 Update">
         <span class="art-journal">Contact Derm. · mai/2022</span>
@@ -1108,7 +1060,7 @@ body{
         <div class="art-title-pt">Diretrizes ESCD para teste de contato — atualização 2022</div>
         <div class="art-body">Alérgenos recomendados na bateria padrão europeia, técnica de aplicação e interpretação.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · diretriz</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://onlinelibrary.wiley.com/doi/10.1111/cod.14121" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://onlinelibrary.wiley.com/doi/10.1111/cod.14121" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="rinite" data-doi="10.1016/j.jaci.2022.05.004" data-pdf="https://www.sciencedirect.com/science/article/pii/S0091674922006613" data-pub="https://www.sciencedirect.com/science/article/pii/S0091674922006613" data-oa="false" data-ai-title="Dupilumab in Moderate-to-Severe Chronic Rhinosinusitis with Nasal Polyps">
         <span class="art-journal">JACI · mai/2022</span>
@@ -1118,7 +1070,7 @@ body{
         <div class="art-title-pt">Dupilumabe em rinossinusite crônica com pólipos nasais — SINUS-24/52</div>
         <div class="art-body">SINUS-24/52: dupilumabe reduz volume dos pólipos (NPS -2,06) e melhora olfato. Dados 52 semanas.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S0091674922006613" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S0091674922006613" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="medicam" data-doi="10.1016/j.jaci.2021.10.004" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8850618/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8850618/" data-oa="true" data-ai-title="Direct oral challenge without prior skin testing in low-risk penicillin allergy">
         <span class="art-journal">JACI · abr/2022</span>
@@ -1128,7 +1080,7 @@ body{
         <div class="art-title-pt">Provocação oral direta sem teste cutâneo em baixo risco de alergia à penicilina</div>
         <div class="art-body">Em baixo risco, provocação oral direta é segura e eficiente — elimina falso rótulo de alergia.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8850618/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8850618/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="masto" data-doi="10.1016/j.jaci.2021.11.025" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8906002/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8906002/" data-oa="true" data-ai-title="Serum tryptase as a biomarker in allergy and mastocytosis">
         <span class="art-journal">JACI · mar/2022</span>
@@ -1138,7 +1090,7 @@ body{
         <div class="art-title-pt">Triptase sérica como biomarcador em alergia e mastocitose</div>
         <div class="art-body">Triptase basal >11,4 ng/mL: indício de mastocitose. Hereditary alpha-tryptasemia (HαT) — impacto clínico.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · revisão</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8906002/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8906002/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="aa" data-doi="10.1056/NEJMoa2116234" data-pdf="https://www.nejm.org/doi/full/10.1056/NEJMoa2116234" data-pub="https://www.nejm.org/doi/full/10.1056/NEJMoa2116234" data-oa="false" data-ai-title="Omalizumab for the Treatment of Multiple Food Allergies (OUtMATCH)">
         <span class="art-journal">NEJM · mar/2022</span>
@@ -1148,7 +1100,7 @@ body{
         <div class="art-title-pt">Omalizumabe para múltiplas alergias alimentares — OUtMATCH</div>
         <div class="art-body">67% toleraram 600mg de proteína de amendoim vs 7% placebo. Eficácia em múltiplas alergias.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT fase 3</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2116234" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2116234" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="anafilaxia" data-doi="10.1016/j.jaci.2022.01.018" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9234896/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9234896/" data-oa="true" data-ai-title="Alpha-gal syndrome: new insights into the tick-borne allergy">
         <span class="art-journal">JACI · fev/2022</span>
@@ -1158,7 +1110,7 @@ body{
         <div class="art-title-pt">Síndrome alfa-gal: novas perspectivas na alergia transmitida por carrapatos</div>
         <div class="art-body">Mecanismo IgE anti-alfa-gal por Amblyomma. Anafilaxia retardada 3-6h após carne vermelha.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · revisão</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9234896/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9234896/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="dc" data-doi="10.1111/bjd.19958" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8457106/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8457106/" data-oa="true" data-ai-title="Occupational allergic contact dermatitis: systematic review of prevalence and causative agents">
         <span class="art-journal">Br J Derm · set/2021</span>
@@ -1168,7 +1120,7 @@ body{
         <div class="art-title-pt">Dermatite de contato alérgica ocupacional: revisão sistemática</div>
         <div class="art-body">Prevalência 15-20% entre trabalhadores de saúde. Principais agentes: látex, antissépticos, acrílicos.</div>
         <div class="art-footer"><span class="ev-badge">NE 1a · revisão</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8457106/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8457106/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="himen" data-doi="10.1016/j.jaci.2020.12.617" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8106629/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8106629/" data-oa="true" data-ai-title="Mastocytosis and Hymenoptera venom allergy: risk stratification and management">
         <span class="art-journal">JACI · jul/2021</span>
@@ -1178,7 +1130,7 @@ body{
         <div class="art-title-pt">Mastocitose e alergia ao veneno de himenópteros: risco e manejo</div>
         <div class="art-body">Triptase basal elevada como marcador de mastocitose. Imunoterapia vitalícia nesses casos.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · revisão</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8106629/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8106629/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="masto" data-doi="10.1056/NEJMoa2106182" data-pdf="https://www.nejm.org/doi/full/10.1056/NEJMoa2106182" data-pub="https://www.nejm.org/doi/full/10.1056/NEJMoa2106182" data-oa="false" data-ai-title="Avapritinib for Advanced Systemic Mastocytosis (PATHFINDER)">
         <span class="art-journal">NEJM · jun/2021</span>
@@ -1188,7 +1140,7 @@ body{
         <div class="art-title-pt">Avapritinibe para mastocitose sistêmica avançada — PATHFINDER</div>
         <div class="art-body">Inibidor de KIT D816V: resposta global 75%, resposta completa 9%. Fase 2 pivotal.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · fase 2</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2106182" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2106182" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="da" data-doi="10.1056/NEJMoa2101640" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8559513/pdf/" data-pub="https://www.nejm.org/doi/full/10.1056/NEJMoa2101640" data-oa="true" data-ai-title="Upadacitinib in Adults and Adolescents with Atopic Dermatitis (Measure Up 1 & 2)">
         <span class="art-journal">NEJM · mar/2021</span>
@@ -1198,7 +1150,7 @@ body{
         <div class="art-title-pt">Upadacitinibe em adultos e adolescentes com DA — Measure Up 1 e 2</div>
         <div class="art-body">EASI-75 em 16 sem: 69,6% e 60% com upadacitinibe 15mg vs 16% e 13% placebo.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT fase 3</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8559513/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8559513/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="da" data-doi="10.1056/NEJMoa2019380" data-pdf="https://www.nejm.org/doi/pdf/10.1056/NEJMoa2019380" data-pub="https://www.nejm.org/doi/full/10.1056/NEJMoa2019380" data-oa="false" data-ai-title="Abrocitinib versus Placebo or Dupilumab for Atopic Dermatitis (JADE COMPARE)">
         <span class="art-journal">NEJM · mar/2021</span>
@@ -1208,7 +1160,7 @@ body{
         <div class="art-title-pt">Abrocitinibe vs placebo ou dupilumabe na DA — JADE COMPARE</div>
         <div class="art-body">Abrocitinibe 200mg superior no prurido em 2 semanas. EASI-75 em 16 sem comparável. Maior herpes zóster.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT fase 3</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2019380" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2019380" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="aa" data-doi="10.1056/NEJMoa1414850" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4416404/pdf/" data-pub="https://www.nejm.org/doi/full/10.1056/NEJMoa1414850" data-oa="true" data-ai-title="Randomized Trial of Peanut Consumption in Infants at Risk for Peanut Allergy (LEAP)">
         <span class="art-journal">NEJM · fev/2015</span>
@@ -1218,7 +1170,7 @@ body{
         <div class="art-title-pt">Estudo LEAP: consumo precoce de amendoim em lactentes de risco</div>
         <div class="art-body">Consumo precoce (4-11 meses) reduz risco de alergia em 86% em crianças de alto risco.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4416404/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4416404/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
     </div>
   </div>
@@ -1272,34 +1224,11 @@ body{
   <div class="page" id="page-scores">
     <div class="sec-hdr"><h2>Scores e Calculadoras</h2></div>
     <div class="gap-list">
-      <div style="font-size:11px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 4px">Asma</div>
       <div class="guide-card" data-score="act" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">ACT</div><div style="font-size:11px;color:var(--gray-500)">Asthma Control Test · 0–25</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="ACT" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🫁</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:75%;background:linear-gradient(90deg,var(--aqua),var(--teal-mid))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular ACT →</button></div>
-      <div style="font-size:11px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 4px">Urticária</div>
+      <div class="guide-card" data-score="easi" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">EASI</div><div style="font-size:11px;color:var(--gray-500)">Eczema Area &amp; Severity Index · 0–72</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="EASI" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🩹</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:50%;background:linear-gradient(90deg,#f0d98a,var(--gold))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular EASI →</button></div>
       <div class="guide-card" data-score="uas" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">UAS7</div><div style="font-size:11px;color:var(--gray-500)">Urticaria Activity Score · 0–42</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="UAS7" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🔴</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:60%;background:linear-gradient(90deg,var(--aqua),#c0392b)"></div></div><button class="sp-btn" style="margin-top:10px">Calcular UAS7 →</button></div>
       <div class="guide-card" data-score="uct" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">UCT</div><div style="font-size:11px;color:var(--gray-500)">Urticaria Control Test · 0–16</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="UCT" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🎯</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:65%;background:linear-gradient(90deg,#c0392b,var(--aqua))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular UCT →</button></div>
-      <div class="guide-card" data-score="icpeUce" style="cursor:pointer">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div><div style="font-size:16px;font-weight:800;color:var(--navy)">ICPE-UCE</div>
-          <div style="font-size:11px;color:var(--gray-500)">Endótipo da urticária crônica</div></div>
-          <span style="font-size:22px">🔬</span>
-        </div>
-        <div style="font-size:12px;color:var(--gray-500);margin-top:6px">Estima a assinatura de endótipo na UCE (Eixo A: tipo IIb-like · Eixo B: inflamação) usando biomarcadores de rotina. Ferramenta exploratória.</div>
-        <div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:70%;background:linear-gradient(90deg,var(--aqua),var(--teal-mid))"></div></div>
-        <button class="sp-btn" style="margin-top:10px">Calcular endótipo →</button>
-      </div>
-      <div style="font-size:11px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 4px">Dermatite atópica</div>
-      <div class="guide-card" data-score="easi" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">EASI</div><div style="font-size:11px;color:var(--gray-500)">Eczema Area &amp; Severity Index · 0–72</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="EASI" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🩹</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:50%;background:linear-gradient(90deg,#f0d98a,var(--gold))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular EASI →</button></div>
       <div class="guide-card" data-score="scorad" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">SCORAD</div><div style="font-size:11px;color:var(--gray-500)">Scoring Atopic Dermatitis · 0–103</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="SCORAD" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">📊</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:40%;background:linear-gradient(90deg,#3bbfcc,var(--gold))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular SCORAD →</button></div>
-      <div style="font-size:11px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 4px">Rinite e rinossinusite</div>
-      <div class="guide-card" data-score="tnss" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">TNSS</div><div style="font-size:11px;color:var(--gray-500)">Escore de sintomas nasais · 0–12</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="TNSS" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">👃</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:50%;background:linear-gradient(90deg,#f0d98a,var(--gold))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular TNSS →</button></div>
-      <div class="guide-card" data-score="snot22" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">SNOT-22</div><div style="font-size:11px;color:var(--gray-500)">Qualidade de vida na rinossinusite · 0–110</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="SNOT-22" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">👃</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:50%;background:linear-gradient(90deg,#f0d98a,var(--gold))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular SNOT-22 →</button></div>
-      <div class="guide-card" data-score="lund" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">Lund-Mackay</div><div style="font-size:11px;color:var(--gray-500)">Escore de TC dos seios paranasais · 0–24</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="Lund-Mackay" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🩻</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:50%;background:linear-gradient(90deg,#f0d98a,var(--gold))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular Lund-Mackay →</button></div>
-      <div style="font-size:11px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 4px">Esofagite eosinofílica</div>
-      <div class="guide-card" data-score="erefs" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">EREFS</div><div style="font-size:11px;color:var(--gray-500)">Esofagite eosinofílica (endoscopia) · 0–9</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="EREFS" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🔬</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:50%;background:linear-gradient(90deg,#f0d98a,var(--gold))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular EREFS →</button></div>
-      <div style="font-size:11px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 4px">Qualidade de vida e sintomas</div>
-      <div class="guide-card" data-score="dlqi" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">DLQI</div><div style="font-size:11px;color:var(--gray-500)">Qualidade de vida em dermatologia · 0–30</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="DLQI" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🧴</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:50%;background:linear-gradient(90deg,#f0d98a,var(--gold))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular DLQI →</button></div>
-      <div class="guide-card" data-score="vas" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">EVA (0–10)</div><div style="font-size:11px;color:var(--gray-500)">Escala visual: prurido, dor e olfato</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="EVA (0–10)" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">📏</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:50%;background:linear-gradient(90deg,#f0d98a,var(--gold))"></div></div><button class="sp-btn" style="margin-top:10px">Abrir EVA →</button></div>
-      <div style="font-size:11px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 4px">Outros</div>
       <div class="guide-card" data-score="cortico" style="cursor:pointer">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <div><div style="font-size:16px;font-weight:800;color:var(--navy)">Corticoide</div>
@@ -1310,7 +1239,16 @@ body{
         <div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:60%;background:linear-gradient(90deg,#f0d98a,var(--gold))"></div></div>
         <button class="sp-btn" style="margin-top:10px">Converter dose →</button>
       </div>
-
+      <div class="guide-card" data-score="icpeUce" style="cursor:pointer">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><div style="font-size:16px;font-weight:800;color:var(--navy)">ICPE-UCE</div>
+          <div style="font-size:11px;color:var(--gray-500)">Endótipo da urticária crônica</div></div>
+          <span style="font-size:22px">🔬</span>
+        </div>
+        <div style="font-size:12px;color:var(--gray-500);margin-top:6px">Estima a assinatura de endótipo na UCE (Eixo A: tipo IIb-like · Eixo B: inflamação) usando biomarcadores de rotina. Ferramenta exploratória.</div>
+        <div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:70%;background:linear-gradient(90deg,var(--aqua),var(--teal-mid))"></div></div>
+        <button class="sp-btn" style="margin-top:10px">Calcular endótipo →</button>
+      </div>
     </div>
   </div>
 
@@ -2175,6 +2113,30 @@ body{
           <input type="number" id="igPeso" inputmode="decimal" placeholder="Ex: 70" style="font-size:16px;border:1.5px solid rgba(255,255,255,.2);border-radius:11px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:15px;color:#fff;background:rgba(255,255,255,.1);outline:none;width:100%;box-sizing:border-box">
         </div>
         <div style="display:flex;flex-direction:column;gap:5px">
+          <label style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.85)">Produto / Imunoglobulina</label>
+          <select id="igProduto" style="border:1.5px solid rgba(255,255,255,.2);border-radius:11px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:13px;color:#fff;background:rgba(255,255,255,.1);outline:none;width:100%;box-sizing:border-box">
+            <optgroup label="─── IV (Intravenosa)" style="color:#7ee0ec">
+              <option value="privigen_10" style="color:#0d1f2d">Privigen® 10% — CSL Behring · IV</option>
+              <option value="octagam_10" style="color:#0d1f2d">Octagam® 10% — Octapharma · IV</option>
+              <option value="kiovig_10" style="color:#0d1f2d">Kiovig® 10% — Takeda · IV</option>
+              <option value="flebogamma_10" style="color:#0d1f2d">Flebogamma® DIF 10% — Grifols · IV</option>
+              <option value="tegeline_5" style="color:#0d1f2d">Tegeline® 5% — LFB · IV (SUS)</option>
+              <option value="endobulin_5" style="color:#0d1f2d">Endobulin® S/D 5% — Baxter · IV</option>
+              <option value="gammaked_10" style="color:#0d1f2d">Gammaked® 10% — Grifols/Kedrion · IV</option>
+              <option value="gamunex_10" style="color:#0d1f2d">Gamunex-C® 10% — Grifols · IV</option>
+            </optgroup>
+            <optgroup label="─── SC (Subcutânea)" style="color:#7ee0ec">
+              <option value="hizentra_20" style="color:#0d1f2d">Hizentra® 20% — CSL Behring · SC</option>
+              <option value="cuvitru_20" style="color:#0d1f2d">Cuvitru® 20% — Takeda · SC</option>
+              <option value="hyqvia_10" style="color:#0d1f2d">HyQvia® 10% + hialuronidase — Takeda · SC facilitada</option>
+              <option value="gammanorm_165" style="color:#0d1f2d">Gammanorm® 16,5% — Octapharma · SC</option>
+            </optgroup>
+            <optgroup label="─── Via não especificada" style="color:#7ee0ec">
+              <option value="generic" style="color:#0d1f2d">Calcular apenas em gramas (sem produto)</option>
+            </optgroup>
+          </select>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px">
           <label style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.85)">Finalidade</label>
           <select id="igFinalidade" onchange="toggleCustomMg()" style="border:1.5px solid rgba(255,255,255,.2);border-radius:11px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:14px;color:#fff;background:rgba(255,255,255,.1);outline:none;width:100%;box-sizing:border-box">
             <option value="reposicao_iv" style="color:#0d1f2d">Reposição IDP — Via IV (400–800 mg/kg/mês)</option>
@@ -2566,7 +2528,6 @@ body{
 </div>
 
 <!-- TOAST -->
-<button class="fb-back" id="fbBack" aria-label="Voltar">‹ Voltar</button>
 <div class="toast" id="toast"><span id="toastIcon">✅</span><span id="toastMsg">Feito!</span></div>
 
 <script>
@@ -2614,15 +2575,9 @@ function navTo(page){
     if(logo)    logo.style.display = 'none';
   }
 
-  var _fb = document.getElementById('fbBack');
-  if(_fb) _fb.classList.toggle('show', page !== 'dashboard');
-
   if(page === 'artigos' && !_feedLoaded){ _feedLoaded = true; renderFeedChips(); carregarFeed('todos'); }
   if(page === 'imuno' && !_radarLoaded){ _radarLoaded = true; carregarRadar(false); }
 }
-
-var _fbBack = document.getElementById('fbBack');
-if(_fbBack) _fbBack.addEventListener('click', function(){ var t=document.getElementById('tbBack'); if(t) t.click(); });
 
 // Back button click
 var _tbBack = document.getElementById('tbBack');
@@ -2978,241 +2933,15 @@ if(_aiInput){
   });
 }
 
-/* ── Escalas novas: opções e helpers ── */
-var _OPT_SINAL4=['0 — ausente','1 — leve','2 — moderado','3 — intenso'];
-var _OPT_EASI_AREA=['0 — 0%','1 — 1 a 9%','2 — 10 a 29%','3 — 30 a 49%','4 — 50 a 69%','5 — 70 a 89%','6 — 90 a 100%'];
-var _OPT_DLQI=['De modo nenhum (0)','Um pouco (1)','Bastante (2)','Muitíssimo (3)','Não se aplica (0)'];
-var _OPT_SNOT=['Nenhum problema (0)','Problema muito leve (1)','Leve (2)','Moderado (3)','Grave (4)','Problema extremo (5)'];
-var _OPT_LM=['0 — sem opacificação','1 — opacificação parcial','2 — opacificação total'];
-var _OPT_OMC=['0 — pérvio','2 — obstruído'];
-var _OPT_EREFS_EXS=['0 — ausentes','1 — até 10% da superfície','2 — mais de 10% da superfície'];
-var _OPT_EREFS_ANEL=['0 — ausentes','1 — leves','2 — moderados','3 — graves (endoscópio padrão não passa)'];
-var _OPT_EREFS_SULC=['0 — ausentes','1 — leves','2 — proeminentes'];
-function _lmUploadHtml(){
-  return '<div class="sf" style="border-top:1px solid var(--gray-100);padding-top:12px;margin-top:6px"><label>📎 Imagem da TC (opcional)</label>'
-    + '<input type="file" accept="image/*" onchange="_lmPrevia(this)" style="font-size:12px;width:100%">'
-    + '<div style="font-size:11px;color:var(--gray-500);margin-top:5px;line-height:1.4">Visualização apenas neste aparelho: a imagem não é enviada nem salva no servidor. Remova dados identificadores antes de usar.</div>'
-    + '<div id="lmPrev" style="margin-top:8px"></div></div>';
-}
-function _lmPrevia(inp){
-  var box = document.getElementById('lmPrev'); if(!box) return;
-  box.innerHTML = '';
-  var f = inp.files && inp.files[0]; if(!f) return;
-  var r = new FileReader();
-  r.onload = function(e){ var img = document.createElement('img'); img.src = e.target.result; img.style.cssText = 'max-width:100%;border-radius:10px;border:1px solid var(--gray-100)'; box.appendChild(img); };
-  r.readAsDataURL(f);
-}
-var _EASI_REG = [['cab','Cabeça/pescoço','0,1',0.1],['sup','Membros superiores','0,2',0.2],['tro','Tronco','0,3',0.3],['inf','Membros inferiores','0,4',0.4]];
-var _EASI_SIN = [['eri','eritema'],['inl','infiltração/pápulas'],['esc','escoriação'],['lic','liquenificação']];
-var _EASI_FIELDS = [];
-_EASI_REG.forEach(function(r){
-  _EASI_FIELDS.push({id:'ea_'+r[0]+'_a', lbl:r[1]+' — área (peso '+r[2]+')', opts:_OPT_EASI_AREA});
-  _EASI_SIN.forEach(function(s){ _EASI_FIELDS.push({id:'ea_'+r[0]+'_'+s[0], lbl:r[1]+' — '+s[1]+' (0 a 3)', opts:_OPT_SINAL4}); });
-});
-var _DLQI_Q = [
-  'Nos últimos 7 dias, quanto a sua pele causou coceira, dor, ardor ou desconforto?',
-  'Nos últimos 7 dias, quanto a sua pele deixou você constrangido(a) ou preocupado(a) com a aparência?',
-  'Nos últimos 7 dias, quanto a sua pele atrapalhou as compras ou os cuidados com a casa?',
-  'Nos últimos 7 dias, quanto a sua pele influenciou a escolha das roupas que você usou?',
-  'Nos últimos 7 dias, quanto a sua pele afetou suas atividades de lazer?',
-  'Nos últimos 7 dias, quanto a sua pele dificultou a prática de esportes ou exercícios?',
-  'Nos últimos 7 dias, quanto a sua pele atrapalhou o trabalho, os estudos ou a busca por eles?',
-  'Nos últimos 7 dias, quanto a sua pele causou problemas na vida íntima ou sexual?',
-  'Nos últimos 7 dias, quanto a sua pele prejudicou a convivência com amigos, família ou outras pessoas próximas?',
-  'Nos últimos 7 dias, quanto o tratamento da pele tomou tempo, esforço ou se tornou um incômodo no dia a dia?'
-];
-var _SNOT_ITENS = ['Necessidade de assoar o nariz','Espirros','Coriza (secreção aquosa)','Sensação de nariz entupido','Secreção nasal espessa','Secreção escorrendo para a garganta','Redução do olfato ou do paladar','Tosse','Dificuldade para adormecer','Despertares durante a noite','Sono de má qualidade','Acordar cansado(a)','Cansaço durante o dia','Queda de produtividade no trabalho ou estudo','Dificuldade de concentração','Irritação, impaciência ou inquietação','Tristeza ou desânimo','Constrangimento','Dor ou pressão no rosto','Sensação de ouvido tapado','Tontura','Dor de ouvido'];
-var _LM_SEIOS = [['max','Maxilar'],['aet','Etmoide anterior'],['pet','Etmoide posterior'],['esf','Esfenoide'],['fro','Frontal']];
-var _LM_FIELDS = [];
-_LM_SEIOS.forEach(function(s){
-  _LM_FIELDS.push({id:'lm_'+s[0]+'_d', lbl:s[1]+' — direito (0 a 2)', opts:_OPT_LM});
-  _LM_FIELDS.push({id:'lm_'+s[0]+'_e', lbl:s[1]+' — esquerdo (0 a 2)', opts:_OPT_LM});
-});
-_LM_FIELDS.push({id:'lm_omc_d', lbl:'Complexo ostiomeatal — direito', opts:_OPT_OMC});
-_LM_FIELDS.push({id:'lm_omc_e', lbl:'Complexo ostiomeatal — esquerdo', opts:_OPT_OMC});
-function _bandaDLQI(t){
-  if(t<=1) return ['Sem efeito sobre a vida','#16a085'];
-  if(t<=5) return ['Efeito pequeno','#2a9fad'];
-  if(t<=10) return ['Efeito moderado','#d4a017'];
-  if(t<=20) return ['Efeito grande','#e67e22'];
-  return ['Efeito extremo','#c0392b'];
-}
-
 /* ── SCORES MODAL ── */
 var SCORES={
-  dlqi:{title:'🧴 DLQI — Qualidade de vida em dermatologia',desc:'Impacto da doença de pele na vida nos últimos 7 dias. 10 perguntas; escore 0–30. Maior escore = maior impacto.',fields:_DLQI_Q.map(function(q,i){return {id:'dl'+(i+1),lbl:(i+1)+'. '+q,opts:_OPT_DLQI};}),calc:function(v){var t=0;v.forEach(function(x){t+=(x>=4?0:x);});var b=_bandaDLQI(t);return{score:t+'/30',lbl:b[0],desc:'Soma de 10 itens (0–3; "não se aplica" conta como 0). Faixas: 0–1 sem efeito; 2–5 pequeno; 6–10 moderado; 11–20 grande; 21–30 extremo. Fonte: Finlay AY, Khan GK. Clin Exp Dermatol. 1994;19:210–6 (instrumento); faixas: Hongbo Y et al. J Invest Dermatol. 2005. Versão com redação própria; confirmar a licença antes de uso oficial.',color:'linear-gradient(135deg,#0d1f2d,'+b[1]+')'};}},
-  snot22:{title:'👃 SNOT-22 — Qualidade de vida na rinossinusite',desc:'22 sintomas nasais, sinusais, do sono, emocionais e auditivos nas últimas 2 semanas (0 = nenhum problema; 5 = problema extremo). Escore 0–110; maior = pior.',fields:_SNOT_ITENS.map(function(t,i){return {id:'sn'+(i+1),lbl:(i+1)+'. '+t,opts:_OPT_SNOT};}),calc:function(v){var t=v.reduce(function(a,b){return a+b;},0);return{score:t+'/110',lbl:'Escore total SNOT-22',desc:'Compare com o basal para avaliar resposta. A mudança de cerca de 8,9 pontos é a referência de diferença clinicamente relevante citada na literatura (confirmar na fonte). Fonte do instrumento: Hopkins C et al. Clin Otolaryngol. 2009. Itens com redação própria, baseados nos domínios publicados.',color:'linear-gradient(135deg,#0d1f2d,#1f6980)'};}},
-  lund:{title:'🩻 Lund-Mackay — TC dos seios paranasais',desc:'Escore tomográfico: 5 seios de cada lado (0–2) + complexo ostiomeatal (0 ou 2 por lado). Total 0–24. A aba de imagem permite visualizar a TC apenas neste aparelho.',fields:_LM_FIELDS,upload:true,calc:function(v){var seios=0;for(var i=0;i<10;i++){seios+=v[i];}var omc=(v[10]+v[11])*2;var t=seios+omc;return{score:t+'/24',lbl:'Escore Lund-Mackay',desc:'Seios: '+seios+'/20 · complexo ostiomeatal: '+omc+'/4. Maior escore = maior extensão de opacificação. Fonte: Lund VJ, Mackay IS. Rhinology. 1993;31:183–4. Não diagnostica sozinho: correlacione com sintomas (SNOT-22) e achados endoscópicos.',color:'linear-gradient(135deg,#0d1f2d,#3d5a80)'};}},
-  vas:{title:'📏 EVA — Escala visual analógica (0–10)',desc:'Marque a intensidade relatada pelo paciente, de 0 (ausente) a 10 (pior possível). Pode ser usada para prurido, dor e olfato (percepção do cheiro). Para acompanhar a evolução, use sempre a mesma escala e o mesmo momento do dia.',fields:[{id:'vas_sint',lbl:'Sintoma avaliado',opts:['Prurido (coceira)','Dor','Olfato (percepção do cheiro)','Outro']},{id:'vas_val',lbl:'Intensidade (0 = ausente · 10 = pior possível)',type:'vas'}],calc:function(v){var nome=['Prurido','Dor','Olfato','Sintoma'][v[0]];var x=v[1];var cat=x===0?'Ausente':(x<=3?'Leve':(x<=6?'Moderada':'Intensa'));return{score:x+'/10',lbl:nome+' — '+cat,desc:'Faixas usuais, originadas da dor: 0 ausente; 1–3 leve; 4–6 moderada; 7–10 intensa. Para prurido e olfato, essas faixas são apenas referência prática; o mais útil é a variação ao longo do tempo. Ferramenta de acompanhamento amplamente usada; a diferença clinicamente relevante depende do desfecho estudado.',color:'linear-gradient(135deg,#0d1f2d,#2a9fad)'};}},
-  tnss:{title:'👃 TNSS — Escore de sintomas nasais',desc:'Quatro sintomas cardinais da rinite (rinorreia, espirros, prurido nasal e obstrução nasal), cada um de 0 a 3. Total 0–12. Registre a média diária ou o período combinado com o paciente.',fields:[{id:'tn1',lbl:'Rinorreia (coriza)',opts:_OPT_SINAL4},{id:'tn2',lbl:'Espirros',opts:_OPT_SINAL4},{id:'tn3',lbl:'Prurido nasal',opts:_OPT_SINAL4},{id:'tn4',lbl:'Obstrução nasal',opts:_OPT_SINAL4}],calc:function(v){var t=v.reduce(function(a,b){return a+b;},0);return{score:t+'/12',lbl:'Escore de sintomas nasais',desc:'Maior escore = mais sintomas. Compare com o basal para avaliar resposta. Escore usado em estudos de rinite alérgica, com desfecho de sintomas nasais descrito pela diretriz ARIA. Limiar de mudança relevante: confirmar na fonte antes de uso formal.',color:'linear-gradient(135deg,#0d1f2d,#16a085)'};}},
-  erefs:{title:'🔬 EREFS — Escore endoscópico da esofagite eosinofílica',desc:'Gravidade endoscópica: exsudatos (0–2), anéis (0–3), edema (0–1), sulcos (0–2) e estenose (0–1). Total 0–9. O diagnóstico exige também histologia (≥15 eosinófilos por campo de grande aumento) e exclusão de outras causas.',fields:[{id:'er1',lbl:'Exsudatos',opts:_OPT_EREFS_EXS},{id:'er2',lbl:'Anéis (traqueação)',opts:_OPT_EREFS_ANEL},{id:'er3',lbl:'Edema (perda de vascularização)',opts:['0 — ausente','1 — presente']},{id:'er4',lbl:'Sulcos',opts:_OPT_EREFS_SULC},{id:'er5',lbl:'Estenose',opts:['0 — ausente','1 — presente']}],calc:function(v){var t=v.reduce(function(a,b){return a+b;},0);return{score:t+'/9',lbl:'EREFS total',desc:'Escore endoscópico para acompanhar a gravidade ao longo do tempo. Fonte: Hirano I et al. Gut. 2013;62:489–95 (validação do EREFS). Critério histológico de ≥15 eos/campo: consenso internacional de EoE (2018); confirmar na diretriz local.',color:'linear-gradient(135deg,#0d1f2d,#2e8b57)'};}},
-  icpeUce:{title:'🔬 ICPE-UCE — Endótipo e Conduta na UCE',desc:'Estima o endótipo da urticária crônica espontânea usando apenas biomarcadores laboratoriais de rotina (Eixo A: assinatura tipo IIb; Eixo B: inflamação) e sugere a conduta mais lógica frente ao omalizumabe. SII e SIRI são calculados automaticamente a partir do hemograma. Para a atividade clínica, use os scores UAS7 e UCT.',fields:[{id:'ic_ige',lbl:'IgE total (UI/mL)',opts:['≥70 (0 pt)','40–70 (1 pt)','20–39 (2 pt)','<20 (3 pt)']},{id:'ic_tpo',lbl:'IgG anti-TPO',opts:['Negativo (0 pt)','Positivo até 3× LSM (1 pt)','Positivo >3× LSM (2 pt)']},{id:'ic_tg',lbl:'Anti-tireoglobulina IgG',opts:['Negativo (0 pt)','Positivo (1 pt)']},{id:'ic_fan',lbl:'FAN',opts:['Negativo ou ≤1:80 (0 pt)','1:160 (1 pt)','≥1:320 (2 pt)']},{id:'ic_eos',lbl:'Eosinófilos absolutos',opts:['≥100/µL (0 pt)','50–99/µL (1 pt)','<50/µL (2 pt)','0–10/µL persistente s/ corticoide (3 pt)']},{id:'ic_bas',lbl:'Basófilos absolutos',opts:['≥10/µL (0 pt)','<10/µL ou 0 (2 pt)']},{id:'ic_tir',lbl:'Função/autoimunidade tireoidiana',opts:['TSH/T4 normais, sem autoanticorpos (0 pt)','Disfunção autoimune ou tireoidite (1 pt)']},{id:'ic_pcr',lbl:'PCR (mg/L) — 1 mg/dL = 10 mg/L',opts:['<5 (0 pt)','5–10 (1 pt)','10–30 (2 pt)','>30 (3 pt)']},{id:'ic_vhs',lbl:'VHS (mm/h)',opts:['≤20 (0 pt)','21–40 (1 pt)','41–70 (2 pt)','>70 (3 pt)']},{id:'ic_plaq',lbl:'Plaquetas (para SII)',type:'num',ph:'ex: 250 (10⁹/L) ou 250000'},{id:'ic_neut',lbl:'Neutrófilos absolutos (para SII/SIRI)',type:'num',ph:'ex: 4,5 (10⁹/L) ou 4500'},{id:'ic_linf',lbl:'Linfócitos absolutos (para SII/SIRI)',type:'num',ph:'ex: 2,0 (10⁹/L) ou 2000'},{id:'ic_mono',lbl:'Monócitos absolutos (para SIRI)',type:'num',ph:'ex: 0,5 (10⁹/L) ou 500'}],calc:function(v){var basoPts=[0,2][v[5]];var eixoA=v[0]+v[1]+v[2]+v[3]+v[4]+basoPts+v[6];function _u(x,big){if(x===null||x===undefined||isNaN(x))return null;return x>big?x/1000:x;}var plaq=_u(v[9],2000),neut=_u(v[10],100),linf=_u(v[11],100),mono=_u(v[12],100);var sii=null,siri=null,siiPts=0,siriPts=0,hemoTxt='';if(plaq!==null&&neut!==null&&linf!==null&&linf>0){sii=plaq*neut/linf;siiPts=sii<480?0:(sii<=1000?1:2);}if(neut!==null&&mono!==null&&linf!==null&&linf>0){siri=neut*mono/linf;siriPts=siri<1.2?0:(siri<=2.0?1:2);}var siiSiri=Math.min(siiPts+siriPts,3);var eixoB=v[7]+v[8]+siiSiri;if(sii!==null){hemoTxt+=' SII='+Math.round(sii)+' (+'+siiPts+').';}else{hemoTxt+=' SII não calculado (hemograma incompleto).';}if(siri!==null){hemoTxt+=' SIRI='+(Math.round(siri*100)/100).toString().replace('.',',')+' (+'+siriPts+').';}else{hemoTxt+=' SIRI não calculado.';}var igeAlta=(v[0]===0);var tipo,grau,conf,cor;if(eixoA<=3){tipo='UCE TIPO I';grau='autoalérgica (IgE-mediada)';conf=igeAlta?'moderada':'baixa';cor='linear-gradient(135deg,#1a4a5c,#2e8b57)';}else{tipo='UCE TIPO IIb';grau='autoimune';if(eixoA<=6){grau='autoimune (assinatura possível)';conf='baixa';}else if(eixoA<=10){grau='autoimune (assinatura provável)';conf='moderada';}else{grau='autoimune (assinatura forte)';conf='alta';}cor=(eixoB>=6)?'linear-gradient(135deg,#0d1f2d,#c0392b)':'linear-gradient(135deg,#1f6980,#c9a84c)';}var infl,inflTxt;if(eixoB<=2){infl='sem inflamação sistêmica relevante';inflTxt='';}else if(eixoB<=5){infl='inflamação leve/moderada';inflTxt=' Componente inflamatório leve/moderado — interpretar junto à clínica.';}else if(eixoB<=7){infl='inflamação sistêmica relevante';inflTxt=' Componente inflamatório sistêmico relevante — procurar fator perpetuador (foco infeccioso/inflamatório ou doença sistêmica associada).';}else{infl='inflamação sistêmica forte';inflTxt=' Forte componente inflamatório — investigar ativamente foco infeccioso/inflamatório ou doença sistêmica antes de atribuir tudo ao endótipo.';}var alerta='';if(v[7]===3||v[8]===3)alerta=' ALERTA: PCR/VHS elevados — investigar foco infeccioso/inflamatório ou doença sistêmica.';var faixaA=eixoA<=3?'baixa':(eixoA<=6?'possível':(eixoA<=10?'provável':'forte'));var tipoIIb=(eixoA>=4);var iibForte=(eixoA>=7);var igeMuitoBaixa=(v[0]===3);var eosBaixo=(v[4]>=2);var basopenia=(v[5]===1);var marcGraves=(igeMuitoBaixa?1:0)+(eosBaixo?1:0)+(basopenia?1:0);var conduta;if(iibForte&&marcGraves>=2){conduta=' CONDUTA — tipo IIb forte com marcadores laboratoriais de refratariedade (IgE muito baixa, eosinopenia e/ou basopenia): menor expectativa de resposta ao omalizumabe em dose padrão. Reavaliar cedo e NÃO prolongar passivamente a mesma estratégia — considerar updosing precoce e já planejar mudança de mecanismo (ciclosporina como opção clássica; BTKi/anti-KIT conforme disponibilidade). Correlacionar com UAS7/UCT.';}else if(iibForte){conduta=' CONDUTA — tipo IIb forte: se não houver melhora objetiva, não esperar passivamente. Considerar otimização precoce do omalizumabe (updosing / encurtar intervalo) e já planejar mudança de mecanismo — ciclosporina é a opção clássica.';}else if(tipoIIb){conduta=' CONDUTA — assinatura tipo IIb: reduz o limiar para otimizar ou trocar o tratamento mais cedo. Havendo alguma melhora, NÃO trocar diretamente — pode ser respondedor parcial ou lento (resposta tardia é característica do tipo IIb).';}else{conduta=' CONDUTA — perfil tipo I/autoalérgico: maior chance de resposta ao omalizumabe. Vale aguardar e otimizar antes de trocar de mecanismo.';}var msgPratica=' MENSAGEM PRÁTICA: o perfil tipo IIb reduz o limiar para otimizar ou trocar o tratamento, mas NÃO justifica declarar falha do omalizumabe precocemente.';var leituraTempo;if(!tipoIIb){leituraTempo=' LEITURA DE TEMPO: perfil com maior probabilidade de resposta ao anti-IgE — se ainda sem resposta objetiva, respeitar o tempo adequado e otimizar antes de trocar de mecanismo.';}else if(iibForte&&eixoB>=6){leituraTempo=' LEITURA DE TEMPO: assinatura IIb forte com inflamação sistêmica — limiar menor para otimizar cedo; reavaliar objetivamente aos 3 meses e, sem melhora, planejar mudança de mecanismo.';}else if(iibForte){leituraTempo=' LEITURA DE TEMPO: assinatura IIb forte — pode ser respondedor parcial ou tardio (12–16 semanas); não trocar precocemente, reavaliar objetivamente aos 3 meses.';}else{leituraTempo=' LEITURA DE TEMPO: assinatura IIb — resposta costuma ser tardia (12–16 semanas) em relação à rápida (4–6 semanas); reavaliar aos 3 meses antes de trocar.';}var marcosResp=' MARCOS DE AVALIAÇÃO: resposta pode ser rápida (4–6 semanas) ou tardia (12–16 semanas); 3 meses = ponto de decisão entre otimizar e trocar; 6 meses = momento mais seguro para declarar ausência de resposta verdadeira. Ausência de resposta precoce não é sinônimo de falha terapêutica.';return{score:'A '+eixoA+'/14 · B '+eixoB+'/9',lbl:tipo+' — '+grau,desc:'Eixo A (assinatura tipo IIb): '+eixoA+'/14 — '+faixaA+'. Eixo B (inflamação): '+eixoB+'/9 — '+infl+'.'+hemoTxt+inflTxt+' Confiança: '+conf+'.'+alerta+conduta+msgPratica+leituraTempo+marcosResp+' A confirmação do tipo IIb exige BAT, BHRA ou ASST — biomarcadores de rotina indicam a assinatura, não fecham o endótipo. Ferramenta operacional; não substitui avaliação médica.',color:cor};}},cortico:{title:'💊 Corticoides — Conversão de dose',desc:'Converte a dose entre corticoides pela potência anti-inflamatória. Escolha o corticoide de origem, a dose e o corticoide de destino.',fields:[{id:'co1',lbl:'Corticoide de origem',opts:['Prednisona / Prednisolona','Metilprednisolona','Dexametasona','Betametasona','Hidrocortisona']},{id:'co2',lbl:'Dose de origem (mg)',type:'num',ph:'ex: 40'},{id:'co3',lbl:'Corticoide de destino',opts:['Prednisona / Prednisolona','Metilprednisolona','Dexametasona','Betametasona','Hidrocortisona']}],calc:function(v){var eq=[5,4,0.75,0.6,20];var nomes=['Prednisona/Prednisolona','Metilprednisolona','Dexametasona','Betametasona','Hidrocortisona'];var src=v[0];var dst=v[2];var dose=(v[1]===null||v[1]===undefined||isNaN(v[1]))?null:v[1];if(dose===null||dose<=0){return{score:'—',lbl:'Informe a dose de origem',desc:'Digite a dose (em mg) do corticoide de origem para calcular a conversão.',color:'linear-gradient(135deg,#0d1f2d,#1f6980)'};}var doseDst=dose*(eq[dst]/eq[src]);var dstTxt=(Math.round(doseDst*100)/100).toString().replace('.',',');var srcTxt=(Math.round(dose*100)/100).toString().replace('.',',');var linhas=[];for(var i=0;i<eq.length;i++){var d=dose*(eq[i]/eq[src]);var t=(Math.round(d*100)/100).toString().replace('.',',');var marca=(i===src)?' (origem)':((i===dst)?' ← destino':'');linhas.push(nomes[i]+': '+t+' mg'+marca);}var alerta='';if(dst===2||dst===3){alerta=' Atenção: dexametasona/betametasona têm meia-vida longa e efeito mineralocorticoide desprezível — não são ideais para reposição fisiológica.';}if(src===4||dst===4){alerta+=' A hidrocortisona tem forte efeito mineralocorticoide — considere isso na equivalência.';}var mesmo=(src===dst)?' (origem e destino iguais)':'';return{score:srcTxt+' mg → '+dstTxt+' mg',lbl:nomes[src]+' → '+nomes[dst]+mesmo,desc:'Fonte: Schimmer BP, Parker KL. Adrenocorticotropic hormone; adrenocortical steroids and their synthetic analogs; inhibitors of the synthesis and actions of adrenocortical hormones. In: Goodman & Gilman\'s The Pharmacological Basis of Therapeutics. 12. ed. New York: McGraw-Hill; 2011.',color:'linear-gradient(135deg,#0d1f2d,#c9a84c)'};}},
-  act:{title:'🫁 ACT — Controle da asma',desc:'Assistente passo a passo: 5 perguntas (adulto) ou 7 (criança).',special:'act',fields:[],calc:function(){return null;}},
-  easi:{title:'🩹 EASI — Eczema Area & Severity Index',desc:'Por região: área (0–6) × soma de 4 sinais (eritema, infiltração/pápulas, escoriação e liquenificação; 0–3 cada), ponderada pela região. Score 0–72.',fields:_EASI_FIELDS,calc:function(v){var w=[0.1,0.2,0.3,0.4],tot=0;for(var r=0;r<4;r++){var b=r*5;tot+=w[r]*v[b]*(v[b+1]+v[b+2]+v[b+3]+v[b+4]);}var s=Math.round(tot*10)/10;var base=' Pesos: cabeça/pescoço 0,1; membros superiores 0,2; tronco 0,3; membros inferiores 0,4. Fonte: Hanifin JM et al. Exp Dermatol. 2001. Limiares de elegibilidade a biológicos variam entre diretrizes e ensaios: confirmar na diretriz vigente.';if(s<7)return{score:s+'/72',lbl:'🟡 DA leve',desc:'EASI <7.'+base,color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};if(s<=21)return{score:s+'/72',lbl:'🟠 DA moderada',desc:'EASI 7–21.'+base,color:'linear-gradient(135deg,#0d1f2d,#e67e22)'};return{score:s+'/72',lbl:'🔴 DA grave',desc:'EASI >21.'+base,color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
+  icpeUce:{title:'🔬 ICPE-UCE — Endótipo e Conduta na UCE',desc:'Estima o endótipo da urticária crônica espontânea usando apenas biomarcadores laboratoriais de rotina (Eixo A: assinatura tipo IIb; Eixo B: inflamação) e sugere a conduta mais lógica frente ao omalizumabe. SII e SIRI são calculados automaticamente a partir do hemograma. Para a atividade clínica, use os scores UAS7 e UCT.',fields:[{id:'ic_ige',lbl:'IgE total (UI/mL)',opts:['≥70 (0 pt)','40–70 (1 pt)','20–39 (2 pt)','<20 (3 pt)']},{id:'ic_tpo',lbl:'IgG anti-TPO',opts:['Negativo (0 pt)','Positivo até 3× LSM (1 pt)','Positivo >3× LSM (2 pt)']},{id:'ic_tg',lbl:'Anti-tireoglobulina IgG',opts:['Negativo (0 pt)','Positivo (1 pt)']},{id:'ic_fan',lbl:'FAN',opts:['Negativo ou ≤1:80 (0 pt)','1:160 (1 pt)','≥1:320 (2 pt)']},{id:'ic_eos',lbl:'Eosinófilos absolutos',opts:['≥100/µL (0 pt)','50–99/µL (1 pt)','<50/µL (2 pt)','0–10/µL persistente s/ corticoide (3 pt)']},{id:'ic_bas',lbl:'Basófilos absolutos',opts:['≥10/µL (0 pt)','<10/µL ou 0 (2 pt)']},{id:'ic_tir',lbl:'Função/autoimunidade tireoidiana',opts:['TSH/T4 normais, sem autoanticorpos (0 pt)','Disfunção autoimune ou tireoidite (1 pt)']},{id:'ic_pcr',lbl:'PCR (mg/L) — 1 mg/dL = 10 mg/L',opts:['<5 (0 pt)','5–10 (1 pt)','10–30 (2 pt)','>30 (3 pt)']},{id:'ic_vhs',lbl:'VHS (mm/h)',opts:['≤20 (0 pt)','21–40 (1 pt)','41–70 (2 pt)','>70 (3 pt)']},{id:'ic_plaq',lbl:'Plaquetas (para SII)',type:'num',ph:'ex: 250 (10⁹/L) ou 250000'},{id:'ic_neut',lbl:'Neutrófilos absolutos (para SII/SIRI)',type:'num',ph:'ex: 4,5 (10⁹/L) ou 4500'},{id:'ic_linf',lbl:'Linfócitos absolutos (para SII/SIRI)',type:'num',ph:'ex: 2,0 (10⁹/L) ou 2000'},{id:'ic_mono',lbl:'Monócitos absolutos (para SIRI)',type:'num',ph:'ex: 0,5 (10⁹/L) ou 500'}],calc:function(v){var basoPts=[0,2][v[5]];var eixoA=v[0]+v[1]+v[2]+v[3]+v[4]+basoPts+v[6];function _u(x,big){if(x===null||x===undefined||isNaN(x))return null;return x>big?x/1000:x;}var plaq=_u(v[9],2000),neut=_u(v[10],100),linf=_u(v[11],100),mono=_u(v[12],100);var sii=null,siri=null,siiPts=0,siriPts=0,hemoTxt='';if(plaq!==null&&neut!==null&&linf!==null&&linf>0){sii=plaq*neut/linf;siiPts=sii<480?0:(sii<=1000?1:2);}if(neut!==null&&mono!==null&&linf!==null&&linf>0){siri=neut*mono/linf;siriPts=siri<1.2?0:(siri<=2.0?1:2);}var siiSiri=Math.min(siiPts+siriPts,3);var eixoB=v[7]+v[8]+siiSiri;if(sii!==null){hemoTxt+=' SII='+Math.round(sii)+' (+'+siiPts+').';}else{hemoTxt+=' SII não calculado (hemograma incompleto).';}if(siri!==null){hemoTxt+=' SIRI='+(Math.round(siri*100)/100).toString().replace('.',',')+' (+'+siriPts+').';}else{hemoTxt+=' SIRI não calculado.';}var igeAlta=(v[0]===0);var tipo,grau,conf,cor;if(eixoA<=3){tipo='UCE TIPO I';grau='autoalérgica (IgE-mediada)';conf=igeAlta?'moderada':'baixa';cor='linear-gradient(135deg,#1a4a5c,#2e8b57)';}else{tipo='UCE TIPO IIb';grau='autoimune';if(eixoA<=6){grau='autoimune (assinatura possível)';conf='baixa';}else if(eixoA<=10){grau='autoimune (assinatura provável)';conf='moderada';}else{grau='autoimune (assinatura forte)';conf='alta';}cor=(eixoB>=6)?'linear-gradient(135deg,#0d1f2d,#c0392b)':'linear-gradient(135deg,#1f6980,#c9a84c)';}var infl,inflTxt;if(eixoB<=2){infl='sem inflamação sistêmica relevante';inflTxt='';}else if(eixoB<=5){infl='inflamação leve/moderada';inflTxt=' Componente inflamatório leve/moderado — interpretar junto à clínica.';}else if(eixoB<=7){infl='inflamação sistêmica relevante';inflTxt=' Componente inflamatório sistêmico relevante — procurar fator perpetuador (foco infeccioso/inflamatório ou doença sistêmica associada).';}else{infl='inflamação sistêmica forte';inflTxt=' Forte componente inflamatório — investigar ativamente foco infeccioso/inflamatório ou doença sistêmica antes de atribuir tudo ao endótipo.';}var alerta='';if(v[7]===3||v[8]===3)alerta=' ALERTA: PCR/VHS elevados — investigar foco infeccioso/inflamatório ou doença sistêmica.';var faixaA=eixoA<=3?'baixa':(eixoA<=6?'possível':(eixoA<=10?'provável':'forte'));var tipoIIb=(eixoA>=4);var iibForte=(eixoA>=7);var igeMuitoBaixa=(v[0]===3);var eosBaixo=(v[4]>=2);var basopenia=(v[5]===1);var marcGraves=(igeMuitoBaixa?1:0)+(eosBaixo?1:0)+(basopenia?1:0);var conduta;if(iibForte&&marcGraves>=2){conduta=' CONDUTA — tipo IIb forte com marcadores laboratoriais de refratariedade (IgE muito baixa, eosinopenia e/ou basopenia): menor expectativa de resposta ao omalizumabe em dose padrão. Reavaliar cedo e NÃO prolongar passivamente a mesma estratégia — considerar updosing precoce e já planejar mudança de mecanismo (ciclosporina como opção clássica; BTKi/anti-KIT conforme disponibilidade). Correlacionar com UAS7/UCT.';}else if(iibForte){conduta=' CONDUTA — tipo IIb forte: se não houver melhora objetiva, não esperar passivamente. Considerar otimização precoce do omalizumabe (updosing / encurtar intervalo) e já planejar mudança de mecanismo — ciclosporina é a opção clássica.';}else if(tipoIIb){conduta=' CONDUTA — assinatura tipo IIb: reduz o limiar para otimizar ou trocar o tratamento mais cedo. Havendo alguma melhora, NÃO trocar diretamente — pode ser respondedor parcial ou lento (resposta tardia é característica do tipo IIb).';}else{conduta=' CONDUTA — perfil tipo I/autoalérgico: maior chance de resposta ao omalizumabe. Vale aguardar e otimizar antes de trocar de mecanismo.';}var msgPratica=' MENSAGEM PRÁTICA: o perfil tipo IIb reduz o limiar para otimizar ou trocar o tratamento, mas NÃO justifica declarar falha do omalizumabe precocemente.';var leituraTempo;if(!tipoIIb){leituraTempo=' LEITURA DE TEMPO: perfil com maior probabilidade de resposta ao anti-IgE — se ainda sem resposta objetiva, respeitar o tempo adequado e otimizar antes de trocar de mecanismo.';}else if(iibForte&&eixoB>=6){leituraTempo=' LEITURA DE TEMPO: assinatura IIb forte com inflamação sistêmica — limiar menor para otimizar cedo; reavaliar objetivamente aos 3 meses e, sem melhora, planejar mudança de mecanismo.';}else if(iibForte){leituraTempo=' LEITURA DE TEMPO: assinatura IIb forte — pode ser respondedor parcial ou tardio (12–16 semanas); não trocar precocemente, reavaliar objetivamente aos 3 meses.';}else{leituraTempo=' LEITURA DE TEMPO: assinatura IIb — resposta costuma ser tardia (12–16 semanas) em relação à rápida (4–6 semanas); reavaliar aos 3 meses antes de trocar.';}var marcosResp=' MARCOS DE AVALIAÇÃO: resposta pode ser rápida (4–6 semanas) ou tardia (12–16 semanas); 3 meses = ponto de decisão entre otimizar e trocar; 6 meses = momento mais seguro para declarar ausência de resposta verdadeira. Ausência de resposta precoce não é sinônimo de falha terapêutica.';return{score:'A '+eixoA+'/14 · B '+eixoB+'/9',lbl:tipo+' — '+grau,desc:'Eixo A (assinatura tipo IIb): '+eixoA+'/14 — '+faixaA+'. Eixo B (inflamação): '+eixoB+'/9 — '+infl+'.'+hemoTxt+inflTxt+' Confiança: '+conf+'.'+alerta+conduta+msgPratica+leituraTempo+marcosResp+' A confirmação do tipo IIb exige BAT, BHRA ou ASST — biomarcadores de rotina indicam a assinatura, não fecham o endótipo. Ferramenta operacional; não substitui avaliação médica.',color:cor};}},cortico:{title:'💊 Corticoides — Conversão de dose',desc:'Converte a dose entre corticoides pela potência anti-inflamatória. Escolha o corticoide de origem, a dose e o corticoide de destino.',fields:[{id:'co1',lbl:'Corticoide de origem',opts:['Prednisona / Prednisolona','Metilprednisolona','Dexametasona','Betametasona','Hidrocortisona']},{id:'co2',lbl:'Dose de origem (mg)',type:'num',ph:'ex: 40'},{id:'co3',lbl:'Corticoide de destino',opts:['Prednisona / Prednisolona','Metilprednisolona','Dexametasona','Betametasona','Hidrocortisona']}],calc:function(v){var eq=[5,4,0.75,0.6,20];var nomes=['Prednisona/Prednisolona','Metilprednisolona','Dexametasona','Betametasona','Hidrocortisona'];var src=v[0];var dst=v[2];var dose=(v[1]===null||v[1]===undefined||isNaN(v[1]))?null:v[1];if(dose===null||dose<=0){return{score:'—',lbl:'Informe a dose de origem',desc:'Digite a dose (em mg) do corticoide de origem para calcular a conversão.',color:'linear-gradient(135deg,#0d1f2d,#1f6980)'};}var doseDst=dose*(eq[dst]/eq[src]);var dstTxt=(Math.round(doseDst*100)/100).toString().replace('.',',');var srcTxt=(Math.round(dose*100)/100).toString().replace('.',',');var linhas=[];for(var i=0;i<eq.length;i++){var d=dose*(eq[i]/eq[src]);var t=(Math.round(d*100)/100).toString().replace('.',',');var marca=(i===src)?' (origem)':((i===dst)?' ← destino':'');linhas.push(nomes[i]+': '+t+' mg'+marca);}var alerta='';if(dst===2||dst===3){alerta=' Atenção: dexametasona/betametasona têm meia-vida longa e efeito mineralocorticoide desprezível — não são ideais para reposição fisiológica.';}if(src===4||dst===4){alerta+=' A hidrocortisona tem forte efeito mineralocorticoide — considere isso na equivalência.';}var mesmo=(src===dst)?' (origem e destino iguais)':'';return{score:srcTxt+' mg → '+dstTxt+' mg',lbl:nomes[src]+' → '+nomes[dst]+mesmo,desc:srcTxt+' mg de '+nomes[src]+' ≡ '+dstTxt+' mg de '+nomes[dst]+'.'+alerta+' — Todos os equivalentes: '+linhas.join(', ')+'. Referência de potência anti-inflamatória; meia-vida e efeito mineralocorticoide variam entre os fármacos. Não aplicar diretamente para vias inalatória/tópica.',color:'linear-gradient(135deg,#0d1f2d,#c9a84c)'};}},
+  act:{title:'🫁 ACT — Asthma Control Test',desc:'Avalia controle da asma nas últimas 4 semanas. 5 questões, 1 (pior) a 5 (melhor). Score máximo: 25.',fields:[{id:'a1',lbl:'1. Asma impediu atividades?',opts:['Todo o tempo (1)','Muitas vezes (2)','Às vezes (3)','Raramente (4)','Nunca (5)']},{id:'a2',lbl:'2. Frequência de falta de ar?',opts:['Mais de 1× ao dia (1)','1× ao dia (2)','3–6× por semana (3)','1–2× por semana (4)','Nenhuma vez (5)']},{id:'a3',lbl:'3. Sintomas noturnos?',opts:['4+ noites/semana (1)','2–3 noites/semana (2)','1× por semana (3)','1–2× no mês (4)','Nenhuma vez (5)']},{id:'a4',lbl:'4. Uso de broncodilatador?',opts:['3+ vezes ao dia (1)','1–2× ao dia (2)','2–3× por semana (3)','≤1× por semana (4)','Nenhuma vez (5)']},{id:'a5',lbl:'5. Como avalia o controle?',opts:['Nada controlada (1)','Mal controlada (2)','Mais ou menos (3)','Bem controlada (4)','Completamente (5)']}],calc:function(v){var s=v.reduce(function(a,b){return a+b;},0);if(s>=20)return{score:s+'/25',lbl:'✅ Asma Controlada',desc:'Score ≥20: bem controlada. Manter tratamento e monitorar.',color:'linear-gradient(135deg,#0d1f2d,#16a085)'};if(s>=16)return{score:s+'/25',lbl:'⚠️ Parcialmente Controlada',desc:'Score 16–19: controle parcial. Avaliar adesão e técnica inalatória. Step up GINA se necessário.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};return{score:s+'/25',lbl:'🔴 Não Controlada',desc:'Score ≤15: não controlada. Revisar diagnóstico, adesão e gatilhos. Avaliar asma grave.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
+  easi:{title:'🩹 EASI — Eczema Area & Severity Index',desc:'Avalia gravidade da DA por região corporal. Score 0–72.',fields:[{id:'e1',lbl:'Cabeça/pescoço (peso 0,1)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']},{id:'e2',lbl:'Membros superiores (peso 0,2)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']},{id:'e3',lbl:'Tronco (peso 0,3)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']},{id:'e4',lbl:'Membros inferiores (peso 0,4)',opts:['0 — Sem lesões','1 — Muito leve','2 — Leve','3 — Moderada','4 — Grave','5 — Muito grave']}],calc:function(v){var w=[0.1,0.2,0.3,0.4],pts=[0,1.5,3,6,9,12];var s=parseFloat(v.reduce(function(a,vi,i){return a+pts[vi]*w[i]*6;},0).toFixed(1));if(s<7)return{score:s+'/72',lbl:'🟡 DA Leve',desc:'EASI <7: emolientes e corticoide tópico conforme necessário.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};if(s<21)return{score:s+'/72',lbl:'🟠 DA Moderada',desc:'EASI 7–21: considerar imunomoduladores tópicos ou sistêmicos.',color:'linear-gradient(135deg,#0d1f2d,#e67e22)'};return{score:s+'/72',lbl:'🔴 DA Grave',desc:'EASI >21: candidato a imunobiológico (dupilumabe, tralokinumabe) ou inibidor de JAK.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
   uas:{title:'🔴 UAS7 \u2014 Urticaria Activity Score',desc:'Registre 1 vez por dia, SEMPRE \u00e0 noite antes de dormir, durante 7 dias seguidos. Cada dia: p\u00e1pulas (0\u20133) + prurido (0\u20133). Total 0\u201342.',special:'uas7',fields:[],calc:function(v){var s=0;for(var k=0;k<v.length;k++){s+=(v[k]||0);}if(s===0)return{score:'0/42',lbl:'\u2705 Urtic\u00e1ria Inativa',desc:'UAS7=0: remiss\u00e3o completa. Considerar redu\u00e7\u00e3o gradual.',color:'linear-gradient(135deg,#0d1f2d,#16a085)'};if(s<=6)return{score:s+'/42',lbl:'🟡 Bem Controlada',desc:'UAS7 1\u20136: atividade leve. Manter anti-H1 e monitorar.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};if(s<=15)return{score:s+'/42',lbl:'🟠 Moderada',desc:'UAS7 7\u201315: avaliar aumento do anti-H1 at\u00e9 4\u00d7 a dose padr\u00e3o.',color:'linear-gradient(135deg,#0d1f2d,#e67e22)'};if(s<=27)return{score:s+'/42',lbl:'🔴 Muito Ativa',desc:'UAS7 16\u201327: doen\u00e7a muito ativa. Se refrat\u00e1ria ao anti-H1 otimizado, considerar omalizumabe (a DUT 65.11 da ANS exige UAS7 \u2265 28).',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};return{score:s+'/42',lbl:'🔴 Grav\u00edssima',desc:'UAS7 28\u201342: crit\u00e9rio de UAS7 da DUT 65.11 (ANS) para omalizumabe. Se refrat\u00e1ria: dupilumabe (ANVISA, \u2265 2 anos) ou ciclosporina. Remibrutinibe aprovado nos EUA/UE; barzolvolimabe ainda em estudo.',color:'linear-gradient(135deg,#0d1f2d,#7b241c)'};}},
-  uct:{title:'🎯 UCT — Urticaria Control Test',desc:'Controle da urticária nos últimos 28 dias. Some os 4 itens (0–16). UCT ≥ 12 = bem controlada; < 12 = controle insuficiente.',fields:[{id:'uc1',lbl:'1. Nos últimos 28 dias, em que medida sua urticária afetou sua qualidade de vida?',opts:['Muito severamente (0)','Severamente (1)','Moderadamente (2)','Levemente (3)','Nada (4)']},{id:'uc2',lbl:'2. Nos últimos 28 dias, em que medida o tratamento atual controlou sua urticária?',opts:['Nada (0)','Pouco (1)','Moderadamente (2)','Bem (3)','Completamente (4)']},{id:'uc3',lbl:'3. Nos últimos 28 dias, quantas vezes você teve sintomas de urticária (vergões, coceira, inchaço)?',opts:['Todos os dias (0)','Mais de 2 vezes por semana (1)','2 vezes por semana (2)','1 vez por semana (3)','Nenhuma vez (4)']},{id:'uc4',lbl:'4. Nos últimos 28 dias, quão incomodado(a) você ficou com a urticária?',opts:['Extremamente (0)','Muito (1)','Moderadamente (2)','Levemente (3)','Nada (4)']}],calc:function(v){var t=v.reduce(function(a,b){return a+b;},0);if(t>=12)return{score:t+'/16',lbl:'✅ Bem controlada',desc:'UCT ≥ 12: controle adequado. Manter a terapia atual e reavaliar periodicamente.',color:'linear-gradient(135deg,#0d1f2d,#16a085)'};if(t>=7)return{score:t+'/16',lbl:'⚠️ Controle insuficiente',desc:'UCT 7–11: controle abaixo do ideal. Otimizar anti-H1 (até 4× a dose) e considerar avançar para omalizumabe se ainda não controlada.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};return{score:t+'/16',lbl:'🔴 Não controlada',desc:'UCT < 7: controle inadequado. Revisar adesão e diagnóstico; escalar terapia — omalizumabe se anti-H1 em dose otimizada for insuficiente.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
-  scorad:{title:'📊 SCORAD — Dermatite atópica',desc:'Assistente passo a passo: extensão (regra dos nove), intensidade de 6 sinais e sintomas. Score 0–103.',special:'scorad',fields:[],calc:function(){return null;}},
+  uct:{title:'🎯 UCT — Urticaria Control Test',desc:'Controle da urticária nos últimos 28 dias. Some os 4 itens (0–16). UCT ≥ 12 = bem controlada; < 12 = controle insuficiente.',special:'uct',fields:[{id:'uc1',lbl:'1. Nos últimos 28 dias, em que medida sua urticária afetou sua qualidade de vida?',opts:['Muito severamente (0)','Severamente (1)','Moderadamente (2)','Levemente (3)','Nada (4)']},{id:'uc2',lbl:'2. Nos últimos 28 dias, em que medida o tratamento atual controlou sua urticária?',opts:['Nada (0)','Pouco (1)','Moderadamente (2)','Bem (3)','Completamente (4)']},{id:'uc3',lbl:'3. Nos últimos 28 dias, quantas vezes você teve sintomas de urticária (vergões, coceira, inchaço)?',opts:['Todos os dias (0)','Mais de 2 vezes por semana (1)','2 vezes por semana (2)','1 vez por semana (3)','Nenhuma vez (4)']},{id:'uc4',lbl:'4. Nos últimos 28 dias, quão incomodado(a) você ficou com a urticária?',opts:['Extremamente (0)','Muito (1)','Moderadamente (2)','Levemente (3)','Nada (4)']}],calc:function(v){var t=v.reduce(function(a,b){return a+b;},0);if(t>=12)return{score:t+'/16',lbl:'✅ Bem controlada',desc:'UCT ≥ 12: controle adequado. Manter a terapia atual e reavaliar periodicamente.',color:'linear-gradient(135deg,#0d1f2d,#16a085)'};if(t>=7)return{score:t+'/16',lbl:'⚠️ Controle insuficiente',desc:'UCT 7–11: controle abaixo do ideal. Otimizar anti-H1 (até 4× a dose) e considerar avançar para omalizumabe se ainda não controlada.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};return{score:t+'/16',lbl:'🔴 Não controlada',desc:'UCT < 7: controle inadequado. Revisar adesão e diagnóstico; escalar terapia — omalizumabe se anti-H1 em dose otimizada for insuficiente.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
+  scorad:{title:'📊 SCORAD — Scoring Atopic Dermatitis',desc:'Score composto da DA: extensão + intensidade + sintomas subjetivos. Score 0–103.',fields:[{id:'s1',lbl:'Extensão corporal afetada',opts:['< 5%','5–15%','16–30%','31–50%','51–70%','> 70%']},{id:'s2',lbl:'Intensidade média das lesões',opts:['0 — Sem lesões','2 — Muito leve','4 — Leve','6 — Moderada','10 — Grave','12 — Muito grave']},{id:'s3',lbl:'Prurido médio (0–10)',opts:['0','1','2','3','4','5','6','7','8','9','10']},{id:'s4',lbl:'Perda de sono (0–10)',opts:['0','1','2','3','4','5','6','7','8','9','10']}],calc:function(v){var ext=[2,10,20,40,60,80];var s=parseFloat((ext[v[0]]/5+7*v[1]/2+(v[2]+v[3])/5).toFixed(1));if(s<25)return{score:s+'/103',lbl:'🟡 DA Leve',desc:'SCORAD <25: cuidados locais e corticoide tópico.',color:'linear-gradient(135deg,#0d1f2d,#d4a017)'};if(s<50)return{score:s+'/103',lbl:'🟠 DA Moderada',desc:'SCORAD 25–50: avaliar imunomoduladores.',color:'linear-gradient(135deg,#0d1f2d,#e67e22)'};return{score:s+'/103',lbl:'🔴 DA Grave',desc:'SCORAD >50: candidato a imunobiológico ou JAKi.',color:'linear-gradient(135deg,#0d1f2d,#c0392b)'};}},
   };
-
-/* ══ ACT — controle da asma: assistente passo a passo (adulto e criança) ══ */
-var _ACT_BANDAS = [['Nenhum dia',5],['1 a 3 dias',4],['4 a 10 dias',3],['11 a 18 dias',2],['19 a 24 dias',1],['Todos os dias',0]];
-var _ACT = {
-  adulto: { nome:'Adulto e adolescente (12 anos ou mais)', max:25, itens:[
-    { q:'Nas últimas semanas, quanto a asma limitou o seu trabalho, os estudos ou as tarefas de casa?',
-      o:[['O tempo todo',1],['Na maior parte do tempo',2],['Em parte do tempo',3],['Quase nunca',4],['Em nenhum momento',5]] },
-    { q:'Com que frequência você sentiu falta de ar no último mês?',
-      o:[['Várias vezes ao dia',1],['Uma vez ao dia',2],['De 3 a 6 vezes por semana',3],['1 ou 2 vezes por semana',4],['Nenhuma vez',5]] },
-    { q:'No último mês, em quantas noites os sintomas tiraram o seu sono ou fizeram você acordar mais cedo?',
-      o:[['4 noites ou mais por semana',1],['2 a 3 noites por semana',2],['Uma vez por semana',3],['1 ou 2 noites no mês',4],['Nenhuma noite',5]] },
-    { q:'Quantas vezes você precisou usar a bombinha de alívio no último mês?',
-      o:[['3 vezes ou mais ao dia',1],['1 ou 2 vezes ao dia',2],['2 ou 3 vezes por semana',3],['Uma vez por semana ou menos',4],['Nenhuma vez',5]] },
-    { q:'Como você avalia o controle da sua asma no último mês?',
-      o:[['Nenhum controle',1],['Controle bem fraco',2],['Controle regular',3],['Controle bom',4],['Controle total',5]] }
-  ], faixas:[
-    [25,'Controle total','Ótimo: no último mês a asma ficou totalmente sob controle. Mantenha o tratamento combinado com o seu médico.','#16a085'],
-    [20,'Bem controlada','A asma esteve bem controlada, com episódios ocasionais. Vale conversar com o médico para manter ou ajustar o plano.','#2a9fad'],
-    [0,'Não controlada','A asma pode não estar bem controlada. Procure o médico para revisar o tratamento, a técnica do inalador e o plano de ação.','#c0392b']
-  ]},
-  crianca: { nome:'Criança (4 a 11 anos)', max:27, itens:[
-    { q:'Como você está se sentindo com a sua asma hoje?',
-      o:[['Muito bem',3],['Bem',2],['Mais ou menos',1],['Mal',0]] },
-    { q:'A asma atrapalha você de correr, brincar ou praticar esportes?',
-      o:[['De jeito nenhum',3],['Um pouquinho',2],['Bastante',1],['Não consigo fazer nada',0]] },
-    { q:'A tosse da criança vem por causa da asma?',
-      o:[['Não tosso',3],['Tosso um pouquinho',2],['Tosso bastante',1],['Tosso o tempo todo',0]] },
-    { q:'A asma faz você acordar durante a noite?',
-      o:[['Não acordo',3],['Acordo um pouquinho',2],['Acordo bastante',1],['Acordo o tempo todo',0]] },
-    { q:'(Responsável) Nos últimos 28 dias, em quantos dias a criança teve sintomas durante o dia?', o:_ACT_BANDAS },
-    { q:'(Responsável) Nos últimos 28 dias, em quantos dias a criança chiou no peito durante o dia?', o:_ACT_BANDAS },
-    { q:'(Responsável) Nos últimos 28 dias, em quantas noites a criança acordou por causa da asma?', o:_ACT_BANDAS }
-  ], faixas:[
-    [20,'Aparentemente controlada','A asma da criança parece bem controlada. Continue o acompanhamento regular com o pediatra.','#16a085'],
-    [0,'Não controlada','A asma da criança pode não estar controlada. Leve este resultado ao médico para ajustar o tratamento e o plano de ação.','#c0392b']
-  ]}
-};
-window._actSt = { modo:'adulto', i:0, r:[] };
-
-function _actModo(m){ _actSt = { modo:m, i:0, r:[] }; _actUI(); }
-function _actEscolher(k){
-  var st = _actSt, it = _ACT[st.modo].itens[st.i];
-  st.r[st.i] = it.o[k][1];
-  setTimeout(function(){ st.i++; _actUI(); }, 260);
-  _actUI();
-}
-function _actVoltar(){ if(_actSt.i > 0){ _actSt.i--; _actUI(); } }
-function _actRecomecar(){ _actSt = { modo:_actSt.modo, i:0, r:[] }; _actUI(); }
-
-function _actUI(){
-  var st = _actSt, cfg = _ACT[st.modo], box = document.getElementById('mFields');
-  if(!box) return;
-  if(st.i >= cfg.itens.length){ box.innerHTML = _actResultado(); return; }
-  var total = cfg.itens.length, it = cfg.itens[st.i], pct = Math.round(st.i / total * 100);
-  var tabs = ['adulto','crianca'].map(function(m){
-    return '<button class="act-tab' + (m === st.modo ? ' on' : '') + '" onclick="_actModo(\'' + m + '\')">' + (m === 'adulto' ? 'Adulto e adolescente' : 'Criança 4 a 11') + '</button>';
-  }).join('');
-  var ops = it.o.map(function(o, k){
-    var sel = st.r[st.i] === o[1];
-    return '<button class="act-opt' + (sel ? ' sel' : '') + '" onclick="_actEscolher(' + k + ')"><span class="act-dot"></span><span class="act-lbl">' + o[0] + '</span></button>';
-  }).join('');
-  box.innerHTML = '<div class="act-wrap" key="' + st.i + '">'
-    + '<div class="act-tabs">' + tabs + '</div>'
-    + '<div class="act-top"><span class="act-step">Pergunta ' + (st.i + 1) + ' de ' + total + '</span><span class="act-pct">' + pct + '%</span></div>'
-    + '<div class="act-prog"><div class="act-prog-fill" style="width:' + pct + '%"></div></div>'
-    + '<div class="act-q">' + it.q + '</div>'
-    + '<div class="act-opts">' + ops + '</div>'
-    + '<div class="act-nav">' + (st.i > 0 ? '<button class="act-btn sec" onclick="_actVoltar()">← Anterior</button>' : '<span></span>') + '</div>'
-    + '</div>';
-}
-
-function _actResultado(){
-  var st = _actSt, cfg = _ACT[st.modo];
-  var soma = st.r.reduce(function(a, b){ return a + b; }, 0);
-  var f = cfg.faixas.filter(function(x){ return soma >= x[0]; })[0] || cfg.faixas[cfg.faixas.length - 1];
-  var C = 2 * Math.PI * 54, alvo = C * (1 - soma / cfg.max);
-  setTimeout(function(){ var c = document.getElementById('actArco'); if(c) c.style.strokeDashoffset = alvo; }, 60);
-  return '<div class="act-wrap act-res" style="--cor:' + f[3] + '">'
-    + '<div class="act-tabs">' + ['adulto','crianca'].map(function(m){ return '<button class="act-tab' + (m === st.modo ? ' on' : '') + '" onclick="_actModo(\'' + m + '\')">' + (m === 'adulto' ? 'Adulto e adolescente' : 'Criança 4 a 11') + '</button>'; }).join('') + '</div>'
-    + '<div class="act-ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" class="act-trilho"/>'
-    + '<circle id="actArco" cx="60" cy="60" r="54" class="act-arco" style="stroke-dasharray:' + C.toFixed(1) + ';stroke-dashoffset:' + C.toFixed(1) + '"/></svg>'
-    + '<div class="act-num"><b>' + soma + '</b><span>de ' + cfg.max + '</span></div></div>'
-    + '<div class="act-faixa">' + f[1] + '</div>'
-    + '<div class="act-msg">' + f[2] + '</div>'
-    + '<div class="act-aviso">Ferramenta de apoio educativo. Não substitui a consulta médica e nunca deve levar à mudança de medicamentos sem orientação.</div>'
-    + '<div class="act-nav"><button class="act-btn" onclick="_actRecomecar()">Refazer</button></div>'
-    + '</div>';
-}
-
-/* ══ SCORAD — assistente passo a passo: extensão (regra dos nove), intensidade, sintomas ══ */
-var _SC_REG = [['Cabeça e pescoço',9],['Tronco',36],['Braço direito',9],['Braço esquerdo',9],['Perna direita',18],['Perna esquerda',18],['Genitália',1]];
-var _SC_SIG = ['Eritema','Edema e pápulas','Exsudação e crostas','Escoriação','Liquenificação','Xerose'];
-var _SC_INT = [['Ausente',0],['Leve',1],['Moderada',2],['Grave',3]];
-window._scSt = { p:0, reg:[0,0,0,0,0,0,0], sig:[null,null,null,null,null,null], pru:0, son:0 };
-
-function _scA(){ var t=0; for(var i=0;i<_SC_REG.length;i++){ t += _SC_REG[i][1] * _scSt.reg[i] / 100; } return Math.round(t*10)/10; }
-function _scB(){ return _scSt.sig.reduce(function(a,b){ return a + (b||0); }, 0); }
-function _scC(){ return _scSt.pru + _scSt.son; }
-function _scTotal(){ return Math.round((_scA()/5 + 3.5*_scB() + _scC()) * 10) / 10; }
-
-function _scReg(i, v){ _scSt.reg[i] = +v; var el=document.getElementById('scReg'+i); if(el) el.textContent = v + '%'; var t=document.getElementById('scBsa'); if(t) t.textContent = _scA().toFixed(1) + '%'; }
-function _scSig(k){ var p=_scSt.p; _scSt.sig[p-1] = _SC_INT[k][1]; _scUI(); setTimeout(function(){ _scSt.p++; _scUI(); }, 260); }
-function _scNota(v){ var p=_scSt.p; if(p===7) _scSt.pru=+v; else _scSt.son=+v; var el=document.getElementById('scNota'); if(el) el.textContent = v; }
-function _scNext(){ _scSt.p++; _scUI(); }
-function _scVoltar(){ if(_scSt.p>0){ _scSt.p--; _scUI(); } }
-function _scRecomecar(){ _scSt = { p:0, reg:[0,0,0,0,0,0,0], sig:[null,null,null,null,null,null], pru:0, son:0 }; _scUI(); }
-
-function _scUI(){
-  var box = document.getElementById('mFields'); if(!box) return;
-  var st = _scSt;
-  if(st.p >= 9){ box.innerHTML = _scResultado(); return; }
-  var pct = Math.round(st.p / 9 * 100), corpo = '', titulo = '';
-  var nav = '<button class="act-btn sec" onclick="_scVoltar()" ' + (st.p===0?'style="visibility:hidden"':'') + '>← Anterior</button>';
-  if(st.p === 0){
-    titulo = 'Extensão (BSA)';
-    corpo = '<div class="act-q">Quanto da pele de cada região está afetado?</div>' + _SC_REG.map(function(r, i){
-      return '<div class="sc-reg"><div class="sc-reg-top"><span>' + r[0] + ' <small>(' + r[1] + '% do corpo)</small></span><b id="scReg' + i + '">' + st.reg[i] + '%</b></div>'
-        + '<input type="range" min="0" max="100" step="5" value="' + st.reg[i] + '" oninput="_scReg(' + i + ',this.value)"></div>';
-    }).join('') + '<div class="sc-total">Extensão total: <b id="scBsa">' + _scA().toFixed(1) + '%</b></div>';
-    nav += '<button class="act-btn" onclick="_scNext()">Continuar →</button>';
-  } else if(st.p <= 6){
-    var nome = _SC_SIG[st.p-1];
-    titulo = 'Intensidade · ' + st.p + ' de 6';
-    corpo = '<div class="act-q">' + nome + ': qual a intensidade?</div><div class="act-opts">' + _SC_INT.map(function(o, k){
-      var sel = st.sig[st.p-1] === o[1];
-      return '<button class="act-opt' + (sel?' sel':'') + '" onclick="_scSig(' + k + ')"><span class="act-dot"></span><span class="act-lbl">' + o[0] + '</span><span class="act-pts">' + o[1] + '</span></button>';
-    }).join('') + '</div>';
-    nav = '<button class="act-btn sec" onclick="_scVoltar()">← Anterior</button><span></span>';
-  } else {
-    var cor = st.p === 7 ? st.pru : st.son;
-    titulo = 'Sintomas · ' + (st.p-6) + ' de 2';
-    corpo = '<div class="act-q">' + (st.p===7 ? 'Qual foi a intensidade do prurido (coceira) nos últimos 3 dias?' : 'Qual foi a falta de sono causada pela doença nos últimos 3 dias?') + '</div>'
-      + '<div class="sc-slider"><div class="sc-nota" id="scNota">' + cor + '</div><input type="range" min="0" max="10" step="1" value="' + cor + '" oninput="_scNota(this.value)"><div class="sc-escala"><span>0 · nenhum</span><span>10 · máximo</span></div></div>';
-    nav += '<button class="act-btn" onclick="_scNext()">' + (st.p===8 ? 'Ver resultado' : 'Continuar') + ' →</button>';
-  }
-  box.innerHTML = '<div class="act-wrap" key="' + st.p + '">'
-    + '<div class="act-top"><span class="act-step">' + titulo + '</span><span class="act-pct">' + pct + '%</span></div>'
-    + '<div class="act-prog"><div class="act-prog-fill" style="width:' + pct + '%"></div></div>'
-    + corpo + '<div class="act-nav">' + nav + '</div></div>';
-}
-
-function _scResultado(){
-  var t = _scTotal(), A=_scA(), B=_scB(), C=_scC();
-  var f, cor, msg;
-  if(t <= 25){ f='Suave'; cor='#d4a017'; msg='Doença leve pela pontuação. Mantenha os cuidados locais e reavalie conforme a evolução.'; }
-  else if(t <= 50){ f='Moderada'; cor='#e67e22'; msg='Doença moderada pela pontuação. Reavalie a adesão ao tratamento e as opções de controle com o médico.'; }
-  else { f='Grave'; cor='#c0392b'; msg='Doença grave pela pontuação. Vale considerar encaminhamento e opções terapêuticas mais intensas, conforme as diretrizes.'; }
-  var Cc = 2*Math.PI*54, alvo = Cc * (1 - Math.min(t,103)/103);
-  setTimeout(function(){ var c=document.getElementById('scArco'); if(c) c.style.strokeDashoffset = alvo; }, 60);
-  return '<div class="act-wrap act-res" style="--cor:' + cor + '">'
-    + '<div class="act-ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" class="act-trilho"/>'
-    + '<circle id="scArco" cx="60" cy="60" r="54" class="act-arco" style="stroke-dasharray:' + Cc.toFixed(1) + ';stroke-dashoffset:' + Cc.toFixed(1) + '"/></svg>'
-    + '<div class="act-num"><b>' + t.toFixed(1) + '</b><span>de 103</span></div></div>'
-    + '<div class="act-faixa">' + f + '</div>'
-    + '<div class="act-msg">' + msg + '</div>'
-    + '<div class="sc-quebra"><div><span>Extensão (A)</span><b>' + A.toFixed(1) + '%</b></div><div><span>Intensidade (B)</span><b>' + B + '/18</b></div><div><span>Sintomas (C)</span><b>' + C + '/20</b></div></div>'
-    + '<div class="act-aviso">Pontuação SCORAD: A/5 + 7B/2 + C. Ferramenta de apoio clínico. Não substitui a avaliação médica.</div>'
-    + '<div class="act-nav"><button class="act-btn" onclick="_scRecomecar()">Refazer</button></div>'
-    + '</div>';
-}
 
 var currentScore=null;
 
@@ -3221,28 +2950,19 @@ function openScore(key){
   currentScore=key;
   document.getElementById('mTitle').textContent=s.title;
   document.getElementById('mDesc').textContent=s.desc;
-  var _mcBtn=document.getElementById('mCalc'); if(_mcBtn) _mcBtn.style.display = (s.special==='act'||s.special==='scorad') ? 'none' : '';
-  if(s.special==='scorad'){
-    _scSt = { p:0, reg:[0,0,0,0,0,0,0], sig:[null,null,null,null,null,null], pru:0, son:0 };
-    document.getElementById('mResult').className='score-result';
-    document.getElementById('overlay').classList.add('open');
-    _scUI();
-    return;
-  }
-  if(s.special==='act'){
-    _actSt = { modo:'adulto', i:0, r:[] };
-    document.getElementById('mResult').className='score-result';
-    document.getElementById('overlay').classList.add('open');
-    _actUI();
-    return;
-  }
   // UAS7 tem interface própria (7 dias + histórico semanal)
   if(s.special==='uas7'){
     document.getElementById('mFields').innerHTML=_uas7RenderCampos();
     document.getElementById('mResult').className='score-result';
     document.getElementById('overlay').classList.add('open');
-    _uasMostrarQr(_uasAtualId());
-    _uasAtualizarTodos();
+    return;
+  }
+  // UCT tem interface própria (QR Code para paciente + histórico)
+  if(s.special==='uct'){
+    document.getElementById('mFields').innerHTML=_uctRenderModal();
+    document.getElementById('mResult').className='score-result';
+    document.getElementById('overlay').classList.add('open');
+    _uctIniciarSessao();
     return;
   }
   var html='';
@@ -3250,8 +2970,6 @@ function openScore(key){
     html+='<div class="sf"><label>'+f.lbl+'</label>';
     if(f.type==='num'){
       html+='<input type="number" inputmode="decimal" id="'+f.id+'" placeholder="'+(f.ph||'')+'" style="font-size:16px;border:1px solid var(--gray-100);border-radius:9px;padding:10px 12px;font-family:Manrope,sans-serif;font-size:14px;color:var(--navy);background:var(--gray-50);outline:none;width:100%;box-sizing:border-box">';
-    } else if(f.type==='vas'){
-      html+='<div style="display:flex;align-items:center;gap:10px"><input type="range" id="'+f.id+'" min="0" max="10" step="1" value="0" oninput="document.getElementById(\'vasN\').textContent=this.value" style="flex:1"><b id="vasN" style="min-width:26px;text-align:center;color:var(--navy)">0</b></div><div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--gray-500);margin-top:3px"><span>0 · ausente</span><span>10 · pior possível</span></div>';
     } else {
       html+='<select id="'+f.id+'">';
       f.opts.forEach(function(o,i){html+='<option value="'+i+'">'+o+'</option>';});
@@ -3260,7 +2978,6 @@ function openScore(key){
     html+='</div>';
   });
   document.getElementById('mFields').innerHTML=html;
-  if(s.upload) document.getElementById('mFields').insertAdjacentHTML('beforeend', _lmUploadHtml());
   document.getElementById('mResult').className='score-result';
   document.getElementById('overlay').classList.add('open');
 }
@@ -3271,7 +2988,6 @@ var _UAS7_DIAS = ['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Doming
 
 function _uas7RenderCampos(){
   var html = '';
-  html += _uasDiarioBloco();
   // aviso: sempre à noite, antes de dormir
   html += '<div style="background:rgba(59,191,204,.10);border:1px solid rgba(59,191,204,.35);border-radius:10px;padding:11px 13px;margin-bottom:14px;display:flex;gap:9px;align-items:flex-start">';
   html += '<span style="font-size:17px;line-height:1">🌙</span>';
@@ -3374,177 +3090,138 @@ function _uas7Ordinal(n){
   return n + '\u00aa semana';
 }
 
-/* ══════════════ UAS7 — diário do paciente (QR/link + Supabase) ══════════════ */
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 UCT \u2014 QR Code para paciente + polling Supabase + hist\u00f3rico \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+var _uctSessaoId = null;
+var _uctPollTimer = null;
+var _uctPatientUrl = 'https://hubalergista.netlify.app/uct-paciente.html';
 var _SUPA_URL = 'https://jpdtqtenlivxgjkyizcg.supabase.co';
-var _SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwZHRxdGVubGl2eGdqa3lpemNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5MTg3NTMsImV4cCI6MjEwNjQ5NDc1M30.OCSGTv1HD6CLCbPVAgZwplkFMLGS0JuiT1XMRESYkWI';
+var _SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwZHRxdGVubGl2eGdqa3lpemNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3MzkxMzgsImV4cCI6MjA2MjMxNTEzOH0.OCSGTv1HD6CLCbPVAgZwplkFMLGS0JuiT1XMRESYkWI';
 
-function _uasEsc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
-
-function _uasDiarioUrl(id){
-  var base = /netlify\.app$/.test(location.hostname) ? location.origin : 'https://hubalergista.netlify.app';
-  return base + '/uas7-paciente.html?s=' + id;
+function _uctRenderModal(){
+  var html = '';
+  html += '<div style="background:rgba(59,191,204,.10);border:1px solid rgba(59,191,204,.35);border-radius:10px;padding:11px 13px;margin-bottom:14px;display:flex;gap:9px;align-items:flex-start">';
+  html += '<span style="font-size:17px;line-height:1">\ud83d\udcf1</span>';
+  html += '<div style="font-size:12px;color:var(--navy);line-height:1.5"><strong>Pe\u00e7a ao paciente que escaneie o QR Code</strong> com a c\u00e2mera do celular. Ele preencher\u00e1 o UCT e o resultado chegar\u00e1 aqui automaticamente.</div></div>';
+  html += '<div id="uct-qr-wrap" style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:16px">';
+  html += '<div id="uct-qr-canvas" style="background:#fff;border-radius:12px;padding:10px;width:180px;height:180px;display:flex;align-items:center;justify-content:center"><span style="color:#aaa;font-size:12px">Gerando\u2026</span></div>';
+  html += '<div id="uct-sessao-txt" style="font-size:10px;color:var(--gray-500)">Aguardando\u2026</div>';
+  html += '</div>';
+  html += '<div id="uct-aguardando" style="text-align:center;padding:12px;background:var(--gray-50);border-radius:10px;margin-bottom:14px;font-size:13px;color:var(--gray-500)">';
+  html += '\u23f3 Aguardando o paciente preencher o formul\u00e1rio\u2026</div>';
+  html += '<div id="uct-resultado" style="display:none;border-radius:12px;padding:14px;margin-bottom:14px;text-align:center"></div>';
+  html += '<div id="uct-historico-wrap">' + _uctRenderHistorico() + '</div>';
+  return html;
 }
 
-function _uasNovoId(){
-  var a = new Uint8Array(15);
-  (window.crypto || window.msCrypto).getRandomValues(a);
-  var s = 'u7';
-  for(var i=0;i<a.length;i++){ s += ('0' + a[i].toString(16)).slice(-2); }
-  return s;   // 32 caracteres, impossível de adivinhar
-}
-
-function _uasSessoes(){ try { return JSON.parse(localStorage.getItem('hub_uas7_sessoes') || '[]'); } catch(e){ return []; } }
-function _uasGravar(l){ try { localStorage.setItem('hub_uas7_sessoes', JSON.stringify(l.slice(0,40))); } catch(e){} }
-
-function _uasRpc(fn, body){
-  return fetch(_SUPA_URL + '/rest/v1/rpc/' + fn, {
-    method:'POST',
-    headers:{'Content-Type':'application/json','apikey':_SUPA_KEY,'Authorization':'Bearer ' + _SUPA_KEY},
-    body: JSON.stringify(body)
-  }).then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
-}
-
-function _uasAtualId(){
-  var l = _uasSessoes();
-  var a = l.filter(function(x){ return x.n < 7; })[0];
-  if(a) return a.id;                       // mesmo link enquanto o diário não está completo
-  var id = _uasNovoId();
-  l.unshift({ id:id, criado:_relDataHoje(), rotulo:'', n:0, total:null, nome:'', dias:[] });
-  _uasGravar(l);
-  return id;
-}
-
-function _uasDiarioBloco(){
-  var h = '';
-  h += '<div style="border:1px solid rgba(59,191,204,.4);background:rgba(59,191,204,.07);border-radius:12px;padding:12px 13px;margin-bottom:16px">';
-  h += '<div style="font-size:12px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">📱 Diário do paciente</div>';
-  h += '<div style="font-size:12.5px;color:var(--navy);line-height:1.5;margin-bottom:10px"><strong>Oriente o paciente:</strong> abrir este QR code (ou o link) no celular e registrar <strong>todas as noites, antes de dormir</strong>, durante 7 dias seguidos.</div>';
-  h += '<div id="uasQrBox" style="margin-top:4px;text-align:center"></div>';
-  h += '<div style="margin-top:12px;border-top:1px solid var(--gray-100);padding-top:10px">';
-  h += '<input id="uasRotulo" type="text" maxlength="40" placeholder="Identificação do novo paciente (opcional)" style="width:100%;box-sizing:border-box;border:1px solid var(--gray-100);border-radius:9px;padding:9px 11px;font-size:14px;color:var(--navy);background:#fff;margin-bottom:8px;outline:none">';
-  h += '<button onclick="_uasGerarDiario()" style="width:100%;border:1px solid rgba(42,159,173,.45);background:#fff;color:var(--teal-mid);border-radius:10px;padding:10px;font-size:13px;font-weight:800;cursor:pointer">+ Novo diário (outro paciente)</button>';
-  h += '</div>';
-  h += '<div id="uasLista" style="margin-top:12px">' + _uasListaHtml() + '</div>';
-  h += '</div>';
-  return h;
-}
-
-function _uasGerarDiario(){
-  var id = _uasNovoId();
-  var rot = (document.getElementById('uasRotulo') || {}).value || '';
-  var l = _uasSessoes();
-  l.unshift({ id:id, criado:_relDataHoje(), rotulo:rot.trim(), n:0, total:null, nome:'', dias:[] });
-  _uasGravar(l);
-  var r = document.getElementById('uasRotulo'); if(r) r.value = '';
-  _uasMostrarQr(id);
-  _uasRenderLista();
-}
-
-function _uasMostrarQr(id){
-  var box = document.getElementById('uasQrBox');
-  if(!box) return;
-  var url = _uasDiarioUrl(id);
-  box.style.display = 'block';
-  box.innerHTML = '<div id="uasQr" style="background:#fff;border-radius:12px;padding:10px;width:180px;height:180px;margin:0 auto;display:flex;align-items:center;justify-content:center"><span style="color:#aaa;font-size:12px">Gerando…</span></div>'
-    + '<div style="font-size:11.5px;color:var(--navy);margin-top:8px;line-height:1.4">Paciente escaneia com a câmera e salva o link.</div>'
-    + '<div style="display:flex;gap:6px;margin-top:9px">'
-    + '<button onclick="_uasCopiar(\'' + id + '\')" style="flex:1;border:1px solid rgba(42,159,173,.45);background:#fff;color:var(--teal-mid);border-radius:9px;padding:9px 6px;font-size:12px;font-weight:700;cursor:pointer">📋 Copiar link</button>'
-    + '<button onclick="_uasWhats(\'' + id + '\')" style="flex:1;border:none;background:#25a35a;color:#fff;border-radius:9px;padding:9px 6px;font-size:12px;font-weight:700;cursor:pointer">WhatsApp</button>'
-    + '</div>';
-  var desenhar = function(){
-    var w = document.getElementById('uasQr'); if(!w) return;
-    w.innerHTML = '';
-    try { new QRCode(w, { text:url, width:160, height:160, colorDark:'#0d1f2d', colorLight:'#ffffff', correctLevel:QRCode.CorrectLevel.M }); }
-    catch(e){ w.innerHTML = '<span style="font-size:10px;word-break:break-all;color:#333">' + url + '</span>'; }
-  };
-  if(window.QRCode){ desenhar(); }
-  else {
+function _uctIniciarSessao(){
+  if(!window.QRCode){
     var sc = document.createElement('script');
     sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
-    sc.onload = desenhar;
-    sc.onerror = function(){ var w=document.getElementById('uasQr'); if(w) w.innerHTML='<span style="font-size:10px;word-break:break-all;color:#333">' + url + '</span>'; };
+    sc.onload = function(){ _uctGerarQR(); };
     document.head.appendChild(sc);
+  } else {
+    _uctGerarQR();
   }
 }
 
-function _uasCopiar(id){
-  var url = _uasDiarioUrl(id);
-  var ok = function(){ toast('📋','Link copiado.'); };
-  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(ok, function(){ prompt('Copie o link:', url); }); }
-  else { prompt('Copie o link:', url); }
-}
-
-function _uasWhats(id){
-  var msg = 'Olá! Este é o seu diário da urticária (UAS7). Registre toda noite, por 7 dias: ' + _uasDiarioUrl(id);
-  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
-}
-
-function _uasListaHtml(){
-  var l = _uasSessoes();
-  if(!l.length) return '';
-  var h = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">'
-    + '<div style="font-size:11px;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em">Diários enviados</div>'
-    + '<span onclick="_uasAtualizarTodos()" style="font-size:11px;color:var(--teal-mid);cursor:pointer;font-weight:700">↻ Atualizar</span></div>';
-  l.forEach(function(s){
-    var nome = s.rotulo || s.nome || 'Paciente';
-    var cor = s.n === 7 ? '#16a085' : (s.n > 0 ? '#d4a017' : '#94a3b8');
-    var meio = s.n === 7 ? ('Completo · <b>' + s.total + '/42</b>') : (s.n + '/7 dias');
-    h += '<div style="display:flex;align-items:center;gap:8px;padding:8px 9px;border:1px solid var(--gray-100);border-radius:9px;margin-bottom:6px;background:#fff">';
-    h += '<div style="min-width:34px;height:34px;border-radius:8px;background:' + cor + ';color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900">' + s.n + '/7</div>';
-    h += '<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + _uasEsc(nome) + (s.rotulo && s.nome ? ' <span style="font-weight:400;color:var(--gray-500)">(' + _uasEsc(s.nome) + ')</span>' : '') + '</div>';
-    h += '<div style="font-size:10.5px;color:var(--gray-500)">Enviado ' + _uasEsc(s.criado) + ' · ' + meio + '</div></div>';
-    if(s.n > 0) h += '<button onclick="_uasUsar(\'' + s.id + '\')" style="border:none;background:var(--teal-mid);color:#fff;border-radius:7px;padding:6px 8px;font-size:11px;font-weight:700;cursor:pointer">Usar</button>';
-    h += '<button onclick="_uasMostrarQr(\'' + s.id + '\')" title="Mostrar QR" style="border:1px solid var(--gray-100);background:#fff;border-radius:7px;padding:5px 7px;font-size:12px;cursor:pointer">▦</button>';
-    h += '<button onclick="_uasRemover(\'' + s.id + '\')" title="Tirar da lista" style="border:none;background:none;color:var(--gray-300);font-size:14px;cursor:pointer;padding:2px 4px">✕</button>';
-    h += '</div>';
-  });
-  return h;
-}
-
-function _uasRenderLista(){ var el = document.getElementById('uasLista'); if(el) el.innerHTML = _uasListaHtml(); }
-
-function _uasAtualizarTodos(){
-  var l = _uasSessoes();
-  if(!l.length) return;
-  Promise.all(l.map(function(s){
-    if(s.n === 7) return Promise.resolve(s);   // completo: não muda mais
-    return _uasRpc('uas7_da_sessao', { p_sessao:s.id }).then(function(rows){
-      s.dias = (rows || []).map(function(r){ return { d:r.dia, p:r.papulas, i:r.prurido }; });
-      s.n = s.dias.length;
-      s.total = s.n === 7 ? s.dias.reduce(function(a,x){ return a + x.p + x.i; }, 0) : null;
-      var comNome = (rows || []).filter(function(r){ return r.paciente; })[0];
-      if(comNome) s.nome = comNome.paciente;
-      return s;
-    }).catch(function(){ s._erro = true; return s; });
-  })).then(function(res){
-    var falhou = res.some(function(s){ return s._erro; });
-    res.forEach(function(s){ delete s._erro; });
-    _uasGravar(res);
-    _uasRenderLista();
-    if(falhou) toast('⚠️','Sem conexão com o servidor — lista pode estar desatualizada.');
-  });
-}
-
-function _uasUsar(id){
-  var s = _uasSessoes().filter(function(x){ return x.id === id; })[0];
-  if(!s || !s.dias.length) return;
-  for(var d=0; d<7; d++){
-    var p = document.getElementById('uasP'+d), i = document.getElementById('uasI'+d);
-    if(p) p.value = '0'; if(i) i.value = '0';
+function _uctGerarQR(){
+  _uctSessaoId = 'uct-' + Date.now();
+  var url = _uctPatientUrl + '?s=' + _uctSessaoId;
+  var wrap = document.getElementById('uct-qr-canvas');
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  try {
+    new QRCode(wrap, { text: url, width: 160, height: 160, colorDark: '#0d1f2d', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+  } catch(e) {
+    wrap.innerHTML = '<span style="font-size:10px;word-break:break-all;color:#333">' + url + '</span>';
   }
-  s.dias.forEach(function(x){
-    var p = document.getElementById('uasP'+(x.d-1)), i = document.getElementById('uasI'+(x.d-1));
-    if(p) p.value = String(x.p); if(i) i.value = String(x.i);
-  });
-  var falta = 7 - s.dias.length;
-  toast('✅', falta ? ('Carregado. Atenção: ' + falta + ' dia(s) sem registro ficaram como 0.') : 'Diário carregado. Toque em Calcular.');
-  var p0 = document.getElementById('uasP0'); if(p0) p0.scrollIntoView({behavior:'smooth', block:'center'});
+  var txt = document.getElementById('uct-sessao-txt');
+  if(txt) txt.textContent = 'Sess\u00e3o: ' + _uctSessaoId;
+  _uctIniciarPolling();
 }
 
-function _uasRemover(id){
-  if(!confirm('Tirar este diário da lista? (Os dados do paciente não são apagados.)')) return;
-  _uasGravar(_uasSessoes().filter(function(x){ return x.id !== id; }));
-  _uasRenderLista();
+function _uctIniciarPolling(){
+  _uctPararPolling();
+  _uctPollTimer = setInterval(_uctChecar, 3000);
+}
+
+function _uctPararPolling(){
+  if(_uctPollTimer){ clearInterval(_uctPollTimer); _uctPollTimer = null; }
+}
+
+function _uctChecar(){
+  if(!_uctSessaoId) return;
+  fetch(_SUPA_URL + '/rest/v1/uct_results?sessao_id=eq.' + encodeURIComponent(_uctSessaoId) + '&order=created_at.desc&limit=1', {
+    headers: { 'apikey': _SUPA_KEY, 'Authorization': 'Bearer ' + _SUPA_KEY }
+  }).then(function(r){ return r.json(); }).then(function(rows){
+    if(!rows || !rows.length) return;
+    _uctPararPolling();
+    _uctMostrarResultado(rows[0]);
+    _uctSalvarHistorico(rows[0]);
+    var hist = document.getElementById('uct-historico-wrap');
+    if(hist) hist.innerHTML = _uctRenderHistorico();
+  }).catch(function(){});
+}
+
+function _uctMostrarResultado(row){
+  var aw = document.getElementById('uct-aguardando');
+  if(aw) aw.style.display = 'none';
+  var res = document.getElementById('uct-resultado');
+  if(!res) return;
+  var t = (row.total !== undefined && row.total !== null) ? row.total : (row.q1+row.q2+row.q3+row.q4);
+  var lbl, cor;
+  if(t >= 12){ lbl = '\u2705 Bem controlada'; cor = '#16a085'; }
+  else if(t >= 7){ lbl = '\u26a0\ufe0f Controle insuficiente'; cor = '#d4a017'; }
+  else { lbl = '\ud83d\udd34 N\u00e3o controlada'; cor = '#c0392b'; }
+  var nome = row.paciente_nome ? row.paciente_nome : 'Paciente';
+  res.style.display = 'block';
+  res.style.background = 'linear-gradient(135deg,#0d1f2d,' + cor + ')';
+  res.innerHTML = '<div style="font-size:22px;font-weight:900;color:#fff">' + t + '/16</div>'
+    + '<div style="font-size:14px;font-weight:700;color:#fff;margin-top:4px">' + lbl + '</div>'
+    + '<div style="font-size:11px;color:rgba(255,255,255,.75);margin-top:4px">' + nome + ' \u00b7 ' + new Date(row.created_at).toLocaleDateString('pt-BR') + '</div>'
+    + '<div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:6px">Q1:' + row.q1 + ' Q2:' + row.q2 + ' Q3:' + row.q3 + ' Q4:' + row.q4 + '</div>';
+  toast('\ud83c\udfaf', 'UCT recebido: ' + t + '/16 \u2014 ' + lbl.replace(/[\u2705\u26a0\ufe0f\ud83d\udd34] /,''));
+}
+
+function _uctGetHist(){
+  try { return JSON.parse(localStorage.getItem('hub_uct_hist')||'[]'); } catch(e){ return []; }
+}
+
+function _uctSalvarHistorico(row){
+  var h = _uctGetHist();
+  var t = (row.total !== undefined && row.total !== null) ? row.total : (row.q1+row.q2+row.q3+row.q4);
+  h.unshift({ d: new Date(row.created_at).toLocaleDateString('pt-BR'), t: t, nome: row.paciente_nome||'\u2014', q1:row.q1, q2:row.q2, q3:row.q3, q4:row.q4 });
+  if(h.length > 50) h = h.slice(0,50);
+  try { localStorage.setItem('hub_uct_hist', JSON.stringify(h)); } catch(e){}
+}
+
+function _uctRenderHistorico(){
+  var h = _uctGetHist();
+  if(!h.length) return '<div style="font-size:12px;color:var(--gray-500);text-align:center;padding:10px">Nenhum resultado ainda.</div>';
+  var html = '<div style="margin-top:6px">';
+  html += '<div style="font-size:12px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Hist\u00f3rico de UCTs</div>';
+  h.forEach(function(e){
+    var cor = e.t >= 12 ? '#16a085' : (e.t >= 7 ? '#d4a017' : '#c0392b');
+    var lbl = e.t >= 12 ? 'Bem controlada' : (e.t >= 7 ? 'Insuficiente' : 'N\u00e3o controlada');
+    html += '<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--gray-100);border-radius:9px;margin-bottom:6px;background:#fff">';
+    html += '<div style="min-width:36px;height:36px;border-radius:8px;background:' + cor + ';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff">' + e.t + '</div>';
+    html += '<div style="flex:1;min-width:0">';
+    html += '<div style="font-size:12px;font-weight:700;color:var(--navy)">' + (e.nome||'\u2014') + '</div>';
+    html += '<div style="font-size:10.5px;color:var(--gray-500)">' + e.d + ' \u00b7 ' + lbl + '</div>';
+    html += '</div>';
+    html += '<div style="font-size:9.5px;color:var(--gray-500)">Q1:' + e.q1 + ' Q2:' + e.q2 + ' Q3:' + e.q3 + ' Q4:' + e.q4 + '</div>';
+    html += '</div>';
+  });
+  html += '<div style="text-align:right;margin-top:4px"><button onclick="_uctLimparHistorico()" style="font-size:10px;color:var(--gray-500);background:none;border:none;cursor:pointer;padding:0">\ud83d\uddd1\ufe0f Apagar hist\u00f3rico</button></div>';
+  html += '</div>';
+  return html;
+}
+
+function _uctLimparHistorico(){
+  try { localStorage.removeItem('hub_uct_hist'); } catch(e){}
+  var w = document.getElementById('uct-historico-wrap');
+  if(w) w.innerHTML = _uctRenderHistorico();
+  toast('\ud83d\uddd1\ufe0f','Hist\u00f3rico do UCT apagado.');
 }
 
 function doCalc(){
@@ -3556,7 +3233,7 @@ function doCalc(){
     vals=s.fields.map(function(f){
       var el=document.getElementById(f.id);
       if(!el) return null;
-      if(f.type==='num'||f.type==='vas'){ var n=parseFloat(String(el.value||'').replace(',','.')); return isNaN(n)?null:n; }
+      if(f.type==='num'){ var n=parseFloat(String(el.value||'').replace(',','.')); return isNaN(n)?null:n; }
       return parseInt(el.value);
     });
   }
@@ -3570,23 +3247,25 @@ function doCalc(){
   if(s.special==='uas7'){ _uas7Salvar(r); }
 }
 
-function closeModal(){document.getElementById('overlay').classList.remove('open');}
+function closeModal(){document.getElementById('overlay').classList.remove('open');_uctPararPolling();}
 
-// Botão "Abrir em PDF": abre o PDF direto; se ainda está localizando, espera e abre
+// Botão "Abrir em PDF": usa data-pdf do art-card, fallback Unpaywall
 document.addEventListener('click', function(e){
   var btn = e.target.closest('a.link-btn.pub');
   if(!btn) return;
   var card = btn.closest('.art-card');
   if(!card) return;
-  if(card.dataset.resolvendo === '1' && card._pdfPromise){
+  var pdf = card.dataset.pdf;
+  var doi = card.dataset.doi;
+  if(pdf && !btn.href.endsWith('.pdf') && !btn.href.includes('/pdf')){
+    // href estático aponta para PubMed; redirecionar para PDF
     e.preventDefault();
-    var w = window.open('about:blank', '_blank');
-    card._pdfPromise.then(function(u){ if(w){ try { w.opener = null; } catch(x){} w.location.href = u; } else { location.href = u; } });
-    return;
+    window.open(pdf, '_blank', 'noopener');
+  } else if(!pdf && doi){
+    e.preventDefault();
+    window.open('https://unpaywall.org/' + doi, '_blank', 'noopener');
   }
-  var pdf = card.dataset.pdf, doi = card.dataset.doi;
-  if(pdf && btn.href !== pdf){ e.preventDefault(); window.open(pdf, '_blank', 'noopener'); }
-  else if(!pdf && doi && /pubmed\.ncbi/.test(btn.href)){ e.preventDefault(); window.open('https://doi.org/' + doi, '_blank', 'noopener'); }
+  // se href já for PDF/PMC direto, deixa o <a> agir normalmente
 });
 var _ov=document.getElementById('overlay');if(_ov)_ov.addEventListener('click',function(e){if(e.target===this)closeModal();});
 var _mc=document.getElementById('mCalc');if(_mc)_mc.addEventListener('click',doCalc);
@@ -3946,41 +3625,67 @@ function toggleCustomMg(){
   if(wrap) wrap.style.display = (fin==='custom') ? 'flex' : 'none';
 }
 
+// Concentrações dos produtos (mg/mL)
+var IG_PRODUTOS = {
+  privigen_10:   {nome:'Privigen® 10%',     conc:100, via:'IV'},
+  octagam_10:    {nome:'Octagam® 10%',      conc:100, via:'IV'},
+  kiovig_10:     {nome:'Kiovig® 10%',       conc:100, via:'IV'},
+  flebogamma_10: {nome:'Flebogamma® DIF 10%',conc:100, via:'IV'},
+  tegeline_5:    {nome:'Tegeline® 5%',      conc:50,  via:'IV'},
+  endobulin_5:   {nome:'Endobulin® S/D 5%', conc:50,  via:'IV'},
+  gammaked_10:   {nome:'Gammaked® 10%',     conc:100, via:'IV'},
+  gamunex_10:    {nome:'Gamunex-C® 10%',    conc:100, via:'IV'},
+  hizentra_20:   {nome:'Hizentra® 20%',     conc:200, via:'SC'},
+  cuvitru_20:    {nome:'Cuvitru® 20%',      conc:200, via:'SC'},
+  hyqvia_10:     {nome:'HyQvia® 10%',       conc:100, via:'SC facilitada'},
+  gammanorm_165: {nome:'Gammanorm® 16,5%',  conc:165, via:'SC'},
+  generic:       {nome:null,                conc:null, via:null}
+};
+
+function _igVolLine(gramas, prod) {
+  if(!prod || prod.conc === null) return '';
+  var ml = (gramas * 1000 / prod.conc).toFixed(1);
+  return '<br>→ <strong style="color:#7ee0ec">' + ml + ' mL</strong> de ' + prod.nome + ' (' + prod.conc + ' mg/mL)';
+}
+
 function calcularIg() {
   var peso = parseFloat(document.getElementById('igPeso').value);
   var fin = document.getElementById('igFinalidade').value;
   var res = document.getElementById('igResultado');
+  var prodKey = document.getElementById('igProduto') ? document.getElementById('igProduto').value : 'generic';
+  var prod = IG_PRODUTOS[prodKey] || IG_PRODUTOS['generic'];
   if(!peso || peso <= 0) { toast('⚠️','Digite um peso válido'); return; }
 
   var html = '';
   if(fin === 'reposicao_iv') {
-    var min = (peso * 0.4).toFixed(1);
-    var max = (peso * 0.8).toFixed(1);
-    var usual = (peso * 0.5).toFixed(1);
+    var min = (peso * 0.4); var max = (peso * 0.8); var usual = (peso * 0.5);
     html = '<div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Reposição IDP · Via IV · a cada 3–4 semanas</div>' +
-      '<div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">' + min + ' – ' + max + ' g</div>' +
-      '<div style="font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.6">Faixa de 400–800 mg/kg para ' + peso + ' kg.<br>Dose usual (500 mg/kg): <strong style="color:#7ee0ec">' + usual + ' g</strong> por infusão.<br>Meta: manter IgG sérica ≥600 mg/dL. Iniciar com taxa de infusão baixa.</div>';
+      '<div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">' + min.toFixed(1) + ' – ' + max.toFixed(1) + ' g</div>' +
+      '<div style="font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.8">Faixa de 400–800 mg/kg para ' + peso + ' kg.<br>Dose usual (500 mg/kg): <strong style="color:#7ee0ec">' + usual.toFixed(1) + ' g</strong> por infusão.' +
+      _igVolLine(usual, prod) + '<br>Meta: manter IgG sérica ≥600 mg/dL. Iniciar com taxa de infusão baixa.</div>';
   } else if(fin === 'reposicao_sc') {
-    var minS = (peso * 0.1).toFixed(1);
-    var maxS = (peso * 0.15).toFixed(1);
+    var minS = (peso * 0.1); var maxS = (peso * 0.15); var usualS = (peso * 0.125);
     html = '<div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Reposição IDP · Via SC · semanal</div>' +
-      '<div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">' + minS + ' – ' + maxS + ' g/semana</div>' +
-      '<div style="font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.6">Faixa de 100–150 mg/kg/semana para ' + peso + ' kg.<br>Alternativa: 200 mg/kg a cada 14 dias.<br>Converter a partir da dose IV mensal; ajustar conforme nível de IgG.</div>';
+      '<div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">' + minS.toFixed(1) + ' – ' + maxS.toFixed(1) + ' g/semana</div>' +
+      '<div style="font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.8">Faixa de 100–150 mg/kg/semana para ' + peso + ' kg.<br>Dose média (~125 mg/kg): <strong style="color:#7ee0ec">' + usualS.toFixed(1) + ' g</strong>/semana.' +
+      _igVolLine(usualS, prod) + '<br>Alternativa: ' + (peso * 0.25).toFixed(1) + ' g a cada 14 dias.<br>Converter a partir da dose IV mensal; ajustar conforme nível de IgG.</div>';
   } else if(fin === 'custom') {
     var mgkg = parseFloat(document.getElementById('igCustomMg').value);
     if(!mgkg || mgkg <= 0) { toast('⚠️','Digite a dose em mg/kg'); return; }
-    var totalG = (peso * mgkg / 1000).toFixed(2).replace('.',',');
-    var totalMg = (peso * mgkg).toFixed(0);
+    var totalG = peso * mgkg / 1000;
     html = '<div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Dose personalizada · ' + mgkg + ' mg/kg</div>' +
-      '<div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">' + totalG + ' g</div>' +
-      '<div style="font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.6">' + mgkg + ' mg/kg × ' + peso + ' kg = <strong style="color:#7ee0ec">' + totalMg + ' mg</strong> (' + totalG + ' g) por dose.<br>Ajuste o volume conforme a concentração do produto (ex: 100 mg/mL = ' + (peso*mgkg/100).toFixed(0) + ' mL).</div>';
+      '<div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">' + totalG.toFixed(2).replace('.',',') + ' g</div>' +
+      '<div style="font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.8">' + mgkg + ' mg/kg × ' + peso + ' kg = <strong style="color:#7ee0ec">' + (peso*mgkg).toFixed(0) + ' mg</strong> (' + totalG.toFixed(2).replace('.',',') + ' g).' +
+      _igVolLine(totalG, prod) + '</div>';
   } else {
-    var total = (peso * 2).toFixed(1);
-    var porDia2 = (peso * 1).toFixed(1);
-    var porDia5 = (peso * 0.4).toFixed(1);
+    var total = peso * 2; var porDia2 = peso * 1; var porDia5 = peso * 0.4;
     html = '<div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Imunomodulação · Via IV · dose total</div>' +
-      '<div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">' + total + ' g (total)</div>' +
-      '<div style="font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.6">Dose total de 2 g/kg para ' + peso + ' kg.<br>Dividir em 2 dias: <strong style="color:#7ee0ec">' + porDia2 + ' g/dia</strong> (1 g/kg/dia)<br>ou em 5 dias: <strong style="color:#7ee0ec">' + porDia5 + ' g/dia</strong> (400 mg/kg/dia)<br>⚠️ Máx. 500 mg/kg/dia em idosos ou risco trombótico.</div>';
+      '<div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">' + total.toFixed(1) + ' g (total)</div>' +
+      '<div style="font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.8">Dose total de 2 g/kg para ' + peso + ' kg.' +
+      _igVolLine(total, prod) +
+      '<br>Dividir em 2 dias: <strong style="color:#7ee0ec">' + porDia2.toFixed(1) + ' g/dia</strong> (1 g/kg/dia)' + _igVolLine(porDia2, prod) +
+      '<br>ou em 5 dias: <strong style="color:#7ee0ec">' + porDia5.toFixed(1) + ' g/dia</strong> (400 mg/kg/dia)' + _igVolLine(porDia5, prod) +
+      '<br>⚠️ Máx. 500 mg/kg/dia em idosos ou risco trombótico.</div>';
   }
   res.innerHTML = html;
   res.style.display = 'block';
@@ -4197,7 +3902,7 @@ function renderFeedChips(){
 
 function _feedEscape(str){
   if(!str) return '';
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
 /* ══ RADAR REGULATÓRIO — Supabase Edge Function ══ */
@@ -4304,228 +4009,6 @@ function carregarFeed(tema){
   });
 }
 
-/* ══ Cards de artigos do PubMed: revista no topo, título traduzido, PDF direto ══ */
-var _MESES_PT = {Jan:'jan',Feb:'fev',Mar:'mar',Apr:'abr',May:'mai',Jun:'jun',Jul:'jul',Aug:'ago',Sep:'set',Oct:'out',Nov:'nov',Dec:'dez'};
-var _J_SIGLAS = {
-  'J Allergy Clin Immunol':'JACI', 'J Allergy Clin Immunol Pract':'JACI·P', 'Allergy':'ALL',
-  'Ann Allergy Asthma Immunol':'AAAI', 'Clin Exp Allergy':'CEA', 'Pediatr Allergy Immunol':'PAI',
-  'World Allergy Organ J':'WAO', 'N Engl J Med':'NEJM', 'Lancet':'LCT', 'JAMA':'JAMA'
-};
-var _J_SITES = {
-  'J Allergy Clin Immunol':'jacionline.org', 'J Allergy Clin Immunol Pract':'jaci-inpractice.org',
-  'Allergy':'onlinelibrary.wiley.com', 'Ann Allergy Asthma Immunol':'annallergy.org',
-  'Clin Exp Allergy':'onlinelibrary.wiley.com', 'Pediatr Allergy Immunol':'onlinelibrary.wiley.com',
-  'World Allergy Organ J':'worldallergyorganizationjournal.org', 'N Engl J Med':'nejm.org',
-  'Lancet':'thelancet.com', 'JAMA':'jamanetwork.com'
-};
-var _DOI_SITES = {'10.1016':'sciencedirect.com','10.1111':'onlinelibrary.wiley.com','10.1002':'onlinelibrary.wiley.com','10.1056':'nejm.org','10.1001':'jamanetwork.com','10.1183':'ersnet.org','10.3389':'frontiersin.org','10.1186':'biomedcentral.com','10.1038':'nature.com','10.1007':'springer.com','10.1093':'academic.oup.com','10.1097':'journals.lww.com','10.1371':'plos.org','10.3390':'mdpi.com','10.1164':'atsjournals.org','10.1136':'bmj.com'};
-function _jSite(abrev, doi){ return _J_SITES[abrev] || _DOI_SITES[String(doi||'').split('/')[0]] || ''; }
-function _jFalhou(img){ var b = img.parentNode; if(!b) return; b.className = 'j-badge'; b.style.background = b.getAttribute('data-cor'); b.textContent = b.getAttribute('data-sigla'); }
-var _J_CORES = ['#1a2e4a','#2a9fad','#b8860b','#1f6f8b','#3d5a80','#16808a'];
-
-function _jSigla(abrev, nome){
-  if(_J_SIGLAS[abrev]) return _J_SIGLAS[abrev];
-  var w = String(nome || abrev || '?').replace(/[^A-Za-z\s]/g,' ').split(/\s+/).filter(function(x){ return x && !/^(the|of|and|for|in|de|da|do)$/i.test(x); });
-  return (w.map(function(x){ return x[0]; }).join('').toUpperCase().slice(0,4)) || '?';
-}
-function _jCor(s){ var h = 0; s = String(s||''); for(var i=0;i<s.length;i++){ h = (h*31 + s.charCodeAt(i)) >>> 0; } return _J_CORES[h % _J_CORES.length]; }
-function _jNome(full, abrev){
-  if(!full) return abrev || '';
-  var peq = /^(of|and|the|in|for|on|de|da|do|e)$/i;
-  return full.split(' ').map(function(w, i){
-    if(i > 0 && peq.test(w)) return w.toLowerCase();
-    return w.charAt(0).toUpperCase() + w.slice(1);
-  }).join(' ').replace(/\s*:\s*.*$/, function(m){ return m.length > 40 ? '' : m; });
-}
-function _jData(pd){
-  var p = String(pd||'').split(' ');
-  return p.length > 1 && _MESES_PT[p[1]] ? (_MESES_PT[p[1]] + '/' + p[0]) : (p[0] || '');
-}
-
-/* monta um card; extras = HTML de botões adicionais */
-function _artCardHtml(uid, a, extras){
-  var doi = '', pmc = '';
-  (a.articleids || []).forEach(function(x){
-    if(x.idtype === 'doi') doi = x.value;
-    if(x.idtype === 'pmc') pmc = x.value;
-    if(x.idtype === 'pmcid' && /embargo-date:\s*(\d{4})\/(\d{2})\/(\d{2})/.test(x.value)){
-      var m = x.value.match(/embargo-date:\s*(\d{4})\/(\d{2})\/(\d{2})/);
-      if(new Date(+m[1], +m[2]-1, +m[3]) > new Date()) pmc = '';   // ainda sob embargo
-    }
-  });
-  var abrev = a.source || '', nome = _jNome(a.fulljournalname, abrev);
-  var sigla = _jSigla(abrev, a.fulljournalname);
-  var pubmed = 'https://pubmed.ncbi.nlm.nih.gov/' + uid + '/';
-  var titulo = String(a.title || '').replace(/\.$/, '');
-  return '<div class="art-card" data-feed="1" data-pmid="' + uid + '" data-doi="' + _feedEscape(doi) + '" data-pmc="' + _feedEscape(pmc) + '" data-ai-title="' + _feedEscape(titulo) + '" style="margin-bottom:10px">' +
-    '<div class="art-src">' + (_jSite(abrev, doi)
-        ? '<span class="j-badge j-ico" data-cor="' + _jCor(abrev) + '" data-sigla="' + _feedEscape(sigla) + '" title="' + _feedEscape(nome) + '"><img src="https://www.google.com/s2/favicons?sz=64&domain=' + _jSite(abrev, doi) + '" alt="" loading="lazy" onerror="_jFalhou(this)"></span>'
-        : '<span class="j-badge" style="background:' + _jCor(abrev) + '">' + _feedEscape(sigla) + '</span>') +
-      '<span class="j-nome">' + _feedEscape(nome) + '</span><span class="j-data">' + _feedEscape(_jData(a.pubdate)) + '</span></div>' +
-    '<div class="art-title">' + _feedEscape(titulo) + '</div>' +
-    '<div class="art-title-pt art-orig" style="display:none"></div>' +
-    '<div class="art-links" style="margin-top:9px">' +
-      '<a class="link-btn pub" href="' + (doi ? 'https://doi.org/' + _feedEscape(doi) : pubmed) + '" target="_blank" rel="noopener">⏳ Localizando PDF…</a>' +
-      (extras || '') +
-    '</div></div>';
-}
-
-function _artSetLink(card, url, tipo){
-  var b = card.querySelector('a.link-btn.pub');
-  if(!b) return;
-  b.href = url;
-  b.textContent = tipo === 'pdf' ? '📄 Abrir em PDF' : (tipo === 'oa' ? '📄 Texto completo grátis' : '🔒 Abrir na revista');
-  if(tipo === 'pdf') card.dataset.pdf = url; else delete card.dataset.pdf;
-  delete card.dataset.resolvendo;
-  if(tipo === 'none') _artAddGratis(card);
-}
-
-/* ── "Tentar grátis": procura cópia gratuita legal (OpenAlex, Semantic Scholar) ── */
-function _artAddGratis(card){
-  if(card.querySelector('.btn-gratis')) return;
-  var b = card.querySelector('a.link-btn.pub');
-  if(!b) return;
-  var g = document.createElement('button');
-  g.className = 'link-btn pub btn-gratis';
-  g.textContent = '🔎 Tentar grátis';
-  b.insertAdjacentElement('afterend', g);
-}
-
-function _comTempo(prom, ms){
-  return new Promise(function(ok, err){ var t = setTimeout(err, ms); prom.then(function(v){ clearTimeout(t); ok(v); }, function(e){ clearTimeout(t); err(e); }); });
-}
-function _primeiroQueAchar(lista){
-  return new Promise(function(ok, err){
-    var falhas = 0; if(!lista.length) return err();
-    lista.forEach(function(p){ p.then(ok, function(){ if(++falhas === lista.length) err(); }); });
-  });
-}
-
-function _artTentarGratis(card, btn){
-  var doi = card.dataset.doi || '';
-  var titulo = card.getAttribute('data-ai-title') || ((card.querySelector('.art-title') || {}).textContent || '');
-  var w = window.open('about:blank', '_blank');
-  var ir = function(u){ if(w){ try { w.opener = null; } catch(x){} w.location.href = u; } else { window.open(u, '_blank', 'noopener'); } };
-  if(btn){ btn.disabled = true; btn.textContent = '⏳ Procurando…'; }
-  var json = function(u){ return _comTempo(fetch(u).then(function(r){ if(!r.ok) throw 0; return r.json(); }), 9000); };
-  var fontes = [];
-  if(doi){
-    fontes.push(json('https://api.openalex.org/works/doi:' + encodeURI(doi) + '?select=best_oa_location,oa_locations').then(function(d){
-      var l = [d.best_oa_location].concat(d.oa_locations || []).filter(function(x){ return x && x.pdf_url; })[0];
-      if(!l) throw 0; return l.pdf_url;
-    }));
-    fontes.push(json('https://api.semanticscholar.org/graph/v1/paper/DOI:' + encodeURI(doi) + '?fields=openAccessPdf').then(function(d){
-      var u = d && d.openAccessPdf && d.openAccessPdf.url;
-      if(!u) throw 0; return u;
-    }));
-  }
-  _primeiroQueAchar(fontes).then(function(u){
-    ir(u);
-    card.dataset.pdf = u;
-    var b = card.querySelector('a.link-btn.pub:not(.btn-gratis)');
-    if(b){ b.href = u; b.textContent = '📄 Abrir em PDF'; }
-    if(btn) btn.remove();
-    toast('✅', 'Versão gratuita encontrada.');
-  }).catch(function(){
-    ir('https://scholar.google.com/scholar?q=' + encodeURIComponent(titulo ? '"' + titulo + '"' : doi));
-    if(btn){ btn.disabled = false; btn.textContent = '🔎 Tentar grátis'; }
-    toast('🔎', 'Sem PDF gratuito nas bases. Abri o Google Acadêmico: procure [PDF] à direita ou "Todas as versões". Se não houver, use o Portal CAPES.');
-  });
-}
-
-document.addEventListener('click', function(e){
-  var g = e.target.closest('.btn-gratis');
-  if(!g) return;
-  e.preventDefault(); e.stopPropagation();
-  var card = g.closest('.art-card');
-  if(card) _artTentarGratis(card, g);
-}, true);
-
-/* artigos fixos pagos (data-oa="false") também ganham o botão */
-(function(){
-  var fixar = function(){ Array.prototype.forEach.call(document.querySelectorAll('.art-card[data-oa="false"][data-doi]'), _artAddGratis); };
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fixar); else fixar();
-})();
-
-/* Europe PMC: acha o PDF gratuito (PMC, repositórios e Unpaywall) pelo PMID */
-function _artResolverPdfs(cards){
-  if(!cards.length) return;
-  var fallback = function(c){
-    if(c.dataset.pmc) return { url:'https://pmc.ncbi.nlm.nih.gov/articles/' + c.dataset.pmc + '/pdf/', tipo:'pdf' };
-    return { url: c.dataset.doi ? 'https://doi.org/' + c.dataset.doi : 'https://pubmed.ncbi.nlm.nih.gov/' + c.dataset.pmid + '/', tipo:'none' };
-  };
-  var q = '(' + cards.map(function(c){ return 'EXT_ID:' + c.dataset.pmid; }).join(' OR ') + ') AND SRC:MED';
-  var url = 'https://www.ebi.ac.uk/europepmc/webservices/rest/search?resultType=core&format=json&pageSize=' + cards.length + '&query=' + encodeURIComponent(q);
-  var prom = fetch(url).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(d){
-    var mapa = {};
-    ((d.resultList && d.resultList.result) || []).forEach(function(x){
-      var lista = (x.fullTextUrlList && x.fullTextUrlList.fullTextUrl) || [];
-      var livres = lista.filter(function(f){ return f.availabilityCode === 'OA' || f.availabilityCode === 'F'; });
-      var pdfs = livres.filter(function(f){ return f.documentStyle === 'pdf'; });
-      pdfs.sort(function(a, b){ return (b.site === 'Europe_PMC') - (a.site === 'Europe_PMC'); });
-      var html = livres.filter(function(f){ return f.documentStyle === 'html'; });
-      if(pdfs.length) mapa[x.pmid] = { url:pdfs[0].url, tipo:'pdf' };
-      else if(html.length) mapa[x.pmid] = { url:html[0].url, tipo:'oa' };
-    });
-    return mapa;
-  }).catch(function(){ return {}; });
-
-  cards.forEach(function(c){
-    c.dataset.resolvendo = '1';
-    c._pdfPromise = prom.then(function(mapa){
-      var r = mapa[c.dataset.pmid];
-      if(!r || (r.tipo !== 'pdf' && c.dataset.pmc)) r = fallback(c);
-      _artSetLink(c, r.url, r.tipo);
-      return r.url;
-    });
-  });
-}
-
-/* tradução do título (Google → MyMemory), com cache no aparelho */
-var _TR_KEY = 'hub_trad_titulos';
-function _trCache(){ try { return JSON.parse(localStorage.getItem(_TR_KEY) || '{}'); } catch(e){ return {}; } }
-function _trGuardar(orig, pt){
-  try {
-    var c = _trCache(), k = Object.keys(c);
-    if(k.length > 300) k.slice(0, 100).forEach(function(x){ delete c[x]; });
-    c[orig] = pt; localStorage.setItem(_TR_KEY, JSON.stringify(c));
-  } catch(e){}
-}
-function _traduzir(txt){
-  var c = _trCache();
-  if(c[txt]) return Promise.resolve(c[txt]);
-  var g = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=pt&dt=t&q=' + encodeURIComponent(txt);
-  return fetch(g).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(d){
-    var s = (d && d[0] || []).map(function(p){ return p[0]; }).join('');
-    if(!s) throw 0; return s;
-  }).catch(function(){
-    var m = 'https://api.mymemory.translated.net/get?langpair=en|pt-BR&q=' + encodeURIComponent(txt);
-    return fetch(m).then(function(r){ return r.json(); }).then(function(d){
-      var s = d && d.responseData && d.responseData.translatedText;
-      if(!s || /MYMEMORY WARNING|QUERY LENGTH/i.test(s) || d.responseStatus !== 200) throw 0;
-      return s;
-    });
-  }).then(function(s){ _trGuardar(txt, s); return s; });
-}
-function _artTraduzirTitulos(cards){
-  cards.forEach(function(c){
-    var orig = c.getAttribute('data-ai-title');
-    if(!orig) return;
-    _traduzir(orig).then(function(pt){
-      if(!pt || pt.toLowerCase() === orig.toLowerCase()) return;
-      c.querySelector('.art-title').textContent = pt;
-      var o = c.querySelector('.art-orig');
-      o.textContent = orig; o.style.display = 'block';
-    }).catch(function(){});
-  });
-}
-
-function _artEnriquecer(box){
-  var cards = Array.prototype.slice.call(box.querySelectorAll('.art-card[data-feed]'));
-  _artResolverPdfs(cards);
-  _artTraduzirTitulos(cards);
-}
-
 function renderFeed(d2, box){
   var res = d2 ? d2.result : null;
   if(!res || !res.uids){
@@ -4534,68 +4017,56 @@ function renderFeed(d2, box){
   }
   var html = '';
   for(var u=0;u<res.uids.length;u++){
-    var uid = res.uids[u], a = res[uid];
+    var uid = res.uids[u];
+    var a = res[uid];
     if(!a) continue;
-    var autores = '';
+    var authors = '';
     if(a.authors && a.authors.length){
-      autores = a.authors.slice(0,3).map(function(x){ return x.name; }).join(', ') + (a.authors.length > 3 ? ' et al.' : '');
+      var names = [];
+      for(var n=0;n<a.authors.length && n<3;n++){ names.push(a.authors[n].name); }
+      authors = names.join(', ') + (a.authors.length>3 ? ' et al.' : '');
     }
-    html += _artCardHtml(uid, a, '')
-      .replace('<div class="art-links"', (autores ? '<div style="font-size:11px;color:var(--gray-500);margin-top:5px">' + _feedEscape(autores) + '</div>' : '') + '<div class="art-links"');
+    var journal = a.source || a.fulljournalname || '';
+    var date = a.pubdate || '';
+    var url = 'https://pubmed.ncbi.nlm.nih.gov/' + uid + '/';
+    var doi = '';
+    if(a.elocationid && a.elocationid.indexOf('doi') > -1){ doi = a.elocationid; }
+    html += '<div class="art-card" style="margin-bottom:10px">' +
+      '<span class="art-journal">' + _feedEscape(journal) + ' · ' + _feedEscape(date) + '</span>' +
+      '<div class="art-title" style="margin-top:2px">' + _feedEscape(a.title) + '</div>' +
+      (authors ? '<div style="font-size:11px;color:var(--gray-500);margin-top:5px">' + _feedEscape(authors) + '</div>' : '') +
+      '<div class="art-links" style="margin-top:9px"><a class="link-btn pub" href="' + url + '" target="_blank" rel="noopener">0001F4C4 ABRIR EM PDF</A></div>' +
+      '</div>';
   }
   box.innerHTML = html;
-  _artEnriquecer(box);
 }
 
 /* ══ HOME: artigos recentes automáticos do PubMed (com fallback estático) ══ */
 var _homeFeedLoaded = false;
-var _homeTema = 'todos';
-var _homeFallback = null;
 
-function renderHomeChips(){
-  var box = document.getElementById('homeChips');
-  if(!box) return;
-  box.innerHTML = FEED_TEMAS.map(function(t){
-    return '<button type="button" class="hchip' + (t.id === _homeTema ? ' on' : '') + '" data-hometema="' + t.id + '">' + t.label + '</button>';
-  }).join('');
-}
-document.addEventListener('click', function(e){
-  var c = e.target.closest('[data-hometema]');
-  if(!c) return;
-  e.preventDefault();
-  carregarFeedHome(c.getAttribute('data-hometema'));
-});
-
-function carregarFeedHome(tema){
+function carregarFeedHome(){
+  if(_homeFeedLoaded) return;          // carrega uma vez por sessão
   var box = document.getElementById('homeArtigos');
   if(!box || !window.fetch) return;    // sem container ou sem fetch → mantém os estáticos
-  if(_homeFallback === null) _homeFallback = box.innerHTML;   // artigos fixos, caso a busca falhe
-  if(tema){ if(tema === _homeTema && _homeFeedLoaded) return; _homeTema = tema; }
-  else if(_homeFeedLoaded) return;
-  renderHomeChips();
 
-  var t = FEED_TEMAS.filter(function(x){ return x.id === _homeTema; })[0] || FEED_TEMAS[0];
-  var term = t.q + ' AND ' + FEED_JOURNALS + ' AND ("last 2 years"[dp])';
+  // guarda o conteúdo estático como fallback (caso a busca falhe)
+  var fallback = box.innerHTML;
+
+  // "Todos os temas" nos periódicos-alvo, últimos anos, ordenado por data
+  var term = FEED_TEMAS[0].q + ' AND ' + FEED_JOURNALS + ' AND ("last 2 years"[dp])';
   var base = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
-  var esearch = base + 'esearch.fcgi?db=pubmed&retmode=json&sort=date&retmax=4&tool=HubClinico&term=' + encodeURIComponent(term);
-  var meu = _homeTema;
-  var aviso = function(msg){ box.innerHTML = '<div style="background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:14px;font-size:12px;color:var(--gray-500);text-align:center;line-height:1.5">' + msg + '</div>'; };
-  if(tema) aviso('⏳ Buscando os artigos mais recentes de ' + t.label.toLowerCase() + '…');
+  var esearch = base + 'esearch.fcgi?db=pubmed&retmode=json&sort=date&retmax=3&tool=HubClinico&term=' + encodeURIComponent(term);
 
   fetch(esearch).then(function(r){ return r.json(); }).then(function(d){
-    if(meu !== _homeTema) return;
     var ids = (d && d.esearchresult && d.esearchresult.idlist) ? d.esearchresult.idlist : [];
-    if(!ids.length){ if(meu !== 'todos') aviso('Nenhum artigo nos últimos 2 anos neste tema, nas revistas selecionadas.'); return; }
+    if(!ids.length){ return; }         // sem resultados → mantém fallback
     var esum = base + 'esummary.fcgi?db=pubmed&retmode=json&tool=HubClinico&id=' + ids.join(',');
     return fetch(esum).then(function(r2){ return r2.json(); }).then(function(d2){
-      if(meu !== _homeTema) return;
       var html = _renderFeedHome(d2);
-      if(html){ box.innerHTML = html; _homeFeedLoaded = true; _artEnriquecer(box); }
+      if(html){ box.innerHTML = html; _homeFeedLoaded = true; }
     });
   }).catch(function(){
-    if(meu !== _homeTema) return;
-    if(meu === 'todos') box.innerHTML = _homeFallback;     // erro/sem internet → volta os fixos
-    else aviso('Não foi possível buscar agora. <a href="https://pubmed.ncbi.nlm.nih.gov/?sort=date&term=' + encodeURIComponent(t.q) + '" target="_blank" rel="noopener" style="color:var(--teal-mid);font-weight:700">Ver no PubMed</a>');
+    box.innerHTML = fallback;           // erro/sem internet → volta os estáticos
   });
 }
 
@@ -4605,9 +4076,19 @@ function _renderFeedHome(d2){
   if(!res || !res.uids || !res.uids.length) return '';
   var html = '';
   for(var u=0; u<res.uids.length; u++){
-    var uid = res.uids[u], a = res[uid];
+    var uid = res.uids[u];
+    var a = res[uid];
     if(!a) continue;
-    html += _artCardHtml(uid, a, '');
+    var journal = a.source || a.fulljournalname || '';
+    var date = a.pubdate || '';
+    var url = 'https://pubmed.ncbi.nlm.nih.gov/' + uid + '/';
+    html += '<div class="art-card" data-oa="true" data-ai-title="' + _feedEscape(a.title) + '" style="margin-bottom:10px">' +
+      '<span class="art-journal">' + _feedEscape(journal) + ' · ' + _feedEscape(date) + '</span>' +
+      '<div class="art-title" style="margin-top:2px">' + _feedEscape(a.title) + '</div>' +
+      '<div class="art-links" style="margin-top:9px">' +
+        '<a class="link-btn pub" href="' + url + '" target="_blank" rel="noopener">0001F4C4 ABRIR EM PDF</A>' +
+        '<button class="link-btn ai btn-ai-summary">📊 Análise estatística</button>' +
+      '</div></div>';
   }
   return html;
 }
