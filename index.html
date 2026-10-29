@@ -502,6 +502,40 @@ body{
 .res-desc{font-size:12px;color:rgba(255,255,255,.65);margin-top:9px;line-height:1.65;}
 .modal-disc{font-size:10.5px;color:var(--gray-300);font-style:italic;line-height:1.6;}
 
+/* ── TELA DE AUTH ── */
+#authScreen{
+  position:fixed;inset:0;z-index:9999;
+  background:linear-gradient(160deg,var(--navy) 0%,var(--teal) 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px 20px;
+}
+.auth-logo{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:32px;}
+.auth-logo-icon{width:58px;height:58px;background:rgba(255,255,255,.12);border-radius:16px;display:flex;align-items:center;justify-content:center;}
+.auth-logo-name{font-family:'DM Serif Display',serif;font-size:22px;color:#fff;letter-spacing:-.3px;}
+.auth-logo-sub{font-size:11px;color:rgba(255,255,255,.5);margin-top:-6px;letter-spacing:.05em}
+.auth-card{background:#fff;border-radius:20px;padding:24px 22px;width:100%;max-width:380px;box-shadow:0 24px 60px rgba(13,31,45,.35);}
+.auth-tabs{display:flex;gap:0;margin-bottom:20px;border:1px solid var(--gray-100);border-radius:10px;overflow:hidden;}
+.auth-tab{flex:1;padding:9px;font-family:'Manrope',sans-serif;font-size:12.5px;font-weight:700;border:none;background:transparent;cursor:pointer;color:var(--gray-300);transition:all .18s;}
+.auth-tab.active{background:var(--teal-mid);color:#fff;}
+.auth-field{margin-bottom:14px;}
+.auth-field label{display:block;font-size:11px;font-weight:700;color:var(--gray-500);margin-bottom:5px;}
+.auth-field input{width:100%;box-sizing:border-box;border:1.5px solid var(--gray-100);border-radius:10px;padding:11px 13px;font-family:'Manrope',sans-serif;font-size:14px;color:var(--navy);outline:none;transition:border-color .18s;}
+.auth-field input:focus{border-color:var(--teal-mid);}
+.auth-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--teal-mid),var(--teal));color:#fff;border:none;border-radius:11px;font-family:'Manrope',sans-serif;font-size:14px;font-weight:800;cursor:pointer;margin-top:4px;}
+.auth-err{font-size:12px;color:#c0392b;text-align:center;min-height:18px;margin-top:8px;}
+.auth-footer{font-size:10px;color:rgba(255,255,255,.35);text-align:center;margin-top:18px;line-height:1.6;}
+
+/* ── AI TABS ── */
+.ai-tab{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:10px 14px;border:none;background:transparent;cursor:pointer;
+  font-family:'Manrope',sans-serif;font-size:11px;font-weight:600;color:var(--gray-300);
+  border-bottom:2px solid transparent;white-space:nowrap;flex-shrink:0;
+  -webkit-tap-highlight-color:transparent;transition:color .15s,border-color .15s;
+}
+.ai-tab.active{color:var(--teal-mid);border-bottom-color:var(--teal-mid);}
+.ai-tab-ico{font-size:18px;line-height:1;}
+
 /* ── FAB VOLTAR ── */
 #fabVoltar{
   position:fixed;bottom:calc(var(--bottomnav-h) + 14px);right:16px;
@@ -670,6 +704,40 @@ body{
 </style>
 </head>
 <body>
+
+<!-- ══ TELA DE LOGIN / CADASTRO ══ -->
+<div id="authScreen">
+  <div class="auth-logo">
+    <div class="auth-logo-icon">
+      <svg viewBox="0 0 512 512" width="28" height="28" fill="none"><g stroke="#fff" stroke-width="70" stroke-linecap="round"><line x1="256" y1="286" x2="256" y2="432"/><line x1="256" y1="286" x2="162" y2="139"/><line x1="256" y1="286" x2="350" y2="139"/></g><circle cx="256" cy="432" r="50" fill="#fff"/><circle cx="162" cy="139" r="50" fill="#fff"/><circle cx="350" cy="139" r="50" fill="#fff"/><circle cx="256" cy="286" r="40" fill="#fff"/></svg>
+    </div>
+    <div class="auth-logo-name">Hub do Alergista</div>
+    <div class="auth-logo-sub">ACESSO RESTRITO</div>
+  </div>
+  <div class="auth-card">
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin" onclick="authModo('login')">Entrar</button>
+      <button class="auth-tab" id="tabCad" onclick="authModo('cadastro')">Cadastrar</button>
+    </div>
+    <!-- LOGIN -->
+    <div id="formLogin">
+      <div class="auth-field"><label>E-mail</label><input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email"></div>
+      <div class="auth-field"><label>Senha</label><input type="password" id="loginSenha" placeholder="••••••••" autocomplete="current-password"></div>
+      <button class="auth-btn" onclick="fazerLogin()">Entrar →</button>
+      <div class="auth-err" id="loginErr"></div>
+    </div>
+    <!-- CADASTRO -->
+    <div id="formCad" style="display:none">
+      <div class="auth-field"><label>Nome completo</label><input type="text" id="cadNome" placeholder="Dr. Fulano de Tal" autocomplete="name"></div>
+      <div class="auth-field"><label>E-mail</label><input type="email" id="cadEmail" placeholder="seu@email.com" autocomplete="email"></div>
+      <div class="auth-field"><label>Senha (mín. 6 caracteres)</label><input type="password" id="cadSenha" placeholder="••••••••" autocomplete="new-password"></div>
+      <div class="auth-field"><label>Confirmar senha</label><input type="password" id="cadSenha2" placeholder="••••••••" autocomplete="new-password"></div>
+      <button class="auth-btn" onclick="fazerCadastro()">Criar conta →</button>
+      <div class="auth-err" id="cadErr"></div>
+    </div>
+  </div>
+  <div class="auth-footer">Acesso exclusivo para profissionais de saúde cadastrados.<br>Dados armazenados localmente neste dispositivo.</div>
+</div>
 
 <!-- TOPBAR -->
 <header class="topbar">
@@ -1270,31 +1338,72 @@ body{
   <!-- ══ ASSISTENTE ══ -->
   <div class="page" id="page-assistente">
     <div class="assist-header">
-      <div class="ap-title">Assistente de <em>Consulta</em></div>
-      <div class="ap-desc">Gere documentos, relatórios e planos de ação. Apoio educacional — não substitui julgamento clínico.</div>
-      <div class="ap-row">
-        <input type="text" id="assistInput" placeholder="Descreva o caso ou peça um documento...">
-        <button class="ap-send" id="assistSend">Enviar</button>
-      </div>
-      <div class="ap-chips">
-        <span class="ap-chip" data-prompt="plano-asma">🫁 Plano asma</span>
-        <span class="ap-chip" data-prompt="rel-imuno">💊 Rel. imunobiológico</span>
-        <span class="ap-chip" data-prompt="escola-aa">🍽️ Carta escola</span>
-        <span class="ap-chip" data-prompt="pos-ana">🆘 Pós-anafilaxia</span>
-        <span class="ap-chip" data-prompt="da-consulta">🩹 Consulta DA</span>
-        <span class="ap-chip" data-prompt="rel-ps">📝 Rel. plano de saúde</span>
-        <span class="ap-chip" data-prompt="urticaria-leigo">🔴 Urticária leigo</span>
-        <span class="ap-chip" data-prompt="idp">🧬 Invest. IDP</span>
-      </div>
-      <div class="ap-disclaim">⚠️ Não insira dados identificáveis de pacientes. Esta ferramenta não substitui julgamento clínico, prontuário ou responsabilidade médica.</div>
+      <div class="ap-title">Assistente de <em>IA</em></div>
+      <div class="ap-desc">Conecte sua IA favorita e use-a direto no hub. Chaves salvas neste dispositivo.</div>
     </div>
-    <div class="ap-response" id="assistResp" style="margin-top:12px"></div>
-    <div style="padding:14px 16px 6px;font-size:12px;font-weight:700;color:var(--gray-500)">Histórico recente</div>
-    <div class="ap-history">
-      <div class="ap-hist-row"><span>🕐</span><span style="flex:1">Plano de ação — asma em criança de 7 anos</span><span style="font-size:10.5px;color:var(--gray-300)">ontem</span></div>
-      <div class="ap-hist-row"><span>🕐</span><span style="flex:1">Relatório dupilumabe — DA grave EASI 28</span><span style="font-size:10.5px;color:var(--gray-300)">ontem</span></div>
-      <div class="ap-hist-row"><span>🕐</span><span style="flex:1">Orientação urticária crônica — linguagem leiga</span><span style="font-size:10.5px;color:var(--gray-300)">2 jun</span></div>
+    <!-- Abas de IAs -->
+    <div style="display:flex;gap:0;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--gray-100);background:#fff;" id="aiTabs">
+      <button class="ai-tab active" data-ai="claude" onclick="selectAI('claude')">
+        <span class="ai-tab-ico">🟣</span><span>Claude</span>
+      </button>
+      <button class="ai-tab" data-ai="chatgpt" onclick="selectAI('chatgpt')">
+        <span class="ai-tab-ico">🟢</span><span>ChatGPT</span>
+      </button>
+      <button class="ai-tab" data-ai="gemini" onclick="selectAI('gemini')">
+        <span class="ai-tab-ico">🔵</span><span>Gemini</span>
+      </button>
+      <button class="ai-tab" data-ai="copilot" onclick="selectAI('copilot')">
+        <span class="ai-tab-ico">🔷</span><span>Copilot</span>
+      </button>
+      <button class="ai-tab" data-ai="perplexity" onclick="selectAI('perplexity')">
+        <span class="ai-tab-ico">🟡</span><span>Perplexity</span>
+      </button>
     </div>
+    <!-- Config da IA selecionada -->
+    <div id="aiConfig" style="padding:14px 16px;background:#f8fafc;border-bottom:1px solid var(--gray-100);">
+      <div style="font-size:11px;font-weight:700;color:var(--gray-500);margin-bottom:7px" id="aiConfigLabel">Claude — Chave de API</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div style="flex:1;display:flex;align-items:center;background:#fff;border:1px solid var(--gray-100);border-radius:10px;padding:9px 12px;gap:8px">
+          <span style="font-size:14px" id="aiKeyIcon">🔑</span>
+          <input id="aiKeyInput" type="password" placeholder="Cole sua chave de API aqui..."
+            style="flex:1;border:none;outline:none;font-family:'Manrope',sans-serif;font-size:13px;color:var(--navy);background:transparent">
+          <button onclick="toggleAIKeyVisibility()" style="background:none;border:none;cursor:pointer;font-size:14px;padding:0" id="aiKeyToggle" title="Mostrar/ocultar">👁</button>
+        </div>
+        <button onclick="saveAIKey()" style="background:var(--teal-mid);color:#fff;border:none;border-radius:10px;padding:9px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;white-space:nowrap">Salvar</button>
+      </div>
+      <div id="aiKeyStatus" style="font-size:11px;color:var(--gray-300);margin-top:5px;min-height:16px"></div>
+      <div id="aiDirectLink" style="margin-top:8px;display:none">
+        <a id="aiDirectLinkAnchor" href="#" target="_blank" style="font-size:11.5px;color:var(--teal-mid);font-weight:700;text-decoration:none">↗ Abrir no site da IA →</a>
+      </div>
+    </div>
+    <!-- Campo de prompt -->
+    <div style="padding:12px 16px 4px">
+      <div style="font-size:11px;font-weight:700;color:var(--gray-500);margin-bottom:6px">Mensagem para a IA</div>
+      <div style="background:#fff;border:1px solid var(--gray-100);border-radius:12px;overflow:hidden">
+        <textarea id="assistInput" rows="3" placeholder="Descreva o caso ou peça um documento..."
+          style="width:100%;box-sizing:border-box;border:none;outline:none;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:13px;color:var(--navy);resize:none;line-height:1.55"></textarea>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-top:1px solid var(--gray-100);background:#fafbfc">
+          <div style="display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;" id="quickChips">
+            <span class="ap-chip" onclick="setPromptText('Gere um relatório médico para solicitação de imunobiológico. Paciente com asma grave, eosinófilos: [VALOR] céls/µL, IgE total: [VALOR] UI/mL.')">💊 Rel. biológico</span>
+            <span class="ap-chip" onclick="setPromptText('Crie um plano de ação personalizado para asma em linguagem acessível, baseado no GINA 2025, com zonas verde, amarela e vermelha.')">🫁 Plano asma</span>
+            <span class="ap-chip" onclick="setPromptText('Gere carta médica para escola com protocolo de emergência para alergia alimentar IgE-mediada a [ALIMENTO].')">🍽️ Carta escola</span>
+            <span class="ap-chip" onclick="setPromptText('Crie orientação pós-alta para paciente que teve anafilaxia, incluindo sinais de alerta e protocolo de emergência.')">🆘 Pós-anafilaxia</span>
+          </div>
+          <button class="ap-send" id="assistSend" onclick="enviarParaIA()" style="flex-shrink:0;margin-left:8px">Enviar ↗</button>
+        </div>
+      </div>
+    </div>
+    <!-- Resposta da IA -->
+    <div class="ap-response" id="assistResp" style="margin:10px 16px 4px"></div>
+    <!-- Prompts salvos -->
+    <div style="padding:12px 16px 4px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="font-size:11px;font-weight:700;color:var(--gray-500)">⭐ Prompts salvos</div>
+        <button onclick="salvarPromptRapido()" style="background:var(--aqua);color:var(--navy);border:none;border-radius:8px;padding:5px 11px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif">+ Salvar atual</button>
+      </div>
+      <div id="savedPromptsAssist" style="display:flex;flex-direction:column;gap:7px"></div>
+    </div>
+    <div style="padding:8px 16px 80px;font-size:10.5px;color:var(--gray-300);font-style:italic;line-height:1.5">⚠️ Não insira dados identificáveis de pacientes. Chaves de API são salvas apenas neste dispositivo (localStorage) e nunca enviadas para nossos servidores.</div>
   </div>
 
   <!-- ══ PROMPTS ══ -->
@@ -1302,6 +1411,21 @@ body{
     <div style="padding:16px 16px 8px">
       <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px"><span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>Biblioteca de Prompts Médicos</div>
       <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Copie, edite e use na prática clínica diária</div>
+    </div>
+    <!-- Criar novo prompt -->
+    <div style="margin:0 16px 12px;background:#f0fafa;border:1px solid rgba(59,191,204,.25);border-radius:13px;padding:13px 14px">
+      <div style="font-size:11px;font-weight:700;color:var(--teal-mid);margin-bottom:8px">+ Criar prompt personalizado</div>
+      <input id="newPromptTitle" placeholder="Título do prompt..." style="width:100%;box-sizing:border-box;border:1px solid var(--gray-100);border-radius:9px;padding:8px 11px;font-family:'Manrope',sans-serif;font-size:12.5px;color:var(--navy);margin-bottom:7px;outline:none">
+      <textarea id="newPromptBody" rows="3" placeholder="Texto do prompt (use [CAMPOS] para preencher depois)..." style="width:100%;box-sizing:border-box;border:1px solid var(--gray-100);border-radius:9px;padding:8px 11px;font-family:'Manrope',sans-serif;font-size:12.5px;color:var(--navy);resize:none;outline:none;line-height:1.5"></textarea>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <input id="newPromptCat" placeholder="Categoria (ex: Relatório)" style="flex:1;border:1px solid var(--gray-100);border-radius:9px;padding:7px 10px;font-family:'Manrope',sans-serif;font-size:12px;color:var(--navy);outline:none">
+        <button onclick="salvarNovoPrompt()" style="background:var(--teal-mid);color:#fff;border:none;border-radius:9px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif">Salvar</button>
+      </div>
+    </div>
+    <!-- Prompts salvos pelo usuário -->
+    <div id="userPromptsSection" style="display:none;padding:0 16px;margin-bottom:8px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal-mid);padding:4px 0 8px">Meus Prompts</div>
+      <div id="userPromptsList" style="display:flex;flex-direction:column;gap:8px"></div>
     </div>
     <div class="gap-list">
       <div style="padding:14px 16px 6px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-300)">Relatórios</div>
@@ -2496,7 +2620,13 @@ body{
       <div class="guide-card" data-nav="interacao" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">⚕️</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Interação Medicamentosa</div><div style="font-size:11.5px;color:var(--gray-500)">Verificador clínico · Medscape integrado</div></div></div></div>
       <div class="guide-card" data-nav="favoritos" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🔖</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Favoritos</div><div style="font-size:11.5px;color:var(--gray-500)">Artigos, scores e prompts salvos</div></div></div></div>
     </div>
-    <div style="height:16px"></div>
+    <!-- Usuário logado + logout -->
+    <div style="margin:16px 16px 0;background:#f8fafc;border:1px solid var(--gray-100);border-radius:13px;padding:14px 16px">
+      <div style="font-size:11px;font-weight:700;color:var(--gray-500);margin-bottom:4px">Conta</div>
+      <div id="authUserInfo" style="font-size:13px;color:var(--navy);font-weight:600;margin-bottom:12px">—</div>
+      <button onclick="fazerLogout()" style="width:100%;background:#fff;border:1.5px solid #e74c3c;color:#e74c3c;border-radius:10px;padding:10px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Sair da conta →</button>
+    </div>
+    <div style="height:80px"></div>
   </div>
 
 </div><!-- /scroll-area -->
@@ -2558,6 +2688,334 @@ function abrirLink(url){
   document.body.appendChild(a);
   a.click();
   setTimeout(function(){ if(a.parentNode) a.parentNode.removeChild(a); }, 100);
+}
+
+/* ══════════════════════════════════════
+   AUTH — login / cadastro (localStorage)
+══════════════════════════════════════ */
+(function(){
+  // Verificar sessão ao carregar
+  try{
+    var sess = localStorage.getItem('hub_session');
+    if(sess){
+      var s = JSON.parse(sess);
+      // Sessão válida por 30 dias
+      if(s.exp && Date.now() < s.exp){
+        document.getElementById('authScreen').style.display='none';
+        return;
+      }
+    }
+  }catch(e){}
+  // Mostrar tela de auth e bloquear app
+  document.getElementById('authScreen').style.display='flex';
+})();
+
+function authModo(modo){
+  var isLogin = (modo==='login');
+  document.getElementById('tabLogin').classList.toggle('active', isLogin);
+  document.getElementById('tabCad').classList.toggle('active', !isLogin);
+  document.getElementById('formLogin').style.display = isLogin ? '' : 'none';
+  document.getElementById('formCad').style.display  = isLogin ? 'none' : '';
+}
+
+function _hash(str){
+  // Hash simples (djb2) — não é criptografia de produção, apenas ofusca
+  var h = 5381;
+  for(var i=0;i<str.length;i++) h=((h<<5)+h)+str.charCodeAt(i);
+  return (h>>>0).toString(36);
+}
+
+function fazerCadastro(){
+  var nome   = (document.getElementById('cadNome').value||'').trim();
+  var email  = (document.getElementById('cadEmail').value||'').trim().toLowerCase();
+  var senha  = document.getElementById('cadSenha').value||'';
+  var senha2 = document.getElementById('cadSenha2').value||'';
+  var err    = document.getElementById('cadErr');
+  err.textContent = '';
+  if(!nome)          { err.textContent='Informe seu nome.'; return; }
+  if(!email||!email.includes('@')) { err.textContent='E-mail inválido.'; return; }
+  if(senha.length<6) { err.textContent='Senha deve ter mínimo 6 caracteres.'; return; }
+  if(senha!==senha2) { err.textContent='As senhas não coincidem.'; return; }
+  try{
+    var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
+    if(users[email]) { err.textContent='E-mail já cadastrado. Faça login.'; return; }
+    users[email] = {nome:nome, hash:_hash(senha)};
+    localStorage.setItem('hub_users', JSON.stringify(users));
+    // Login automático
+    _iniciarSessao(email, nome);
+  }catch(e){ err.textContent='Erro ao salvar. Tente novamente.'; }
+}
+
+function fazerLogin(){
+  var email = (document.getElementById('loginEmail').value||'').trim().toLowerCase();
+  var senha = document.getElementById('loginSenha').value||'';
+  var err   = document.getElementById('loginErr');
+  err.textContent = '';
+  if(!email) { err.textContent='Informe o e-mail.'; return; }
+  if(!senha) { err.textContent='Informe a senha.'; return; }
+  try{
+    var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
+    var u = users[email];
+    if(!u || u.hash !== _hash(senha)){ err.textContent='E-mail ou senha incorretos.'; return; }
+    _iniciarSessao(email, u.nome);
+  }catch(e){ err.textContent='Erro ao autenticar. Tente novamente.'; }
+}
+
+function _iniciarSessao(email, nome){
+  try{
+    var sess = {email:email, nome:nome, exp: Date.now() + 30*24*60*60*1000};
+    localStorage.setItem('hub_session', JSON.stringify(sess));
+  }catch(e){}
+  document.getElementById('authScreen').style.display='none';
+  // Mostrar nome do usuário logado no toast
+  if(typeof toast==='function') toast('👋','Bem-vindo(a), '+nome.split(' ')[0]+'!');
+}
+
+function fazerLogout(){
+  try{ localStorage.removeItem('hub_session'); }catch(e){}
+  document.getElementById('authScreen').style.display='flex';
+  // reset form
+  ['loginEmail','loginSenha'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  ['cadNome','cadEmail','cadSenha','cadSenha2'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  ['loginErr','cadErr'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent='';});
+  authModo('login');
+}
+
+function _atualizarInfoUsuario(){
+  try{
+    var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
+    var el = document.getElementById('authUserInfo');
+    if(el && sess.nome) el.textContent = sess.nome + ' (' + (sess.email||'') + ')';
+  }catch(e){}
+}
+
+// Enter nos campos de login / cadastro
+document.addEventListener('DOMContentLoaded', function(){
+  ['loginEmail','loginSenha'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.addEventListener('keydown',function(e){if(e.key==='Enter')fazerLogin();});
+  });
+  ['cadNome','cadEmail','cadSenha','cadSenha2'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.addEventListener('keydown',function(e){if(e.key==='Enter')fazerCadastro();});
+  });
+  _atualizarInfoUsuario();
+});
+
+/* ── AI ASSISTANT ── */
+var _currentAI = 'claude';
+var _aiConfig = {
+  claude:     { label:'Claude',     icon:'🟣', keyLabel:'API Key Anthropic', keyStore:'hub_aikey_claude',     url:'https://claude.ai',     endpoint:'https://api.anthropic.com/v1/messages' },
+  chatgpt:    { label:'ChatGPT',    icon:'🟢', keyLabel:'API Key OpenAI',    keyStore:'hub_aikey_chatgpt',    url:'https://chat.openai.com', endpoint:'https://api.openai.com/v1/chat/completions' },
+  gemini:     { label:'Gemini',     icon:'🔵', keyLabel:'API Key Google',     keyStore:'hub_aikey_gemini',     url:'https://gemini.google.com', endpoint:'' },
+  copilot:    { label:'Copilot',    icon:'🔷', keyLabel:'API Key Azure/MS',   keyStore:'hub_aikey_copilot',    url:'https://copilot.microsoft.com', endpoint:'' },
+  perplexity: { label:'Perplexity', icon:'🟡', keyLabel:'API Key Perplexity', keyStore:'hub_aikey_perplexity', url:'https://www.perplexity.ai', endpoint:'https://api.perplexity.ai/chat/completions' }
+};
+
+function selectAI(ai){
+  _currentAI = ai;
+  // tabs visuais
+  document.querySelectorAll('.ai-tab').forEach(function(t){ t.classList.toggle('active', t.dataset.ai===ai); });
+  // atualizar label da chave
+  var cfg = _aiConfig[ai];
+  var lbl = document.getElementById('aiKeyLabel');
+  if(lbl) lbl.textContent = cfg.keyLabel;
+  // carregar chave salva
+  var inp = document.getElementById('aiKeyInput');
+  if(inp){
+    try{ inp.value = localStorage.getItem(cfg.keyStore)||''; }catch(e){ inp.value=''; }
+    inp.type = 'password';
+  }
+  // link direto
+  var link = document.getElementById('aiDirectLink');
+  if(link){ link.href = cfg.url; link.textContent = 'Abrir '+cfg.label+' ↗'; }
+  // limpar resposta anterior
+  var resp = document.getElementById('assistResp');
+  if(resp) resp.innerHTML = '';
+  // renderizar prompts salvos
+  renderSavedPromptsAssist();
+}
+
+function saveAIKey(){
+  var inp = document.getElementById('aiKeyInput');
+  if(!inp) return;
+  var key = (inp.value||'').trim();
+  var cfg = _aiConfig[_currentAI];
+  try{ localStorage.setItem(cfg.keyStore, key); }catch(e){}
+  toast('✅','Chave salva!');
+}
+
+function toggleAIKeyVisibility(){
+  var inp = document.getElementById('aiKeyInput');
+  if(!inp) return;
+  inp.type = inp.type==='password' ? 'text' : 'password';
+}
+
+function setPromptText(txt){
+  var ta = document.getElementById('assistPrompt');
+  if(ta){ ta.value = txt; ta.focus(); }
+}
+
+function enviarParaIA(){
+  var ta = document.getElementById('assistPrompt');
+  var prompt = ta ? (ta.value||'').trim() : '';
+  if(!prompt){ toast('⚠️','Escreva um prompt primeiro!'); return; }
+
+  var cfg = _aiConfig[_currentAI];
+  var resp = document.getElementById('assistResp');
+  if(resp) resp.innerHTML = '<div style="color:var(--gray-400);font-size:13px;padding:8px 0">⏳ Enviando...</div>';
+
+  var key = '';
+  try{ key = localStorage.getItem(cfg.keyStore)||''; }catch(e){}
+
+  // Claude — direct API call
+  if(_currentAI==='claude' && key){
+    fetch(cfg.endpoint, {
+      method:'POST',
+      headers:{'x-api-key':key,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({model:'claude-opus-4-5',max_tokens:1024,messages:[{role:'user',content:prompt}]})
+    }).then(function(r){return r.json();}).then(function(d){
+      var txt = (d.content&&d.content[0]&&d.content[0].text) ? d.content[0].text : JSON.stringify(d);
+      if(resp) resp.innerHTML='<div style="white-space:pre-wrap;font-size:13.5px;line-height:1.6;color:var(--navy)">'+_escHtml(txt)+'</div>';
+    }).catch(function(e){
+      if(resp) resp.innerHTML='<div style="color:#e74c3c;font-size:13px">Erro: '+_escHtml(e.message)+'<br><a href="'+cfg.url+'" target="_blank" style="color:var(--teal-mid)">Abrir Claude.ai ↗</a></div>';
+    });
+    return;
+  }
+
+  // ChatGPT — direct API call
+  if(_currentAI==='chatgpt' && key){
+    fetch(cfg.endpoint, {
+      method:'POST',
+      headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},
+      body: JSON.stringify({model:'gpt-4o-mini',messages:[{role:'user',content:prompt}]})
+    }).then(function(r){return r.json();}).then(function(d){
+      var txt = (d.choices&&d.choices[0]&&d.choices[0].message) ? d.choices[0].message.content : JSON.stringify(d);
+      if(resp) resp.innerHTML='<div style="white-space:pre-wrap;font-size:13.5px;line-height:1.6;color:var(--navy)">'+_escHtml(txt)+'</div>';
+    }).catch(function(e){
+      if(resp) resp.innerHTML='<div style="color:#e74c3c;font-size:13px">Erro: '+_escHtml(e.message)+'</div>';
+    });
+    return;
+  }
+
+  // Perplexity — direct API call
+  if(_currentAI==='perplexity' && key){
+    fetch(cfg.endpoint, {
+      method:'POST',
+      headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},
+      body: JSON.stringify({model:'llama-3.1-sonar-small-128k-online',messages:[{role:'user',content:prompt}]})
+    }).then(function(r){return r.json();}).then(function(d){
+      var txt = (d.choices&&d.choices[0]&&d.choices[0].message) ? d.choices[0].message.content : JSON.stringify(d);
+      if(resp) resp.innerHTML='<div style="white-space:pre-wrap;font-size:13.5px;line-height:1.6;color:var(--navy)">'+_escHtml(txt)+'</div>';
+    }).catch(function(e){
+      if(resp) resp.innerHTML='<div style="color:#e74c3c;font-size:13px">Erro: '+_escHtml(e.message)+'</div>';
+    });
+    return;
+  }
+
+  // Fallback: copiar e abrir no navegador
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(prompt).then(function(){
+      if(resp) resp.innerHTML='<div style="font-size:13px;color:var(--gray-500)">✅ Prompt copiado! <a href="'+cfg.url+'" target="_blank" style="color:var(--teal-mid);font-weight:700">Abrir '+cfg.label+' ↗</a><br><small>Cole o prompt lá (Ctrl+V / Cmd+V)</small>'+(key?'':' <br><small style="color:#e74c3c">Adicione sua API Key para envio direto.</small>')+'</div>';
+    });
+  } else {
+    if(resp) resp.innerHTML='<div style="font-size:13px"><a href="'+cfg.url+'" target="_blank" style="color:var(--teal-mid);font-weight:700">Abrir '+cfg.label+' ↗</a>'+(key?'':' <br><small style="color:#e74c3c">Adicione sua API Key para envio direto.</small>')+'</div>';
+  }
+  window.open(cfg.url, '_blank');
+}
+
+function _escHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function salvarPromptRapido(){
+  var ta = document.getElementById('assistPrompt');
+  var txt = ta ? (ta.value||'').trim() : '';
+  if(!txt){ toast('⚠️','Escreva algo primeiro!'); return; }
+  var title = prompt('Nome para este prompt:', txt.substring(0,40));
+  if(!title) return;
+  _salvarPromptStorage({titulo:title, corpo:txt, categoria:'Assistente', data:new Date().toLocaleDateString('pt-BR')});
+  renderSavedPromptsAssist();
+  toast('💾','Prompt salvo!');
+}
+
+function renderSavedPromptsAssist(){
+  var list = document.getElementById('savedPromptsAssist');
+  if(!list) return;
+  var prompts = _carregarPrompts().filter(function(p){ return p.categoria==='Assistente'||!p.origem; });
+  if(!prompts.length){ list.innerHTML='<div style="font-size:12px;color:var(--gray-400);padding:6px 0">Nenhum prompt salvo ainda.</div>'; return; }
+  list.innerHTML = prompts.map(function(p,i){
+    return '<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--gray-100)">'
+      +'<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+_escHtml(p.titulo)+'</div>'
+      +'<div style="font-size:11px;color:var(--gray-400)">'+_escHtml((p.corpo||'').substring(0,50))+'…</div></div>'
+      +'<button onclick="setPromptText('+JSON.stringify(p.corpo)+')" style="flex-shrink:0;background:var(--teal-mid);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Manrope\',sans-serif">Usar</button>'
+      +'</div>';
+  }).join('');
+}
+
+/* ── PROMPTS (página) ── */
+function _carregarPrompts(){
+  try{ return JSON.parse(localStorage.getItem('hub_custom_prompts')||'[]'); }catch(e){ return []; }
+}
+
+function _salvarPromptStorage(p){
+  var arr = _carregarPrompts();
+  arr.unshift(p);
+  try{ localStorage.setItem('hub_custom_prompts', JSON.stringify(arr)); }catch(e){}
+}
+
+function salvarNovoPrompt(){
+  var titulo = (document.getElementById('newPromptTitle')||{}).value||'';
+  var corpo  = (document.getElementById('newPromptBody')||{}).value||'';
+  var cat    = (document.getElementById('newPromptCat')||{}).value||'Geral';
+  titulo = titulo.trim(); corpo = corpo.trim();
+  if(!titulo){ toast('⚠️','Informe um título!'); return; }
+  if(!corpo) { toast('⚠️','Escreva o prompt!'); return; }
+  _salvarPromptStorage({titulo:titulo, corpo:corpo, categoria:cat, data:new Date().toLocaleDateString('pt-BR'), origem:'usuario'});
+  // limpar campos
+  ['newPromptTitle','newPromptBody'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  renderUserPrompts();
+  toast('💾','Prompt salvo!');
+}
+
+function renderUserPrompts(){
+  var sec  = document.getElementById('userPromptsSection');
+  var list = document.getElementById('userPromptsList');
+  if(!list) return;
+  var arr = _carregarPrompts().filter(function(p){ return p.origem==='usuario'; });
+  if(sec) sec.style.display = arr.length ? '' : 'none';
+  list.innerHTML = arr.map(function(p,i){
+    return '<div style="background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;padding:12px 14px;margin-bottom:10px">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'
+      +'<span style="background:var(--teal-light);color:var(--teal-mid);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px">'+_escHtml(p.categoria||'Geral')+'</span>'
+      +'<span style="font-size:10px;color:var(--gray-400)">'+_escHtml(p.data||'')+'</span>'
+      +'<button onclick="_deletarPrompt('+i+')" style="margin-left:auto;background:none;border:none;color:#e74c3c;font-size:16px;cursor:pointer;padding:0 4px" title="Remover">×</button>'
+      +'</div>'
+      +'<div style="font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:4px">'+_escHtml(p.titulo)+'</div>'
+      +'<div style="font-size:12.5px;color:var(--gray-500);line-height:1.5;white-space:pre-wrap">'+_escHtml((p.corpo||'').substring(0,200))+(p.corpo&&p.corpo.length>200?'…':'')+'</div>'
+      +'<div style="display:flex;gap:8px;margin-top:10px">'
+      +'<button onclick="setPromptText('+JSON.stringify(p.corpo)+');navTo(\'assistente\')" style="flex:1;background:var(--teal-mid);color:#fff;border:none;border-radius:9px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Manrope\',sans-serif">Usar no Assistente ↗</button>'
+      +'</div></div>';
+  }).join('');
+}
+
+function _deletarPrompt(idx){
+  var arr = _carregarPrompts().filter(function(p){ return p.origem==='usuario'; });
+  var all = _carregarPrompts();
+  // remover pelo índice dentro dos user prompts
+  var userOnly = all.filter(function(p){ return p.origem==='usuario'; });
+  var target = userOnly[idx];
+  if(!target) return;
+  var newAll = all.filter(function(p){ return p!==target; });
+  // encontrar no all pelo título+corpo para remover
+  var removed = false;
+  newAll = all.filter(function(p){
+    if(!removed && p.origem==='usuario' && p.titulo===target.titulo && p.corpo===target.corpo){ removed=true; return false; }
+    return true;
+  });
+  try{ localStorage.setItem('hub_custom_prompts', JSON.stringify(newAll)); }catch(e){}
+  renderUserPrompts();
+  toast('🗑️','Prompt removido.');
 }
 
 /* ── NAVIGATION ── */
@@ -4448,6 +4906,32 @@ document.addEventListener('click', function(eM){
 /* estado inicial da navegação */
 navTo('dashboard'); // estado inicial
 carregarFeedHome(); // artigos recentes automáticos na home
+
+// Inicializar AI Assistant na primeira abertura
+document.addEventListener('DOMContentLoaded', function(){
+  // quando navegar para assistente ou prompts, inicializar
+  var _origNavTo = navTo;
+  // hook nos data-nav clicks já coberto pelo navTo
+  // selectAI e renderUserPrompts chamados quando página ficar visível via navTo override
+});
+
+// Sobrescrever navTo para inicializar páginas especiais
+(function(){
+  var _orig = navTo;
+  navTo = function(page){
+    _orig(page);
+    if(page==='assistente'){
+      // inicializa a aba ativa
+      selectAI(_currentAI||'claude');
+    }
+    if(page==='prompts'){
+      renderUserPrompts();
+    }
+    if(page==='mais'){
+      _atualizarInfoUsuario();
+    }
+  };
+})();
 </script>
 
 <!-- MBE ANALYSIS SHEET -->
