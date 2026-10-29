@@ -2712,15 +2712,24 @@ document.addEventListener('click',function(e){
   }
 
 
-  // filter chips
+  // filter chips (artigos e guidelines)
   var fc=el.closest('.fchip');
   if(fc){
     var filter=fc.dataset.filter;
-    document.querySelectorAll('.fchip').forEach(function(c){c.classList.remove('on');});
-    fc.classList.add('on');
-    document.querySelectorAll('.art-card').forEach(function(c){
-      c.style.display=(filter==='todos'||c.dataset.topic===filter)?'flex':'none';
-    });
+    var gfilter=fc.dataset.gfilter;
+    if(filter!==undefined){
+      document.querySelectorAll('.fchip[data-filter]').forEach(function(c){c.classList.remove('on');});
+      fc.classList.add('on');
+      document.querySelectorAll('.art-card').forEach(function(c){
+        c.style.display=(filter==='all'||filter==='todos'||c.dataset.topic===filter)?'flex':'none';
+      });
+    } else if(gfilter!==undefined){
+      document.querySelectorAll('.fchip[data-gfilter]').forEach(function(c){c.classList.remove('on');});
+      fc.classList.add('on');
+      document.querySelectorAll('.guide-card[data-topic]').forEach(function(c){
+        c.style.display=(gfilter==='all'||c.dataset.topic===gfilter)?'block':'none';
+      });
+    }
     return;
   }
 
