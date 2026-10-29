@@ -1226,7 +1226,7 @@ body{
     <!-- ══ GUIDELINES ══ -->
   <div class="page" id="page-guidelines">
     <div style="padding:14px 16px 8px;display:flex;flex-direction:column;gap:10px">
-      <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px"><span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>Guidelines <span id="gl-update-badge" style="margin-left:auto;font-size:10px;font-weight:600;color:var(--gray-400);background:rgba(59,191,204,.1);border:1px solid rgba(59,191,204,.2);border-radius:20px;padding:2px 8px">🔄 revisado 27/10/2026</span></div>
+      <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px"><span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>Guidelines <span id="gl-update-badge" style="margin-left:auto;font-size:10px;font-weight:600;color:var(--gray-400);background:rgba(59,191,204,.1);border:1px solid rgba(59,191,204,.2);border-radius:20px;padding:2px 8px">🔄 revisado <span id="gl-date-text"></span></span></div>
       <a href="https://pubmed.ncbi.nlm.nih.gov/?term=(allergy+OR+immunology+OR+asthma+OR+urticaria+OR+%22atopic+dermatitis%22+OR+anaphylaxis)+AND+(guideline%5BPublication+Type%5D+OR+practice+guideline%5BPublication+Type%5D+OR+consensus)&filter=datesearch.y_1&sort=date" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:9px;background:linear-gradient(135deg,rgba(59,191,204,.1),rgba(59,191,204,.03));border:1px solid rgba(59,191,204,.25);border-radius:12px;padding:11px 13px;text-decoration:none">
         <span style="font-size:16px">📡</span>
         <div style="flex:1">
@@ -2636,6 +2636,15 @@ if(_tbBack) _tbBack.addEventListener('click', function(){
     navTo('dashboard');
   }
 });
+// Badge de data dinâmica nos Guidelines
+(function(){
+  var el=document.getElementById('gl-date-text');
+  if(el){
+    var d=new Date();
+    el.textContent=d.getDate().toString().padStart(2,'0')+'/'+(d.getMonth()+1).toString().padStart(2,'0')+'/'+d.getFullYear();
+  }
+})();
+
 // Logo click → home
 var _tbLogo2 = document.getElementById('tbLogo');
 if(_tbLogo2) _tbLogo2.addEventListener('click', function(){ navTo('dashboard'); });
@@ -2726,7 +2735,8 @@ document.addEventListener('click',function(e){
     } else if(gfilter!==undefined){
       document.querySelectorAll('.fchip[data-gfilter]').forEach(function(c){c.classList.remove('on');});
       fc.classList.add('on');
-      document.querySelectorAll('.guide-card[data-topic]').forEach(function(c){
+      var glList=document.getElementById('guidelines-list');
+      (glList?glList.querySelectorAll('.guide-card[data-topic]'):document.querySelectorAll('.guide-card[data-topic]')).forEach(function(c){
         c.style.display=(gfilter==='all'||c.dataset.topic===gfilter)?'block':'none';
       });
     }
