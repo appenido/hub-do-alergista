@@ -3925,7 +3925,37 @@ function carregarRadar(forcar){
   var url = RADAR_URL + (forcar ? '?forcar=1' : '');
   fetch(url).then(function(r){ return r.json(); }).then(function(d){
     if(!d || !d.ok){ throw new Error(d && d.erro ? d.erro : 'Erro desconhecido'); }
-    var itens = d.itens || [];
+    var itensAll = d.itens || [];
+    // Filtrar apenas conteúdo relevante para Alergia/Imunologia + Imunizações
+    var RADAR_KEYWORDS = [
+      // Especialidade
+      'alergi','imunolog','asma','atop','dermatite','eczema','urticária','urticaria',
+      'angioedema','anafilax','rhinit','rinit','polinose','sinusite','conjuntivit',
+      'alimento','alimentar','abelha','veneno','himenóptero','himenoptero',
+      'eosinofil','esofagite','mastocitose','mastocyt','urticária',
+      'imunodeficiência','imunodeficiencia','hipogamaglobulinemia','agamaglobulin',
+      'imunoterapia','dessensibiliz','biológico','biologic','dupilumab','omalizumab',
+      'mepolizumab','benralizumab','tezepelumab','lebrikizumab','tralokinumab',
+      'cendakimab','itepekimab','spesolimab','secukinumab','ligelizumab',
+      // Fármacos de classe
+      'anti-ige','anti ige','anti-il-','anti il ','anti-il','biológico','biologico',
+      'imunoglobulina','immunoglobulin','ivig','scig',
+      // Imunizações
+      'vacin','imuniz','imunoprofilax','vacina','vaccine','vacinação','vacinacao',
+      'calendário vacinal','calendario vacinal','calendário de vacinas',
+      'pneumococ','influenza','gripe','meningococ','hpv','hepatite','varicela',
+      'sarampo','tríplice viral','tetano','tétano','coqueluche','pertussis',
+      'covid','dengue','amarela','febre amarela','rsv','vsr',
+      // Regulatório de biológicos/especialidade
+      'ige','il-4','il-13','il-5','il-33','tslp','th2','tipo 2','type 2'
+    ];
+    var itens = itensAll.filter(function(it){
+      var texto = ((it.titulo||'')+(it.resumo||'')+(it.drogas||[]).join(' ')).toLowerCase();
+      for(var ki=0;ki<RADAR_KEYWORDS.length;ki++){
+        if(texto.indexOf(RADAR_KEYWORDS[ki].toLowerCase())!==-1) return true;
+      }
+      return false;
+    });
     var fontes = d.fontes || {};
     var gerado = d.gerado_em ? new Date(d.gerado_em) : new Date();
     var hm = gerado.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
@@ -3940,8 +3970,9 @@ function carregarRadar(forcar){
     }
     if(status) status.textContent = dd + ' ' + hm + ' · ' + partes.join(' · ');
 
+    if(status) status.textContent += ' · ' + itens.length + '/' + itensAll.length + ' relevantes';
     if(!itens.length){
-      lista.innerHTML = '<div style="padding:16px;font-size:12px;color:var(--gray-500);text-align:center">Nenhuma novidade regulatória encontrada nos últimos dias.</div>';
+      lista.innerHTML = '<div style="padding:16px;font-size:12px;color:var(--gray-500);text-align:center">Nenhuma novidade relevante para Alergia/Imunologia ou Imunizações nos últimos dias.</div>';
       return;
     }
 
