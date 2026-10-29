@@ -502,6 +502,21 @@ body{
 .res-desc{font-size:12px;color:rgba(255,255,255,.65);margin-top:9px;line-height:1.65;}
 .modal-disc{font-size:10.5px;color:var(--gray-300);font-style:italic;line-height:1.6;}
 
+/* ── FAB VOLTAR ── */
+#fabVoltar{
+  position:fixed;bottom:calc(var(--bottomnav-h) + 14px);right:16px;
+  width:48px;height:48px;border-radius:50%;
+  background:var(--teal-mid);color:#fff;
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 18px rgba(13,31,45,.28);
+  z-index:250;opacity:0;pointer-events:none;
+  transition:opacity .22s,transform .22s;
+  transform:scale(.85);
+  font-size:20px;line-height:1;
+}
+#fabVoltar.visible{opacity:1;pointer-events:auto;transform:scale(1);}
+
 /* ── TOAST ── */
 .toast{
   position:fixed;bottom:calc(var(--bottomnav-h) + 12px);left:50%;
@@ -2529,6 +2544,7 @@ body{
 
 <!-- TOAST -->
 <div class="toast" id="toast"><span id="toastIcon">✅</span><span id="toastMsg">Feito!</span></div>
+<button id="fabVoltar" aria-label="Voltar" onclick="(function(){if(window._navHistory&&window._navHistory.length>1){window._navHistory.pop();var p=window._navHistory.pop();navTo(p||'dashboard');}else{navTo('dashboard');}})()">&#8592;</button>
 
 <script>
 /* ── ABRIR LINK: usa <a> real (evita bloqueio/confirmação de popup) ── */
@@ -2563,16 +2579,19 @@ function navTo(page){
   var sa=document.querySelector('.scroll-area');
   if(sa)sa.scrollTo(0,0);
 
-  // Show/hide back button
+  // Show/hide back button + FAB
   var backBtn = document.getElementById('tbBack');
   var logo    = document.getElementById('tbLogo');
+  var fab     = document.getElementById('fabVoltar');
   if(page === 'dashboard'){
     if(backBtn) backBtn.classList.remove('visible');
     if(logo)    logo.style.display = 'flex';
+    if(fab)     fab.classList.remove('visible');
     _navHistory = ['dashboard'];
   } else {
     if(backBtn) backBtn.classList.add('visible');
     if(logo)    logo.style.display = 'none';
+    if(fab)     fab.classList.add('visible');
   }
 
   if(page === 'artigos' && !_feedLoaded){ _feedLoaded = true; renderFeedChips(); carregarFeed('todos'); }
