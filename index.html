@@ -706,6 +706,26 @@ body{
 <body>
 
 <!-- ══ TELA DE LOGIN / CADASTRO ══ -->
+<script>
+// Verificação imediata de sessão — roda antes de qualquer outro JS
+(function(){
+  try{
+    var s = JSON.parse(localStorage.getItem('hub_session')||'null');
+    if(!s || !s.exp || Date.now() >= s.exp){
+      // Sem sessão válida: mostrar auth assim que o elemento existir
+      document.addEventListener('DOMContentLoaded', function(){
+        var el = document.getElementById('authScreen');
+        if(el) el.style.display='flex';
+      });
+    }
+  }catch(e){
+    document.addEventListener('DOMContentLoaded', function(){
+      var el = document.getElementById('authScreen');
+      if(el) el.style.display='flex';
+    });
+  }
+})();
+</script>
 <div id="authScreen">
   <div class="auth-logo">
     <div class="auth-logo-icon">
