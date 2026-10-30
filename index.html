@@ -713,31 +713,34 @@ body{
 }
 
 </style>
+<script>
+// Roda no <head>, antes do body renderizar
+(function(){
+  var SESS_VER = 2;
+  try{
+    var s = JSON.parse(localStorage.getItem('hub_session')||'null');
+    if(s && s.exp && Date.now() < s.exp && s.v && s.v >= SESS_VER){
+      // Sessão válida: body aparece normalmente
+      document.write('<style>body{visibility:visible!important}</style>');
+    } else {
+      // Sem sessão: ocultar body, mostrar só authScreen
+      localStorage.removeItem('hub_session');
+      document.write('<style>body{visibility:hidden!important}#authScreen{visibility:visible!important;display:flex!important}</style>');
+    }
+  }catch(e){
+    document.write('<style>body{visibility:hidden!important}#authScreen{visibility:visible!important;display:flex!important}</style>');
+  }
+})();
+</script>
 </head>
-<body>
+<body style="visibility:hidden">
 
 <!-- ══ TELA DE LOGIN / CADASTRO ══ -->
 <script>
-// Verificação imediata de sessão — roda antes de qualquer outro JS
-(function(){
-  var SESS_VER = 2; // incrementar aqui para forçar re-login em todos os dispositivos
-  function showAuth(){
-    document.addEventListener('DOMContentLoaded', function(){
-      var el = document.getElementById('authScreen');
-      if(el) el.classList.add('show');
-    });
-  }
-  try{
-    var s = JSON.parse(localStorage.getItem('hub_session')||'null');
-    // Sessão inválida se: não existe, expirou, ou é de versão antiga (sem campo v ou v < SESS_VER)
-    if(!s || !s.exp || Date.now() >= s.exp || !s.v || s.v < SESS_VER){
-      localStorage.removeItem('hub_session'); // limpar sessão velha
-      showAuth();
-    }
-  }catch(e){
-    showAuth();
-  }
-})();
+// Após login bem-sucedido, tornar body visível
+window._mostrarApp = function(){
+  document.body.style.visibility = 'visible';
+};
 </script>
 <div id="authScreen">
   <div class="auth-logo">
@@ -2815,6 +2818,7 @@ function _iniciarSessao(email, nome){
     localStorage.setItem('hub_session', JSON.stringify(sess));
   }catch(e){}
   document.getElementById('authScreen').classList.remove('show');
+  document.body.style.visibility = 'visible';
   // Mostrar nome do usuário logado no toast
   if(typeof toast==='function') toast('👋','Bem-vindo(a), '+nome.split(' ')[0]+'!');
 }
