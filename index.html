@@ -764,10 +764,20 @@ window._mostrarApp = function(){
     </div>
     <!-- CADASTRO -->
     <div id="formCad" style="display:none">
-      <div class="auth-field"><label>Nome completo</label><input type="text" id="cadNome" placeholder="Dr. Fulano de Tal" autocomplete="name"></div>
-      <div class="auth-field"><label>E-mail</label><input type="email" id="cadEmail" placeholder="seu@email.com" autocomplete="email"></div>
-      <div class="auth-field"><label>Senha (mín. 6 caracteres)</label><input type="password" id="cadSenha" placeholder="••••••••" autocomplete="new-password"></div>
-      <div class="auth-field"><label>Confirmar senha</label><input type="password" id="cadSenha2" placeholder="••••••••" autocomplete="new-password"></div>
+      <div class="auth-field"><label>Nome completo *</label><input type="text" id="cadNome" placeholder="Dr. Fulano de Tal" autocomplete="name"></div>
+      <div class="auth-field"><label>Endereço completo *</label><input type="text" id="cadEndereco" placeholder="Rua, nº, bairro, cidade — UF"></div>
+      <div class="auth-field"><label>CRM *</label><input type="text" id="cadCrm" placeholder="00000/UF" inputmode="text"></div>
+      <div class="auth-field"><label>Especialidade médica *</label><input type="text" id="cadEspecialidade" placeholder="Ex: Alergia e Imunologia"></div>
+      <div class="auth-field" style="margin-bottom:4px"><label>Possui RQE?</label>
+        <div style="display:flex;gap:10px;margin-top:6px">
+          <label style="display:flex;align-items:center;gap:5px;font-size:13px;font-weight:500;cursor:pointer"><input type="radio" name="cadRqeOpc" value="sim" id="cadRqeSim" onchange="document.getElementById('cadRqeBox').style.display='block'"> Sim</label>
+          <label style="display:flex;align-items:center;gap:5px;font-size:13px;font-weight:500;cursor:pointer"><input type="radio" name="cadRqeOpc" value="nao" id="cadRqeNao" onchange="document.getElementById('cadRqeBox').style.display='none'" checked> Não</label>
+        </div>
+      </div>
+      <div id="cadRqeBox" style="display:none;margin-bottom:12px"><div class="auth-field" style="margin-bottom:0"><label>Número do RQE</label><input type="text" id="cadRqeNum" placeholder="00000" inputmode="numeric"></div></div>
+      <div class="auth-field"><label>E-mail *</label><input type="email" id="cadEmail" placeholder="seu@email.com" autocomplete="email"></div>
+      <div class="auth-field"><label>Senha (mín. 6 caracteres) *</label><input type="password" id="cadSenha" placeholder="••••••••" autocomplete="new-password"></div>
+      <div class="auth-field"><label>Confirmar senha *</label><input type="password" id="cadSenha2" placeholder="••••••••" autocomplete="new-password"></div>
       <button class="auth-btn" onclick="fazerCadastro()">Criar conta →</button>
       <div class="auth-err" id="cadErr"></div>
     </div>
@@ -2777,22 +2787,37 @@ function _hash(str){
 }
 
 function fazerCadastro(){
-  var nome   = (document.getElementById('cadNome').value||'').trim();
-  var email  = (document.getElementById('cadEmail').value||'').trim().toLowerCase();
-  var senha  = document.getElementById('cadSenha').value||'';
-  var senha2 = document.getElementById('cadSenha2').value||'';
-  var err    = document.getElementById('cadErr');
+  var nome        = (document.getElementById('cadNome').value||'').trim();
+  var endereco    = (document.getElementById('cadEndereco').value||'').trim();
+  var crm         = (document.getElementById('cadCrm').value||'').trim();
+  var especialidade = (document.getElementById('cadEspecialidade').value||'').trim();
+  var rqeSim      = document.getElementById('cadRqeSim').checked;
+  var rqeNum      = (document.getElementById('cadRqeNum').value||'').trim();
+  var email       = (document.getElementById('cadEmail').value||'').trim().toLowerCase();
+  var senha       = document.getElementById('cadSenha').value||'';
+  var senha2      = document.getElementById('cadSenha2').value||'';
+  var err         = document.getElementById('cadErr');
   err.textContent = '';
-  if(!nome)          { err.textContent='Informe seu nome.'; return; }
+  if(!nome)               { err.textContent='Informe seu nome completo.'; return; }
+  if(!endereco)           { err.textContent='Informe o endereço completo.'; return; }
+  if(!crm)                { err.textContent='Informe seu CRM.'; return; }
+  if(!especialidade)      { err.textContent='Informe sua especialidade médica.'; return; }
+  if(rqeSim && !rqeNum)  { err.textContent='Informe o número do RQE.'; return; }
   if(!email||!email.includes('@')) { err.textContent='E-mail inválido.'; return; }
-  if(senha.length<6) { err.textContent='Senha deve ter mínimo 6 caracteres.'; return; }
-  if(senha!==senha2) { err.textContent='As senhas não coincidem.'; return; }
+  if(senha.length<6)      { err.textContent='Senha deve ter mínimo 6 caracteres.'; return; }
+  if(senha!==senha2)      { err.textContent='As senhas não coincidem.'; return; }
   try{
     var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
     if(users[email]) { err.textContent='E-mail já cadastrado. Faça login.'; return; }
-    users[email] = {nome:nome, hash:_hash(senha)};
+    users[email] = {
+      nome: nome,
+      endereco: endereco,
+      crm: crm,
+      especialidade: especialidade,
+      rqe: rqeSim ? rqeNum : null,
+      hash: _hash(senha)
+    };
     localStorage.setItem('hub_users', JSON.stringify(users));
-    // Login automático
     _iniciarSessao(email, nome);
   }catch(e){ err.textContent='Erro ao salvar. Tente novamente.'; }
 }
@@ -2828,7 +2853,9 @@ function fazerLogout(){
   document.getElementById('authScreen').classList.add('show');
   // reset form
   ['loginEmail','loginSenha'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
-  ['cadNome','cadEmail','cadSenha','cadSenha2'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  ['cadNome','cadEndereco','cadCrm','cadEspecialidade','cadRqeNum','cadEmail','cadSenha','cadSenha2'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  var rqeNao=document.getElementById('cadRqeNao');if(rqeNao)rqeNao.checked=true;
+  var rqeBox=document.getElementById('cadRqeBox');if(rqeBox)rqeBox.style.display='none';
   ['loginErr','cadErr'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent='';});
   authModo('login');
 }
@@ -2847,7 +2874,7 @@ document.addEventListener('DOMContentLoaded', function(){
     var el=document.getElementById(id);
     if(el) el.addEventListener('keydown',function(e){if(e.key==='Enter')fazerLogin();});
   });
-  ['cadNome','cadEmail','cadSenha','cadSenha2'].forEach(function(id){
+  ['cadNome','cadEndereco','cadCrm','cadEspecialidade','cadRqeNum','cadEmail','cadSenha','cadSenha2'].forEach(function(id){
     var el=document.getElementById(id);
     if(el) el.addEventListener('keydown',function(e){if(e.key==='Enter')fazerCadastro();});
   });
