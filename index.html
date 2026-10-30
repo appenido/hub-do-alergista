@@ -506,7 +506,7 @@ body{
 #authScreen{
   position:fixed;inset:0;z-index:9999;
   background:linear-gradient(160deg,var(--navy) 0%,var(--teal) 100%);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  display:none;flex-direction:column;align-items:center;justify-content:center;
   padding:24px 20px;
 }
 .auth-logo{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:32px;}
@@ -2818,8 +2818,8 @@ function selectAI(ai){
   document.querySelectorAll('.ai-tab').forEach(function(t){ t.classList.toggle('active', t.dataset.ai===ai); });
   // atualizar label da chave
   var cfg = _aiConfig[ai];
-  var lbl = document.getElementById('aiKeyLabel');
-  if(lbl) lbl.textContent = cfg.keyLabel;
+  var lbl = document.getElementById('aiConfigLabel');
+  if(lbl) lbl.textContent = cfg.label+' — '+cfg.keyLabel;
   // carregar chave salva
   var inp = document.getElementById('aiKeyInput');
   if(inp){
@@ -2827,8 +2827,10 @@ function selectAI(ai){
     inp.type = 'password';
   }
   // link direto
-  var link = document.getElementById('aiDirectLink');
-  if(link){ link.href = cfg.url; link.textContent = 'Abrir '+cfg.label+' ↗'; }
+  var linkWrap = document.getElementById('aiDirectLink');
+  var link = document.getElementById('aiDirectLinkAnchor');
+  if(linkWrap) linkWrap.style.display = 'block';
+  if(link){ link.href = cfg.url; link.textContent = '↗ Abrir '+cfg.label+' diretamente'; }
   // limpar resposta anterior
   var resp = document.getElementById('assistResp');
   if(resp) resp.innerHTML = '';
@@ -2852,76 +2854,33 @@ function toggleAIKeyVisibility(){
 }
 
 function setPromptText(txt){
-  var ta = document.getElementById('assistPrompt');
+  var ta = document.getElementById('assistInput');
   if(ta){ ta.value = txt; ta.focus(); }
 }
 
 function enviarParaIA(){
-  var ta = document.getElementById('assistPrompt');
+  var ta = document.getElementById('assistInput');
   var prompt = ta ? (ta.value||'').trim() : '';
   if(!prompt){ toast('⚠️','Escreva um prompt primeiro!'); return; }
 
   var cfg = _aiConfig[_currentAI];
   var resp = document.getElementById('assistResp');
-  if(resp) resp.innerHTML = '<div style="color:var(--gray-400);font-size:13px;padding:8px 0">⏳ Enviando...</div>';
 
-  var key = '';
-  try{ key = localStorage.getItem(cfg.keyStore)||''; }catch(e){}
-
-  // Claude — direct API call
-  if(_currentAI==='claude' && key){
-    fetch(cfg.endpoint, {
-      method:'POST',
-      headers:{'x-api-key':key,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
-      body: JSON.stringify({model:'claude-opus-4-5',max_tokens:1024,messages:[{role:'user',content:prompt}]})
-    }).then(function(r){return r.json();}).then(function(d){
-      var txt = (d.content&&d.content[0]&&d.content[0].text) ? d.content[0].text : JSON.stringify(d);
-      if(resp) resp.innerHTML='<div style="white-space:pre-wrap;font-size:13.5px;line-height:1.6;color:var(--navy)">'+_escHtml(txt)+'</div>';
-    }).catch(function(e){
-      if(resp) resp.innerHTML='<div style="color:#e74c3c;font-size:13px">Erro: '+_escHtml(e.message)+'<br><a href="'+cfg.url+'" target="_blank" style="color:var(--teal-mid)">Abrir Claude.ai ↗</a></div>';
-    });
-    return;
+  function _mostrar(){
+    if(resp) resp.innerHTML = '<div style="background:#f0fafa;border:1px solid rgba(59,191,204,.3);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--navy)">'
+      +'<strong style="color:var(--teal-mid)">✅ Prompt copiado!</strong><br>'
+      +'<span style="color:var(--gray-500)">Cole com <strong>Ctrl+V</strong> (ou ⌘+V no Mac) na janela que abriu.</span>'
+      +'<div style="margin-top:8px"><a href="'+cfg.url+'" target="_blank" rel="noopener" style="color:var(--teal-mid);font-weight:700;font-size:12.5px">↗ Abrir '+cfg.label+' novamente</a></div>'
+      +'</div>';
   }
 
-  // ChatGPT — direct API call
-  if(_currentAI==='chatgpt' && key){
-    fetch(cfg.endpoint, {
-      method:'POST',
-      headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},
-      body: JSON.stringify({model:'gpt-4o-mini',messages:[{role:'user',content:prompt}]})
-    }).then(function(r){return r.json();}).then(function(d){
-      var txt = (d.choices&&d.choices[0]&&d.choices[0].message) ? d.choices[0].message.content : JSON.stringify(d);
-      if(resp) resp.innerHTML='<div style="white-space:pre-wrap;font-size:13.5px;line-height:1.6;color:var(--navy)">'+_escHtml(txt)+'</div>';
-    }).catch(function(e){
-      if(resp) resp.innerHTML='<div style="color:#e74c3c;font-size:13px">Erro: '+_escHtml(e.message)+'</div>';
-    });
-    return;
-  }
+  window.open(cfg.url, '_blank', 'noopener,noreferrer');
 
-  // Perplexity — direct API call
-  if(_currentAI==='perplexity' && key){
-    fetch(cfg.endpoint, {
-      method:'POST',
-      headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},
-      body: JSON.stringify({model:'llama-3.1-sonar-small-128k-online',messages:[{role:'user',content:prompt}]})
-    }).then(function(r){return r.json();}).then(function(d){
-      var txt = (d.choices&&d.choices[0]&&d.choices[0].message) ? d.choices[0].message.content : JSON.stringify(d);
-      if(resp) resp.innerHTML='<div style="white-space:pre-wrap;font-size:13.5px;line-height:1.6;color:var(--navy)">'+_escHtml(txt)+'</div>';
-    }).catch(function(e){
-      if(resp) resp.innerHTML='<div style="color:#e74c3c;font-size:13px">Erro: '+_escHtml(e.message)+'</div>';
-    });
-    return;
-  }
-
-  // Fallback: copiar e abrir no navegador
-  if(navigator.clipboard){
-    navigator.clipboard.writeText(prompt).then(function(){
-      if(resp) resp.innerHTML='<div style="font-size:13px;color:var(--gray-500)">✅ Prompt copiado! <a href="'+cfg.url+'" target="_blank" style="color:var(--teal-mid);font-weight:700">Abrir '+cfg.label+' ↗</a><br><small>Cole o prompt lá (Ctrl+V / Cmd+V)</small>'+(key?'':' <br><small style="color:#e74c3c">Adicione sua API Key para envio direto.</small>')+'</div>';
-    });
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(prompt).then(_mostrar).catch(function(){ _fallbackCopy(prompt); _mostrar(); });
   } else {
-    if(resp) resp.innerHTML='<div style="font-size:13px"><a href="'+cfg.url+'" target="_blank" style="color:var(--teal-mid);font-weight:700">Abrir '+cfg.label+' ↗</a>'+(key?'':' <br><small style="color:#e74c3c">Adicione sua API Key para envio direto.</small>')+'</div>';
+    _fallbackCopy(prompt); _mostrar();
   }
-  window.open(cfg.url, '_blank');
 }
 
 function _escHtml(s){
@@ -2929,7 +2888,7 @@ function _escHtml(s){
 }
 
 function salvarPromptRapido(){
-  var ta = document.getElementById('assistPrompt');
+  var ta = document.getElementById('assistInput');
   var txt = ta ? (ta.value||'').trim() : '';
   if(!txt){ toast('⚠️','Escreva algo primeiro!'); return; }
   var title = prompt('Nome para este prompt:', txt.substring(0,40));
@@ -3054,6 +3013,9 @@ function navTo(page){
 
   if(page === 'artigos' && !_feedLoaded){ _feedLoaded = true; renderFeedChips(); carregarFeed('todos'); }
   if(page === 'imuno' && !_radarLoaded){ _radarLoaded = true; carregarRadar(false); }
+  if(page === 'assistente'){ try{ selectAI(window._currentAI||'claude'); }catch(e){} }
+  if(page === 'prompts')   { try{ renderUserPrompts(); }catch(e){} }
+  if(page === 'mais')      { try{ _atualizarInfoUsuario(); }catch(e){} }
 }
 
 // Back button click
@@ -4907,31 +4869,10 @@ document.addEventListener('click', function(eM){
 navTo('dashboard'); // estado inicial
 carregarFeedHome(); // artigos recentes automáticos na home
 
-// Inicializar AI Assistant na primeira abertura
+// Inicializar info usuário após carregamento
 document.addEventListener('DOMContentLoaded', function(){
-  // quando navegar para assistente ou prompts, inicializar
-  var _origNavTo = navTo;
-  // hook nos data-nav clicks já coberto pelo navTo
-  // selectAI e renderUserPrompts chamados quando página ficar visível via navTo override
+  _atualizarInfoUsuario();
 });
-
-// Sobrescrever navTo para inicializar páginas especiais
-(function(){
-  var _orig = navTo;
-  navTo = function(page){
-    _orig(page);
-    if(page==='assistente'){
-      // inicializa a aba ativa
-      selectAI(_currentAI||'claude');
-    }
-    if(page==='prompts'){
-      renderUserPrompts();
-    }
-    if(page==='mais'){
-      _atualizarInfoUsuario();
-    }
-  };
-})();
 </script>
 
 <!-- MBE ANALYSIS SHEET -->
