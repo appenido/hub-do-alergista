@@ -506,9 +506,11 @@ body{
 #authScreen{
   position:fixed;inset:0;z-index:9999;
   background:linear-gradient(160deg,var(--navy) 0%,var(--teal) 100%);
-  display:none;flex-direction:column;align-items:center;justify-content:center;
+  display:none;
+  flex-direction:column;align-items:center;justify-content:center;
   padding:24px 20px;
 }
+#authScreen.show{display:flex;}
 .auth-logo{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:32px;}
 .auth-logo-icon{width:58px;height:58px;background:rgba(255,255,255,.12);border-radius:16px;display:flex;align-items:center;justify-content:center;}
 .auth-logo-name{font-family:'DM Serif Display',serif;font-size:22px;color:#fff;letter-spacing:-.3px;}
@@ -715,13 +717,13 @@ body{
       // Sem sessão válida: mostrar auth assim que o elemento existir
       document.addEventListener('DOMContentLoaded', function(){
         var el = document.getElementById('authScreen');
-        if(el) el.style.display='flex';
+        if(el) el.classList.add('show');
       });
     }
   }catch(e){
     document.addEventListener('DOMContentLoaded', function(){
       var el = document.getElementById('authScreen');
-      if(el) el.style.display='flex';
+      if(el) el.classList.add('show');
     });
   }
 })();
@@ -2721,13 +2723,13 @@ function abrirLink(url){
       var s = JSON.parse(sess);
       // Sessão válida por 30 dias
       if(s.exp && Date.now() < s.exp){
-        document.getElementById('authScreen').style.display='none';
+        document.getElementById('authScreen').classList.remove('show');
         return;
       }
     }
   }catch(e){}
   // Mostrar tela de auth e bloquear app
-  document.getElementById('authScreen').style.display='flex';
+  document.getElementById('authScreen').classList.add('show');
 })();
 
 function authModo(modo){
@@ -2786,14 +2788,14 @@ function _iniciarSessao(email, nome){
     var sess = {email:email, nome:nome, exp: Date.now() + 30*24*60*60*1000};
     localStorage.setItem('hub_session', JSON.stringify(sess));
   }catch(e){}
-  document.getElementById('authScreen').style.display='none';
+  document.getElementById('authScreen').classList.remove('show');
   // Mostrar nome do usuário logado no toast
   if(typeof toast==='function') toast('👋','Bem-vindo(a), '+nome.split(' ')[0]+'!');
 }
 
 function fazerLogout(){
   try{ localStorage.removeItem('hub_session'); }catch(e){}
-  document.getElementById('authScreen').style.display='flex';
+  document.getElementById('authScreen').classList.add('show');
   // reset form
   ['loginEmail','loginSenha'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   ['cadNome','cadEmail','cadSenha','cadSenha2'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
