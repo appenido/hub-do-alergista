@@ -372,6 +372,15 @@ body{
 .link-btn.sci{border-color:#e67e22;color:#c0392b;}
 .link-btn.ai{background:linear-gradient(135deg,var(--teal-mid),var(--teal-light));color:#fff;border:none;}
 
+/* ── RESUMO SHEET ── */
+#resumoSheet{
+  position:fixed;inset:0;background:rgba(13,31,45,.6);
+  backdrop-filter:blur(4px);z-index:300;
+  display:none;align-items:flex-end;
+}
+#resumoSheet.open{display:flex;animation:fadeSheetIn .22s ease;}
+#resumoSheet .ai-sheet-inner{background:#fff;border-radius:20px 20px 0 0;width:100%;max-height:88vh;overflow-y:auto;padding:0 0 32px;display:flex;flex-direction:column;transform:translateY(0);}
+
 /* ── AI SUMMARY SHEET ── */
 .ai-sheet{
   position:fixed;inset:0;background:rgba(13,31,45,.6);
@@ -821,7 +830,7 @@ body{
         <div class="art-title-pt">Dupilumabe na gastrite eosinofílica: ensaio fase 2 DEGAS</div>
         <div class="art-body">Estudo CEGIR (11 centros): dupilumabe reduziu significativamente eosinófilos gástricos e sintomas na gastrite eosinofílica (EoG), doença alérgica rara do estômago. Amplia o uso do anti-IL4/13 além da EoE.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · fase II</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Dupilumab%20for%20eosinophilic%20gastritis%3A%20the%20DEGAS%20randomized%20phase%202%20trial" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Dupilumab%20for%20eosinophilic%20gastritis%3A%20the%20DEGAS%20randomized%20phase%202%20trial" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="asma" data-oa="true" data-ai-title="One-year clinical remission with tezepelumab in severe asthma: TERESA single-arm prospective study">
         <span class="art-journal">JACI · mai/2026</span>
@@ -830,7 +839,7 @@ body{
         <div class="art-title-pt">Remissão clínica em 1 ano com tezepelumabe na asma grave (TERESA)</div>
         <div class="art-body">Estudo fase 4 prospectivo: ~1/3 dos pacientes atingiu remissão clínica em 52 semanas. Bem maior em virgens de biológico (47% vs 20%); eosinófilos ≥300 e ausência de biológico prévio previram resposta.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · fase IV</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=One-year%20clinical%20remission%20with%20tezepelumab%20in%20severe%20asthma%3A%20TERESA%20single-arm%20prospective%20study" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=One-year%20clinical%20remission%20with%20tezepelumab%20in%20severe%20asthma%3A%20TERESA%20single-arm%20prospective%20study" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="da" data-oa="true" data-ai-title="Efficacy and Safety of Nemolizumab at Week 48: ARCADIA 1 and 2 maintenance in moderate-to-severe atopic dermatitis">
         <span class="art-journal">Acta DV · abr/2026</span>
@@ -839,7 +848,7 @@ body{
         <div class="art-title-pt">Nemolizumabe (anti-IL-31) em 48 semanas: manutenção ARCADIA 1 e 2</div>
         <div class="art-body">Anti-IL-31 (nemolizumabe) com corticoide tópico manteve melhora de lesões, prurido e sono até a semana 48 na DA moderada a grave. Reforça o alvo do prurido como opção de manutenção.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · fase III</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Efficacy%20and%20Safety%20of%20Nemolizumab%20at%20Week%2048%3A%20ARCADIA%201%20and%202%20maintenance%20in%20moderate-to-severe%20atopic%20dermatitis" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Efficacy%20and%20Safety%20of%20Nemolizumab%20at%20Week%2048%3A%20ARCADIA%201%20and%202%20maintenance%20in%20moderate-to-severe%20atopic%20dermatitis" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="asma" data-oa="true" data-ai-title="Biologics in the treatment of severe asthma in children and adults: updates 2024-2025">
         <span class="art-journal">JACI · jan/2026</span>
@@ -848,7 +857,7 @@ body{
         <div class="art-title-pt">Biológicos na asma grave em crianças e adultos: atualizações 2024-2025</div>
         <div class="art-body">Revisão com as evidências mais recentes: remissão clínica com dupilumabe (QUEST/TRAVERSE, 37% vs 22%) e tezepelumabe, efeito prolongado pós-suspensão (DESTINATION) e biomarcadores preditivos de resposta.</div>
         <div class="art-footer"><span class="ev-badge">NE 1a · revisão 2026</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Biologics%20in%20the%20treatment%20of%20severe%20asthma%20in%20children%20and%20adults%3A%20updates%202024-2025" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Biologics%20in%20the%20treatment%20of%20severe%20asthma%20in%20children%20and%20adults%3A%20updates%202024-2025" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
     </div>
 
@@ -919,7 +928,7 @@ body{
         <div class="art-title-pt">Dupilumabe na gastrite eosinofílica: ensaio fase 2 DEGAS</div>
         <div class="art-body">Estudo CEGIR (11 centros): dupilumabe reduziu significativamente eosinófilos gástricos e sintomas na gastrite eosinofílica (EoG), doença alérgica rara do estômago. Amplia o uso do anti-IL4/13 além da EoE.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · fase II</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Dupilumab%20for%20eosinophilic%20gastritis%3A%20the%20DEGAS%20randomized%20phase%202%20trial" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Dupilumab%20for%20eosinophilic%20gastritis%3A%20the%20DEGAS%20randomized%20phase%202%20trial" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="asma" data-oa="true" data-ai-title="One-year clinical remission with tezepelumab in severe asthma: TERESA single-arm prospective study">
         <span class="art-journal">JACI · mai/2026</span>
@@ -928,7 +937,7 @@ body{
         <div class="art-title-pt">Remissão clínica em 1 ano com tezepelumabe na asma grave (TERESA)</div>
         <div class="art-body">Estudo fase 4 prospectivo: ~1/3 dos pacientes atingiu remissão clínica em 52 semanas. Bem maior em virgens de biológico (47% vs 20%); eosinófilos ≥300 e ausência de biológico prévio previram resposta.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · fase IV</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=One-year%20clinical%20remission%20with%20tezepelumab%20in%20severe%20asthma%3A%20TERESA%20single-arm%20prospective%20study" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=One-year%20clinical%20remission%20with%20tezepelumab%20in%20severe%20asthma%3A%20TERESA%20single-arm%20prospective%20study" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="da" data-oa="true" data-ai-title="Efficacy and Safety of Nemolizumab at Week 48: ARCADIA 1 and 2 maintenance in moderate-to-severe atopic dermatitis">
         <span class="art-journal">Acta DV · abr/2026</span>
@@ -937,7 +946,7 @@ body{
         <div class="art-title-pt">Nemolizumabe (anti-IL-31) em 48 semanas: manutenção ARCADIA 1 e 2</div>
         <div class="art-body">Anti-IL-31 (nemolizumabe) com corticoide tópico manteve melhora de lesões, prurido e sono até a semana 48 na DA moderada a grave. Reforça o alvo do prurido como opção de manutenção.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · fase III</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Efficacy%20and%20Safety%20of%20Nemolizumab%20at%20Week%2048%3A%20ARCADIA%201%20and%202%20maintenance%20in%20moderate-to-severe%20atopic%20dermatitis" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Efficacy%20and%20Safety%20of%20Nemolizumab%20at%20Week%2048%3A%20ARCADIA%201%20and%202%20maintenance%20in%20moderate-to-severe%20atopic%20dermatitis" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="asma" data-oa="true" data-ai-title="Biologics in the treatment of severe asthma in children and adults: updates 2024-2025">
         <span class="art-journal">JACI · jan/2026</span>
@@ -946,7 +955,7 @@ body{
         <div class="art-title-pt">Biológicos na asma grave em crianças e adultos: atualizações 2024-2025</div>
         <div class="art-body">Revisão com as evidências mais recentes: remissão clínica com dupilumabe (QUEST/TRAVERSE, 37% vs 22%) e tezepelumabe, efeito prolongado pós-suspensão (DESTINATION) e biomarcadores preditivos de resposta.</div>
         <div class="art-footer"><span class="ev-badge">NE 1a · revisão 2026</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Biologics%20in%20the%20treatment%20of%20severe%20asthma%20in%20children%20and%20adults%3A%20updates%202024-2025" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Biologics%20in%20the%20treatment%20of%20severe%20asthma%20in%20children%20and%20adults%3A%20updates%202024-2025" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="urticaria" data-oa="true" data-ai-title="Remibrutinib in chronic spontaneous urticaria: 52-week results from two phase 3 studies">
         <span class="art-journal">JACI · out/2025</span>
@@ -955,7 +964,7 @@ body{
         <div class="art-title-pt">Remibrutinibe na urticária crônica espontânea: 52 semanas (REMIX-1 e REMIX-2)</div>
         <div class="art-body">Primeiro BTKi oral aprovado pelo FDA (set/2025) para USC refratária a anti-H1. ~1/3 com resolução completa em 12 semanas, controle mantido em 52 semanas, sem monitorização laboratorial de rotina.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · fase III</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Remibrutinib%20in%20chronic%20spontaneous%20urticaria%3A%2052-week%20results%20from%20two%20phase%203%20studies" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/?term=Remibrutinib%20in%20chronic%20spontaneous%20urticaria%3A%2052-week%20results%20from%20two%20phase%203%20studies" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="urticaria" data-doi="10.1111/all.16598" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12186586/pdf/" data-pub="https://onlinelibrary.wiley.com/doi/10.1111/all.16598" data-oa="true" data-ai-title="Anti-KIT Monoclonal Antibody (Barzolvolimab) for CSU Refractory to Omalizumab">
         <span class="art-journal">Allergy · nov/2025</span>
@@ -965,7 +974,7 @@ body{
         <div class="art-title-pt">Anti-KIT (barzolvolimabe) para USC refratária ao omalizumabe</div>
         <div class="art-body">UCT ≥12 em 12 semanas: 58% barzolvolimabe vs 18% placebo. Mecanismo distinto do omalizumabe.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · fase II</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12186586/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12186586/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="asma" data-doi="10.1111/all.16590" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12186586/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12186586/" data-oa="true" data-ai-title="Clinical and Biological Remission With Tezepelumab in Severe Uncontrolled Asthma">
         <span class="art-journal">Allergy · set/2025</span>
@@ -975,7 +984,7 @@ body{
         <div class="art-title-pt">Remissão clínica e biológica com tezepelumabe em asma grave não controlada</div>
         <div class="art-body">175 pacientes · remissão 36% (T2-alto 55%, T2-baixo 19%) · exacerbações 3,1→0,8/ano.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · coorte</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12186586/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12186586/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="asma" data-doi="10.1183/23120541.00314-2025" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12400181/pdf/" data-pub="https://publications.ersnet.org/content/erjor/11/5/00314-2025" data-oa="true" data-ai-title="Real-world evidence of tezepelumab for severe asthma: a retrospective multicentre cohort">
         <span class="art-journal">ERJ-OR · jun/2025</span>
@@ -985,7 +994,7 @@ body{
         <div class="art-title-pt">Evidência real do tezepelumabe em asma grave: coorte multicêntrica</div>
         <div class="art-body">103 pacientes · redução 66,7% nas exacerbações · eosinófilos &lt;150: redução 62%.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · coorte</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12400181/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12400181/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="rinite" data-doi="10.1111/all.70100" data-pdf="https://pmc.ncbi.nlm.nih.gov/articles/PMC12862529/pdf/" data-pub="https://pmc.ncbi.nlm.nih.gov/articles/PMC12862529/" data-oa="true" data-ai-title="ARIA/EAACI Guidelines 2024-2025: Allergic Rhinitis and Its Impact on Asthma">
         <span class="art-journal">Allergy · mar/2025</span>
@@ -995,7 +1004,7 @@ body{
         <div class="art-title-pt">Diretrizes ARIA/EAACI 2024-2025: rinite alérgica e seu impacto na asma</div>
         <div class="art-body">Atualização ARIA 2025: fenótipos, classificação, escada terapêutica e indicação de imunoterapia.</div>
         <div class="art-footer"><span class="ev-badge">NE 1 · diretriz</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12862529/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12862529/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="anafilaxia" data-doi="10.1016/j.jaip.2024.09.014" data-pdf="https://www.sciencedirect.com/science/article/pii/S2213219824010018" data-pub="https://www.sciencedirect.com/science/article/pii/S2213219824010018" data-oa="false" data-ai-title="Perioperative Anaphylaxis: Diagnosis, Investigation, and Management">
         <span class="art-journal">JACI-IP · jan/2025</span>
@@ -1005,7 +1014,7 @@ body{
         <div class="art-title-pt">Anafilaxia perioperatória: diagnóstico, investigação e manejo</div>
         <div class="art-body">Algoritmo com timing de triptase (1h, 4h, 24h), painel anti-PEG IgE, protocolo de encaminhamento.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · revisão</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S2213219824010018" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S2213219824010018" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="medicam" data-doi="10.1016/j.anai.2023.09.015" data-pdf="https://www.sciencedirect.com/science/article/pii/S1081120623007469" data-pub="https://www.sciencedirect.com/science/article/pii/S1081120623007469" data-oa="false" data-ai-title="Drug Allergy: A 2023 Practice Parameter Update (AAAAI/ACAAI)">
         <span class="art-journal">AAAI Ann · jan/2024</span>
@@ -1015,7 +1024,7 @@ body{
         <div class="art-title-pt">Alergia a medicamentos: parâmetro prático 2023 AAAAI/ACAAI</div>
         <div class="art-body">Classificação temporal, indicação de teste cutâneo vs provocação, dessensibilização e alternativas.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · diretriz</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S1081120623007469" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S1081120623007469" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="rinite" data-doi="10.1016/j.bjorl.2023.101284" data-pdf="https://pmc.ncbi.nlm.nih.gov/articles/PMC10637984/pdf/" data-pub="https://pmc.ncbi.nlm.nih.gov/articles/PMC10637984/" data-oa="true" data-ai-title="Consenso Brasileiro sobre Rinite — ASBAI 2023">
         <span class="art-journal">BJORL · nov/2023</span>
@@ -1025,7 +1034,7 @@ body{
         <div class="art-title-pt">Consenso Brasileiro sobre Rinite — ASBAI 2023</div>
         <div class="art-body">Diretriz nacional: classificação, diagnóstico, tratamento escalonado e imunoterapia específica.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · consenso nacional</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10637984/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10637984/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="da" data-doi="10.1016/j.jaci.2023.01.010" data-pdf="https://www.sciencedirect.com/science/article/pii/S0091674923001987" data-pub="https://www.sciencedirect.com/science/article/pii/S0091674923001987" data-oa="false" data-ai-title="International Consensus on Atopic Dermatitis (ICOADS) — Biologics & JAK Inhibitors">
         <span class="art-journal">JACI · jul/2023</span>
@@ -1035,7 +1044,7 @@ body{
         <div class="art-title-pt">Consenso internacional sobre DA — biológicos e inibidores de JAK</div>
         <div class="art-body">Critérios de seleção entre dupilumabe, tralokinumabe e JAKi conforme fenótipo e comorbidades.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · consenso</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S0091674923001987" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S0091674923001987" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="urticaria" data-doi="10.1016/j.jaci.2023.06.001" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10551837/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10551837/" data-oa="true" data-ai-title="Real-world effectiveness and safety of omalizumab in chronic spontaneous urticaria">
         <span class="art-journal">JACI · jun/2023</span>
@@ -1045,7 +1054,7 @@ body{
         <div class="art-title-pt">Efetividade e segurança reais do omalizumabe em USC</div>
         <div class="art-body">Metanálise 47 estudos: UCT ≥12 em 64%, resposta completa 44%. Perfil de segurança excelente.</div>
         <div class="art-footer"><span class="ev-badge">NE 1a · metanálise</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10551837/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10551837/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="aa" data-doi="10.1016/j.jaci.2022.09.025" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9939861/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9939861/" data-oa="true" data-ai-title="Palforzia (AR101) peanut oral immunotherapy: long-term outcomes and desensitization durability">
         <span class="art-journal">JACI · fev/2023</span>
@@ -1055,7 +1064,7 @@ body{
         <div class="art-title-pt">Imunoterapia oral para amendoim: desfechos de longo prazo e durabilidade</div>
         <div class="art-body">Dessensibilização mantida em 67% após 2 anos. Descontinuação = perda de proteção.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · extensão</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9939861/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9939861/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="eii" data-doi="10.3389/fimmu.2022.1080693" data-pdf="https://pmc.ncbi.nlm.nih.gov/articles/PMC9898518/pdf/" data-pub="https://pmc.ncbi.nlm.nih.gov/articles/PMC9898518/" data-oa="true" data-ai-title="Diagnosis and Management of Primary Immunodeficiencies — ESID 2023">
         <span class="art-journal">Front. Immunol. · fev/2023</span>
@@ -1065,7 +1074,7 @@ body{
         <div class="art-title-pt">Diagnóstico e manejo de imunodeficiências primárias — ESID 2023</div>
         <div class="art-body">Critérios diagnósticos, indicações de IGIV/IGSC, vacinação e seguimento em longo prazo.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · diretriz</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9898518/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9898518/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="eoe" data-doi="10.1016/j.cgh.2022.06.028" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9812870/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9812870/" data-oa="true" data-ai-title="Food elimination diets in eosinophilic esophagitis: systematic review and meta-analysis">
         <span class="art-journal">CGH · jan/2023</span>
@@ -1075,7 +1084,7 @@ body{
         <div class="art-title-pt">Dietas de eliminação na esofagite eosinofílica: revisão sistemática e metanálise</div>
         <div class="art-body">Eliminação 6 alimentos: remissão 72%. Leite principal alérgeno (65-85%). Dieta 2 alimentos como alternativa.</div>
         <div class="art-footer"><span class="ev-badge">NE 1a · metanálise</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9812870/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9812870/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="masto" data-doi="10.1016/j.jaci.2022.09.024" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9898321/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9898321/" data-oa="true" data-ai-title="Consensus on Management of Mastocytosis — ECNM">
         <span class="art-journal">JACI · jan/2023</span>
@@ -1085,7 +1094,7 @@ body{
         <div class="art-title-pt">Consenso ECNM sobre manejo de mastocitose</div>
         <div class="art-body">Critérios WHO 2022, estratificação de risco, midostaurina/avapritinibe e manejo de anafilaxia.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · consenso</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9898321/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9898321/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="eii" data-doi="10.1016/j.jaci.2021.12.788" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9054105/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9054105/" data-oa="true" data-ai-title="The 2022 update of the IUIS Phenotypic Classification for Inborn Errors of Immunity">
         <span class="art-journal">JACI · dez/2022</span>
@@ -1095,7 +1104,7 @@ body{
         <div class="art-title-pt">Classificação IUIS 2022 para erros inatos da imunidade</div>
         <div class="art-body">Nova classificação com 485 doenças em 10 categorias. Novos fenótipos autoimunes e disregulação.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · classificação</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9054105/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9054105/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="eoe" data-doi="10.1056/NEJMoa2205982" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9757625/pdf/" data-pub="https://www.nejm.org/doi/full/10.1056/NEJMoa2205982" data-oa="true" data-ai-title="Dupilumab in Eosinophilic Esophagitis (BOREAS trial)">
         <span class="art-journal">NEJM · dez/2022</span>
@@ -1105,7 +1114,7 @@ body{
         <div class="art-title-pt">Dupilumabe na esofagite eosinofílica — ensaio BOREAS</div>
         <div class="art-body">≤6 eos/HPF em 60% vs 5% placebo. DSQ (disfagia) melhorado significativamente em 24 semanas.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT fase 3</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9757625/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9757625/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="himen" data-doi="10.1111/all.15239" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9546417/pdf/" data-pub="https://onlinelibrary.wiley.com/doi/10.1111/all.15239" data-oa="true" data-ai-title="EAACI Guidelines on Allergen Immunotherapy: Hymenoptera Venom Allergy">
         <span class="art-journal">Allergy · ago/2022</span>
@@ -1115,7 +1124,7 @@ body{
         <div class="art-title-pt">Diretrizes EAACI sobre imunoterapia: alergia ao veneno de himenópteros</div>
         <div class="art-body">Indicações, contraindicações, protocolos e duração da imunoterapia. Omalizumabe como adjuvante.</div>
         <div class="art-footer"><span class="ev-badge">NE 1 · diretriz</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9546417/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9546417/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="eii" data-doi="10.1016/j.clim.2022.109032" data-pdf="https://www.sciencedirect.com/science/article/pii/S1521661622001620" data-pub="https://www.sciencedirect.com/science/article/pii/S1521661622001620" data-oa="false" data-ai-title="Machine learning for early diagnosis of primary antibody deficiencies">
         <span class="art-journal">Clin. Immunol. · ago/2022</span>
@@ -1125,7 +1134,7 @@ body{
         <div class="art-title-pt">Aprendizado de máquina para diagnóstico precoce de imunodeficiências primárias</div>
         <div class="art-body">Random forest — sensibilidade 89%, especificidade 82%, AUC 0,92. Tempo diagnóstico reduzido.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · ML</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S1521661622001620" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S1521661622001620" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="medicam" data-doi="10.1111/all.15223" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9546345/pdf/" data-pub="https://onlinelibrary.wiley.com/doi/10.1111/all.15223" data-oa="true" data-ai-title="EAACI Position Paper: Drug Desensitization in Oncology Patients">
         <span class="art-journal">Allergy · jun/2022</span>
@@ -1135,7 +1144,7 @@ body{
         <div class="art-title-pt">Documento de posição EAACI: dessensibilização medicamentosa em oncologia</div>
         <div class="art-body">Protocolo padronizado para carboplatina, rituximabe, taxanos. Critérios de segurança e monitoramento.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · posição</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9546345/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9546345/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="asma" data-doi="10.1056/NEJMoa2211700" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9897722/pdf/" data-pub="https://www.nejm.org/doi/full/10.1056/NEJMoa2211700" data-oa="true" data-ai-title="Tezepelumab in Adults with Severe Uncontrolled Asthma (NAVIGATOR)">
         <span class="art-journal">NEJM · mai/2022</span>
@@ -1145,7 +1154,7 @@ body{
         <div class="art-title-pt">Tezepelumabe em adultos com asma grave não controlada — NAVIGATOR</div>
         <div class="art-body">Redução de 70% nas exacerbações vs placebo em T2-alto e T2-baixo. Ensaio pivotal fase 3.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT fase 3</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9897722/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9897722/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="eoe" data-doi="10.1053/j.gastro.2022.03.071" data-pdf="https://www.sciencedirect.com/science/article/pii/S0016508522003766" data-pub="https://www.sciencedirect.com/science/article/pii/S0016508522003766" data-oa="false" data-ai-title="Updated International Consensus Diagnostic Criteria for Eosinophilic Esophagitis">
         <span class="art-journal">Gastro · mai/2022</span>
@@ -1155,7 +1164,7 @@ body{
         <div class="art-title-pt">Critérios diagnósticos internacionais atualizados para esofagite eosinofílica</div>
         <div class="art-body">≥15 eosinófilos/HPF + sintomas de disfunção esofágica. Papel do IBP trial na diferenciação.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · consenso</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S0016508522003766" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S0016508522003766" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="dc" data-doi="10.1111/cod.14121" data-pdf="https://onlinelibrary.wiley.com/doi/10.1111/cod.14121" data-pub="https://onlinelibrary.wiley.com/doi/10.1111/cod.14121" data-oa="false" data-ai-title="ESCD Guidelines for Patch Testing — 2022 Update">
         <span class="art-journal">Contact Derm. · mai/2022</span>
@@ -1165,7 +1174,7 @@ body{
         <div class="art-title-pt">Diretrizes ESCD para teste de contato — atualização 2022</div>
         <div class="art-body">Alérgenos recomendados na bateria padrão europeia, técnica de aplicação e interpretação.</div>
         <div class="art-footer"><span class="ev-badge">NE 4 · diretriz</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://onlinelibrary.wiley.com/doi/10.1111/cod.14121" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://onlinelibrary.wiley.com/doi/10.1111/cod.14121" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="rinite" data-doi="10.1016/j.jaci.2022.05.004" data-pdf="https://www.sciencedirect.com/science/article/pii/S0091674922006613" data-pub="https://www.sciencedirect.com/science/article/pii/S0091674922006613" data-oa="false" data-ai-title="Dupilumab in Moderate-to-Severe Chronic Rhinosinusitis with Nasal Polyps">
         <span class="art-journal">JACI · mai/2022</span>
@@ -1175,7 +1184,7 @@ body{
         <div class="art-title-pt">Dupilumabe em rinossinusite crônica com pólipos nasais — SINUS-24/52</div>
         <div class="art-body">SINUS-24/52: dupilumabe reduz volume dos pólipos (NPS -2,06) e melhora olfato. Dados 52 semanas.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S0091674922006613" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S0091674922006613" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="medicam" data-doi="10.1016/j.jaci.2021.10.004" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8850618/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8850618/" data-oa="true" data-ai-title="Direct oral challenge without prior skin testing in low-risk penicillin allergy">
         <span class="art-journal">JACI · abr/2022</span>
@@ -1185,7 +1194,7 @@ body{
         <div class="art-title-pt">Provocação oral direta sem teste cutâneo em baixo risco de alergia à penicilina</div>
         <div class="art-body">Em baixo risco, provocação oral direta é segura e eficiente — elimina falso rótulo de alergia.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8850618/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8850618/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="masto" data-doi="10.1016/j.jaci.2021.11.025" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8906002/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8906002/" data-oa="true" data-ai-title="Serum tryptase as a biomarker in allergy and mastocytosis">
         <span class="art-journal">JACI · mar/2022</span>
@@ -1195,7 +1204,7 @@ body{
         <div class="art-title-pt">Triptase sérica como biomarcador em alergia e mastocitose</div>
         <div class="art-body">Triptase basal >11,4 ng/mL: indício de mastocitose. Hereditary alpha-tryptasemia (HαT) — impacto clínico.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · revisão</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8906002/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8906002/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="aa" data-doi="10.1056/NEJMoa2116234" data-pdf="https://www.nejm.org/doi/full/10.1056/NEJMoa2116234" data-pub="https://www.nejm.org/doi/full/10.1056/NEJMoa2116234" data-oa="false" data-ai-title="Omalizumab for the Treatment of Multiple Food Allergies (OUtMATCH)">
         <span class="art-journal">NEJM · mar/2022</span>
@@ -1205,7 +1214,7 @@ body{
         <div class="art-title-pt">Omalizumabe para múltiplas alergias alimentares — OUtMATCH</div>
         <div class="art-body">67% toleraram 600mg de proteína de amendoim vs 7% placebo. Eficácia em múltiplas alergias.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT fase 3</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2116234" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2116234" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="anafilaxia" data-doi="10.1016/j.jaci.2022.01.018" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9234896/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9234896/" data-oa="true" data-ai-title="Alpha-gal syndrome: new insights into the tick-borne allergy">
         <span class="art-journal">JACI · fev/2022</span>
@@ -1215,7 +1224,7 @@ body{
         <div class="art-title-pt">Síndrome alfa-gal: novas perspectivas na alergia transmitida por carrapatos</div>
         <div class="art-body">Mecanismo IgE anti-alfa-gal por Amblyomma. Anafilaxia retardada 3-6h após carne vermelha.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · revisão</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9234896/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9234896/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="dc" data-doi="10.1111/bjd.19958" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8457106/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8457106/" data-oa="true" data-ai-title="Occupational allergic contact dermatitis: systematic review of prevalence and causative agents">
         <span class="art-journal">Br J Derm · set/2021</span>
@@ -1225,7 +1234,7 @@ body{
         <div class="art-title-pt">Dermatite de contato alérgica ocupacional: revisão sistemática</div>
         <div class="art-body">Prevalência 15-20% entre trabalhadores de saúde. Principais agentes: látex, antissépticos, acrílicos.</div>
         <div class="art-footer"><span class="ev-badge">NE 1a · revisão</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8457106/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8457106/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="himen" data-doi="10.1016/j.jaci.2020.12.617" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8106629/pdf/" data-pub="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8106629/" data-oa="true" data-ai-title="Mastocytosis and Hymenoptera venom allergy: risk stratification and management">
         <span class="art-journal">JACI · jul/2021</span>
@@ -1235,7 +1244,7 @@ body{
         <div class="art-title-pt">Mastocitose e alergia ao veneno de himenópteros: risco e manejo</div>
         <div class="art-body">Triptase basal elevada como marcador de mastocitose. Imunoterapia vitalícia nesses casos.</div>
         <div class="art-footer"><span class="ev-badge">NE 2b · revisão</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8106629/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8106629/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="masto" data-doi="10.1056/NEJMoa2106182" data-pdf="https://www.nejm.org/doi/full/10.1056/NEJMoa2106182" data-pub="https://www.nejm.org/doi/full/10.1056/NEJMoa2106182" data-oa="false" data-ai-title="Avapritinib for Advanced Systemic Mastocytosis (PATHFINDER)">
         <span class="art-journal">NEJM · jun/2021</span>
@@ -1245,7 +1254,7 @@ body{
         <div class="art-title-pt">Avapritinibe para mastocitose sistêmica avançada — PATHFINDER</div>
         <div class="art-body">Inibidor de KIT D816V: resposta global 75%, resposta completa 9%. Fase 2 pivotal.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · fase 2</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2106182" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2106182" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="da" data-doi="10.1056/NEJMoa2101640" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8559513/pdf/" data-pub="https://www.nejm.org/doi/full/10.1056/NEJMoa2101640" data-oa="true" data-ai-title="Upadacitinib in Adults and Adolescents with Atopic Dermatitis (Measure Up 1 & 2)">
         <span class="art-journal">NEJM · mar/2021</span>
@@ -1255,7 +1264,7 @@ body{
         <div class="art-title-pt">Upadacitinibe em adultos e adolescentes com DA — Measure Up 1 e 2</div>
         <div class="art-body">EASI-75 em 16 sem: 69,6% e 60% com upadacitinibe 15mg vs 16% e 13% placebo.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT fase 3</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8559513/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8559513/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="da" data-doi="10.1056/NEJMoa2019380" data-pdf="https://www.nejm.org/doi/pdf/10.1056/NEJMoa2019380" data-pub="https://www.nejm.org/doi/full/10.1056/NEJMoa2019380" data-oa="false" data-ai-title="Abrocitinib versus Placebo or Dupilumab for Atopic Dermatitis (JADE COMPARE)">
         <span class="art-journal">NEJM · mar/2021</span>
@@ -1265,7 +1274,7 @@ body{
         <div class="art-title-pt">Abrocitinibe vs placebo ou dupilumabe na DA — JADE COMPARE</div>
         <div class="art-body">Abrocitinibe 200mg superior no prurido em 2 semanas. EASI-75 em 16 sem comparável. Maior herpes zóster.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT fase 3</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2019380" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.nejm.org/doi/full/10.1056/NEJMoa2019380" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
       <div class="art-card" data-topic="aa" data-doi="10.1056/NEJMoa1414850" data-pdf="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4416404/pdf/" data-pub="https://www.nejm.org/doi/full/10.1056/NEJMoa1414850" data-oa="true" data-ai-title="Randomized Trial of Peanut Consumption in Infants at Risk for Peanut Allergy (LEAP)">
         <span class="art-journal">NEJM · fev/2015</span>
@@ -1275,7 +1284,7 @@ body{
         <div class="art-title-pt">Estudo LEAP: consumo precoce de amendoim em lactentes de risco</div>
         <div class="art-body">Consumo precoce (4-11 meses) reduz risco de alergia em 86% em crianças de alto risco.</div>
         <div class="art-footer"><span class="ev-badge">NE 1b · RCT</span></div>
-        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4416404/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
+        <div class="art-links"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4416404/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a><button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button><button class="link-btn btn-save" style="margin-left:auto">🔖</button></div>
       </div>
     </div>
   </div>
@@ -2677,6 +2686,21 @@ body{
 </div>
 
 
+<!-- RESUMO SHEET -->
+<div id="resumoSheet">
+  <div class="ai-sheet-inner">
+    <div class="ai-sheet-handle"></div>
+    <div class="ai-sheet-hdr">
+      <button id="resumoSheetClose" style="display:flex;align-items:center;gap:6px;background:var(--gray-50);border:1.5px solid var(--gray-100);border-radius:10px;padding:7px 13px;font-size:13px;font-weight:700;color:var(--gray-500);cursor:pointer;font-family:'Manrope',sans-serif">‹ Voltar</button>
+      <div class="ai-sheet-title" id="resumoSheetTitle" style="font-size:15px">📋 Resumo</div>
+      <div style="width:72px"></div>
+    </div>
+    <div class="ai-sheet-doi" id="resumoSheetJournal"></div>
+    <div class="ai-sheet-body" id="resumoSheetBody"></div>
+    <div class="ai-sheet-links" id="resumoSheetLinks"></div>
+  </div>
+</div>
+
 <!-- AI SUMMARY SHEET -->
 <div class="ai-sheet" id="aiSheet">
   <div class="ai-sheet-inner" id="aiSheetInner">
@@ -3295,6 +3319,35 @@ function _aiAplicabilidade(topic){
 
 var _asc2=document.getElementById('aiSheetClose');if(_asc2)_asc2.addEventListener('click',function(){var s=document.getElementById('aiSheet');if(s)s.classList.remove('open');});
 var _as=document.getElementById('aiSheet');if(_as)_as.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');});
+
+// ── RESUMO SHEET ──
+function openResumoSheet(card) {
+  var title = card.querySelector('.art-title-pt') ? card.querySelector('.art-title-pt').textContent : (card.getAttribute('data-ai-title')||'Resumo');
+  var body = card.querySelector('.art-body') ? card.querySelector('.art-body').innerHTML : '';
+  var journal = card.querySelector('.art-journal') ? card.querySelector('.art-journal').textContent : '';
+  var pubHref = card.querySelector('a.link-btn.pub') ? card.querySelector('a.link-btn.pub').href : '';
+  var evBadge = card.querySelector('.ev-badge') ? card.querySelector('.ev-badge').outerHTML : '';
+
+  document.getElementById('resumoSheetTitle').textContent = title;
+  document.getElementById('resumoSheetJournal').innerHTML = '<span style="font-size:12px;color:var(--gray-500)">' + journal + '</span>' + (evBadge ? '&nbsp;' + evBadge : '');
+  document.getElementById('resumoSheetBody').innerHTML =
+    '<p style="font-size:14px;line-height:1.8;color:var(--navy)">' + body + '</p>';
+  document.getElementById('resumoSheetLinks').innerHTML = pubHref
+    ? '<a class="link-btn pub" href="' + pubHref + '" target="_blank" rel="noopener" style="flex:1;justify-content:center">📄 Abrir artigo original</a>'
+    : '';
+  document.getElementById('resumoSheet').classList.add('open');
+}
+var _rsc = document.getElementById('resumoSheetClose');
+if(_rsc) _rsc.addEventListener('click', function(){ document.getElementById('resumoSheet').classList.remove('open'); });
+var _rs = document.getElementById('resumoSheet');
+if(_rs) _rs.addEventListener('click', function(e){ if(e.target===this) this.classList.remove('open'); });
+
+document.addEventListener('click', function(e3) {
+  var rBtn = e3.target.closest('.btn-resumo');
+  if(!rBtn) return;
+  var card = rBtn.closest('.art-card');
+  if(card) openResumoSheet(card);
+});
 
 // Hook btn-ai-summary clicks (via delegation already covers it via the main listener)
 // Patch: add to global click handler
@@ -4579,7 +4632,7 @@ function _renderFeedHome(d2){
       '<div class="art-title" style="margin-top:2px">' + _feedEscape(a.title) + '</div>' +
       '<div class="art-links" style="margin-top:9px">' +
         '<a class="link-btn pub" href="' + url + '" target="_blank" rel="noopener">0001F4C4 ABRIR EM PDF</A>' +
-        '<button class="link-btn ai btn-ai-summary">📊 Análise estatística</button>' +
+        '<button class="link-btn btn-resumo" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy)">📋 Resumo</button><button class="link-btn ai btn-ai-summary">📊 Análise estatística</button>' +
       '</div></div>';
   }
   return html;
