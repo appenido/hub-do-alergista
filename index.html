@@ -516,9 +516,12 @@ body{
   position:fixed;inset:0;z-index:9999;
   background:linear-gradient(160deg,var(--navy) 0%,var(--teal) 100%);
   display:none;
-  flex-direction:column;align-items:center;justify-content:center;
+  flex-direction:column;align-items:center;justify-content:flex-start;
   padding:24px 20px;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
 }
+#authScreen .auth-logo{margin-top:auto;}
+#authScreen .auth-card{margin-bottom:auto;flex-shrink:0;}
 #authScreen.show{display:flex;}
 .auth-logo{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:32px;}
 .auth-logo-icon{width:58px;height:58px;background:rgba(255,255,255,.12);border-radius:16px;display:flex;align-items:center;justify-content:center;}
@@ -3624,7 +3627,7 @@ function _uas7Ordinal(n){
 /* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 UCT \u2014 QR Code para paciente + polling Supabase + hist\u00f3rico \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
 var _uctSessaoId = null;
 var _uctPollTimer = null;
-var _uctPatientUrl = 'https://hubalergista.netlify.app/uct-paciente.html';
+var _uctPatientUrl = new URL('uct-paciente.html', location.href).href;
 var _SUPA_URL = 'https://jpdtqtenlivxgjkyizcg.supabase.co';
 var _SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwZHRxdGVubGl2eGdqa3lpemNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3MzkxMzgsImV4cCI6MjA2MjMxNTEzOH0.OCSGTv1HD6CLCbPVAgZwplkFMLGS0JuiT1XMRESYkWI';
 
@@ -4713,7 +4716,7 @@ document.addEventListener('click', function(eN){
 
 
 /* ══ CONSULTAR CRM — consulta automática, resultado na própria tela ══ */
-var CRM_ENDPOINT = '/.netlify/functions/crm';
+var CRM_ENDPOINT = /netlify\.app$/.test(location.hostname) ? '/.netlify/functions/crm' : 'https://hubalergista.netlify.app/.netlify/functions/crm';
 
 function crmEsc(s){
   if(s === null || s === undefined) return '';
