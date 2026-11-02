@@ -277,7 +277,6 @@ body{
 .art-links{order:7;}
 .art-card:not(:has(.art-title-pt)) .art-title{font-size:13.5px;font-weight:700;color:var(--navy);font-style:normal;}
 .art-card:has(.art-title-pt) .art-title{display:none;}
-.art-title-pt.traduzindo{color:var(--gray-300);font-weight:600;font-style:italic;}
 .art-body{font-size:12.5px;color:var(--gray-500);line-height:1.6;}
 .art-why{font-size:12px;color:var(--navy);font-weight:700;line-height:1.5;}
 .art-footer{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
@@ -6104,6 +6103,7 @@ function carregarRadar(forcar){
 }
 
 var _feedCache = {};
+var _tradCache = {};   // título original -> tradução (sessão)
 
 function carregarFeed(tema){
   _feedTema = tema;
@@ -6185,7 +6185,7 @@ function renderFeed(d2, box, tema){
     var tituloLimpo = _feedEscape(a.title).replace(/<[^>]+>/g,'');
     html += '<div class="art-card" data-uid="' + uid + '" data-ai-title="' + tituloLimpo.replace(/"/g,'&quot;') + '" style="margin-bottom:10px">' +
       '<span class="art-journal">' + _feedEscape(journal) + ' · ' + _feedEscape(date) + '</span>' +
-      '<div class="art-title-pt traduzindo" data-original="' + tituloLimpo.replace(/"/g,'&quot;') + '">Traduzindo título...</div>' +
+      '<div class="art-title-pt" data-original="' + tituloLimpo.replace(/"/g,'&quot;') + '">' + tituloLimpo + '</div>' +
       '<div class="art-title">' + tituloLimpo + '</div>' +
       (authors ? '<div style="font-size:11px;color:var(--gray-500);margin-top:5px">' + _feedEscape(authors) + '</div>' : '') +
       '<div class="art-links" style="margin-top:9px"><a class="link-btn pub" href="' + url + '" target="_blank" rel="noopener">📄 Abrir em PDF</a>' +
@@ -6201,23 +6201,33 @@ function renderFeed(d2, box, tema){
 function _traduzirTitulosFeed(box, tema){
   var els = box.querySelectorAll('.art-title-pt[data-original]');
   if(!els.length) return;
-  var titulos = [];
-  els.forEach(function(e){ titulos.push(e.getAttribute('data-original')); });
+  if(tema) _feedCache[tema] = box.innerHTML;   // já utilizável, mesmo sem tradução
+
+  // tradução já conhecida desta sessão → aplica na hora
+  var pendentes = [];
+  els.forEach(function(e){
+    var o = e.getAttribute('data-original');
+    if(_tradCache[o]){ e.textContent = _tradCache[o]; } else { pendentes.push(e); }
+  });
+  if(!pendentes.length){ if(tema) _feedCache[tema] = box.innerHTML; return; }
+
+  var titulos = pendentes.map(function(e){ return e.getAttribute('data-original'); });
   var pedido = 'Traduza para o português do Brasil cada título de artigo médico abaixo. Responda APENAS com os títulos traduzidos, um por linha, na mesma ordem, sem numeração.\n\n' + titulos.join('\n');
-  fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta: pedido})})
+  var ctrl = window.AbortController ? new AbortController() : null;
+  if(ctrl) setTimeout(function(){ try{ ctrl.abort(); }catch(_){} }, 8000);
+
+  fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta: pedido}), signal: ctrl ? ctrl.signal : undefined})
     .then(function(r){ return r.json(); })
     .then(function(d){
-      if(!d || !d.resposta) throw new Error('sem resposta');
+      if(!d || !d.resposta) return;
       var linhas = d.resposta.split('\n').map(function(l){ return l.trim(); }).filter(Boolean);
-      els.forEach(function(e, i){
-        e.textContent = linhas[i] || e.getAttribute('data-original');
-        e.classList.remove('traduzindo');
+      pendentes.forEach(function(e, i){
+        if(!linhas[i]) return;
+        e.textContent = linhas[i];
+        _tradCache[e.getAttribute('data-original')] = linhas[i];
       });
-      if(tema) _feedCache[tema] = box.innerHTML;   // guarda já traduzido
-    }).catch(function(){
-      els.forEach(function(e){ e.textContent = e.getAttribute('data-original'); e.classList.remove('traduzindo'); });
       if(tema) _feedCache[tema] = box.innerHTML;
-    });
+    }).catch(function(){});
 }
 
 /* ══ HOME: artigos recentes automáticos do PubMed (com fallback estático) ══ */
@@ -6263,7 +6273,7 @@ function _renderFeedHome(d2){
     var url = 'https://pubmed.ncbi.nlm.nih.gov/' + uid + '/';
     html += '<div class="art-card" data-oa="true" data-uid="' + uid + '" data-ai-title="' + _feedEscape(a.title) + '" style="margin-bottom:10px">' +
       '<span class="art-journal">' + _feedEscape(journal) + ' · ' + _feedEscape(date) + '</span>' +
-      '<div class="art-title-pt traduzindo" data-original="' + _feedEscape(a.title).replace(/"/g,'&quot;') + '" style="margin-top:2px">Traduzindo título...</div>' +
+      '<div class="art-title-pt" data-original="' + _feedEscape(a.title).replace(/"/g,'&quot;') + '" style="margin-top:2px">' + _feedEscape(a.title) + '</div>' +
       '<div class="art-title" style="margin-top:2px">' + _feedEscape(a.title) + '</div>' +
       '<div class="art-links" style="margin-top:9px">' +
         '<a class="link-btn pub" href="' + url + '" target="_blank" rel="noopener">📄 Abrir em PDF</a>' +
