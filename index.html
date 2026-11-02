@@ -6811,28 +6811,44 @@ if ('serviceWorker' in navigator) {
 </script>
 <!-- ══ CHATBOT DE DÚVIDAS ══ -->
 <style>
-/* AURI — robo alergista vetorial, corpo inteiro articulado */
-@keyframes auriFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-@keyframes auriAcena{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(-46deg)}}
-@keyframes auriAntebraco{0%,100%{transform:rotate(6deg)}50%{transform:rotate(-14deg)}}
-@keyframes auriBracoD{0%,100%{transform:rotate(4deg)}50%{transform:rotate(12deg)}}
-@keyframes auriCabeca{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
-@keyframes auriPisca{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.08)}}
-@keyframes auriHalo{0%{transform:scale(.85);opacity:.5}70%{transform:scale(1.3);opacity:0}100%{opacity:0}}
-#chatFab{position:fixed;bottom:calc(var(--bottomnav-h) + 4px);left:6px;width:92px;height:116px;
-  background:transparent;border:none;padding:0;cursor:pointer;z-index:250;
-  filter:drop-shadow(0 9px 14px rgba(13,31,45,.3));transition:transform .2s}
-#chatFab svg{width:100%;height:100%;display:block;overflow:visible}
-#chatFab:active{transform:scale(.93)}
-#chatFab:focus-visible{outline:2px solid var(--teal-mid);outline-offset:4px;border-radius:18px}
-#auri{animation:auriFloat 4s ease-in-out infinite;transform-origin:100px 180px}
-#auriCabeca{animation:auriCabeca 5.5s ease-in-out infinite;transform-origin:100px 118px}
-#auriBracoE{animation:auriAcena 1.8s ease-in-out infinite;transform-origin:48px 144px}
-#auriAnteE{animation:auriAntebraco 1.6s ease-in-out infinite;transform-origin:34px 178px}
-#auriBracoD{animation:auriBracoD 4s ease-in-out infinite;transform-origin:151px 144px}
-#auriOlhos{animation:auriPisca 5.2s ease-in-out infinite;transform-origin:100px 72px}
-#auriBase{animation:auriHalo 2.6s ease-out infinite;transform-origin:100px 246px}
-@media(prefers-reduced-motion:reduce){#auri,#auriCabeca,#auriBracoE,#auriAnteE,#auriBracoD,#auriOlhos,#auriBase{animation:none}}
+/* AURI — mascote em camadas (cabeca / braco / corpo) */
+@keyframes auriFlutua{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes auriCabeca{0%,100%{transform:rotate(-3.2deg)}50%{transform:rotate(3.2deg)}}
+@keyframes auriAcena{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(-26deg)}}
+@keyframes auriSombra{0%,100%{transform:scale(1);opacity:.28}50%{transform:scale(.86);opacity:.18}}
+@keyframes auriBalao{0%{opacity:0;transform:translateY(10px) scale(.8)}60%{opacity:1;transform:translateY(0) scale(1.04)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes auriPop{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
+#auriWrap{position:fixed;left:8px;bottom:calc(var(--bottomnav-h) + 4px);width:132px;z-index:250;
+  -webkit-tap-highlight-color:transparent}
+#auriWrap.auri-hidden{display:none}
+#auriFig{position:relative;width:132px;height:214px;cursor:pointer;background:none;border:none;padding:0;display:block;
+  animation:auriFlutua 4.2s ease-in-out infinite;filter:drop-shadow(0 12px 14px rgba(13,31,45,.28))}
+#auriFig.auri-pop{animation:auriPop .5s ease}
+#auriFig img{position:absolute;inset:0;width:100%;height:auto;display:block;pointer-events:none;user-select:none}
+#auriFig .auri-cabeca{transform-origin:29.7% 23.5%;animation:auriCabeca 5.4s ease-in-out infinite}
+#auriFig .auri-braco{transform-origin:77.5% 27%;animation:auriAcena 2.2s ease-in-out infinite}
+#auriPiscar{position:absolute;left:8%;top:9%;width:44%;height:9%;background:#0b1118;border-radius:50%;
+  opacity:0;transition:opacity .08s;pointer-events:none}
+#auriPiscar.on{opacity:.92}
+#auriSombra{position:absolute;left:18%;bottom:-6px;width:64%;height:12px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(13,31,45,.5),transparent 70%);animation:auriSombra 4.2s ease-in-out infinite}
+#auriBalao{position:absolute;left:112px;bottom:132px;width:min(224px,54vw);background:#fff;color:var(--navy);
+  border:2.5px solid var(--navy);border-radius:16px;padding:10px 12px;font-size:11.6px;line-height:1.45;font-weight:600;
+  box-shadow:4px 5px 0 rgba(13,31,45,.18);animation:auriBalao .45s cubic-bezier(.34,1.56,.64,1);z-index:2}
+#auriBalao b{color:var(--teal-mid);display:block;font-size:10px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:2px}
+#auriBalao::after{content:'';position:absolute;left:-13px;bottom:16px;width:0;height:0;
+  border:7px solid transparent;border-right-color:var(--navy)}
+#auriBalao::before{content:'';position:absolute;left:-9px;bottom:16px;width:0;height:0;z-index:1;
+  border:7px solid transparent;border-right-color:#fff}
+#auriFechar{position:absolute;right:-2px;top:-4px;width:24px;height:24px;border-radius:50%;border:2px solid #fff;
+  background:var(--navy);color:#fff;font-size:14px;line-height:1;cursor:pointer;z-index:3;padding:0;
+  box-shadow:0 3px 8px rgba(13,31,45,.35)}
+#auriReabrir{position:fixed;left:10px;bottom:calc(var(--bottomnav-h) + 10px);width:42px;height:42px;border-radius:50%;
+  border:2px solid #fff;background:var(--navy);color:#fff;font-size:19px;cursor:pointer;z-index:250;display:none;
+  box-shadow:0 6px 16px rgba(13,31,45,.3)}
+#auriReabrir.on{display:block}
+@media(max-width:380px){#auriWrap,#auriFig{width:112px}#auriFig{height:182px}#auriBalao{left:94px;bottom:112px}}
+@media(prefers-reduced-motion:reduce){#auriFig,#auriFig .auri-cabeca,#auriFig .auri-braco,#auriSombra{animation:none}}
 .chat-avatar{width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.75);flex-shrink:0}
 .chat-hdr-l{display:flex;align-items:center;gap:9px}
 #chatPanel{position:fixed;bottom:calc(var(--bottomnav-h) + 72px);left:12px;right:12px;max-width:420px;margin:0 auto;
@@ -6854,66 +6870,18 @@ if ('serviceWorker' in navigator) {
 .chat-in input{flex:1;border:1.5px solid var(--gray-100);border-radius:10px;padding:9px 11px;font-family:'Manrope',sans-serif;font-size:12.8px;color:var(--navy);outline:none}
 .chat-in button{background:var(--navy);border:none;color:#fff;border-radius:10px;padding:0 14px;font-weight:800;font-size:13px;cursor:pointer;font-family:'Manrope',sans-serif}
 </style>
-<button id="chatFab" onclick="chatToggle()" aria-label="Robô Alergista AURI"><svg viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AURI, robô alergista">
-<defs>
-<linearGradient id="auriMetal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#cfd9e6"/></linearGradient>
-<linearGradient id="auriJaleco" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e6edf6"/></linearGradient>
-<radialGradient id="auriIris"><stop offset="0" stop-color="#5ecbff"/><stop offset="1" stop-color="#1663b8"/></radialGradient>
-</defs>
-<g id="auri">
-  <ellipse id="auriBase" cx="100" cy="246" rx="34" ry="8" fill="#3fd8f5" opacity=".45"/>
-  <rect x="84" y="206" width="14" height="36" rx="7" fill="#b9c6d6"/><rect x="102" y="206" width="14" height="36" rx="7" fill="#b9c6d6"/>
-  <ellipse cx="91" cy="243" rx="11" ry="6" fill="#8fa0b5"/><ellipse cx="109" cy="243" rx="11" ry="6" fill="#8fa0b5"/>
-  <!-- tronco com jaleco -->
-  <path d="M72 132h56c6 0 10 5 11 12l6 58c1 8-4 12-10 12H65c-6 0-11-4-10-12l6-58c1-7 5-12 11-12z" fill="url(#auriJaleco)" stroke="#cdd8e6" stroke-width="1.8"/>
-  <path d="M86 132l14 20 14-20z" fill="#dfe8f3"/>
-  <path d="M86 132l14 20-6 56h-8z" fill="#f3f7fc" stroke="#d7e1ee" stroke-width="1.2"/>
-  <path d="M114 132l-14 20 6 56h8z" fill="#f3f7fc" stroke="#d7e1ee" stroke-width="1.2"/>
-  <circle cx="100" cy="160" r="13" fill="#0e2a52"/>
-  <path d="M100 151l8 4v6c0 5-4 8-8 10-4-2-8-5-8-10v-6z" fill="#3fd8f5"/>
-  <rect x="70" y="186" width="18" height="17" rx="4" fill="#eaf1f9" stroke="#d2ddeb" stroke-width="1.2"/>
-  <rect x="112" y="186" width="18" height="17" rx="4" fill="#eaf1f9" stroke="#d2ddeb" stroke-width="1.2"/>
-  <!-- braco direito do robo (esquerda da tela) acenando -->
-  <g id="auriBracoE">
-    <rect x="38" y="140" width="19" height="44" rx="10" fill="url(#auriJaleco)" stroke="#cdd8e6" stroke-width="1.6"/>
-    <g id="auriAnteE">
-      <rect x="26" y="172" width="17" height="36" rx="8.5" fill="url(#auriMetal)" stroke="#b7c4d4" stroke-width="1.5"/>
-      <circle cx="34" cy="210" r="12" fill="url(#auriMetal)" stroke="#b7c4d4" stroke-width="1.5"/>
-      <circle cx="34.5" cy="174" r="4" fill="#3fd8f5"/>
-    </g>
-  </g>
-  <!-- braco esquerdo do robo com prancheta -->
-  <g id="auriBracoD">
-    <rect x="142" y="140" width="19" height="44" rx="10" fill="url(#auriJaleco)" stroke="#cdd8e6" stroke-width="1.6"/>
-    <rect x="146" y="178" width="17" height="30" rx="8.5" fill="url(#auriMetal)" stroke="#b7c4d4" stroke-width="1.5"/>
-    <rect x="118" y="160" width="40" height="46" rx="5" fill="#2b4f86" stroke="#1b3761" stroke-width="2"/>
-    <rect x="130" y="154" width="16" height="9" rx="3" fill="#9fb2c9"/>
-    <g stroke="#9ed8ff" stroke-width="2.4" stroke-linecap="round"><path d="M126 176h24M126 186h24M126 196h16"/></g>
-    <circle cx="154" cy="208" r="12" fill="url(#auriMetal)" stroke="#b7c4d4" stroke-width="1.5"/>
-  </g>
-  <!-- cabeca -->
-  <g id="auriCabeca">
-    <rect x="92" y="108" width="16" height="14" rx="5" fill="#8fa0b5"/>
-    <ellipse cx="100" cy="70" rx="56" ry="50" fill="url(#auriMetal)" stroke="#bac7d8" stroke-width="2"/>
-    <path d="M44 50c10-22 32-32 56-32s46 10 56 32c-14-8-34-12-56-12s-42 4-56 12z" fill="#ffffff" opacity=".65"/>
-    <ellipse cx="100" cy="70" rx="43" ry="31" fill="#121f33"/>
-    <ellipse cx="100" cy="70" rx="43" ry="31" fill="none" stroke="#2c3e59" stroke-width="2"/>
-    <g id="auriOlhos">
-      <ellipse cx="82" cy="70" rx="11" ry="13" fill="#ffffff"/><ellipse cx="118" cy="70" rx="11" ry="13" fill="#ffffff"/>
-      <circle cx="82" cy="71" r="7.5" fill="url(#auriIris)"/><circle cx="118" cy="71" r="7.5" fill="url(#auriIris)"/>
-      <circle cx="82" cy="71" r="3.4" fill="#06152b"/><circle cx="118" cy="71" r="3.4" fill="#06152b"/>
-      <circle cx="79.5" cy="67.5" r="2.6" fill="#fff"/><circle cx="115.5" cy="67.5" r="2.6" fill="#fff"/>
-    </g>
-    <g stroke="#3fd8f5" stroke-width="4.5" stroke-linecap="round" fill="none"><path d="M73 53q9-6 18-1"/><path d="M109 52q9-5 18 1"/></g>
-    <path d="M88 92q12 16 24 0q-12 9-24 0z" fill="#8c2f3f"/>
-    <path d="M90 93q10 6 20 0z" fill="#e2566d"/>
-    <circle cx="44" cy="74" r="15" fill="url(#auriMetal)" stroke="#b0bfd1" stroke-width="2"/>
-    <circle cx="156" cy="74" r="15" fill="url(#auriMetal)" stroke="#b0bfd1" stroke-width="2"/>
-    <g fill="#3fd8f5"><rect x="41" y="67" width="6" height="14" rx="2"/><rect x="37" y="71" width="14" height="6" rx="2"/>
-    <rect x="153" y="67" width="6" height="14" rx="2"/><rect x="149" y="71" width="14" height="6" rx="2"/></g>
-  </g>
-</g>
-</svg></button>
+<div id="auriWrap">
+  <button id="auriFechar" onclick="auriFechar()" aria-label="Fechar o robô">×</button>
+  <div id="auriBalao" role="status" aria-live="polite"></div>
+  <button id="auriFig" onclick="auriClique()" aria-label="Abrir o chat com o Robô Alergista AURI">
+    <img class="auri-corpo" src="img/auri-body.png" alt="AURI, robô alergista">
+    <img class="auri-braco" src="img/auri-arm.png" alt="">
+    <img class="auri-cabeca" src="img/auri-head.png" alt="">
+    <span id="auriPiscar"></span>
+    <span id="auriSombra"></span>
+  </button>
+</div>
+<button id="auriReabrir" onclick="auriAbrir()" aria-label="Mostrar o Robô Alergista">🤖</button>
 <div id="chatPanel" role="dialog" aria-label="Tira-dúvidas">
   <div class="chat-hdr">
     <div class="chat-hdr-l"><img class="chat-avatar" src="img/auri.png" alt=""><div><div class="chat-hdr-t">AURI — Robô Alergista</div><div class="chat-hdr-s">Dúvidas clínicas e do app</div></div></div>
@@ -7038,6 +7006,66 @@ function chatToggle(){
 </script>
 
 
+
+
+<script>
+/* ══ AURI — balões de dica, piscada e reações ══ */
+var AURI_DICAS = [
+  ['Rinite','Lavagem nasal com soro antes do corticoide tópico melhora a deposição da medicação.'],
+  ['Asma','CI-formoterol como resgate reduz exacerbações frente ao SABA isolado (GINA).'],
+  ['Urticária','Anti-H1 de 2ª geração pode ser aumentado até 4x a dose antes de escalonar.'],
+  ['Dermatite atópica','Emoliente 2x/dia é a base: reduz crises e poupa corticoide tópico.'],
+  ['Testes alérgicos','Suspenda anti-histamínico 7 dias antes do teste cutâneo de leitura imediata.'],
+  ['Anafilaxia','Adrenalina IM na face anterolateral da coxa é a 1ª linha — sem exceção.'],
+  ['Vacinas','Alergia a ovo não contraindica a vacina da gripe nas apresentações atuais.'],
+  ['Imunoterapia','ITA modifica a história natural da rinite e pode prevenir novas sensibilizações.'],
+  ['Alergia alimentar','Introdução precoce de amendoim reduz o risco de alergia em lactentes de risco.'],
+  ['Agendamentos','Toque em mim para marcar consulta, tirar dúvidas ou navegar pelo Hub.']
+];
+(function(){
+  var balao=document.getElementById('auriBalao'), fig=document.getElementById('auriFig');
+  if(!balao||!fig) return;
+  var i=Math.floor(Math.random()*AURI_DICAS.length), timer;
+  function mostra(){
+    var d=AURI_DICAS[i%AURI_DICAS.length]; i++;
+    balao.innerHTML='<b>'+d[0]+'</b>'+d[1];
+    balao.style.animation='none'; void balao.offsetWidth; balao.style.animation='';
+  }
+  function ciclo(){ mostra(); timer=setTimeout(ciclo,7000); }
+  ciclo();
+  window.auriDica=function(txt,tit){ clearTimeout(timer); balao.innerHTML='<b>'+(tit||'AURI')+'</b>'+txt;
+    balao.style.animation='none'; void balao.offsetWidth; balao.style.animation='';
+    timer=setTimeout(ciclo,7000); };
+  /* piscada aleatória */
+  var olho=document.getElementById('auriPiscar');
+  (function pisca(){
+    setTimeout(function(){
+      if(olho){ olho.classList.add('on'); setTimeout(function(){ olho.classList.remove('on'); },110); }
+      pisca();
+    }, 2600+Math.random()*4200);
+  })();
+})();
+function auriClique(){
+  var f=document.getElementById('auriFig');
+  f.classList.remove('auri-pop'); void f.offsetWidth; f.classList.add('auri-pop');
+  if(window.auriDica) auriDica('Pode perguntar! Rinite, asma, urticária, dermatite, testes, vacinas ou agendamento.','Oi!');
+  chatToggle();
+}
+function auriFechar(){
+  document.getElementById('auriWrap').classList.add('auri-hidden');
+  document.getElementById('auriReabrir').classList.add('on');
+  try{ localStorage.setItem('auriOculto','1'); }catch(e){}
+  var p=document.getElementById('chatPanel'); if(p) p.classList.remove('open');
+}
+function auriAbrir(){
+  document.getElementById('auriWrap').classList.remove('auri-hidden');
+  document.getElementById('auriReabrir').classList.remove('on');
+  try{ localStorage.removeItem('auriOculto'); }catch(e){}
+}
+try{ if(localStorage.getItem('auriOculto')==='1'){
+  document.getElementById('auriWrap').classList.add('auri-hidden');
+  document.getElementById('auriReabrir').classList.add('on'); } }catch(e){}
+</script>
 
 </body>
 </html>
