@@ -29,9 +29,14 @@ export async function onRequestGet() {
       };
       const titulo = pega('title');
       if (!titulo) continue;
-      const fonte = pega('source') || (titulo.includes(' - ') ? titulo.split(' - ').pop() : '');
+      let fonte = '';
+      const ms = b.match(/<source[^>]*>([\s\S]*?)<\/source>/);
+      if (ms) fonte = ms[1].replace(/<!\[CDATA\[|\]\]>/g, '').replace(/<[^>]+>/g, '').trim();
+      if (!fonte && titulo.includes(' - ')) fonte = titulo.split(' - ').pop().trim();
+      let limpo = titulo;
+      if (fonte && limpo.endsWith(' - ' + fonte)) limpo = limpo.slice(0, -(fonte.length + 3));
       itens.push({
-        titulo: titulo.replace(new RegExp('\\s-\\s' + fonte + '$'), ''),
+        titulo: limpo,
         fonte,
         data: pega('pubDate'),
         url: pega('link')
