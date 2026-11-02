@@ -3642,8 +3642,11 @@ function renderIgPicker(){
     '<div class="ig-grupo"><div class="ig-grid"><button type="button" class="ig-card full' + (atual==='generic'?' sel':'') + '" onclick="selecionarIgProduto(\'generic\')">' +
     '<span class="ig-n">Calcular apenas em gramas</span><span class="ig-f">Sem escolher produto</span></button></div></div>';
 }
+var _igFichaAberta = false;
 function selecionarIgProduto(k){
   var inp = document.getElementById('igProduto');
+  var antes = inp ? inp.value : 'generic';
+  _igFichaAberta = (k === antes) ? !_igFichaAberta : true;
   if(inp) inp.value = k;
   var atual = document.querySelector('#page-imunoglobulinas .igp-card.ativa');
   var reservas = document.getElementById('igFichasReserva');
@@ -3659,6 +3662,10 @@ function mostrarFichaIg(k){
   });
   var tit = document.getElementById('igFichaTitulo');
   if(tit) tit.style.display = 'none';
+  if(!_igFichaAberta){
+    document.querySelectorAll('#page-imunoglobulinas .igp-card').forEach(function(c){ c.classList.remove('ativa'); c.classList.remove('open'); });
+    return;
+  }
   var slot = document.getElementById('igFichaSlot');
   var ficha = alvo ? document.getElementById(alvo) : null;
   if(slot && ficha){ slot.appendChild(ficha); ficha.classList.add('open'); }
