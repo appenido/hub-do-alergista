@@ -25,6 +25,9 @@ const FONTES = [
   'https://www.terra.com.br/rss/saude/'
 ];
 
+const limpar = (t) => (t||'').replace(/<!\[CDATA\[|\]\]>/g,'').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').trim();
+const UA = { 'User-Agent':'Mozilla/5.0 (compatible; HubDoAlergista-Radar/1.0)' };
+
 // link do Google News vem codificado: resolve pelo endpoint oficial do próprio Google News
 async function resolverGoogle(url){
   const m = String(url).match(/\/(?:rss\/)?articles\/([A-Za-z0-9_-]+)/);
