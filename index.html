@@ -2728,7 +2728,7 @@ window._mostrarApp = function(){
         </select>
       </div>
       <div class="perf-field" id="perfEspBox" style="display:none"><label>Qual especialidade?</label><input id="perfEspecialidade" type="text" placeholder="Ex: Pneumologia"></div>
-      <div class="perf-field"><label>CRM (opcional)</label><input id="perfCrm" type="text" placeholder="00000/UF"></div>
+      <div class="perf-field"><label id="perfCrmLabel">CRM (opcional)</label><input id="perfCrm" type="text" placeholder="00000/UF"></div>
       <div class="perf-field"><label>Número do RQE (opcional)</label><input id="perfRqe" type="text"></div>
       <div class="perf-field"><label>Endereço / local de atendimento (opcional)</label><input id="perfEndereco" type="text"></div>
       <div class="perf-field"><label>E-mail (não editável)</label><input id="perfEmail" type="text" disabled></div>
@@ -2874,10 +2874,16 @@ function _cadCatMudou(){
   var box = document.getElementById('cadEspBox');
   if(box) box.style.display = (v==='especialista') ? '' : 'none';
 }
+function _crmObrigatorio(cat){
+  return ['residente','especialista','alergista'].indexOf(cat) !== -1;
+}
+
 function _perfCatMudou(){
   var el = document.getElementById('perfCategoria');
   var box = document.getElementById('perfEspBox');
   if(el && box) box.style.display = (el.value==='especialista') ? '' : 'none';
+  var lab = document.getElementById('perfCrmLabel');
+  if(el && lab) lab.textContent = _crmObrigatorio(el.value) ? 'CRM *' : 'CRM (opcional)';
 }
 
 function fazerCadastro(){
@@ -3045,10 +3051,12 @@ function salvarPerfil(){
     var cat   = catEl ? catEl.value : (u.categoria||'');
     var espIn = (document.getElementById('perfEspecialidade').value||'').trim();
     if(cat==='especialista' && !espIn){ erro('Informe sua especialidade.'); return; }
+    var crmIn = (document.getElementById('perfCrm').value||'').trim();
+    if(_crmObrigatorio(cat) && !crmIn){ erro('Informe seu CRM (obrigatório para médicos).'); return; }
     u.categoria     = cat;
     u.especialidade = (cat==='especialista') ? espIn : (CATEGORIA_LABEL[cat]||'');
     u.endereco      = (document.getElementById('perfEndereco').value||'').trim();
-    u.crm           = (document.getElementById('perfCrm').value||'').trim();
+    u.crm           = crmIn;
     var rqe         = (document.getElementById('perfRqe').value||'').trim();
     u.rqe           = rqe || null;
     if(senha) u.hash = _hash(senha);
