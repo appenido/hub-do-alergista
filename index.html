@@ -887,7 +887,7 @@ window._mostrarApp = function(){
   <div class="page active" id="page-dashboard">
     <a class="alert-bar" id="alertaNoticia" href="javascript:void(0)" onclick="navTo('jornal')" style="text-decoration:none;cursor:pointer">
       <span style="font-size:18px">📰</span>
-      <div class="alert-bar-text" id="alertaNoticiaTexto">Jornal da Alergia · toque para ler as notícias da semana</div>
+      <div class="alert-bar-text" id="alertaNoticiaTexto">Alergia News · toque para ler as notícias da semana</div>
       <div class="alert-tag" id="alertaNoticiaTag">Jornal</div>
     </a>
 
@@ -3844,7 +3844,7 @@ function carregarNoticiasMidia(){
   var feedOk = false;
   if(!cache){
     fetch('jornal/edicao.json').then(function(r){ return r.json(); }).then(function(e){
-      if(!feedOk) _setAlertaNoticia('<strong style="color:var(--gold)">Jornal da Alergia:</strong> ' + e.manchete);
+      if(!feedOk) _setAlertaNoticia('<strong style="color:var(--gold)">Alergia News:</strong> ' + e.manchete);
     }).catch(function(){});
   }
 
@@ -3862,10 +3862,10 @@ function carregarNoticiasMidia(){
   }).catch(function(){
     if(cache || feedOk) return;
     fetch('jornal/edicao.json').then(function(r){ return r.json(); }).then(function(e){
-      _setAlertaNoticia('<strong style="color:var(--gold)">Jornal da Alergia:</strong> ' + e.manchete);
+      _setAlertaNoticia('<strong style="color:var(--gold)">Alergia News:</strong> ' + e.manchete);
     }).catch(function(){
       var t = document.getElementById('alertaNoticiaTexto');
-      if(t) t.textContent = 'Abra o Jornal da Alergia desta semana.';
+      if(t) t.textContent = 'Abra o Alergia News desta semana.';
     });
   });
 }
@@ -3949,7 +3949,7 @@ function carregarCursosLive(){
   });
 }
 
-/* ── JORNAL DA ALERGIA ──────────────────────────── */
+/* ── ALERGIA NEWS (ex-Jornal da Alergia) ─────────── */
 var _jornalOk = false, _radarAtualizado = '';
 function _jEsc(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function renderJornal(){
@@ -3980,7 +3980,7 @@ function renderJornal(){
     var dest = itens.filter(function(i){ return i.destaque; })[0] || null;
     var demais = itens.filter(function(i){ return i !== dest; });
     var h = '<div style="background:var(--navy);color:#fff;padding:18px 16px 14px;display:flex;align-items:center;gap:12px">' + LOGO +
-      '<div style="flex:1"><div style="' + S + 'font-size:26px;line-height:1.05;letter-spacing:.02em">Jornal da Alergia</div>' +
+      '<div style="flex:1"><div style="' + S + 'font-size:26px;line-height:1.05;letter-spacing:.02em">Alergia News</div>' +
       '<div style="font-size:10.5px;opacity:.8;margin-top:4px">' + _jEsc(new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})) +
       (_radarAtualizado ? ' · atualizado em ' + _jEsc(new Date(_radarAtualizado).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})) : '') + '</div></div></div>';
     if(dest){
@@ -4371,7 +4371,7 @@ function _deletarPrompt(idx){
 
 /* ── NAVIGATION ── */
 window.crmInit = crmInit;
-var PAGE_TITLES={dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',noticias:'Notícias',scores:'Scores',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Meu perfil',alergonews:'Alergo News',jornal:'Jornal da Alergia',mais:'Mais'};
+var PAGE_TITLES={dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',noticias:'Notícias',scores:'Scores',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Meu perfil',alergonews:'Alergo News',jornal:'Alergia News',mais:'Mais'};
 
 var _navHistory = ['dashboard'];
 
@@ -4605,7 +4605,7 @@ var _BUSCA_PAGINAS = [
   ['educacao','cursos educacao aulas congressos eventos'],
   ['crm','crm consultar medico registro cfm'],
   ['alergonews','noticias alergo news midia'],
-  ['jornal','jornal da alergia manchete'],
+  ['jornal','alergia news jornal da alergia manchete'],
   ['perfil','perfil conta dados'],
   ['favoritos','favoritos salvos'],
   ['mais','mais menu opcoes']
