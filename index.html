@@ -729,6 +729,17 @@ body > *:not(#authScreen) { display:none !important; }
 #authScreen { display:flex !important; }
 </style>
 <script>
+/* Endereço canônico — os espelhos antigos redirecionam para cá */
+(function(){
+  var CANONICO = 'hubdoalergista.pages.dev';
+  var h = location.hostname;
+  if(h === CANONICO) return;
+  if(h === 'localhost' || h === '127.0.0.1' || h === '') return;
+  if(/\.pages\.dev$/.test(h)) return; // previews de branch do Cloudflare
+  location.replace('https://' + CANONICO + location.pathname + location.search + location.hash);
+})();
+</script>
+<script>
 (function(){
   var SESS_VER = 2;
   try{
@@ -759,7 +770,6 @@ window._mostrarApp = function(){
       <svg viewBox="0 0 512 512" width="28" height="28" fill="none"><g stroke="#fff" stroke-width="70" stroke-linecap="round"><line x1="256" y1="286" x2="256" y2="432"/><line x1="256" y1="286" x2="162" y2="139"/><line x1="256" y1="286" x2="350" y2="139"/></g><circle cx="256" cy="432" r="50" fill="#fff"/><circle cx="162" cy="139" r="50" fill="#fff"/><circle cx="350" cy="139" r="50" fill="#fff"/><circle cx="256" cy="286" r="40" fill="#fff"/></svg>
     </div>
     <div class="auth-logo-name">Hub do Alergista</div>
-    <div class="auth-logo-sub">ACESSO RESTRITO</div>
   </div>
   <div class="auth-card">
     <div class="auth-tabs">
@@ -2859,7 +2869,8 @@ function fazerLogin(){
   try{
     var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
     var u = users[email];
-    if(!u || u.hash !== _hash(senha)){ err.textContent='E-mail ou senha incorretos.'; return; }
+    if(!u){ err.textContent='Este e-mail não está cadastrado neste dispositivo/navegador. Use "Cadastrar" ou abra o app no mesmo navegador do cadastro.'; return; }
+    if(u.hash !== _hash(senha)){ err.textContent='Senha incorreta.'; return; }
     _iniciarSessao(email, u.nome);
   }catch(e){ err.textContent='Erro ao autenticar. Tente novamente.'; }
 }
