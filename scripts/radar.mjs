@@ -77,11 +77,17 @@ const run = async () => {
     if (verificadas.length >= 10) break;
     const chave = it.titulo.toLowerCase().replace(/\W+/g,'').slice(0,50);
     if (vistos.has(chave)) continue;
-    const { final, html } = await resolver(it.url);
-    if (!final) { console.log('SEM LINK: ' + it.titulo.slice(0,50)); continue; }
+    const r = await resolver(it.url);
+    let final = r.final, html = r.html, verificado = true;
+    if (!final) {                       // não deu para abrir: fica com o link do Google News, que redireciona ao veículo
+      final = it.url; html = ''; verificado = false;
+    }
     if (BLOQUEADOS.test(final)) continue;
     let host = ''; try { host = new URL(final).hostname.replace(/^www\./,''); } catch(e) { continue; }
-    if (/news\.google\.com/.test(host) || !brasileiro(host)) continue;   // só mídia brasileira, link direto
+    const fonteNome = it.fonte || host;
+    if (/news\.google\.com/.test(host)) {
+      if (!it.fonte || ESTRANGEIROS.test(it.fonte)) continue;   // sem veículo identificável, ou veículo de fora
+    } else if (!brasileiro(host)) continue;
     const ts = dataDaPagina(html) || Date.parse(it.data) || 0;
     if (!ts) continue;                                   // sem data confirmada: fora
     if (Date.now() - ts > 90*24*3600*1000) continue;      // janela máxima de 90 dias
@@ -89,10 +95,10 @@ const run = async () => {
     vistos.add(chave);
     verificadas.push({
       titulo: limpar(h1) || it.titulo,
-      fonte: it.fonte || host,
+      fonte: fonteNome,
       data: new Date(ts).toISOString(),
       url: final,
-      verificado: !!dataDaPagina(html)
+      verificado: verificado && !!dataDaPagina(html)
     });
   }
 
