@@ -785,20 +785,22 @@ window._mostrarApp = function(){
     </div>
     <!-- CADASTRO -->
     <div id="formCad" style="display:none">
-      <div class="auth-field"><label>Nome completo *</label><input type="text" id="cadNome" placeholder="Dr. Fulano de Tal" autocomplete="name"></div>
-      <div class="auth-field"><label>Endereço completo *</label><input type="text" id="cadEndereco" placeholder="Rua, nº, bairro, cidade — UF"></div>
-      <div class="auth-field"><label>CRM *</label><input type="text" id="cadCrm" placeholder="00000/UF" inputmode="text"></div>
-      <div class="auth-field"><label>Especialidade médica *</label><input type="text" id="cadEspecialidade" placeholder="Ex: Alergia e Imunologia"></div>
-      <div class="auth-field" style="margin-bottom:4px"><label>Possui RQE?</label>
-        <div style="display:flex;gap:10px;margin-top:6px">
-          <label style="display:flex;align-items:center;gap:5px;font-size:13px;font-weight:500;cursor:pointer"><input type="radio" name="cadRqeOpc" value="sim" id="cadRqeSim" onchange="document.getElementById('cadRqeBox').style.display='block'"> Sim</label>
-          <label style="display:flex;align-items:center;gap:5px;font-size:13px;font-weight:500;cursor:pointer"><input type="radio" name="cadRqeOpc" value="nao" id="cadRqeNao" onchange="document.getElementById('cadRqeBox').style.display='none'" checked> Não</label>
-        </div>
+      <div class="auth-field"><label>Nome completo *</label><input type="text" id="cadNome" placeholder="Seu nome" autocomplete="name"></div>
+      <div class="auth-field"><label>Você é *</label>
+        <select id="cadCategoria" onchange="_cadCatMudou()" style="width:100%;box-sizing:border-box;padding:11px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-family:'Manrope',sans-serif;font-size:13.5px;color:var(--navy);background:#fff">
+          <option value="">Selecione…</option>
+          <option value="academico">Acadêmico(a) de Medicina</option>
+          <option value="generalista">Médico(a) generalista</option>
+          <option value="residente">Médico(a) residente</option>
+          <option value="especialista">Médico(a) especialista</option>
+          <option value="alergista">Médico(a) alergista e imunologista</option>
+        </select>
       </div>
-      <div id="cadRqeBox" style="display:none;margin-bottom:12px"><div class="auth-field" style="margin-bottom:0"><label>Número do RQE</label><input type="text" id="cadRqeNum" placeholder="00000" inputmode="numeric"></div></div>
+      <div class="auth-field" id="cadEspBox" style="display:none"><label>Qual especialidade? *</label><input type="text" id="cadEspecialidade" placeholder="Ex: Pneumologia"></div>
       <div class="auth-field"><label>E-mail *</label><input type="email" id="cadEmail" placeholder="seu@email.com" autocomplete="email"></div>
       <div class="auth-field"><label>Senha (mín. 6 caracteres) *</label><input type="password" id="cadSenha" placeholder="••••••••" autocomplete="new-password"></div>
       <div class="auth-field"><label>Confirmar senha *</label><input type="password" id="cadSenha2" placeholder="••••••••" autocomplete="new-password"></div>
+      <div style="font-size:11px;color:var(--gray-500);margin:-2px 0 12px;line-height:1.45">CRM, RQE e demais dados você completa depois em <strong>Meu perfil</strong>.</div>
       <button class="auth-btn" onclick="fazerCadastro()">Criar conta →</button>
       <div class="auth-err" id="cadErr"></div>
     </div>
@@ -2704,7 +2706,7 @@ window._mostrarApp = function(){
         <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
         Meu perfil
       </div>
-      <div style="font-size:11.5px;color:var(--gray-500);margin-top:4px">Seus dados de cadastro. Edite e salve quando quiser.</div>
+      <div style="font-size:11.5px;color:var(--gray-500);margin-top:4px">Complete seus dados quando quiser — só nome e categoria são necessários.</div>
     </div>
     <div style="margin:8px 16px 0;background:#fff;border:1px solid var(--gray-100);border-radius:13px;padding:16px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
@@ -2715,10 +2717,20 @@ window._mostrarApp = function(){
         </div>
       </div>
       <div class="perf-field"><label>Nome completo</label><input id="perfNome" type="text"></div>
-      <div class="perf-field"><label>Endereço completo</label><input id="perfEndereco" type="text"></div>
-      <div class="perf-field"><label>CRM</label><input id="perfCrm" type="text"></div>
-      <div class="perf-field"><label>Especialidade médica</label><input id="perfEspecialidade" type="text"></div>
+      <div class="perf-field"><label>Você é</label>
+        <select id="perfCategoria" onchange="_perfCatMudou()" style="width:100%;box-sizing:border-box;padding:11px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-family:'Manrope',sans-serif;font-size:13.5px;color:var(--navy);background:#fff">
+          <option value="">Selecione…</option>
+          <option value="academico">Acadêmico(a) de Medicina</option>
+          <option value="generalista">Médico(a) generalista</option>
+          <option value="residente">Médico(a) residente</option>
+          <option value="especialista">Médico(a) especialista</option>
+          <option value="alergista">Médico(a) alergista e imunologista</option>
+        </select>
+      </div>
+      <div class="perf-field" id="perfEspBox" style="display:none"><label>Qual especialidade?</label><input id="perfEspecialidade" type="text" placeholder="Ex: Pneumologia"></div>
+      <div class="perf-field"><label>CRM (opcional)</label><input id="perfCrm" type="text" placeholder="00000/UF"></div>
       <div class="perf-field"><label>Número do RQE (opcional)</label><input id="perfRqe" type="text"></div>
+      <div class="perf-field"><label>Endereço / local de atendimento (opcional)</label><input id="perfEndereco" type="text"></div>
       <div class="perf-field"><label>E-mail (não editável)</label><input id="perfEmail" type="text" disabled></div>
       <div class="perf-field"><label>Nova senha (deixe em branco para manter)</label><input id="perfSenha" type="password" placeholder="mín. 6 caracteres"></div>
       <div id="perfMsg" style="font-size:12px;font-weight:700;margin-bottom:10px;min-height:16px"></div>
@@ -2824,39 +2836,54 @@ function _hash(str){
 }
 
 function fazerCadastro(){
-  var nome        = (document.getElementById('cadNome').value||'').trim();
-  var endereco    = (document.getElementById('cadEndereco').value||'').trim();
-  var crm         = (document.getElementById('cadCrm').value||'').trim();
-  var especialidade = (document.getElementById('cadEspecialidade').value||'').trim();
-  var rqeSim      = document.getElementById('cadRqeSim').checked;
-  var rqeNum      = (document.getElementById('cadRqeNum').value||'').trim();
-  var email       = (document.getElementById('cadEmail').value||'').trim().toLowerCase();
-  var senha       = document.getElementById('cadSenha').value||'';
-  var senha2      = document.getElementById('cadSenha2').value||'';
-  var err         = document.getElementById('cadErr');
+  var nome      = (document.getElementById('cadNome').value||'').trim();
+  var categoria = document.getElementById('cadCategoria').value||'';
+  var espEl     = document.getElementById('cadEspecialidade');
+  var especialidade = espEl ? (espEl.value||'').trim() : '';
+  var email     = (document.getElementById('cadEmail').value||'').trim().toLowerCase();
+  var senha     = document.getElementById('cadSenha').value||'';
+  var senha2    = document.getElementById('cadSenha2').value||'';
+  var err       = document.getElementById('cadErr');
   err.textContent = '';
-  if(!nome)               { err.textContent='Informe seu nome completo.'; return; }
-  if(!endereco)           { err.textContent='Informe o endereço completo.'; return; }
-  if(!crm)                { err.textContent='Informe seu CRM.'; return; }
-  if(!especialidade)      { err.textContent='Informe sua especialidade médica.'; return; }
-  if(rqeSim && !rqeNum)  { err.textContent='Informe o número do RQE.'; return; }
+  if(!nome)      { err.textContent='Informe seu nome completo.'; return; }
+  if(!categoria) { err.textContent='Selecione sua categoria profissional.'; return; }
+  if(categoria==='especialista' && !especialidade){ err.textContent='Informe sua especialidade.'; return; }
   if(!email||!email.includes('@')) { err.textContent='E-mail inválido.'; return; }
-  if(senha.length<6)      { err.textContent='Senha deve ter mínimo 6 caracteres.'; return; }
-  if(senha!==senha2)      { err.textContent='As senhas não coincidem.'; return; }
+  if(senha.length<6) { err.textContent='Senha deve ter mínimo 6 caracteres.'; return; }
+  if(senha!==senha2) { err.textContent='As senhas não coincidem.'; return; }
   try{
     var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
     if(users[email]) { err.textContent='E-mail já cadastrado. Faça login.'; return; }
     users[email] = {
       nome: nome,
-      endereco: endereco,
-      crm: crm,
-      especialidade: especialidade,
-      rqe: rqeSim ? rqeNum : null,
+      categoria: categoria,
+      especialidade: (categoria==='especialista') ? especialidade : CATEGORIA_LABEL[categoria],
+      endereco: '', crm: '', rqe: null,
       hash: _hash(senha)
     };
     localStorage.setItem('hub_users', JSON.stringify(users));
     _iniciarSessao(email, nome);
   }catch(e){ err.textContent='Erro ao salvar. Tente novamente.'; }
+}
+
+var CATEGORIA_LABEL = {
+  academico:   'Acadêmico(a) de Medicina',
+  generalista: 'Médico(a) generalista',
+  residente:   'Médico(a) residente',
+  especialista:'Médico(a) especialista',
+  alergista:   'Médico(a) alergista e imunologista'
+};
+
+function _cadCatMudou(){
+  var v = document.getElementById('cadCategoria').value;
+  var box = document.getElementById('cadEspBox');
+  if(box) box.style.display = (v==='especialista') ? '' : 'none';
+}
+
+function _perfCatMudou(){
+  var el = document.getElementById('perfCategoria');
+  var box = document.getElementById('perfEspBox');
+  if(el && box) box.style.display = (el.value==='especialista') ? '' : 'none';
 }
 
 function fazerLogin(){
@@ -2891,9 +2918,9 @@ function fazerLogout(){
   document.getElementById('authScreen').style.display = 'flex';
   // reset form
   ['loginEmail','loginSenha'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
-  ['cadNome','cadEndereco','cadCrm','cadEspecialidade','cadRqeNum','cadEmail','cadSenha','cadSenha2'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
-  var rqeNao=document.getElementById('cadRqeNao');if(rqeNao)rqeNao.checked=true;
-  var rqeBox=document.getElementById('cadRqeBox');if(rqeBox)rqeBox.style.display='none';
+  ['cadNome','cadEspecialidade','cadEmail','cadSenha','cadSenha2'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  var cadCat=document.getElementById('cadCategoria');if(cadCat)cadCat.value='';
+  var cadEspBox=document.getElementById('cadEspBox');if(cadEspBox)cadEspBox.style.display='none';
   ['loginErr','cadErr'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent='';});
   authModo('login');
 }
@@ -2921,9 +2948,12 @@ function preencherPerfil(){
     var u = users[sess.email] || {};
     function set(id,v){var el=document.getElementById(id); if(el) el.value = v||'';}
     set('perfNome', u.nome||sess.nome);
+    var cat = document.getElementById('perfCategoria');
+    if(cat) cat.value = u.categoria||'';
+    _perfCatMudou();
+    set('perfEspecialidade', (u.categoria==='especialista') ? u.especialidade : '');
     set('perfEndereco', u.endereco);
     set('perfCrm', u.crm);
-    set('perfEspecialidade', u.especialidade);
     set('perfRqe', u.rqe);
     set('perfEmail', sess.email);
     set('perfSenha','');
@@ -2947,9 +2977,14 @@ function salvarPerfil(){
     if(!nome){ erro('Informe seu nome completo.'); return; }
     if(senha && senha.length<6){ erro('A nova senha deve ter no mínimo 6 caracteres.'); return; }
     u.nome          = nome;
+    var catEl = document.getElementById('perfCategoria');
+    var cat   = catEl ? catEl.value : (u.categoria||'');
+    var espIn = (document.getElementById('perfEspecialidade').value||'').trim();
+    if(cat==='especialista' && !espIn){ erro('Informe sua especialidade.'); return; }
+    u.categoria     = cat;
+    u.especialidade = (cat==='especialista') ? espIn : (CATEGORIA_LABEL[cat]||'');
     u.endereco      = (document.getElementById('perfEndereco').value||'').trim();
     u.crm           = (document.getElementById('perfCrm').value||'').trim();
-    u.especialidade = (document.getElementById('perfEspecialidade').value||'').trim();
     var rqe         = (document.getElementById('perfRqe').value||'').trim();
     u.rqe           = rqe || null;
     if(senha) u.hash = _hash(senha);
@@ -5200,6 +5235,132 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').catch(function () {});
   });
 }
+</script>
+<!-- ══ CHATBOT DE DÚVIDAS ══ -->
+<style>
+#chatFab{position:fixed;bottom:calc(var(--bottomnav-h) + 14px);left:16px;width:48px;height:48px;border-radius:50%;
+  background:var(--navy);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 18px rgba(13,31,45,.3);z-index:250;font-size:21px;line-height:1;transition:transform .2s}
+#chatFab:active{transform:scale(.92)}
+#chatPanel{position:fixed;bottom:calc(var(--bottomnav-h) + 72px);left:12px;right:12px;max-width:420px;margin:0 auto;
+  background:#fff;border:1px solid var(--gray-100);border-radius:16px;box-shadow:0 14px 44px rgba(13,31,45,.26);
+  z-index:260;display:none;flex-direction:column;overflow:hidden;max-height:min(70vh,520px)}
+#chatPanel.open{display:flex}
+.chat-hdr{background:linear-gradient(135deg,var(--navy),var(--teal-mid));color:#fff;padding:12px 14px;display:flex;align-items:center;justify-content:space-between}
+.chat-hdr-t{font-size:13.5px;font-weight:800}
+.chat-hdr-s{font-size:10.5px;opacity:.75;margin-top:1px}
+.chat-x{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;line-height:1;padding:0 2px}
+#chatBody{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:9px;background:var(--gray-50)}
+.chat-msg{max-width:86%;padding:9px 12px;border-radius:13px;font-size:12.8px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.chat-bot{background:#fff;border:1px solid var(--gray-100);color:var(--navy);align-self:flex-start;border-bottom-left-radius:4px}
+.chat-user{background:var(--teal-mid);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.chat-sug{display:flex;flex-wrap:wrap;gap:6px;padding:9px 12px;border-top:1px solid var(--gray-100);background:#fff}
+.chat-chip{background:var(--gray-50);border:1px solid var(--gray-100);border-radius:14px;padding:5px 10px;font-size:11px;
+  font-weight:700;color:var(--navy);cursor:pointer;white-space:nowrap}
+.chat-in{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--gray-100);background:#fff}
+.chat-in input{flex:1;border:1.5px solid var(--gray-100);border-radius:10px;padding:9px 11px;font-family:'Manrope',sans-serif;font-size:12.8px;color:var(--navy);outline:none}
+.chat-in button{background:var(--navy);border:none;color:#fff;border-radius:10px;padding:0 14px;font-weight:800;font-size:13px;cursor:pointer;font-family:'Manrope',sans-serif}
+</style>
+<button id="chatFab" onclick="chatToggle()" aria-label="Dúvidas">💬</button>
+<div id="chatPanel" role="dialog" aria-label="Tira-dúvidas">
+  <div class="chat-hdr">
+    <div><div class="chat-hdr-t">Tira-dúvidas</div><div class="chat-hdr-s">Como usar o Hub · respostas rápidas</div></div>
+    <button class="chat-x" onclick="chatToggle()" aria-label="Fechar">×</button>
+  </div>
+  <div id="chatBody"></div>
+  <div class="chat-sug" id="chatSug"></div>
+  <div class="chat-in">
+    <input id="chatInput" placeholder="Digite sua dúvida..." autocomplete="off">
+    <button onclick="chatEnviar()">↑</button>
+  </div>
+</div>
+<script>
+var CHAT_FAQ = [
+  {k:['score','uas7','uct','act','calcul','acq','sccai','icpe','endotip'],
+   r:'Os scores ficam em Scores, no menu inicial. Estão disponíveis: UAS7 e UCT (urticária), ACT (asma), ICPE-UCE (endótipo da urticária crônica) e conversão de corticoides. Toque no score, preencha os campos e o resultado aparece com a interpretação e a conduta sugerida.'},
+  {k:['uas7 paciente','link paciente','enviar paciente','diario'],
+   r:'Há uma versão do UAS7 para o próprio paciente preencher, em página separada (uas7-paciente.html). Você envia o link, ele registra os 7 dias e o resultado chega na sua lista.'},
+  {k:['imunobiolog','biologico','omalizumab','dupilumab','mepolizumab','benralizumab','tezepelumab','rol','ans','dut'],
+   r:'Em Imunobiológicos você encontra os 9 biológicos com indicação, posologia por doença, critérios do Rol ANS e DUT do SUS, além de modelos de relatório para liberação.'},
+  {k:['relatorio','laudo','liberac','modelo','carta'],
+   r:'Em Relatórios há modelos prontos (liberação de biológico, carta para escola, plano de ação da asma, orientação pós-anafilaxia). Escolha o modelo e ajuste o texto; também dá para gerar pelo Assistente IA.'},
+  {k:['ia','chatgpt','gemini','claude','assistente','prompt','api','chave'],
+   r:'O Assistente IA monta o prompt com o contexto clínico já embutido, copia para a área de transferência e abre a IA escolhida (ChatGPT, Gemini ou Claude) — aí é só colar com Ctrl+V. Em Prompts há uma biblioteca pronta que você pode salvar e reutilizar.'},
+  {k:['crm','consultar medico','cfm'],
+   r:'Em Consultar CRM você pesquisa por número e UF ou por nome, direto na base do CFM.'},
+  {k:['interac','medicament','medicamento junto'],
+   r:'Em Interações medicamentosas há um verificador clínico integrado ao Medscape.'},
+  {k:['offline','sem internet','instalar','pwa','app','icone','tela inicial'],
+   r:'O Hub é um PWA: dá para instalar na tela inicial (no Chrome, menu ⋮ → Instalar aplicativo; no iPhone, Compartilhar → Adicionar à Tela de Início). Depois de instalado, as telas já visitadas funcionam offline.'},
+  {k:['senha','login','entrar','cadastr','conta','esqueci','nao consigo'],
+   p:true,
+   r:'O cadastro hoje fica salvo apenas neste navegador e neste endereço — por isso ele não aparece se você se cadastrou em outro navegador, em aba anônima ou num endereço antigo do app. Use sempre hubdoalergista.pages.dev. Para trocar a senha, entre em Meu perfil.'},
+  {k:['perfil','editar','meus dados','crm meu','rqe'],
+   r:'Seus dados ficam em Meu perfil (toque nas suas iniciais no topo). Lá você completa CRM, RQE, especialidade e endereço, e também troca a senha. No cadastro só pedimos nome, categoria, e-mail e senha.'},
+  {k:['artigo','pubmed','guideline','diretriz','gina','eaaci','asbai'],
+   r:'Em Artigos o feed vem do PubMed com o resumo oficial. Em Guidelines estão as diretrizes de referência (GINA, EAACI, ASBAI, entre outras).'},
+  {k:['favorito','salvar'],
+   r:'Toque na estrela nos cards para salvar; tudo fica reunido em Favoritos.'},
+  {k:['erro','bug','travou','nao abre','nao funciona','atualiz'],
+   r:'Se algo travou depois de uma atualização, feche o app e abra de novo — o Hub busca sempre a versão mais nova e só usa o cache quando está offline. Persistindo, me descreva o que apareceu na tela.'},
+  {k:['obrigad','valeu','legal','otimo'],
+   r:'Por nada! Qualquer outra dúvida é só chamar.'},
+  {k:['oi','ola','bom dia','boa tarde','boa noite','tudo bem'],
+   r:'Olá! Posso explicar como usar qualquer parte do Hub — scores, imunobiológicos, relatórios, assistente de IA, perfil. O que você precisa?'}
+];
+var CHAT_SUG = ['Como usar os scores?','Instalar no celular','Problema com login','Editar meu perfil','Gerar um relatório'];
+
+function _chatNorm(t){
+  return (t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+}
+function _chatResponder(txt){
+  var t = _chatNorm(txt);
+  var melhor = null, pontos = 0;
+  for(var i=0;i<CHAT_FAQ.length;i++){
+    var it = CHAT_FAQ[i], p = 0;
+    for(var j=0;j<it.k.length;j++) if(t.indexOf(_chatNorm(it.k[j]))>-1) p += it.k[j].length;
+    if(p > pontos){ pontos = p; melhor = it; }
+  }
+  if(melhor) return melhor.r;
+  return 'Não tenho uma resposta pronta para isso. Posso ajudar com: scores, imunobiológicos, relatórios, artigos do PubMed, consulta de CRM, interações, perfil e instalação do app.\n\nSe a dúvida for clínica, leve para o Assistente IA — ele já envia o contexto de alergia e imunologia junto com a sua pergunta.';
+}
+function _chatAdd(texto, quem){
+  var body = document.getElementById('chatBody');
+  var d = document.createElement('div');
+  d.className = 'chat-msg ' + (quem==='user' ? 'chat-user' : 'chat-bot');
+  d.textContent = texto;
+  body.appendChild(d);
+  body.scrollTop = body.scrollHeight;
+}
+function chatEnviar(txt){
+  var inp = document.getElementById('chatInput');
+  var t = (typeof txt==='string' && txt) ? txt : (inp.value||'').trim();
+  if(!t) return;
+  inp.value = '';
+  _chatAdd(t,'user');
+  setTimeout(function(){ _chatAdd(_chatResponder(t),'bot'); }, 260);
+}
+function chatToggle(){
+  var p = document.getElementById('chatPanel');
+  var abrindo = !p.classList.contains('open');
+  p.classList.toggle('open');
+  if(abrindo && !document.getElementById('chatBody').children.length){
+    _chatAdd('Olá! Sou o tira-dúvidas do Hub. Pergunte sobre qualquer função do app — scores, imunobiológicos, relatórios, perfil, instalação.','bot');
+  }
+  if(abrindo) setTimeout(function(){ document.getElementById('chatInput').focus(); }, 120);
+}
+(function(){
+  var sug = document.getElementById('chatSug');
+  if(!sug) return;
+  CHAT_SUG.forEach(function(s){
+    var c = document.createElement('span');
+    c.className='chat-chip'; c.textContent=s;
+    c.onclick = function(){ chatEnviar(s); };
+    sug.appendChild(c);
+  });
+  var inp = document.getElementById('chatInput');
+  if(inp) inp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); chatEnviar(); } });
+})();
 </script>
 </body>
 </html>
