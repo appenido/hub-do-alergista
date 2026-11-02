@@ -1,5 +1,6 @@
-// Radar de notícias — roda no GitHub Actions todo dia às 8h (America/Sao_Paulo)
-// Coleta RSS, abre cada matéria, confirma a data original e grava jornal/radar.json
+// Radar de notícias — roda todo dia às 8h (America/Sao_Paulo) pelo GitHub Actions.
+// Coleta RSS, confirma a data original de cada matéria e grava jornal/radar.json.
+// Em qualquer falha, não sobrescreve o arquivo anterior.
 import fs from 'node:fs';
 
 const SAIDA = 'jornal/radar.json';
@@ -12,38 +13,55 @@ const FONTES = [
   Q('"alergia alimentar" OR "alergia a medicamento"'),
   Q('"esofagite eosinofílica" OR "pólipos nasais" OR rinossinusite'),
   Q('imunodeficiência OR "erros inatos da imunidade" OR imunoglobulina'),
-  Q('imunobiológico OR imunoterapia alergia'),
+  Q('imunobiológico alergia OR "imunoterapia alérgica"'),
   'https://g1.globo.com/rss/g1/ciencia-e-saude/',
   'https://agenciabrasil.ebc.com.br/rss/saude/feed.xml',
   'https://agenciabrasil.ebc.com.br/rss/geral/feed.xml',
-  'https://www.cnnbrasil.com.br/saude/feed/',
   'https://www.metropoles.com/saude/feed',
-  'https://vejasp.abril.com.br/feed/',
-  'https://saude.abril.com.br/feed/',
-  'https://rss.uol.com.br/feed/noticias.xml',
-  'https://noticias.r7.com/saude/feed.xml',
-  'https://www.terra.com.br/rss/saude/'
+  'https://saude.abril.com.br/feed/'
 ];
 
-const limpar = (t) => (t||'').replace(/<!\[CDATA\[|\]\]>/g,'').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').trim();
-const UA = { 'User-Agent':'Mozilla/5.0 (compatible; HubDoAlergista-Radar/1.0)' };
+const CHAVES = /(^|[^a-zà-ú])(alergi\w*|al[ée]rgic\w*|anafila\w*|anafil[áa]tic\w*|urtic[áa]ri\w*|asma|asm[áa]tic\w*|rinite|rinossinusite|dermatite at[óo]pica|imunodefici\w*|imunoglobulina|erros inatos da imunidade|imunoterapia (?:alerg|sublingual|subcut)\w*|imunobiol[óo]gic\w*|angioedema|esofagite eosinof[íi]lica|p[óo]lipos nasais)([^a-zà-ú]|$)/i;
+const BLOQUEADOS = /(gov\.br|\.gov\b|asbai\.org|sbp\.com\.br|sbi\.org|scielo|doaj|elsevier|pubmed|nih\.gov|prnewswire|segs\.com\.br|\.edu\b|blogspot|wordpress\.com)/i;
+const ESTRANGEIROS = /(vietnam|investing\.com|publico\.pt|observador\.pt|sapo\.pt|\.vn\b|\.pt\b|\.es\b|\.ao\b|\.mz\b)/i;
+const BR_OK = ['globo.com','uol.com.br','metropoles.com','terra.com.br','r7.com','ig.com.br','band.com.br','cnnbrasil.com.br','estadao.com.br','abril.com.br','ebc.com.br'];
 
-// link do Google News vem codificado: resolve pelo endpoint oficial do próprio Google News
+const limpar = (t) => (t||'').replace(/<!\[CDATA\[|\]\]>/g,'').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').trim();
+const UA = { 'User-Agent': 'Mozilla/5.0 (compatible; HubDoAlergista-Radar/1.0)' };
+const brasileiro = (h) => /\.br$/.test(h) || BR_OK.some((d) => h === d || h.endsWith('.' + d));
+
+function itensDoRss(xml){
+  const out = [];
+  for (const b of xml.split(/<item[\s>]/).slice(1, 60)) {
+    const pega = (tag) => { const m = b.match(new RegExp('<' + tag + '[^>]*>([\\s\\S]*?)<\\/' + tag + '>')); return m ? limpar(m[1]) : ''; };
+    let titulo = pega('title'); if (!titulo) continue;
+    const descRaw = (b.match(/<description[^>]*>([\s\S]*?)<\/description>/) || [])[1] || '';
+    if (!CHAVES.test(titulo + ' ' + limpar(descRaw))) continue;
+    const href = (descRaw.match(/href="(https?:\/\/[^"]+)"/) || [])[1] || '';
+    out.push({
+      titulo: titulo.replace(/\s+-\s+[^-]+$/, '').trim(),
+      fonte: pega('source'),
+      data: pega('pubDate'),
+      url: href || pega('link')
+    });
+  }
+  return out;
+}
+
 async function resolverGoogle(url){
   const m = String(url).match(/\/(?:rss\/)?articles\/([A-Za-z0-9_-]+)/);
   if (!m) return '';
-  const id = m[1];
   try {
-    const p = await fetch('https://news.google.com/rss/articles/' + id, { headers: UA });
+    const p = await fetch('https://news.google.com/rss/articles/' + m[1], { headers: UA });
     const h = await p.text();
     const sig = (h.match(/data-n-a-sg="([^"]+)"/) || [])[1];
     const ts  = (h.match(/data-n-a-ts="([^"]+)"/) || [])[1];
     if (!sig || !ts) return '';
-    const payload = [ 'Fbv4je', JSON.stringify(['garturlreq',[['pt-BR','BR',['FINANCE_TOP_INDICES','WEB_TEST_1_0_0'],null,null,1,1,'BR:pt-419',null,null,null,null,null,null,null,0],'pt-BR','BR',true,[2],1,true,'1',null,null,null,0],id,Number(ts),sig]) ];
+    const req = ['Fbv4je', JSON.stringify(['garturlreq', [['pt-BR','BR',['FINANCE_TOP_INDICES','WEB_TEST_1_0_0'],null,null,1,1,'BR:pt-419',null,null,null,null,null,null,null,0],'pt-BR','BR',true,[2],1,true,'1',null,null,null,0], m[1], Number(ts), sig])];
     const r = await fetch('https://news.google.com/_/DotsSplashUi/data/batchexecute', {
       method: 'POST',
       headers: { ...UA, 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-      body: 'f.req=' + encodeURIComponent(JSON.stringify([[payload]]))
+      body: 'f.req=' + encodeURIComponent(JSON.stringify([[req]]))
     });
     const t = await r.text();
     const alvo = t.match(/"(https?:\/\/(?!news\.google)[^"\\]+)"/);
@@ -51,13 +69,20 @@ async function resolverGoogle(url){
   } catch(e) { return ''; }
 }
 
+async function abrir(url){
+  try {
+    const r = await fetch(url, { headers: UA, redirect: 'follow' });
+    return { final: r.url || url, html: await r.text() };
+  } catch(e) { return { final: '', html: '' }; }
+}
+
 function dataDaPagina(html){
   const pats = [
     /<meta[^>]+property=["']article:published_time["'][^>]+content=["']([^"']+)/i,
-    /<meta[^>]+name=["'](?:date|pubdate|publish-date|article:published_time)["'][^>]+content=["']([^"']+)/i,
+    /<meta[^>]+name=["'](?:date|pubdate|publish-date)["'][^>]+content=["']([^"']+)/i,
     /"datePublished"\s*:\s*"([^"]+)"/i
   ];
-  for (const p of pats){ const m = html.match(p); if (m) { const t = Date.parse(m[1]); if (t) return t; } }
+  for (const p of pats) { const m = html.match(p); if (m) { const t = Date.parse(m[1]); if (t) return t; } }
   return 0;
 }
 
@@ -67,55 +92,56 @@ const run = async () => {
     try {
       const r = await fetch(u, { headers: UA });
       if (!r.ok) { console.log('FONTE ' + u + ' HTTP ' + r.status); return; }
-      const achados = itensDoRss(await r.text(), '');
+      const achados = itensDoRss(await r.text());
       console.log('FONTE ' + u + ' -> ' + achados.length);
       brutos.push(...achados);
     } catch(e) { console.log('FONTE ' + u + ' erro ' + e.message); }
   }));
 
-  brutos.sort((a,b) => (Date.parse(b.data)||0) - (Date.parse(a.data)||0));
+  brutos.sort((a, b) => (Date.parse(b.data)||0) - (Date.parse(a.data)||0));
 
-  const vistos = new Set(), verificadas = [];
+  const vistos = new Set(), lista = [];
   for (const it of brutos) {
-    if (verificadas.length >= 10) break;
+    if (lista.length >= 10) break;
     const chave = it.titulo.toLowerCase().replace(/\W+/g,'').slice(0,50);
     if (vistos.has(chave)) continue;
-    const r = await resolver(it.url);
-    let final = r.final, html = r.html, verificado = true;
-    if (!final) {                       // não deu para abrir: fica com o link do Google News, que redireciona ao veículo
-      final = it.url; html = ''; verificado = false;
+    if (it.fonte && ESTRANGEIROS.test(it.fonte)) continue;
+
+    let alvo = it.url, verificado = true;
+    if (/news\.google\.com/.test(alvo)) {
+      const direto = await resolverGoogle(alvo);
+      if (direto) alvo = direto; else verificado = false;   // sem link direto: mantém o do Google, que redireciona
     }
-    if (BLOQUEADOS.test(final)) continue;
-    let host = ''; try { host = new URL(final).hostname.replace(/^www\./,''); } catch(e) { continue; }
-    const fonteNome = it.fonte || host;
+    if (BLOQUEADOS.test(alvo) || ESTRANGEIROS.test(alvo)) continue;
+
+    let host = '';
+    try { host = new URL(alvo).hostname.replace(/^www\./,''); } catch(e) { continue; }
     if (/news\.google\.com/.test(host)) {
-      if (!it.fonte || ESTRANGEIROS.test(it.fonte)) continue;   // sem veículo identificável, ou veículo de fora
-    } else if (!brasileiro(host)) continue;
-    const ts = dataDaPagina(html) || Date.parse(it.data) || 0;
-    if (!ts) continue;                                   // sem data confirmada: fora
-    if (Date.now() - ts > 90*24*3600*1000) continue;      // janela máxima de 90 dias
-    const h1 = (html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
+      if (!it.fonte) continue;                              // sem veículo identificável
+    } else if (!brasileiro(host)) continue;                 // só mídia brasileira
+
+    let ts = Date.parse(it.data) || 0;
+    if (verificado) {
+      const { final, html } = await abrir(alvo);
+      if (final && html) { alvo = final; ts = dataDaPagina(html) || ts; }
+      else verificado = false;
+    }
+    if (!ts || Date.now() - ts > 90*24*3600*1000) continue;
+
     vistos.add(chave);
-    verificadas.push({
-      titulo: limpar(h1) || it.titulo,
-      fonte: fonteNome,
-      data: new Date(ts).toISOString(),
-      url: final,
-      verificado: verificado && !!dataDaPagina(html)
-    });
+    lista.push({ titulo: it.titulo, fonte: it.fonte || host, data: new Date(ts).toISOString(), url: alvo, verificado });
   }
 
-  if (!verificadas.length) { console.log('nenhuma matéria verificada — mantendo arquivo anterior'); return; }
-  verificadas.sort((a,b) => Date.parse(b.data) - Date.parse(a.data));
-  const saida = {
+  if (!lista.length) { console.log('nenhuma matéria verificada — mantendo arquivo anterior'); return; }
+  lista.sort((a, b) => Date.parse(b.data) - Date.parse(a.data));
+  fs.mkdirSync('jornal', { recursive: true });
+  fs.writeFileSync(SAIDA, JSON.stringify({
     atualizadoEm: new Date().toISOString(),
     janela: '90 dias',
-    total: verificadas.length,
-    itens: verificadas.slice(0,10)
-  };
-  fs.mkdirSync('jornal', { recursive: true });
-  fs.writeFileSync(SAIDA, JSON.stringify(saida, null, 1));
-  console.log('gravadas ' + verificadas.length + ' matérias');
+    total: lista.length,
+    itens: lista.slice(0, 10)
+  }, null, 1));
+  console.log('gravadas ' + lista.length + ' matérias');
 };
 
-run().catch((e) => { console.error('falha:', e.message); process.exit(0); }); // nunca sobrescreve em erro
+run().catch((e) => { console.error('falha:', e.message); process.exit(0); });
