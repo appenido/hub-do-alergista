@@ -248,7 +248,11 @@ body{
 .ig-card .ig-f{font-size:10.5px;color:rgba(255,255,255,.65)}
 .ig-card .ig-c{display:inline-block;align-self:flex-start;margin-top:3px;background:rgba(255,255,255,.14);border-radius:999px;padding:2px 8px;font-size:10px;font-weight:700}
 .ig-card .ig-marca{display:inline-flex;align-items:center;justify-content:center;align-self:flex-start;min-width:34px;height:17px;padding:0 6px;border-radius:5px;color:#fff;font-size:7.5px;font-weight:900;letter-spacing:.4px;margin-bottom:2px}
-.ig-card .ig-logo-img{align-self:flex-start;height:16px;width:auto;max-width:92px;object-fit:contain;background:#fff;border-radius:3px;padding:2px 4px;margin-bottom:3px}
+.ig-card{flex-direction:row;align-items:center;gap:10px}
+.ig-card .ig-txt{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
+.ig-card .ig-foto{width:54px;height:54px;object-fit:contain;flex-shrink:0;background:#fff;border-radius:8px;padding:2px}
+.ig-card .ig-logo-img{align-self:flex-start;height:15px;width:auto;max-width:96px;object-fit:contain;background:#fff;border-radius:3px;padding:1px 3px}
+.ig-card.full{justify-content:center}
 .ig-ficha-slot{grid-column:1 / -1;margin:2px 0 6px}
 .ig-ficha-slot .igp-card{margin:0}
 .igp-card{display:none}
@@ -3617,7 +3621,8 @@ function _enderecoPreencher(u){
 
 /* ── Seletor visual de imunoglobulina ───────────── */
 var IG_MARCA = {csl:['CSL','#b0181f'],octa:['OCTAPHARMA','#0b4f9e'],takeda:['TAKEDA','#b2122d'],grifols:['GRIFOLS','#0a6b5a'],lfb:['LFB','#1d3f8f'],baxter:['BAXTER','#1f5fa8'],kedrion:['KEDRION','#117a5b']};
-var IG_LOGO_IMG = {csl:'img/csl.png',takeda:'img/takeda.png',octa:'img/octa.png',grifols:'img/grifols.png',kedrion:'img/kedrion.png',baxter:'img/baxter.png'};
+var IG_LOGO_IMG = {csl:'img/csl.png',takeda:'img/takeda.png',octa:'img/octa.png',grifols:'img/grifols.png',kedrion:'img/kedrion.png',baxter:'img/baxter.png',lfb:'img/lfb.png'};
+var IG_PROD_IMG = {privigen_10:'privigen',octagam_10:'octagam',kiovig_10:'kiovig',flebogamma_10:'flebogamma',tegeline_5:'tegeline',endobulin_5:'endobulin',gammaked_10:'gammaked',gamunex_10:'gamunex',hizentra_20:'hizentra',cuvitru_20:'cuvitru',hyqvia_10:'hyqvia',gammanorm_165:'gammanorm'};
 var IG_LOGO = {privigen_10:'csl',octagam_10:'octa',kiovig_10:'takeda',flebogamma_10:'grifols',tegeline_5:'lfb',endobulin_5:'baxter',gammaked_10:'kedrion',gamunex_10:'grifols',hizentra_20:'csl',cuvitru_20:'takeda',hyqvia_10:'takeda',gammanorm_165:'octa'};
 var IG_FABRICANTE = {privigen_10:'CSL Behring',octagam_10:'Octapharma',kiovig_10:'Takeda',flebogamma_10:'Grifols',
   tegeline_5:'LFB · SUS',endobulin_5:'Baxter',gammaked_10:'Grifols/Kedrion',gamunex_10:'Grifols',
@@ -3631,12 +3636,14 @@ function renderIgPicker(){
     Object.keys(IG_PRODUTOS).forEach(function(k){
       var p = IG_PRODUTOS[k];
       if(!p.via || p.via.indexOf(via) !== 0) return;
+      var foto = IG_PROD_IMG[k] ? '<img class="ig-foto" src="img/prod/' + IG_PROD_IMG[k] + '.jpg" alt="" loading="lazy">' : '';
+      var marca = (function(){var key=IG_LOGO[k]; var src=IG_LOGO_IMG[key]; if(src) return '<img class="ig-logo-img" src="'+src+'" alt="" loading="lazy">';
+             var m=IG_MARCA[key];return m?'<span class="ig-marca" style="background:'+m[1]+'">'+m[0]+'</span>':'';})();
       h += '<button type="button" class="ig-card' + (k===atual?' sel':'') + '" onclick="selecionarIgProduto(\'' + k + '\')">' +
-           (function(){var key=IG_LOGO[k]; var src=IG_LOGO_IMG[key]; if(src) return '<img class="ig-logo-img" src="'+src+'" alt="">';
-             var m=IG_MARCA[key];return m?'<span class="ig-marca" style="background:'+m[1]+'">'+m[0]+'</span>':'';})() +
+           foto + '<span class="ig-txt">' + marca +
            '<span class="ig-n">' + p.nome + '</span>' +
            '<span class="ig-f">' + (IG_FABRICANTE[k]||'') + '</span>' +
-           '<span class="ig-c">' + (p.conc/10).toString().replace('.',',') + '% · ' + p.conc + ' mg/mL</span></button>' +
+           '<span class="ig-c">' + (p.conc/10).toString().replace('.',',') + '% · ' + p.conc + ' mg/mL</span></span></button>' +
            (k===atual ? '<div class="ig-ficha-slot" id="igFichaSlot"></div>' : '');
     });
     return h + '</div></div>';
