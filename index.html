@@ -235,6 +235,21 @@ body{
 .int-chip.sel{background:var(--teal-mid);border-color:var(--teal-mid);color:#fff;}
 .hero-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 10px;font-size:10.5px;font-weight:700;color:#fff;}
 
+
+.ig-grupo{margin-top:10px}
+.ig-grupo-tit{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#7ee0ec;margin-bottom:6px}
+.ig-grupo-tit::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.18)}
+.ig-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ig-card{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.18);border-radius:12px;padding:10px 11px;text-align:left;cursor:pointer;color:#fff;font-family:'Manrope',sans-serif;display:flex;flex-direction:column;gap:3px}
+.ig-card .ig-n{font-size:12.5px;font-weight:800;line-height:1.25}
+.ig-card .ig-f{font-size:10.5px;color:rgba(255,255,255,.65)}
+.ig-card .ig-c{display:inline-block;align-self:flex-start;margin-top:3px;background:rgba(255,255,255,.14);border-radius:999px;padding:2px 8px;font-size:10px;font-weight:700}
+.ig-card.sel{background:#fff;border-color:#7ee0ec;box-shadow:0 0 0 2px #7ee0ec}
+.ig-card.sel .ig-n{color:var(--navy)}
+.ig-card.sel .ig-f{color:var(--gray-500)}
+.ig-card.sel .ig-c{background:var(--teal-mid);color:#fff}
+.ig-card.full{grid-column:1 / -1}
+
 .perf-menu-btn{width:100%;margin-bottom:10px;background:#fff;border:1.5px solid var(--gray-100);color:var(--navy);border-radius:10px;padding:13px 14px;font-family:'Manrope',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;text-align:left;}
 .perf-menu-btn:active{background:var(--gray-50);}
 .perf-menu-sair{border-color:#e74c3c;color:#e74c3c;}
@@ -2354,27 +2369,8 @@ window._mostrarApp = function(){
         </div>
         <div style="display:flex;flex-direction:column;gap:5px">
           <label style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.85)">Produto / Imunoglobulina</label>
-          <select id="igProduto" style="border:1.5px solid rgba(255,255,255,.2);border-radius:11px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:13px;color:#fff;background:rgba(255,255,255,.1);outline:none;width:100%;box-sizing:border-box">
-            <optgroup label="─── IV (Intravenosa)" style="color:#7ee0ec">
-              <option value="privigen_10" style="color:#0d1f2d">Privigen® 10% — CSL Behring · IV</option>
-              <option value="octagam_10" style="color:#0d1f2d">Octagam® 10% — Octapharma · IV</option>
-              <option value="kiovig_10" style="color:#0d1f2d">Kiovig® 10% — Takeda · IV</option>
-              <option value="flebogamma_10" style="color:#0d1f2d">Flebogamma® DIF 10% — Grifols · IV</option>
-              <option value="tegeline_5" style="color:#0d1f2d">Tegeline® 5% — LFB · IV (SUS)</option>
-              <option value="endobulin_5" style="color:#0d1f2d">Endobulin® S/D 5% — Baxter · IV</option>
-              <option value="gammaked_10" style="color:#0d1f2d">Gammaked® 10% — Grifols/Kedrion · IV</option>
-              <option value="gamunex_10" style="color:#0d1f2d">Gamunex-C® 10% — Grifols · IV</option>
-            </optgroup>
-            <optgroup label="─── SC (Subcutânea)" style="color:#7ee0ec">
-              <option value="hizentra_20" style="color:#0d1f2d">Hizentra® 20% — CSL Behring · SC</option>
-              <option value="cuvitru_20" style="color:#0d1f2d">Cuvitru® 20% — Takeda · SC</option>
-              <option value="hyqvia_10" style="color:#0d1f2d">HyQvia® 10% + hialuronidase — Takeda · SC facilitada</option>
-              <option value="gammanorm_165" style="color:#0d1f2d">Gammanorm® 16,5% — Octapharma · SC</option>
-            </optgroup>
-            <optgroup label="─── Via não especificada" style="color:#7ee0ec">
-              <option value="generic" style="color:#0d1f2d">Calcular apenas em gramas (sem produto)</option>
-            </optgroup>
-          </select>
+          <input type="hidden" id="igProduto" value="generic">
+          <div id="igProdutoPicker"></div>
         </div>
         <div style="display:flex;flex-direction:column;gap:5px">
           <label style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.85)">Finalidade</label>
@@ -3366,6 +3362,38 @@ function verificarInteracoes(){
 }
 
 
+
+/* ── Seletor visual de imunoglobulina ───────────── */
+var IG_FABRICANTE = {privigen_10:'CSL Behring',octagam_10:'Octapharma',kiovig_10:'Takeda',flebogamma_10:'Grifols',
+  tegeline_5:'LFB · SUS',endobulin_5:'Baxter',gammaked_10:'Grifols/Kedrion',gamunex_10:'Grifols',
+  hizentra_20:'CSL Behring',cuvitru_20:'Takeda',hyqvia_10:'Takeda · c/ hialuronidase',gammanorm_165:'Octapharma'};
+function renderIgPicker(){
+  var box = document.getElementById('igProdutoPicker');
+  if(!box) return;
+  var atual = (document.getElementById('igProduto')||{}).value || 'generic';
+  function grupo(titulo, via){
+    var h = '<div class="ig-grupo"><div class="ig-grupo-tit">' + titulo + '</div><div class="ig-grid">';
+    Object.keys(IG_PRODUTOS).forEach(function(k){
+      var p = IG_PRODUTOS[k];
+      if(!p.via || p.via.indexOf(via) !== 0) return;
+      h += '<button type="button" class="ig-card' + (k===atual?' sel':'') + '" onclick="selecionarIgProduto(\'' + k + '\')">' +
+           '<span class="ig-n">' + p.nome + '</span>' +
+           '<span class="ig-f">' + (IG_FABRICANTE[k]||'') + '</span>' +
+           '<span class="ig-c">' + (p.conc/10).toString().replace('.',',') + '% · ' + p.conc + ' mg/mL</span></button>';
+    });
+    return h + '</div></div>';
+  }
+  box.innerHTML = grupo('💧 Intravenosa (IV)', 'IV') + grupo('💉 Subcutânea (SC)', 'SC') +
+    '<div class="ig-grupo"><div class="ig-grid"><button type="button" class="ig-card full' + (atual==='generic'?' sel':'') + '" onclick="selecionarIgProduto(\'generic\')">' +
+    '<span class="ig-n">Calcular apenas em gramas</span><span class="ig-f">Sem escolher produto</span></button></div></div>';
+}
+function selecionarIgProduto(k){
+  var inp = document.getElementById('igProduto');
+  if(inp) inp.value = k;
+  renderIgPicker();
+}
+document.addEventListener('DOMContentLoaded', renderIgPicker);
+
 /* ── Ordena cards de artigo por data (desc) ───── */
 var _MESES_PT = {jan:0,fev:1,mar:2,abr:3,mai:4,jun:5,jul:6,ago:7,set:8,out:9,nov:10,dez:11};
 function _dataDoCard(c){
@@ -3928,36 +3956,47 @@ function navTo(page){
 }
 
 // Voltar (botão do app e botão físico/gesto do celular)
+// Regra: cada tela aberta à frente gera exatamente 1 entrada no histórico do navegador (_guards).
+var _guards = 0, _ignorePop = false, _emVoltar = false;
+
+function _doBack(){
+  _emVoltar = true;
+  try{
+    if(_navHistory.length > 1){
+      _navHistory.pop();
+      var prev = _navHistory.pop();
+      navTo(prev || 'dashboard');
+    } else {
+      navTo('dashboard');
+    }
+  } finally { _emVoltar = false; }
+}
+
 function voltarApp(){
-  if(_navHistory.length > 1){
-    _navHistory.pop();               // remove atual
-    var prev = _navHistory.pop();    // pega a anterior (navTo vai reempurrar)
-    navTo(prev || 'dashboard');
-  } else {
-    navTo('dashboard');
-  }
+  if(_guards > 0){ history.back(); }   // o popstate faz a navegação
+  else { _doBack(); }
 }
 window.voltarApp = voltarApp;
 
 var _tbBack = document.getElementById('tbBack');
 if(_tbBack) _tbBack.addEventListener('click', voltarApp);
 
-/* Botão "voltar" do Android / gesto de voltar do iOS */
-function _histGuard(){
-  try{
-    var atual = _navHistory[_navHistory.length-1] || 'dashboard';
-    if(atual !== 'dashboard') history.pushState({hubGuard:true}, '');
-  }catch(e){}
-}
 var _navToOriginal = navTo;
-navTo = function(page){ _navToOriginal(page); _histGuard(); };
+navTo = function(page){
+  var antes = _navHistory[_navHistory.length-1];
+  _navToOriginal(page);
+  if(_emVoltar) return;
+  if(page === 'dashboard'){
+    if(_guards > 0){ var n = _guards; _guards = 0; _ignorePop = true; try{ history.go(-n); }catch(e){ _ignorePop = false; } }
+  } else if(antes !== page){
+    try{ history.pushState({hubGuard:true}, ''); _guards++; }catch(e){}
+  }
+};
 window.navTo = navTo;
 
 window.addEventListener('popstate', function(){
-  if(_navHistory.length > 1){
-    voltarApp();   // navTo já repõe o guard se ainda não estiver no início
-  }
-  // no dashboard: deixa o sistema sair do app normalmente
+  if(_ignorePop){ _ignorePop = false; return; }
+  if(_guards > 0){ _guards--; _doBack(); }
 });
 // Badge de data dinâmica nos Guidelines
 (function(){
