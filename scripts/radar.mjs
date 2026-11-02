@@ -36,7 +36,7 @@ function decodificarGoogle(u){
   } catch(e) { return ''; }
 }
 
-const CHAVES = /(^|[^a-zà-ú])(alergi\w*|al[ée]rgic\w*|anafila\w*|anafil[áa]tic\w*|urtic[áa]ri\w*|asma|asm[áa]tic\w*|rinite|rinossinusite|dermatite at[óo]pica|imunodefici\w*|imunoglobulina|erros inatos da imunidade|imunoterapia|imunobiol[óo]gic\w*|angioedema|eosinof[íi]lic\w*|p[óo]lipos nasais)([^a-zà-ú]|$)/i;
+const CHAVES = /(^|[^a-zà-ú])(alergi\w*|al[ée]rgic\w*|anafila\w*|anafil[áa]tic\w*|urtic[áa]ri\w*|asma|asm[áa]tic\w*|rinite|rinossinusite|dermatite at[óo]pica|imunodefici\w*|imunoglobulina|erros inatos da imunidade|imunoterapia (alerg|sublingual|subcut|com alérgeno)\w*|imunobiol[óo]gic\w*|angioedema|eosinof[íi]lic\w*|p[óo]lipos nasais)([^a-zà-ú]|$)/i;
 // institucional, científico, publicidade
 const BR_OK = ['globo.com','uol.com.br','metropoles.com','terra.com.br','r7.com','ig.com.br','band.com.br','cnnbrasil.com.br','estadao.com.br','folha.uol.com.br','veja.abril.com.br'];
 function brasileiro(host){ return /\.br$/.test(host) || BR_OK.some(function(d){ return host === d || host.endsWith('.' + d); }); }
@@ -92,9 +92,11 @@ const run = async () => {
   await Promise.all(FONTES.map(async (u) => {
     try {
       const r = await fetch(u, { headers: UA });
-      if (!r.ok) return;
-      brutos.push(...itensDoRss(await r.text(), ''));
-    } catch(e) {}
+      if (!r.ok) { console.log('FONTE ' + u + ' HTTP ' + r.status); return; }
+      const achados = itensDoRss(await r.text(), '');
+      console.log('FONTE ' + u + ' -> ' + achados.length);
+      brutos.push(...achados);
+    } catch(e) { console.log('FONTE ' + u + ' erro ' + e.message); }
   }));
 
   brutos.sort((a,b) => (Date.parse(b.data)||0) - (Date.parse(a.data)||0));
@@ -105,7 +107,8 @@ const run = async () => {
     const chave = it.titulo.toLowerCase().replace(/\W+/g,'').slice(0,50);
     if (vistos.has(chave)) continue;
     const { final, html } = await resolver(it.url);
-    if (!final || BLOQUEADOS.test(final)) continue;
+    if (!final) { console.log('SEM LINK: ' + it.titulo.slice(0,50)); continue; }
+    if (BLOQUEADOS.test(final)) continue;
     let host = ''; try { host = new URL(final).hostname.replace(/^www\./,''); } catch(e) { continue; }
     if (/news\.google\.com/.test(host) || !brasileiro(host)) continue;   // só mídia brasileira, link direto
     const ts = dataDaPagina(html) || Date.parse(it.data) || 0;
