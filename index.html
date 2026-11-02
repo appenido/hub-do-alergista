@@ -1440,6 +1440,16 @@ window._mostrarApp = function(){
       <div class="ap-title">Assistente de <em>IA</em></div>
       <div class="ap-desc">Conecte sua IA favorita e use-a direto no hub. Chaves salvas neste dispositivo.</div>
     </div>
+    <div style="padding:14px 16px;background:#fff;border-bottom:1px solid var(--gray-100)">
+      <div style="background:linear-gradient(135deg,#0d1f2d,#17697a);border-radius:13px;padding:14px;color:#fff">
+        <div style="font-size:13.5px;font-weight:800">✨ IA do Hub — grátis</div>
+        <div style="font-size:11.5px;color:rgba(255,255,255,.8);margin-top:3px;line-height:1.45">Pergunte direto aqui. Não precisa de conta nem de chave.</div>
+      </div>
+      <textarea id="iaHubPergunta" rows="3" placeholder="Ex: conduta na urticária crônica espontânea refratária ao anti-H1 em dose dobrada" style="width:100%;box-sizing:border-box;margin-top:10px;padding:11px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-family:'Manrope',sans-serif;font-size:13px;color:var(--navy);resize:vertical"></textarea>
+      <button onclick="perguntarIaHub()" id="iaHubBtn" style="width:100%;margin-top:8px;background:var(--navy);border:none;color:#fff;border-radius:10px;padding:12px;font-family:'Manrope',sans-serif;font-size:13.5px;font-weight:800;cursor:pointer">Perguntar →</button>
+      <div id="iaHubResposta" style="display:none;margin-top:12px;background:var(--gray-50);border:1px solid var(--gray-100);border-radius:11px;padding:13px;font-size:13px;color:var(--navy);line-height:1.6;white-space:pre-wrap"></div>
+      <div style="font-size:10px;color:var(--gray-500);margin-top:8px">Apoio clínico — não substitui avaliação médica. Limite de 20 perguntas por dia.</div>
+    </div>
     <!-- Abas de IAs -->
     <div style="display:flex;gap:0;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--gray-100);background:#fff;" id="aiTabs">
       <button class="ai-tab active" data-ai="claude" onclick="selectAI('claude')">
@@ -3197,6 +3207,43 @@ function _perfInteressesSelecionados(){
   var out = [];
   document.querySelectorAll('#perfInteresses .int-chip.sel').forEach(function(b){ out.push(b.getAttribute('data-int')); });
   return out.slice(0,3);
+}
+
+
+/* ── IA DO HUB (Gemini via /ia) ─────────────────── */
+function _iaHubUsoHoje(){
+  var hoje = new Date().toLocaleDateString('pt-BR');
+  var d = {};
+  try{ d = JSON.parse(localStorage.getItem('hub_ia_uso')||'{}'); }catch(e){}
+  if(d.dia !== hoje) d = {dia:hoje, n:0};
+  return d;
+}
+function perguntarIaHub(){
+  var ta  = document.getElementById('iaHubPergunta');
+  var box = document.getElementById('iaHubResposta');
+  var btn = document.getElementById('iaHubBtn');
+  if(!ta || !box) return;
+  var q = (ta.value||'').trim();
+  if(!q){ ta.focus(); return; }
+  var uso = _iaHubUsoHoje();
+  if(uso.n >= 20){
+    box.style.display='block';
+    box.textContent = 'Você atingiu o limite de 20 perguntas hoje. Tente novamente amanhã.';
+    return;
+  }
+  btn.disabled = true; btn.textContent = 'Consultando…';
+  box.style.display = 'block'; box.textContent = 'Pensando…';
+  fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta:q})})
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      box.textContent = d.resposta || d.erro || 'Sem resposta.';
+      if(d.resposta){
+        uso.n += 1;
+        try{ localStorage.setItem('hub_ia_uso', JSON.stringify(uso)); }catch(e){}
+      }
+    })
+    .catch(function(){ box.textContent = 'Não foi possível falar com a IA agora.'; })
+    .then(function(){ btn.disabled = false; btn.textContent = 'Perguntar →'; });
 }
 
 /* ── INTERESSES + SAUDAÇÃO/PENDÊNCIAS ───────────── */
