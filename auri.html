@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="AURI — assistente virtual 3D de Alergia e Imunologia.">
+<title>AURI Robô Alergista</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Outfit:wght@300;400;500;600&display=swap">
+<style>
+/* Layout: página de clínica rolável + widget 3D fixo no canto inferior direito */
+:root{
+  --azul-profundo:#071a3d;
+  --azul-noite:#0d2a5c;
+  --ciano:#3fd8f5;
+  --dourado:#e3b562;
+  --branco:#ffffff;
+  --papel:#f3f6fb;
+  --tinta:#0b1b33;
+  --tinta-suave:#4a5c78;
+  --linha:rgba(11,27,51,.12);
+  --vidro:rgba(255,255,255,.82);
+  --display:"Fraunces",Georgia,serif;
+  --corpo:"Outfit","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --papel:#060d1c; --tinta:#e8eefb; --tinta-suave:#9db0ce;
+    --linha:rgba(232,238,251,.14); --vidro:rgba(9,20,40,.86);
+    --branco:#0f1e3a; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --papel:#060d1c; --tinta:#e8eefb; --tinta-suave:#9db0ce;
+  --linha:rgba(232,238,251,.14); --vidro:rgba(9,20,40,.86);
+  --branco:#0f1e3a; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--papel);color:var(--tinta);font-family:var(--corpo);margin:0;line-height:1.6}
+.faixa{width:100%}
+.interno{max-width:1080px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+p{margin:0}
+
+/* ---------- cenário: clínica fictícia ---------- */
+.topo{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;
+  background:var(--vidro);backdrop-filter:blur(14px);border-bottom:1px solid var(--linha)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--vidro)}
+.topo .interno{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-block:14px}
+.marca{display:flex;align-items:center;gap:10px;font-weight:600;letter-spacing:.02em}
+.selo{width:30px;height:30px;border-radius:10px;background:linear-gradient(145deg,var(--azul-noite),var(--ciano));
+  box-shadow:0 0 0 1px rgba(227,181,98,.5) inset}
+nav{display:flex;gap:18px;flex-wrap:wrap;font-size:.9rem;color:var(--tinta-suave)}
+.hero{background:linear-gradient(160deg,var(--azul-profundo),var(--azul-noite) 60%,#13407f);color:#eaf4ff}
+.hero .interno{padding-block:64px;display:grid;gap:22px;max-width:760px;margin-inline:auto}
+.eyebrow{font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ciano)}
+.hero h1{font-size:clamp(2.1rem,5vw,3.4rem);color:#fff}
+.hero h1 em{font-style:normal;color:var(--dourado)}
+.hero p{color:#b9d2f0;max-width:60ch}
+.pilulas{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.pilula{border:1px solid rgba(63,216,245,.35);border-radius:999px;padding:6px 14px;font-size:.82rem;color:#cfe9ff}
+.secao .interno{padding-block:56px;display:grid;gap:26px}
+.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+.cartao{background:var(--branco);border:1px solid var(--linha);border-radius:16px;padding:20px;min-width:0}
+.cartao h3{font-size:1.05rem;margin-bottom:8px}
+.cartao p{color:var(--tinta-suave);font-size:.92rem}
+.num{font-variant-numeric:tabular-nums;font-family:var(--display);font-size:1.9rem;color:var(--azul-noite)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .num{color:var(--ciano)}}
+:root[data-theme="dark"] .num{color:var(--ciano)}
+.rodape{border-top:1px solid var(--linha);color:var(--tinta-suave);font-size:.85rem}
+.rodape .interno{padding-block:28px;display:grid;gap:6px}
+
+/* ---------- widget AURI ---------- */
+#auri-raiz{position:fixed;z-index:60;
+  right:calc(16px + env(safe-area-inset-right,0px));
+  bottom:calc(16px + env(safe-area-inset-bottom,0px));
+  display:flex;flex-direction:column;align-items:flex-end;gap:10px;pointer-events:none}
+#auri-raiz>*{pointer-events:auto}
+.palco{position:relative;width:172px;height:196px;cursor:pointer;background:transparent;border:0;padding:0;
+  filter:drop-shadow(0 18px 28px rgba(7,26,61,.35))}
+.palco canvas{display:block;width:100%;height:100%}
+.palco:focus-visible{outline:2px solid var(--ciano);outline-offset:6px;border-radius:20px}
+.balao{max-width:210px;background:var(--vidro);backdrop-filter:blur(10px);border:1px solid var(--linha);
+  border-radius:16px 16px 4px 16px;padding:10px 14px;font-size:.88rem;box-shadow:0 10px 24px rgba(7,26,61,.18);
+  animation:flutua 3.4s ease-in-out infinite}
+@keyframes flutua{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@media (prefers-reduced-motion:reduce){.balao{animation:none}}
+.janela{width:min(368px,calc(100vw - 32px));height:min(520px,70vh);display:flex;flex-direction:column;
+  background:var(--vidro);backdrop-filter:blur(18px);border:1px solid var(--linha);border-radius:20px;
+  overflow:hidden;box-shadow:0 24px 60px rgba(7,26,61,.32)}
+.cabecalho{background:linear-gradient(135deg,var(--azul-profundo),var(--azul-noite));color:#fff;
+  padding:14px 16px;display:flex;align-items:center;gap:12px}
+.avatar{width:38px;height:38px;border-radius:12px;background:radial-gradient(circle at 35% 30%,var(--ciano),var(--azul-noite));
+  border:1px solid rgba(227,181,98,.6);flex:none}
+.cabecalho strong{font-family:var(--display);font-size:1rem;display:block}
+.cabecalho span{font-size:.75rem;color:#9ec9ea}
+.btn-icone{margin-left:auto;background:rgba(255,255,255,.12);border:0;color:#fff;width:30px;height:30px;
+  border-radius:9px;cursor:pointer;font-size:1rem;line-height:1}
+.fluxo{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.msg{max-width:84%;padding:10px 13px;border-radius:14px;font-size:.9rem;white-space:pre-wrap;min-width:0}
+.msg.bot{background:var(--branco);border:1px solid var(--linha);border-bottom-left-radius:4px;align-self:flex-start}
+.msg.eu{background:linear-gradient(135deg,var(--azul-noite),#1d59a8);color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
+.digita{display:flex;gap:4px;align-self:flex-start;padding:12px 14px;background:var(--branco);
+  border:1px solid var(--linha);border-radius:14px}
+.ponto{width:7px;height:7px;border-radius:50%;background:var(--ciano);animation:pulso 1.1s infinite}
+.ponto:nth-child(2){animation-delay:.18s}.ponto:nth-child(3){animation-delay:.36s}
+@keyframes pulso{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+.atalhos{display:flex;gap:7px;flex-wrap:wrap;padding:0 14px 10px}
+.atalho{background:transparent;border:1px solid rgba(63,216,245,.45);color:var(--tinta);border-radius:999px;
+  padding:6px 11px;font-size:.78rem;cursor:pointer;font-family:var(--corpo)}
+.atalho:hover{background:rgba(63,216,245,.14)}
+.composicao{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--linha);align-items:center}
+.composicao input{flex:1;min-width:0;background:var(--branco);border:1px solid var(--linha);border-radius:999px;
+  padding:10px 15px;font-size:.9rem;color:var(--tinta);font-family:var(--corpo)}
+.composicao input:focus{outline:2px solid var(--ciano);outline-offset:1px}
+.enviar{flex:none;width:40px;height:40px;border-radius:50%;border:0;cursor:pointer;color:#061227;font-size:1rem;
+  background:linear-gradient(140deg,var(--ciano),var(--dourado))}
+.enviar:disabled{opacity:.4;cursor:default}
+.aviso{font-size:.7rem;color:var(--tinta-suave);text-align:center;padding:0 14px 10px}
+.erro3d{display:grid;place-items:center;width:100%;height:100%;border-radius:20px;background:var(--azul-noite);
+  color:#cfe9ff;font-size:.8rem;text-align:center;padding:12px}
+@media (max-width:520px){.palco{width:138px;height:158px}.balao{max-width:170px;font-size:.82rem}}
+</style>
+
+</head>
+<body>
+<div id="site"></div>
+<div id="auri-raiz"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+"use strict";
+var h = React.createElement;
+var useState = React.useState, useEffect = React.useEffect, useRef = React.useRef, useCallback = React.useCallback;
+
+/* =========================================================
+   1. BASE DE CONHECIMENTO — respostas educativas (demo)
+   Nenhuma resposta substitui avaliação médica individual.
+   ========================================================= */
+var TEMAS = [
+  {id:"rinite", rotulo:"Rinite alérgica", chaves:["rinite","nariz","espirro","coriza","entupido","congest"],
+   txt:"Rinite alérgica é a inflamação da mucosa nasal desencadeada por alérgenos como ácaros, pelos de animais, fungos e pólen.\n\nSintomas típicos: espirros em salva, coriza clara, coceira no nariz e olhos, obstrução nasal.\n\nPilares do cuidado: controle ambiental, lavagem nasal com soro fisiológico, medicações prescritas pelo alergista e, em casos selecionados, imunoterapia alérgica (vacina para alergia).\n\nO diagnóstico correto e o tratamento são definidos em consulta."},
+  {id:"asma", rotulo:"Asma", chaves:["asma","chiado","bronquite","falta de ar","peito","tosse"],
+   txt:"Asma é uma doença inflamatória crônica das vias aéreas, com episódios de tosse, chiado, aperto no peito e falta de ar.\n\nO tratamento se apoia em medicação de controle contínua (geralmente corticoide inalatório) e em medicação de resgate, além de identificar e afastar gatilhos.\n\nExames como espirometria e FeNO ajudam a definir o fenótipo da asma e a personalizar o tratamento.\n\nAtenção: falta de ar intensa, fala entrecortada ou lábios azulados exigem atendimento de emergência imediato."},
+  {id:"urticaria", rotulo:"Urticária", chaves:["urticaria","urticária","vergão","placa","coceira na pele","angioedema","inchaço"],
+   txt:"Urticária se manifesta por placas avermelhadas e pruriginosas (urticas) que mudam de lugar e costumam durar menos de 24 horas em cada ponto. Pode vir acompanhada de angioedema (inchaço de lábios, pálpebras ou mãos).\n\nQuando dura mais de 6 semanas, chamamos de urticária crônica; a maioria dos casos é espontânea e não tem causa alimentar.\n\nO tratamento inicia com anti-histamínicos e, nos casos refratários, pode envolver imunobiológicos.\n\nInchaço de língua ou garganta com dificuldade para respirar é emergência."},
+  {id:"dermatite", rotulo:"Dermatite atópica", chaves:["dermatite","eczema","pele seca","atopica","atópica"],
+   txt:"Dermatite atópica é uma doença inflamatória crônica da pele, com ressecamento intenso, coceira e lesões em dobras e face.\n\nO cuidado diário com a barreira cutânea é essencial: banhos rápidos e mornos, sabonetes suaves e hidratante em grande quantidade, várias vezes ao dia.\n\nNas crises, usam-se anti-inflamatórios tópicos prescritos; casos moderados a graves podem se beneficiar de imunobiológicos.\n\nRestrições alimentares sem indicação costumam prejudicar mais do que ajudar."},
+  {id:"alimentar", rotulo:"Alergia alimentar", chaves:["alimento","alimentar","leite","ovo","amendoim","camarão","frutos do mar","gluten","glúten"],
+   txt:"Alergia alimentar é uma reação imunológica reprodutível a um alimento — diferente de intolerância, que não envolve o sistema imune.\n\nOs alimentos mais associados são leite, ovo, trigo, soja, amendoim, castanhas, peixes e frutos do mar.\n\nO diagnóstico combina história clínica detalhada, testes cutâneos ou IgE específica e, quando indicado, teste de provocação oral supervisionado.\n\nExames feitos sem critério geram resultados falso-positivos e dietas desnecessárias.\n\nReação com falta de ar, vômitos repetidos ou desmaio após comer é anafilaxia: procure emergência."},
+  {id:"medicamentosa", rotulo:"Alergia a medicamentos", chaves:["medicament","remédio","remedio","antibiotic","penicilina","dipirona","anti-inflamat"],
+   txt:"Nem toda reação a medicamento é alergia verdadeira. Muitos rótulos de alergia são imprecisos e acabam limitando tratamentos importantes.\n\nA investigação do alergista reconstrói a cronologia da reação e pode incluir testes cutâneos e teste de provocação controlada, feitos em ambiente seguro.\n\nConfirmar ou descartar o rótulo é especialmente importante para antibióticos, anti-inflamatórios e anestésicos.\n\nNunca reintroduza por conta própria um medicamento que causou reação grave."},
+  {id:"imunobiologicos", rotulo:"Imunobiológicos", chaves:["imunobiolog","biológico","biologico","omalizumabe","dupilumabe","mepolizumabe","infus"],
+   txt:"Imunobiológicos são medicamentos que bloqueiam alvos específicos da inflamação alérgica, como IgE, IL-4/IL-13 ou IL-5.\n\nSão usados em asma grave, urticária crônica espontânea refratária, dermatite atópica moderada a grave e rinossinusite crônica com pólipos.\n\nA indicação depende do fenótipo da doença, de exames complementares e da resposta aos tratamentos anteriores.\n\nA aplicação pode ser domiciliar ou em centro de infusão, conforme o medicamento."},
+  {id:"vacinas", rotulo:"Vacinas", chaves:["vacina","imuniza","dose","reação à vacina"],
+   txt:"Pacientes alérgicos podem e devem ser vacinados na grande maioria das situações.\n\nAlergia a ovo, por exemplo, não contraindica a vacina de gripe nas formulações atuais.\n\nQuando há relato de reação prévia a uma vacina, o alergista avalia o caso e pode indicar aplicação supervisionada ou fracionada.\n\nTambém orientamos esquemas especiais para pacientes em uso de imunobiológicos ou imunossupressores."},
+  {id:"testes", rotulo:"Testes alérgicos", chaves:["teste","prick","ige","contato","patch","exame"],
+   txt:"Os principais testes em alergia são:\n\n• Teste cutâneo de leitura imediata (prick test) — ácaros, fungos, pólens, animais, alimentos e alguns medicamentos.\n• IgE específica no sangue — alternativa quando o teste cutâneo não é possível.\n• Teste de contato (patch test) — investiga dermatite de contato.\n• Teste de provocação — padrão-ouro para alimentos e medicamentos, sempre supervisionado.\n\nTestes só fazem sentido guiados pela história clínica. Painéis amplos sem indicação geram confusão."},
+  {id:"consulta", rotulo:"Agendar consulta", chaves:["agenda","consulta","marcar","horário","horario","atendimento","valor"],
+   txt:"Para agendar uma avaliação com o alergista:\n\n1. Informe seu nome e um telefone de contato.\n2. Diga qual é a principal queixa e há quanto tempo.\n3. Traga exames anteriores e a lista de medicamentos em uso.\n\nNesta demonstração não há agenda conectada — o botão de agendamento do site real levaria ao canal de atendimento da clínica.\n\nPrimeira consulta costuma durar mais tempo, pois a história clínica é a parte mais importante da investigação."}
+];
+
+var EMERGENCIA = ["anafilax","choque","desmai","garganta fech","lingua inchada","língua inchada","nao consigo respirar","não consigo respirar","falta de ar grave","engasg"];
+var SAUDACOES = ["oi","ola","olá","bom dia","boa tarde","boa noite","e ai","eai","hey"];
+
+var TXT_EMERGENCIA = "⚠️ Os sinais que você descreveu podem indicar uma reação alérgica grave (anafilaxia).\n\nProcure atendimento de emergência agora — SAMU 192 ou o pronto-socorro mais próximo. Se você tem adrenalina autoinjetável prescrita, use conforme orientado e vá ao hospital mesmo que melhore.\n\nNão espere os sintomas passarem sozinhos.";
+var TXT_PADRAO = "Posso explicar sobre rinite, asma, urticária, dermatite atópica, alergia alimentar, alergia a medicamentos, imunobiológicos, vacinas, testes alérgicos e agendamento.\n\nEscolha um tema abaixo ou descreva com suas palavras o que está sentindo — respondo de forma educativa, sem substituir a consulta.";
+var TXT_OI = "Olá! Eu sou o AURI, assistente virtual de Alergia e Imunologia. 👋\n\nPosso explicar doenças alérgicas, exames e tratamentos de forma simples. Sobre qual assunto quer conversar?";
+
+function normalizar(s){
+  return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+}
+/* Escolhe a resposta por correspondência de palavras-chave. */
+function responder(entrada){
+  var t = normalizar(entrada);
+  for(var i=0;i<EMERGENCIA.length;i++){ if(t.indexOf(normalizar(EMERGENCIA[i]))>=0) return TXT_EMERGENCIA; }
+  var melhor=null, pontos=0;
+  TEMAS.forEach(function(tema){
+    var p=0;
+    tema.chaves.forEach(function(k){ if(t.indexOf(normalizar(k))>=0) p++; });
+    if(p>pontos){ pontos=p; melhor=tema; }
+  });
+  if(melhor) return melhor.txt;
+  if(SAUDACOES.some(function(s){ return t===s || t.indexOf(s)===0; })) return TXT_OI;
+  return TXT_PADRAO;
+}
+
+/* =========================================================
+   2. ROBÔ 3D — geometria volumétrica em Three.js
+   Nenhuma imagem: tudo é malha, material e luz.
+   ========================================================= */
+function construirRobo(THREE){
+  var raiz = new THREE.Group();
+
+  var matBranco = new THREE.MeshStandardMaterial({color:0xf7fbff,roughness:.38,metalness:.12});
+  var matAzul   = new THREE.MeshStandardMaterial({color:0x123a7a,roughness:.3,metalness:.45});
+  var matEscuro = new THREE.MeshStandardMaterial({color:0x061228,roughness:.18,metalness:.6});
+  var matDourado= new THREE.MeshStandardMaterial({color:0xe3b562,roughness:.25,metalness:.9});
+  var matCiano  = new THREE.MeshStandardMaterial({color:0x3fd8f5,emissive:0x2bb9df,emissiveIntensity:1.1,roughness:.2});
+  var matOlho   = new THREE.MeshBasicMaterial({color:0x9ff2ff});
+
+  /* ---- corpo ---- */
+  var corpo = new THREE.Group();
+  var tronco = new THREE.Mesh(new THREE.CylinderGeometry(.62,.78,1.25,40), matBranco);
+  tronco.castShadow = true; corpo.add(tronco);
+  var quadril = new THREE.Mesh(new THREE.SphereGeometry(.78,36,24), matBranco);
+  quadril.scale.set(1,.55,.95); quadril.position.y=-.6; quadril.castShadow=true; corpo.add(quadril);
+
+  /* jaleco: casca branca sobreposta com gola e barra dourada */
+  var jaleco = new THREE.Mesh(new THREE.CylinderGeometry(.68,.86,1.05,40,1,true),
+    new THREE.MeshStandardMaterial({color:0xffffff,roughness:.55,side:THREE.DoubleSide}));
+  jaleco.position.y=-.12; corpo.add(jaleco);
+  var barra = new THREE.Mesh(new THREE.TorusGeometry(.855,.035,10,44), matDourado);
+  barra.rotation.x=Math.PI/2; barra.position.y=-.64; corpo.add(barra);
+  var gola = new THREE.Mesh(new THREE.TorusGeometry(.5,.07,12,40), matAzul);
+  gola.rotation.x=Math.PI/2; gola.position.y=.6; corpo.add(gola);
+
+  /* faixa azul no peito + emblema dourado */
+  var faixa = new THREE.Mesh(new THREE.TorusGeometry(.68,.045,10,44), matAzul);
+  faixa.rotation.x=Math.PI/2; faixa.position.y=.15; corpo.add(faixa);
+  var emblema = new THREE.Mesh(new THREE.CylinderGeometry(.14,.14,.06,24), matDourado);
+  emblema.rotation.x=Math.PI/2; emblema.position.set(0,.18,.63); corpo.add(emblema);
+  var cruzV = new THREE.Mesh(new THREE.BoxGeometry(.05,.16,.05), matCiano);
+  cruzV.position.set(0,.18,.68); corpo.add(cruzV);
+  var cruzH = new THREE.Mesh(new THREE.BoxGeometry(.16,.05,.05), matCiano);
+  cruzH.position.set(0,.18,.68); corpo.add(cruzH);
+
+  /* ---- estetoscópio: dois tubos curvos + oliva + auscultador ---- */
+  var curva = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(-.42,.62,.3), new THREE.Vector3(-.55,.25,.5),
+    new THREE.Vector3(-.3,-.1,.62), new THREE.Vector3(.05,-.2,.68),
+    new THREE.Vector3(.38,-.05,.6), new THREE.Vector3(.5,.3,.45),
+    new THREE.Vector3(.4,.62,.3)
+  ]);
+  var tubo = new THREE.Mesh(new THREE.TubeGeometry(curva,70,.035,10,false), matEscuro);
+  corpo.add(tubo);
+  var auscultador = new THREE.Mesh(new THREE.CylinderGeometry(.14,.14,.05,26), matDourado);
+  auscultador.rotation.x=Math.PI/2; auscultador.position.set(.05,-.3,.66); corpo.add(auscultador);
+  var membrana = new THREE.Mesh(new THREE.CylinderGeometry(.1,.1,.02,26), matCiano);
+  membrana.rotation.x=Math.PI/2; membrana.position.set(.05,-.3,.7); corpo.add(membrana);
+
+  raiz.add(corpo);
+
+  /* ---- cabeça ---- */
+  var cabeca = new THREE.Group();
+  cabeca.position.y = 1.28;
+  var cranio = new THREE.Mesh(new THREE.SphereGeometry(.78,48,36), matBranco);
+  cranio.scale.set(1,.95,.95); cranio.castShadow=true; cabeca.add(cranio);
+
+  /* visor tecnológico azul-escuro: calota frontal */
+  var visorGeo = new THREE.SphereGeometry(.73,48,36, Math.PI*0.62, Math.PI*0.76, Math.PI*0.22, Math.PI*0.55);
+  var visor = new THREE.Mesh(visorGeo, new THREE.MeshStandardMaterial({
+    color:0x061a3d, roughness:.08, metalness:.75, side:THREE.DoubleSide}));
+  visor.position.z=.07; cabeca.add(visor);
+  var aroVisor = new THREE.Mesh(new THREE.TorusGeometry(.56,.028,10,48), matDourado);
+  aroVisor.position.set(0,.02,.46); aroVisor.scale.set(1,.78,1); cabeca.add(aroVisor);
+
+  /* olhos expressivos e luminosos (grupo separado para piscar e seguir o mouse) */
+  var olhos = new THREE.Group(); olhos.position.set(0,.04,.56);
+  function fazerOlho(x){
+    var g = new THREE.Group();
+    var halo = new THREE.Mesh(new THREE.CircleGeometry(.17,30), matCiano);
+    var pupila = new THREE.Mesh(new THREE.CircleGeometry(.1,30), matOlho);
+    pupila.position.z=.012; g.add(halo); g.add(pupila);
+    g.position.x = x; return g;
+  }
+  var olhoE = fazerOlho(-.23), olhoD = fazerOlho(.23);
+  olhos.add(olhoE); olhos.add(olhoD); cabeca.add(olhos);
+
+  /* antena com esfera ciano */
+  var haste = new THREE.Mesh(new THREE.CylinderGeometry(.03,.03,.3,12), matAzul);
+  haste.position.set(0,.82,0); cabeca.add(haste);
+  var ponta = new THREE.Mesh(new THREE.SphereGeometry(.1,20,16), matCiano);
+  ponta.position.set(0,1,0); cabeca.add(ponta);
+
+  /* orelhas/fones laterais azuis */
+  [-1,1].forEach(function(s){
+    var fone = new THREE.Mesh(new THREE.CylinderGeometry(.16,.16,.1,24), matAzul);
+    fone.rotation.z=Math.PI/2; fone.position.set(s*.76,0,0); cabeca.add(fone);
+    var anel = new THREE.Mesh(new THREE.TorusGeometry(.16,.025,10,26), matDourado);
+    anel.rotation.y=Math.PI/2; anel.position.set(s*.82,0,0); cabeca.add(anel);
+  });
+  raiz.add(cabeca);
+
+  /* ---- braços articulados ---- */
+  function fazerBraco(lado){
+    var ombro = new THREE.Group();
+    ombro.position.set(lado*.74,.42,0);
+    var esferaOmbro = new THREE.Mesh(new THREE.SphereGeometry(.2,24,18), matAzul);
+    ombro.add(esferaOmbro);
+    var superior = new THREE.Mesh(new THREE.CylinderGeometry(.13,.12,.52,20), matBranco);
+    superior.position.y=-.3; ombro.add(superior);
+    var cotovelo = new THREE.Group(); cotovelo.position.y=-.58; ombro.add(cotovelo);
+    cotovelo.add(new THREE.Mesh(new THREE.SphereGeometry(.14,20,16), matDourado));
+    var antebraco = new THREE.Mesh(new THREE.CylinderGeometry(.11,.1,.46,20), matBranco);
+    antebraco.position.y=-.27; cotovelo.add(antebraco);
+    var mao = new THREE.Mesh(new THREE.SphereGeometry(.16,24,18), matBranco);
+    mao.scale.set(1,.85,.7); mao.position.y=-.56; cotovelo.add(mao);
+    var pulso = new THREE.Mesh(new THREE.TorusGeometry(.11,.025,10,22), matCiano);
+    pulso.rotation.x=Math.PI/2; pulso.position.y=-.44; cotovelo.add(pulso);
+    return {ombro:ombro, cotovelo:cotovelo};
+  }
+  var bracoE = fazerBraco(-1), bracoD = fazerBraco(1);
+  raiz.add(bracoE.ombro); raiz.add(bracoD.ombro);
+
+  /* base de propulsão flutuante (sem pernas) */
+  var base = new THREE.Mesh(new THREE.ConeGeometry(.5,.5,30), matAzul);
+  base.position.y=-1.05; base.rotation.x=Math.PI; raiz.add(base);
+  var halo = new THREE.Mesh(new THREE.TorusGeometry(.42,.05,12,36), matCiano);
+  halo.rotation.x=Math.PI/2; halo.position.y=-1.3; raiz.add(halo);
+
+  return {raiz:raiz, corpo:corpo, cabeca:cabeca, olhos:olhos, olhoE:olhoE, olhoD:olhoD,
+          bracoE:bracoE, bracoD:bracoD, halo:halo, ponta:ponta};
+}
+
+/* =========================================================
+   3. COMPONENTE DA CENA 3D
+   estado: "idle" | "acenar" | "falar" | "clique"
+   ========================================================= */
+function Cena(props){
+  var hostRef = useRef(null);
+  var estadoRef = useRef(props.estado);
+  var mouseRef = useRef({x:0,y:0});
+  var acenoRef = useRef(0);
+  var [falhou,setFalhou] = useState(false);
+  estadoRef.current = props.estado;
+
+  useEffect(function(){
+    var host = hostRef.current;
+    if(!host) return;
+    if(typeof THREE === "undefined"){ setFalhou(true); return; }
+    var renderer, frame;
+    try{
+      var L = host.clientWidth || 172, A = host.clientHeight || 196;
+      var cena = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(34, L/A, .1, 100);
+      camera.position.set(0, .35, 7.4);
+
+      renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+      renderer.setSize(L,A);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      host.appendChild(renderer.domElement);
+
+      /* iluminação: ambiente frio + key quente dourada + rim ciano */
+      cena.add(new THREE.HemisphereLight(0xdceeff, 0x0a1b38, .85));
+      var key = new THREE.DirectionalLight(0xffffff, 1.25);
+      key.position.set(3.2,4.5,4); key.castShadow = true;
+      key.shadow.mapSize.width = 1024; key.shadow.mapSize.height = 1024;
+      cena.add(key);
+      var rim = new THREE.PointLight(0x3fd8f5, 1.5, 14); rim.position.set(-3,1.5,-2.5); cena.add(rim);
+      var ouro = new THREE.PointLight(0xe3b562, .9, 12); ouro.position.set(2.6,-1,2.6); cena.add(ouro);
+
+      var robo = construirRobo(THREE);
+      robo.raiz.scale.setScalar(1.08);
+      cena.add(robo.raiz);
+
+      /* rastreio do cursor (e do toque) em coordenadas normalizadas */
+      function mover(e){
+        var p = e.touches && e.touches[0] ? e.touches[0] : e;
+        mouseRef.current.x = (p.clientX / window.innerWidth) * 2 - 1;
+        mouseRef.current.y = -((p.clientY / window.innerHeight) * 2 - 1);
+      }
+      window.addEventListener("mousemove", mover, {passive:true});
+      window.addEventListener("touchmove", mover, {passive:true});
+
+      function aoRedimensionar(){
+        if(!host.clientWidth) return;
+        var l=host.clientWidth, a=host.clientHeight;
+        camera.aspect=l/a; camera.updateProjectionMatrix(); renderer.setSize(l,a);
+      }
+      window.addEventListener("resize", aoRedimensionar);
+
+      var reduzir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var relogio = new THREE.Clock();
+      var proximaPiscada = 2 + Math.random()*3;
+
+      /* ---------- laço de animação ---------- */
+      function animar(){
+        frame = requestAnimationFrame(animar);
+        var t = relogio.getElapsedTime();
+        var dt = relogio.getDelta ? 0 : 0; // mantido simples: tudo baseado em t
+        var estado = estadoRef.current;
+        var amp = reduzir ? .25 : 1;
+
+        /* flutuação vertical contínua e suave */
+        robo.raiz.position.y = Math.sin(t*1.25)*.11*amp;
+        /* rotação discreta do corpo */
+        robo.raiz.rotation.y = Math.sin(t*.55)*.17*amp + mouseRef.current.x*.18;
+        robo.corpo.rotation.z = Math.sin(t*.9)*.025*amp;
+        robo.halo.rotation.z = t*1.6;
+        robo.halo.scale.setScalar(1 + Math.sin(t*2.4)*.06);
+        robo.ponta.material.emissiveIntensity = 1 + Math.sin(t*3)*.5;
+
+        /* cabeça com movimento próprio + olhar seguindo o cursor */
+        var alvoX = THREE.MathUtils.clamp(mouseRef.current.x,-1,1);
+        var alvoY = THREE.MathUtils.clamp(mouseRef.current.y,-1,1);
+        robo.cabeca.rotation.y += (alvoX*.42 + Math.sin(t*.8)*.06 - robo.cabeca.rotation.y)*.07;
+        robo.cabeca.rotation.x += (-alvoY*.22 + Math.sin(t*1.1)*.04 - robo.cabeca.rotation.x)*.07;
+        robo.olhos.position.x = alvoX*.05;
+        robo.olhos.position.y = .04 + alvoY*.03;
+
+        /* piscar */
+        if(t > proximaPiscada){
+          var fase = (t - proximaPiscada)/0.16;
+          var e = fase<1 ? Math.abs(Math.cos(fase*Math.PI)) : 1;
+          robo.olhoE.scale.y = e; robo.olhoD.scale.y = e;
+          if(fase>=1){ proximaPiscada = t + 2.2 + Math.random()*3.4; robo.olhoE.scale.y=1; robo.olhoD.scale.y=1; }
+        }
+
+        /* braços conforme o estado */
+        var bd = robo.bracoD, be = robo.bracoE;
+        if(estado === "acenar" || estado === "clique"){
+          bd.ombro.rotation.z = -1.25 + Math.sin(t*9)*.28;
+          bd.cotovelo.rotation.z = -.5 + Math.sin(t*9)*.3;
+          be.ombro.rotation.z = .25;
+          be.cotovelo.rotation.z = .2;
+        } else if(estado === "falar"){
+          bd.ombro.rotation.z = -.45 + Math.sin(t*4.5)*.2;
+          bd.cotovelo.rotation.z = -.65 + Math.sin(t*4.5+1)*.25;
+          be.ombro.rotation.z = .45 + Math.sin(t*4.5+2)*.2;
+          be.cotovelo.rotation.z = .65 - Math.sin(t*4.5+1.4)*.25;
+          robo.cabeca.rotation.z = Math.sin(t*3.2)*.05;
+        } else { /* espera */
+          bd.ombro.rotation.z = -.2 + Math.sin(t*1.1)*.07;
+          bd.cotovelo.rotation.z = -.25 + Math.sin(t*1.1+.6)*.08;
+          be.ombro.rotation.z = .2 - Math.sin(t*1.1)*.07;
+          be.cotovelo.rotation.z = .25 - Math.sin(t*1.1+.6)*.08;
+          robo.cabeca.rotation.z += (0 - robo.cabeca.rotation.z)*.08;
+        }
+
+        /* reação ao clique: leve salto e escala elástica */
+        if(acenoRef.current > 0){
+          acenoRef.current -= 0.016;
+          var k = Math.max(acenoRef.current,0);
+          robo.raiz.position.y += Math.sin(k*Math.PI*2)*.12;
+          robo.raiz.scale.setScalar(1.08 + Math.sin(k*Math.PI)*.05);
+        } else {
+          robo.raiz.scale.setScalar(1.08);
+        }
+
+        renderer.render(cena, camera);
+      }
+      animar();
+
+      return function(){
+        cancelAnimationFrame(frame);
+        window.removeEventListener("mousemove", mover);
+        window.removeEventListener("touchmove", mover);
+        window.removeEventListener("resize", aoRedimensionar);
+        try{ renderer.dispose(); if(renderer.domElement.parentNode) renderer.domElement.parentNode.removeChild(renderer.domElement); }catch(e){}
+      };
+    }catch(err){
+      setFalhou(true);
+      try{ if(renderer) renderer.dispose(); }catch(e){}
+    }
+  },[]);
+
+  /* pulso ao clicar, exposto ao pai */
+  useEffect(function(){
+    if(props.pulso>0){ acenoRef.current = 1; }
+  },[props.pulso]);
+
+  if(falhou){
+    return h("div",{className:"erro3d"},"AURI não pôde carregar o 3D neste dispositivo. O chat continua disponível.");
+  }
+  return h("div",{ref:hostRef,style:{width:"100%",height:"100%"}});
+}
+
+/* =========================================================
+   4. CHAT
+   ========================================================= */
+function Janela(props){
+  var fluxoRef = useRef(null);
+  var [texto,setTexto] = useState("");
+  useEffect(function(){
+    if(fluxoRef.current) fluxoRef.current.scrollTop = fluxoRef.current.scrollHeight;
+  },[props.msgs, props.digitando]);
+
+  function enviar(e){
+    if(e) e.preventDefault();
+    var v = texto.trim();
+    if(!v) return;
+    setTexto("");
+    props.onEnviar(v);
+  }
+
+  return h("div",{className:"janela",role:"dialog","aria-label":"Conversa com AURI"},
+    h("div",{className:"cabecalho"},
+      h("div",{className:"avatar"}),
+      h("div",null,
+        h("strong",null,"AURI"),
+        h("span",null,"Assistente de Alergia e Imunologia")
+      ),
+      h("button",{className:"btn-icone",onClick:props.onFechar,"aria-label":"Minimizar conversa"},"–")
+    ),
+    h("div",{className:"fluxo",ref:fluxoRef},
+      props.msgs.map(function(m,i){
+        return h("div",{key:i,className:"msg "+(m.de==="bot"?"bot":"eu")},m.txt);
+      }),
+      props.digitando ? h("div",{className:"digita","aria-label":"AURI está digitando"},
+        h("span",{className:"ponto"}),h("span",{className:"ponto"}),h("span",{className:"ponto"})) : null
+    ),
+    h("div",{className:"atalhos"},
+      TEMAS.map(function(t){
+        return h("button",{key:t.id,className:"atalho",onClick:function(){ props.onEnviar(t.rotulo); }}, t.rotulo);
+      })
+    ),
+    h("form",{className:"composicao",onSubmit:enviar},
+      h("input",{id:"auri-entrada",value:texto,placeholder:"Escreva sua dúvida...",
+        "aria-label":"Mensagem para AURI",
+        onChange:function(e){ setTexto(e.target.value); }}),
+      h("button",{className:"enviar",type:"submit",disabled:!texto.trim(),"aria-label":"Enviar"},"➤")
+    ),
+    h("p",{className:"aviso"},"Conteúdo educativo. Não substitui consulta nem fornece diagnóstico individual.")
+  );
+}
+
+/* =========================================================
+   5. WIDGET — robô + balão + janela
+   ========================================================= */
+function Auri(){
+  var [aberto,setAberto] = useState(false);
+  var [estado,setEstado] = useState("acenar");
+  var [pulso,setPulso] = useState(0);
+  var [digitando,setDigitando] = useState(false);
+  var [msgs,setMsgs] = useState([{de:"bot",txt:TXT_OI}]);
+
+  /* aceno de boas-vindas nos primeiros segundos */
+  useEffect(function(){
+    var id = setTimeout(function(){ setEstado("idle"); }, 4200);
+    return function(){ clearTimeout(id); };
+  },[]);
+
+  var enviar = useCallback(function(texto){
+    setMsgs(function(m){ return m.concat([{de:"eu",txt:texto}]); });
+    setDigitando(true);
+    setEstado("falar");
+    var resposta = responder(texto);
+    var espera = Math.min(1500, 500 + resposta.length * 3);
+    setTimeout(function(){
+      setDigitando(false);
+      setMsgs(function(m){ return m.concat([{de:"bot",txt:resposta}]); });
+      setTimeout(function(){ setEstado("idle"); }, 900);
+    }, espera);
+  },[]);
+
+  function clicarRobo(){
+    setPulso(function(p){ return p+1; });
+    setEstado("clique");
+    setTimeout(function(){ setEstado(aberto?"idle":"falar"); }, 700);
+    setAberto(function(a){ return !a; });
+  }
+
+  return h(React.Fragment,null,
+    aberto ? h(Janela,{msgs:msgs,digitando:digitando,onEnviar:enviar,
+      onFechar:function(){ setAberto(false); setEstado("idle"); }}) :
+      h("div",{className:"balao"},"Olá! Posso ajudar?"),
+    h("button",{className:"palco",onClick:clicarRobo,
+      "aria-label":aberto?"Minimizar conversa com AURI":"Conversar com AURI"},
+      h(Cena,{estado:estado,pulso:pulso}))
+  );
+}
+
+/* =========================================================
+   6. PÁGINA FICTÍCIA DE CLÍNICA (cenário da demonstração)
+   ========================================================= */
+function Site(){
+  return h(React.Fragment,null,
+    h("header",{className:"topo faixa"},
+      h("div",{className:"interno"},
+        h("div",{className:"marca"}, h("span",{className:"selo"}), "Instituto Aurora · Alergia e Imunologia"),
+        h("nav",null,
+          h("span",null,"A clínica"),h("span",null,"Especialidades"),
+          h("span",null,"Exames"),h("span",null,"Centro de infusão"),h("span",null,"Contato"))
+      )
+    ),
+    h("section",{className:"hero faixa"},
+      h("div",{className:"interno"},
+        h("p",{className:"eyebrow"},"Demonstração · clínica fictícia"),
+        h("h1",null,"Respirar, comer e viver ",h("em",null,"sem medo"),"."),
+        h("p",null,"Centro de referência em rinite, asma, urticária crônica, dermatite atópica e alergias alimentares e medicamentosas, com investigação baseada em história clínica e testes bem indicados."),
+        h("div",{className:"pilulas"},
+          ["Prick test","Patch test","Espirometria e FeNO","Provocação oral supervisionada","Imunoterapia alérgica"].map(function(p){
+            return h("span",{key:p,className:"pilula"},p);
+          })
+        )
+      )
+    ),
+    h("section",{className:"secao faixa"},
+      h("div",{className:"interno"},
+        h("h2",null,"O que tratamos"),
+        h("div",{className:"grade"},
+          [["Rinite alérgica","Controle ambiental, lavagem nasal e imunoterapia para ácaros, fungos e pólens."],
+           ["Asma","Fenotipagem com espirometria e FeNO para escolher o tratamento de controle certo."],
+           ["Urticária crônica","Investigação dirigida e escalonamento terapêutico, incluindo imunobiológicos."],
+           ["Dermatite atópica","Restauração da barreira cutânea e terapias-alvo nos casos moderados a graves."],
+           ["Alergia alimentar","Diagnóstico preciso para evitar dietas de exclusão desnecessárias."],
+           ["Alergia a medicamentos","Confirmação ou retirada do rótulo de alergia com testes seguros."]
+          ].map(function(c){
+            return h("article",{key:c[0],className:"cartao"},h("h3",null,c[0]),h("p",null,c[1]));
+          })
+        )
+      )
+    ),
+    h("section",{className:"secao faixa"},
+      h("div",{className:"interno"},
+        h("h2",null,"Estrutura"),
+        h("div",{className:"grade"},
+          [["6","salas de atendimento e procedimentos"],
+           ["1.400","testes alérgicos realizados por ano"],
+           ["12","poltronas no centro de infusão de imunobiológicos"],
+           ["30 min","tempo médio de observação pós-infusão"]
+          ].map(function(c){
+            return h("article",{key:c[0],className:"cartao"},
+              h("p",{className:"num"},c[0]),h("p",null,c[1]));
+          })
+        )
+      )
+    ),
+    h("footer",{className:"rodape faixa"},
+      h("div",{className:"interno"},
+        h("p",null,"Instituto Aurora de Alergia e Imunologia — clínica fictícia criada apenas como cenário para a demonstração do AURI."),
+        h("p",null,"O assistente responde com conteúdo educativo e não realiza diagnóstico individual. Em caso de suspeita de anafilaxia, acione o SAMU 192.")
+      )
+    )
+  );
+}
+
+/* ---------- montagem ---------- */
+function montar(){
+  try{
+    ReactDOM.createRoot(document.getElementById("site")).render(h(Site));
+    ReactDOM.createRoot(document.getElementById("auri-raiz")).render(h(Auri));
+  }catch(err){
+    document.getElementById("site").innerHTML =
+      '<p style="padding:24px">Não foi possível iniciar a demonstração. Recarregue a página.</p>';
+  }
+}
+if(typeof React==="undefined" || typeof ReactDOM==="undefined"){
+  document.getElementById("site").innerHTML =
+    '<p style="padding:24px">Bibliotecas não carregaram. Verifique a conexão e recarregue.</p>';
+}else{
+  montar();
+}
+})();
+</script>
+</body>
+</html>
