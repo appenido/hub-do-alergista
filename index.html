@@ -227,6 +227,10 @@ body{
   font-family:'Manrope',sans-serif;cursor:pointer;
 }
 
+.perf-menu-btn{width:100%;margin-bottom:10px;background:#fff;border:1.5px solid var(--gray-100);color:var(--navy);border-radius:10px;padding:13px 14px;font-family:'Manrope',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;text-align:left;}
+.perf-menu-btn:active{background:var(--gray-50);}
+.perf-menu-sair{border-color:#e74c3c;color:#e74c3c;}
+
 /* ── ARTICLE CARD ── */
 .art-card{
   background:#fff;border-bottom:1px solid var(--gray-100);
@@ -2712,12 +2716,19 @@ window._mostrarApp = function(){
     </div>
     <div style="margin:8px 16px 0;background:#fff;border:1px solid var(--gray-100);border-radius:13px;padding:16px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-        <div id="perfAvatar" style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--aqua),var(--teal-mid));display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:800">--</div>
+        <div id="perfAvatar" onclick="escolherFotoPerfil()" style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--aqua),var(--teal-mid));display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:800;background-size:cover;background-position:center;cursor:pointer">--</div>
+        <input type="file" id="perfFotoInput" accept="image/*" style="display:none" onchange="_perfFotoSelecionada(event)">
         <div>
           <div id="perfNomeTop" style="font-size:14px;font-weight:800;color:var(--navy)">—</div>
           <div id="perfEmailTop" style="font-size:11.5px;color:var(--gray-500)">—</div>
         </div>
       </div>
+      <div id="perfMenu">
+        <button onclick="escolherFotoPerfil()" class="perf-menu-btn">📷 Mudar foto do perfil</button>
+        <button onclick="abrirDadosCadastrais()" class="perf-menu-btn">📝 Editar dados cadastrais</button>
+        <button onclick="fazerLogout()" class="perf-menu-btn perf-menu-sair">↪ Sair</button>
+      </div>
+      <div id="perfForm" style="display:none">
       <div class="perf-field"><label>Nome completo</label><input id="perfNome" type="text"></div>
       <div class="perf-field"><label>Você é</label>
         <select id="perfCategoria" onchange="_perfCatMudou()" style="width:100%;box-sizing:border-box;padding:11px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-family:'Manrope',sans-serif;font-size:13.5px;color:var(--navy);background:#fff">
@@ -2737,7 +2748,8 @@ window._mostrarApp = function(){
       <div class="perf-field"><label>Nova senha (deixe em branco para manter)</label><input id="perfSenha" type="password" placeholder="mín. 6 caracteres"></div>
       <div id="perfMsg" style="font-size:12px;font-weight:700;margin-bottom:10px;min-height:16px"></div>
       <button onclick="salvarPerfil()" style="width:100%;background:var(--navy);border:none;color:#fff;border-radius:10px;padding:12px;font-family:'Manrope',sans-serif;font-size:13.5px;font-weight:800;cursor:pointer">Salvar alterações</button>
-      <button onclick="fazerLogout()" style="width:100%;margin-top:10px;background:#fff;border:1.5px solid #e74c3c;color:#e74c3c;border-radius:10px;padding:10px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Sair da conta →</button>
+      <button onclick="fecharDadosCadastrais()" style="width:100%;margin-top:10px;background:#fff;border:1.5px solid var(--gray-100);color:var(--navy);border-radius:10px;padding:10px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Cancelar</button>
+      </div>
     </div>
     <div style="height:80px"></div>
   </div>
@@ -3011,6 +3023,7 @@ function _atualizarInfoUsuario(){
     if(el && sess.nome) el.textContent = sess.nome + ' (' + (sess.email||'') + ')';
     var av = document.getElementById('btnPerfil');
     if(av) av.textContent = _iniciais(sess.nome);
+    try{ _aplicarFotoPerfil(); }catch(e){}
   }catch(e){}
 }
 
@@ -3032,6 +3045,8 @@ function preencherPerfil(){
     set('perfSenha','');
     var msg=document.getElementById('perfMsg'); if(msg) msg.textContent='';
     var av=document.getElementById('perfAvatar'); if(av) av.textContent=_iniciais(u.nome||sess.nome);
+    fecharDadosCadastrais();
+    _aplicarFotoPerfil();
     var nt=document.getElementById('perfNomeTop'); if(nt) nt.textContent=u.nome||sess.nome||'—';
     var et=document.getElementById('perfEmailTop'); if(et) et.textContent=sess.email||'—';
   }catch(e){}
@@ -3083,6 +3098,56 @@ function salvarPerfil(){
   }catch(e){ erro('Erro ao salvar. Tente novamente.'); }
 }
 
+
+
+/* ── FOTO DO PERFIL / MENU ──────────────────── */
+function _fotoKey(){
+  try{ return 'hub_foto_' + (JSON.parse(localStorage.getItem('hub_session')||'{}').email||''); }catch(e){ return 'hub_foto_'; }
+}
+function escolherFotoPerfil(){
+  var inp = document.getElementById('perfFotoInput');
+  if(inp) inp.click();
+}
+function _perfFotoSelecionada(ev){
+  var f = ev.target.files && ev.target.files[0];
+  if(!f) return;
+  var img = new Image();
+  var rd = new FileReader();
+  rd.onload = function(){
+    img.onload = function(){
+      var lado = 256;
+      var c = document.createElement('canvas'); c.width=lado; c.height=lado;
+      var ctx = c.getContext('2d');
+      var m = Math.min(img.width, img.height);
+      ctx.drawImage(img, (img.width-m)/2, (img.height-m)/2, m, m, 0, 0, lado, lado);
+      var dataUrl = c.toDataURL('image/jpeg', 0.85);
+      try{ localStorage.setItem(_fotoKey(), dataUrl); }catch(e){}
+      _aplicarFotoPerfil();
+      if(typeof toast==='function') toast('✅','Foto atualizada');
+    };
+    img.src = rd.result;
+  };
+  rd.readAsDataURL(f);
+  ev.target.value = '';
+}
+function _aplicarFotoPerfil(){
+  var foto = '';
+  try{ foto = localStorage.getItem(_fotoKey()) || ''; }catch(e){}
+  ['perfAvatar','btnPerfil'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(!el) return;
+    if(foto){ el.style.backgroundImage = 'url(' + foto + ')'; el.style.backgroundSize='cover'; el.style.backgroundPosition='center'; el.style.color='transparent'; }
+    else { el.style.backgroundImage = ''; el.style.color=''; }
+  });
+}
+function abrirDadosCadastrais(){
+  var f = document.getElementById('perfForm'); if(f) f.style.display = '';
+  var m = document.getElementById('perfMenu'); if(m) m.style.display = 'none';
+}
+function fecharDadosCadastrais(){
+  var f = document.getElementById('perfForm'); if(f) f.style.display = 'none';
+  var m = document.getElementById('perfMenu'); if(m) m.style.display = '';
+}
 
 /* ── LOGOS DAS REVISTAS ───────────────────────── */
 var REVISTA_DOMINIO = {
