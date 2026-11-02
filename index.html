@@ -3474,6 +3474,7 @@ function filtrarHomeArtigos(){
   var box = document.getElementById('homeArtigos');
   var lista = document.getElementById('artigos-list');
   if(!box || !lista) return;
+  ordenarArtigosPorData('artigos-list');   // a fonte já em ordem, para escolher os MAIS RECENTES de cada área
   var ints = (typeof _meusInteresses === 'function') ? _meusInteresses() : [];
   var topos = ints.map(function(i){ return INTERESSE_TOPICO[i]; }).filter(Boolean);
   var cards = [];
