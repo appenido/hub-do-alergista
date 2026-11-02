@@ -2425,66 +2425,213 @@ window._mostrarApp = function(){
     </div>
 
     <div style="padding:0 0 16px">
-    <div class="bio-card" id="ig-igiv">
-      <div class="bio-header" onclick="toggleIg('igiv')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#1a4a5c,#2d8fa8)">💧</div>
+    <div style="margin:0 16px 10px;background:#f4f8fa;border:1px solid rgba(31,105,128,.15);border-radius:12px;padding:11px 13px;font-size:11.5px;color:var(--gray-500);line-height:1.5">ℹ️ Lista restrita a imunoglobulinas humanas normais <strong>com registro ativo na ANVISA</strong>. Confirme apresentação e indicação na bula vigente antes de prescrever.</div>
+    <div style="padding:14px 16px 6px"><div style="font-size:12px;font-weight:800;color:var(--navy);letter-spacing:.4px;text-transform:uppercase">Via intravenosa (IGIV)</div><div style="font-size:11px;color:var(--gray-500);margin-top:2px">6 produtos registrados</div></div>
+    <div class="bio-card" id="ig-privigen">
+      <div class="bio-header" onclick="toggleIg('privigen')">
+        <div class="ig-logo" style="background:linear-gradient(135deg,#b0181f,#e03b3b)">CSL</div>
         <div>
-          <div class="bio-name">Privigen® · Octagam® · Kiovig®</div>
-          <div class="bio-comercial">Imunoglobulina Humana IV (IGIV) · CSL, Octapharma, Grifols, Takeda</div>
+          <div class="bio-name">Privigen®</div>
+          <div class="bio-comercial">CSL Behring · via IV</div>
         </div>
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Nomes comerciais</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Privigen®, Octagam®, Tegeline®, Flebogamma®, Kiovig®, Endobulin®</div></div>
+        <div class="bio-section"><div class="bio-label">Fabricante</div><div class="bio-value" style="display:flex;align-items:center;gap:9px"><span class="ig-logo-sm" style="background:linear-gradient(135deg,#b0181f,#e03b3b)">CSL</span><span style="font-size:12.5px;color:var(--gray-500);font-weight:600">CSL Behring</span></div></div>
+        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 10% líquida, estabilizada com prolina — frascos de 2,5 g / 5 g / 10 g / 20 g</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal derivada de plasma humano. Em altas doses exerce efeito imunomodulador (bloqueio de receptores Fc, modulação do complemento, neutralização de autoanticorpos e citocinas).</div></div>
+        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos (agamaglobulinemia, IDCV, SCID, Wiskott-Aldrich)</li><li>Hipogamaglobulinemia secundária (mieloma múltiplo, LLC)</li><li>Púrpura trombocitopênica imune (PTI)</li><li>Doença de Kawasaki</li><li>Síndrome de Guillain-Barré</li><li>Polineuropatia desmielinizante inflamatória crônica (PIDC)</li><li>Dermatomiosite, miastenia gravis</li></ul></div></div>
+        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">≥ 3 anos (IDP) · adultos e crianças</div></div>
+        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição (IDP): 400–800 mg/kg a cada 3–4 semanas. Imunomodulação: 2 g/kg dividido em 2–5 dias. Meta: IgG ≥600 mg/dL.</div></div>
+        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para imunodeficiências primárias em todas as idades (PCDT IDP). Idade conforme critério diagnóstico.</span></div></div>
+        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Não há DUT específica: a ANS entende que as imunoglobulinas IV e SC já têm cobertura obrigatória quando prescritas nas indicações da bula registrada na ANVISA (ciclo de atualização do Rol 2019/2020). Documente indicação, dose e via. <em>Revisado em 02/11/2026.</em></span></div></div>
+        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: ✅ disponível via CEAF (apresentações 2,5 g e 5,0 g). PCDT de Imunodeficiência Primária com predominância de defeitos de anticorpos (Portaria SAS/MS nº 495/2007): CID D80.0–D80.8 e D83.x; 300–600 mg/kg a cada 3 semanas ou 400–800 mg/kg a cada 4 semanas. <strong>Em análise:</strong> Consulta Pública CONITEC 71/2026 para ampliar a IgIV a novos CIDs (D82.2, G11.3, D84.8, D89.8), com recomendação preliminar favorável.</div></div>
+        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Baixo teor de IgA e ausência de açúcares — opção em pacientes com risco renal. Velocidade inicial 0,3 mg/kg/min.</div></div>
+        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igiv','Imunoglobulina Humana IV')">📝 Gerar relatório para plano de saúde</button></div>
+      </div>
+    </div>
+    <div class="bio-card" id="ig-octagam">
+      <div class="bio-header" onclick="toggleIg('octagam')">
+        <div class="ig-logo" style="background:linear-gradient(135deg,#0b4f9e,#2e86de)">OCTA</div>
+        <div>
+          <div class="bio-name">Octagam®</div>
+          <div class="bio-comercial">Octapharma · via IV</div>
+        </div>
+        <div class="bio-chevron">›</div>
+      </div>
+      <div class="bio-body">
+        <div class="bio-section"><div class="bio-label">Fabricante</div><div class="bio-value" style="display:flex;align-items:center;gap:9px"><span class="ig-logo-sm" style="background:linear-gradient(135deg,#0b4f9e,#2e86de)">OCTA</span><span style="font-size:12.5px;color:var(--gray-500);font-weight:600">Octapharma</span></div></div>
+        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 5% e 10% — frascos de 2,5 g / 5 g / 10 g</div></div>
         <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal derivada de plasma humano. Em altas doses exerce efeito imunomodulador (bloqueio de receptores Fc, modulação do complemento, neutralização de autoanticorpos e citocinas).</div></div>
         <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos (agamaglobulinemia, IDCV, SCID, Wiskott-Aldrich)</li><li>Hipogamaglobulinemia secundária (mieloma múltiplo, LLC)</li><li>Púrpura trombocitopênica imune (PTI)</li><li>Doença de Kawasaki</li><li>Síndrome de Guillain-Barré</li><li>Polineuropatia desmielinizante inflamatória crônica (PIDC)</li><li>Dermatomiosite, miastenia gravis</li></ul></div></div>
         <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">Todas as idades (0+ anos, ajuste por peso)</div></div>
         <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição (IDP): 400–800 mg/kg a cada 3–4 semanas. Imunomodulação: 2 g/kg dividido em 2–5 dias. Meta: IgG ≥600 mg/dL.</div></div>
         <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para imunodeficiências primárias em todas as idades (PCDT IDP). Idade conforme critério diagnóstico.</span></div></div>
-        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Não há DUT específica: a ANS entende que as imunoglobulinas IV e SC já têm cobertura obrigatória quando prescritas nas indicações da bula registrada na ANVISA (ciclo de atualização do Rol 2019/2020). Documente indicação, dose e via. <em>Revisado em 02/10/2026.</em></span></div></div>
+        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Não há DUT específica: a ANS entende que as imunoglobulinas IV e SC já têm cobertura obrigatória quando prescritas nas indicações da bula registrada na ANVISA (ciclo de atualização do Rol 2019/2020). Documente indicação, dose e via. <em>Revisado em 02/11/2026.</em></span></div></div>
         <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: ✅ disponível via CEAF (apresentações 2,5 g e 5,0 g). PCDT de Imunodeficiência Primária com predominância de defeitos de anticorpos (Portaria SAS/MS nº 495/2007): CID D80.0–D80.8 e D83.x; 300–600 mg/kg a cada 3 semanas ou 400–800 mg/kg a cada 4 semanas. <strong>Em análise:</strong> Consulta Pública CONITEC 71/2026 para ampliar a IgIV a novos CIDs (D82.2, G11.3, D84.8, D89.8), com recomendação preliminar favorável.</div></div>
+        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Apresentação 10% permite menor volume e infusão mais rápida; a 5% é preferível em cardiopatas e nefropatas.</div></div>
         <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igiv','Imunoglobulina Humana IV')">📝 Gerar relatório para plano de saúde</button></div>
       </div>
     </div>
-    <div class="bio-card" id="ig-igsc">
-      <div class="bio-header" onclick="toggleIg('igsc')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#1f6980,#3bbfcc)">💉</div>
+    <div class="bio-card" id="ig-flebogamma">
+      <div class="bio-header" onclick="toggleIg('flebogamma')">
+        <div class="ig-logo" style="background:linear-gradient(135deg,#0a6b5a,#19a88c)">GRIFOLS</div>
         <div>
-          <div class="bio-name">Hizentra® · Cuvitru®</div>
-          <div class="bio-comercial">Imunoglobulina Humana SC (IGSC) · CSL Behring / Takeda</div>
+          <div class="bio-name">Flebogamma® DIF</div>
+          <div class="bio-comercial">Grifols · via IV</div>
         </div>
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Nomes comerciais</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Hizentra® (20%), Cuvitru® (20%)</div></div>
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG por via subcutânea, com níveis séricos mais estáveis que a via IV e menos efeitos adversos sistêmicos. Permite autoaplicação domiciliar.</div></div>
-        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos</li><li>Hipogamaglobulinemia secundária</li><li>PIDC (terapia de manutenção)</li><li>Pacientes com reações adversas à IGIV ou acesso venoso difícil</li></ul></div></div>
+        <div class="bio-section"><div class="bio-label">Fabricante</div><div class="bio-value" style="display:flex;align-items:center;gap:9px"><span class="ig-logo-sm" style="background:linear-gradient(135deg,#0a6b5a,#19a88c)">GRIFOLS</span><span style="font-size:12.5px;color:var(--gray-500);font-weight:600">Grifols</span></div></div>
+        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 5% e 10% DIF — frascos de 2,5 g / 5 g / 10 g / 20 g</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal derivada de plasma humano. Em altas doses exerce efeito imunomodulador (bloqueio de receptores Fc, modulação do complemento, neutralização de autoanticorpos e citocinas).</div></div>
+        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos (agamaglobulinemia, IDCV, SCID, Wiskott-Aldrich)</li><li>Hipogamaglobulinemia secundária (mieloma múltiplo, LLC)</li><li>Púrpura trombocitopênica imune (PTI)</li><li>Doença de Kawasaki</li><li>Síndrome de Guillain-Barré</li><li>Polineuropatia desmielinizante inflamatória crônica (PIDC)</li><li>Dermatomiosite, miastenia gravis</li></ul></div></div>
+        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">≥ 2 anos (IDP) · adultos e crianças</div></div>
+        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição (IDP): 400–800 mg/kg a cada 3–4 semanas. Imunomodulação: 2 g/kg dividido em 2–5 dias. Meta: IgG ≥600 mg/dL.</div></div>
+        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para imunodeficiências primárias em todas as idades (PCDT IDP). Idade conforme critério diagnóstico.</span></div></div>
+        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Não há DUT específica: a ANS entende que as imunoglobulinas IV e SC já têm cobertura obrigatória quando prescritas nas indicações da bula registrada na ANVISA (ciclo de atualização do Rol 2019/2020). Documente indicação, dose e via. <em>Revisado em 02/11/2026.</em></span></div></div>
+        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: ✅ disponível via CEAF (apresentações 2,5 g e 5,0 g). PCDT de Imunodeficiência Primária com predominância de defeitos de anticorpos (Portaria SAS/MS nº 495/2007): CID D80.0–D80.8 e D83.x; 300–600 mg/kg a cada 3 semanas ou 400–800 mg/kg a cada 4 semanas. <strong>Em análise:</strong> Consulta Pública CONITEC 71/2026 para ampliar a IgIV a novos CIDs (D82.2, G11.3, D84.8, D89.8), com recomendação preliminar favorável.</div></div>
+        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Dupla inativação viral e nanofiltração (DIF). Isenta de sacarose — menor risco de lesão renal aguda.</div></div>
+        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igiv','Imunoglobulina Humana IV')">📝 Gerar relatório para plano de saúde</button></div>
+      </div>
+    </div>
+    <div class="bio-card" id="ig-kiovig">
+      <div class="bio-header" onclick="toggleIg('kiovig')">
+        <div class="ig-logo" style="background:linear-gradient(135deg,#b2122d,#e04a5f)">TAKEDA</div>
+        <div>
+          <div class="bio-name">Kiovig®</div>
+          <div class="bio-comercial">Takeda · via IV</div>
+        </div>
+        <div class="bio-chevron">›</div>
+      </div>
+      <div class="bio-body">
+        <div class="bio-section"><div class="bio-label">Fabricante</div><div class="bio-value" style="display:flex;align-items:center;gap:9px"><span class="ig-logo-sm" style="background:linear-gradient(135deg,#b2122d,#e04a5f)">TAKEDA</span><span style="font-size:12.5px;color:var(--gray-500);font-weight:600">Takeda</span></div></div>
+        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 10% líquida — frascos de 1 g / 2,5 g / 5 g / 10 g / 20 g</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal derivada de plasma humano. Em altas doses exerce efeito imunomodulador (bloqueio de receptores Fc, modulação do complemento, neutralização de autoanticorpos e citocinas).</div></div>
+        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos (agamaglobulinemia, IDCV, SCID, Wiskott-Aldrich)</li><li>Hipogamaglobulinemia secundária (mieloma múltiplo, LLC)</li><li>Púrpura trombocitopênica imune (PTI)</li><li>Doença de Kawasaki</li><li>Síndrome de Guillain-Barré</li><li>Polineuropatia desmielinizante inflamatória crônica (PIDC)</li><li>Dermatomiosite, miastenia gravis</li></ul></div></div>
+        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">Todas as idades (0+ anos, ajuste por peso)</div></div>
+        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição (IDP): 400–800 mg/kg a cada 3–4 semanas. Imunomodulação: 2 g/kg dividido em 2–5 dias. Meta: IgG ≥600 mg/dL.</div></div>
+        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para imunodeficiências primárias em todas as idades (PCDT IDP). Idade conforme critério diagnóstico.</span></div></div>
+        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Não há DUT específica: a ANS entende que as imunoglobulinas IV e SC já têm cobertura obrigatória quando prescritas nas indicações da bula registrada na ANVISA (ciclo de atualização do Rol 2019/2020). Documente indicação, dose e via. <em>Revisado em 02/11/2026.</em></span></div></div>
+        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: ✅ disponível via CEAF (apresentações 2,5 g e 5,0 g). PCDT de Imunodeficiência Primária com predominância de defeitos de anticorpos (Portaria SAS/MS nº 495/2007): CID D80.0–D80.8 e D83.x; 300–600 mg/kg a cada 3 semanas ou 400–800 mg/kg a cada 4 semanas. <strong>Em análise:</strong> Consulta Pública CONITEC 71/2026 para ampliar a IgIV a novos CIDs (D82.2, G11.3, D84.8, D89.8), com recomendação preliminar favorável.</div></div>
+        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Estabilizada com glicina, isenta de sacarose e maltose — não interfere na glicemia capilar.</div></div>
+        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igiv','Imunoglobulina Humana IV')">📝 Gerar relatório para plano de saúde</button></div>
+      </div>
+    </div>
+    <div class="bio-card" id="ig-tegeline">
+      <div class="bio-header" onclick="toggleIg('tegeline')">
+        <div class="ig-logo" style="background:linear-gradient(135deg,#1d3f8f,#4a74d6)">LFB</div>
+        <div>
+          <div class="bio-name">Tegeline®</div>
+          <div class="bio-comercial">LFB Biomédicaments · via IV</div>
+        </div>
+        <div class="bio-chevron">›</div>
+      </div>
+      <div class="bio-body">
+        <div class="bio-section"><div class="bio-label">Fabricante</div><div class="bio-value" style="display:flex;align-items:center;gap:9px"><span class="ig-logo-sm" style="background:linear-gradient(135deg,#1d3f8f,#4a74d6)">LFB</span><span style="font-size:12.5px;color:var(--gray-500);font-weight:600">LFB Biomédicaments</span></div></div>
+        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 5% liofilizada — frascos de 0,5 g / 2,5 g / 5 g / 10 g</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal derivada de plasma humano. Em altas doses exerce efeito imunomodulador (bloqueio de receptores Fc, modulação do complemento, neutralização de autoanticorpos e citocinas).</div></div>
+        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos (agamaglobulinemia, IDCV, SCID, Wiskott-Aldrich)</li><li>Hipogamaglobulinemia secundária (mieloma múltiplo, LLC)</li><li>Púrpura trombocitopênica imune (PTI)</li><li>Doença de Kawasaki</li><li>Síndrome de Guillain-Barré</li><li>Polineuropatia desmielinizante inflamatória crônica (PIDC)</li><li>Dermatomiosite, miastenia gravis</li></ul></div></div>
+        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">Todas as idades (0+ anos, ajuste por peso)</div></div>
+        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição (IDP): 400–800 mg/kg a cada 3–4 semanas. Imunomodulação: 2 g/kg dividido em 2–5 dias. Meta: IgG ≥600 mg/dL.</div></div>
+        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para imunodeficiências primárias em todas as idades (PCDT IDP). Idade conforme critério diagnóstico.</span></div></div>
+        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Não há DUT específica: a ANS entende que as imunoglobulinas IV e SC já têm cobertura obrigatória quando prescritas nas indicações da bula registrada na ANVISA (ciclo de atualização do Rol 2019/2020). Documente indicação, dose e via. <em>Revisado em 02/11/2026.</em></span></div></div>
+        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: ✅ disponível via CEAF (apresentações 2,5 g e 5,0 g). PCDT de Imunodeficiência Primária com predominância de defeitos de anticorpos (Portaria SAS/MS nº 495/2007): CID D80.0–D80.8 e D83.x; 300–600 mg/kg a cada 3 semanas ou 400–800 mg/kg a cada 4 semanas. <strong>Em análise:</strong> Consulta Pública CONITEC 71/2026 para ampliar a IgIV a novos CIDs (D82.2, G11.3, D84.8, D89.8), com recomendação preliminar favorável.</div></div>
+        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Liofilizada — exige reconstituição. Contém sacarose como estabilizante: atenção em nefropatas e idosos.</div></div>
+        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igiv','Imunoglobulina Humana IV')">📝 Gerar relatório para plano de saúde</button></div>
+      </div>
+    </div>
+    <div class="bio-card" id="ig-blau">
+      <div class="bio-header" onclick="toggleIg('blau')">
+        <div class="ig-logo" style="background:linear-gradient(135deg,#15356b,#2f6fd0)">BLAU</div>
+        <div>
+          <div class="bio-name">Imunoglobulina Humana Blau</div>
+          <div class="bio-comercial">Blau Farmacêutica · via IV</div>
+        </div>
+        <div class="bio-chevron">›</div>
+      </div>
+      <div class="bio-body">
+        <div class="bio-section"><div class="bio-label">Fabricante</div><div class="bio-value" style="display:flex;align-items:center;gap:9px"><span class="ig-logo-sm" style="background:linear-gradient(135deg,#15356b,#2f6fd0)">BLAU</span><span style="font-size:12.5px;color:var(--gray-500);font-weight:600">Blau Farmacêutica</span></div></div>
+        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 5% liofilizada — frascos de 2,5 g e 5,0 g</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal derivada de plasma humano. Em altas doses exerce efeito imunomodulador (bloqueio de receptores Fc, modulação do complemento, neutralização de autoanticorpos e citocinas).</div></div>
+        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos (agamaglobulinemia, IDCV, SCID, Wiskott-Aldrich)</li><li>Hipogamaglobulinemia secundária (mieloma múltiplo, LLC)</li><li>Púrpura trombocitopênica imune (PTI)</li><li>Doença de Kawasaki</li><li>Síndrome de Guillain-Barré</li><li>Polineuropatia desmielinizante inflamatória crônica (PIDC)</li><li>Dermatomiosite, miastenia gravis</li></ul></div></div>
+        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">Todas as idades (0+ anos, ajuste por peso)</div></div>
+        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição (IDP): 400–800 mg/kg a cada 3–4 semanas. Imunomodulação: 2 g/kg dividido em 2–5 dias. Meta: IgG ≥600 mg/dL.</div></div>
+        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para imunodeficiências primárias em todas as idades (PCDT IDP). Idade conforme critério diagnóstico.</span></div></div>
+        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Não há DUT específica: a ANS entende que as imunoglobulinas IV e SC já têm cobertura obrigatória quando prescritas nas indicações da bula registrada na ANVISA (ciclo de atualização do Rol 2019/2020). Documente indicação, dose e via. <em>Revisado em 02/11/2026.</em></span></div></div>
+        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: ✅ disponível via CEAF (apresentações 2,5 g e 5,0 g). PCDT de Imunodeficiência Primária com predominância de defeitos de anticorpos (Portaria SAS/MS nº 495/2007): CID D80.0–D80.8 e D83.x; 300–600 mg/kg a cada 3 semanas ou 400–800 mg/kg a cada 4 semanas. <strong>Em análise:</strong> Consulta Pública CONITEC 71/2026 para ampliar a IgIV a novos CIDs (D82.2, G11.3, D84.8, D89.8), com recomendação preliminar favorável.</div></div>
+        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Apresentações de 2,5 g e 5,0 g são as padronizadas no CEAF — produto habitualmente dispensado pelo SUS.</div></div>
+        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igiv','Imunoglobulina Humana IV')">📝 Gerar relatório para plano de saúde</button></div>
+      </div>
+    </div>
+    <div style="padding:14px 16px 6px"><div style="font-size:12px;font-weight:800;color:var(--navy);letter-spacing:.4px;text-transform:uppercase">Via subcutânea (IGSC / fSCIG)</div><div style="font-size:11px;color:var(--gray-500);margin-top:2px">3 produtos registrados</div></div>
+    <div class="bio-card" id="ig-hizentra">
+      <div class="bio-header" onclick="toggleIg('hizentra')">
+        <div class="ig-logo" style="background:linear-gradient(135deg,#b0181f,#e03b3b)">CSL</div>
+        <div>
+          <div class="bio-name">Hizentra®</div>
+          <div class="bio-comercial">CSL Behring · via SC</div>
+        </div>
+        <div class="bio-chevron">›</div>
+      </div>
+      <div class="bio-body">
+        <div class="bio-section"><div class="bio-label">Fabricante</div><div class="bio-value" style="display:flex;align-items:center;gap:9px"><span class="ig-logo-sm" style="background:linear-gradient(135deg,#b0181f,#e03b3b)">CSL</span><span style="font-size:12.5px;color:var(--gray-500);font-weight:600">CSL Behring</span></div></div>
+        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 20% subcutânea — seringas/frascos de 1 g / 2 g / 4 g / 10 g</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal por via subcutânea, com níveis séricos mais estáveis que a via IV, menos efeitos adversos sistêmicos e possibilidade de autoaplicação domiciliar.</div></div>
+        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos</li><li>Hipogamaglobulinemia secundária</li><li>PIDC (terapia de manutenção — conforme bula do produto)</li><li>Pacientes com reações adversas à IGIV ou acesso venoso difícil</li></ul></div></div>
         <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">Todas as idades (disponível no Brasil desde 2015)</div></div>
-        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição: 100–150 mg/kg 1×/semana (após conversão da dose IV mensal). Esquema inicial: 100 mg/kg/semana ou 200 mg/kg a cada 14 dias.</div></div>
+        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição: 100–150 mg/kg 1×/semana (após conversão da dose IV mensal, fator 1,37–1,5). Esquema inicial: 100 mg/kg/semana ou 200 mg/kg a cada 14 dias.</div></div>
         <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para IDP. Frequentemente solicitada quando há intolerância à via IV; muitas vezes judicializada.</span></div></div>
-        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Sem DUT específica: cobertura obrigatória quando prescrita nas indicações da bula (mesmo entendimento da ANS para IV e SC). <em>Revisado em 02/10/2026.</em></span></div></div>
-        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: a IGIV é a forma padrão. <strong>Em análise:</strong> Consulta Pública CONITEC 67/2026 (jul/2026) sobre a imunoglobulina subcutânea — decisão final ainda não publicada. Até lá, a IGSC frequentemente requer via judicial.</div></div>
+        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Sem DUT específica: cobertura obrigatória quando prescrita nas indicações da bula (mesmo entendimento da ANS para IV e SC). <em>Revisado em 02/11/2026.</em></span></div></div>
+        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: a IGIV é a forma padrão — a via subcutânea não está incorporada. <strong>Em análise:</strong> Consulta Pública CONITEC 67/2026 (jul/2026) sobre a imunoglobulina subcutânea — decisão final ainda não publicada. Até lá, a IGSC frequentemente requer via judicial.</div></div>
+        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Concentração 20% reduz o volume por sítio. Até 4 sítios simultâneos; reações locais são o efeito adverso mais comum.</div></div>
+        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igsc','Imunoglobulina Humana SC')">📝 Gerar relatório para plano de saúde</button></div>
+      </div>
+    </div>
+    <div class="bio-card" id="ig-cuvitru">
+      <div class="bio-header" onclick="toggleIg('cuvitru')">
+        <div class="ig-logo" style="background:linear-gradient(135deg,#b2122d,#e04a5f)">TAKEDA</div>
+        <div>
+          <div class="bio-name">Cuvitru®</div>
+          <div class="bio-comercial">Takeda · via SC</div>
+        </div>
+        <div class="bio-chevron">›</div>
+      </div>
+      <div class="bio-body">
+        <div class="bio-section"><div class="bio-label">Fabricante</div><div class="bio-value" style="display:flex;align-items:center;gap:9px"><span class="ig-logo-sm" style="background:linear-gradient(135deg,#b2122d,#e04a5f)">TAKEDA</span><span style="font-size:12.5px;color:var(--gray-500);font-weight:600">Takeda</span></div></div>
+        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 20% subcutânea — frascos de 1 g / 2 g / 4 g / 8 g / 10 g</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal por via subcutânea, com níveis séricos mais estáveis que a via IV, menos efeitos adversos sistêmicos e possibilidade de autoaplicação domiciliar.</div></div>
+        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos</li><li>Hipogamaglobulinemia secundária</li><li>PIDC (terapia de manutenção — conforme bula do produto)</li><li>Pacientes com reações adversas à IGIV ou acesso venoso difícil</li></ul></div></div>
+        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">≥ 2 anos · adultos e crianças</div></div>
+        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição: 100–150 mg/kg 1×/semana (após conversão da dose IV mensal, fator 1,37–1,5). Esquema inicial: 100 mg/kg/semana ou 200 mg/kg a cada 14 dias.</div></div>
+        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para IDP. Frequentemente solicitada quando há intolerância à via IV; muitas vezes judicializada.</span></div></div>
+        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Sem DUT específica: cobertura obrigatória quando prescrita nas indicações da bula (mesmo entendimento da ANS para IV e SC). <em>Revisado em 02/11/2026.</em></span></div></div>
+        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: a IGIV é a forma padrão — a via subcutânea não está incorporada. <strong>Em análise:</strong> Consulta Pública CONITEC 67/2026 (jul/2026) sobre a imunoglobulina subcutânea — decisão final ainda não publicada. Até lá, a IGSC frequentemente requer via judicial.</div></div>
+        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Isenta de estabilizantes açucarados; permite volumes maiores por sítio e velocidades de infusão mais altas que outras IGSC 20%.</div></div>
         <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igsc','Imunoglobulina Humana SC')">📝 Gerar relatório para plano de saúde</button></div>
       </div>
     </div>
     <div class="bio-card" id="ig-hyqvia">
       <div class="bio-header" onclick="toggleIg('hyqvia')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#6c3483,#8e44ad)">🔬</div>
+        <div class="ig-logo" style="background:linear-gradient(135deg,#6c3483,#a569bd)">TAKEDA</div>
         <div>
           <div class="bio-name">HyQvia®</div>
-          <div class="bio-comercial">IGSC Facilitada com Hialuronidase (fSCIG) · Takeda</div>
+          <div class="bio-comercial">Takeda · via SC facilitada</div>
         </div>
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Nomes comerciais</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">HyQvia®</div></div>
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Imunoglobulina 10% combinada com hialuronidase humana recombinante, que aumenta a dispersão e absorção subcutânea, permitindo grandes volumes em infusões menos frequentes (a cada 3–4 semanas).</div></div>
-        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos</li><li>Pacientes que desejam intervalo maior entre infusões SC</li></ul></div></div>
-        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">≥2 anos (conforme bula) · adultos e crianças</div></div>
-        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição: 300–600 mg/kg a cada 3–4 semanas SC (mesma dose mensal da IGIV, em via subcutânea facilitada).</div></div>
+        <div class="bio-section"><div class="bio-label">Fabricante</div><div class="bio-value" style="display:flex;align-items:center;gap:9px"><span class="ig-logo-sm" style="background:linear-gradient(135deg,#6c3483,#a569bd)">TAKEDA</span><span style="font-size:12.5px;color:var(--gray-500);font-weight:600">Takeda</span></div></div>
+        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 10% + hialuronidase humana recombinante — kit duplo de 2,5 g a 30 g</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Imunoglobulina humana 10% combinada com hialuronidase humana recombinante, que aumenta a dispersão e a absorção subcutânea, permitindo grandes volumes por sítio e infusões menos frequentes (a cada 3–4 semanas).</div></div>
+        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos</li><li>Hipogamaglobulinemia secundária</li><li>Pacientes que desejam intervalo maior entre as infusões subcutâneas</li></ul></div></div>
+        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">≥ 2 anos (conforme bula) · adultos e crianças</div></div>
+        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição: 300–600 mg/kg a cada 3–4 semanas SC (mesma dose mensal da IGIV), após período de titulação (semanal → quinzenal → mensal).</div></div>
         <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">A partir de 2 anos conforme bula. Não amplamente incluída no Rol; acesso geralmente judicial.</span></div></div>
-        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-no">❌ Não amplamente incluído</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Rol ANS: ainda não amplamente incluída. Avaliação caso a caso.</span></div></div>
-        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: não disponível pela via padrão. Acesso via processo judicial na maioria dos casos.</div></div>
+        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-no">❌ Não amplamente incluído</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Rol ANS: ainda não amplamente incluída. Avaliação caso a caso — fundamente a necessidade clínica e a falha/intolerância às alternativas. <em>Revisado em 02/11/2026.</em></span></div></div>
+        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: não disponível pela via padrão. Acesso por processo judicial na maioria dos casos.</div></div>
+        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Administrar a hialuronidase antes da IgG, no mesmo sítio. Permite dose mensal inteira em um único sítio.</div></div>
         <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('hyqvia','IGSC Facilitada (Hialuronidase)')">📝 Gerar relatório para plano de saúde</button></div>
       </div>
     </div>
