@@ -881,7 +881,6 @@ window._mostrarApp = function(){
       <div class="qcard" data-nav="artigos"><div class="qi qi-teal">📄</div><div class="ql">Artigos</div></div>
       <div class="qcard" data-nav="guidelines"><div class="qi qi-navy">📋</div><div class="ql">Guidelines</div></div>
       <div class="qcard" data-nav="prompts"><div class="qi qi-green">⚡</div><div class="ql">Prompts</div></div>
-      <div class="qcard" data-nav="relatorios"><div class="qi qi-gold">📝</div><div class="ql">Relatórios</div></div>
       <div class="qcard" data-nav="educacao"><div class="qi qi-teal">🎓</div><div class="ql">Cursos</div></div>
       <div class="qcard" data-nav="imuno"><div class="qi qi-gold">💉</div><div class="ql">Imunobiológicos</div></div>
       <div class="qcard" data-nav="interacao"><div class="qi qi-teal">⚕️</div><div class="ql">Interações medicamentosas</div></div>
@@ -1373,7 +1372,7 @@ window._mostrarApp = function(){
       <a href="https://pubmed.ncbi.nlm.nih.gov/?term=(allergy+OR+immunology+OR+asthma+OR+urticaria+OR+%22atopic+dermatitis%22+OR+anaphylaxis)+AND+(guideline%5BPublication+Type%5D+OR+practice+guideline%5BPublication+Type%5D+OR+consensus)&filter=datesearch.y_1&sort=date" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:9px;background:linear-gradient(135deg,rgba(59,191,204,.1),rgba(59,191,204,.03));border:1px solid rgba(59,191,204,.25);border-radius:12px;padding:11px 13px;text-decoration:none">
         <span style="font-size:16px">📡</span>
         <div style="flex:1">
-          <div style="font-size:12.5px;font-weight:800;color:var(--teal-mid)">Diretrizes mais recentes (ao vivo)</div>
+          <div style="font-size:12.5px;font-weight:800;color:var(--teal-mid)">Diretrizes mais recentes (últimos 3 anos)</div>
           <div style="font-size:11px;color:var(--gray-500);line-height:1.4">Os cards abaixo são revisados diariamente para garantir a versão mais atual de cada diretriz — clique aqui para buscar novos consensos no PubMed</div>
         </div>
         <span style="color:var(--gray-300);font-size:16px">›</span>
@@ -1393,6 +1392,8 @@ window._mostrarApp = function(){
         <div class="fchip " data-gfilter="eoe">🫶 Esofagite Eosinofílica</div>
       </div>
     </div>
+    <div class="gap-list" id="guidelines-live"><div style="font-size:12px;color:var(--gray-500);padding:6px 2px">Buscando diretrizes publicadas nos últimos 3 anos…</div></div>
+    <div style="padding:6px 16px 0;font-size:10.5px;font-weight:800;color:var(--gray-500);letter-spacing:.08em">DIRETRIZES DE REFERÊNCIA</div>
     <div class="gap-list" id="guidelines-list">
       <div class="guide-card" data-topic="asma"><div class="gc-soc">GINA</div><div class="gc-name">Global Strategy for Asthma Management and Prevention — 2026</div><div class="gc-year">2026 · Download gratuito oficial</div><div class="gc-foot"><span class="tag t-teal">Asma</span><span class="tag t-green">Gratuito</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://ginasthma.org/wp-content/uploads/2026/05/GINA-2026-Strategy-Report-WMS.pdf" target="_blank" rel="noopener">📄 Abrir em PDF</a></div></div>
       <div class="guide-card" data-topic="asma"><div class="gc-soc">GINA</div><div class="gc-name">GINA 2026 — Guia de Bolso e Severe Asthma Guide</div><div class="gc-year">2026 · Gratuito</div><div class="gc-foot"><span class="tag t-teal">Asma</span><span class="tag t-green">Gratuito</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://ginasthma.org/2026-gina-strategy-report/" target="_blank" rel="noopener">📄 Abrir em PDF</a></div></div>
@@ -1447,7 +1448,7 @@ window._mostrarApp = function(){
   <div class="page" id="page-assistente">
     <div class="assist-header">
       <div class="ap-title">Assistente de <em>IA</em></div>
-      <div class="ap-desc">Conecte sua IA favorita e use-a direto no hub. Chaves salvas neste dispositivo.</div>
+      <div class="ap-desc">Pergunte ao robô alergista. Sem conta, sem chave, sem configuração.</div>
     </div>
     <div style="padding:14px 16px;background:#fff;border-bottom:1px solid var(--gray-100)">
       <div style="background:linear-gradient(135deg,#0d1f2d,#17697a);border-radius:13px;padding:14px;color:#fff">
@@ -1460,7 +1461,7 @@ window._mostrarApp = function(){
       <div style="font-size:10px;color:var(--gray-500);margin-top:8px">Apoio clínico — não substitui avaliação médica. Limite de 20 perguntas por dia.</div>
     </div>
     <!-- Abas de IAs -->
-    <div style="display:flex;gap:0;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--gray-100);background:#fff;" id="aiTabs">
+    <div style="display:none" id="aiTabs">
       <button class="ai-tab active" data-ai="claude" onclick="selectAI('claude')">
         <span class="ai-tab-ico">🟣</span><span>Claude</span>
       </button>
@@ -1478,7 +1479,7 @@ window._mostrarApp = function(){
       </button>
     </div>
     <!-- Config da IA selecionada -->
-    <div id="aiConfig" style="padding:14px 16px;background:#f8fafc;border-bottom:1px solid var(--gray-100);">
+    <div id="aiConfig" style="display:none">
       <div style="font-size:11px;font-weight:700;color:var(--gray-500);margin-bottom:7px" id="aiConfigLabel">Claude — Chave de API</div>
       <div style="display:flex;gap:8px;align-items:center">
         <div style="flex:1;display:flex;align-items:center;background:#fff;border:1px solid var(--gray-100);border-radius:10px;padding:9px 12px;gap:8px">
@@ -1494,8 +1495,8 @@ window._mostrarApp = function(){
         <a id="aiDirectLinkAnchor" href="#" target="_blank" style="font-size:11.5px;color:var(--teal-mid);font-weight:700;text-decoration:none">↗ Abrir no site da IA →</a>
       </div>
     </div>
-    <!-- Campo de prompt -->
-    <div style="padding:12px 16px 4px">
+    <!-- Campo de prompt (oculto: exigia chave) -->
+    <div style="display:none">
       <div style="font-size:11px;font-weight:700;color:var(--gray-500);margin-bottom:6px">Mensagem para a IA</div>
       <div style="background:#fff;border:1px solid var(--gray-100);border-radius:12px;overflow:hidden">
         <textarea id="assistInput" rows="3" placeholder="Descreva o caso ou peça um documento..."
@@ -1512,7 +1513,7 @@ window._mostrarApp = function(){
       </div>
     </div>
     <!-- Resposta da IA -->
-    <div class="ap-response" id="assistResp" style="margin:10px 16px 4px"></div>
+    <div class="ap-response" id="assistResp" style="display:none"></div>
     <!-- Prompts salvos -->
     <div style="padding:12px 16px 4px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
@@ -1698,6 +1699,10 @@ window._mostrarApp = function(){
         Educação Continuada
       </div>
       <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Cursos e aulas em Alergia e Imunologia</div>
+    </div>
+    <div style="margin:0 16px 16px">
+      <div style="font-size:11px;font-weight:800;color:var(--navy);letter-spacing:.08em;margin-bottom:8px">NOVOS CURSOS E EVENTOS · ATUALIZADO DIARIAMENTE</div>
+      <div id="cursosLive" style="display:flex;flex-direction:column;gap:8px"><div style="font-size:12px;color:var(--gray-500)">Buscando cursos em vários idiomas…</div></div>
     </div>
 
     <!-- Universidade ASBAI card -->
@@ -2777,7 +2782,6 @@ window._mostrarApp = function(){
         <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
         Meu perfil
       </div>
-      <div style="font-size:11.5px;color:var(--gray-500);margin-top:4px">Complete seus dados quando quiser — só nome e categoria são necessários.</div>
     </div>
     <div style="margin:8px 16px 0;background:#fff;border:1px solid var(--gray-100);border-radius:13px;padding:16px">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
@@ -3628,6 +3632,85 @@ function carregarNoticiasMidia(){
   });
 }
 
+
+/* ── GUIDELINES AO VIVO (PubMed, últimos 3 anos, data exata) ── */
+var _glCarregado = '';
+function carregarGuidelinesLive(){
+  var box = document.getElementById('guidelines-live');
+  if(!box) return;
+  var hoje = new Date(), hojeStr = hoje.toISOString().slice(0,10);
+  if(_glCarregado === hojeStr) return;
+  var ini = new Date(hoje.getFullYear()-3, hoje.getMonth(), hoje.getDate());
+  var fmt = function(d){ return d.getFullYear() + '/' + ('0'+(d.getMonth()+1)).slice(-2) + '/' + ('0'+d.getDate()).slice(-2); };
+  var termo = '(allergy[tiab] OR allergic[tiab] OR asthma[tiab] OR urticaria[tiab] OR "atopic dermatitis"[tiab] OR anaphylaxis[tiab] OR immunodeficiency[tiab] OR "eosinophilic esophagitis"[tiab] OR angioedema[tiab] OR "food allergy"[tiab]) AND (guideline[pt] OR "practice guideline"[pt] OR consensus[ti] OR guidelines[ti] OR "practice parameter"[ti] OR "position paper"[ti])';
+  var base = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
+  fetch(base + 'esearch.fcgi?db=pubmed&retmode=json&retmax=40&sort=pub_date&datetype=pdat&mindate=' + fmt(ini) + '&maxdate=' + fmt(hoje) + '&term=' + encodeURIComponent(termo))
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var ids = (d.esearchresult && d.esearchresult.idlist) || [];
+      if(!ids.length) throw new Error('vazio');
+      return fetch(base + 'esummary.fcgi?db=pubmed&retmode=json&id=' + ids.join(','));
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var itens = (d.result.uids||[]).map(function(id){ return d.result[id]; }).filter(Boolean);
+      itens = itens.map(function(i){
+        var m = String(i.sortpubdate||'').match(/(\d{4})\/(\d{2})\/(\d{2})/);
+        i._ord = m ? m[1]+m[2]+m[3] : '0';
+        i._data = m ? m[3]+'/'+m[2]+'/'+m[1] : (i.pubdate||'');
+        return i;
+      }).sort(function(a,b){ return a._ord < b._ord ? 1 : -1; });
+      box.innerHTML = itens.map(function(i){
+        return '<a class="guide-card" href="https://pubmed.ncbi.nlm.nih.gov/' + i.uid + '/" target="_blank" rel="noopener" style="display:block;text-decoration:none">' +
+          '<div class="gc-soc">' + _jEsc(i.source || 'PubMed') + '</div>' +
+          '<div class="gc-name">' + _jEsc(String(i.title||'').replace(/\.$/,'')) + '</div>' +
+          '<div class="gc-year">Publicado em ' + _jEsc(i._data) + ' · PubMed</div></a>';
+      }).join('');
+      _glCarregado = hojeStr;
+    })
+    .catch(function(){
+      box.innerHTML = '<div style="font-size:12px;color:var(--gray-500);padding:6px 2px">Não foi possível buscar as diretrizes agora. Veja as de referência abaixo.</div>';
+    });
+}
+function ordenarGuidelinesEstaticos(){
+  var lista = document.getElementById('guidelines-list');
+  if(!lista) return;
+  var corte = new Date().getFullYear() - 3;
+  var cards = Array.prototype.slice.call(lista.querySelectorAll('.guide-card'));
+  cards.forEach(function(c){
+    var y = parseInt((c.querySelector('.gc-year')||{}).textContent, 10) || 0;
+    c._y = y; if(y && y < corte) c.style.display = 'none';
+  });
+  cards.sort(function(a,b){ return b._y - a._y; }).forEach(function(c){ lista.appendChild(c); });
+}
+
+/* ── CURSOS: busca diária em qualquer idioma ── */
+function carregarCursosLive(){
+  var box = document.getElementById('cursosLive');
+  if(!box) return;
+  var hoje = new Date().toISOString().slice(0,10);
+  function pintar(itens){
+    var NOMES = {pt:'PT',en:'EN',es:'ES',fr:'FR',de:'DE'};
+    box.innerHTML = itens.length ? itens.map(function(i){
+      var dt=''; try{ dt = new Date(i.data).toLocaleDateString('pt-BR'); }catch(e){}
+      return '<a href="'+_jEsc(i.url)+'" target="_blank" rel="noopener" style="display:block;text-decoration:none;background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:11px 13px">' +
+        '<div style="font-size:10px;font-weight:800;color:var(--teal-mid);text-transform:uppercase">'+_jEsc(i.fonte)+' · '+dt+' · '+(NOMES[i.idioma]||'')+'</div>' +
+        '<div style="font-size:13px;font-weight:700;color:var(--navy);line-height:1.4;margin-top:3px">'+_jEsc(i.titulo)+'</div></a>';
+    }).join('') : '<div style="font-size:12px;color:var(--gray-500)">Nenhum curso novo encontrado hoje. Veja as plataformas abaixo.</div>';
+  }
+  try{
+    var c = JSON.parse(localStorage.getItem('hub_cursos')||'null');
+    if(c && c.dia === hoje && c.itens && c.itens.length){ pintar(c.itens); return; }
+  }catch(e){}
+  fetch('/cursos').then(function(r){ return r.json(); }).then(function(d){
+    var itens = d.itens || [];
+    pintar(itens);
+    if(itens.length){ try{ localStorage.setItem('hub_cursos', JSON.stringify({dia:hoje, itens:itens})); }catch(e){} }
+  }).catch(function(){
+    box.innerHTML = '<div style="font-size:12px;color:var(--gray-500)">Não foi possível buscar cursos agora.</div>';
+  });
+}
+
 /* ── JORNAL DA ALERGIA ──────────────────────────── */
 var _jornalOk = false;
 function _jEsc(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -4063,6 +4146,8 @@ function navTo(page){
   if(page === 'artigos') { try{ ordenarArtigosPorData('artigos-list'); }catch(e){} }
   if(page === 'alergonews') renderAlergoNews();
   if(page === 'jornal') renderJornal();
+  if(page === 'educacao') carregarCursosLive();
+  if(page === 'guidelines'){ ordenarGuidelinesEstaticos(); carregarGuidelinesLive(); }
   if(page === 'perfil') preencherPerfil();
   if(page === 'artigos' && !_feedLoaded){ _feedLoaded = true; renderFeedChips(); carregarFeed('todos'); }
   if(page === 'imuno'){
@@ -4241,9 +4326,60 @@ document.addEventListener('click',function(e){
 });
 
 /* ── SEARCH ── */
-var _si=document.getElementById('searchInput');if(_si)_si.addEventListener('keydown',function(e){
-  if(e.key==='Enter'&&this.value.trim()){toast('🔍','Buscando: '+this.value.trim());this.value='';}
-});
+var _BUSCA_PAGINAS = [
+  ['dashboard','início home'],['imuno','imunobiológicos biológicos omalizumabe dupilumabe mepolizumabe radar anvisa conitec'],['imunoglobulinas','imunoglobulina gama reposição'],
+  ['interacao','interações medicamentosas'],['artigos','artigos pubmed publicações'],['guidelines','guidelines diretrizes consensos'],['scores','scores calculadoras uas7 uct act easi scorad corticoide'],
+  ['assistente','ia assistente robô'],['educacao','cursos educação aulas congressos'],['crm','crm consultar médico'],['alergonews','notícias alergo news mídia'],['jornal','jornal da alergia manchete'],
+  ['perfil','perfil conta dados'],['favoritos','favoritos salvos']
+];
+function _buscaNorm(t){ return String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+function _buscaFechar(){ var b=document.getElementById('buscaRes'); if(b) b.style.display='none'; }
+function _buscaIr(page, termo){
+  _buscaFechar(); navTo(page);
+  if(termo){ setTimeout(function(){
+    var alvo=null, tn=_buscaNorm(termo);
+    document.querySelectorAll('#page-'+page+' .guide-card, #page-'+page+' .art-card').forEach(function(c){
+      var on = _buscaNorm(c.textContent).indexOf(tn)>-1;
+      c.style.display = on ? '' : 'none'; if(on && !alvo) alvo=c;
+    });
+  }, 120); }
+}
+function buscarNoHub(q){
+  q=(q||'').trim(); var box=document.getElementById('buscaRes');
+  if(!box){
+    box=document.createElement('div'); box.id='buscaRes';
+    box.style.cssText='position:fixed;top:56px;left:8px;right:8px;max-width:520px;margin:0 auto;background:#fff;border:1px solid var(--gray-100);border-radius:14px;box-shadow:0 14px 44px rgba(13,31,45,.28);z-index:400;max-height:70vh;overflow-y:auto;display:none';
+    document.body.appendChild(box);
+  }
+  if(q.length<2){ box.style.display='none'; return; }
+  var qn=_buscaNorm(q), h='', n=0;
+  _BUSCA_PAGINAS.forEach(function(pg){
+    if(!PAGE_TITLES[pg[0]]) return;
+    if(_buscaNorm(PAGE_TITLES[pg[0]]+' '+pg[1]).indexOf(qn)>-1){
+      n++; h+='<div onclick="_buscaIr(\''+pg[0]+'\')" style="padding:11px 14px;border-bottom:1px solid var(--gray-100);cursor:pointer;font-size:13px;font-weight:700;color:var(--navy)">📍 Ir para '+PAGE_TITLES[pg[0]]+'</div>';
+    }
+  });
+  var vistos=0;
+  [['guidelines','Guidelines','.guide-card'],['artigos','Artigos','.art-card'],['dashboard','Artigos','.art-card']].forEach(function(src){
+    document.querySelectorAll('#page-'+src[0]+' '+src[2]).forEach(function(c){
+      if(vistos>=12) return;
+      var tx=(c.textContent||'').replace(/\s+/g,' ').trim();
+      if(_buscaNorm(tx).indexOf(qn)>-1){
+        vistos++; n++;
+        h+='<div onclick="_buscaIr(\''+src[0]+'\',\''+q.replace(/[\\\'"]/g,'')+'\')" style="padding:10px 14px;border-bottom:1px solid var(--gray-100);cursor:pointer"><div style="font-size:10px;font-weight:800;color:var(--teal-mid)">'+src[1].toUpperCase()+'</div><div style="font-size:12.5px;color:var(--navy);line-height:1.4">'+_jEsc(tx.slice(0,110))+'…</div></div>';
+      }
+    });
+  });
+  if(!n) h='<div style="padding:14px;font-size:12.5px;color:var(--gray-500)">Nada encontrado para “'+_jEsc(q)+'”. Pergunte ao Robô Alergista 🤖.</div>';
+  box.innerHTML=h; box.style.display='block';
+}
+var _si=document.getElementById('searchInput');
+if(_si){
+  _si.addEventListener('input',function(){ buscarNoHub(this.value); });
+  _si.addEventListener('keydown',function(e){ if(e.key==='Enter') buscarNoHub(this.value); if(e.key==='Escape'){ this.value=''; _buscaFechar(); } });
+  document.addEventListener('click',function(e){ if(e.target!==_si && !(e.target.closest&&e.target.closest('#buscaRes'))) _buscaFechar(); });
+}
+
 
 /* ── TOAST ── */
 var toastTimer;
@@ -6255,16 +6391,16 @@ if ('serviceWorker' in navigator) {
 .chat-in input{flex:1;border:1.5px solid var(--gray-100);border-radius:10px;padding:9px 11px;font-family:'Manrope',sans-serif;font-size:12.8px;color:var(--navy);outline:none}
 .chat-in button{background:var(--navy);border:none;color:#fff;border-radius:10px;padding:0 14px;font-weight:800;font-size:13px;cursor:pointer;font-family:'Manrope',sans-serif}
 </style>
-<button id="chatFab" onclick="chatToggle()" aria-label="Dúvidas">💬</button>
+<button id="chatFab" onclick="chatToggle()" aria-label="Robô Alergista">🤖</button>
 <div id="chatPanel" role="dialog" aria-label="Tira-dúvidas">
   <div class="chat-hdr">
-    <div><div class="chat-hdr-t">Tira-dúvidas</div><div class="chat-hdr-s">Como usar o Hub · respostas rápidas</div></div>
+    <div><div class="chat-hdr-t">🤖 Robô Alergista</div><div class="chat-hdr-s">Dúvidas clínicas e do app</div></div>
     <button class="chat-x" onclick="chatToggle()" aria-label="Fechar">×</button>
   </div>
   <div id="chatBody"></div>
   <div class="chat-sug" id="chatSug"></div>
   <div class="chat-in">
-    <input id="chatInput" placeholder="Digite sua dúvida..." autocomplete="off">
+    <input id="chatInput" placeholder="Pergunte ao robô alergista..." autocomplete="off">
     <button onclick="chatEnviar()">↑</button>
   </div>
 </div>
@@ -6302,7 +6438,7 @@ var CHAT_FAQ = [
   {k:['oi','ola','bom dia','boa tarde','boa noite','tudo bem'],
    r:'Olá! Posso explicar como usar qualquer parte do Hub — scores, imunobiológicos, relatórios, assistente de IA, perfil. O que você precisa?'}
 ];
-var CHAT_SUG = ['Como usar os scores?','Instalar no celular','Problema com login','Editar meu perfil','Gerar um relatório'];
+var CHAT_SUG = ['Como usar os scores?','Instalar no celular','Editar meu perfil','Dose de adrenalina na anafilaxia'];
 
 function _chatNorm(t){
   return (t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
@@ -6326,20 +6462,42 @@ function _chatAdd(texto, quem){
   body.appendChild(d);
   body.scrollTop = body.scrollHeight;
 }
+function _chatNomeUsuario(){
+  try{
+    var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
+    var n = String(sess.nome||'').trim().split(' ')[0];
+    var c = String(sess.categoria||'').toLowerCase();
+    var pre = (c.indexOf('méd')>-1 || c.indexOf('med')>-1) ? 'Dr(a). ' : '';
+    return n ? pre + n : '';
+  }catch(e){ return ''; }
+}
+function _chatTemFaq(t){
+  var tn = _chatNorm(t);
+  for(var i=0;i<CHAT_FAQ.length;i++) for(var j=0;j<CHAT_FAQ[i].k.length;j++) if(tn.indexOf(_chatNorm(CHAT_FAQ[i].k[j]))>-1 && CHAT_FAQ[i].k[j].length>3) return true;
+  return false;
+}
 function chatEnviar(txt){
   var inp = document.getElementById('chatInput');
   var t = (typeof txt==='string' && txt) ? txt : (inp.value||'').trim();
   if(!t) return;
   inp.value = '';
   _chatAdd(t,'user');
-  setTimeout(function(){ _chatAdd(_chatResponder(t),'bot'); }, 260);
+  if(_chatTemFaq(t)){ setTimeout(function(){ _chatAdd(_chatResponder(t),'bot'); }, 260); return; }
+  var body = document.getElementById('chatBody');
+  var pens = document.createElement('div'); pens.className='chat-msg chat-bot'; pens.textContent='Pensando…';
+  body.appendChild(pens); body.scrollTop = body.scrollHeight;
+  var ctx = 'Você é o Robô Alergista do Hub do Alergista, falando com ' + (_chatNomeUsuario()||'o usuário') + '. Responda em português, de forma curta e objetiva. Pergunta: ' + t;
+  fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta: ctx})})
+    .then(function(r){ return r.json(); })
+    .then(function(d){ pens.textContent = d.resposta ? String(d.resposta).replace(/\*\*/g,'') : (d.erro || _chatResponder(t)); })
+    .catch(function(){ pens.textContent = _chatResponder(t); });
 }
 function chatToggle(){
   var p = document.getElementById('chatPanel');
   var abrindo = !p.classList.contains('open');
   p.classList.toggle('open');
   if(abrindo && !document.getElementById('chatBody').children.length){
-    _chatAdd('Olá! Sou o tira-dúvidas do Hub. Pergunte sobre qualquer função do app — scores, imunobiológicos, relatórios, perfil, instalação.','bot');
+    var nm=_chatNomeUsuario(); _chatAdd('Olá' + (nm?', '+nm:'') + '! Sou o Robô Alergista. Posso tirar dúvidas clínicas rápidas e explicar qualquer função do Hub. Como posso ajudar?','bot');
   }
   if(abrindo) setTimeout(function(){ document.getElementById('chatInput').focus(); }, 120);
 }
