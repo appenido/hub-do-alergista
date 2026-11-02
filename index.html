@@ -6110,7 +6110,8 @@ function carregarRadar(forcar){
 }
 
 var _feedCache = {};
-var _tradCache = {};   // título original -> tradução (sessão)
+var _tradCache = {};   // título original -> tradução (persistido em localStorage)
+try{ _tradCache = JSON.parse(localStorage.getItem('hub_trad_titulos')||'{}'); }catch(e){ _tradCache = {}; }
 
 function carregarFeed(tema){
   _feedTema = tema;
@@ -6205,36 +6206,70 @@ function renderFeed(d2, box, tema){
   _traduzirTitulosFeed(box, tema);
 }
 
+function _tradLoad(){
+  try{ return JSON.parse(localStorage.getItem('hub_trad_titulos')||'{}'); }catch(e){ return {}; }
+}
+function _tradSave(){
+  try{ localStorage.setItem('hub_trad_titulos', JSON.stringify(_tradCache)); }catch(e){}
+}
+function _ehPortugues(txt){
+  // heurística simples: título já em PT não precisa de tradução
+  return /\b(de|da|do|em|com|para|na|no|uma|dos|das)\b/i.test(txt) && !/\b(the|of|with|and|for|in|a randomized|study|trial|patients)\b/i.test(txt);
+}
+function _aplicarTrad(el){
+  var o = el.getAttribute('data-original');
+  if(_tradCache[o]){ el.textContent = _tradCache[o]; return true; }
+  if(_ehPortugues(o)) return true;
+  return false;
+}
+function _traduzirUm(el, tema, box){
+  var o = el.getAttribute('data-original');
+  var pedido = 'Traduza para o português do Brasil o título de artigo médico a seguir. Responda SOMENTE com a tradução, sem aspas, sem explicação, sem nada antes ou depois.\n\n' + o;
+  return fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta: pedido})})
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var t = (d && d.resposta ? d.resposta : '').split('\n').map(function(l){return l.trim();}).filter(Boolean)[0];
+      if(!t) return;
+      t = t.replace(/^["'\u201c\u201d]+|["'\u201c\u201d]+$/g,'');
+      _tradCache[o] = t;
+      el.textContent = t;
+    }).catch(function(){});
+}
 function _traduzirTitulosFeed(box, tema){
   var els = box.querySelectorAll('.art-title-pt[data-original]');
   if(!els.length) return;
-  if(tema) _feedCache[tema] = box.innerHTML;   // já utilizável, mesmo sem tradução
+  if(tema) _feedCache[tema] = box.innerHTML;   // lista já utilizável
 
-  // tradução já conhecida desta sessão → aplica na hora
   var pendentes = [];
-  els.forEach(function(e){
-    var o = e.getAttribute('data-original');
-    if(_tradCache[o]){ e.textContent = _tradCache[o]; } else { pendentes.push(e); }
-  });
+  els.forEach(function(e){ if(!_aplicarTrad(e)) pendentes.push(e); });
   if(!pendentes.length){ if(tema) _feedCache[tema] = box.innerHTML; return; }
 
+  // 1ª tentativa: lote único (rápido e barato)
   var titulos = pendentes.map(function(e){ return e.getAttribute('data-original'); });
-  var pedido = 'Traduza para o português do Brasil cada título de artigo médico abaixo. Responda APENAS com os títulos traduzidos, um por linha, na mesma ordem, sem numeração.\n\n' + titulos.join('\n');
-  var ctrl = window.AbortController ? new AbortController() : null;
-  if(ctrl) setTimeout(function(){ try{ ctrl.abort(); }catch(_){} }, 8000);
-
-  fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta: pedido}), signal: ctrl ? ctrl.signal : undefined})
+  var pedido = 'Traduza para o português do Brasil cada um dos ' + titulos.length + ' títulos de artigo médico abaixo. Responda com EXATAMENTE ' + titulos.length + ' linhas, uma tradução por linha, na mesma ordem, sem numeração, sem aspas e sem nenhum texto extra.\n\n' + titulos.join('\n');
+  fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta: pedido})})
     .then(function(r){ return r.json(); })
     .then(function(d){
-      if(!d || !d.resposta) return;
-      var linhas = d.resposta.split('\n').map(function(l){ return l.trim(); }).filter(Boolean);
-      pendentes.forEach(function(e, i){
-        if(!linhas[i]) return;
-        e.textContent = linhas[i];
-        _tradCache[e.getAttribute('data-original')] = linhas[i];
-      });
-      if(tema) _feedCache[tema] = box.innerHTML;
-    }).catch(function(){});
+      var linhas = (d && d.resposta ? d.resposta : '').split('\n')
+        .map(function(l){ return l.trim().replace(/^\d+[\).\-]\s*/,'').replace(/^["'\u201c\u201d]+|["'\u201c\u201d]+$/g,''); })
+        .filter(Boolean);
+      if(linhas.length === pendentes.length){
+        pendentes.forEach(function(e, i){
+          e.textContent = linhas[i];
+          _tradCache[e.getAttribute('data-original')] = linhas[i];
+        });
+        _tradSave();
+        if(tema) _feedCache[tema] = box.innerHTML;
+        return;
+      }
+      throw new Error('desalinhado');
+    })
+    .catch(function(){
+      // 2ª tentativa: um pedido por título (sempre alinhado)
+      var seq = Promise.resolve();
+      pendentes.forEach(function(e){ seq = seq.then(function(){ return _traduzirUm(e, tema, box); }); });
+      seq.then(function(){ _tradSave(); if(tema) _feedCache[tema] = box.innerHTML; });
+    });
 }
 
 /* ══ HOME: artigos recentes automáticos do PubMed (com fallback estático) ══ */
