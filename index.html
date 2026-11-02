@@ -2385,6 +2385,20 @@ window._mostrarApp = function(){
             <option value="custom" style="color:#0d1f2d">Dose personalizada — definir mg/kg</option>
           </select>
         </div>
+        <div id="igRepIvMgWrap" style="flex-direction:column;gap:5px;display:flex">
+          <label style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.85)">Quantos mg/kg você quer fazer? (400–800)</label>
+          <select id="igRepIvMg" style="border:1.5px solid rgba(255,255,255,.2);border-radius:11px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:14px;color:#fff;background:rgba(255,255,255,.1);outline:none;width:100%;box-sizing:border-box">
+            <option value="400" style="color:#0d1f2d">400 mg/kg</option>
+            <option value="450" style="color:#0d1f2d">450 mg/kg</option>
+            <option value="500" selected style="color:#0d1f2d">500 mg/kg</option>
+            <option value="550" style="color:#0d1f2d">550 mg/kg</option>
+            <option value="600" style="color:#0d1f2d">600 mg/kg</option>
+            <option value="650" style="color:#0d1f2d">650 mg/kg</option>
+            <option value="700" style="color:#0d1f2d">700 mg/kg</option>
+            <option value="750" style="color:#0d1f2d">750 mg/kg</option>
+            <option value="800" style="color:#0d1f2d">800 mg/kg</option>
+          </select>
+        </div>
         <div id="igCustomMgWrap" style="display:none;flex-direction:column;gap:5px">
           <label style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.85)">Dose desejada (mg/kg)</label>
           <input type="number" id="igCustomMg" inputmode="decimal" placeholder="Ex: 500" style="font-size:16px;border:1.5px solid rgba(255,255,255,.2);border-radius:11px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:15px;color:#fff;background:rgba(255,255,255,.1);outline:none;width:100%;box-sizing:border-box">
@@ -4954,6 +4968,9 @@ function toggleIg(id) {
 
 
 function toggleCustomMg(){
+  var repWrap = document.getElementById('igRepIvMgWrap');
+  var finEl = document.getElementById('igFinalidade');
+  if(repWrap && finEl) repWrap.style.display = (finEl.value === 'reposicao_iv') ? 'flex' : 'none';
   var fin=document.getElementById('igFinalidade').value;
   var wrap=document.getElementById('igCustomMgWrap');
   if(wrap) wrap.style.display = (fin==='custom') ? 'flex' : 'none';
@@ -4992,11 +5009,22 @@ function calcularIg() {
 
   var html = '';
   if(fin === 'reposicao_iv') {
-    var min = (peso * 0.4); var max = (peso * 0.8); var usual = (peso * 0.5);
+    var selMg = document.getElementById('igRepIvMg');
+    var mgEsc = selMg ? parseFloat(selMg.value) : 500;
+    var escolhida = peso * mgEsc / 1000;
+    var tabela = '';
+    for(var mk = 400; mk <= 800; mk += 50){
+      var g = peso * mk / 1000;
+      var destaque = (mk === mgEsc);
+      tabela += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.12);' + (destaque ? 'font-weight:800;color:#7ee0ec' : 'color:rgba(255,255,255,.8)') + '">' +
+                '<span>' + mk + ' mg/kg</span><span>' + g.toFixed(1) + ' g</span></div>';
+    }
     html = '<div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Reposição IDP · Via IV · a cada 3–4 semanas</div>' +
-      '<div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">' + min.toFixed(1) + ' – ' + max.toFixed(1) + ' g</div>' +
-      '<div style="font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.8">Faixa de 400–800 mg/kg para ' + peso + ' kg.<br>Dose usual (500 mg/kg): <strong style="color:#7ee0ec">' + usual.toFixed(1) + ' g</strong> por infusão.' +
-      _igVolLine(usual, prod) + '<br>Meta: manter IgG sérica ≥600 mg/dL. Iniciar com taxa de infusão baixa.</div>';
+      '<div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">' + escolhida.toFixed(1) + ' g</div>' +
+      '<div style="font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.8">Dose escolhida: <strong style="color:#7ee0ec">' + mgEsc + ' mg/kg</strong> para ' + peso + ' kg.' +
+      _igVolLine(escolhida, prod) + '<br>Meta: manter IgG sérica ≥600 mg/dL. Iniciar com taxa de infusão baixa.</div>' +
+      '<div style="margin-top:10px;font-size:11px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Faixa 400–800 mg/kg (a cada 50)</div>' +
+      '<div style="font-size:12px">' + tabela + '</div>';
   } else if(fin === 'reposicao_sc') {
     var minS = (peso * 0.1); var maxS = (peso * 0.15); var usualS = (peso * 0.125);
     html = '<div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Reposição IDP · Via SC · semanal</div>' +
