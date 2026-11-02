@@ -4815,7 +4815,7 @@ document.addEventListener('click', function(eN){
 
 
 /* ══ CONSULTAR CRM — consulta automática, resultado na própria tela ══ */
-var CRM_ENDPOINT = (function(){var h=location.hostname;if(/netlify\.app$/.test(h)) return '/.netlify/functions/crm';if(/pages\.dev$/.test(h)) return '/crm';if(h==='localhost'||h==='127.0.0.1') return '/crm';return 'https://hubalergista.pages.dev/crm';})();
+var CRM_ENDPOINT = (function(){var h=location.hostname;if(/netlify\.app$/.test(h)) return '/.netlify/functions/crm';if(/pages\.dev$/.test(h)) return '/crm';if(h==='localhost'||h==='127.0.0.1') return '/crm';return 'https://hubdoalergista.pages.dev/crm';})();
 
 function crmEsc(s){
   if(s === null || s === undefined) return '';
