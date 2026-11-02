@@ -6019,14 +6019,29 @@ function carregarRadar(forcar){
   });
 }
 
+var _feedCache = {};
+
 function carregarFeed(tema){
   _feedTema = tema;
   renderFeedChips();
   var box = document.getElementById('feedResults');
   if(!box) return;
-  box.innerHTML = '<div style="text-align:center;padding:22px 0;color:var(--gray-300);font-size:12.5px">⏳ Buscando as publicações mais recentes no PubMed...</div>';
+
+  // já buscado nesta sessão → mostra na hora, sem tela de carregamento
+  if(_feedCache[tema]){
+    box.style.opacity = '1';
+    box.innerHTML = _feedCache[tema];
+    return;
+  }
+
+  if(box.innerHTML.indexOf('art-card') > -1){
+    box.style.opacity = '.4';          // mantém a lista anterior enquanto busca
+  } else {
+    box.innerHTML = '<div style="text-align:center;padding:22px 0;color:var(--gray-300);font-size:12.5px">⏳ Buscando as publicações mais recentes no PubMed...</div>';
+  }
 
   if(!window.fetch){
+    box.style.opacity = '1';
     box.innerHTML = '<div style="background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:16px;font-size:12px;color:var(--gray-500)">Seu navegador não suporta busca automática. <a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener" style="color:var(--teal-mid);font-weight:700">Abrir o PubMed</a></div>';
     return;
   }
@@ -6042,18 +6057,21 @@ function carregarFeed(tema){
   fetch(esearch).then(function(r){ return r.json(); }).then(function(d){
     var ids = (d && d.esearchresult && d.esearchresult.idlist) ? d.esearchresult.idlist : [];
     if(!ids.length){
+      box.style.opacity = '1';
       box.innerHTML = '<div style="background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:16px;font-size:12px;color:var(--gray-500);text-align:center">Nenhuma publicação recente encontrada para este filtro.</div>';
       return;
     }
     var esum = base + 'esummary.fcgi?db=pubmed&retmode=json&tool=HubClinico&id=' + ids.join(',');
-    return fetch(esum).then(function(r2){ return r2.json(); }).then(function(d2){ renderFeed(d2, box); });
+    return fetch(esum).then(function(r2){ return r2.json(); }).then(function(d2){ renderFeed(d2, box, tema); });
   }).catch(function(e){
     var pubUrl = 'https://pubmed.ncbi.nlm.nih.gov/?term=' + encodeURIComponent(t.q) + '&sort=date';
+    box.style.opacity = '1';
     box.innerHTML = '<div style="background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:16px;font-size:12px;color:var(--gray-500);line-height:1.5">Não foi possível carregar automaticamente agora (o PubMed pode ter limitado a conexão). <a href="' + pubUrl + '" target="_blank" rel="noopener" style="color:var(--teal-mid);font-weight:700">Ver as mais recentes direto no PubMed →</a></div>';
   });
 }
 
-function renderFeed(d2, box){
+function renderFeed(d2, box, tema){
+  box.style.opacity = '1';
   var res = d2 ? d2.result : null;
   if(!res || !res.uids){
     box.innerHTML = '<div style="text-align:center;padding:16px;color:var(--gray-300);font-size:12px">Sem resultados.</div>';
@@ -6093,10 +6111,11 @@ function renderFeed(d2, box){
       '</div>';
   }
   box.innerHTML = html;
-  _traduzirTitulosFeed(box);
+  _traduzirTitulosFeed(box, tema);
 }
 
-function _traduzirTitulosFeed(box){
+function _traduzirTitulosFeed(box, tema){
+  if(tema) _feedCache[tema] = box.innerHTML;
   var els = box.querySelectorAll('.art-title-pt[data-original]');
   if(!els.length) return;
   var titulos = [];
@@ -6108,6 +6127,7 @@ function _traduzirTitulosFeed(box){
       if(!d || !d.resposta) return;
       var linhas = d.resposta.split('\n').map(function(l){ return l.trim(); }).filter(Boolean);
       els.forEach(function(e, i){ if(linhas[i]) e.textContent = linhas[i]; });
+      if(tema) _feedCache[tema] = box.innerHTML;   // guarda já traduzido
     }).catch(function(){});
 }
 
