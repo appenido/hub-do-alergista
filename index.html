@@ -6089,58 +6089,21 @@ function crmConsultar(params){
   var res = document.getElementById('crmResultado');
   if(!res) return;
   res.style.display = 'flex';
-  res.innerHTML = crmLoading('Consultando a base do CFM...');
 
-  if(!window.fetch){
-    res.innerHTML = crmFallback('Seu navegador n\u00e3o suporta a consulta autom\u00e1tica.');
-    return;
-  }
+  var alvo = params.crm ? ('CRM ' + params.crm + ' - ' + (params.uf||'')) : (params.nome || '');
+  res.innerHTML =
+    '<div style="background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:16px">' +
+      '<div style="font-size:12.5px;color:var(--navy);font-weight:700;margin-bottom:6px">Consulta no CFM</div>' +
+      '<div style="font-size:12px;color:var(--gray-500);line-height:1.55;margin-bottom:10px">O CFM passou a exigir verifica\u00e7\u00e3o humana (reCAPTCHA) na busca, ent\u00e3o a consulta acontece no site oficial. Toque no bot\u00e3o: a busca abre e \u00e9 s\u00f3 colar o dado abaixo.</div>' +
+      '<div id="crmCopiar" style="background:var(--gray-50);border:1px dashed var(--gray-100);border-radius:10px;padding:11px;font-size:13px;font-weight:800;color:var(--navy);text-align:center;cursor:pointer;margin-bottom:10px">' + crmEsc(alvo) + ' \u00b7 copiar</div>' +
+      '<a href="https://portal.cfm.org.br/busca-medicos/" target="_blank" rel="noopener" style="display:block;text-align:center;background:linear-gradient(135deg,var(--teal-mid),var(--teal-light));color:#fff;border-radius:10px;padding:12px;font-size:12.5px;font-weight:800;text-decoration:none">Abrir busca do CFM \u2192</a>' +
+    '</div>';
 
-  var qs = [];
-  for(var k in params){ if(params[k]) qs.push(k + '=' + encodeURIComponent(params[k])); }
-
-  fetch(CRM_ENDPOINT + '?' + qs.join('&'))
-    .then(function(r){ return r.json().then(function(j){ return {status:r.status, body:j}; }); })
-    .then(function(out){
-      var b = out.body || {};
-
-      if(b.erro){
-        res.innerHTML = crmFallback('A consulta ao CFM falhou: ' + b.erro + '.');
-        return;
-      }
-      if(out.status === 501 || b.error === 'NAO_CONFIGURADO'){
-        res.innerHTML = crmFallback('A consulta autom\u00e1tica ainda n\u00e3o foi ativada neste servidor.');
-        return;
-      }
-      if(b.error === 'CREDITOS_INSUFICIENTES' || (b.data && b.data.error === 'CREDITOS_INSUFICIENTES')){
-        res.innerHTML = crmFallback('Cr\u00e9ditos da API esgotados. Fa\u00e7a uma recarga para retomar as consultas.');
-        return;
-      }
-
-      var d = b.data;
-      if(!d || d.error === 'NAO_ENCONTRADO' || out.status === 404){
-        res.innerHTML = '<div style="background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:18px;text-align:center">' +
-          '<div style="font-size:13px;color:var(--navy);font-weight:700;margin-bottom:4px">Nenhum registro encontrado</div>' +
-          '<div style="font-size:11.5px;color:var(--gray-500);line-height:1.5">Confira o nome, o n\u00famero do CRM e a UF.</div></div>';
-        return;
-      }
-
-      if(b.modo === 'lista' && Object.prototype.toString.call(d) === '[object Array]'){
-        if(!d.length){
-          res.innerHTML = '<div style="background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:18px;text-align:center;font-size:12.5px;color:var(--gray-500)">Nenhum m\u00e9dico encontrado com esse nome.</div>';
-          return;
-        }
-        res.innerHTML = crmRenderLista(d);
-        toast('\u2705', d.length + ' resultado(s)');
-        return;
-      }
-
-      res.innerHTML = crmCardDetalhe(d);
-      toast('\u2705', 'Registro localizado');
-    })
-    .catch(function(){
-      res.innerHTML = crmFallback('A consulta autom\u00e1tica n\u00e3o est\u00e1 dispon\u00edvel neste ambiente. Isso ocorre quando o app roda fora do Netlify ou quando a fun\u00e7\u00e3o de consulta ainda n\u00e3o foi publicada. Use o link abaixo para consultar direto no CFM.');
-    });
+  var box = document.getElementById('crmCopiar');
+  if(box) box.addEventListener('click', function(){
+    var txt = params.crm ? params.crm : (params.nome||'');
+    if(navigator.clipboard) navigator.clipboard.writeText(txt).then(function(){ toast('\u2705','Copiado'); });
+  });
 }
 
 /* Botão consultar + clique num resultado da lista (delegação) */
