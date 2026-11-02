@@ -91,6 +91,13 @@ body{
   display:flex;align-items:center;justify-content:center;font-size:15px;
   cursor:pointer;position:relative;flex-shrink:0;
 }
+.tb-user{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--aqua),var(--teal-mid));display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:800;color:#fff;cursor:pointer;flex-shrink:0;border:1px solid rgba(255,255,255,.25);font-family:'Manrope',sans-serif;}
+.tb-user:active{opacity:.75;}
+.perf-field{margin-bottom:12px;}
+.perf-field label{display:block;font-size:11px;font-weight:700;color:var(--gray-500);margin-bottom:5px;}
+.perf-field input{width:100%;box-sizing:border-box;border:1.5px solid var(--gray-100);border-radius:10px;padding:10px 12px;font-family:'Manrope',sans-serif;font-size:13px;color:var(--navy);outline:none;background:#fff;}
+.perf-field input:focus{border-color:var(--teal-mid);}
+.perf-field input:disabled{background:var(--gray-50);color:var(--gray-500);}
 .tb-dot{position:absolute;top:5px;right:5px;width:6px;height:6px;background:var(--aqua);border-radius:50%;border:1.5px solid var(--navy);}
 
 /* ── SCROLL AREA ── */
@@ -801,6 +808,7 @@ window._mostrarApp = function(){
     <input id="searchInput" type="text" placeholder="Buscar...">
   </div>
   <div class="tb-bell" id="btnNotif">🔔<div class="tb-dot"></div></div>
+  <div class="tb-user" id="btnPerfil" title="Meu perfil" onclick="navTo('perfil')">--</div>
 </header>
 
 <!-- SCROLL AREA -->
@@ -2679,6 +2687,37 @@ window._mostrarApp = function(){
     <div style="height:80px"></div>
   </div>
 
+  <!-- ══ PERFIL ══ -->
+  <div class="page" id="page-perfil">
+    <div style="padding:16px 16px 8px">
+      <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px">
+        <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
+        Meu perfil
+      </div>
+      <div style="font-size:11.5px;color:var(--gray-500);margin-top:4px">Seus dados de cadastro. Edite e salve quando quiser.</div>
+    </div>
+    <div style="margin:8px 16px 0;background:#fff;border:1px solid var(--gray-100);border-radius:13px;padding:16px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <div id="perfAvatar" style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--aqua),var(--teal-mid));display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:800">--</div>
+        <div>
+          <div id="perfNomeTop" style="font-size:14px;font-weight:800;color:var(--navy)">—</div>
+          <div id="perfEmailTop" style="font-size:11.5px;color:var(--gray-500)">—</div>
+        </div>
+      </div>
+      <div class="perf-field"><label>Nome completo</label><input id="perfNome" type="text"></div>
+      <div class="perf-field"><label>Endereço completo</label><input id="perfEndereco" type="text"></div>
+      <div class="perf-field"><label>CRM</label><input id="perfCrm" type="text"></div>
+      <div class="perf-field"><label>Especialidade médica</label><input id="perfEspecialidade" type="text"></div>
+      <div class="perf-field"><label>Número do RQE (opcional)</label><input id="perfRqe" type="text"></div>
+      <div class="perf-field"><label>E-mail (não editável)</label><input id="perfEmail" type="text" disabled></div>
+      <div class="perf-field"><label>Nova senha (deixe em branco para manter)</label><input id="perfSenha" type="password" placeholder="mín. 6 caracteres"></div>
+      <div id="perfMsg" style="font-size:12px;font-weight:700;margin-bottom:10px;min-height:16px"></div>
+      <button onclick="salvarPerfil()" style="width:100%;background:var(--navy);border:none;color:#fff;border-radius:10px;padding:12px;font-family:'Manrope',sans-serif;font-size:13.5px;font-weight:800;cursor:pointer">Salvar alterações</button>
+      <button onclick="fazerLogout()" style="width:100%;margin-top:10px;background:#fff;border:1.5px solid #e74c3c;color:#e74c3c;border-radius:10px;padding:10px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Sair da conta →</button>
+    </div>
+    <div style="height:80px"></div>
+  </div>
+
 </div><!-- /scroll-area -->
 
 <!-- bottom nav removed -->
@@ -2832,6 +2871,7 @@ function _iniciarSessao(email, nome){
   }catch(e){}
   document.getElementById('authScreen').style.display = 'none';
   window._mostrarApp();
+  _atualizarInfoUsuario();
   if(typeof toast==='function') toast('👋','Bem-vindo(a), '+nome.split(' ')[0]+'!');
 }
 
@@ -2847,12 +2887,70 @@ function fazerLogout(){
   authModo('login');
 }
 
+function _iniciais(nome){
+  var p=(nome||'').trim().split(/\s+/).filter(Boolean);
+  if(!p.length) return '--';
+  return (p[0][0]+(p.length>1?p[p.length-1][0]:'')).toUpperCase();
+}
+
 function _atualizarInfoUsuario(){
   try{
     var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
     var el = document.getElementById('authUserInfo');
     if(el && sess.nome) el.textContent = sess.nome + ' (' + (sess.email||'') + ')';
+    var av = document.getElementById('btnPerfil');
+    if(av) av.textContent = _iniciais(sess.nome);
   }catch(e){}
+}
+
+function preencherPerfil(){
+  try{
+    var sess  = JSON.parse(localStorage.getItem('hub_session')||'{}');
+    var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
+    var u = users[sess.email] || {};
+    function set(id,v){var el=document.getElementById(id); if(el) el.value = v||'';}
+    set('perfNome', u.nome||sess.nome);
+    set('perfEndereco', u.endereco);
+    set('perfCrm', u.crm);
+    set('perfEspecialidade', u.especialidade);
+    set('perfRqe', u.rqe);
+    set('perfEmail', sess.email);
+    set('perfSenha','');
+    var msg=document.getElementById('perfMsg'); if(msg) msg.textContent='';
+    var av=document.getElementById('perfAvatar'); if(av) av.textContent=_iniciais(u.nome||sess.nome);
+    var nt=document.getElementById('perfNomeTop'); if(nt) nt.textContent=u.nome||sess.nome||'—';
+    var et=document.getElementById('perfEmailTop'); if(et) et.textContent=sess.email||'—';
+  }catch(e){}
+}
+
+function salvarPerfil(){
+  var msg = document.getElementById('perfMsg');
+  function erro(t){ if(msg){msg.style.color='#e74c3c'; msg.textContent=t;} }
+  try{
+    var sess  = JSON.parse(localStorage.getItem('hub_session')||'{}');
+    var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
+    var u = users[sess.email];
+    if(!u){ erro('Sessão expirada. Faça login novamente.'); return; }
+    var nome = (document.getElementById('perfNome').value||'').trim();
+    var senha = document.getElementById('perfSenha').value||'';
+    if(!nome){ erro('Informe seu nome completo.'); return; }
+    if(senha && senha.length<6){ erro('A nova senha deve ter no mínimo 6 caracteres.'); return; }
+    u.nome          = nome;
+    u.endereco      = (document.getElementById('perfEndereco').value||'').trim();
+    u.crm           = (document.getElementById('perfCrm').value||'').trim();
+    u.especialidade = (document.getElementById('perfEspecialidade').value||'').trim();
+    var rqe         = (document.getElementById('perfRqe').value||'').trim();
+    u.rqe           = rqe || null;
+    if(senha) u.hash = _hash(senha);
+    users[sess.email] = u;
+    localStorage.setItem('hub_users', JSON.stringify(users));
+    sess.nome = nome;
+    localStorage.setItem('hub_session', JSON.stringify(sess));
+    _atualizarInfoUsuario();
+    preencherPerfil();
+    if(msg){ msg.style.color='#16a34a'; msg.textContent='Dados salvos.'; }
+    if(typeof toast==='function') toast('✅','Perfil atualizado');
+  }catch(e){ erro('Erro ao salvar. Tente novamente.'); }
 }
 
 // Enter nos campos de login / cadastro
@@ -3044,7 +3142,7 @@ function _deletarPrompt(idx){
 }
 
 /* ── NAVIGATION ── */
-var PAGE_TITLES={dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',noticias:'Notícias',scores:'Scores',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',mais:'Mais'};
+var PAGE_TITLES={dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',noticias:'Notícias',scores:'Scores',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Meu perfil',mais:'Mais'};
 
 var _navHistory = ['dashboard'];
 
@@ -3077,6 +3175,7 @@ function navTo(page){
     if(fab)     fab.classList.add('visible');
   }
 
+  if(page === 'perfil') preencherPerfil();
   if(page === 'artigos' && !_feedLoaded){ _feedLoaded = true; renderFeedChips(); carregarFeed('todos'); }
   if(page === 'imuno' && !_radarLoaded){ _radarLoaded = true; carregarRadar(false); }
   if(page === 'assistente'){ try{ selectAI(window._currentAI||'claude'); }catch(e){} }
