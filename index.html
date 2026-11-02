@@ -3024,8 +3024,9 @@ function setPromptText(txt){
 
 function enviarParaIA(){
   var ta = document.getElementById('assistInput');
-  var prompt = ta ? (ta.value||'').trim() : '';
-  if(!prompt){ toast('⚠️','Escreva um prompt primeiro!'); return; }
+  var texto = ta ? (ta.value||'').trim() : '';
+  if(!texto){ toast('⚠️','Escreva um prompt primeiro!'); return; }
+  var prompt = _montarPromptIA(texto);
 
   var cfg = _aiConfig[_currentAI];
   var resp = document.getElementById('assistResp');
@@ -3553,43 +3554,9 @@ function _montarPromptIA(texto){
   return AI_SYSTEM_PREFIX + texto;
 }
 
-function _atualizarPreview(texto){
-  var prev = document.getElementById('assistPreview');
-  var prevTxt = document.getElementById('assistPreviewText');
-  if(!prev || !prevTxt) return;
-  if(!texto){ prev.style.display='none'; return; }
-  prev.style.display='block';
-  prevTxt.textContent = _montarPromptIA(texto);
-}
-
 function sendAssistente(text){
   var inp = document.getElementById('assistInput');
   if(inp && !inp.value) inp.value = text;
-  _atualizarPreview(text);
-}
-
-function enviarIA(modelo){
-  var inp = document.getElementById('assistInput');
-  var texto = (inp ? inp.value.trim() : '') || '';
-  if(!texto){ toast('⚠️','Digite ou escolha um prompt antes de enviar.'); return; }
-  var prompt = _montarPromptIA(texto);
-  var urls = {
-    chatgpt: 'https://chatgpt.com/',
-    gemini:  'https://gemini.google.com/app',
-    claude:  'https://claude.ai/new'
-  };
-  // Copiar para clipboard
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(prompt).then(function(){
-      _mostrarToastAI();
-    }).catch(function(){
-      _fallbackCopy(prompt);
-    });
-  } else {
-    _fallbackCopy(prompt);
-  }
-  // Abrir a IA
-  window.open(urls[modelo] || urls.chatgpt, '_blank', 'noopener,noreferrer');
 }
 
 function _fallbackCopy(txt){
@@ -3601,21 +3568,13 @@ function _fallbackCopy(txt){
   _mostrarToastAI();
 }
 
-function _mostrarToastAI(){
-  var t = document.getElementById('aiCopyToast');
-  if(!t) return;
-  t.style.display='block';
-  setTimeout(function(){ t.style.display='none'; }, 4000);
-}
+function _mostrarToastAI(){ toast('✅','Prompt copiado!'); }
 
 /* Input → atualiza preview ao vivo */
 var _aiInput = document.getElementById('assistInput');
 if(_aiInput){
-  _aiInput.addEventListener('input', function(){
-    _atualizarPreview(this.value.trim());
-  });
   _aiInput.addEventListener('keydown', function(e){
-    if(e.key==='Enter'){ e.preventDefault(); enviarIA('chatgpt'); }
+    if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); enviarParaIA(); }
   });
 }
 
