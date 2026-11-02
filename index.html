@@ -3912,16 +3912,12 @@ function renderJornal(){
       (dom ? '<img src="https://www.google.com/s2/favicons?domain=' + _jEsc(dom) + '&sz=64" width="16" height="16" alt="" style="border-radius:3px" onerror="this.style.display=\'none\'">' : '') +
       '<span>' + _jEsc(fonte) + '</span><span style="color:var(--gray-500);font-weight:700">· ' + _jEsc(dBR(data)) + '</span></div>';
   }
-  Promise.all([
-    fetch('jornal/edicao.json').then(function(r){ return r.json(); }),
-    fetch('/news').then(function(r){ return r.json(); }).catch(function(){ return {itens:[]}; })
-  ]).then(function(res){
-    var e = res[0], feed = (res[1].itens||[]);
+  function montar(e, feed){
     var itens = e.noticias.map(function(n){
       return {titulo:n.manchete, fonte:n.fonte.replace(/\s*\(.*\)/,''), data:n.data, url:n.url, resumo:n.resumo, destaque:!!n.destaque, _t:ts(n.data)};
     });
     var urls = {}; itens.forEach(function(i){ urls[i.url]=1; });
-    feed.forEach(function(f){
+    (feed||[]).forEach(function(f){
       if(!f.titulo || !f.url || urls[f.url]) return;
       itens.push({titulo:f.titulo, fonte:f.fonte||'Mídia', data:f.data, url:f.url, resumo:'', destaque:false, _t:ts(f.data)});
     });
@@ -3946,10 +3942,30 @@ function renderJornal(){
         (n.resumo ? '<div style="font-size:12.5px;line-height:1.55;color:var(--gray-700,#444);margin-top:6px">' + _jEsc(n.resumo.split('. ').slice(0,2).join('. ') + '.') + '</div>' : '') +
         '</a>';
     }).join('');
+    return h;
+  }
+  function pintar(h){
     box.innerHTML = h;
     _jornalOk = true;
+    try{ localStorage.setItem('hub_jornal_html', h); }catch(e){}
+  }
+
+  // 1) última versão guardada aparece na hora
+  try{
+    var cache = localStorage.getItem('hub_jornal_html');
+    if(cache) box.innerHTML = cache;
+  }catch(e){}
+
+  // 2) edição local (rápida) já monta o jornal; 3) feed atualiza depois
+  var _ed = null;
+  fetch('jornal/edicao.json').then(function(r){ return r.json(); }).then(function(e){
+    _ed = e;
+    pintar(montar(e, []));
+    return fetch('/news').then(function(r){ return r.json(); }).then(function(d){
+      pintar(montar(_ed, d.itens||[]));
+    }).catch(function(){});
   }).catch(function(){
-    box.innerHTML = '<div style="padding:20px;font-size:12px;color:var(--gray-500)">Não foi possível carregar o jornal agora.</div>';
+    if(!_jornalOk) box.innerHTML = '<div style="padding:20px;font-size:12px;color:var(--gray-500)">Não foi possível carregar o jornal agora.</div>';
   });
 }
 document.addEventListener('DOMContentLoaded', carregarNoticiasMidia);
