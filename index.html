@@ -134,7 +134,8 @@ body{
   background:linear-gradient(180deg,var(--aqua),var(--teal-mid));
   border-radius:2px;flex-shrink:0;
 }
-.see-all{font-size:12px;font-weight:700;color:var(--teal-light);cursor:pointer;transition:color .15s,opacity .15s;}
+.see-all{font-size:12px;font-weight:700;color:var(--teal-light);cursor:pointer !important;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;transition:color .15s,opacity .15s;}
+.see-all *{cursor:pointer !important;}
 .see-all:hover,.see-all:focus-visible{color:var(--teal-mid);text-decoration:underline;}
 .see-all:active{opacity:.6;}
 
