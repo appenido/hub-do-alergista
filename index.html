@@ -2683,35 +2683,44 @@ window._mostrarApp = function(){
     <!-- CONSULTAR CRM -->
   <div class="page" id="page-crm">
     <div style="padding:16px 16px 8px">
-      <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px">
-        <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
+      <h2 style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;margin:0">
+        <span aria-hidden="true" style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
         Consultar CRM
-      </div>
-      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Verifique o registro de um médico na base oficial do CFM</div>
+      </h2>
+      <p style="font-size:12px;color:var(--gray-500);margin:4px 0 0">Consulte o registro de um m&eacute;dico na base do Conselho Federal de Medicina</p>
     </div>
     <div style="padding:0 16px 24px;display:flex;flex-direction:column;gap:12px">
-      <div style="display:flex;flex-direction:column;gap:5px">
-        <label style="font-size:12px;font-weight:700;color:var(--navy)">Nome do médico</label>
-        <input type="text" id="crmNome" placeholder="Nome completo ou parte do nome" style="border:1.5px solid var(--gray-100);border-radius:11px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:16px;color:var(--navy);background:var(--gray-50);outline:none;width:100%;box-sizing:border-box">
+
+      <!-- Sem chave de acesso: acesso ao portal oficial -->
+      <div id="crmSemChave" style="display:none;background:#fff;border:1px solid var(--gray-100);border-radius:14px;padding:18px">
+        <div style="font-size:13.5px;font-weight:800;color:var(--navy);margin-bottom:6px">Busca oficial do CFM</div>
+        <p style="font-size:12.5px;color:var(--gray-500);line-height:1.6;margin:0 0 14px">Consulte o registro e as especialidades de um m&eacute;dico na busca oficial do CFM.</p>
+        <a href="https://portal.cfm.org.br/busca-medicos" target="_blank" rel="noopener noreferrer"
+           style="display:block;text-align:center;background:linear-gradient(135deg,var(--teal-mid),var(--teal-light));color:#fff;border-radius:12px;padding:14px;font-size:14px;font-weight:800;text-decoration:none">Consultar no CFM</a>
       </div>
-      <div style="display:flex;gap:8px">
-        <div style="display:flex;flex-direction:column;gap:5px;flex:1">
-          <label style="font-size:12px;font-weight:700;color:var(--navy)">Número do CRM</label>
-          <input type="text" id="crmNumero" inputmode="numeric" placeholder="Ex: 123456" style="border:1.5px solid var(--gray-100);border-radius:11px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:16px;color:var(--navy);background:var(--gray-50);outline:none;width:100%;box-sizing:border-box">
+
+      <!-- Com chave de acesso: consulta integrada -->
+      <form id="crmForm" style="display:none;flex-direction:column;gap:12px" novalidate>
+        <div style="display:flex;gap:8px;align-items:flex-start">
+          <div style="display:flex;flex-direction:column;gap:5px;flex:1">
+            <label for="crmNumero" style="font-size:12px;font-weight:700;color:var(--navy)">N&uacute;mero do CRM</label>
+            <input type="text" id="crmNumero" name="crmNumero" inputmode="numeric" autocomplete="off" maxlength="7" placeholder="Ex: 123456" aria-describedby="crmAjuda" style="border:1.5px solid var(--gray-100);border-radius:11px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:16px;color:var(--navy);background:var(--gray-50);outline:none;width:100%;box-sizing:border-box">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:5px;width:104px">
+            <label for="crmUf" style="font-size:12px;font-weight:700;color:var(--navy)">UF</label>
+            <select id="crmUf" name="crmUf" style="border:1.5px solid var(--gray-100);border-radius:11px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:16px;color:var(--navy);background:var(--gray-50);outline:none;width:100%;box-sizing:border-box;padding:12px 8px">
+              <option value="">&mdash;</option><option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option><option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option><option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option><option>SE</option><option>TO</option>
+            </select>
+          </div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:5px;width:104px">
-          <label style="font-size:12px;font-weight:700;color:var(--navy)">UF</label>
-          <select id="crmUf" style="border:1.5px solid var(--gray-100);border-radius:11px;padding:12px 8px;font-family:'Manrope',sans-serif;font-size:16px;color:var(--navy);background:var(--gray-50);outline:none;width:100%;box-sizing:border-box">
-            <option value="">—</option>
-            <option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option><option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option><option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option><option>SE</option><option>TO</option>
-          </select>
-        </div>
-      </div>
-      <button id="crmBuscar" style="background:linear-gradient(135deg,var(--teal-mid),var(--teal-light));color:#fff;border:none;border-radius:13px;padding:15px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;width:100%">🔍 Consultar registro</button>
-      <div id="crmResultado" style="display:none;flex-direction:column;gap:10px"></div>
-      <div style="background:rgba(59,191,204,.07);border:1px solid rgba(59,191,204,.2);border-radius:12px;padding:13px 15px;font-size:11.5px;color:var(--gray-500);line-height:1.55">
-        ℹ️ Consulta direta na <strong style="color:var(--teal-mid)">base do Conselho Federal de Medicina</strong>, atualizada diariamente. Busque pelo <strong>nome</strong> para listar médicos, ou informe <strong>número do CRM + UF</strong> para ver situação e especialidades (RQE) direto aqui.
-      </div>
+        <div id="crmErroCampo" role="alert" style="display:none;font-size:12px;font-weight:700;color:#b3261e"></div>
+        <button type="submit" id="crmBuscar" style="background:linear-gradient(135deg,var(--teal-mid),var(--teal-light));color:#fff;border:none;border-radius:13px;padding:15px;font-size:15px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;width:100%">Consultar m&eacute;dico</button>
+        <p id="crmAjuda" style="font-size:11.5px;color:var(--gray-500);line-height:1.55;margin:0">A consulta por <strong>n&uacute;mero do CRM + UF</strong> retorna situa&ccedil;&atilde;o, tipo de inscri&ccedil;&atilde;o e especialidades com RQE. Para busca por nome ou outros filtros, use a busca oficial do CFM.</p>
+        <a href="https://portal.cfm.org.br/busca-medicos" target="_blank" rel="noopener noreferrer"
+           style="display:block;text-align:center;background:var(--gray-50);border:1px solid var(--gray-100);color:var(--teal-mid);border-radius:11px;padding:11px;font-size:12.5px;font-weight:800;text-decoration:none">Consultar no CFM</a>
+      </form>
+
+      <div id="crmResultado" role="status" aria-live="polite" style="display:none;flex-direction:column;gap:10px"></div>
     </div>
   </div>
 
@@ -4109,6 +4118,7 @@ function _deletarPrompt(idx){
 }
 
 /* ── NAVIGATION ── */
+window.crmInit = crmInit;
 var PAGE_TITLES={dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',noticias:'Notícias',scores:'Scores',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Meu perfil',alergonews:'Alergo News',jornal:'Jornal da Alergia',mais:'Mais'};
 
 var _navHistory = ['dashboard'];
@@ -4122,6 +4132,7 @@ function navTo(page){
   document.querySelectorAll('[data-nav]').forEach(function(n){n.classList.remove('active');});
   var pg=document.getElementById('page-'+page);
   if(pg)pg.classList.add('active');
+  if(page === 'crm' && typeof window.crmInit === 'function') window.crmInit();
   document.querySelectorAll('[data-nav="'+page+'"]').forEach(function(n){n.classList.add('active');});
   window.scrollTo(0,0);
   var sa=document.querySelector('.scroll-area');
@@ -6002,136 +6013,171 @@ document.addEventListener('click', function(eN){
 });
 
 
-/* ══ CONSULTAR CRM — consulta automática, resultado na própria tela ══ */
+/* ══ CONSULTAR CRM — webservice oficial do CFM (SOAP, via backend) ══ */
 var CRM_ENDPOINT = (function(){var h=location.hostname;if(/netlify\.app$/.test(h)) return '/.netlify/functions/crm';if(/pages\.dev$/.test(h)) return '/crm';if(h==='localhost'||h==='127.0.0.1') return '/crm';return 'https://hubdoalergista.pages.dev/crm';})();
+
+var CRM_PORTAL = 'https://portal.cfm.org.br/busca-medicos';
 
 function crmEsc(s){
   if(s === null || s === undefined) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-function crmBadgeSituacao(sit){
-  var s = (sit || '').toUpperCase();
+/* Situações que o CFM classifica como restritivas — cor de alerta */
+function crmBadgeSituacao(cod, texto){
+  var c = (cod || '').toUpperCase();
   var cor = '#6b7280', bg = 'rgba(107,114,128,.12)';
-  if(s.indexOf('ATIVO') > -1){ cor = '#1e7a4f'; bg = 'rgba(30,122,79,.12)'; }
-  else if(s.indexOf('CANCELAD') > -1 || s.indexOf('SUSPENS') > -1 || s.indexOf('FALECID') > -1){ cor = '#b3261e'; bg = 'rgba(179,38,30,.12)'; }
-  else if(s.indexOf('APOSENTAD') > -1){ cor = '#8a6d1f'; bg = 'rgba(201,168,76,.18)'; }
-  return '<span style="display:inline-block;background:' + bg + ';color:' + cor + ';font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.02em">' + crmEsc(sit || 'N\u00e3o informada') + '</span>';
+  if(c === 'A'){ cor = '#1e7a4f'; bg = 'rgba(30,122,79,.12)'; }
+  else if(c === 'P' || c === 'T'){ cor = '#8a6d1f'; bg = 'rgba(201,168,76,.18)'; }
+  else if(c){ cor = '#b3261e'; bg = 'rgba(179,38,30,.12)'; }
+  var rotulo = texto || (c ? 'Código ' + c : 'Não informada');
+  return '<span style="display:inline-block;background:' + bg + ';color:' + cor + ';font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:20px;letter-spacing:.02em">' + crmEsc(rotulo) + '</span>';
 }
 
-function crmCardDetalhe(d){
-  var espec = d.especialidades;
-  var especHtml;
-  if(espec){
-    var partes = String(espec).split(',');
-    especHtml = '';
-    for(var i=0;i<partes.length;i++){
-      var p = partes[i].trim();
-      if(!p) continue;
-      especHtml += '<div style="font-size:12px;color:var(--navy);padding:6px 0;border-bottom:1px solid var(--gray-50);line-height:1.4">\u2713 ' + crmEsc(p) + '</div>';
-    }
-  } else {
-    especHtml = '<div style="font-size:12px;color:var(--gray-300);padding:6px 0">Nenhuma especialidade com RQE registrada.</div>';
-  }
-
-  return '<div style="background:#fff;border:1px solid var(--gray-100);border-radius:14px;overflow:hidden">' +
-    '<div style="background:linear-gradient(135deg,var(--navy),var(--teal-mid));padding:15px 16px">' +
-      '<div style="font-size:15.5px;font-weight:800;color:#fff;line-height:1.3">' + crmEsc(d.nome_razao_social) + '</div>' +
-      '<div style="font-size:12px;color:rgba(255,255,255,.75);margin-top:3px">CRM-' + crmEsc(d.uf) + ' ' + crmEsc(d.numero_registro) + ' \u00b7 ' + crmEsc(d.categoria) + '</div>' +
-    '</div>' +
-    '<div style="padding:14px 16px;display:flex;flex-direction:column;gap:12px">' +
-      '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px">' +
-        '<span style="font-size:11px;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em">Situa\u00e7\u00e3o</span>' +
-        crmBadgeSituacao(d.situacao) +
-      '</div>' +
-      (d.tipo_inscricao ?
-      '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px">' +
-        '<span style="font-size:11px;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em">Inscri\u00e7\u00e3o</span>' +
-        '<span style="font-size:12.5px;color:var(--navy);font-weight:700">' + crmEsc(d.tipo_inscricao) + '</span>' +
-      '</div>' : '') +
-      '<div>' +
-        '<div style="font-size:11px;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Especialidades / RQE</div>' +
-        especHtml +
-      '</div>' +
-      '<div style="font-size:10px;color:var(--gray-300);line-height:1.45;font-style:italic">Dado obtido da base do Conselho Federal de Medicina, atualizada diariamente.</div>' +
-    '</div>' +
-  '</div>';
+function crmLinhaPortal(){
+  return '<a href="' + CRM_PORTAL + '" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;background:var(--gray-50);border:1px solid var(--gray-100);color:var(--teal-mid);border-radius:11px;padding:11px;font-size:12.5px;font-weight:800;text-decoration:none">Consultar no CFM</a>';
 }
 
-function crmRenderLista(lista){
-  var html = '<div style="font-size:11.5px;color:var(--gray-500);margin-bottom:4px">' + lista.length + ' m\u00e9dico(s) encontrado(s). Toque para ver os detalhes:</div>';
-  for(var i=0;i<lista.length && i<25;i++){
-    var d = lista[i];
-    html += '<div class="crm-hit" data-uf="' + crmEsc(d.uf) + '" data-num="' + crmEsc(d.numero_registro) + '" ' +
-      'style="background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px">' +
-      '<div style="flex:1;min-width:0">' +
-        '<div style="font-size:13px;font-weight:700;color:var(--navy);line-height:1.3">' + crmEsc(d.nome_razao_social) + '</div>' +
-        '<div style="font-size:11px;color:var(--gray-500);margin-top:2px">CRM-' + crmEsc(d.uf) + ' ' + crmEsc(d.numero_registro) + ' \u00b7 ' + crmEsc(d.categoria) + '</div>' +
-      '</div>' +
-      '<span style="color:var(--gray-300);font-size:17px;flex-shrink:0">\u203a</span>' +
-    '</div>';
-  }
-  return html;
-}
-
-function crmFallback(msg){
-  return '<div style="background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:16px">' +
-    '<div style="font-size:12.5px;color:var(--gray-500);line-height:1.55;margin-bottom:12px">' + crmEsc(msg) + '</div>' +
-    '<a href="https://portal.cfm.org.br/busca-medicos/" target="_blank" rel="noopener" style="display:block;text-align:center;background:var(--gray-50);border:1px solid var(--gray-100);color:var(--teal-mid);border-radius:10px;padding:11px;font-size:12.5px;font-weight:800;text-decoration:none">Consultar no site do CFM \u2192</a>' +
-  '</div>';
+function crmAviso(titulo, msg, tom){
+  var cor = tom === 'erro' ? '#b3261e' : 'var(--navy)';
+  return '<div style="background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:18px">' +
+    '<div style="font-size:13px;font-weight:800;color:' + cor + ';margin-bottom:5px">' + crmEsc(titulo) + '</div>' +
+    '<p style="font-size:12.5px;color:var(--gray-500);line-height:1.55;margin:0 0 12px">' + crmEsc(msg) + '</p>' +
+    crmLinhaPortal() + '</div>';
 }
 
 function crmLoading(txt){
-  return '<div style="text-align:center;padding:22px 0;color:var(--gray-300);font-size:12.5px">\u23f3 ' + txt + '</div>';
+  return '<div style="text-align:center;padding:22px 0;color:var(--gray-300);font-size:12.5px">' + crmEsc(txt) + '</div>';
 }
 
-function crmConsultar(params){
+function crmDataHora(iso){
+  try{
+    var d = new Date(iso);
+    return d.toLocaleDateString('pt-BR') + ' às ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  }catch(e){ return ''; }
+}
+
+function crmCardDetalhe(d, consultadoEm){
+  var espec = d.especialidades || [];
+  var especHtml = '';
+  if(espec.length){
+    for(var i=0;i<espec.length;i++){
+      especHtml += '<div style="font-size:12px;color:var(--navy);padding:7px 0;border-bottom:1px solid var(--gray-50);line-height:1.45">' + crmEsc(espec[i]) + '</div>';
+    }
+    especHtml = '<div style="margin-top:14px">' +
+      '<div style="font-size:11px;font-weight:800;color:var(--gray-500);letter-spacing:.04em;margin-bottom:4px">ESPECIALIDADES E RQE</div>' +
+      especHtml + '</div>';
+  }else{
+    especHtml = '<div style="margin-top:14px;font-size:12px;color:var(--gray-500);line-height:1.5">Nenhuma especialidade registrada no cadastro do CFM.</div>';
+  }
+
+  var linhas = '';
+  function linha(rot, val){
+    if(!val) return '';
+    return '<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:7px 0;border-bottom:1px solid var(--gray-50)">' +
+      '<span style="font-size:11.5px;color:var(--gray-500);font-weight:700">' + rot + '</span>' +
+      '<span style="font-size:12.5px;color:var(--navy);font-weight:700;text-align:right">' + val + '</span></div>';
+  }
+  linhas += linha('Situação', crmBadgeSituacao(d.situacaoCodigo, d.situacao));
+  linhas += linha('Tipo de inscrição', crmEsc(d.tipoInscricao || (d.tipoInscricaoCodigo ? 'Código ' + d.tipoInscricaoCodigo : '')));
+  linhas += linha('Cadastro atualizado em', crmEsc(d.dataAtualizacao));
+
+  return '<div style="background:#fff;border:1px solid var(--gray-100);border-radius:14px;overflow:hidden">' +
+    '<div style="background:linear-gradient(135deg,var(--teal-mid),var(--teal-light));padding:15px 16px">' +
+      '<div style="font-size:15.5px;font-weight:800;color:#fff;line-height:1.3">' + crmEsc(d.nome) + '</div>' +
+      '<div style="font-size:12px;color:rgba(255,255,255,.8);margin-top:3px">CRM ' + crmEsc(d.crm) + '/' + crmEsc(d.uf) + '</div>' +
+    '</div>' +
+    '<div style="padding:14px 16px 16px">' + linhas + especHtml +
+      '<div style="margin-top:14px;font-size:10.5px;color:var(--gray-500);line-height:1.6">' +
+        'Fonte: Conselho Federal de Medicina.' +
+        (d.dataAtualizacao ? ' Cadastro atualizado em ' + crmEsc(d.dataAtualizacao) + '.' : '') +
+        (consultadoEm ? ' Consulta realizada em ' + crmEsc(crmDataHora(consultadoEm)) + '.' : '') +
+      '</div>' +
+    '</div></div>';
+}
+
+function crmConsultar(crm, uf){
   var res = document.getElementById('crmResultado');
+  var btn = document.getElementById('crmBuscar');
   if(!res) return;
   res.style.display = 'flex';
+  res.innerHTML = crmLoading('Consultando a base do CFM…');
+  if(btn){ btn.disabled = true; btn.style.opacity = '.6'; }
 
-  var alvo = params.crm ? ('CRM ' + params.crm + ' - ' + (params.uf||'')) : (params.nome || '');
-  res.innerHTML =
-    '<div style="background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:16px">' +
-      '<div style="font-size:12.5px;color:var(--navy);font-weight:700;margin-bottom:6px">Consulta no CFM</div>' +
-      '<div style="font-size:12px;color:var(--gray-500);line-height:1.55;margin-bottom:10px">O CFM passou a exigir verifica\u00e7\u00e3o humana (reCAPTCHA) na busca, ent\u00e3o a consulta acontece no site oficial. Toque no bot\u00e3o: a busca abre e \u00e9 s\u00f3 colar o dado abaixo.</div>' +
-      '<div id="crmCopiar" style="background:var(--gray-50);border:1px dashed var(--gray-100);border-radius:10px;padding:11px;font-size:13px;font-weight:800;color:var(--navy);text-align:center;cursor:pointer;margin-bottom:10px">' + crmEsc(alvo) + ' \u00b7 copiar</div>' +
-      '<a href="https://portal.cfm.org.br/busca-medicos/" target="_blank" rel="noopener" style="display:block;text-align:center;background:linear-gradient(135deg,var(--teal-mid),var(--teal-light));color:#fff;border-radius:10px;padding:12px;font-size:12.5px;font-weight:800;text-decoration:none">Abrir busca do CFM \u2192</a>' +
-    '</div>';
+  function liberar(){ if(btn){ btn.disabled = false; btn.style.opacity = '1'; } }
 
-  var box = document.getElementById('crmCopiar');
-  if(box) box.addEventListener('click', function(){
-    var txt = params.crm ? params.crm : (params.nome||'');
-    if(navigator.clipboard) navigator.clipboard.writeText(txt).then(function(){ toast('\u2705','Copiado'); });
-  });
+  fetch(CRM_ENDPOINT + '?crm=' + encodeURIComponent(crm) + '&uf=' + encodeURIComponent(uf))
+    .then(function(r){ return r.json().then(function(j){ return {status:r.status, body:j}; }); })
+    .then(function(out){
+      liberar();
+      var b = out.body || {};
+
+      if(b.error === 'NAO_CONFIGURADO'){ crmAplicarModo(false); res.innerHTML = ''; res.style.display='none'; return; }
+      if(b.error === 'NAO_ENCONTRADO'){
+        res.innerHTML = crmAviso('Médico não encontrado', 'Não há registro com esse número de CRM na UF selecionada. Confira os dados e tente novamente.');
+        return;
+      }
+      if(b.error){
+        res.innerHTML = crmAviso('Não foi possível concluir a consulta', (b.mensagem || 'O serviço do CFM não respondeu como esperado.') + ' Isso é uma falha técnica, não significa ausência de registro.', 'erro');
+        return;
+      }
+      if(!b.data){
+        res.innerHTML = crmAviso('Não foi possível concluir a consulta', 'Resposta do CFM em formato inesperado. Isso é uma falha técnica, não significa ausência de registro.', 'erro');
+        return;
+      }
+      res.innerHTML = crmCardDetalhe(b.data, b.consultadoEm);
+    })
+    .catch(function(){
+      liberar();
+      res.innerHTML = crmAviso('Serviço indisponível', 'Não foi possível falar com o servidor de consulta agora. Isso é uma falha técnica, não significa ausência de registro.', 'erro');
+    });
 }
 
-/* Botão consultar + clique num resultado da lista (delegação) */
-document.addEventListener('click', function(eC){
-  if(!eC.target.closest) return;
+/* Alterna entre consulta integrada e acesso ao portal oficial */
+function crmAplicarModo(temChave){
+  var form = document.getElementById('crmForm');
+  var card = document.getElementById('crmSemChave');
+  if(form) form.style.display = temChave ? 'flex' : 'none';
+  if(card) card.style.display = temChave ? 'none' : 'block';
+}
 
-  if(eC.target.closest('#crmBuscar')){
-    var nomeEl = document.getElementById('crmNome');
-    var numEl  = document.getElementById('crmNumero');
-    var ufEl   = document.getElementById('crmUf');
-    var nome = nomeEl ? (nomeEl.value || '').trim() : '';
-    var num  = numEl  ? (numEl.value  || '').trim() : '';
-    var uf   = ufEl   ? (ufEl.value   || '').trim() : '';
+/* Na abertura da tela, pergunta ao backend se a chave está configurada */
+var _crmModoVerificado = false;
+function crmInit(){
+  if(_crmModoVerificado) return;
+  _crmModoVerificado = true;
+  crmAplicarModo(false);
+  fetch(CRM_ENDPOINT + '?crm=0&uf=')
+    .then(function(r){ return r.json().then(function(j){ return {status:r.status, body:j}; }); })
+    .then(function(out){
+      // 501 NAO_CONFIGURADO = sem chave; 400 de parâmetro = chave presente
+      crmAplicarModo(!(out.body && out.body.error === 'NAO_CONFIGURADO'));
+    })
+    .catch(function(){ crmAplicarModo(false); });
+}
 
-    if(num && !uf){ toast('\u26a0\ufe0f','Selecione a UF do CRM'); return; }
-    if(!nome && !num){ toast('\u26a0\ufe0f','Informe o nome ou o n\u00famero do CRM'); return; }
+document.addEventListener('submit', function(eC){
+  if(!eC.target || eC.target.id !== 'crmForm') return;
+  eC.preventDefault();
 
-    if(num && uf) crmConsultar({uf:uf, crm:num});
-    else          crmConsultar({nome:nome});
-    return;
+  var numEl = document.getElementById('crmNumero');
+  var ufEl  = document.getElementById('crmUf');
+  var erroEl= document.getElementById('crmErroCampo');
+  var num = numEl ? (numEl.value || '').replace(/\D/g,'') : '';
+  var uf  = ufEl  ? (ufEl.value  || '').trim() : '';
+
+  function erroCampo(msg, foco){
+    if(erroEl){ erroEl.textContent = msg; erroEl.style.display = 'block'; }
+    if(foco) foco.focus();
   }
+  if(erroEl){ erroEl.style.display = 'none'; erroEl.textContent = ''; }
 
-  var hit = eC.target.closest('.crm-hit');
-  if(hit){
-    crmConsultar({uf: hit.getAttribute('data-uf'), crm: hit.getAttribute('data-num')});
-  }
+  if(!num || Number(num) === 0){ erroCampo('Informe o número do CRM (somente dígitos).', numEl); return; }
+  if(!uf){ erroCampo('Selecione a UF do registro.', ufEl); return; }
+
+  if(numEl) numEl.value = num;
+  crmConsultar(num, uf);
 });
-
 
 /* ── ABRIR LINK: usa <a> real (evita bloqueio/confirmação de popup) ── */
 /* ── NAVIGATION ── */
