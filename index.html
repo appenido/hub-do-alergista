@@ -5745,18 +5745,25 @@ function carregarRadar(forcar){
     function _semAcento(t){ return (t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
     var RE_APROVACAO = /(aprov|incorpor|inclusao|inclui|incluir|registro|registrad|defere|deferid|autoriza|concede|nova indicacao|novas indicacoes|novo medicamento|novos medicamentos|ampliacao de uso|atualiza o rol|atualizacao do rol|cobertura obrigatoria)/;
     var RE_NAO = /(consulta publica|nao incorpor|rejeit|indefer|cancel|suspens|revoga|recolhimento|alerta)/;
-    itensAll = itensAll.filter(function(it){
-      if(ORGAOS_BR.indexOf(it.fonte) === -1) return false;
+    // só órgãos nacionais
+    var itensBR = itensAll.filter(function(it){ return ORGAOS_BR.indexOf(it.fonte) !== -1; });
+    function _ehAprovacao(it){
       var t = _semAcento((it.titulo||'') + ' ' + (it.resumo||''));
       return RE_APROVACAO.test(t) && !RE_NAO.test(t);
-    });
-    var itens = itensAll.filter(function(it){
+    }
+    function _ehTema(it){
       var texto = ((it.titulo||'')+(it.resumo||'')+(it.drogas||[]).join(' ')).toLowerCase();
       for(var ki=0;ki<RADAR_KEYWORDS.length;ki++){
         if(texto.indexOf(RADAR_KEYWORDS[ki].toLowerCase())!==-1) return true;
       }
       return false;
-    });
+    }
+    // cascata: aprovação + tema → aprovação → tema → tudo (órgãos BR)
+    var itens = itensBR.filter(function(it){ return _ehAprovacao(it) && _ehTema(it); });
+    if(!itens.length) itens = itensBR.filter(_ehAprovacao);
+    if(!itens.length) itens = itensBR.filter(_ehTema);
+    if(!itens.length) itens = itensBR.slice();
+    itensAll = itensBR;
     var fontes = d.fontes || {};
     var gerado = d.gerado_em ? new Date(d.gerado_em) : new Date();
     var hm = gerado.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
