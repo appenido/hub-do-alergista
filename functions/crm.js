@@ -38,8 +38,19 @@ export async function onRequestGet({ request }) {
     const texto = await res.text();
     let dados;
     try { dados = JSON.parse(texto); }
-    catch { return json({ erro: 'Resposta inválida do CFM' }, 502); }
-    return json(dados, 200);
+    catch { return json({ erro: 'Resposta inválida do CFM', detalhe: texto.slice(0, 200) }, 502); }
+
+    // o app espera { modo, data }
+    let lista = dados;
+    if (lista && !Array.isArray(lista)) {
+      lista = lista.dados || lista.data || lista.medicos || lista.result || lista.items || lista;
+    }
+    if (Array.isArray(lista)) {
+      if (!lista.length) return json({ modo: 'lista', data: [] }, 200);
+      if (crm && uf) return json({ modo: 'individual', data: lista[0] }, 200);
+      return json({ modo: 'lista', data: lista }, 200);
+    }
+    return json({ modo: 'individual', data: lista }, 200);
   } catch (e) {
     return json({ erro: e.name === 'AbortError' ? 'Timeout' : e.message }, 502);
   }
