@@ -2796,7 +2796,19 @@ window._mostrarApp = function(){
         </select>
       </div>
       <div class="perf-field"><label id="perfRqeLabel">Número do RQE (opcional)</label><input id="perfRqe" type="text"></div>
-      <div class="perf-field"><label>Endereço / local de atendimento *</label><input id="perfEndereco" type="text"></div>
+      <div class="perf-field"><label>CEP *</label><input id="perfCep" type="text" inputmode="numeric" maxlength="9" placeholder="00000-000" oninput="_cepMascara(this)"></div>
+      <div class="perf-field"><label>Rua / Avenida *</label><input id="perfRua" type="text"></div>
+      <div style="display:flex;gap:10px">
+        <div class="perf-field" style="flex:1"><label>Número *</label><input id="perfNumero" type="text" inputmode="numeric"></div>
+        <div class="perf-field" style="flex:1.4"><label>Complemento</label><input id="perfCompl" type="text" placeholder="Sala, andar..."></div>
+      </div>
+      <div class="perf-field"><label>Bairro *</label><input id="perfBairro" type="text"></div>
+      <div style="display:flex;gap:10px">
+        <div class="perf-field" style="flex:2"><label>Cidade *</label><input id="perfCidade" type="text"></div>
+        <div class="perf-field" style="flex:1"><label>UF *</label>
+          <select id="perfEndUf" style="width:100%;box-sizing:border-box;padding:11px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-family:'Manrope',sans-serif;font-size:13.5px;color:var(--navy);background:#fff"><option value="">—</option><option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option><option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option><option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option><option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option><option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option><option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option><option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option><option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option><option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option></select>
+        </div>
+      </div>
       <div class="perf-field"><label>Áreas de interesse (até 3)</label>
         <div id="perfInteresses" style="display:flex;flex-wrap:wrap;gap:6px"></div>
         <div style="font-size:10.5px;color:var(--gray-500);margin-top:6px;line-height:1.4">Usado para destacar na tela inicial o último artigo de cada área.</div>
@@ -2927,7 +2939,7 @@ function _metaDoUsuario(user){
   var m = (user && (user.user_metadata||user.raw_user_meta_data)) || {};
   return {
     nome: m.nome||'', categoria: m.categoria||'', especialidade: m.especialidade||'',
-    endereco: m.endereco||'', crm: m.crm||'', uf: m.uf||'', rqe: m.rqe||null,
+    endereco: m.endereco||'', end: m.end||null, crm: m.crm||'', uf: m.uf||'', rqe: m.rqe||null,
     interesses: m.interesses||[]
   };
 }
@@ -3105,7 +3117,7 @@ function preencherPerfil(){
     if(cat) cat.value = u.categoria||'';
     _perfCatMudou();
     set('perfEspecialidade', (u.categoria==='especialista') ? u.especialidade : '');
-    set('perfEndereco', u.endereco);
+    _enderecoPreencher(u);
     set('perfCrm', u.crm);
     set('perfRqe', u.rqe);
     var ufEl = document.getElementById('perfUf'); if(ufEl) ufEl.value = u.uf||'';
@@ -3138,14 +3150,21 @@ function salvarPerfil(){
     var ufEl2 = document.getElementById('perfUf');
     var ufIn  = ufEl2 ? (ufEl2.value||'') : '';
     var rqeIn = (document.getElementById('perfRqe').value||'').trim();
-    var endIn = (document.getElementById('perfEndereco').value||'').trim();
+    var endObj = _enderecoLer();
     if(_crmObrigatorio(cat) && !crmIn){ erro('Informe seu CRM (obrigatório para médicos).'); return; }
     if(_crmObrigatorio(cat) && !ufIn){ erro('Selecione o estado do CRM.'); return; }
     if(_rqeObrigatorio(cat) && !rqeIn){ erro('Informe seu RQE (obrigatório para especialistas).'); return; }
-    if(!endIn){ erro('Informe o endereço / local de atendimento.'); return; }
+    if(endObj.cep.replace(/\D/g,'').length !== 8){ erro('Informe o CEP completo (8 números).'); return; }
+    if(!endObj.rua){ erro('Informe a rua ou avenida.'); return; }
+    if(!endObj.numero){ erro('Informe o número do endereço.'); return; }
+    if(!endObj.bairro){ erro('Informe o bairro.'); return; }
+    if(!endObj.cidade){ erro('Informe a cidade.'); return; }
+    if(!endObj.uf){ erro('Selecione o estado (UF) do endereço.'); return; }
+    var endIn = _enderecoTexto(endObj);
     u.categoria     = cat;
     u.especialidade = (cat==='especialista') ? espIn : (CATEGORIA_LABEL[cat]||'');
     u.endereco      = endIn;
+    u.end           = endObj;
     u.crm           = crmIn;
     u.uf            = ufIn;
     u.rqe           = rqeIn || null;
@@ -3163,7 +3182,7 @@ function salvarPerfil(){
     var token = sess.token;
     if(token){
       var body = {data:{nome:u.nome, categoria:u.categoria, especialidade:u.especialidade,
-                        endereco:u.endereco, crm:u.crm, uf:u.uf, rqe:u.rqe, interesses:u.interesses}};
+                        endereco:u.endereco, end:u.end, crm:u.crm, uf:u.uf, rqe:u.rqe, interesses:u.interesses}};
       fetch(SB_URL + '/auth/v1/user', {method:'PUT', headers:_sbHeaders(token), body:JSON.stringify(body)})
         .then(function(r){ if(!r.ok && msg){ msg.style.color='#e67e22'; msg.textContent='Salvo neste aparelho, mas não sincronizou na nuvem.'; } })
         .catch(function(){ if(msg){ msg.style.color='#e67e22'; msg.textContent='Salvo neste aparelho (sem conexão).'; } });
@@ -3362,6 +3381,39 @@ function verificarInteracoes(){
 }
 
 
+
+
+/* ── Endereço completo ───────────────────────────── */
+function _cepMascara(el){
+  var v = (el.value||'').replace(/\D/g,'').slice(0,8);
+  if(v.length > 5) v = v.slice(0,5) + '-' + v.slice(5);
+  el.value = v;
+  if(v.length === 9) _cepBuscar(v.replace('-',''));
+}
+function _cepBuscar(cep){
+  fetch('https://viacep.com.br/ws/' + cep + '/json/').then(function(r){ return r.json(); }).then(function(d){
+    if(!d || d.erro) return;
+    function set(id,v){ var el=document.getElementById(id); if(el && v && !el.value) el.value=v; }
+    set('perfRua', d.logradouro); set('perfBairro', d.bairro); set('perfCidade', d.localidade);
+    var uf = document.getElementById('perfEndUf'); if(uf && d.uf) uf.value = d.uf;
+    var n = document.getElementById('perfNumero'); if(n) n.focus();
+  }).catch(function(){});
+}
+function _enderecoLer(){
+  function v(id){ var el=document.getElementById(id); return el ? (el.value||'').trim() : ''; }
+  return {cep:v('perfCep'), rua:v('perfRua'), numero:v('perfNumero'), compl:v('perfCompl'),
+          bairro:v('perfBairro'), cidade:v('perfCidade'), uf:v('perfEndUf')};
+}
+function _enderecoTexto(e){
+  if(!e || !e.rua) return '';
+  return e.rua + ', ' + e.numero + (e.compl ? ' - ' + e.compl : '') + ' - ' + e.bairro + ', ' + e.cidade + '/' + e.uf + ' - CEP ' + e.cep;
+}
+function _enderecoPreencher(u){
+  var e = u.end || {};
+  function set(id,v){ var el=document.getElementById(id); if(el) el.value = v||''; }
+  set('perfCep', e.cep); set('perfRua', e.rua); set('perfNumero', e.numero); set('perfCompl', e.compl);
+  set('perfBairro', e.bairro); set('perfCidade', e.cidade); set('perfEndUf', e.uf);
+}
 
 /* ── Seletor visual de imunoglobulina ───────────── */
 var IG_FABRICANTE = {privigen_10:'CSL Behring',octagam_10:'Octapharma',kiovig_10:'Takeda',flebogamma_10:'Grifols',
