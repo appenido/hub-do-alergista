@@ -5760,12 +5760,11 @@ function carregarRadar(forcar){
       }
       return false;
     }
-    // cascata: aprovação + tema → aprovação → tema → tudo (órgãos BR)
-    var itens = itensBR.filter(function(it){ return _ehAprovacao(it) && _ehTema(it); });
-    if(!itens.length) itens = itensBR.filter(_ehAprovacao);
-    if(!itens.length) itens = itensBR.filter(_ehTema);
-    if(!itens.length) itens = itensBR.slice();
-    itensAll = itensBR;
+    // SEMPRE restrito a alergia/imunologia; só relaxa a exigência de "aprovação"
+    var itensTema = itensBR.filter(_ehTema);
+    var itens = itensTema.filter(_ehAprovacao);
+    if(!itens.length) itens = itensTema;
+    itensAll = itensTema;
     var fontes = d.fontes || {};
     var gerado = d.gerado_em ? new Date(d.gerado_em) : new Date();
     var hm = gerado.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
