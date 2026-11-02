@@ -28,6 +28,7 @@ const CHAVES = /(^|[^a-zà-ú])(alergi\w*|al[ée]rgic\w*|anafila\w*|anafil[áa]t
 // institucional / científico / não-jornalístico — excluído, não vira pendência
 const INSTITUCIONAIS = /(\.gov\.br$|\.gov$|^gov\.br$|asbai\.org|sbp\.com\.br|\bsbi\.org|scielo|doaj\.org|elsevier|pubmed|ncbi\.nlm\.nih\.gov|prnewswire|segs\.com\.br|\.edu\.br$|blogspot\.com$|wordpress\.com$|agenciaminas\.mg\.gov\.br)/i;
 const ESTRANGEIROS = /(vietnam\.vn|investing\.com|publico\.pt|observador\.pt|sapo\.pt|\.vn$|\.pt$|\.es$|\.ao$|\.mz$)/i;
+const VETERINARIO = /(cão|cães|gato\b|gatos\b|veterinári|pet\b|tutor de animais|caesegatos\.com\.br|petlove|portalpet)/i;
 const BR_OK = ['globo.com','uol.com.br','metropoles.com','terra.com.br','r7.com','ig.com.br','band.com.br','cnnbrasil.com.br','estadao.com.br','abril.com.br','ebc.com.br','billboard.com.br','gauchazh.clicrbs.com.br','clicrbs.com.br'];
 
 const limpar = (t) => (t||'').replace(/<!\[CDATA\[|\]\]>/g,'').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').trim();
@@ -115,6 +116,7 @@ async function verificarCandidato(c){
     return { status: 'pendente', titulo: c.titulo, fonte: c.fonte, linkGoogle: c.linkGoogle, motivo: 'URL do veículo inválida' };
   }
   if (ESTRANGEIROS.test(host)) return { status: 'excluido', motivo: 'veículo estrangeiro', titulo: c.titulo, fonte: c.fonte, url: res.url };
+  if (VETERINARIO.test(host) || VETERINARIO.test(c.titulo)) return { status: 'excluido', motivo: 'conteúdo de saúde animal/veterinária, fora do escopo humano', titulo: c.titulo, fonte: c.fonte, url: res.url };
   if (institucional(host))     return { status: 'excluido', motivo: 'fonte institucional/científica, não jornalística', titulo: c.titulo, fonte: c.fonte, url: res.url };
   if (!brasileiro(host))       return { status: 'excluido', motivo: 'domínio fora da lista de mídia brasileira', titulo: c.titulo, fonte: c.fonte, url: res.url };
 
