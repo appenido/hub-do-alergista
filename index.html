@@ -3342,10 +3342,8 @@ function navTo(page){
   if(page === 'mais')      { try{ _atualizarInfoUsuario(); }catch(e){} }
 }
 
-// Back button click
-var _tbBack = document.getElementById('tbBack');
-if(_tbBack) _tbBack.addEventListener('click', function(){
-  // remove a página atual do histórico
+// Voltar (botão do app e botão físico/gesto do celular)
+function voltarApp(){
   if(_navHistory.length > 1){
     _navHistory.pop();               // remove atual
     var prev = _navHistory.pop();    // pega a anterior (navTo vai reempurrar)
@@ -3353,6 +3351,30 @@ if(_tbBack) _tbBack.addEventListener('click', function(){
   } else {
     navTo('dashboard');
   }
+}
+window.voltarApp = voltarApp;
+
+var _tbBack = document.getElementById('tbBack');
+if(_tbBack) _tbBack.addEventListener('click', voltarApp);
+
+/* Botão "voltar" do Android / gesto de voltar do iOS */
+function _histGuard(){
+  try{
+    var atual = _navHistory[_navHistory.length-1] || 'dashboard';
+    if(atual !== 'dashboard' && !(history.state && history.state.hubGuard)){
+      history.pushState({hubGuard:true}, '');
+    }
+  }catch(e){}
+}
+var _navToOriginal = navTo;
+navTo = function(page){ _navToOriginal(page); _histGuard(); };
+window.navTo = navTo;
+
+window.addEventListener('popstate', function(){
+  if(_navHistory.length > 1){
+    voltarApp();   // navTo já repõe o guard se ainda não estiver no início
+  }
+  // no dashboard: deixa o sistema sair do app normalmente
 });
 // Badge de data dinâmica nos Guidelines
 (function(){
