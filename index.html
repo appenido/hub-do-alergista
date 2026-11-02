@@ -134,7 +134,9 @@ body{
   background:linear-gradient(180deg,var(--aqua),var(--teal-mid));
   border-radius:2px;flex-shrink:0;
 }
-.see-all{font-size:12px;font-weight:700;color:var(--teal-light);}
+.see-all{font-size:12px;font-weight:700;color:var(--teal-light);cursor:pointer;transition:color .15s,opacity .15s;}
+.see-all:hover,.see-all:focus-visible{color:var(--teal-mid);text-decoration:underline;}
+.see-all:active{opacity:.6;}
 
 /* ── TAGS ── */
 .tag{display:inline-block;font-size:9.5px;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:.04em;text-transform:uppercase;}
