@@ -3953,7 +3953,7 @@ function carregarCursosLive(){
 }
 
 /* ── JORNAL DA ALERGIA ──────────────────────────── */
-var _jornalOk = false;
+var _jornalOk = false, _radarAtualizado = '';
 function _jEsc(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function renderJornal(){
   var box = document.getElementById('jornalCorpo');
@@ -3984,7 +3984,8 @@ function renderJornal(){
     var demais = itens.filter(function(i){ return i !== dest; });
     var h = '<div style="background:var(--navy);color:#fff;padding:18px 16px 14px;display:flex;align-items:center;gap:12px">' + LOGO +
       '<div style="flex:1"><div style="' + S + 'font-size:26px;line-height:1.05;letter-spacing:.02em">Jornal da Alergia</div>' +
-      '<div style="font-size:10.5px;opacity:.8;margin-top:4px">' + _jEsc(new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})) + '</div></div></div>';
+      '<div style="font-size:10.5px;opacity:.8;margin-top:4px">' + _jEsc(new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})) +
+      (_radarAtualizado ? ' · atualizado em ' + _jEsc(new Date(_radarAtualizado).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})) : '') + '</div></div></div>';
     if(dest){
       h += '<a href="' + _jEsc(dest.url) + '" target="_blank" rel="noopener" style="display:block;text-decoration:none;margin:14px 16px 6px;padding-bottom:14px;border-bottom:2px solid var(--navy)">' +
         '<div style="font-size:10px;font-weight:800;color:#b3261e;letter-spacing:.1em;margin-bottom:6px">DESTAQUE</div>' + veiculo(dest.fonte, dest.url, dest.data) +
@@ -4018,8 +4019,14 @@ function renderJornal(){
   fetch('jornal/edicao.json').then(function(r){ return r.json(); }).then(function(e){
     _ed = e;
     pintar(montar(e, []));
-    return fetch('/news').then(function(r){ return r.json(); }).then(function(d){
-      pintar(montar(_ed, d.itens||[]));
+    return Promise.all([
+      fetch('jornal/radar.json').then(function(r){ return r.json(); }).catch(function(){ return null; }),
+      fetch('/news').then(function(r){ return r.json(); }).catch(function(){ return {itens:[]}; })
+    ]).then(function(rr){
+      var radar = rr[0], extra = (rr[1].itens||[]);
+      if(radar && radar.itens) extra = radar.itens.concat(extra);
+      _radarAtualizado = radar && radar.atualizadoEm || '';
+      pintar(montar(_ed, extra));
     }).catch(function(){});
   }).catch(function(){
     if(!_jornalOk) box.innerHTML = '<div style="padding:20px;font-size:12px;color:var(--gray-500)">Não foi possível carregar o jornal agora.</div>';
