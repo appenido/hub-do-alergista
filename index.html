@@ -3636,7 +3636,7 @@ function carregarNoticiasMidia(){
     // sem feed: usa a manchete da edição do Jornal
     fetch('jornal/edicao.json').then(function(r){ return r.json(); }).then(function(e){
       var t = document.getElementById('alertaNoticiaTexto');
-      if(t) t.innerHTML = '<strong style="color:var(--gold)">Jornal da Alergia nº ' + e.numero + ':</strong> ' + e.manchete;
+      if(t) t.innerHTML = '<strong style="color:var(--gold)">Jornal da Alergia:</strong> ' + e.manchete;
     }).catch(function(){
       var t = document.getElementById('alertaNoticiaTexto');
       if(t) t.textContent = 'Abra o Jornal da Alergia desta semana.';
