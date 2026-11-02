@@ -1,0 +1,10 @@
+const UA={'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Safari/537.36'};
+const r=await fetch('https://news.google.com/rss/search?q=alergia&hl=pt-BR&gl=BR&ceid=BR:pt-419',{headers:UA});
+const xml=await r.text();
+const link=(xml.match(/<link>(https:\/\/news\.google\.com\/rss\/articles\/[^<]+)</)||[])[1];
+console.log('LINK', link);
+const p=await fetch(link,{headers:UA,redirect:'follow'});
+console.log('STATUS',p.status,'URL FINAL',p.url);
+const h=await p.text();
+console.log('TEM SG', /data-n-a-sg=/.test(h), 'TEM TS', /data-n-a-ts=/.test(h), 'LEN', h.length);
+console.log(h.slice(0,600).replace(/\s+/g,' '));
