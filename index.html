@@ -1803,7 +1803,7 @@ window._mostrarApp = function(){
         <span style="font-size:16px">📡</span>
         <div style="flex:1;min-width:0">
           <div style="font-size:13px;font-weight:800;color:var(--navy)">Radar regulatório — aprovações no Brasil</div>
-          <div id="radarStatus" style="font-size:10.5px;color:var(--gray-500)">ANS · CONITEC · ANVISA · Diário Oficial — só aprovações, atualiza sozinho</div>
+          <div id="radarStatus" style="font-size:10.5px;color:var(--gray-500)">ANS · CONITEC · ANVISA · Diário Oficial — as 5 últimas aprovações</div>
         </div>
         <button onclick="carregarRadar(true)" style="background:var(--gray-50);border:1px solid var(--gray-100);border-radius:9px;padding:6px 10px;font-size:11px;font-weight:700;color:var(--teal-mid);cursor:pointer;font-family:Manrope,sans-serif">🔄</button>
       </div>
@@ -5772,7 +5772,7 @@ function carregarRadar(forcar){
     }
     if(status) status.textContent = dd + ' ' + hm + ' · ' + partes.join(' · ');
 
-    if(status) status.textContent += ' · ' + itens.length + '/' + itensAll.length + ' relevantes';
+    if(status) status.textContent += ' · ' + Math.min(itens.length,5) + ' últimas aprovações';
     if(!itens.length){
       lista.innerHTML = '<div style="padding:16px;font-size:12px;color:var(--gray-500);text-align:center">Nenhuma aprovação recente encontrada nos órgãos nacionais (ANS, CONITEC, ANVISA, Diário Oficial). Toque em 🔄 para atualizar.</div>';
       return;
@@ -5782,6 +5782,7 @@ function carregarRadar(forcar){
       var da = Date.parse(a.data || '') || 0, db = Date.parse(b.data || '') || 0;
       return db - da;   // mais recente no topo; sem data vão para o fim
     });
+    itens = itens.slice(0,5);   // só as 5 últimas aprovações
     var FONTE_COR = {ANS:'#0056a6',CONITEC:'#2e7d32',DOU:'#6a1b9a',ANVISA:'#bf360c',FDA:'#1565c0'};
     var html = '';
     for(var i=0;i<itens.length;i++){
