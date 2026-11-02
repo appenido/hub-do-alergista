@@ -69,9 +69,20 @@ async function resolverUrlReal(linkGoogle){
       body: 'f.req=' + encodeURIComponent(JSON.stringify([[req]]))
     });
     const t = await r.text();
-    const alvo = t.match(/"(https?:\/\/(?!news\.google)[^"\\]+)"/);
-    if (!alvo) return { ok: false, motivo: 'resposta de resolução do Google Notícias sem URL do veículo' };
-    return { ok: true, url: alvo[1] };
+    // a resposta do batchexecute vem em blocos (número de bytes + linha JSON); procura o bloco "Fbv4je"
+    for (const linha of t.split('\n')) {
+      if (!linha.startsWith('[')) continue;
+      try {
+        const arr = JSON.parse(linha);
+        for (const row of arr) {
+          if (Array.isArray(row) && row[1] === 'Fbv4je' && typeof row[2] === 'string') {
+            const inner = JSON.parse(row[2]);
+            if (typeof inner[1] === 'string' && /^https?:\/\//.test(inner[1])) return { ok: true, url: inner[1] };
+          }
+        }
+      } catch(e) { /* bloco não é o esperado, segue */ }
+    }
+    return { ok: false, motivo: 'resposta de resolução do Google Notícias sem URL do veículo' };
   } catch(e) { return { ok: false, motivo: 'erro ao contatar o Google Notícias: ' + e.message }; }
 }
 
