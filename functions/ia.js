@@ -33,25 +33,37 @@ export async function onRequestPost({ request, env }) {
   }
   if (pergunta.length > 4000) pergunta = pergunta.slice(0, 4000);
 
-  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=' + encodeURIComponent(chave);
-  try {
-    const r = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: SISTEMA }] },
-        contents: [{ role: 'user', parts: [{ text: pergunta }] }],
-        generationConfig: { temperature: 0.3, maxOutputTokens: 1200 }
-      })
-    });
-    const d = await r.json();
-    if (!r.ok) {
-      const msg = (d && d.error && d.error.message) || 'Falha na IA.';
-      return new Response(JSON.stringify({ erro: msg }), { status: 502, headers: CORS });
+  const MODELOS = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-flash-lite-latest'];
+  const corpo = JSON.stringify({
+    system_instruction: { parts: [{ text: SISTEMA }] },
+    contents: [{ role: 'user', parts: [{ text: pergunta }] }],
+    generationConfig: { temperature: 0.3, maxOutputTokens: 1200 }
+  });
+
+  let ultimoErro = 'Falha na IA.';
+  for (const modelo of MODELOS) {
+    for (let tentativa = 0; tentativa < 2; tentativa++) {
+      try {
+        const r = await fetch(
+          'https://generativelanguage.googleapis.com/v1beta/models/' + modelo + ':generateContent?key=' + encodeURIComponent(chave),
+          { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: corpo }
+        );
+        const d = await r.json();
+        if (r.ok) {
+          const partes = (((d.candidates || [])[0] || {}).content || {}).parts || [];
+          const texto = partes.map((p) => p.text || '').join('').trim();
+          if (texto) return new Response(JSON.stringify({ resposta: texto }), { headers: CORS });
+          ultimoErro = 'Resposta vazia.';
+        } else {
+          ultimoErro = (d && d.error && d.error.message) || ('HTTP ' + r.status);
+          // sobrecarga/limite → espera e tenta de novo; outros erros → próximo modelo
+          if (r.status === 429 || r.status === 503) { await new Promise((ok) => setTimeout(ok, 1200)); continue; }
+          break;
+        }
+      } catch (e) {
+        ultimoErro = (e && e.message) || 'falha de rede';
+      }
     }
-    const texto = (((d.candidates || [])[0] || {}).content || {}).parts?.map(p => p.text || '').join('') || '';
-    return new Response(JSON.stringify({ resposta: texto.trim() || 'Sem resposta.' }), { headers: CORS });
-  } catch (e) {
-    return new Response(JSON.stringify({ erro: 'Não foi possível falar com a IA agora.' }), { status: 502, headers: CORS });
   }
+  return new Response(JSON.stringify({ erro: ultimoErro }), { status: 502, headers: CORS });
 }
