@@ -1,225 +1,173 @@
 {
- "ultimaTentativa": "2026-11-02T23:30:02.149Z",
- "atualizadoEm": "2026-11-02T23:18:49.339Z",
- "status": "falha_mantido_anterior",
+ "ultimaTentativa": "2026-11-02T23:31:16.446Z",
+ "atualizadoEm": "2026-11-02T23:31:16.446Z",
+ "status": "ok",
  "totalCandidatos": 60,
- "totalVerificados": 0,
- "totalPendentes": 60,
- "totalExcluidos": 0,
+ "totalVerificados": 10,
+ "totalPendentes": 6,
+ "totalExcluidos": 5,
  "falhasFonte": [],
  "itens": [
   {
-   "titulo": "‘Bombinha de asma’ ganha versão sustentável que reduz pegada de carbono em até 90%",
-   "fonte": "Um só Planeta",
-   "data": "2026-10-30T10:00:00.000Z",
-   "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPOGdHaEN3a0xZcnA4V2U1Tklqa2dYVlo4a01aa3Fpa080aE01NmxTMXN0ZkxxQm1aTVdyYjQ0bW9CeDN3TTRkdHdPdXViUlQtNTdQNTNWTHJqNTZQRmVlS3AtTGJjX2hDWDFSa1gtNFp0UTRjU2dPaTNRLVJlTGRQMWtNMUQ3aFVXeUxFcHV1WXRRaENZVWF2ajBXN2lRUDVlc1Q0QWhSOTEtYko5TC01WWRSaFZ5aGc0QzRZNmV6blFVdDlHbHJFd2NodllFUGhmdXBrTlBrbDZDcDl4YWRteVVPb9IB8gFBVV95cUxOb25EY2ZFeGFHdHVNMXFEb1VTWVFVR2RFVDdMNl9VYVMxY3Bfa3ZqRmFWMGhsZHBkYkkyNTFEcGVDcjNnX29NbXpuZy1VY1lzMmp0a1J5ay0ycjJRRWthLUU1YmlTZnFTNTBLTzAzdmpiRnJoeF9Wenh0WjBTMzFoTFpYQnh0TUhQQUhpYmVIVTk4TDRKMktRa3VnVDk2SlBnQndSU3ZnZHN4RFVRMEdVVU9YREhHeWh6SEN4S3ZiSjZHdC1LNEZPbkRtLUpPaTJaMEktSDc4UHVQdVpfenZqc0JhUVZsd3dIWmxaTXY1T1NMdw?oc=5",
-   "verificado": false
-  },
-  {
-   "titulo": "Por que tanta gente sofre com alergia em Passo Fundo? A resposta pode estar nas lavouras",
-   "fonte": "GZH",
-   "data": "2026-10-29T08:58:56.000Z",
-   "url": "https://news.google.com/rss/articles/CBMikgJBVV95cUxQelN3VUFtamdlUU54UnhXYktheVpRTmlXU25UZ1JmLVd0b3g2Y3RLaWJ2UEFFQ0cwTWhRbTBwQkZvd1YybVNRek1aYzVjTmFLeWxqN19abHpuWlg5NlowMUlEOWNVWG1lcm5nWFlPY01SWDg5MjBLTVBWY1BkZ2JwWEIxVjd1d1RjV0xUQkdlMmZpbDJzQ1Y4XzZjZHV2UEZjWWFRWmtBOVhhUzNXNDZlS25JQkx3OXlHWk1lZm41d0ZfbzdXWE00dnRESFNpam94NFJabFpjcWFCVVpqQkIxeTBZbkdFcjNLZEFUVFdxWDF4UTJFVzM0X3h1QXgzYmQ0Y3VYZ0dqSVRTOW05NHhKcENR?oc=5",
-   "verificado": false
-  },
-  {
-   "titulo": "Demi Lovato dá notícias após relatos de hospitalização e reação alérgica",
-   "fonte": "Terra",
-   "data": "2026-10-28T20:11:00.000Z",
-   "url": "https://news.google.com/rss/articles/CBMilwJBVV95cUxPTTFXUGtjT0hTNlNBQ19uY0N5cnpQenVtc1NaUEpmR2M5NzVKbTR0RkNpenBDVnJ5alBWdFRtZDU1ekp2SzJqQTh5dFNNMklqUWJnVHFqYlBNa3V0Nl9oeHctb2tibGpVOHN3cVJjOEh0dlBNUWZCRzVpNnNEZllYVlU5YTUwYVoxSkRLZHphQjIxSWhZTW9Cck9IQzNNUG5aZXlUVE9JLWdaTFd4azhScHUyekozWGUtUC1URzVUVktuZXBrVENuUHhLSnQxMWdzMXMya2R1bC1wek5aRkpRbjd4SW5LV19EcEZOd1UxcU9xNTdNX182M3ZqZGx4aE43SHBtdXdvQlJhaXVlRGZST09iZUlOT28?oc=5",
-   "verificado": false
-  },
-  {
-   "titulo": "Demi Lovato é hospitalizada após reação alérgica e tranquiliza fãs: “Estou bem”",
-   "fonte": "96FM Bauru",
-   "data": "2026-10-28T18:30:00.000Z",
-   "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNSWxKVFVaZS1iV3hRMm5DcEh1eVdvbG91X01lNGRJOXNOcE5yeGpVUnZTN2dlZWZSby1iYlI5NUpCZVVZR1BWYzl2M2phRlM2VUZCV1FIV1BaRzJ5QzR3WnJTWUE1ZkpIaEVVNWwxVDlOYWpmX1cybTJYcGdrNDhFZDhtb3cwcF9wWllBMUhpajYzdGNTUV9GN0R0YWlrT3pveFlr?oc=5",
-   "verificado": false
-  },
-  {
-   "titulo": "Asma: Doença nem sempre visível: Muitas pessoas têm a doença mas não sabem",
-   "fonte": "G1",
-   "data": "2026-10-28T17:17:54.000Z",
-   "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxNdUlDNEl2LXJ4OV9hcGViblY5cmdFQTJJd3F2cjFDWGtHcXFUU08wZjExWGFBeWduS2ZNRFdqRkFlNG42ck01S2NEM0pGWXdqYUFUd2JSWWVzc3pqc1drc3huWGJZeTZiVDczR0RvUnNFZHhOZnh1dG41N0hrOTVoek9FWXlNcHhUc2pJelR4YXZOZ2RrMHBZUzBmaGJmVmx1b3M5b0RQclZKeVNKajVOYnZCQVAzeW0zSE5DdXFvajE1Y3ZKQnQ1RTNkVnNUSW9vRkl3WnBRT1Yzalc5UlRfNGhQTFp1MU5MUmhTZnBhcG1DdjZ1dTkw0gGGAkFVX3lxTE80SkUwVUZhcXJ2LXNFS2d5OHBZQm4zcVpRMXNRWEk5R0Z0VldZajJGakN3TnA5eG9RVG9fTGFMdHZkYXlnTzU0QjhaRUxUTEYxSEZuWlhOV2ZteHR2T0ZuZ2VKMVZ0aDA4dlNyUDNrN0dqNC1WVzhjMlFtVXRjaDYzdTZvVjZxek1URGp4aXNiWGpqUHZ2bkktX05LMWNHYkhvR0NmeDZ2WVZoUmsxdHNBeTY4ZldWelBXelNacDVleE1aUkFVSDBYcXBGaDdqVkgyVmVzdnBoNGdWYVZ4V1NWTFBXS1MybE9lS2pMTVJCUm0yaVVxNzBGdmNGU2xQOUE4VnpSc3c?oc=5",
-   "verificado": false
-  },
-  {
+   "status": "verificado",
    "titulo": "Médica responde dúvidas de telespectadores sobre alergia alimentar",
    "fonte": "G1",
    "data": "2026-10-28T15:31:22.000Z",
-   "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPTEZzOE54c283WFluWEhTdmprdFRCUkFmb282ajlfOHg4MFpnUnh0MHZHUGhPc3BRWWpmYmp1WldaZC1HMy1iQTNTVzNiekJHdHU2UlM2TFp2akw2NWpGUE9iSk40bEw2Yy1URk5fTGV5SGRYT3B5eTdUUFNPeHdnZ0VtU2dLMUpOWXpiR3cyOVNoRTU1MEIwVmQxUFVKUkFIdG9lVE1QakJkVjR2QkRiYzV1LXVHcHBvNU5LazE1d0s2TnZfLVlUWks1VXBKQWhzNWhCSWYwWXo3SjBJenVv0gHuAUFVX3lxTE9wajJHVWJSVUVUNmNnZG5WUGlaV01XaTQ5Y0hqREtnaDZmYU1QVDRJSnZBcEZvRDNLYkNlT0xZUVo5Wi15b3B0R0NkekQ1Y3JaZ0pEd09LNFdBTmxxa3RSNTB0d2VfdnAxdHNfUEJvY1hKc1RqdlVrUTc3T0JEYTZWWkdLejlBODBpbk14X1QtdWxKU0Utd09TMmVNUDlsWDhNZUU0WjhKbVlsUUJtaW1HUlE0YVlrei1maG5xalY3Wnozd1NIUDExdkh2aTB2eUdQSTJMSFJiM0tvWUhoRGZSRmx2dDBZcnZhMHRVbGc?oc=5",
-   "verificado": false
+   "url": "https://g1.globo.com/to/tocantins/videos-bom-dia-tocantins/video/medica-responde-duvidas-de-telespectadores-sobre-alergia-alimentar-15137662.ghtml",
+   "verificado": true
   },
   {
+   "status": "verificado",
    "titulo": "Médica explica como identificar alergia alimentar",
    "fonte": "G1",
    "data": "2026-10-28T14:39:44.000Z",
-   "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOX1lGU3F6dDB0c2xBOU1Ud0NsNFliTXZyY1Q5MmZSLVIwVWFVQjlqV1BPNm55bnoyejZ5RENmSHZLX3h0MDkweGZueHZNNnh2Y3VFN3JjQ3c2YWs1eVVPNXR0Y3MxRFBxQmJ0OEdjejktVF95MnRMU3hKbFVDR3BlMDRsM1VKYWNnd0duQ0Y1eHBBMlVpWHFOa1lPT1JnR3J6SEVoZ1ZaOWhILUZNQWc3NWVrTGJHWFJwVFZqR04xdFREVUo1RHp5TdIB1wFBVV95cUxQNEtrNFNfY190RDlnWGtpZFYwb2xRNVlpVHMyMTh4MmFPSTdoUEJ6ZVpPRG41akY0cWZoWWdYQndJczZnN2RYVkozZG9BZ1dIRUhwLXpIWHhEX1lycGdYWWIzcXdycjFuZlhMZnY1aFNYOFNUQlBjV3FtdmR4Y3czV3U1R1pQQXNIWnpwcVRLYnU0bUkxeWRLYjBuRFVEb3FucmlxdURKRXB3dlQ2ZVBkd29SVk5zSVpmZkk2eEFmQS1CYUxSNDVmZHR1a1lFbE15cF9rdkQySQ?oc=5",
-   "verificado": false
+   "url": "https://g1.globo.com/to/tocantins/videos-bom-dia-tocantins/video/medica-explica-como-identificar-alergia-alimentar-15137579.ghtml",
+   "verificado": true
   },
   {
-   "titulo": "Demi Lovato é hospitalizada e preocupa fãs: \"Reação alérgica\"",
-   "fonte": "CNN Brasil",
-   "data": "2026-10-28T14:11:08.000Z",
-   "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNSnUxczk0SmFBMTNZeV9FcUZxeXVnUmlSRlNJOHZnMjdLdmhNc2l3VkZ3RWpnOEVhX2JCRUdyQWZpekM0eUZkc3Y3X2Y0d3RhcFBVcFdUcExJNHc2Wm0xeDNtR2hTOXdiWExyTDhSYUJUX2cxTG5yY0d4M0NuUzFuc1VyVGlzV3g2MkhrTUkwSjN5YjFSZXdtYXRfdFRkUTNDN0VZV2J2UkI?oc=5",
-   "verificado": false
+   "status": "verificado",
+   "titulo": "Demi Lovato é hospitalizada por reação alérgica e atualiza fãs sobre sua saúde",
+   "fonte": "Vagalume",
+   "data": "2026-10-28T12:50:36.000Z",
+   "url": "https://www.vagalume.com.br/news/2026/10/28/demi-lovato-e-hospitalizada-por-reacao-alergica-e-atualiza-fas-sobre-sua-saude.html",
+   "verificado": true
   },
   {
-   "titulo": "Demi Lovato tem reação alérgica; saiba estado de saúde",
-   "fonte": "Billboard Brasil",
-   "data": "2026-10-28T13:21:51.000Z",
-   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1zT21qcXlpVDNWYW51YlIzeGZIRDBxUC1najh4REJLNlpfa0ZCcGdvQi1sYnNlRFNyZDhTM2lid3RST1dGdkgyQy1FdHFVSWp6ZGNXT2JicF9fOE5fNG5lVE5KUQ?oc=5",
-   "verificado": false
+   "status": "verificado",
+   "titulo": "Halloween: fantasias, maquiagens e glitter podem desencadear crises alérgicas em crianças",
+   "fonte": "JC",
+   "data": "2026-10-27T18:54:00.000Z",
+   "url": "https://jc.uol.com.br/colunas/saude-e-bem-estar/2026/10/27/halloween-fantasias-maquiagens-e-glitter-podem-desencadear-crises-alergicas-em-criancas.html",
+   "verificado": true
   },
   {
-   "titulo": "Boletim: Jogos Escolares / Prevenção, causa e tratamento da asma / Especial sobre a gripe",
-   "fonte": "Agência Minas",
-   "data": "2026-10-28T08:31:12.000Z",
-   "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOaTd4UmFkOUt4S3NYMGVpN2liU2FMZjJaWEhPZzdYWXhiQlJaS180a1puSE1uTUVCSTZiLTUxUjRJcGdiRy1XMUh0YVZJVTVJTUV3dUlBcHU3VDhNcm5jS0V2UnZVQ0JPWWJrcFpnaVpqd0dxTjZzNnhZNVpQNWhMcXJTU3V6VHhVZS1OY01BOUZsY3VRQVNPRzRCSEFVM0QzZ2NNRVVuTlZPTWU0VTVTem5qenZyVUhxbXV4MWlZN1N4OHh1R3RCTEZGRHZCTGtaQTBwR29QSkI?oc=5",
-   "verificado": false
+   "status": "verificado",
+   "titulo": "Saiba como identificar, prevenir e tratar a Dermatite atópica",
+   "fonte": "G1",
+   "data": "2026-10-24T18:33:14.000Z",
+   "url": "https://g1.globo.com/to/tocantins/videos-ja-1-edicao-to/video/saiba-como-identificar-prevenir-e-tratar-a-dermatite-atopica-15119537.ghtml",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Alergia alimentar em crianças atinge 4,6%, aponta estudo",
+   "fonte": "Vitória News",
+   "data": "2026-10-24T14:00:12.000Z",
+   "url": "https://vitorianews.com.br/alergia-alimentar-em-criancas-atinge-46-aponta-estudo",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Dermatite atópica pode estar relacionada à rinite e à asma? Especialista explica",
+   "fonte": "Folha JF",
+   "data": "2026-10-22T22:30:00.000Z",
+   "url": "https://folhajf.com.br/dermatite-atopica-relacionada-a-rinite-e-a-asma/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Família encomenda 120 doces sem leite para aniversário de criança alérgica e descobre depois da primeira mordida que parte do recheio foi feita com ingrediente comum",
+   "fonte": "Correio Braziliense",
+   "data": "2026-10-22T02:37:00.000Z",
+   "url": "https://www.correiobraziliense.com.br/cbradar/doces-sem-leite-festa-infantil-alergia-responsabilidade-cdc/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Zoetis destaca individualização do tratamento dermatológico no Congresso da SBDV",
+   "fonte": "Portal Cães e Gatos",
+   "data": "2026-10-21T15:30:27.000Z",
+   "url": "https://caesegatos.com.br/zoetis-destaca-individualizacao-do-tratamento-dermatologico-no-congresso-da-sbdv/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "O impacto da dermatite atópica na saúde mental de pacientes e familiares - 14/10/2026 - Saude",
+   "fonte": "UOL",
+   "data": "2026-10-14T17:11:21.000Z",
+   "url": "https://fotografia.folha.uol.com.br/galerias/1879057294759154-o-impacto-da-dermatite-atopica-na-saude-mental-de-pacientes-e-familiares",
+   "verificado": true
   }
  ],
  "pendentes": [
   {
    "status": "pendente",
-   "titulo": "‘Bombinha de asma’ ganha versão sustentável que reduz pegada de carbono em até 90%",
-   "fonte": "Um só Planeta",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPOGdHaEN3a0xZcnA4V2U1Tklqa2dYVlo4a01aa3Fpa080aE01NmxTMXN0ZkxxQm1aTVdyYjQ0bW9CeDN3TTRkdHdPdXViUlQtNTdQNTNWTHJqNTZQRmVlS3AtTGJjX2hDWDFSa1gtNFp0UTRjU2dPaTNRLVJlTGRQMWtNMUQ3aFVXeUxFcHV1WXRRaENZVWF2ajBXN2lRUDVlc1Q0QWhSOTEtYko5TC01WWRSaFZ5aGc0QzRZNmV6blFVdDlHbHJFd2NodllFUGhmdXBrTlBrbDZDcDl4YWRteVVPb9IB8gFBVV95cUxOb25EY2ZFeGFHdHVNMXFEb1VTWVFVR2RFVDdMNl9VYVMxY3Bfa3ZqRmFWMGhsZHBkYkkyNTFEcGVDcjNnX29NbXpuZy1VY1lzMmp0a1J5ay0ycjJRRWthLUU1YmlTZnFTNTBLTzAzdmpiRnJoeF9Wenh0WjBTMzFoTFpYQnh0TUhQQUhpYmVIVTk4TDRKMktRa3VnVDk2SlBnQndSU3ZnZHN4RFVRMEdVVU9YREhHeWh6SEN4S3ZiSjZHdC1LNEZPbkRtLUpPaTJaMEktSDc4UHVQdVpfenZqc0JhUVZsd3dIWmxaTXY1T1NMdw?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Por que tanta gente sofre com alergia em Passo Fundo? A resposta pode estar nas lavouras",
-   "fonte": "GZH",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMikgJBVV95cUxQelN3VUFtamdlUU54UnhXYktheVpRTmlXU25UZ1JmLVd0b3g2Y3RLaWJ2UEFFQ0cwTWhRbTBwQkZvd1YybVNRek1aYzVjTmFLeWxqN19abHpuWlg5NlowMUlEOWNVWG1lcm5nWFlPY01SWDg5MjBLTVBWY1BkZ2JwWEIxVjd1d1RjV0xUQkdlMmZpbDJzQ1Y4XzZjZHV2UEZjWWFRWmtBOVhhUzNXNDZlS25JQkx3OXlHWk1lZm41d0ZfbzdXWE00dnRESFNpam94NFJabFpjcWFCVVpqQkIxeTBZbkdFcjNLZEFUVFdxWDF4UTJFVzM0X3h1QXgzYmQ0Y3VYZ0dqSVRTOW05NHhKcENR?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Demi Lovato dá notícias após relatos de hospitalização e reação alérgica",
-   "fonte": "Terra",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMilwJBVV95cUxPTTFXUGtjT0hTNlNBQ19uY0N5cnpQenVtc1NaUEpmR2M5NzVKbTR0RkNpenBDVnJ5alBWdFRtZDU1ekp2SzJqQTh5dFNNMklqUWJnVHFqYlBNa3V0Nl9oeHctb2tibGpVOHN3cVJjOEh0dlBNUWZCRzVpNnNEZllYVlU5YTUwYVoxSkRLZHphQjIxSWhZTW9Cck9IQzNNUG5aZXlUVE9JLWdaTFd4azhScHUyekozWGUtUC1URzVUVktuZXBrVENuUHhLSnQxMWdzMXMya2R1bC1wek5aRkpRbjd4SW5LV19EcEZOd1UxcU9xNTdNX182M3ZqZGx4aE43SHBtdXdvQlJhaXVlRGZST09iZUlOT28?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Demi Lovato é hospitalizada após reação alérgica e tranquiliza fãs: “Estou bem”",
-   "fonte": "96FM Bauru",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNSWxKVFVaZS1iV3hRMm5DcEh1eVdvbG91X01lNGRJOXNOcE5yeGpVUnZTN2dlZWZSby1iYlI5NUpCZVVZR1BWYzl2M2phRlM2VUZCV1FIV1BaRzJ5QzR3WnJTWUE1ZkpIaEVVNWwxVDlOYWpmX1cybTJYcGdrNDhFZDhtb3cwcF9wWllBMUhpajYzdGNTUV9GN0R0YWlrT3pveFlr?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Asma: Doença nem sempre visível: Muitas pessoas têm a doença mas não sabem",
-   "fonte": "G1",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxNdUlDNEl2LXJ4OV9hcGViblY5cmdFQTJJd3F2cjFDWGtHcXFUU08wZjExWGFBeWduS2ZNRFdqRkFlNG42ck01S2NEM0pGWXdqYUFUd2JSWWVzc3pqc1drc3huWGJZeTZiVDczR0RvUnNFZHhOZnh1dG41N0hrOTVoek9FWXlNcHhUc2pJelR4YXZOZ2RrMHBZUzBmaGJmVmx1b3M5b0RQclZKeVNKajVOYnZCQVAzeW0zSE5DdXFvajE1Y3ZKQnQ1RTNkVnNUSW9vRkl3WnBRT1Yzalc5UlRfNGhQTFp1MU5MUmhTZnBhcG1DdjZ1dTkw0gGGAkFVX3lxTE80SkUwVUZhcXJ2LXNFS2d5OHBZQm4zcVpRMXNRWEk5R0Z0VldZajJGakN3TnA5eG9RVG9fTGFMdHZkYXlnTzU0QjhaRUxUTEYxSEZuWlhOV2ZteHR2T0ZuZ2VKMVZ0aDA4dlNyUDNrN0dqNC1WVzhjMlFtVXRjaDYzdTZvVjZxek1URGp4aXNiWGpqUHZ2bkktX05LMWNHYkhvR0NmeDZ2WVZoUmsxdHNBeTY4ZldWelBXelNacDVleE1aUkFVSDBYcXBGaDdqVkgyVmVzdnBoNGdWYVZ4V1NWTFBXS1MybE9lS2pMTVJCUm0yaVVxNzBGdmNGU2xQOUE4VnpSc3c?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Médica responde dúvidas de telespectadores sobre alergia alimentar",
-   "fonte": "G1",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPTEZzOE54c283WFluWEhTdmprdFRCUkFmb282ajlfOHg4MFpnUnh0MHZHUGhPc3BRWWpmYmp1WldaZC1HMy1iQTNTVzNiekJHdHU2UlM2TFp2akw2NWpGUE9iSk40bEw2Yy1URk5fTGV5SGRYT3B5eTdUUFNPeHdnZ0VtU2dLMUpOWXpiR3cyOVNoRTU1MEIwVmQxUFVKUkFIdG9lVE1QakJkVjR2QkRiYzV1LXVHcHBvNU5LazE1d0s2TnZfLVlUWks1VXBKQWhzNWhCSWYwWXo3SjBJenVv0gHuAUFVX3lxTE9wajJHVWJSVUVUNmNnZG5WUGlaV01XaTQ5Y0hqREtnaDZmYU1QVDRJSnZBcEZvRDNLYkNlT0xZUVo5Wi15b3B0R0NkekQ1Y3JaZ0pEd09LNFdBTmxxa3RSNTB0d2VfdnAxdHNfUEJvY1hKc1RqdlVrUTc3T0JEYTZWWkdLejlBODBpbk14X1QtdWxKU0Utd09TMmVNUDlsWDhNZUU0WjhKbVlsUUJtaW1HUlE0YVlrei1maG5xalY3Wnozd1NIUDExdkh2aTB2eUdQSTJMSFJiM0tvWUhoRGZSRmx2dDBZcnZhMHRVbGc?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Médica explica como identificar alergia alimentar",
-   "fonte": "G1",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQNEtrNFNfY190RDlnWGtpZFYwb2xRNVlpVHMyMTh4MmFPSTdoUEJ6ZVpPRG41akY0cWZoWWdYQndJczZnN2RYVkozZG9BZ1dIRUhwLXpIWHhEX1lycGdYWWIzcXdycjFuZlhMZnY1aFNYOFNUQlBjV3FtdmR4Y3czV3U1R1pQQXNIWnpwcVRLYnU0bUkxeWRLYjBuRFVEb3FucmlxdURKRXB3dlQ2ZVBkd29SVk5zSVpmZkk2eEFmQS1CYUxSNDVmZHR1a1lFbE15cF9rdkQySdIB1wFBVV95cUxQNEtrNFNfY190RDlnWGtpZFYwb2xRNVlpVHMyMTh4MmFPSTdoUEJ6ZVpPRG41akY0cWZoWWdYQndJczZnN2RYVkozZG9BZ1dIRUhwLXpIWHhEX1lycGdYWWIzcXdycjFuZlhMZnY1aFNYOFNUQlBjV3FtdmR4Y3czV3U1R1pQQXNIWnpwcVRLYnU0bUkxeWRLYjBuRFVEb3FucmlxdURKRXB3dlQ2ZVBkd29SVk5zSVpmZkk2eEFmQS1CYUxSNDVmZHR1a1lFbE15cF9rdkQySQ?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Demi Lovato é hospitalizada e preocupa fãs: \"Reação alérgica\"",
-   "fonte": "CNN Brasil",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNSnUxczk0SmFBMTNZeV9FcUZxeXVnUmlSRlNJOHZnMjdLdmhNc2l3VkZ3RWpnOEVhX2JCRUdyQWZpekM0eUZkc3Y3X2Y0d3RhcFBVcFdUcExJNHc2Wm0xeDNtR2hTOXdiWExyTDhSYUJUX2cxTG5yY0d4M0NuUzFuc1VyVGlzV3g2MkhrTUkwSjN5YjFSZXdtYXRfdFRkUTNDN0VZV2J2UkI?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Demi Lovato tem reação alérgica; saiba estado de saúde",
-   "fonte": "Billboard Brasil",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1zT21qcXlpVDNWYW51YlIzeGZIRDBxUC1najh4REJLNlpfa0ZCcGdvQi1sYnNlRFNyZDhTM2lid3RST1dGdkgyQy1FdHFVSWp6ZGNXT2JicF9fOE5fNG5lVE5KUQ?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Boletim: Jogos Escolares / Prevenção, causa e tratamento da asma / Especial sobre a gripe",
-   "fonte": "Agência Minas",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOaTd4UmFkOUt4S3NYMGVpN2liU2FMZjJaWEhPZzdYWXhiQlJaS180a1puSE1uTUVCSTZiLTUxUjRJcGdiRy1XMUh0YVZJVTVJTUV3dUlBcHU3VDhNcm5jS0V2UnZVQ0JPWWJrcFpnaVpqd0dxTjZzNnhZNVpQNWhMcXJTU3V6VHhVZS1OY01BOUZsY3VRQVNPRzRCSEFVM0QzZ2NNRVVuTlZPTWU0VTVTem5qenZyVUhxbXV4MWlZN1N4OHh1R3RCTEZGRHZCTGtaQTBwR29QSkI?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Demi Lovato preocupou os fãs nesta terça-feira (27) após ser hospitalizada com uma possível reação alérgica. A cantora explicou o que aconteceu e ainda atualizou o seu estado de saúde. ➡️ Saiba detalhes, clicando no link da bio ou no destaque “News”. (",
-   "fonte": "Instagram",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9LeVM5MmtrVVBYa3l0b2NsZXoycDBmeU8yS3Y3NG1lSW43UlpsZ0UxZHptcXdOSFhZNjZBZmZra0VSQjA1UWNXSDJoY05rcTNQVWc?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Demi Lovato atualiza estado de saúde após possível internação por reação alérgica e apaga publicação no Instagram",
-   "fonte": "Globo",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPSTA1WkJPRDRienUyaXBsR1ZpdldOMEF6UWp4TjdZNjVSaTZUZnViR2dNcUJYanktYmNTcTdzMjBnQUFybGo0amQ2VS1hXzAtNUVkWkZpcV9VZXU0cmcwMXptTzdQdGlMQTk5YlctOUFzZEZBOFppSDRSRTFqWWo1c0VGTTczTUpzMHNWVGpEN1VlRXRGZUxGSlF1eVRnUmJXb3pzQVJUU3Uzb0l3Qm8tY0owWFB3ck5paHUzQkNjREdMSnI5M01zaUdUS09Rczg2OEkzSEd6OXJvSWM0TEFfbdIB7wFBVV95cUxPYWtzaXBEc0Z3dU1WV2pmaVdGa1F4OFp4UXRDTXRXa21uRzMzOWVRdlkxTjZKUlRCRExkUWU0emNVempkLWJUZkZKS2xYSUdvV1lTaVhpWkU0ZkZHQ2hNaHllRkw3SEJNVThDay1Nb2lIWFI2eWNMQ3RyV1RhcHgybGZ4RWJuVXVDcWVxVlBwd18tOThJNUZtaS1jVVJwUWJwWnh5N2FLd19kWW81SFRWRUlUR3B1Z2JXMnhVTmdTdlBpb0x3Z19CQTZHUmxEMEFHQkhNVEYtLWtLeHBQeURxdHBmdmNUQlQ5NGl6dFpqQQ?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+   "titulo": "Tratamentos de pele biológicos podem provocar troca entre dermatite atópica e psoríase",
+   "fonte": "bra1.com.br",
+   "url": "https://www.bra1.com.br/geral/id-716930/tratamentos_de_pele_biologicos_podem_provocar_troca_entre_dermatite_atopica_e_psoriase",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   },
   {
    "status": "pendente",
    "titulo": "Demi Lovato é hospitalizada após possível reação alérgica; saiba detalhes",
    "fonte": "Globo",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQYkhOejViaUFoTnZQTEo0WXNmV3o0aWlmaFpKYmpEUzB1T2VBakh3R05jclZfUVEteVZXUVVlcHNqbFF0RC04MVhmZHdHVEl1LTF1aFJFMjlHTEduOWxyeEs2TFpaUlkxQWVRLV9oZmZQQm1WSWRkRUpvNnNQajZmc29jbnBvNlR5dG9DWldxdWdBeFJFcHRsNWR6OWFnRGtUVWxtR2NxcTgxSlBCTkY3VGs4Rjcyano0aHBGc2EzVU9GbUZxSV8waFhn0gHYAUFVX3lxTE1qcE1zaGpZTW1OOHc5ZnN3V3B6c3dTS0tKMTZDcXVZMmlZOFBpaUlEWk52V1hsOGNhdW91M0JVOWRmckFBNzJ4dkFXRXdhZVRHZTA0T1lrSkpacF9iVXhPa3VsYUhaNGpCMGdta3I4em9oVGdILVktRV9FdnFUdFU5dEwxWnd3cFcyRS14Q2NmTE11UC1FOFJWc3pLRV9uaFVFZ3hXYmI4cWc0UGx0MGR1UnYtdEs3YXRWVklDYXZjQzVTYm1ZLWpJQkEwUWFzVkJYekktWWRFRA?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+   "url": "https://revistaquem.globo.com/saude/noticia/2026/10/demi-lovato-e-hospitalizada-apos-possivel-reacao-alergica-saiba-detalhes.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   },
   {
    "status": "pendente",
-   "titulo": "Halloween: fantasias, maquiagens e glitter podem desencadear crises alérgicas em crianças",
-   "fonte": "JC",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxPT09tUzFhVGRabnhNVU9Ob2I1S3phSHE1RF9qdlZweE12cFd4ZGU0RjFuX3lBV1RIa2FPcUdrcEQ4MDdZdEtPb3dYUFlXMkdfSThxQ0VEdDFYdXFVcmZGQ0tJU1UyVGl2SFdwOFJPYS1sTVVUUUlkVVA3bGdkQXJOM3lGNGdVTVVGb1p1Q1Y3YTRDR1JRTTVHbG9iNGtDZHhGMTBFQVlDa1hiM0JqQUJwZWpyQ29NeU5aQUw4Z2VtenlWUEpmRUJnT0J5SFhDYTRrZC1Nc0JDV1JjS0kxWXRvbEd3OURLQQ?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+   "titulo": "Dermatite atópica pode ser mais difícil de identificar em peles negras, revela novo estudo",
+   "fonte": "Crescer",
+   "url": "https://revistacrescer.globo.com/saude/noticia/2026/10/dermatite-atopica-pode-ser-mais-dificil-de-identificar-em-peles-negras-revela-novo-estudo.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   },
   {
    "status": "pendente",
-   "titulo": "Tudo sobre Alergia a camarão",
-   "fonte": "Forbes Brasil",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE84SzVuU25fbkJENE1fT2tyXzU1MURhUEY4MEpYZktrZUstOHdrLVZycll4dkhoU05FNm85QkFERTdMT2NhcFowYVdjR1ZIM3lIdlFjZ21VU19OaDBlNWp5Uk5rNXQ4UQ?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+   "titulo": "Pessoas com dermatite atópica têm maior risco de depressão e ansiedade",
+   "fonte": "Bem Paraná",
+   "url": "https://www.bemparana.com.br/noticias/pessoas-com-dermatite-atopica-tem-maior-risco-de-depressao-e-ansiedade/",
+   "motivo": "página retornou HTTP 403"
   },
   {
    "status": "pendente",
-   "titulo": "Família de mulher morta na Europa após reação alérgica luta para trazer corpo de volta ao Brasil",
-   "fonte": "R7",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxQbzNxdHd3aFQtWExTdThVSVNMbVVBZm51Y0xPMFBkNEtwcE5CRE9VQjZnX3JPRjhtM2dicXRQbkJ1S2Z0a0pQRHRseW13eGZCQ2w0WWhTSmdjV3BzSGFva0FzZ3d6LVMyVW9QOE02WVNsc2RTLVJfS2xyUXFwamtnVWlCNVlKRnpsZnpFcVU4b09zZFB0RWhSVExzd0ptZHFqeE5CVjdONWFTY3VST2RJRDJmS1lGZFNVSzk0Ql9aUnJwRExKaVJvMFBDbVp5TUx6OWVpRnlUc3hNbzkxaWRucFZtTTBHSjhwUFE?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+   "titulo": "Morte em lua de mel por alergia a frutos do mar: por que é possível morrer comendo camarão e como se prevenir",
+   "fonte": "G1",
+   "url": "https://g1.globo.com/saude/noticia/2026/10/23/morte-em-lua-de-mel-por-alergia-a-frutos-do-mar-por-que-e-possivel-morrer-comendo-camarao-e-como-se-prevenir.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   },
   {
    "status": "pendente",
-   "titulo": "Dupilumabe demonstra eficácia global em múltiplos parâmetros da asma pediátrica",
-   "fonte": "Medscape",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNc2ktdDdGeE9HTDR4VGxyZll3dmFGZjdnQUs1Z2R0SXphZDJKYjF0QUZnamlFX2g1UlgzUW9tb2Zfbzh6Vm81RFNNY0xsSW1GTUhsbTRGOTBRb2RUWTh5N1YycjB5M0lVSl8xNnFEMmctdURwRW1TV3psekppRm5MS1Z4ZlY1bmhHM1JhX3p4aElSUWdPQTBiQzVZRGdCWnlORXNwN2U2SS1XODJSeTR3c3VB?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Alergia alimentar em crianças atinge 4,6%, aponta estudo",
-   "fonte": "Vitória News",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNMFFkSW9wV2VmcWtRNWRtV1lZUGhadU4wY3IwNFhvWmxyZC1oa3c0dGpmbExkWHQxTTkwdmZpTjY0RzFDOXZnU3V1djFqWnE3NmVzMzlxUlRVWmJBTUlwTUZxeHF2bXc3UDJJRGwtZ2J4aHVONlZpa1dFQ0p2UnhnaV9LcEh0NWs?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Alergia a Camarão Pode Ser Fatal em Minutos: Entenda os Riscos e Como Agir",
-   "fonte": "Forbes Brasil",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNUTkzY0gwTmsxM3JfSXJrSEZTaU8yTjdkYlNWdlgtMGh5WFN2RUNsaGpiNDZkaHpZRnFqRG1telpoTThCdGRzTGxPTGJPQ2E3b0lZRGRlTVpfcXJHdmxyeHBHbUdiQ3NVVWkxdDlJX1RWX3dpaWlXZkh6TUVIT3Q0LS0tODdPSGJBemlYWEJUY19LWmp5T2poRkNMTk5OVUw0cnFBTl9CRVVZMFl0N2dCT294dUNBbFh5?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
-  },
-  {
-   "status": "pendente",
-   "titulo": "O que se sabe sobre morte de enfermeira após possível reação alérgica a camarão durante lua de mel em Portugal",
-   "fonte": "O GLOBO",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxOaE9KQ0dvWThkSDBkX3dpb3Y4Uk9DWkVoOTJhODlKcjd1ckN2UldkX3RydHBIczN1ZTZGQ3pOSFV2eTRBLUk0b2tHY3JoQmlxTWZtSUR2Y0ZtVHozV2tIVy1VS0kzcmxMNVpqTDdYWU03ZGxOOUNHNzFjUDgzYi0xdFRHcmZXcm9seDhETmlkMjN4a19IZHNCaDVFRnFLbC1pYmUycUpTbGZVRDhUUDVQVFk2QlM5MW5aaGdJUHQxQ1I2QVRFWm0xMHdTbWRwLWFlWV9ER2MzbXAzLWVSYWpDZ09takprSjNxSGRiRHMyUVVsZHNCbUM2dDhTb9IBigJBVV95cUxQbXZGZjdxNmpjRlZHLTZXX0kzSEVRdTJzM2VTNUxGS1ZSSmp4eFEyYkhtTW1iTVFFeC15d2Zud2ZxdWFmWEYyQ0xQeHJna0VTRmpmanZLRWxhOFlYNUNMT01wNG4zMGpEZDR1S255RTlkZF9pek5YOUd5OUh2LTdSeXdHQ1RoeVY3RDlFekJQVHlNMWF3eERMd2thUlBZaHBGRWVpc3BkRmM1S3NEQUp6VnBqYzFyWGM5WTRjdWVnd29Bc1pnVE90bGhLRTMyaW1MY290Qlp3YzllZEY1YzRKX1BVejd3aVZ3N2duODlxMWRpeXh4YTBseFpSdXh6ZEtZNzZsZmN3VS0wdw?oc=5",
-   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+   "titulo": "Morte de enfermeira em lua de mel acende alerta para alergia alimentar",
+   "fonte": "Band",
+   "url": "https://www.band.com.br/saude/morte-de-enfermeira-em-lua-de-mel-acende-alerta-para-alergia-alimentar",
+   "motivo": "página retornou HTTP 403"
   }
  ],
- "excluidos": []
+ "excluidos": [
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Processa recebe aprovação do FDA para estudo de fase 2 em urticária - Investing.com Brasil",
+   "fonte": "Investing.com Brasil - Finanças, Câmbio e Investimentos",
+   "url": "https://br.investing.com/news/company-news/processa-recebe-aprovacao-do-fda-para-estudo-de-fase-2-em-urticaria-93CH-2107926"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Kymera divulga resultados com foco em medicamento para dermatite atópica - Investing.com Brasil",
+   "fonte": "Investing.com Brasil - Finanças, Câmbio e Investimentos",
+   "url": "https://br.investing.com/news/earnings/kymera-divulga-resultados-com-foco-em-medicamento-para-dermatite-atopica-93CH-2106503"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Demi Lovato preocupou os fãs nesta terça-feira (27) após ser hospitalizada com uma possível reação alérgica. A cantora explicou o que aconteceu e ainda atualizou o seu estado de saúde. ➡️ Saiba detalhes, clicando no link da bio ou no destaque “News”. (",
+   "fonte": "Instagram",
+   "url": "https://www.instagram.com/p/DfBQXvbF9tm/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Brasileira morre devido a alergia a marisco durante lua de mel em Leiria",
+   "fonte": "Notícias ao Minuto",
+   "url": "https://www.noticiasaominuto.com/pais/3072024/brasileira-morre-devido-a-alergia-a-marisco-durante-lua-de-mel-em-leiria"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Lua de mel termina em tragédia: mulher brasileira morre em Portugal após reação alérgica grave. Tinha casado 11 dias antes",
+   "fonte": "Jornal SOL",
+   "url": "https://sol.iol.pt/sociedade/noticias/lua-de-mel-termina-em-tragedia-mulher-brasileira-morre-em-portugal-apos-reacao-alergica-grave-tinha-casado-11-dias-antes/20261023/6adb9abd0cf2e5e7f37cac86"
+  }
+ ]
 }
