@@ -1797,8 +1797,8 @@ window._mostrarApp = function(){
       <div style="padding:12px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--gray-50)">
         <span style="font-size:16px">📡</span>
         <div style="flex:1;min-width:0">
-          <div style="font-size:13px;font-weight:800;color:var(--navy)">Radar regulatório — ao vivo</div>
-          <div id="radarStatus" style="font-size:10.5px;color:var(--gray-500)">ANS · CONITEC · Diário Oficial · FDA — atualiza sozinho</div>
+          <div style="font-size:13px;font-weight:800;color:var(--navy)">Radar regulatório — aprovações no Brasil</div>
+          <div id="radarStatus" style="font-size:10.5px;color:var(--gray-500)">ANS · CONITEC · ANVISA · Diário Oficial — só aprovações, atualiza sozinho</div>
         </div>
         <button onclick="carregarRadar(true)" style="background:var(--gray-50);border:1px solid var(--gray-100);border-radius:9px;padding:6px 10px;font-size:11px;font-weight:700;color:var(--teal-mid);cursor:pointer;font-family:Manrope,sans-serif">🔄</button>
       </div>
@@ -5488,7 +5488,7 @@ function carregarRadar(forcar){
   if(!lista) return;
   if(forcar){ _radarLoaded = false; }
   lista.innerHTML = '<div style="padding:14px;font-size:12px;color:var(--gray-300);text-align:center">⏳ Buscando novidades regulatórias...</div>';
-  if(status) status.textContent = 'Consultando ANS · CONITEC · DOU · ANVISA · FDA...';
+  if(status) status.textContent = 'Consultando ANS · CONITEC · ANVISA · Diário Oficial...';
 
   if(!window.fetch){
     lista.innerHTML = '<div style="padding:14px;font-size:12px;color:var(--gray-500)">Seu navegador não suporta busca automática.</div>';
@@ -5522,6 +5522,15 @@ function carregarRadar(forcar){
       // Regulatório de biológicos/especialidade
       'ige','il-4','il-13','il-5','il-33','tslp','th2','tipo 2','type 2'
     ];
+    var ORGAOS_BR = ['ANS','CONITEC','ANVISA','DOU'];
+    function _semAcento(t){ return (t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+    var RE_APROVACAO = /(aprov|incorpor|inclusao|inclui|incluir|registro|registrad|defere|deferid|autoriza|concede|nova indicacao|novas indicacoes|novo medicamento|novos medicamentos|ampliacao de uso|atualiza o rol|atualizacao do rol|cobertura obrigatoria)/;
+    var RE_NAO = /(consulta publica|nao incorpor|rejeit|indefer|cancel|suspens|revoga|recolhimento|alerta)/;
+    itensAll = itensAll.filter(function(it){
+      if(ORGAOS_BR.indexOf(it.fonte) === -1) return false;
+      var t = _semAcento((it.titulo||'') + ' ' + (it.resumo||''));
+      return RE_APROVACAO.test(t) && !RE_NAO.test(t);
+    });
     var itens = itensAll.filter(function(it){
       var texto = ((it.titulo||'')+(it.resumo||'')+(it.drogas||[]).join(' ')).toLowerCase();
       for(var ki=0;ki<RADAR_KEYWORDS.length;ki++){
@@ -5536,7 +5545,7 @@ function carregarRadar(forcar){
 
     // status bar: fontes OK/erro
     var partes = [];
-    var nomes = ['ANS','CONITEC','DOU','ANVISA','FDA'];
+    var nomes = ['ANS','CONITEC','DOU','ANVISA'];
     for(var fi=0;fi<nomes.length;fi++){
       var fn = nomes[fi]; var fs = fontes[fn];
       if(fs && fs.ok) partes.push(fn + (fs.n ? ' (' + fs.n + ')' : ''));
@@ -5546,13 +5555,13 @@ function carregarRadar(forcar){
 
     if(status) status.textContent += ' · ' + itens.length + '/' + itensAll.length + ' relevantes';
     if(!itens.length){
-      lista.innerHTML = '<div style="padding:16px;font-size:12px;color:var(--gray-500);text-align:center">Nenhuma novidade relevante para Alergia/Imunologia ou Imunizações nos últimos dias.</div>';
+      lista.innerHTML = '<div style="padding:16px;font-size:12px;color:var(--gray-500);text-align:center">Nenhuma aprovação recente encontrada nos órgãos nacionais (ANS, CONITEC, ANVISA, Diário Oficial). Toque em 🔄 para atualizar.</div>';
       return;
     }
 
     itens.sort(function(a,b){
       var da = Date.parse(a.data || '') || 0, db = Date.parse(b.data || '') || 0;
-      return db - da;
+      return db - da;   // mais recente no topo; sem data vão para o fim
     });
     var FONTE_COR = {ANS:'#0056a6',CONITEC:'#2e7d32',DOU:'#6a1b9a',ANVISA:'#bf360c',FDA:'#1565c0'};
     var html = '';
