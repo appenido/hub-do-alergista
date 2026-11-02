@@ -235,9 +235,11 @@ body{
 }
 .art-card:first-child{border-top:1px solid var(--gray-100);}
 .art-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
-.art-journal{font-size:10px;color:var(--gray-300);font-weight:600;margin-left:auto;}
-.art-title{font-size:13.5px;font-weight:700;color:var(--navy);line-height:1.4;}
-.art-title-pt{font-size:12px;color:var(--gray-500);font-style:italic;line-height:1.35;}
+.art-journal{font-size:10px;color:var(--gray-300);font-weight:600;margin-right:auto;display:inline-flex;align-items:center;gap:5px;}
+.art-journal img{width:14px;height:14px;border-radius:3px;object-fit:contain;flex-shrink:0;}
+.art-title{font-size:12px;color:var(--gray-500);font-style:italic;line-height:1.35;font-weight:500;order:2;}
+.art-title-pt{font-size:13.5px;font-weight:700;color:var(--navy);line-height:1.4;font-style:normal;order:1;}
+.art-card:not(:has(.art-title-pt)) .art-title{font-size:13.5px;font-weight:700;color:var(--navy);font-style:normal;}
 .art-body{font-size:12.5px;color:var(--gray-500);line-height:1.6;}
 .art-why{font-size:12px;color:var(--navy);font-weight:700;line-height:1.5;}
 .art-footer{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
@@ -3080,6 +3082,34 @@ function salvarPerfil(){
     }
   }catch(e){ erro('Erro ao salvar. Tente novamente.'); }
 }
+
+
+/* ── LOGOS DAS REVISTAS ───────────────────────── */
+var REVISTA_DOMINIO = {
+  'JACI':'jacionline.org', 'JACI-IP':'jaci-inpractice.org', 'NEJM':'nejm.org',
+  'Allergy':'onlinelibrary.wiley.com', 'Lancet G&H':'thelancet.com',
+  'Acta DV':'medicaljournals.se', 'ERJ-OR':'erj.ersjournals.com',
+  'AAAI Ann':'annallergy.org', 'BJORL':'bjorl.org', 'Br J Derm':'academic.oup.com',
+  'Front. Immunol.':'frontiersin.org', 'CGH':'cghjournal.org', 'Gastro':'gastrojournal.org',
+  'Contact Derm.':'onlinelibrary.wiley.com', 'Clin. Immunol.':'sciencedirect.com'
+};
+function _logosRevistas(){
+  var els = document.querySelectorAll('.art-journal');
+  for(var i=0;i<els.length;i++){
+    var el = els[i];
+    if(el.querySelector('img')) continue;
+    var nome = (el.textContent||'').split('·')[0].trim();
+    var dom = REVISTA_DOMINIO[nome];
+    if(!dom) continue;
+    var img = document.createElement('img');
+    img.src = 'https://www.google.com/s2/favicons?sz=64&domain=' + dom;
+    img.alt = ''; img.loading = 'lazy';
+    img.onerror = function(){ this.remove(); };
+    el.insertBefore(img, el.firstChild);
+  }
+}
+document.addEventListener('DOMContentLoaded', _logosRevistas);
+setInterval(_logosRevistas, 2000);
 
 // Enter nos campos de login / cadastro
 document.addEventListener('DOMContentLoaded', function(){
