@@ -873,7 +873,7 @@ window._mostrarApp = function(){
   <div class="page active" id="page-dashboard">
     <a class="alert-bar" id="alertaNoticia" href="javascript:void(0)" onclick="navTo('jornal')" style="text-decoration:none;cursor:pointer">
       <span style="font-size:18px">📰</span>
-      <div class="alert-bar-text" id="alertaNoticiaTexto">Buscando as últimas notícias da mídia…</div>
+      <div class="alert-bar-text" id="alertaNoticiaTexto">Jornal da Alergia · toque para ler as notícias da semana</div>
       <div class="alert-tag" id="alertaNoticiaTag">Jornal</div>
     </a>
 
@@ -3774,16 +3774,41 @@ function _mostrarNoticiaMidia(){
   t.innerHTML = (n.fonte ? '<strong style="color:var(--gold)">' + n.fonte + dt + ':</strong> ' : '') + n.titulo;
   if(g) g.textContent = 'Jornal';
 }
+function _setAlertaNoticia(html){
+  var t = document.getElementById('alertaNoticiaTexto');
+  if(t) t.innerHTML = html;
+  try{ localStorage.setItem('hub_alerta_noticia', html); }catch(e){}
+}
 function carregarNoticiasMidia(){
+  // 1) mostra na hora o que ficou guardado da última visita
+  var cache = '';
+  try{ cache = localStorage.getItem('hub_alerta_noticia') || ''; }catch(e){}
+  var t0 = document.getElementById('alertaNoticiaTexto');
+  if(cache && t0) t0.innerHTML = cache;
+
+  // 2) manchete da edição local (rápida) enquanto o feed não chega
+  var feedOk = false;
+  if(!cache){
+    fetch('jornal/edicao.json').then(function(r){ return r.json(); }).then(function(e){
+      if(!feedOk) _setAlertaNoticia('<strong style="color:var(--gold)">Jornal da Alergia:</strong> ' + e.manchete);
+    }).catch(function(){});
+  }
+
+  // 3) feed ao vivo atualiza em segundo plano
   fetch('/news').then(function(r){ return r.json(); }).then(function(d){
     _noticiasMidia = (d.itens||[]).filter(function(i){ return i.titulo; });
-    if(_noticiasMidia.length){ _mostrarNoticiaMidia(); return; }
-    throw new Error('vazio');
+    if(!_noticiasMidia.length) throw new Error('vazio');
+    feedOk = true;
+    var n = _noticiasMidia[0];
+    var dt = '';
+    try{ if(n.data) dt = ' · ' + new Date(n.data).toLocaleDateString('pt-BR'); }catch(e){}
+    _setAlertaNoticia((n.fonte ? '<strong style="color:var(--gold)">' + n.fonte + dt + ':</strong> ' : '') + n.titulo);
+    var g = document.getElementById('alertaNoticiaTag');
+    if(g) g.textContent = 'Jornal';
   }).catch(function(){
-    // sem feed: usa a manchete da edição do Jornal
+    if(cache || feedOk) return;
     fetch('jornal/edicao.json').then(function(r){ return r.json(); }).then(function(e){
-      var t = document.getElementById('alertaNoticiaTexto');
-      if(t) t.innerHTML = '<strong style="color:var(--gold)">Jornal da Alergia:</strong> ' + e.manchete;
+      _setAlertaNoticia('<strong style="color:var(--gold)">Jornal da Alergia:</strong> ' + e.manchete);
     }).catch(function(){
       var t = document.getElementById('alertaNoticiaTexto');
       if(t) t.textContent = 'Abra o Jornal da Alergia desta semana.';
