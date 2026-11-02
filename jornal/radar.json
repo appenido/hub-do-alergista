@@ -1,7 +1,12 @@
 {
+ "ultimaTentativa": "2026-11-02T23:30:02.149Z",
  "atualizadoEm": "2026-11-02T23:18:49.339Z",
- "janela": "90 dias",
- "total": 10,
+ "status": "falha_mantido_anterior",
+ "totalCandidatos": 60,
+ "totalVerificados": 0,
+ "totalPendentes": 60,
+ "totalExcluidos": 0,
+ "falhasFonte": [],
  "itens": [
   {
    "titulo": "‘Bombinha de asma’ ganha versão sustentável que reduz pegada de carbono em até 90%",
@@ -73,5 +78,148 @@
    "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOaTd4UmFkOUt4S3NYMGVpN2liU2FMZjJaWEhPZzdYWXhiQlJaS180a1puSE1uTUVCSTZiLTUxUjRJcGdiRy1XMUh0YVZJVTVJTUV3dUlBcHU3VDhNcm5jS0V2UnZVQ0JPWWJrcFpnaVpqd0dxTjZzNnhZNVpQNWhMcXJTU3V6VHhVZS1OY01BOUZsY3VRQVNPRzRCSEFVM0QzZ2NNRVVuTlZPTWU0VTVTem5qenZyVUhxbXV4MWlZN1N4OHh1R3RCTEZGRHZCTGtaQTBwR29QSkI?oc=5",
    "verificado": false
   }
- ]
+ ],
+ "pendentes": [
+  {
+   "status": "pendente",
+   "titulo": "‘Bombinha de asma’ ganha versão sustentável que reduz pegada de carbono em até 90%",
+   "fonte": "Um só Planeta",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPOGdHaEN3a0xZcnA4V2U1Tklqa2dYVlo4a01aa3Fpa080aE01NmxTMXN0ZkxxQm1aTVdyYjQ0bW9CeDN3TTRkdHdPdXViUlQtNTdQNTNWTHJqNTZQRmVlS3AtTGJjX2hDWDFSa1gtNFp0UTRjU2dPaTNRLVJlTGRQMWtNMUQ3aFVXeUxFcHV1WXRRaENZVWF2ajBXN2lRUDVlc1Q0QWhSOTEtYko5TC01WWRSaFZ5aGc0QzRZNmV6blFVdDlHbHJFd2NodllFUGhmdXBrTlBrbDZDcDl4YWRteVVPb9IB8gFBVV95cUxOb25EY2ZFeGFHdHVNMXFEb1VTWVFVR2RFVDdMNl9VYVMxY3Bfa3ZqRmFWMGhsZHBkYkkyNTFEcGVDcjNnX29NbXpuZy1VY1lzMmp0a1J5ay0ycjJRRWthLUU1YmlTZnFTNTBLTzAzdmpiRnJoeF9Wenh0WjBTMzFoTFpYQnh0TUhQQUhpYmVIVTk4TDRKMktRa3VnVDk2SlBnQndSU3ZnZHN4RFVRMEdVVU9YREhHeWh6SEN4S3ZiSjZHdC1LNEZPbkRtLUpPaTJaMEktSDc4UHVQdVpfenZqc0JhUVZsd3dIWmxaTXY1T1NMdw?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Por que tanta gente sofre com alergia em Passo Fundo? A resposta pode estar nas lavouras",
+   "fonte": "GZH",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMikgJBVV95cUxQelN3VUFtamdlUU54UnhXYktheVpRTmlXU25UZ1JmLVd0b3g2Y3RLaWJ2UEFFQ0cwTWhRbTBwQkZvd1YybVNRek1aYzVjTmFLeWxqN19abHpuWlg5NlowMUlEOWNVWG1lcm5nWFlPY01SWDg5MjBLTVBWY1BkZ2JwWEIxVjd1d1RjV0xUQkdlMmZpbDJzQ1Y4XzZjZHV2UEZjWWFRWmtBOVhhUzNXNDZlS25JQkx3OXlHWk1lZm41d0ZfbzdXWE00dnRESFNpam94NFJabFpjcWFCVVpqQkIxeTBZbkdFcjNLZEFUVFdxWDF4UTJFVzM0X3h1QXgzYmQ0Y3VYZ0dqSVRTOW05NHhKcENR?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Demi Lovato dá notícias após relatos de hospitalização e reação alérgica",
+   "fonte": "Terra",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMilwJBVV95cUxPTTFXUGtjT0hTNlNBQ19uY0N5cnpQenVtc1NaUEpmR2M5NzVKbTR0RkNpenBDVnJ5alBWdFRtZDU1ekp2SzJqQTh5dFNNMklqUWJnVHFqYlBNa3V0Nl9oeHctb2tibGpVOHN3cVJjOEh0dlBNUWZCRzVpNnNEZllYVlU5YTUwYVoxSkRLZHphQjIxSWhZTW9Cck9IQzNNUG5aZXlUVE9JLWdaTFd4azhScHUyekozWGUtUC1URzVUVktuZXBrVENuUHhLSnQxMWdzMXMya2R1bC1wek5aRkpRbjd4SW5LV19EcEZOd1UxcU9xNTdNX182M3ZqZGx4aE43SHBtdXdvQlJhaXVlRGZST09iZUlOT28?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Demi Lovato é hospitalizada após reação alérgica e tranquiliza fãs: “Estou bem”",
+   "fonte": "96FM Bauru",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNSWxKVFVaZS1iV3hRMm5DcEh1eVdvbG91X01lNGRJOXNOcE5yeGpVUnZTN2dlZWZSby1iYlI5NUpCZVVZR1BWYzl2M2phRlM2VUZCV1FIV1BaRzJ5QzR3WnJTWUE1ZkpIaEVVNWwxVDlOYWpmX1cybTJYcGdrNDhFZDhtb3cwcF9wWllBMUhpajYzdGNTUV9GN0R0YWlrT3pveFlr?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Asma: Doença nem sempre visível: Muitas pessoas têm a doença mas não sabem",
+   "fonte": "G1",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxNdUlDNEl2LXJ4OV9hcGViblY5cmdFQTJJd3F2cjFDWGtHcXFUU08wZjExWGFBeWduS2ZNRFdqRkFlNG42ck01S2NEM0pGWXdqYUFUd2JSWWVzc3pqc1drc3huWGJZeTZiVDczR0RvUnNFZHhOZnh1dG41N0hrOTVoek9FWXlNcHhUc2pJelR4YXZOZ2RrMHBZUzBmaGJmVmx1b3M5b0RQclZKeVNKajVOYnZCQVAzeW0zSE5DdXFvajE1Y3ZKQnQ1RTNkVnNUSW9vRkl3WnBRT1Yzalc5UlRfNGhQTFp1MU5MUmhTZnBhcG1DdjZ1dTkw0gGGAkFVX3lxTE80SkUwVUZhcXJ2LXNFS2d5OHBZQm4zcVpRMXNRWEk5R0Z0VldZajJGakN3TnA5eG9RVG9fTGFMdHZkYXlnTzU0QjhaRUxUTEYxSEZuWlhOV2ZteHR2T0ZuZ2VKMVZ0aDA4dlNyUDNrN0dqNC1WVzhjMlFtVXRjaDYzdTZvVjZxek1URGp4aXNiWGpqUHZ2bkktX05LMWNHYkhvR0NmeDZ2WVZoUmsxdHNBeTY4ZldWelBXelNacDVleE1aUkFVSDBYcXBGaDdqVkgyVmVzdnBoNGdWYVZ4V1NWTFBXS1MybE9lS2pMTVJCUm0yaVVxNzBGdmNGU2xQOUE4VnpSc3c?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Médica responde dúvidas de telespectadores sobre alergia alimentar",
+   "fonte": "G1",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPTEZzOE54c283WFluWEhTdmprdFRCUkFmb282ajlfOHg4MFpnUnh0MHZHUGhPc3BRWWpmYmp1WldaZC1HMy1iQTNTVzNiekJHdHU2UlM2TFp2akw2NWpGUE9iSk40bEw2Yy1URk5fTGV5SGRYT3B5eTdUUFNPeHdnZ0VtU2dLMUpOWXpiR3cyOVNoRTU1MEIwVmQxUFVKUkFIdG9lVE1QakJkVjR2QkRiYzV1LXVHcHBvNU5LazE1d0s2TnZfLVlUWks1VXBKQWhzNWhCSWYwWXo3SjBJenVv0gHuAUFVX3lxTE9wajJHVWJSVUVUNmNnZG5WUGlaV01XaTQ5Y0hqREtnaDZmYU1QVDRJSnZBcEZvRDNLYkNlT0xZUVo5Wi15b3B0R0NkekQ1Y3JaZ0pEd09LNFdBTmxxa3RSNTB0d2VfdnAxdHNfUEJvY1hKc1RqdlVrUTc3T0JEYTZWWkdLejlBODBpbk14X1QtdWxKU0Utd09TMmVNUDlsWDhNZUU0WjhKbVlsUUJtaW1HUlE0YVlrei1maG5xalY3Wnozd1NIUDExdkh2aTB2eUdQSTJMSFJiM0tvWUhoRGZSRmx2dDBZcnZhMHRVbGc?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Médica explica como identificar alergia alimentar",
+   "fonte": "G1",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxQNEtrNFNfY190RDlnWGtpZFYwb2xRNVlpVHMyMTh4MmFPSTdoUEJ6ZVpPRG41akY0cWZoWWdYQndJczZnN2RYVkozZG9BZ1dIRUhwLXpIWHhEX1lycGdYWWIzcXdycjFuZlhMZnY1aFNYOFNUQlBjV3FtdmR4Y3czV3U1R1pQQXNIWnpwcVRLYnU0bUkxeWRLYjBuRFVEb3FucmlxdURKRXB3dlQ2ZVBkd29SVk5zSVpmZkk2eEFmQS1CYUxSNDVmZHR1a1lFbE15cF9rdkQySdIB1wFBVV95cUxQNEtrNFNfY190RDlnWGtpZFYwb2xRNVlpVHMyMTh4MmFPSTdoUEJ6ZVpPRG41akY0cWZoWWdYQndJczZnN2RYVkozZG9BZ1dIRUhwLXpIWHhEX1lycGdYWWIzcXdycjFuZlhMZnY1aFNYOFNUQlBjV3FtdmR4Y3czV3U1R1pQQXNIWnpwcVRLYnU0bUkxeWRLYjBuRFVEb3FucmlxdURKRXB3dlQ2ZVBkd29SVk5zSVpmZkk2eEFmQS1CYUxSNDVmZHR1a1lFbE15cF9rdkQySQ?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Demi Lovato é hospitalizada e preocupa fãs: \"Reação alérgica\"",
+   "fonte": "CNN Brasil",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNSnUxczk0SmFBMTNZeV9FcUZxeXVnUmlSRlNJOHZnMjdLdmhNc2l3VkZ3RWpnOEVhX2JCRUdyQWZpekM0eUZkc3Y3X2Y0d3RhcFBVcFdUcExJNHc2Wm0xeDNtR2hTOXdiWExyTDhSYUJUX2cxTG5yY0d4M0NuUzFuc1VyVGlzV3g2MkhrTUkwSjN5YjFSZXdtYXRfdFRkUTNDN0VZV2J2UkI?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Demi Lovato tem reação alérgica; saiba estado de saúde",
+   "fonte": "Billboard Brasil",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1zT21qcXlpVDNWYW51YlIzeGZIRDBxUC1najh4REJLNlpfa0ZCcGdvQi1sYnNlRFNyZDhTM2lid3RST1dGdkgyQy1FdHFVSWp6ZGNXT2JicF9fOE5fNG5lVE5KUQ?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Boletim: Jogos Escolares / Prevenção, causa e tratamento da asma / Especial sobre a gripe",
+   "fonte": "Agência Minas",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOaTd4UmFkOUt4S3NYMGVpN2liU2FMZjJaWEhPZzdYWXhiQlJaS180a1puSE1uTUVCSTZiLTUxUjRJcGdiRy1XMUh0YVZJVTVJTUV3dUlBcHU3VDhNcm5jS0V2UnZVQ0JPWWJrcFpnaVpqd0dxTjZzNnhZNVpQNWhMcXJTU3V6VHhVZS1OY01BOUZsY3VRQVNPRzRCSEFVM0QzZ2NNRVVuTlZPTWU0VTVTem5qenZyVUhxbXV4MWlZN1N4OHh1R3RCTEZGRHZCTGtaQTBwR29QSkI?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Demi Lovato preocupou os fãs nesta terça-feira (27) após ser hospitalizada com uma possível reação alérgica. A cantora explicou o que aconteceu e ainda atualizou o seu estado de saúde. ➡️ Saiba detalhes, clicando no link da bio ou no destaque “News”. (",
+   "fonte": "Instagram",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE9LeVM5MmtrVVBYa3l0b2NsZXoycDBmeU8yS3Y3NG1lSW43UlpsZ0UxZHptcXdOSFhZNjZBZmZra0VSQjA1UWNXSDJoY05rcTNQVWc?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Demi Lovato atualiza estado de saúde após possível internação por reação alérgica e apaga publicação no Instagram",
+   "fonte": "Globo",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPSTA1WkJPRDRienUyaXBsR1ZpdldOMEF6UWp4TjdZNjVSaTZUZnViR2dNcUJYanktYmNTcTdzMjBnQUFybGo0amQ2VS1hXzAtNUVkWkZpcV9VZXU0cmcwMXptTzdQdGlMQTk5YlctOUFzZEZBOFppSDRSRTFqWWo1c0VGTTczTUpzMHNWVGpEN1VlRXRGZUxGSlF1eVRnUmJXb3pzQVJUU3Uzb0l3Qm8tY0owWFB3ck5paHUzQkNjREdMSnI5M01zaUdUS09Rczg2OEkzSEd6OXJvSWM0TEFfbdIB7wFBVV95cUxPYWtzaXBEc0Z3dU1WV2pmaVdGa1F4OFp4UXRDTXRXa21uRzMzOWVRdlkxTjZKUlRCRExkUWU0emNVempkLWJUZkZKS2xYSUdvV1lTaVhpWkU0ZkZHQ2hNaHllRkw3SEJNVThDay1Nb2lIWFI2eWNMQ3RyV1RhcHgybGZ4RWJuVXVDcWVxVlBwd18tOThJNUZtaS1jVVJwUWJwWnh5N2FLd19kWW81SFRWRUlUR3B1Z2JXMnhVTmdTdlBpb0x3Z19CQTZHUmxEMEFHQkhNVEYtLWtLeHBQeURxdHBmdmNUQlQ5NGl6dFpqQQ?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Demi Lovato é hospitalizada após possível reação alérgica; saiba detalhes",
+   "fonte": "Globo",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQYkhOejViaUFoTnZQTEo0WXNmV3o0aWlmaFpKYmpEUzB1T2VBakh3R05jclZfUVEteVZXUVVlcHNqbFF0RC04MVhmZHdHVEl1LTF1aFJFMjlHTEduOWxyeEs2TFpaUlkxQWVRLV9oZmZQQm1WSWRkRUpvNnNQajZmc29jbnBvNlR5dG9DWldxdWdBeFJFcHRsNWR6OWFnRGtUVWxtR2NxcTgxSlBCTkY3VGs4Rjcyano0aHBGc2EzVU9GbUZxSV8waFhn0gHYAUFVX3lxTE1qcE1zaGpZTW1OOHc5ZnN3V3B6c3dTS0tKMTZDcXVZMmlZOFBpaUlEWk52V1hsOGNhdW91M0JVOWRmckFBNzJ4dkFXRXdhZVRHZTA0T1lrSkpacF9iVXhPa3VsYUhaNGpCMGdta3I4em9oVGdILVktRV9FdnFUdFU5dEwxWnd3cFcyRS14Q2NmTE11UC1FOFJWc3pLRV9uaFVFZ3hXYmI4cWc0UGx0MGR1UnYtdEs3YXRWVklDYXZjQzVTYm1ZLWpJQkEwUWFzVkJYekktWWRFRA?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Halloween: fantasias, maquiagens e glitter podem desencadear crises alérgicas em crianças",
+   "fonte": "JC",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxPT09tUzFhVGRabnhNVU9Ob2I1S3phSHE1RF9qdlZweE12cFd4ZGU0RjFuX3lBV1RIa2FPcUdrcEQ4MDdZdEtPb3dYUFlXMkdfSThxQ0VEdDFYdXFVcmZGQ0tJU1UyVGl2SFdwOFJPYS1sTVVUUUlkVVA3bGdkQXJOM3lGNGdVTVVGb1p1Q1Y3YTRDR1JRTTVHbG9iNGtDZHhGMTBFQVlDa1hiM0JqQUJwZWpyQ29NeU5aQUw4Z2VtenlWUEpmRUJnT0J5SFhDYTRrZC1Nc0JDV1JjS0kxWXRvbEd3OURLQQ?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Tudo sobre Alergia a camarão",
+   "fonte": "Forbes Brasil",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE84SzVuU25fbkJENE1fT2tyXzU1MURhUEY4MEpYZktrZUstOHdrLVZycll4dkhoU05FNm85QkFERTdMT2NhcFowYVdjR1ZIM3lIdlFjZ21VU19OaDBlNWp5Uk5rNXQ4UQ?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Família de mulher morta na Europa após reação alérgica luta para trazer corpo de volta ao Brasil",
+   "fonte": "R7",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxQbzNxdHd3aFQtWExTdThVSVNMbVVBZm51Y0xPMFBkNEtwcE5CRE9VQjZnX3JPRjhtM2dicXRQbkJ1S2Z0a0pQRHRseW13eGZCQ2w0WWhTSmdjV3BzSGFva0FzZ3d6LVMyVW9QOE02WVNsc2RTLVJfS2xyUXFwamtnVWlCNVlKRnpsZnpFcVU4b09zZFB0RWhSVExzd0ptZHFqeE5CVjdONWFTY3VST2RJRDJmS1lGZFNVSzk0Ql9aUnJwRExKaVJvMFBDbVp5TUx6OWVpRnlUc3hNbzkxaWRucFZtTTBHSjhwUFE?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Dupilumabe demonstra eficácia global em múltiplos parâmetros da asma pediátrica",
+   "fonte": "Medscape",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNc2ktdDdGeE9HTDR4VGxyZll3dmFGZjdnQUs1Z2R0SXphZDJKYjF0QUZnamlFX2g1UlgzUW9tb2Zfbzh6Vm81RFNNY0xsSW1GTUhsbTRGOTBRb2RUWTh5N1YycjB5M0lVSl8xNnFEMmctdURwRW1TV3psekppRm5MS1Z4ZlY1bmhHM1JhX3p4aElSUWdPQTBiQzVZRGdCWnlORXNwN2U2SS1XODJSeTR3c3VB?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Alergia alimentar em crianças atinge 4,6%, aponta estudo",
+   "fonte": "Vitória News",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNMFFkSW9wV2VmcWtRNWRtV1lZUGhadU4wY3IwNFhvWmxyZC1oa3c0dGpmbExkWHQxTTkwdmZpTjY0RzFDOXZnU3V1djFqWnE3NmVzMzlxUlRVWmJBTUlwTUZxeHF2bXc3UDJJRGwtZ2J4aHVONlZpa1dFQ0p2UnhnaV9LcEh0NWs?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Alergia a Camarão Pode Ser Fatal em Minutos: Entenda os Riscos e Como Agir",
+   "fonte": "Forbes Brasil",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNUTkzY0gwTmsxM3JfSXJrSEZTaU8yTjdkYlNWdlgtMGh5WFN2RUNsaGpiNDZkaHpZRnFqRG1telpoTThCdGRzTGxPTGJPQ2E3b0lZRGRlTVpfcXJHdmxyeHBHbUdiQ3NVVWkxdDlJX1RWX3dpaWlXZkh6TUVIT3Q0LS0tODdPSGJBemlYWEJUY19LWmp5T2poRkNMTk5OVUw0cnFBTl9CRVVZMFl0N2dCT294dUNBbFh5?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  },
+  {
+   "status": "pendente",
+   "titulo": "O que se sabe sobre morte de enfermeira após possível reação alérgica a camarão durante lua de mel em Portugal",
+   "fonte": "O GLOBO",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxOaE9KQ0dvWThkSDBkX3dpb3Y4Uk9DWkVoOTJhODlKcjd1ckN2UldkX3RydHBIczN1ZTZGQ3pOSFV2eTRBLUk0b2tHY3JoQmlxTWZtSUR2Y0ZtVHozV2tIVy1VS0kzcmxMNVpqTDdYWU03ZGxOOUNHNzFjUDgzYi0xdFRHcmZXcm9seDhETmlkMjN4a19IZHNCaDVFRnFLbC1pYmUycUpTbGZVRDhUUDVQVFk2QlM5MW5aaGdJUHQxQ1I2QVRFWm0xMHdTbWRwLWFlWV9ER2MzbXAzLWVSYWpDZ09takprSjNxSGRiRHMyUVVsZHNCbUM2dDhTb9IBigJBVV95cUxQbXZGZjdxNmpjRlZHLTZXX0kzSEVRdTJzM2VTNUxGS1ZSSmp4eFEyYkhtTW1iTVFFeC15d2Zud2ZxdWFmWEYyQ0xQeHJna0VTRmpmanZLRWxhOFlYNUNMT01wNG4zMGpEZDR1S255RTlkZF9pek5YOUd5OUh2LTdSeXdHQ1RoeVY3RDlFekJQVHlNMWF3eERMd2thUlBZaHBGRWVpc3BkRmM1S3NEQUp6VnBqYzFyWGM5WTRjdWVnd29Bc1pnVE90bGhLRTMyaW1MY290Qlp3YzllZEY1YzRKX1BVejd3aVZ3N2duODlxMWRpeXh4YTBseFpSdXh6ZEtZNzZsZmN3VS0wdw?oc=5",
+   "motivo": "resposta de resolução do Google Notícias sem URL do veículo"
+  }
+ ],
+ "excluidos": []
 }
