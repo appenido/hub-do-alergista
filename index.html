@@ -819,7 +819,7 @@ window._mostrarApp = function(){
       <div class="auth-field" id="cadEspBox" style="display:none"><label>Qual especialidade? *</label><input type="text" id="cadEspecialidade" placeholder="Ex: Pneumologia"></div>
       <div class="auth-field">
         <label>Maiores interesses (até 3)</label>
-        <div id="cadInteresses" style="display:flex;flex-wrap:wrap;gap:6px"><button type="button" class="int-chip" data-int="Asma" onclick="_toggleInteresse(this)">Asma</button><button type="button" class="int-chip" data-int="Urticária" onclick="_toggleInteresse(this)">Urticária</button><button type="button" class="int-chip" data-int="Dermatite atópica" onclick="_toggleInteresse(this)">Dermatite atópica</button><button type="button" class="int-chip" data-int="Rinite" onclick="_toggleInteresse(this)">Rinite</button><button type="button" class="int-chip" data-int="Alergia alimentar" onclick="_toggleInteresse(this)">Alergia alimentar</button><button type="button" class="int-chip" data-int="Anafilaxia" onclick="_toggleInteresse(this)">Anafilaxia</button><button type="button" class="int-chip" data-int="Esofagite eosinofílica" onclick="_toggleInteresse(this)">Esofagite eosinofílica</button><button type="button" class="int-chip" data-int="Imunodeficiências" onclick="_toggleInteresse(this)">Imunodeficiências</button><button type="button" class="int-chip" data-int="Alergia a medicamentos" onclick="_toggleInteresse(this)">Alergia a medicamentos</button><button type="button" class="int-chip" data-int="Mastocitose" onclick="_toggleInteresse(this)">Mastocitose</button><button type="button" class="int-chip" data-int="Alergia a himenópteros" onclick="_toggleInteresse(this)">Alergia a himenópteros</button><button type="button" class="int-chip" data-int="Doença celíaca" onclick="_toggleInteresse(this)">Doença celíaca</button></div>
+        <div id="cadInteresses" style="display:flex;flex-wrap:wrap;gap:6px"><button type="button" class="int-chip" data-int="Asma" onclick="_toggleInteresse(this)">Asma</button><button type="button" class="int-chip" data-int="Urticária" onclick="_toggleInteresse(this)">Urticária</button><button type="button" class="int-chip" data-int="Dermatite atópica" onclick="_toggleInteresse(this)">Dermatite atópica</button><button type="button" class="int-chip" data-int="Rinite" onclick="_toggleInteresse(this)">Rinite</button><button type="button" class="int-chip" data-int="Alergia alimentar" onclick="_toggleInteresse(this)">Alergia alimentar</button><button type="button" class="int-chip" data-int="Anafilaxia" onclick="_toggleInteresse(this)">Anafilaxia</button><button type="button" class="int-chip" data-int="Esofagite eosinofílica" onclick="_toggleInteresse(this)">Esofagite eosinofílica</button><button type="button" class="int-chip" data-int="Imunodeficiências" onclick="_toggleInteresse(this)">Imunodeficiências</button><button type="button" class="int-chip" data-int="Alergia a medicamentos" onclick="_toggleInteresse(this)">Alergia a medicamentos</button><button type="button" class="int-chip" data-int="Mastocitose" onclick="_toggleInteresse(this)">Mastocitose</button><button type="button" class="int-chip" data-int="Alergia a himenópteros" onclick="_toggleInteresse(this)">Alergia a himenópteros</button><button type="button" class="int-chip" data-int="Dermatite de contato" onclick="_toggleInteresse(this)">Dermatite de contato</button></div>
         <div style="font-size:10.5px;color:var(--gray-500);margin-top:6px;line-height:1.4">Serve só para dar mais destaque na tela inicial às informações dessas áreas.</div>
       </div>
       <div class="auth-field"><label>E-mail *</label><input type="email" id="cadEmail" placeholder="seu@email.com" autocomplete="email"></div>
@@ -3164,28 +3164,78 @@ var INTERESSE_TOPICO = {
   'Asma':'asma', 'Urticária':'urticaria', 'Dermatite atópica':'da', 'Rinite':'rinite',
   'Alergia alimentar':'aa', 'Anafilaxia':'anafilaxia', 'Esofagite eosinofílica':'eoe',
   'Imunodeficiências':'eii', 'Alergia a medicamentos':'medicam', 'Mastocitose':'masto',
-  'Alergia a himenópteros':'himen', 'Doença celíaca':'dc'
+  'Alergia a himenópteros':'himen', 'Dermatite de contato':'dc'
 };
-function _heroCardArtigo(interesse){
-  var topo = INTERESSE_TOPICO[interesse];
-  var card = topo ? document.querySelector('#artigos-list .art-card[data-topic="' + topo + '"]') : null;
-  var titulo = '', revista = '';
-  if(card){
-    var t = card.querySelector('.art-title-pt') || card.querySelector('.art-title');
-    if(t) titulo = t.textContent.trim();
-    var j = card.querySelector('.art-journal');
-    if(j) revista = j.textContent.trim();
-  }
+function _heroCardArtigo(interesse, art){
   var h = '<div onclick="navTo(\'artigos\')" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:10px 12px;cursor:pointer">';
   h += '<div style="font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#7fe3ef">' + interesse + '</div>';
-  if(titulo){
-    h += '<div style="font-size:12.5px;font-weight:700;color:#fff;line-height:1.4;margin-top:3px">' + titulo + '</div>';
-    if(revista) h += '<div style="font-size:10px;color:rgba(255,255,255,.7);margin-top:3px">' + revista + '</div>';
+  if(art && art.titulo){
+    h += '<div style="font-size:12.5px;font-weight:700;color:#fff;line-height:1.4;margin-top:3px">' + art.titulo + '</div>';
+    h += '<div style="font-size:10px;color:rgba(255,255,255,.7);margin-top:3px">' + (art.fonte||'') + '</div>';
   } else {
-    h += '<div style="font-size:12px;color:rgba(255,255,255,.75);margin-top:3px">Ver artigos desta área →</div>';
+    h += '<div style="font-size:12px;color:rgba(255,255,255,.75);margin-top:3px">Buscando o mais recente…</div>';
   }
   h += '</div>';
   return h;
+}
+
+var _FEED_Q = {asma:'asthma', da:'("atopic dermatitis" OR eczema)', urticaria:'(urticaria OR angioedema)',
+  aa:'"food allergy"', anafilaxia:'anaphylaxis', rinite:'("allergic rhinitis" OR rhinitis)',
+  eoe:'"eosinophilic esophagitis"', eii:'("primary immunodeficiency" OR "inborn errors of immunity")',
+  medicam:'("drug hypersensitivity" OR "drug allergy")', masto:'(mastocytosis OR "mast cell activation")',
+  himen:'("hymenoptera venom" OR "insect sting allergy")', dc:'"allergic contact dermatitis"'};
+
+function _heroCacheKey(){ return 'hub_hero_art_' + new Date().toLocaleDateString('pt-BR'); }
+
+function _heroBuscarUltimo(interesse){
+  var topo = INTERESSE_TOPICO[interesse];
+  var q = _FEED_Q[topo];
+  if(!q) return Promise.resolve(null);
+  var base = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
+  var url = base + 'esearch.fcgi?db=pubmed&retmode=json&retmax=1&sort=date&tool=HubClinico&term=' + encodeURIComponent(q + ' AND (hasabstract) AND ("journal article"[pt])');
+  return fetch(url).then(function(r){ return r.json(); }).then(function(d){
+    var id = ((d.esearchresult||{}).idlist||[])[0];
+    if(!id) return null;
+    return fetch(base + 'esummary.fcgi?db=pubmed&retmode=json&tool=HubClinico&id=' + id)
+      .then(function(r2){ return r2.json(); })
+      .then(function(d2){
+        var it = (d2.result||{})[id];
+        if(!it) return null;
+        return { titulo: (it.title||'').replace(/<[^>]+>/g,'').replace(/\.$/,''),
+                 fonte: (it.source||'') + (it.pubdate ? ' · ' + it.pubdate : '') };
+      });
+  }).catch(function(){ return null; });
+}
+
+function _heroTraduzir(arts){
+  var titulos = arts.map(function(a){ return a && a.titulo; }).filter(Boolean);
+  if(!titulos.length) return Promise.resolve(arts);
+  var pedido = 'Traduza para o português do Brasil cada título de artigo médico abaixo. Responda APENAS com os títulos traduzidos, um por linha, na mesma ordem, sem numeração.\n\n' + titulos.join('\n');
+  return fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta: pedido})})
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(!d || !d.resposta) return arts;
+      var linhas = d.resposta.split('\n').map(function(l){ return l.trim(); }).filter(Boolean);
+      var i = 0;
+      arts.forEach(function(a){ if(a && a.titulo && linhas[i]){ a.titulo = linhas[i]; i++; } });
+      return arts;
+    })
+    .catch(function(){ return arts; });
+}
+
+function _heroCarregarArtigos(ints){
+  var box = document.getElementById('heroInteresses');
+  if(!box || !ints.length) return;
+  var cache = null;
+  try{ cache = JSON.parse(localStorage.getItem(_heroCacheKey())||'null'); }catch(e){}
+  if(cache && cache.chave === ints.join('|')){
+    box.innerHTML = ints.map(function(i,n){ return _heroCardArtigo(i, cache.arts[n]); }).join('');
+    return;
+  }
+  Promise.all(ints.map(_heroBuscarUltimo)).then(_heroTraduzir).then(function(arts){
+    box.innerHTML = ints.map(function(i,n){ return _heroCardArtigo(i, arts[n]); }).join('');
+    try{ localStorage.setItem(_heroCacheKey(), JSON.stringify({chave: ints.join('|'), arts: arts})); }catch(e){}
+  });
 }
 
 /* interesses no perfil */
@@ -3278,7 +3328,10 @@ function atualizarHero(){
     if(p) p.textContent = ints.length ? 'Último artigo de cada área que você acompanha.'
                                       : 'Escolha suas áreas de interesse em Meu perfil para ver destaques aqui.';
     var box = document.getElementById('heroInteresses');
-    if(box) box.innerHTML = ints.map(function(i){ return _heroCardArtigo(i); }).join('');
+    if(box){
+      box.innerHTML = ints.map(function(i){ return _heroCardArtigo(i, null); }).join('');
+      _heroCarregarArtigos(ints);
+    }
   }catch(e){}
 }
 document.addEventListener('DOMContentLoaded', atualizarHero);
