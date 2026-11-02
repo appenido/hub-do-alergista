@@ -37,6 +37,7 @@ export async function onRequestGet() {
         url: pega('link')
       });
     }
+    itens.sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
     return new Response(JSON.stringify({ itens }), { headers: CORS });
   } catch (e) {
     return new Response(JSON.stringify({ itens: [], erro: 'Falha ao buscar notícias.' }), { status: 502, headers: CORS });

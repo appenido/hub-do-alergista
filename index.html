@@ -3364,7 +3364,9 @@ function _mostrarNoticiaMidia(){
   if(!a || !t || !_noticiasMidia.length) return;
   var n = _noticiasMidia[_noticiaIdx % _noticiasMidia.length];
   a.href = n.url || '#';
-  t.innerHTML = (n.fonte ? '<strong style="color:var(--gold)">' + n.fonte + ':</strong> ' : '') + n.titulo;
+  var dt = '';
+  try{ if(n.data) dt = ' · ' + new Date(n.data).toLocaleDateString('pt-BR'); }catch(e){}
+  t.innerHTML = (n.fonte ? '<strong style="color:var(--gold)">' + n.fonte + dt + ':</strong> ' : '') + n.titulo;
   if(g) g.textContent = 'Mídia';
   _noticiaIdx++;
 }
@@ -3377,9 +3379,9 @@ function carregarNoticiasMidia(){
       return;
     }
     _noticiaIdx = 0;
-    _mostrarNoticiaMidia();
+    _mostrarNoticiaMidia();   // a mais recente primeiro
     if(_noticiaTimer) clearInterval(_noticiaTimer);
-    _noticiaTimer = setInterval(_mostrarNoticiaMidia, 8000);
+    _noticiaTimer = setInterval(_mostrarNoticiaMidia, 12000);
   }).catch(function(){
     var t = document.getElementById('alertaNoticiaTexto');
     if(t) t.textContent = 'Não foi possível carregar as notícias agora.';
@@ -5330,8 +5332,13 @@ function renderFeed(d2, box){
     return;
   }
   var html = '';
-  for(var u=0;u<res.uids.length;u++){
-    var uid = res.uids[u];
+  var uids = res.uids.slice().sort(function(x,y){
+    var dx = Date.parse(((res[x]||{}).sortpubdate || (res[x]||{}).pubdate || '').replace(/\//g,'-')) || 0;
+    var dy = Date.parse(((res[y]||{}).sortpubdate || (res[y]||{}).pubdate || '').replace(/\//g,'-')) || 0;
+    return dy - dx;
+  });
+  for(var u=0;u<uids.length;u++){
+    var uid = uids[u];
     var a = res[uid];
     if(!a) continue;
     var authors = '';
