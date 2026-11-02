@@ -4553,55 +4553,124 @@ document.addEventListener('click',function(e){
 
 /* ── SEARCH ── */
 var _BUSCA_PAGINAS = [
-  ['dashboard','início home'],['imuno','imunobiológicos biológicos omalizumabe dupilumabe mepolizumabe radar anvisa conitec'],['imunoglobulinas','imunoglobulina gama reposição'],
-  ['interacao','interações medicamentosas'],['artigos','artigos pubmed publicações'],['guidelines','guidelines diretrizes consensos'],['scores','scores calculadoras uas7 uct act easi scorad corticoide'],
-  ['assistente','ia assistente robô'],['educacao','cursos educação aulas congressos'],['crm','crm consultar médico'],['alergonews','notícias alergo news mídia'],['jornal','jornal da alergia manchete'],
-  ['perfil','perfil conta dados'],['favoritos','favoritos salvos']
+  ['dashboard','inicio home'],
+  ['imuno','imunobiologicos biologicos biologico anti-ige anti-il5 anti-il4 omalizumabe xolair omlyclo dupilumabe dupixent mepolizumabe nucala benralizumabe fasenra tezepelumabe tezspire reslizumabe cinqair ligelizumabe remibrutinibe radar anvisa conitec ans rol dut pcdt bula'],
+  ['imunoglobulinas','imunoglobulina gamaglobulina igg reposicao subcutanea endovenosa hizentra hyqvia octagam privigen tegeline flebogamma'],
+  ['interacao','interacoes medicamentosas interacao droga farmaco'],
+  ['artigos','artigos pubmed publicacoes papers estudos literatura'],
+  ['guidelines','guidelines diretrizes consensos gina aaaai eaaci asbai protocolo'],
+  ['scores','scores calculadoras escores uas7 uct act easi scorad poem acq corticoide prednisona equivalencia'],
+  ['assistente','ia assistente robo inteligencia artificial'],
+  ['prompts','prompts modelos textos'],
+  ['relatorios','relatorios laudos documentos plano de saude'],
+  ['casos','casos clinicos'],
+  ['material','material do alergista orientacoes folhetos pacientes'],
+  ['educacao','cursos educacao aulas congressos eventos'],
+  ['crm','crm consultar medico registro cfm'],
+  ['alergonews','noticias alergo news midia'],
+  ['jornal','jornal da alergia manchete'],
+  ['perfil','perfil conta dados'],
+  ['favoritos','favoritos salvos'],
+  ['mais','mais menu opcoes']
 ];
-function _buscaNorm(t){ return String(t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+var _BUSCA_SELETORES = '.bio-card, .guide-card, .art-card, .prompt-card, .mat-card, .rel-row, .fav-row, .course-card, .news-card, .score-card, .caso-card';
+var _BUSCA_ROTULOS = [['bio-card','Imunobiológico'],['guide-card','Guideline'],['art-card','Artigo'],['prompt-card','Prompt'],['mat-card','Material'],['rel-row','Relatório'],['fav-row','Favorito'],['course-card','Curso'],['news-card','Notícia'],['score-card','Score'],['caso-card','Caso']];
+var _buscaSeq = 0;
+
+function _buscaNorm(t){ return String(t||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim(); }
 function _buscaFechar(){ var b=document.getElementById('buscaRes'); if(b) b.style.display='none'; }
-function _buscaIr(page, termo){
-  _buscaFechar(); navTo(page);
-  if(termo){ setTimeout(function(){
-    var alvo=null, tn=_buscaNorm(termo);
-    document.querySelectorAll('#page-'+page+' .guide-card, #page-'+page+' .art-card').forEach(function(c){
-      var on = _buscaNorm(c.textContent).indexOf(tn)>-1;
-      c.style.display = on ? '' : 'none'; if(on && !alvo) alvo=c;
-    });
-  }, 120); }
+
+function _buscaRotulo(el){
+  for(var i=0;i<_BUSCA_ROTULOS.length;i++){ if(el.classList.contains(_BUSCA_ROTULOS[i][0])) return _BUSCA_ROTULOS[i][1]; }
+  return 'Resultado';
 }
+function _buscaTitulo(el){
+  var t=el.querySelector('.bio-name, .art-title-pt, .art-title, .rel-title, .fav-title, .pc-title, .guide-title, h3, h4, strong');
+  var tx=((t?t.textContent:el.textContent)||'').replace(/\s+/g,' ').trim();
+  return tx.slice(0,90)+(tx.length>90?'…':'');
+}
+function _buscaSub(el){
+  var s=el.querySelector('.bio-comercial, .rel-desc, .art-authors, .guide-desc, p');
+  var tx=((s?s.textContent:'')||'').replace(/\s+/g,' ').trim();
+  return tx.slice(0,95)+(tx.length>95?'…':'');
+}
+
+function _buscaIr(page, elId){
+  _buscaFechar();
+  navTo(page);
+  if(!elId) return;
+  setTimeout(function(){
+    var alvo=document.getElementById(elId);
+    if(!alvo) return;
+    if(alvo.classList.contains('bio-card') && !alvo.classList.contains('open')){
+      document.querySelectorAll('.bio-card.open').forEach(function(c){c.classList.remove('open');});
+      alvo.classList.add('open');
+    }
+    alvo.style.display='';
+    try{ alvo.scrollIntoView({behavior:'smooth', block:'center'}); }catch(e){ alvo.scrollIntoView(); }
+    var antes=alvo.style.boxShadow;
+    alvo.style.transition='box-shadow .3s';
+    alvo.style.boxShadow='0 0 0 3px var(--teal-mid)';
+    setTimeout(function(){ alvo.style.boxShadow=antes||''; }, 1800);
+  }, 220);
+}
+
 function buscarNoHub(q){
-  q=(q||'').trim(); var box=document.getElementById('buscaRes');
+  q=(q||'').trim();
+  var box=document.getElementById('buscaRes');
   if(!box){
     box=document.createElement('div'); box.id='buscaRes';
     box.style.cssText='position:fixed;top:56px;left:8px;right:8px;max-width:520px;margin:0 auto;background:#fff;border:1px solid var(--gray-100);border-radius:14px;box-shadow:0 14px 44px rgba(13,31,45,.28);z-index:400;max-height:70vh;overflow-y:auto;display:none';
     document.body.appendChild(box);
   }
   if(q.length<2){ box.style.display='none'; return; }
-  var qn=_buscaNorm(q), h='', n=0;
+
+  var termos=_buscaNorm(q).split(' ').filter(function(t){return t.length>1;});
+  if(!termos.length){ box.style.display='none'; return; }
+  function casa(txt){ var n=_buscaNorm(txt); for(var i=0;i<termos.length;i++){ if(n.indexOf(termos[i])<0) return false; } return true; }
+
+  var h='', n=0;
+
   _BUSCA_PAGINAS.forEach(function(pg){
-    if(!PAGE_TITLES[pg[0]]) return;
-    if(_buscaNorm(PAGE_TITLES[pg[0]]+' '+pg[1]).indexOf(qn)>-1){
-      n++; h+='<div onclick="_buscaIr(\''+pg[0]+'\')" style="padding:11px 14px;border-bottom:1px solid var(--gray-100);cursor:pointer;font-size:13px;font-weight:700;color:var(--navy)">📍 Ir para '+PAGE_TITLES[pg[0]]+'</div>';
+    if(!PAGE_TITLES[pg[0]] || !document.getElementById('page-'+pg[0])) return;
+    if(casa(PAGE_TITLES[pg[0]]+' '+pg[1])){
+      n++;
+      h+='<div onclick="_buscaIr(\''+pg[0]+'\')" style="padding:11px 14px;border-bottom:1px solid var(--gray-100);cursor:pointer;font-size:13px;font-weight:700;color:var(--navy)">📍 Ir para '+PAGE_TITLES[pg[0]]+'</div>';
     }
   });
+
   var vistos=0;
-  [['guidelines','Guidelines','.guide-card'],['artigos','Artigos','.art-card'],['dashboard','Artigos','.art-card']].forEach(function(src){
-    document.querySelectorAll('#page-'+src[0]+' '+src[2]).forEach(function(c){
-      if(vistos>=12) return;
-      var tx=(c.textContent||'').replace(/\s+/g,' ').trim();
-      if(_buscaNorm(tx).indexOf(qn)>-1){
-        vistos++; n++;
-        h+='<div onclick="_buscaIr(\''+src[0]+'\',\''+q.replace(/[\\\'"]/g,'')+'\')" style="padding:10px 14px;border-bottom:1px solid var(--gray-100);cursor:pointer"><div style="font-size:10px;font-weight:800;color:var(--teal-mid)">'+src[1].toUpperCase()+'</div><div style="font-size:12.5px;color:var(--navy);line-height:1.4">'+_jEsc(tx.slice(0,110))+'…</div></div>';
-      }
+  document.querySelectorAll('.page').forEach(function(pageEl){
+    if(vistos>=20) return;
+    var pid=(pageEl.id||'').replace(/^page-/,'');
+    if(!pid || !PAGE_TITLES[pid]) return;
+    pageEl.querySelectorAll(_BUSCA_SELETORES).forEach(function(c){
+      if(vistos>=20) return;
+      var tx=(c.textContent||'');
+      if(!tx.trim() || !casa(tx)) return;
+      if(c.parentElement && c.parentElement.closest(_BUSCA_SELETORES)) return;
+      if(!c.id){ c.id='_bsc'+(++_buscaSeq); }
+      vistos++; n++;
+      var sub=_buscaSub(c);
+      h+='<div onclick="_buscaIr(\''+pid+'\',\''+c.id+'\')" style="padding:10px 14px;border-bottom:1px solid var(--gray-100);cursor:pointer">'
+        +'<div style="font-size:10px;font-weight:800;color:var(--teal-mid)">'+_jEsc(_buscaRotulo(c).toUpperCase())+' · '+_jEsc(PAGE_TITLES[pid])+'</div>'
+        +'<div style="font-size:12.5px;font-weight:700;color:var(--navy);line-height:1.4">'+_jEsc(_buscaTitulo(c))+'</div>'
+        +(sub?'<div style="font-size:11.5px;color:var(--gray-500);line-height:1.35">'+_jEsc(sub)+'</div>':'')
+        +'</div>';
     });
   });
-  if(!n) h='<div style="padding:14px;font-size:12.5px;color:var(--gray-500)">Nada encontrado para “'+_jEsc(q)+'”. Pergunte ao Robô Alergista 🤖.</div>';
+
+  if(!n){
+    h='<div style="padding:14px;font-size:12.5px;color:var(--gray-500)">Nada encontrado para “'+_jEsc(q)+'”. '
+      +'<span onclick="_buscaFechar();navTo(\'assistente\');" style="color:var(--teal-mid);font-weight:700;cursor:pointer">Pergunte ao Robô Alergista 🤖</span>.</div>';
+  }
   box.innerHTML=h; box.style.display='block';
 }
+
 var _si=document.getElementById('searchInput');
 if(_si){
   _si.addEventListener('input',function(){ buscarNoHub(this.value); });
+  _si.addEventListener('focus',function(){ if(this.value.trim().length>1) buscarNoHub(this.value); });
   _si.addEventListener('keydown',function(e){ if(e.key==='Enter') buscarNoHub(this.value); if(e.key==='Escape'){ this.value=''; _buscaFechar(); } });
   document.addEventListener('click',function(e){ if(e.target!==_si && !(e.target.closest&&e.target.closest('#buscaRes'))) _buscaFechar(); });
 }
