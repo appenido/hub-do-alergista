@@ -13,7 +13,11 @@ const FONTES = [
   { nome: 'Agência Brasil', url: 'https://agenciabrasil.ebc.com.br/rss/saude/feed.xml' },
   { nome: 'Agência Brasil', url: 'https://agenciabrasil.ebc.com.br/rss/geral/feed.xml' },
   { nome: 'Fiocruz',        url: 'https://portal.fiocruz.br/rss.xml' },
-  { nome: 'Google Notícias',url: 'https://news.google.com/rss/search?q=alergia&hl=pt-BR&gl=BR&ceid=BR:pt-419' }
+  { nome: 'Google Notícias',url: 'https://news.google.com/rss/search?q=alergia&hl=pt-BR&gl=BR&ceid=BR:pt-419' },
+  { nome: 'Google Notícias',url: 'https://news.google.com/rss/search?q=asma+OR+%22rinite+al%C3%A9rgica%22&hl=pt-BR&gl=BR&ceid=BR:pt-419' },
+  { nome: 'Google Notícias',url: 'https://news.google.com/rss/search?q=anafilaxia+OR+urtic%C3%A1ria+OR+angioedema&hl=pt-BR&gl=BR&ceid=BR:pt-419' },
+  { nome: 'Google Notícias',url: 'https://news.google.com/rss/search?q=%22dermatite+at%C3%B3pica%22+OR+imunoterapia+OR+imunobiol%C3%B3gico&hl=pt-BR&gl=BR&ceid=BR:pt-419' },
+  { nome: 'Google Notícias',url: 'https://news.google.com/rss/search?q=%22alergia+alimentar%22+OR+%22imunodefici%C3%AAncia%22&hl=pt-BR&gl=BR&ceid=BR:pt-419' }
 ];
 
 // palavras inteiras (evita casar "asma" dentro de "plasma")
@@ -74,7 +78,7 @@ export async function onRequestGet() {
   });
   unicos.sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
 
-  const corpo = { itens: unicos.slice(0, 12) };
+  const corpo = { itens: unicos.slice(0, 20), fontes: FONTES.length, falhas };
   if (!unicos.length) corpo.erro = 'Nenhuma notícia encontrada' + (falhas.length ? ' (' + falhas.join('; ') + ')' : '');
   return new Response(JSON.stringify(corpo), { headers: CORS });
 }
