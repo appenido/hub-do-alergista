@@ -3255,6 +3255,60 @@ function _perfInteressesSelecionados(){
 
 
 
+
+/* ── UAS7: QR Code para o paciente preencher em casa ── */
+var _uas7PatientUrl = new URL('uas7-paciente.html', location.href).href;
+var _uas7SessaoId = null;
+
+function _uas7RenderQR(){
+  var h = '';
+  h += '<div style="background:rgba(59,191,204,.10);border:1px solid rgba(59,191,204,.35);border-radius:10px;padding:11px 13px;margin-bottom:12px;display:flex;gap:9px;align-items:flex-start">';
+  h += '<span style="font-size:17px;line-height:1">\ud83d\udcf1</span>';
+  h += '<div style="font-size:12px;color:var(--navy);line-height:1.5"><strong>Pe\u00e7a ao paciente que escaneie o QR Code.</strong> Ele registra p\u00e1pulas e prurido todas as noites por 7 dias e o UAS7 chega aqui ao final.</div></div>';
+  h += '<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:14px">';
+  h += '<div id="uas7-qr-canvas" style="background:#fff;border-radius:12px;padding:10px;width:180px;height:180px;display:flex;align-items:center;justify-content:center"><span style="color:#aaa;font-size:12px">Gerando\u2026</span></div>';
+  h += '<button onclick="_uas7CopiarLink()" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy);border-radius:9px;padding:8px 14px;font-family:\'Manrope\',sans-serif;font-size:12px;font-weight:700;cursor:pointer">\ud83d\udd17 Copiar link do paciente</button>';
+  h += '</div>';
+  h += '<div style="font-size:11px;color:var(--gray-500);text-align:center;margin-bottom:14px">Ou preencha voc\u00ea mesmo os 7 dias abaixo.</div>';
+  return h;
+}
+
+function _uas7IniciarQR(){
+  if(!window.QRCode){
+    var sc = document.createElement('script');
+    sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+    sc.onload = _uas7GerarQR;
+    document.head.appendChild(sc);
+  } else { _uas7GerarQR(); }
+}
+
+function _uas7LinkPaciente(){
+  if(!_uas7SessaoId) _uas7SessaoId = 'uas7-' + Date.now();
+  return _uas7PatientUrl + '?s=' + _uas7SessaoId;
+}
+
+function _uas7GerarQR(){
+  var wrap = document.getElementById('uas7-qr-canvas');
+  if(!wrap) return;
+  var url = _uas7LinkPaciente();
+  wrap.innerHTML = '';
+  try{
+    new QRCode(wrap, { text: url, width:160, height:160, colorDark:'#0d1f2d', colorLight:'#ffffff', correctLevel: QRCode.CorrectLevel.M });
+  }catch(e){
+    wrap.innerHTML = '<span style="font-size:10px;word-break:break-all;color:#333">' + url + '</span>';
+  }
+}
+
+function _uas7CopiarLink(){
+  var url = _uas7LinkPaciente();
+  try{
+    navigator.clipboard.writeText(url);
+    if(typeof toast==='function') toast('\ud83d\udd17','Link copiado para enviar ao paciente');
+  }catch(e){
+    if(typeof toast==='function') toast('\ud83d\udd17', url);
+  }
+}
+
 /* ── ALERTA: NOTÍCIAS DA MÍDIA BRASILEIRA ───────── */
 var _noticiasMidia = [], _noticiaIdx = 0, _noticiaTimer = null;
 function _mostrarNoticiaMidia(){
@@ -4101,17 +4155,10 @@ function openScore(key){
   document.getElementById('mDesc').textContent=s.desc;
   // UAS7 tem interface própria (7 dias + histórico semanal)
   if(s.special==='uas7'){
-    document.getElementById('mFields').innerHTML=_uas7RenderCampos();
+    document.getElementById('mFields').innerHTML=_uas7RenderQR() + _uas7RenderCampos();
+    _uas7IniciarQR();
     document.getElementById('mResult').className='score-result';
     document.getElementById('overlay').classList.add('open');
-    return;
-  }
-  // UCT tem interface própria (QR Code para paciente + histórico)
-  if(s.special==='uct'){
-    document.getElementById('mFields').innerHTML=_uctRenderModal();
-    document.getElementById('mResult').className='score-result';
-    document.getElementById('overlay').classList.add('open');
-    _uctIniciarSessao();
     return;
   }
   var html='';
