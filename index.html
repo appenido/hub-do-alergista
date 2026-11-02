@@ -231,6 +231,10 @@ body{
 .modal-hdr > button:first-child::before{content:'\2039';font-size:20px;line-height:1;color:var(--gray-500);font-weight:700;}
 .modal-hdr > div:last-child{width:32px !important;}
 
+.int-chip{background:#fff;border:1.5px solid var(--gray-100);color:var(--navy);border-radius:999px;padding:6px 11px;font-family:'Manrope',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer;}
+.int-chip.sel{background:var(--teal-mid);border-color:var(--teal-mid);color:#fff;}
+.hero-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 10px;font-size:10.5px;font-weight:700;color:#fff;}
+
 .perf-menu-btn{width:100%;margin-bottom:10px;background:#fff;border:1.5px solid var(--gray-100);color:var(--navy);border-radius:10px;padding:13px 14px;font-family:'Manrope',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;text-align:left;}
 .perf-menu-btn:active{background:var(--gray-50);}
 .perf-menu-sair{border-color:#e74c3c;color:#e74c3c;}
@@ -813,6 +817,11 @@ window._mostrarApp = function(){
         </select>
       </div>
       <div class="auth-field" id="cadEspBox" style="display:none"><label>Qual especialidade? *</label><input type="text" id="cadEspecialidade" placeholder="Ex: Pneumologia"></div>
+      <div class="auth-field">
+        <label>Maiores interesses (até 3)</label>
+        <div id="cadInteresses" style="display:flex;flex-wrap:wrap;gap:6px"><button type="button" class="int-chip" data-int="Asma" onclick="_toggleInteresse(this)">Asma</button><button type="button" class="int-chip" data-int="Urticária" onclick="_toggleInteresse(this)">Urticária</button><button type="button" class="int-chip" data-int="Dermatite atópica" onclick="_toggleInteresse(this)">Dermatite atópica</button><button type="button" class="int-chip" data-int="Rinite" onclick="_toggleInteresse(this)">Rinite</button><button type="button" class="int-chip" data-int="Alergia alimentar" onclick="_toggleInteresse(this)">Alergia alimentar</button><button type="button" class="int-chip" data-int="Anafilaxia" onclick="_toggleInteresse(this)">Anafilaxia</button><button type="button" class="int-chip" data-int="Esofagite eosinofílica" onclick="_toggleInteresse(this)">Esofagite eosinofílica</button><button type="button" class="int-chip" data-int="Imunodeficiências" onclick="_toggleInteresse(this)">Imunodeficiências</button><button type="button" class="int-chip" data-int="Alergia a medicamentos" onclick="_toggleInteresse(this)">Alergia a medicamentos</button><button type="button" class="int-chip" data-int="Imunobiológicos" onclick="_toggleInteresse(this)">Imunobiológicos</button><button type="button" class="int-chip" data-int="Imunoterapia" onclick="_toggleInteresse(this)">Imunoterapia</button><button type="button" class="int-chip" data-int="Vacinas" onclick="_toggleInteresse(this)">Vacinas</button></div>
+        <div style="font-size:10.5px;color:var(--gray-500);margin-top:6px;line-height:1.4">Serve só para dar mais destaque na tela inicial às informações dessas áreas.</div>
+      </div>
       <div class="auth-field"><label>E-mail *</label><input type="email" id="cadEmail" placeholder="seu@email.com" autocomplete="email"></div>
       <div class="auth-field"><label>Senha (mín. 6 caracteres) *</label><input type="password" id="cadSenha" placeholder="••••••••" autocomplete="new-password"></div>
       <div class="auth-field"><label>Confirmar senha *</label><input type="password" id="cadSenha2" placeholder="••••••••" autocomplete="new-password"></div>
@@ -844,6 +853,12 @@ window._mostrarApp = function(){
 
   <!-- ══ DASHBOARD ══ -->
   <div class="page active" id="page-dashboard">
+    <div id="homeHero" style="margin:12px 16px 0;background:linear-gradient(135deg,#0d1f2d,#17697a);border-radius:14px;padding:16px;color:#fff">
+      <div id="heroSaudacao" style="font-size:15px;font-weight:800">Olá!</div>
+      <div id="heroPendencias" style="font-size:12.5px;color:rgba(255,255,255,.85);margin-top:4px;line-height:1.5">Tudo em dia por aqui.</div>
+      <div id="heroInteresses" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"></div>
+    </div>
+
     <a class="alert-bar" href="https://ginasthma.org/2026-gina-strategy-report/" target="_blank" rel="noopener" style="text-decoration:none;cursor:pointer">
       <span style="font-size:18px">🔔</span>
       <div class="alert-bar-text"><strong style="color:var(--gold)">GINA 2026 (mai/2026):</strong> Novo relatório — depemokimabe (anti-IL-5 a cada 26 semanas), anti-IgE biossimilar e nova árvore de decisão para biológicos na asma grave.</div>
@@ -2883,7 +2898,8 @@ function _metaDoUsuario(user){
   var m = (user && (user.user_metadata||user.raw_user_meta_data)) || {};
   return {
     nome: m.nome||'', categoria: m.categoria||'', especialidade: m.especialidade||'',
-    endereco: m.endereco||'', crm: m.crm||'', uf: m.uf||'', rqe: m.rqe||null
+    endereco: m.endereco||'', crm: m.crm||'', uf: m.uf||'', rqe: m.rqe||null,
+    interesses: m.interesses||[]
   };
 }
 
@@ -2941,7 +2957,7 @@ function fazerCadastro(){
   var meta = {
     nome: nome, categoria: categoria,
     especialidade: (categoria==='especialista') ? especialidade : CATEGORIA_LABEL[categoria],
-    endereco:'', crm:'', rqe:null
+    endereco:'', crm:'', rqe:null, interesses: _interessesSelecionados()
   };
   err.textContent = 'Criando conta...';
 
@@ -3017,6 +3033,7 @@ function _iniciarSessao(email, nome, token, refresh){
   document.getElementById('authScreen').style.display = 'none';
   window._mostrarApp();
   _atualizarInfoUsuario();
+  try{ atualizarHero(); }catch(e){}
   if(typeof toast==='function') toast('👋','Bem-vindo(a), '+String(nome||'').split(' ')[0]+'!');
 }
 
@@ -3123,6 +3140,60 @@ function salvarPerfil(){
 }
 
 
+
+
+/* ── INTERESSES + SAUDAÇÃO/PENDÊNCIAS ───────────── */
+function _toggleInteresse(btn){
+  var sel = document.querySelectorAll('#cadInteresses .int-chip.sel');
+  if(!btn.classList.contains('sel') && sel.length >= 3) return;
+  btn.classList.toggle('sel');
+}
+function _interessesSelecionados(){
+  var out = [];
+  document.querySelectorAll('#cadInteresses .int-chip.sel').forEach(function(b){ out.push(b.getAttribute('data-int')); });
+  return out.slice(0,3);
+}
+function _meusInteresses(){
+  try{
+    var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
+    var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
+    return (users[sess.email] && users[sess.email].interesses) || [];
+  }catch(e){ return []; }
+}
+function atualizarHero(){
+  try{
+    var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
+    var h = new Date().getHours();
+    var saud = h < 12 ? 'Bom dia' : (h < 18 ? 'Boa tarde' : 'Boa noite');
+    var primeiro = String(sess.nome||'').trim().split(' ')[0] || '';
+    var el = document.getElementById('heroSaudacao');
+    if(el) el.textContent = saud + (primeiro ? ', ' + primeiro : '') + '!';
+
+    var hoje = new Date().toLocaleDateString('pt-BR');
+    function contaHoje(chave){
+      try{
+        var arr = JSON.parse(localStorage.getItem(chave)||'[]');
+        return arr.filter(function(x){ return x && x.d === hoje; }).length;
+      }catch(e){ return 0; }
+    }
+    var nUct = contaHoje('hub_uct_hist');
+    var nUas = contaHoje('hub_uas7_hist');
+    var p = document.getElementById('heroPendencias');
+    if(p){
+      var partes = [];
+      if(nUct) partes.push(nUct + (nUct>1 ? ' UCTs recebidos' : ' UCT recebido'));
+      if(nUas) partes.push(nUas + (nUas>1 ? ' UAS7 recebidos' : ' UAS7 recebido'));
+      p.textContent = partes.length ? (partes.join(' e ') + ' hoje — toque em Scores para revisar.')
+                                    : 'Nenhum resultado novo de paciente hoje.';
+    }
+    var box = document.getElementById('heroInteresses');
+    if(box){
+      var ints = _meusInteresses();
+      box.innerHTML = ints.map(function(i){ return '<span class="hero-chip">' + i + '</span>'; }).join('');
+    }
+  }catch(e){}
+}
+document.addEventListener('DOMContentLoaded', atualizarHero);
 
 /* ── FOTO DO PERFIL / MENU ──────────────────── */
 function _fotoKey(){
@@ -3423,6 +3494,7 @@ function navTo(page){
     if(fab)     fab.classList.add('visible');
   }
 
+  if(page === 'dashboard'){ try{ atualizarHero(); }catch(e){} }
   if(page === 'perfil') preencherPerfil();
   if(page === 'artigos' && !_feedLoaded){ _feedLoaded = true; renderFeedChips(); carregarFeed('todos'); }
   if(page === 'imuno' && !_radarLoaded){ _radarLoaded = true; carregarRadar(false); }
