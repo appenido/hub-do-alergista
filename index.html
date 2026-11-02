@@ -3283,6 +3283,49 @@ function _perfInteressesSelecionados(){
 
 
 
+
+/* ── Formatação didática das respostas da IA ────── */
+function _iaFormatar(texto){
+  var linhas = (texto||'').split('\n');
+  var html = '', emLista = false;
+  function esc(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function inline(t){
+    return esc(t).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>');
+  }
+  function badge(t){
+    var l = t.toLowerCase();
+    if(l.indexOf('grave')>-1 || l.indexOf('contraindic')>-1) return '#c0392b';
+    if(l.indexOf('moderad')>-1) return '#d4a017';
+    if(l.indexOf('leve')>-1 || l.indexOf('sem interaç')>-1 || l.indexOf('nenhuma interaç')>-1) return '#16a085';
+    return '';
+  }
+  linhas.forEach(function(l){
+    var t = l.trim();
+    if(!t){ if(emLista){ html += '</ul>'; emLista=false; } return; }
+    var cor = badge(t);
+    // título de seção (## ou linha toda em negrito)
+    if(/^#{1,4}\s/.test(t) || /^\*\*[^*]+\*\*:?$/.test(t)){
+      if(emLista){ html += '</ul>'; emLista=false; }
+      var titulo = t.replace(/^#{1,4}\s*/,'').replace(/\*\*/g,'').replace(/:$/,'');
+      html += '<div style="margin:14px 0 6px;padding-left:10px;border-left:4px solid ' + (cor||'var(--teal-mid)') + ';font-size:13.5px;font-weight:800;color:' + (cor||'var(--navy)') + '">' + esc(titulo) + '</div>';
+      return;
+    }
+    if(/^[-*•]\s+/.test(t)){
+      if(!emLista){ html += '<ul style="margin:4px 0 8px;padding-left:18px">'; emLista=true; }
+      html += '<li style="margin-bottom:4px">' + inline(t.replace(/^[-*•]\s+/,'')) + '</li>';
+      return;
+    }
+    if(emLista){ html += '</ul>'; emLista=false; }
+    if(cor){
+      html += '<div style="margin:6px 0;padding:9px 11px;background:' + cor + '14;border-left:4px solid ' + cor + ';border-radius:8px;font-size:12.5px;line-height:1.55">' + inline(t) + '</div>';
+    } else {
+      html += '<p style="margin:6px 0;font-size:12.5px;line-height:1.6">' + inline(t) + '</p>';
+    }
+  });
+  if(emLista) html += '</ul>';
+  return html;
+}
+
 /* ── INTERAÇÕES MEDICAMENTOSAS (dentro do app) ── */
 function verificarInteracoes(){
   var meds = [];
@@ -3314,7 +3357,7 @@ function verificarInteracoes(){
       pronto = true;
       var d = null;
       try{ d = JSON.parse(res.texto); }catch(e){}
-      if(d && d.resposta) box.textContent = d.resposta;
+      if(d && d.resposta){ box.style.whiteSpace='normal'; box.innerHTML = _iaFormatar(d.resposta); }
       else if(d && d.erro)  box.textContent = 'Erro: ' + d.erro;
       else box.textContent = 'Erro inesperado (HTTP ' + res.status + '): ' + res.texto.slice(0,200);
     })
@@ -3493,7 +3536,8 @@ function perguntarIaHub(){
   fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta:q})})
     .then(function(r){ return r.json(); })
     .then(function(d){
-      box.textContent = d.resposta || d.erro || 'Sem resposta.';
+      if(d.resposta){ box.style.whiteSpace='normal'; box.innerHTML = _iaFormatar(d.resposta); }
+      else { box.textContent = d.erro || 'Sem resposta.'; }
       if(d.resposta){
         uso.n += 1;
         try{ localStorage.setItem('hub_ia_uso', JSON.stringify(uso)); }catch(e){}
