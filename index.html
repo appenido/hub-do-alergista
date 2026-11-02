@@ -227,6 +227,10 @@ body{
   font-family:'Manrope',sans-serif;cursor:pointer;
 }
 
+.modal-hdr > button:first-child{width:32px !important;height:32px !important;padding:0 !important;border-radius:50% !important;font-size:0 !important;justify-content:center;flex-shrink:0;}
+.modal-hdr > button:first-child::before{content:'\2039';font-size:20px;line-height:1;color:var(--gray-500);font-weight:700;}
+.modal-hdr > div:last-child{width:32px !important;}
+
 .perf-menu-btn{width:100%;margin-bottom:10px;background:#fff;border:1.5px solid var(--gray-100);color:var(--navy);border-radius:10px;padding:13px 14px;font-family:'Manrope',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;text-align:left;}
 .perf-menu-btn:active{background:var(--gray-50);}
 .perf-menu-sair{border-color:#e74c3c;color:#e74c3c;}
@@ -4085,11 +4089,44 @@ function _uctMostrarResultado(row){
   else { lbl = '\ud83d\udd34 N\u00e3o controlada'; cor = '#c0392b'; }
   var nome = row.paciente_nome ? row.paciente_nome : 'Paciente';
   res.style.display = 'block';
-  res.style.background = 'linear-gradient(135deg,#0d1f2d,' + cor + ')';
-  res.innerHTML = '<div style="font-size:22px;font-weight:900;color:#fff">' + t + '/16</div>'
-    + '<div style="font-size:14px;font-weight:700;color:#fff;margin-top:4px">' + lbl + '</div>'
-    + '<div style="font-size:11px;color:rgba(255,255,255,.75);margin-top:4px">' + nome + ' \u00b7 ' + new Date(row.created_at).toLocaleDateString('pt-BR') + '</div>'
-    + '<div style="font-size:11px;color:rgba(255,255,255,.7);margin-top:6px">Q1:' + row.q1 + ' Q2:' + row.q2 + ' Q3:' + row.q3 + ' Q4:' + row.q4 + '</div>';
+  res.style.background = '#fff';
+  res.style.border = '1.5px solid ' + cor;
+  res.style.textAlign = 'left';
+  res.style.padding = '0';
+  res.style.overflow = 'hidden';
+  var pct = Math.round((t/16)*100);
+  var itens = [
+    ['Sintomas f\u00edsicos', row.q1],
+    ['Qualidade de vida', row.q2],
+    ['Insufici\u00eancia do tratamento', row.q3],
+    ['Controle global', row.q4]
+  ];
+  var conduta = (t >= 12)
+    ? 'Urtic\u00e1ria bem controlada \u2014 manter o tratamento atual e reavaliar em 4 semanas.'
+    : (t >= 7
+      ? 'Controle insuficiente \u2014 considerar otimizar a dose do anti-H1 (at\u00e9 4x) e reavaliar ades\u00e3o e gatilhos.'
+      : 'Urtic\u00e1ria n\u00e3o controlada \u2014 avaliar escalonamento terap\u00eautico (anti-H1 em dose alta, omalizumabe) e revisar diagn\u00f3stico.');
+  var h = '';
+  h += '<div style="background:linear-gradient(135deg,#0d1f2d,' + cor + ');padding:16px;color:#fff">';
+  h +=   '<div style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.8;font-weight:700">Resultado do UCT</div>';
+  h +=   '<div style="display:flex;align-items:baseline;gap:8px;margin-top:4px"><div style="font-size:30px;font-weight:900;line-height:1">' + t + '</div><div style="font-size:14px;opacity:.85;font-weight:700">/ 16</div></div>';
+  h +=   '<div style="font-size:14px;font-weight:800;margin-top:2px">' + lbl + '</div>';
+  h +=   '<div style="height:7px;background:rgba(255,255,255,.25);border-radius:4px;margin-top:10px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:#fff;border-radius:4px"></div></div>';
+  h +=   '<div style="font-size:11px;opacity:.8;margin-top:8px">' + nome + ' \u00b7 ' + new Date(row.created_at).toLocaleDateString('pt-BR') + '</div>';
+  h += '</div>';
+  h += '<div style="padding:14px 16px">';
+  h +=   '<div style="font-size:10.5px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Itens (0\u20134 cada)</div>';
+  itens.forEach(function(it){
+    var w = Math.round((it[1]/4)*100);
+    h += '<div style="margin-bottom:9px">';
+    h +=   '<div style="display:flex;justify-content:space-between;font-size:12px;color:var(--navy);font-weight:600"><span>' + it[0] + '</span><span style="font-weight:800">' + it[1] + '</span></div>';
+    h +=   '<div style="height:5px;background:var(--gray-50);border-radius:3px;margin-top:4px;overflow:hidden"><div style="height:100%;width:' + w + '%;background:' + cor + ';border-radius:3px"></div></div>';
+    h += '</div>';
+  });
+  h +=   '<div style="margin-top:12px;background:var(--gray-50);border-left:3px solid ' + cor + ';border-radius:8px;padding:10px 12px;font-size:12px;color:var(--navy);line-height:1.5"><strong>Interpreta\u00e7\u00e3o:</strong> ' + conduta + '</div>';
+  h +=   '<div style="font-size:10.5px;color:var(--gray-500);margin-top:8px">UCT \u2265 12 = bem controlada \u00b7 7\u201311 = insuficiente \u00b7 &lt; 7 = n\u00e3o controlada</div>';
+  h += '</div>';
+  res.innerHTML = h;
   toast('\ud83c\udfaf', 'UCT recebido: ' + t + '/16 \u2014 ' + lbl.replace(/[\u2705\u26a0\ufe0f\ud83d\udd34] /,''));
 }
 
