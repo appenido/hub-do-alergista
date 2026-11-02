@@ -25,56 +25,27 @@ const FONTES = [
   'https://www.terra.com.br/rss/saude/'
 ];
 
-// link do Google News vem codificado: tenta extrair a URL real do próprio identificador
-function decodificarGoogle(u){
-  const m = String(u).match(/\/articles\/([A-Za-z0-9_-]+)/);
+// link do Google News vem codificado: resolve pelo endpoint oficial do próprio Google News
+async function resolverGoogle(url){
+  const m = String(url).match(/\/(?:rss\/)?articles\/([A-Za-z0-9_-]+)/);
   if (!m) return '';
+  const id = m[1];
   try {
-    const bruto = Buffer.from(m[1].replace(/-/g,'+').replace(/_/g,'/'), 'base64').toString('latin1');
-    const alvo = bruto.match(/https?:\/\/[\x20-\x7e]+?(?=[\x00-\x1f]|$)/);
-    return alvo ? alvo[0] : '';
+    const p = await fetch('https://news.google.com/rss/articles/' + id, { headers: UA });
+    const h = await p.text();
+    const sig = (h.match(/data-n-a-sg="([^"]+)"/) || [])[1];
+    const ts  = (h.match(/data-n-a-ts="([^"]+)"/) || [])[1];
+    if (!sig || !ts) return '';
+    const payload = [ 'Fbv4je', JSON.stringify(['garturlreq',[['pt-BR','BR',['FINANCE_TOP_INDICES','WEB_TEST_1_0_0'],null,null,1,1,'BR:pt-419',null,null,null,null,null,null,null,0],'pt-BR','BR',true,[2],1,true,'1',null,null,null,0],id,Number(ts),sig]) ];
+    const r = await fetch('https://news.google.com/_/DotsSplashUi/data/batchexecute', {
+      method: 'POST',
+      headers: { ...UA, 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      body: 'f.req=' + encodeURIComponent(JSON.stringify([[payload]]))
+    });
+    const t = await r.text();
+    const alvo = t.match(/"(https?:\/\/(?!news\.google)[^"\\]+)"/);
+    return alvo ? alvo[1] : '';
   } catch(e) { return ''; }
-}
-
-const CHAVES = /(^|[^a-zà-ú])(alergi\w*|al[ée]rgic\w*|anafila\w*|anafil[áa]tic\w*|urtic[áa]ri\w*|asma|asm[áa]tic\w*|rinite|rinossinusite|dermatite at[óo]pica|imunodefici\w*|imunoglobulina|erros inatos da imunidade|imunoterapia (alerg|sublingual|subcut|com alérgeno)\w*|imunobiol[óo]gic\w*|angioedema|eosinof[íi]lic\w*|p[óo]lipos nasais)([^a-zà-ú]|$)/i;
-// institucional, científico, publicidade
-const BR_OK = ['globo.com','uol.com.br','metropoles.com','terra.com.br','r7.com','ig.com.br','band.com.br','cnnbrasil.com.br','estadao.com.br','folha.uol.com.br','veja.abril.com.br'];
-function brasileiro(host){ return /\.br$/.test(host) || BR_OK.some(function(d){ return host === d || host.endsWith('.' + d); }); }
-const BLOQUEADOS = /(gov\.br|\.gov\b|asbai\.org|sbp\.com\.br|sbi\.org|scielo|doaj|elsevier|pubmed|nih\.gov|prnewswire|segs\.com\.br|\.edu\b|einstein\.br|hospital|clinica|cl[íi]nica|blogspot|wordpress\.com)/i;
-
-const limpar = (t) => (t||'').replace(/<!\[CDATA\[|\]\]>/g,'').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').trim();
-const UA = { 'User-Agent':'Mozilla/5.0 (compatible; HubDoAlergista-Radar/1.0)' };
-
-function itensDoRss(xml, fonteFallback){
-  const out = [];
-  for (const b of xml.split(/<item[\s>]/).slice(1, 60)) {
-    const pega = (tag) => { const m = b.match(new RegExp('<'+tag+'[^>]*>([\\s\\S]*?)<\\/'+tag+'>')); return m ? limpar(m[1]) : ''; };
-    let titulo = pega('title'); if (!titulo) continue;
-    const descRaw = (b.match(/<description[^>]*>([\s\S]*?)<\/description>/)||[])[1] || '';
-    const href = (descRaw.match(/href="(https?:\/\/[^"]+)"/)||[])[1] || '';
-    const desc = limpar(descRaw);
-    if (!CHAVES.test(titulo + ' ' + desc)) continue;
-    const fonte = pega('source') || fonteFallback || '';
-    titulo = titulo.replace(/\s+-\s+[^-]+$/, '').trim();
-    out.push({ titulo, fonte, data: pega('pubDate'), url: href || pega('link') });
-  }
-  return out;
-}
-
-async function resolver(url){
-  if (/news\.google\.com/.test(url)) {
-    const direto = decodificarGoogle(url);
-    if (direto) url = direto; else return { final: '', html: '' };
-  }
-  // Google News usa link intermediário: segue o redirecionamento até o veículo
-  try {
-    const r = await fetch(url, { headers: UA, redirect: 'follow' });
-    const html = await r.text();
-    let final = r.url;
-    const m = html.match(/data-n-au="([^"]+)"/) || html.match(/<c-wiz[\s\S]*?href="(https?:\/\/[^"]+)"/);
-    if (/news\.google\.com/.test(final) && m) final = m[1];
-    return { final, html };
-  } catch(e) { return { final: url, html: '' }; }
 }
 
 function dataDaPagina(html){
