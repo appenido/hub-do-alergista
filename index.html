@@ -248,6 +248,8 @@ body{
 .ig-card .ig-f{font-size:10.5px;color:rgba(255,255,255,.65)}
 .ig-card .ig-c{display:inline-block;align-self:flex-start;margin-top:3px;background:rgba(255,255,255,.14);border-radius:999px;padding:2px 8px;font-size:10px;font-weight:700}
 .ig-card .ig-marca{display:inline-flex;align-items:center;justify-content:center;align-self:flex-start;min-width:34px;height:17px;padding:0 6px;border-radius:5px;color:#fff;font-size:7.5px;font-weight:900;letter-spacing:.4px;margin-bottom:2px}
+.ig-ficha-slot{grid-column:1 / -1;margin:2px 0 6px}
+.ig-ficha-slot .igp-card{margin:0}
 .igp-card{display:none}
 .igp-card.ativa{display:block}
 .igp-header{display:flex;align-items:center;gap:10px}
@@ -2434,6 +2436,7 @@ window._mostrarApp = function(){
     </div>
 
     <div style="padding:0 0 16px">
+    <div id="igFichasReserva"></div>
     <div id="igFichaTitulo" style="padding:4px 16px 8px;font-size:12px;font-weight:800;color:var(--navy);letter-spacing:.4px;text-transform:uppercase">Ficha do produto selecionado</div>
     <div class="bio-card igp-card" id="ig-privigen">
       <div class="bio-header igp-header" onclick="toggleIg('privigen')">
@@ -3630,7 +3633,8 @@ function renderIgPicker(){
            (function(){var m=IG_MARCA[IG_LOGO[k]];return m?'<span class="ig-marca" style="background:'+m[1]+'">'+m[0]+'</span>':'';})() +
            '<span class="ig-n">' + p.nome + '</span>' +
            '<span class="ig-f">' + (IG_FABRICANTE[k]||'') + '</span>' +
-           '<span class="ig-c">' + (p.conc/10).toString().replace('.',',') + '% · ' + p.conc + ' mg/mL</span></button>';
+           '<span class="ig-c">' + (p.conc/10).toString().replace('.',',') + '% · ' + p.conc + ' mg/mL</span></button>' +
+           (k===atual ? '<div class="ig-ficha-slot" id="igFichaSlot"></div>' : '');
     });
     return h + '</div></div>';
   }
@@ -3641,6 +3645,9 @@ function renderIgPicker(){
 function selecionarIgProduto(k){
   var inp = document.getElementById('igProduto');
   if(inp) inp.value = k;
+  var atual = document.querySelector('#page-imunoglobulinas .igp-card.ativa');
+  var reservas = document.getElementById('igFichasReserva');
+  if(atual && reservas) reservas.appendChild(atual);
   renderIgPicker();
   mostrarFichaIg(k);
 }
@@ -3651,7 +3658,10 @@ function mostrarFichaIg(k){
     if(c.id !== alvo) c.classList.remove('open');
   });
   var tit = document.getElementById('igFichaTitulo');
-  if(tit) tit.style.display = alvo ? 'block' : 'none';
+  if(tit) tit.style.display = 'none';
+  var slot = document.getElementById('igFichaSlot');
+  var ficha = alvo ? document.getElementById(alvo) : null;
+  if(slot && ficha){ slot.appendChild(ficha); ficha.classList.add('open'); }
 }
 document.addEventListener('DOMContentLoaded', function(){ mostrarFichaIg((document.getElementById('igProduto')||{}).value); });
 document.addEventListener('DOMContentLoaded', renderIgPicker);
