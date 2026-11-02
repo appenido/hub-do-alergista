@@ -819,7 +819,7 @@ window._mostrarApp = function(){
       <div class="auth-field" id="cadEspBox" style="display:none"><label>Qual especialidade? *</label><input type="text" id="cadEspecialidade" placeholder="Ex: Pneumologia"></div>
       <div class="auth-field">
         <label>Maiores interesses (até 3)</label>
-        <div id="cadInteresses" style="display:flex;flex-wrap:wrap;gap:6px"><button type="button" class="int-chip" data-int="Asma" onclick="_toggleInteresse(this)">Asma</button><button type="button" class="int-chip" data-int="Urticária" onclick="_toggleInteresse(this)">Urticária</button><button type="button" class="int-chip" data-int="Dermatite atópica" onclick="_toggleInteresse(this)">Dermatite atópica</button><button type="button" class="int-chip" data-int="Rinite" onclick="_toggleInteresse(this)">Rinite</button><button type="button" class="int-chip" data-int="Alergia alimentar" onclick="_toggleInteresse(this)">Alergia alimentar</button><button type="button" class="int-chip" data-int="Anafilaxia" onclick="_toggleInteresse(this)">Anafilaxia</button><button type="button" class="int-chip" data-int="Esofagite eosinofílica" onclick="_toggleInteresse(this)">Esofagite eosinofílica</button><button type="button" class="int-chip" data-int="Imunodeficiências" onclick="_toggleInteresse(this)">Imunodeficiências</button><button type="button" class="int-chip" data-int="Alergia a medicamentos" onclick="_toggleInteresse(this)">Alergia a medicamentos</button><button type="button" class="int-chip" data-int="Imunobiológicos" onclick="_toggleInteresse(this)">Imunobiológicos</button><button type="button" class="int-chip" data-int="Imunoterapia" onclick="_toggleInteresse(this)">Imunoterapia</button><button type="button" class="int-chip" data-int="Vacinas" onclick="_toggleInteresse(this)">Vacinas</button></div>
+        <div id="cadInteresses" style="display:flex;flex-wrap:wrap;gap:6px"><button type="button" class="int-chip" data-int="Asma" onclick="_toggleInteresse(this)">Asma</button><button type="button" class="int-chip" data-int="Urticária" onclick="_toggleInteresse(this)">Urticária</button><button type="button" class="int-chip" data-int="Dermatite atópica" onclick="_toggleInteresse(this)">Dermatite atópica</button><button type="button" class="int-chip" data-int="Rinite" onclick="_toggleInteresse(this)">Rinite</button><button type="button" class="int-chip" data-int="Alergia alimentar" onclick="_toggleInteresse(this)">Alergia alimentar</button><button type="button" class="int-chip" data-int="Anafilaxia" onclick="_toggleInteresse(this)">Anafilaxia</button><button type="button" class="int-chip" data-int="Esofagite eosinofílica" onclick="_toggleInteresse(this)">Esofagite eosinofílica</button><button type="button" class="int-chip" data-int="Imunodeficiências" onclick="_toggleInteresse(this)">Imunodeficiências</button><button type="button" class="int-chip" data-int="Alergia a medicamentos" onclick="_toggleInteresse(this)">Alergia a medicamentos</button><button type="button" class="int-chip" data-int="Mastocitose" onclick="_toggleInteresse(this)">Mastocitose</button><button type="button" class="int-chip" data-int="Alergia a himenópteros" onclick="_toggleInteresse(this)">Alergia a himenópteros</button><button type="button" class="int-chip" data-int="Doença celíaca" onclick="_toggleInteresse(this)">Doença celíaca</button></div>
         <div style="font-size:10.5px;color:var(--gray-500);margin-top:6px;line-height:1.4">Serve só para dar mais destaque na tela inicial às informações dessas áreas.</div>
       </div>
       <div class="auth-field"><label>E-mail *</label><input type="email" id="cadEmail" placeholder="seu@email.com" autocomplete="email"></div>
@@ -855,8 +855,8 @@ window._mostrarApp = function(){
   <div class="page active" id="page-dashboard">
     <div id="homeHero" style="margin:12px 16px 0;background:linear-gradient(135deg,#0d1f2d,#17697a);border-radius:14px;padding:16px;color:#fff">
       <div id="heroSaudacao" style="font-size:15px;font-weight:800">Olá!</div>
-      <div id="heroPendencias" style="font-size:12.5px;color:rgba(255,255,255,.85);margin-top:4px;line-height:1.5">Tudo em dia por aqui.</div>
-      <div id="heroInteresses" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"></div>
+      <div id="heroPendencias" style="font-size:12.5px;color:rgba(255,255,255,.85);margin-top:4px;line-height:1.5">Novidades nas suas áreas de interesse.</div>
+      <div id="heroInteresses" style="margin-top:12px;display:flex;flex-direction:column;gap:8px"></div>
     </div>
 
     <a class="alert-bar" href="https://ginasthma.org/2026-gina-strategy-report/" target="_blank" rel="noopener" style="text-decoration:none;cursor:pointer">
@@ -2772,6 +2772,10 @@ window._mostrarApp = function(){
       </div>
       <div class="perf-field"><label id="perfRqeLabel">Número do RQE (opcional)</label><input id="perfRqe" type="text"></div>
       <div class="perf-field"><label>Endereço / local de atendimento *</label><input id="perfEndereco" type="text"></div>
+      <div class="perf-field"><label>Áreas de interesse (até 3)</label>
+        <div id="perfInteresses" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+        <div style="font-size:10.5px;color:var(--gray-500);margin-top:6px;line-height:1.4">Usado para destacar na tela inicial o último artigo de cada área.</div>
+      </div>
       <div class="perf-field"><label>E-mail (não editável)</label><input id="perfEmail" type="text" disabled></div>
       <div id="perfMsg" style="font-size:12px;font-weight:700;margin-bottom:10px;min-height:16px"></div>
       <button onclick="salvarPerfil()" style="width:100%;background:var(--navy);border:none;color:#fff;border-radius:10px;padding:12px;font-family:'Manrope',sans-serif;font-size:13.5px;font-weight:800;cursor:pointer">Salvar alterações</button>
@@ -3080,6 +3084,7 @@ function preencherPerfil(){
     set('perfCrm', u.crm);
     set('perfRqe', u.rqe);
     var ufEl = document.getElementById('perfUf'); if(ufEl) ufEl.value = u.uf||'';
+    _renderPerfInteresses();
     set('perfEmail', sess.email);
     var msg=document.getElementById('perfMsg'); if(msg) msg.textContent='';
     var av=document.getElementById('perfAvatar'); if(av) av.textContent=_iniciais(u.nome||sess.nome);
@@ -3119,10 +3124,12 @@ function salvarPerfil(){
     u.crm           = crmIn;
     u.uf            = ufIn;
     u.rqe           = rqeIn || null;
+    u.interesses    = _perfInteressesSelecionados();
     _salvarLocal(sess.email, u);
     sess.nome = nome;
     localStorage.setItem('hub_session', JSON.stringify(sess));
     _atualizarInfoUsuario();
+    try{ atualizarHero(); }catch(e){}
     preencherPerfil();
     if(msg){ msg.style.color='#16a34a'; msg.textContent='Dados salvos.'; }
     if(typeof toast==='function') toast('✅','Perfil atualizado');
@@ -3131,7 +3138,7 @@ function salvarPerfil(){
     var token = sess.token;
     if(token){
       var body = {data:{nome:u.nome, categoria:u.categoria, especialidade:u.especialidade,
-                        endereco:u.endereco, crm:u.crm, uf:u.uf, rqe:u.rqe}};
+                        endereco:u.endereco, crm:u.crm, uf:u.uf, rqe:u.rqe, interesses:u.interesses}};
       fetch(SB_URL + '/auth/v1/user', {method:'PUT', headers:_sbHeaders(token), body:JSON.stringify(body)})
         .then(function(r){ if(!r.ok && msg){ msg.style.color='#e67e22'; msg.textContent='Salvo neste aparelho, mas não sincronizou na nuvem.'; } })
         .catch(function(){ if(msg){ msg.style.color='#e67e22'; msg.textContent='Salvo neste aparelho (sem conexão).'; } });
@@ -3141,6 +3148,56 @@ function salvarPerfil(){
 
 
 
+
+
+var INTERESSE_TOPICO = {
+  'Asma':'asma', 'Urticária':'urticaria', 'Dermatite atópica':'da', 'Rinite':'rinite',
+  'Alergia alimentar':'aa', 'Anafilaxia':'anafilaxia', 'Esofagite eosinofílica':'eoe',
+  'Imunodeficiências':'eii', 'Alergia a medicamentos':'medicam', 'Mastocitose':'masto',
+  'Alergia a himenópteros':'himen', 'Doença celíaca':'dc'
+};
+function _heroCardArtigo(interesse){
+  var topo = INTERESSE_TOPICO[interesse];
+  var card = topo ? document.querySelector('#artigos-list .art-card[data-topic="' + topo + '"]') : null;
+  var titulo = '', revista = '';
+  if(card){
+    var t = card.querySelector('.art-title-pt') || card.querySelector('.art-title');
+    if(t) titulo = t.textContent.trim();
+    var j = card.querySelector('.art-journal');
+    if(j) revista = j.textContent.trim();
+  }
+  var h = '<div onclick="navTo(\'artigos\')" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:10px;padding:10px 12px;cursor:pointer">';
+  h += '<div style="font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#7fe3ef">' + interesse + '</div>';
+  if(titulo){
+    h += '<div style="font-size:12.5px;font-weight:700;color:#fff;line-height:1.4;margin-top:3px">' + titulo + '</div>';
+    if(revista) h += '<div style="font-size:10px;color:rgba(255,255,255,.7);margin-top:3px">' + revista + '</div>';
+  } else {
+    h += '<div style="font-size:12px;color:rgba(255,255,255,.75);margin-top:3px">Ver artigos desta área →</div>';
+  }
+  h += '</div>';
+  return h;
+}
+
+/* interesses no perfil */
+function _renderPerfInteresses(){
+  var box = document.getElementById('perfInteresses');
+  if(!box) return;
+  var atuais = _meusInteresses();
+  box.innerHTML = Object.keys(INTERESSE_TOPICO).map(function(a){
+    var sel = atuais.indexOf(a) !== -1 ? ' sel' : '';
+    return '<button type="button" class="int-chip' + sel + '" data-int="' + a + '" onclick="_togglePerfInteresse(this)">' + a + '</button>';
+  }).join('');
+}
+function _togglePerfInteresse(btn){
+  var sel = document.querySelectorAll('#perfInteresses .int-chip.sel');
+  if(!btn.classList.contains('sel') && sel.length >= 3) return;
+  btn.classList.toggle('sel');
+}
+function _perfInteressesSelecionados(){
+  var out = [];
+  document.querySelectorAll('#perfInteresses .int-chip.sel').forEach(function(b){ out.push(b.getAttribute('data-int')); });
+  return out.slice(0,3);
+}
 
 /* ── INTERESSES + SAUDAÇÃO/PENDÊNCIAS ───────────── */
 function _toggleInteresse(btn){
@@ -3169,28 +3226,12 @@ function atualizarHero(){
     var el = document.getElementById('heroSaudacao');
     if(el) el.textContent = saud + (primeiro ? ', ' + primeiro : '') + '!';
 
-    var hoje = new Date().toLocaleDateString('pt-BR');
-    function contaHoje(chave){
-      try{
-        var arr = JSON.parse(localStorage.getItem(chave)||'[]');
-        return arr.filter(function(x){ return x && x.d === hoje; }).length;
-      }catch(e){ return 0; }
-    }
-    var nUct = contaHoje('hub_uct_hist');
-    var nUas = contaHoje('hub_uas7_hist');
+    var ints = _meusInteresses();
     var p = document.getElementById('heroPendencias');
-    if(p){
-      var partes = [];
-      if(nUct) partes.push(nUct + (nUct>1 ? ' UCTs recebidos' : ' UCT recebido'));
-      if(nUas) partes.push(nUas + (nUas>1 ? ' UAS7 recebidos' : ' UAS7 recebido'));
-      p.textContent = partes.length ? (partes.join(' e ') + ' hoje — toque em Scores para revisar.')
-                                    : 'Nenhum resultado novo de paciente hoje.';
-    }
+    if(p) p.textContent = ints.length ? 'Último artigo de cada área que você acompanha.'
+                                      : 'Escolha suas áreas de interesse em Meu perfil para ver destaques aqui.';
     var box = document.getElementById('heroInteresses');
-    if(box){
-      var ints = _meusInteresses();
-      box.innerHTML = ints.map(function(i){ return '<span class="hero-chip">' + i + '</span>'; }).join('');
-    }
+    if(box) box.innerHTML = ints.map(function(i){ return _heroCardArtigo(i); }).join('');
   }catch(e){}
 }
 document.addEventListener('DOMContentLoaded', atualizarHero);
