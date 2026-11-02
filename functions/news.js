@@ -14,11 +14,26 @@ export async function onRequestOptions() {
   return new Response(null, { status: 204, headers: CORS });
 }
 
+const FONTES = [
+  'https://news.google.com/rss/search?q=' + encodeURIComponent(TERMOS + ' when:21d') + '&hl=pt-BR&gl=BR&ceid=BR:pt-419',
+  'https://www.bing.com/news/search?q=' + encodeURIComponent(TERMOS) + '&format=RSS&cc=br&setlang=pt-br'
+];
+
 export async function onRequestGet() {
-  const url = 'https://news.google.com/rss/search?q=' + encodeURIComponent(TERMOS + ' when:14d') + '&hl=pt-BR&gl=BR&ceid=BR:pt-419';
+  let xml = '';
+  let erro = '';
+  for (const f of FONTES) {
+    try {
+      const r = await fetch(f, { headers: { 'User-Agent': 'Mozilla/5.0 (compatible; HubDoAlergista/1.0)', 'Accept': 'application/rss+xml,text/xml,*/*' } });
+      const t = await r.text();
+      if (r.ok && t.includes('<item')) { xml = t; break; }
+      erro = 'HTTP ' + r.status;
+    } catch (e) { erro = (e && e.message) || 'falha'; }
+  }
+  if (!xml) {
+    return new Response(JSON.stringify({ itens: [], erro: 'Fonte indisponível (' + erro + ')' }), { status: 200, headers: CORS });
+  }
   try {
-    const r = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0 HubDoAlergista' } });
-    const xml = await r.text();
     const itens = [];
     const blocos = xml.split('<item>').slice(1, 13);
     for (const b of blocos) {

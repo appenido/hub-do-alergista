@@ -2847,7 +2847,7 @@ window._mostrarApp = function(){
 
 <!-- TOAST -->
 <div class="toast" id="toast"><span id="toastIcon">✅</span><span id="toastMsg">Feito!</span></div>
-<button id="fabVoltar" aria-label="Voltar" onclick="(function(){if(window._navHistory&&window._navHistory.length>1){window._navHistory.pop();var p=window._navHistory.pop();navTo(p||'dashboard');}else{navTo('dashboard');}})()">&#8592;</button>
+<button id="fabVoltar" aria-label="Voltar" onclick="voltarApp()">&#8592;</button>
 
 <script>
 /* ── ABRIR LINK: usa <a> real (evita bloqueio/confirmação de popup) ── */
@@ -3292,7 +3292,7 @@ function filtrarHomeArtigos(){
   if(topos.length){
     topos.forEach(function(t){
       var achados = lista.querySelectorAll('.art-card[data-topic="' + t + '"]');
-      for(var i=0;i<achados.length && i<2;i++) cards.push(achados[i]);
+      for(var i=0;i<achados.length && i<2;i++){ if(cards.indexOf(achados[i])===-1) cards.push(achados[i]); }
     });
   }
   if(!cards.length){
@@ -3797,9 +3797,7 @@ if(_tbBack) _tbBack.addEventListener('click', voltarApp);
 function _histGuard(){
   try{
     var atual = _navHistory[_navHistory.length-1] || 'dashboard';
-    if(atual !== 'dashboard' && !(history.state && history.state.hubGuard)){
-      history.pushState({hubGuard:true}, '');
-    }
+    if(atual !== 'dashboard') history.pushState({hubGuard:true}, '');
   }catch(e){}
 }
 var _navToOriginal = navTo;
