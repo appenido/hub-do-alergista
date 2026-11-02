@@ -8,14 +8,14 @@ const CORS = {
   'Cache-Control': 'public, max-age=1800'
 };
 
-const TERMOS = '("alergia alimentar" OR anafilaxia OR urticária OR "dermatite atópica" OR "choque anafilático" OR "crise de asma" OR "alergia a medicamento" OR imunodeficiência)';
+const TERMOS = 'alergia OR anafilaxia OR urticaria OR asma';
 
 export async function onRequestOptions() {
   return new Response(null, { status: 204, headers: CORS });
 }
 
 const FONTES = [
-  'https://news.google.com/rss/search?q=' + encodeURIComponent(TERMOS + ' when:21d') + '&hl=pt-BR&gl=BR&ceid=BR:pt-419',
+  'https://news.google.com/rss/search?q=' + encodeURIComponent(TERMOS) + '&hl=pt-BR&gl=BR&ceid=BR:pt-419',
   'https://www.bing.com/news/search?q=' + encodeURIComponent(TERMOS) + '&format=RSS&cc=br&setlang=pt-br'
 ];
 
