@@ -3301,10 +3301,24 @@ function verificarInteracoes(){
     'Para cada par com interação relevante, informe: os dois fármacos, a gravidade (grave / moderada / leve), o mecanismo em uma linha e a conduta prática. ' +
     'Liste primeiro as graves. Se não houver interação relevante entre algum par, diga isso em uma linha. ' +
     'Ao final, acrescente uma linha lembrando que a conferência em base oficial (Medscape, UpToDate) é recomendada antes de prescrever. Responda em português do Brasil, em texto corrido com tópicos curtos.';
+  var pronto = false;
+  setTimeout(function(){
+    if(!pronto){
+      box.textContent = 'A análise está demorando mais que o normal. Tente novamente.';
+      btn.disabled = false; btn.textContent = '🔍 Verificar interações';
+    }
+  }, 45000);
   fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta: pedido})})
-    .then(function(r){ return r.json(); })
-    .then(function(d){ box.textContent = d.resposta || d.erro || 'Sem resposta.'; })
-    .catch(function(){ box.textContent = 'Não foi possível analisar agora. Tente novamente.'; })
+    .then(function(r){ return r.text().then(function(t){ return {status:r.status, texto:t}; }); })
+    .then(function(res){
+      pronto = true;
+      var d = null;
+      try{ d = JSON.parse(res.texto); }catch(e){}
+      if(d && d.resposta) box.textContent = d.resposta;
+      else if(d && d.erro)  box.textContent = 'Erro: ' + d.erro;
+      else box.textContent = 'Erro inesperado (HTTP ' + res.status + '): ' + res.texto.slice(0,200);
+    })
+    .catch(function(e){ pronto = true; box.textContent = 'Falha de conexão: ' + ((e && e.message) || 'desconhecida'); })
     .then(function(){ btn.disabled = false; btn.textContent = '🔍 Verificar interações'; });
 }
 
