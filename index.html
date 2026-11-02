@@ -1810,12 +1810,22 @@ window._mostrarApp = function(){
       <div onclick="toggleBio('glossario')" style="padding:13px 15px;display:flex;align-items:center;gap:9px;cursor:pointer">
         <span style="font-size:17px">📘</span>
         <div style="flex:1">
-          <div style="font-size:13px;font-weight:800;color:var(--teal-mid)">Entenda: DUT, PCDT e Rol da ANS</div>
+          <div style="font-size:13px;font-weight:800;color:var(--teal-mid)">Entenda: ANVISA, CONITEC, DUT, PCDT e Rol da ANS</div>
           <div style="font-size:11px;color:var(--gray-500)">O que é cada um e em que contexto se aplica</div>
         </div>
         <span class="bio-chevron" id="chev-glossario" style="color:var(--teal-mid)">›</span>
       </div>
       <div class="bio-body" id="bio-glossario" style="background:rgba(255,255,255,.5);display:none">
+
+        <div class="bio-section">
+          <div class="bio-label" style="color:var(--teal-mid)">💊 ANVISA — registro do medicamento</div>
+          <div class="bio-value">É a agência que <strong>autoriza o medicamento a existir no Brasil</strong>: concede o <strong>registro</strong> e define, na bula, as <strong>indicações aprovadas</strong> (doença, faixa etária, dose). Também aprova novas indicações de um produto já registrado. <strong>Registro não é cobertura:</strong> ter aprovação da ANVISA só permite comercializar e prescrever na indicação de bula — não obriga plano de saúde nem SUS a fornecer. É o primeiro passo da cadeia: sem registro, não há como pedir cobertura.</div>
+        </div>
+
+        <div class="bio-section">
+          <div class="bio-label" style="color:var(--teal-mid)">⚖️ CONITEC — incorporação no SUS</div>
+          <div class="bio-value">É a comissão do <strong>Ministério da Saúde</strong> (criada pela Lei 12.401/2011) que avalia se um medicamento ou procedimento deve ser <strong>incorporado ao SUS</strong>, considerando eficácia, segurança e custo-efetividade. O processo passa por <strong>consulta pública</strong>, recomendação da Comissão e decisão final do Ministério (portaria publicada no Diário Oficial). A incorporação costuma vir acompanhada de um <strong>PCDT</strong> que define quem recebe e como. Tecnologias incorporadas ao SUS também devem entrar no Rol da ANS, conforme a Lei 14.307/2022. <em>Consulta pública aberta = ainda não é aprovação.</em></div>
+        </div>
 
         <div class="bio-section">
           <div class="bio-label" style="color:var(--teal-mid)">🏥 Rol de Procedimentos da ANS</div>
@@ -1833,8 +1843,10 @@ window._mostrarApp = function(){
         </div>
 
         <div class="bio-section" style="border-bottom:none">
-          <div class="bio-label" style="color:var(--teal-mid)">⚖️ Resumo prático</div>
+          <div class="bio-label" style="color:var(--teal-mid)">🧭 Resumo prático — quem decide o quê</div>
           <div class="bio-value">
+            <div style="display:flex;gap:8px;margin-bottom:6px"><span style="font-weight:800;color:var(--navy);min-width:78px">ANVISA</span><span>Permite usar: registro e indicações da bula.</span></div>
+            <div style="display:flex;gap:8px;margin-bottom:6px"><span style="font-weight:800;color:var(--navy);min-width:78px">CONITEC</span><span>Decide se o SUS passa a oferecer (e define o PCDT).</span></div>
             <div style="display:flex;gap:8px;margin-bottom:6px"><span style="font-weight:800;color:var(--navy);min-width:78px">Plano de saúde</span><span>Rol (o quê) + DUT (critérios) — use os critérios da DUT no relatório.</span></div>
             <div style="display:flex;gap:8px;margin-bottom:6px"><span style="font-weight:800;color:var(--navy);min-width:78px">SUS</span><span>PCDT (critérios + posologia) — dispensação pela farmácia do CEAF.</span></div>
             <div style="display:flex;gap:8px"><span style="font-weight:800;color:var(--navy);min-width:78px">Fora de ambos</span><span>Sem cobertura automática — possível via judicial (com laudo bem fundamentado) ou compra particular.</span></div>
