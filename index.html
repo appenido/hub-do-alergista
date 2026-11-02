@@ -3751,8 +3751,8 @@ function renderJornal(){
       itens.push({titulo:f.titulo, fonte:f.fonte||'Mídia', data:f.data, url:f.url, resumo:'', destaque:false, _t:ts(f.data)});
     });
     itens.sort(function(a,b){ return b._t - a._t; });
-    itens = itens.slice(0,5);
-    var dest = itens.filter(function(i){ return i.destaque; })[0] || itens[0];
+    itens = itens.slice(0,10);
+    var dest = itens.filter(function(i){ return i.destaque; })[0] || null;
     var demais = itens.filter(function(i){ return i !== dest; });
     var h = '<div style="background:var(--navy);color:#fff;padding:18px 16px 14px;display:flex;align-items:center;gap:12px">' + LOGO +
       '<div style="flex:1"><div style="' + S + 'font-size:26px;line-height:1.05;letter-spacing:.02em">Jornal da Alergia</div>' +
