@@ -6104,6 +6104,10 @@ function crmConsultar(params){
     .then(function(out){
       var b = out.body || {};
 
+      if(b.erro){
+        res.innerHTML = crmFallback('A consulta ao CFM falhou: ' + b.erro + '.');
+        return;
+      }
       if(out.status === 501 || b.error === 'NAO_CONFIGURADO'){
         res.innerHTML = crmFallback('A consulta autom\u00e1tica ainda n\u00e3o foi ativada neste servidor.');
         return;
@@ -6154,14 +6158,14 @@ document.addEventListener('click', function(eC){
     if(num && !uf){ toast('\u26a0\ufe0f','Selecione a UF do CRM'); return; }
     if(!nome && !num){ toast('\u26a0\ufe0f','Informe o nome ou o n\u00famero do CRM'); return; }
 
-    if(num && uf) crmConsultar({uf:uf, numero:num});
+    if(num && uf) crmConsultar({uf:uf, crm:num});
     else          crmConsultar({nome:nome});
     return;
   }
 
   var hit = eC.target.closest('.crm-hit');
   if(hit){
-    crmConsultar({uf: hit.getAttribute('data-uf'), numero: hit.getAttribute('data-num')});
+    crmConsultar({uf: hit.getAttribute('data-uf'), crm: hit.getAttribute('data-num')});
   }
 });
 

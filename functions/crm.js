@@ -15,7 +15,7 @@ export async function onRequestOptions() {
 export async function onRequestGet({ request }) {
   const params = new URL(request.url).searchParams;
   const nome = params.get('nome');
-  const crm  = params.get('crm');
+  const crm  = params.get('crm') || params.get('numero');
   const uf   = params.get('uf');
 
   let alvo;
