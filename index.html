@@ -3912,7 +3912,16 @@ function navTo(page){
   if(page === 'alergonews') renderAlergoNews();
   if(page === 'perfil') preencherPerfil();
   if(page === 'artigos' && !_feedLoaded){ _feedLoaded = true; renderFeedChips(); carregarFeed('todos'); }
-  if(page === 'imuno' && !_radarLoaded){ _radarLoaded = true; carregarRadar(false); }
+  if(page === 'imuno'){
+    var hojeR = new Date().toLocaleDateString('pt-BR');
+    var ultimoR = '';
+    try{ ultimoR = localStorage.getItem('hub_radar_dia')||''; }catch(e){}
+    if(!_radarLoaded || ultimoR !== hojeR){
+      _radarLoaded = true;
+      try{ localStorage.setItem('hub_radar_dia', hojeR); }catch(e){}
+      carregarRadar(ultimoR !== hojeR);
+    }
+  }
   if(page === 'assistente'){ try{ selectAI(window._currentAI||'claude'); }catch(e){} }
   if(page === 'prompts')   { try{ renderUserPrompts(); }catch(e){} }
   if(page === 'mais')      { try{ _atualizarInfoUsuario(); }catch(e){} }
@@ -5438,7 +5447,8 @@ function carregarRadar(forcar){
     var nomes = ['ANS','CONITEC','DOU','ANVISA','FDA'];
     for(var fi=0;fi<nomes.length;fi++){
       var fn = nomes[fi]; var fs = fontes[fn];
-      partes.push((fs && fs.ok ? '✅' : '⚠️') + ' ' + fn + (fs && fs.ok ? ' (' + fs.n + ')' : ''));
+      if(fs && fs.ok) partes.push(fn + (fs.n ? ' (' + fs.n + ')' : ''));
+      else partes.push(fn + ' indisponível');
     }
     if(status) status.textContent = dd + ' ' + hm + ' · ' + partes.join(' · ');
 
@@ -5448,6 +5458,10 @@ function carregarRadar(forcar){
       return;
     }
 
+    itens.sort(function(a,b){
+      var da = Date.parse(a.data || '') || 0, db = Date.parse(b.data || '') || 0;
+      return db - da;
+    });
     var FONTE_COR = {ANS:'#0056a6',CONITEC:'#2e7d32',DOU:'#6a1b9a',ANVISA:'#bf360c',FDA:'#1565c0'};
     var html = '';
     for(var i=0;i<itens.length;i++){
@@ -5460,7 +5474,7 @@ function carregarRadar(forcar){
         }
       }
       var dataStr = it.data ? it.data.split('-').reverse().join('/') : '';
-      html += '<div style="padding:11px 14px;border-bottom:1px solid var(--gray-50)">' +
+      html += '<a href="' + (it.link||'#') + '" target="_blank" rel="noopener" style="display:block;text-decoration:none;padding:11px 14px;border-bottom:1px solid var(--gray-50)">' +
         '<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">' +
           '<span style="font-size:9.5px;font-weight:800;color:' + cor + ';text-transform:uppercase;letter-spacing:.04em">' + (it.fonte||'') + '</span>' +
           (dataStr ? '<span style="font-size:9.5px;color:var(--gray-300)">· ' + dataStr + '</span>' : '') +
@@ -5468,8 +5482,8 @@ function carregarRadar(forcar){
         '</div>' +
         '<div style="font-size:12.5px;font-weight:700;color:var(--navy);line-height:1.35;margin-bottom:3px">' + _feedEscape(it.titulo) + '</div>' +
         (it.resumo ? '<div style="font-size:11px;color:var(--gray-500);line-height:1.4;margin-bottom:5px">' + _feedEscape(it.resumo.slice(0,220)) + '</div>' : '') +
-        '<a href="' + it.link + '" target="_blank" rel="noopener" style="font-size:11px;font-weight:700;color:var(--teal-mid);text-decoration:none">Ver fonte →</a>' +
-        '</div>';
+        '<span style="font-size:11px;font-weight:700;color:var(--teal-mid)">Abrir no site da fonte →</span>' +
+        '</a>';
     }
     lista.innerHTML = html;
   }).catch(function(e){

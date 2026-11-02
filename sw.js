@@ -1,5 +1,5 @@
 // Rede primeiro: sempre entrega a versão publicada mais nova; o cache só é usado offline.
-const CACHE = 'hub-alergista-v53';
+const CACHE = 'hub-alergista-v54';
 const ASSETS = ['./', 'index.html', 'uas7-paciente.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {
