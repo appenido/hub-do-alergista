@@ -3717,51 +3717,51 @@ function _jEsc(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</
 function renderJornal(){
   var box = document.getElementById('jornalCorpo');
   if(!box || _jornalOk) return;
-  fetch('jornal/edicao.json').then(function(r){ return r.json(); }).then(function(e){
-    var S = "font-family:'DM Serif Display',serif;";
-    function sec(t){ return '<div style="margin:22px 16px 10px;border-top:2px solid var(--navy);padding-top:6px;font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--navy);text-transform:uppercase">' + t + '</div>'; }
-    var h = '<div style="background:var(--navy);color:#fff;padding:22px 16px 18px;text-align:center">' +
-      '<div style="' + S + 'font-size:30px;line-height:1.1;letter-spacing:.02em">JORNAL DA ALERGIA</div>' +
-      '<div style="font-size:11.5px;opacity:.85;margin-top:6px">As notícias mais importantes da semana sobre Alergia e Imunologia.</div>' +
-      '<div style="font-size:10.5px;margin-top:10px;border-top:1px solid rgba(255,255,255,.3);padding-top:8px">Edição nº ' + e.numero + ' · ' + _jEsc(e.data) + ' · Cobertura: ' + _jEsc(e.periodo.inicio) + ' a ' + _jEsc(e.periodo.fim) + '</div></div>';
-    h += '<div style="padding:18px 16px 4px"><div style="font-size:10px;font-weight:800;color:var(--teal-mid);letter-spacing:.1em">MANCHETE DA SEMANA</div>' +
-      '<div style="' + S + 'font-size:25px;line-height:1.2;color:var(--navy);margin-top:6px">' + _jEsc(e.manchete) + '</div>' +
-      '<div style="font-size:11px;color:var(--gray-500);margin-top:8px">' + _jEsc(e.escopo) + '</div></div>';
-    h += sec('Em destaque');
-    h += '<div style="padding:0 16px">' + e.capa.map(function(c,i){
-      return '<div style="display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--gray-100)"><div style="' + S + 'font-size:22px;color:var(--teal-mid);line-height:1">' + (i+1) + '</div><div><div style="font-size:13px;font-weight:700;color:var(--navy);line-height:1.35">' + _jEsc(c.titulo) + '</div><div style="font-size:10.5px;color:var(--gray-500);margin-top:2px">' + _jEsc(c.fonte) + ' · ' + _jEsc(c.data) + '</div></div></div>';
-    }).join('') + '</div>';
-    h += sec('Editorial') + '<div style="padding:0 16px;font-size:13px;line-height:1.6;color:var(--gray-700,#333)">' + _jEsc(e.editorial) + '</div>';
-    h += sec('Noticiário');
-    h += e.noticias.map(function(n){
-      return '<div style="margin:0 16px 14px;background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:14px">' +
-        '<div style="font-size:10px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.04em">' + _jEsc(n.fonte) + ' · ' + _jEsc(n.pais) + ' · ' + _jEsc(n.data) + '</div>' +
-        '<div style="' + S + 'font-size:19px;line-height:1.25;color:var(--navy);margin-top:5px">' + _jEsc(n.manchete) + '</div>' +
-        '<div style="font-size:10.5px;color:var(--gray-500);margin-top:4px">Título original: ' + _jEsc(n.original) + '</div>' +
-        '<div style="display:inline-block;font-size:10px;font-weight:700;background:#fff7e0;color:#8a6500;border-radius:6px;padding:2px 7px;margin-top:6px">' + _jEsc(n.tipo) + '</div>' +
-        '<div style="font-size:13px;line-height:1.6;margin-top:9px">' + _jEsc(n.resumo) + '</div>' +
-        '<div style="font-size:12.5px;line-height:1.55;margin-top:9px;background:#eef8f6;border-radius:8px;padding:9px 10px"><strong>Para pacientes e famílias:</strong> ' + _jEsc(n.relevancia) + '</div>' +
-        '<div style="font-size:12.5px;line-height:1.55;margin-top:8px;background:#f1f4fa;border-radius:8px;padding:9px 10px"><strong>Análise científica:</strong> ' + _jEsc(n.analise) + '</div>' +
-        '<div style="font-size:11px;color:var(--gray-500);margin-top:8px"><strong>Referência:</strong> ' + _jEsc(n.referencia) + '</div>' +
-        '<a href="' + _jEsc(n.url) + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:9px;font-size:12px;font-weight:800;color:var(--teal-mid);text-decoration:none">Ler a reportagem original →</a></div>';
+  var S = "font-family:'DM Serif Display',serif;";
+  var LOGO = '<svg viewBox="0 0 48 48" width="38" height="38" aria-hidden="true"><rect width="48" height="48" rx="11" fill="#fff" fill-opacity=".14"/><rect x="11" y="10" width="26" height="28" rx="3" fill="none" stroke="#fff" stroke-width="2.4"/><rect x="15" y="15" width="18" height="5" rx="1" fill="#fff"/><g stroke="#fff" stroke-width="2.2" stroke-linecap="round"><line x1="15" y1="26" x2="33" y2="26"/><line x1="15" y1="31" x2="33" y2="31"/></g></svg>';
+  function dominio(u){ try{ return new URL(u).hostname; }catch(e){ return ''; } }
+  function ts(d){ var m=String(d||'').match(/^(\d{2})\/(\d{2})\/(\d{4})$/); return m ? Date.parse(m[3]+'-'+m[2]+'-'+m[1]) : (Date.parse(d)||0); }
+  function dBR(d){ return /^\d{2}\//.test(String(d)) ? d : (d ? new Date(d).toLocaleDateString('pt-BR') : ''); }
+  function veiculo(fonte, url, data){
+    var dom = dominio(url);
+    return '<div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.04em">' +
+      (dom ? '<img src="https://www.google.com/s2/favicons?domain=' + _jEsc(dom) + '&sz=64" width="16" height="16" alt="" style="border-radius:3px" onerror="this.style.display=\'none\'">' : '') +
+      '<span>' + _jEsc(fonte) + '</span><span style="color:var(--gray-500);font-weight:700">· ' + _jEsc(dBR(data)) + '</span></div>';
+  }
+  Promise.all([
+    fetch('jornal/edicao.json').then(function(r){ return r.json(); }),
+    fetch('/news').then(function(r){ return r.json(); }).catch(function(){ return {itens:[]}; })
+  ]).then(function(res){
+    var e = res[0], feed = (res[1].itens||[]);
+    var itens = e.noticias.map(function(n){
+      return {titulo:n.manchete, fonte:n.fonte.replace(/\s*\(.*\)/,''), data:n.data, url:n.url, resumo:n.resumo, destaque:!!n.destaque, _t:ts(n.data)};
+    });
+    var urls = {}; itens.forEach(function(i){ urls[i.url]=1; });
+    feed.forEach(function(f){
+      if(!f.titulo || !f.url || urls[f.url]) return;
+      itens.push({titulo:f.titulo, fonte:f.fonte||'Mídia', data:f.data, url:f.url, resumo:'', destaque:false, _t:ts(f.data)});
+    });
+    itens.sort(function(a,b){ return b._t - a._t; });
+    itens = itens.slice(0,5);
+    var dest = itens.filter(function(i){ return i.destaque; })[0] || itens[0];
+    var demais = itens.filter(function(i){ return i !== dest; });
+    var h = '<div style="background:var(--navy);color:#fff;padding:18px 16px 14px;display:flex;align-items:center;gap:12px">' + LOGO +
+      '<div style="flex:1"><div style="' + S + 'font-size:26px;line-height:1.05;letter-spacing:.02em">Jornal da Alergia</div>' +
+      '<div style="font-size:10.5px;opacity:.8;margin-top:4px">' + _jEsc(new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})) + '</div></div></div>';
+    if(dest){
+      h += '<a href="' + _jEsc(dest.url) + '" target="_blank" rel="noopener" style="display:block;text-decoration:none;margin:14px 16px 6px;padding-bottom:14px;border-bottom:2px solid var(--navy)">' +
+        '<div style="font-size:10px;font-weight:800;color:#b3261e;letter-spacing:.1em;margin-bottom:6px">DESTAQUE</div>' + veiculo(dest.fonte, dest.url, dest.data) +
+        '<div style="' + S + 'font-size:25px;line-height:1.2;color:var(--navy);margin-top:7px">' + _jEsc(dest.titulo) + '</div>' +
+        (dest.resumo ? '<div style="font-size:13px;line-height:1.6;color:var(--gray-700,#333);margin-top:9px">' + _jEsc(dest.resumo) + '</div>' : '') +
+        '<div style="font-size:12px;font-weight:800;color:var(--teal-mid);margin-top:9px">Ler a reportagem →</div></a>';
+    }
+    h += demais.map(function(n){
+      return '<a href="' + _jEsc(n.url) + '" target="_blank" rel="noopener" style="display:block;text-decoration:none;margin:0 16px;padding:13px 0;border-bottom:1px solid var(--gray-100)">' +
+        veiculo(n.fonte, n.url, n.data) +
+        '<div style="' + S + 'font-size:18px;line-height:1.25;color:var(--navy);margin-top:5px">' + _jEsc(n.titulo) + '</div>' +
+        (n.resumo ? '<div style="font-size:12.5px;line-height:1.55;color:var(--gray-700,#444);margin-top:6px">' + _jEsc(n.resumo.split('. ').slice(0,2).join('. ') + '.') + '</div>' : '') +
+        '</a>';
     }).join('');
-    var f = e.fato_ou_exagero;
-    h += sec('Fato ou exagero?') + '<div style="margin:0 16px;background:#fff7e0;border-radius:12px;padding:13px;font-size:12.5px;line-height:1.55">' +
-      '<div style="font-weight:800;color:var(--navy)">' + _jEsc(f.afirmacao) + '</div>' +
-      '<div style="margin-top:6px"><strong>O que a reportagem afirma:</strong> ' + _jEsc(f.o_que_diz) + '</div>' +
-      '<div style="margin-top:6px"><strong>O que a ciência mostra:</strong> ' + _jEsc(f.o_que_a_ciencia_mostra) + '</div>' +
-      '<div style="margin-top:6px"><strong>Dúvidas:</strong> ' + _jEsc(f.duvidas) + '</div></div>';
-    h += sec('O que mudou na prática?') + '<div style="margin:0 16px;font-size:13px;line-height:1.6">' + _jEsc(e.o_que_mudou) + '</div>';
-    h += sec('Fechamento') + '<div style="margin:0 16px;font-size:13px;line-height:1.55"><strong>Os 3 principais acontecimentos</strong><ul style="margin:6px 0 10px 18px;padding:0">' +
-      e.fechamento.tres.map(function(x){ return '<li>' + _jEsc(x) + '</li>'; }).join('') + '</ul><strong>Para acompanhar</strong><ul style="margin:6px 0 0 18px;padding:0">' +
-      e.fechamento.acompanhar.map(function(x){ return '<li>' + _jEsc(x) + '</li>'; }).join('') + '</ul></div>';
-    h += sec('Tabela de auditoria') + '<div style="margin:0 16px;font-size:11px;color:var(--gray-500);line-height:1.5">' + _jEsc(e.limitacoes) + '</div>' +
-      '<div style="margin:10px 16px 0;overflow-x:auto"><table style="border-collapse:collapse;font-size:10.5px;min-width:640px;width:100%"><thead><tr style="background:var(--navy);color:#fff">' +
-      ['Notícia','Veículo','Data','Nota','Verificação científica','Motivo'].map(function(x){ return '<th style="text-align:left;padding:6px">' + x + '</th>'; }).join('') + '</tr></thead><tbody>' +
-      e.auditoria.map(function(a){
-        return '<tr style="border-bottom:1px solid var(--gray-100);vertical-align:top"><td style="padding:6px"><a href="' + _jEsc(a.url) + '" target="_blank" rel="noopener" style="color:var(--teal-mid);font-weight:700;text-decoration:none">' + _jEsc(a.noticia) + '</a></td><td style="padding:6px">' + _jEsc(a.veiculo) + '</td><td style="padding:6px;white-space:nowrap">' + _jEsc(a.data) + '</td><td style="padding:6px">' + _jEsc(a.nota) + '</td><td style="padding:6px">' + _jEsc(a.status) + '</td><td style="padding:6px">' + _jEsc(a.motivo) + '</td></tr>';
-      }).join('') + '</tbody></table></div>';
-    h += '<div style="margin:18px 16px 0"><a href="javascript:void(0)" onclick="navTo(\'alergonews\')" style="display:block;text-align:center;text-decoration:none;border:1.5px solid var(--navy);color:var(--navy);border-radius:10px;padding:10px;font-size:13px;font-weight:800">Ver as 10 últimas no Alergo News →</a></div>';
     box.innerHTML = h;
     _jornalOk = true;
   }).catch(function(){
