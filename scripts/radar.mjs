@@ -19,6 +19,8 @@ const FONTES = [
 
 const CHAVES = /(^|[^a-zà-ú])(alergi\w*|al[ée]rgic\w*|anafila\w*|anafil[áa]tic\w*|urtic[áa]ri\w*|asma|asm[áa]tic\w*|rinite|rinossinusite|dermatite at[óo]pica|imunodefici\w*|imunoglobulina|erros inatos da imunidade|imunoterapia|imunobiol[óo]gic\w*|angioedema|eosinof[íi]lic\w*|p[óo]lipos nasais)([^a-zà-ú]|$)/i;
 // institucional, científico, publicidade
+const BR_OK = ['globo.com','uol.com.br','metropoles.com','terra.com.br','r7.com','ig.com.br','band.com.br','cnnbrasil.com.br','estadao.com.br','folha.uol.com.br','veja.abril.com.br'];
+function brasileiro(host){ return /\.br$/.test(host) || BR_OK.some(function(d){ return host === d || host.endsWith('.' + d); }); }
 const BLOQUEADOS = /(gov\.br|\.gov\b|asbai\.org|sbp\.com\.br|sbi\.org|scielo|doaj|elsevier|pubmed|nih\.gov|prnewswire|segs\.com\.br|\.edu\b|einstein\.br|hospital|clinica|cl[íi]nica|blogspot|wordpress\.com)/i;
 
 const limpar = (t) => (t||'').replace(/<!\[CDATA\[|\]\]>/g,'').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').trim();
@@ -29,11 +31,13 @@ function itensDoRss(xml, fonteFallback){
   for (const b of xml.split(/<item[\s>]/).slice(1, 60)) {
     const pega = (tag) => { const m = b.match(new RegExp('<'+tag+'[^>]*>([\\s\\S]*?)<\\/'+tag+'>')); return m ? limpar(m[1]) : ''; };
     let titulo = pega('title'); if (!titulo) continue;
-    const desc = pega('description');
+    const descRaw = (b.match(/<description[^>]*>([\s\S]*?)<\/description>/)||[])[1] || '';
+    const href = (descRaw.match(/href="(https?:\/\/[^"]+)"/)||[])[1] || '';
+    const desc = limpar(descRaw);
     if (!CHAVES.test(titulo + ' ' + desc)) continue;
     const fonte = pega('source') || fonteFallback || '';
     titulo = titulo.replace(/\s+-\s+[^-]+$/, '').trim();
-    out.push({ titulo, fonte, data: pega('pubDate'), url: pega('link') });
+    out.push({ titulo, fonte, data: pega('pubDate'), url: href || pega('link') });
   }
   return out;
 }
@@ -79,6 +83,8 @@ const run = async () => {
     if (vistos.has(chave)) continue;
     const { final, html } = await resolver(it.url);
     if (!final || BLOQUEADOS.test(final)) continue;
+    let host = ''; try { host = new URL(final).hostname.replace(/^www\./,''); } catch(e) { continue; }
+    if (/news\.google\.com/.test(host) || !brasileiro(host)) continue;   // só mídia brasileira, link direto
     const ts = dataDaPagina(html) || Date.parse(it.data) || 0;
     if (!ts) continue;                                   // sem data confirmada: fora
     if (Date.now() - ts > 90*24*3600*1000) continue;      // janela máxima de 90 dias
@@ -86,7 +92,7 @@ const run = async () => {
     vistos.add(chave);
     verificadas.push({
       titulo: limpar(h1) || it.titulo,
-      fonte: it.fonte || new URL(final).hostname.replace(/^www\./,''),
+      fonte: it.fonte || host,
       data: new Date(ts).toISOString(),
       url: final,
       verificado: !!dataDaPagina(html)
