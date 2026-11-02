@@ -247,6 +247,14 @@ body{
 .ig-card .ig-n{font-size:12.5px;font-weight:800;line-height:1.25}
 .ig-card .ig-f{font-size:10.5px;color:rgba(255,255,255,.65)}
 .ig-card .ig-c{display:inline-block;align-self:flex-start;margin-top:3px;background:rgba(255,255,255,.14);border-radius:999px;padding:2px 8px;font-size:10px;font-weight:700}
+.ig-card .ig-marca{display:inline-flex;align-items:center;justify-content:center;align-self:flex-start;min-width:34px;height:17px;padding:0 6px;border-radius:5px;color:#fff;font-size:7.5px;font-weight:900;letter-spacing:.4px;margin-bottom:2px}
+.igp-card{display:none}
+.igp-card.ativa{display:block}
+.igp-header{display:flex;align-items:center;gap:10px}
+.igp-info{flex:1;min-width:0}
+.igp-nome{font-size:14px;font-weight:800;color:var(--navy);line-height:1.25}
+.igp-fab{font-size:11.5px;color:var(--gray-500);margin-top:1px}
+.igp-conc{display:inline-block;margin-top:6px;padding:3px 9px;border-radius:999px;background:rgba(31,105,128,.1);color:var(--teal-mid);font-size:10.5px;font-weight:800;letter-spacing:.2px}
 .ig-card.sel{background:#fff;border-color:#7ee0ec;box-shadow:0 0 0 2px #7ee0ec}
 .ig-card.sel .ig-n{color:var(--navy)}
 .ig-card.sel .ig-f{color:var(--gray-500)}
@@ -2427,7 +2435,6 @@ window._mostrarApp = function(){
 
     <div style="padding:0 0 16px">
     <div id="igFichaTitulo" style="padding:4px 16px 8px;font-size:12px;font-weight:800;color:var(--navy);letter-spacing:.4px;text-transform:uppercase">Ficha do produto selecionado</div>
-    <div style="margin:0 16px 10px;background:#f4f8fa;border:1px solid rgba(31,105,128,.15);border-radius:12px;padding:11px 13px;font-size:11.5px;color:var(--gray-500);line-height:1.5">ℹ️ Apenas imunoglobulinas humanas normais <strong>com registro na ANVISA</strong>. Selecione o produto acima para ver a ficha completa. Confirme a bula vigente antes de prescrever.</div>
     <div class="bio-card igp-card" id="ig-privigen">
       <div class="bio-header igp-header" onclick="toggleIg('privigen')">
         <div class="igp-info"><div class="igp-nome">Privigen® 10%</div><div class="igp-fab">CSL Behring</div><span class="igp-conc">10% · 100 mg/mL</span></div>
