@@ -14,8 +14,27 @@ const FONTES = [
   Q('imunodeficiência OR "erros inatos da imunidade" OR imunoglobulina'),
   Q('imunobiológico OR imunoterapia alergia'),
   'https://g1.globo.com/rss/g1/ciencia-e-saude/',
-  'https://agenciabrasil.ebc.com.br/rss/saude/feed.xml'
+  'https://agenciabrasil.ebc.com.br/rss/saude/feed.xml',
+  'https://agenciabrasil.ebc.com.br/rss/geral/feed.xml',
+  'https://www.cnnbrasil.com.br/saude/feed/',
+  'https://www.metropoles.com/saude/feed',
+  'https://vejasp.abril.com.br/feed/',
+  'https://saude.abril.com.br/feed/',
+  'https://rss.uol.com.br/feed/noticias.xml',
+  'https://noticias.r7.com/saude/feed.xml',
+  'https://www.terra.com.br/rss/saude/'
 ];
+
+// link do Google News vem codificado: tenta extrair a URL real do próprio identificador
+function decodificarGoogle(u){
+  const m = String(u).match(/\/articles\/([A-Za-z0-9_-]+)/);
+  if (!m) return '';
+  try {
+    const bruto = Buffer.from(m[1].replace(/-/g,'+').replace(/_/g,'/'), 'base64').toString('latin1');
+    const alvo = bruto.match(/https?:\/\/[\x20-\x7e]+?(?=[\x00-\x1f]|$)/);
+    return alvo ? alvo[0] : '';
+  } catch(e) { return ''; }
+}
 
 const CHAVES = /(^|[^a-zà-ú])(alergi\w*|al[ée]rgic\w*|anafila\w*|anafil[áa]tic\w*|urtic[áa]ri\w*|asma|asm[áa]tic\w*|rinite|rinossinusite|dermatite at[óo]pica|imunodefici\w*|imunoglobulina|erros inatos da imunidade|imunoterapia|imunobiol[óo]gic\w*|angioedema|eosinof[íi]lic\w*|p[óo]lipos nasais)([^a-zà-ú]|$)/i;
 // institucional, científico, publicidade
@@ -43,6 +62,10 @@ function itensDoRss(xml, fonteFallback){
 }
 
 async function resolver(url){
+  if (/news\.google\.com/.test(url)) {
+    const direto = decodificarGoogle(url);
+    if (direto) url = direto; else return { final: '', html: '' };
+  }
   // Google News usa link intermediário: segue o redirecionamento até o veículo
   try {
     const r = await fetch(url, { headers: UA, redirect: 'follow' });
