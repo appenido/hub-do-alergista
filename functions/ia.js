@@ -22,7 +22,7 @@ export async function onRequestOptions() {
 }
 
 export async function onRequestPost({ request, env }) {
-  const chave = env.GEMINI_API_KEY;
+  const chave = env.GEMINI_API_KEY || env.GEMINI || env.GOOGLE_API_KEY;
   if (!chave) {
     return new Response(JSON.stringify({ erro: 'IA ainda não configurada neste site.' }), { status: 503, headers: CORS });
   }
