@@ -6120,6 +6120,36 @@ function carregarRadar(forcar){
 }
 
 var _feedCache = {};
+var _prefetchFeito = false;
+
+/* busca os demais temas em segundo plano para que o clique seja instantâneo */
+function _prefetchFeeds(){
+  if(_prefetchFeito || !window.fetch) return;
+  _prefetchFeito = true;
+  var base = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
+  var i = 0;
+  function proximo(){
+    while(i < FEED_TEMAS.length && _feedCache[FEED_TEMAS[i].id]) i++;
+    if(i >= FEED_TEMAS.length) return;
+    var t = FEED_TEMAS[i++];
+    var term = t.q + ' AND ' + FEED_JOURNALS + ' AND ("last 3 years"[dp])';
+    fetch(base + 'esearch.fcgi?db=pubmed&retmode=json&sort=date&retmax=8&tool=HubClinico&term=' + encodeURIComponent(term))
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        var ids = (d && d.esearchresult && d.esearchresult.idlist) ? d.esearchresult.idlist : [];
+        if(!ids.length) return;
+        return fetch(base + 'esummary.fcgi?db=pubmed&retmode=json&tool=HubClinico&id=' + ids.join(','))
+          .then(function(r2){ return r2.json(); })
+          .then(function(d2){
+            var tmp = document.createElement('div');
+            renderFeed(d2, tmp, t.id);      // guarda no cache e já traduz
+          });
+      })
+      .catch(function(){})
+      .then(function(){ setTimeout(proximo, 400); });   // espaça as chamadas ao PubMed
+  }
+  proximo();
+}
 var _tradCache = {};   // título original -> tradução (persistido em localStorage)
 try{ _tradCache = JSON.parse(localStorage.getItem('hub_trad_titulos')||'{}'); }catch(e){ _tradCache = {}; }
 
@@ -6136,11 +6166,8 @@ function carregarFeed(tema){
     return;
   }
 
-  if(box.innerHTML.indexOf('art-card') > -1){
-    box.style.opacity = '.4';          // mantém a lista anterior enquanto busca
-  } else {
-    box.innerHTML = '<div style="text-align:center;padding:22px 0;color:var(--gray-300);font-size:12.5px">⏳ Buscando as publicações mais recentes no PubMed...</div>';
-  }
+  // nunca limpa a lista nem mostra tela de carregamento: só esmaece o que já está na tela
+  box.style.opacity = '.45';
 
   if(!window.fetch){
     box.style.opacity = '1';
@@ -6164,7 +6191,7 @@ function carregarFeed(tema){
       return;
     }
     var esum = base + 'esummary.fcgi?db=pubmed&retmode=json&tool=HubClinico&id=' + ids.join(',');
-    return fetch(esum).then(function(r2){ return r2.json(); }).then(function(d2){ renderFeed(d2, box, tema); });
+    return fetch(esum).then(function(r2){ return r2.json(); }).then(function(d2){ renderFeed(d2, box, tema); _prefetchFeeds(); });
   }).catch(function(e){
     var pubUrl = 'https://pubmed.ncbi.nlm.nih.gov/?term=' + encodeURIComponent(t.q) + '&sort=date';
     box.style.opacity = '1';
