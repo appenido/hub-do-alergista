@@ -2741,11 +2741,15 @@ window._mostrarApp = function(){
         </select>
       </div>
       <div class="perf-field" id="perfEspBox" style="display:none"><label>Qual especialidade?</label><input id="perfEspecialidade" type="text" placeholder="Ex: Pneumologia"></div>
-      <div class="perf-field"><label id="perfCrmLabel">CRM (opcional)</label><input id="perfCrm" type="text" placeholder="00000/UF"></div>
-      <div class="perf-field"><label>Número do RQE (opcional)</label><input id="perfRqe" type="text"></div>
-      <div class="perf-field"><label>Endereço / local de atendimento (opcional)</label><input id="perfEndereco" type="text"></div>
+      <div class="perf-field"><label id="perfCrmLabel">CRM (opcional)</label><input id="perfCrm" type="text" placeholder="00000"></div>
+      <div class="perf-field"><label id="perfUfLabel">Estado do CRM (opcional)</label>
+        <select id="perfUf" style="width:100%;box-sizing:border-box;padding:11px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-family:'Manrope',sans-serif;font-size:13.5px;color:var(--navy);background:#fff">
+          <option value="">Selecione…</option><option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option><option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option><option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option><option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option><option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option><option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option><option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option><option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option><option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
+        </select>
+      </div>
+      <div class="perf-field"><label id="perfRqeLabel">Número do RQE (opcional)</label><input id="perfRqe" type="text"></div>
+      <div class="perf-field"><label>Endereço / local de atendimento *</label><input id="perfEndereco" type="text"></div>
       <div class="perf-field"><label>E-mail (não editável)</label><input id="perfEmail" type="text" disabled></div>
-      <div class="perf-field"><label>Nova senha (deixe em branco para manter)</label><input id="perfSenha" type="password" placeholder="mín. 6 caracteres"></div>
       <div id="perfMsg" style="font-size:12px;font-weight:700;margin-bottom:10px;min-height:16px"></div>
       <button onclick="salvarPerfil()" style="width:100%;background:var(--navy);border:none;color:#fff;border-radius:10px;padding:12px;font-family:'Manrope',sans-serif;font-size:13.5px;font-weight:800;cursor:pointer">Salvar alterações</button>
       <button onclick="fecharDadosCadastrais()" style="width:100%;margin-top:10px;background:#fff;border:1.5px solid var(--gray-100);color:var(--navy);border-radius:10px;padding:10px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Cancelar</button>
@@ -2871,7 +2875,7 @@ function _metaDoUsuario(user){
   var m = (user && (user.user_metadata||user.raw_user_meta_data)) || {};
   return {
     nome: m.nome||'', categoria: m.categoria||'', especialidade: m.especialidade||'',
-    endereco: m.endereco||'', crm: m.crm||'', rqe: m.rqe||null
+    endereco: m.endereco||'', crm: m.crm||'', uf: m.uf||'', rqe: m.rqe||null
   };
 }
 
@@ -2888,6 +2892,10 @@ function _cadCatMudou(){
   var box = document.getElementById('cadEspBox');
   if(box) box.style.display = (v==='especialista') ? '' : 'none';
 }
+function _rqeObrigatorio(cat){
+  return ['especialista','alergista'].indexOf(cat) !== -1;
+}
+
 function _crmObrigatorio(cat){
   return ['residente','especialista','alergista'].indexOf(cat) !== -1;
 }
@@ -2896,8 +2904,13 @@ function _perfCatMudou(){
   var el = document.getElementById('perfCategoria');
   var box = document.getElementById('perfEspBox');
   if(el && box) box.style.display = (el.value==='especialista') ? '' : 'none';
+  var cat = el ? el.value : '';
   var lab = document.getElementById('perfCrmLabel');
-  if(el && lab) lab.textContent = _crmObrigatorio(el.value) ? 'CRM *' : 'CRM (opcional)';
+  if(lab) lab.textContent = _crmObrigatorio(cat) ? 'CRM *' : 'CRM (opcional)';
+  var labUf = document.getElementById('perfUfLabel');
+  if(labUf) labUf.textContent = _crmObrigatorio(cat) ? 'Estado do CRM *' : 'Estado do CRM (opcional)';
+  var labRqe = document.getElementById('perfRqeLabel');
+  if(labRqe) labRqe.textContent = _rqeObrigatorio(cat) ? 'Número do RQE *' : 'Número do RQE (opcional)';
 }
 
 function fazerCadastro(){
@@ -3041,8 +3054,8 @@ function preencherPerfil(){
     set('perfEndereco', u.endereco);
     set('perfCrm', u.crm);
     set('perfRqe', u.rqe);
+    var ufEl = document.getElementById('perfUf'); if(ufEl) ufEl.value = u.uf||'';
     set('perfEmail', sess.email);
-    set('perfSenha','');
     var msg=document.getElementById('perfMsg'); if(msg) msg.textContent='';
     var av=document.getElementById('perfAvatar'); if(av) av.textContent=_iniciais(u.nome||sess.nome);
     fecharDadosCadastrais();
@@ -3060,23 +3073,27 @@ function salvarPerfil(){
     var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
     var u = users[sess.email] || {};
     var nome = (document.getElementById('perfNome').value||'').trim();
-    var senha = document.getElementById('perfSenha').value||'';
     if(!nome){ erro('Informe seu nome completo.'); return; }
-    if(senha && senha.length<6){ erro('A nova senha deve ter no mínimo 6 caracteres.'); return; }
     u.nome = nome;
     var catEl = document.getElementById('perfCategoria');
     var cat   = catEl ? catEl.value : (u.categoria||'');
     var espIn = (document.getElementById('perfEspecialidade').value||'').trim();
     if(cat==='especialista' && !espIn){ erro('Informe sua especialidade.'); return; }
     var crmIn = (document.getElementById('perfCrm').value||'').trim();
+    var ufEl2 = document.getElementById('perfUf');
+    var ufIn  = ufEl2 ? (ufEl2.value||'') : '';
+    var rqeIn = (document.getElementById('perfRqe').value||'').trim();
+    var endIn = (document.getElementById('perfEndereco').value||'').trim();
     if(_crmObrigatorio(cat) && !crmIn){ erro('Informe seu CRM (obrigatório para médicos).'); return; }
+    if(_crmObrigatorio(cat) && !ufIn){ erro('Selecione o estado do CRM.'); return; }
+    if(_rqeObrigatorio(cat) && !rqeIn){ erro('Informe seu RQE (obrigatório para especialistas).'); return; }
+    if(!endIn){ erro('Informe o endereço / local de atendimento.'); return; }
     u.categoria     = cat;
     u.especialidade = (cat==='especialista') ? espIn : (CATEGORIA_LABEL[cat]||'');
-    u.endereco      = (document.getElementById('perfEndereco').value||'').trim();
+    u.endereco      = endIn;
     u.crm           = crmIn;
-    var rqe         = (document.getElementById('perfRqe').value||'').trim();
-    u.rqe           = rqe || null;
-    if(senha) u.hash = _hash(senha);
+    u.uf            = ufIn;
+    u.rqe           = rqeIn || null;
     _salvarLocal(sess.email, u);
     sess.nome = nome;
     localStorage.setItem('hub_session', JSON.stringify(sess));
@@ -3089,8 +3106,7 @@ function salvarPerfil(){
     var token = sess.token;
     if(token){
       var body = {data:{nome:u.nome, categoria:u.categoria, especialidade:u.especialidade,
-                        endereco:u.endereco, crm:u.crm, rqe:u.rqe}};
-      if(senha) body.password = senha;
+                        endereco:u.endereco, crm:u.crm, uf:u.uf, rqe:u.rqe}};
       fetch(SB_URL + '/auth/v1/user', {method:'PUT', headers:_sbHeaders(token), body:JSON.stringify(body)})
         .then(function(r){ if(!r.ok && msg){ msg.style.color='#e67e22'; msg.textContent='Salvo neste aparelho, mas não sincronizou na nuvem.'; } })
         .catch(function(){ if(msg){ msg.style.color='#e67e22'; msg.textContent='Salvo neste aparelho (sem conexão).'; } });
