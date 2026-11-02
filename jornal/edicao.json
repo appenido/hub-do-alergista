@@ -1,0 +1,80 @@
+{
+ "numero": 1,
+ "data": "02/11/2026",
+ "periodo": {"inicio": "27/10/2026", "fim": "02/11/2026"},
+ "escopo": "Somente mídia brasileira. Notícias internacionais entram apenas em caso de óbito por alergia alimentar (nenhum caso verificado nesta semana).",
+ "manchete": "Congresso de Alergia vai discutir alimentos que viraram novos alérgenos no Brasil",
+ "capa": [
+  {"titulo": "Alérgenos emergentes e alimentos tradicionais pouco estudados entram na pauta do congresso da ASBAI", "fonte": "BRA 1", "data": "27/10/2026"},
+  {"titulo": "Inflamação tipo 2: o que une asma, dermatite atópica e rinossinusite", "fonte": "Sol Nascente Online", "data": "29/10/2026"},
+  {"titulo": "Contexto: 4,6% das crianças brasileiras menores de 5 anos teriam alergia alimentar diagnosticada", "fonte": "Estado de Minas", "data": "26/10/2026"}
+ ],
+ "editorial": "Esta primeira edição do Jornal da Alergia cobre de 27 de outubro a 2 de novembro de 2026 e, por escolha editorial, olha apenas para a imprensa brasileira. A semana foi curta em fatos novos: não encontramos, em veículos nacionais verificáveis, aprovações regulatórias, alertas sanitários ou estudos inéditos sobre a especialidade. O que apareceu foi a antecipação do 53º Congresso Brasileiro de Alergia e Imunologia, em Foz do Iguaçu, e conteúdos explicativos sobre inflamação tipo 2 e alergia alimentar infantil. Preferimos publicar poucas matérias bem checadas a completar a edição com textos antigos ou promocionais. Em todas as reportagens indicamos o que é fato, o que é divulgação e o que ainda não permite conclusões. Se você vir algo importante que ficou de fora, o próximo número está aberto.",
+ "noticias": [
+  {
+   "original": "Alimentação mudada: novos ingredientes e alérgenos desconhecidos serão alvo de estudo",
+   "manchete": "Congresso de Alergia vai discutir alimentos que viraram novos alérgenos no Brasil",
+   "fonte": "BRA 1", "pais": "Brasil", "data": "27/10/2026",
+   "url": "https://www.bra1.com.br/geral/id-716194/alimentacao_mudada__novos_ingredientes_e_alergenos_desconhecidos_serao_alvo_de_estudo",
+   "tipo": "Divulgação institucional (material de congresso)",
+   "resumo": "Especialistas reunidos no 53º Congresso Brasileiro de Alergia e Imunologia, de 12 a 14 de novembro, em Foz do Iguaçu, vão debater como novas fontes de proteína e alimentos tradicionais pouco estudados podem provocar reações alérgicas no país. A palestra, conduzida pela imunologista Keity Souza Santos, tem três eixos: alimentos recentemente identificados como alergênicos, ingredientes de uso antigo que quase não foram investigados e alérgenos já conhecidos no exterior que ganham atenção no Brasil. A palestrante também coleta relatos de médicos por questionário, para cruzar observações do consultório com laboratórios de pesquisa. O texto destaca uma cautela importante: esses relatos, por si sós, não permitem concluir que determinada alergia esteja aumentando na população. O objetivo declarado é ajudar o médico a diagnosticar com precisão, sem causar medo desnecessário aos pacientes.",
+   "relevancia": "Para famílias, a mensagem prática é procurar um alergista diante de reações após comer qualquer alimento, mesmo antigo na dieta, e não cortar alimentos por conta própria. Ainda não há dados de prevalência: é um tema em levantamento.",
+   "analise": "Trata-se de divulgação de uma palestra, não de estudo publicado. Não há dados de incidência, grupo comparativo nem revisão por pares. A própria especialista afirma que relatos de consultório não comprovam aumento de casos. O texto é, portanto, informação preliminar sobre uma agenda de pesquisa. Ponto positivo: a matéria evita alarmismo e reconhece o limite dos dados.",
+   "referencia": "53º Congresso Brasileiro de Alergia e Imunologia (ASBAI), Foz do Iguaçu, 12–14/11/2026: congressoalergiaasbai2026.com.br"
+  },
+  {
+   "original": "Inflamação tipo 2 pode desencadear doenças como asma e dermatite atópica",
+   "manchete": "Inflamação tipo 2: o elo entre asma, dermatite atópica e rinossinusite",
+   "fonte": "Sol Nascente Online (republicação; o texto remete ao Metrópoles, não confirmado)", "pais": "Brasil", "data": "29/10/2026",
+   "url": "https://www.solnascenteonline.com.br/2026/10/inflamacao-tipo-2-pode-desencadear.html",
+   "tipo": "Conteúdo explicativo; possível material de divulgação",
+   "resumo": "A reportagem explica que a inflamação tipo 2 ocorre quando o sistema imunológico permanece hiperativo diante de substâncias comuns, como ácaros, mofo, pólen e proteínas de animais. Esse mecanismo pode contribuir para asma grave, dermatite atópica e rinossinusite crônica, que aparecem isoladas ou associadas. Poluição, fumaça e produtos de limpeza podem agravar o quadro. Sem controle, a inflamação prejudica o sono, causa coceira e sintomas respiratórios noturnos e pode levar a cansaço crônico e desgaste emocional. A matéria cita uma pediatra e alergista e uma pneumologista, que lembram que os gatilhos variam de pessoa para pessoa e que fumaça de cigarro, material particulado e perfumes fortes irritam as vias aéreas. Por fim, menciona que médicos usam imunobiológicos e biomarcadores para individualizar o tratamento.",
+   "relevancia": "Ajuda famílias a entender por que uma pessoa pode ter asma, pele atópica e nariz entupido ao mesmo tempo, e por que tratar apenas um dos problemas pode não bastar. Reforça evitar fumaça e irritantes.",
+   "analise": "O conceito de inflamação tipo 2 é consolidado na literatura de alergia e asma. O texto, porém, é genérico, não cita estudo e não informa quais imunobiológicos estão aprovados no Brasil para cada doença. Uma das fontes é ligada a uma plataforma de consultas, o que sugere conteúdo de divulgação. Útil como explicação, sem novidade científica.",
+   "referencia": "Diretrizes GINA (asma) e documentos da ASBAI sobre imunobiológicos; consulte a bula e o registro na Anvisa de cada medicamento."
+  },
+  {
+   "original": "Alergia e intolerância alimentar na infância: sinais que merecem atenção",
+   "manchete": "Contexto: alergia alimentar atinge 4,6% das crianças brasileiras pequenas, estima estudo citado",
+   "fonte": "Estado de Minas", "pais": "Brasil", "data": "26/10/2026",
+   "url": "https://www.em.com.br/bem-viver/2026/10/7527861-alergia-e-intolerancia-alimentar-na-infancia-sinais-que-merecem-atencao.html",
+   "tipo": "Reportagem (publicada um dia antes do período; incluída como contexto)",
+   "resumo": "Publicada em 26 de outubro, um dia antes do início do período, a reportagem entra como contexto por seu valor prático. Ela cita um estudo de 2026 com dados do ENANI-2019 que estimou em 4,6% as crianças brasileiras com menos de cinco anos com diagnóstico médico de alergia alimentar, segundo relato dos pais; a alergia ao leite de vaca seria a mais comum, com 2,1%. Os especialistas ouvidos explicam que reações imediatas começam em minutos e podem surgir até duas horas depois da refeição, que a anafilaxia exige atendimento de emergência e que antialérgico em gotas ou xarope não trata reação grave. Também alertam que painéis comerciais de intolerância baseados em IgG não são recomendados e que cortar alimentos sem necessidade pode prejudicar a nutrição infantil. Lembram ainda que parte das alergias a leite, ovo, soja e trigo pode desaparecer, e que a reintrodução deve ser supervisionada.",
+   "relevancia": "É um guia útil para pais: reconhecer sinais, não confiar em exames de intolerância vendidos sem indicação, não reintroduzir alimentos por conta própria e procurar emergência diante de reação grave.",
+   "analise": "As orientações sobre anafilaxia, diagnóstico clínico e testes de provocação oral são coerentes com consensos da especialidade. O percentual de 4,6% vem de relato dos pais, o que tende a superestimar a alergia confirmada, e não conseguimos localizar o estudo original. Trate o número como estimativa, não como prevalência comprovada.",
+   "referencia": "Estudo citado (ENANI-2019): não localizado por esta redação. Orientações da ASBAI sobre anafilaxia: asbai.org.br"
+  }
+ ],
+ "fato_ou_exagero": {
+  "afirmacao": "“Alimentos tradicionais e novos ingredientes estariam provocando mais alergias no Brasil.”",
+  "o_que_diz": "A divulgação do congresso sugere que alérgenos pouco estudados ou emergentes podem estar chamando atenção de médicos em todo o país.",
+  "o_que_a_ciencia_mostra": "Até agora existem relatos de consultório e uma coleta por questionário, que servem para levantar hipóteses. Nenhum dado publicado comprova aumento da frequência de alergias específicas, e a própria palestrante faz essa ressalva.",
+  "duvidas": "Falta saber quais alimentos, quantos casos, se há mais diagnóstico ou mais doença, e se as reações são alérgicas de fato. Veredito: ainda não dá para afirmar; é uma hipótese em investigação."
+ },
+ "o_que_mudou": "Nenhuma notícia desta semana justifica mudança de conduta em prevenção, diagnóstico ou tratamento. As orientações reforçadas (adrenalina e emergência na anafilaxia, diagnóstico por história clínica e evitar painéis de intolerância IgG) já fazem parte das recomendações vigentes.",
+ "fechamento": {
+  "tres": [
+   "Congresso da ASBAI (12–14/11) discutirá alérgenos alimentares emergentes no Brasil.",
+   "Explicações sobre inflamação tipo 2 ligam asma, dermatite atópica e rinossinusite.",
+   "Alergia alimentar infantil: estimativa nacional de 4,6% em menores de 5 anos (relato dos pais)."
+  ],
+  "acompanhar": [
+   "Resultados e anúncios do 53º Congresso Brasileiro de Alergia e Imunologia.",
+   "Eventuais decisões da Anvisa e da Conitec sobre imunobiológicos.",
+   "Qualidade do ar e alergias respiratórias com a chegada do verão."
+  ]
+ },
+ "limitacoes": "Janela de 7 dias com pouca cobertura nacional verificável. Não foi possível acessar a íntegra do Medscape Brasil e do Metrópoles. Itens internacionais foram excluídos pelo escopo editorial. Nenhum óbito por alergia alimentar com data confirmada no período foi encontrado.",
+ "auditoria": [
+  {"noticia": "Alimentação mudada: novos alérgenos serão alvo de estudo", "veiculo": "BRA 1", "data": "27/10/2026", "url": "https://www.bra1.com.br/geral/id-716194/alimentacao_mudada__novos_ingredientes_e_alergenos_desconhecidos_serao_alvo_de_estudo", "nota": "7,0", "status": "Preliminar; sem estudo publicado", "motivo": "Selecionada: Brasil, no período, fonte especialista identificada"},
+  {"noticia": "Inflamação tipo 2 pode desencadear asma e dermatite atópica", "veiculo": "Sol Nascente Online", "data": "29/10/2026", "url": "https://www.solnascenteonline.com.br/2026/10/inflamacao-tipo-2-pode-desencadear.html", "nota": "5,5", "status": "Conceito consolidado; sem estudo citado", "motivo": "Selecionada com ressalva: republicação e possível divulgação"},
+  {"noticia": "Alergia e intolerância alimentar na infância", "veiculo": "Estado de Minas", "data": "26/10/2026", "url": "https://www.em.com.br/bem-viver/2026/10/7527861-alergia-e-intolerancia-alimentar-na-infancia-sinais-que-merecem-atencao.html", "nota": "6,5", "status": "Orientações coerentes; estudo original não localizado", "motivo": "Incluída como contexto (1 dia fora do período)"},
+  {"noticia": "Deucrictibant em crise de angioedema hereditário (RAPIDe-3, Lancet)", "veiculo": "Healio", "data": "30/10/2026", "url": "https://www.healio.com/news/allergy-asthma/20261102/deucrictibant-capsule-shortens-time-to-symptom-relief-after-hereditary-angioedema-attack", "nota": "—", "status": "Ensaio fase 3 verificado; não aprovado no Brasil", "motivo": "Excluída: veículo internacional (escopo só Brasil)"},
+  {"noticia": "Asma grave pediátrica, inflamação T2 e raça/etnia (JACI: In Practice)", "veiculo": "Healio", "data": "30/10/2026", "url": "https://www.healio.com/news/allergy-asthma/20261030/odds-for-high-thelper-2-inflammation-greatest-in-black-children-with-severe-asthma", "nota": "—", "status": "Observacional verificado", "motivo": "Excluída: veículo internacional"},
+  {"noticia": "Dupilumabe na gestação: resultados finais do registro", "veiculo": "Healio", "data": "29/10/2026", "url": "https://www.healio.com/news/allergy-asthma/20261029/dupilumab-use-during-pregnancy-does-not-raise-risk-for-adverse-pregnancy-outcomes", "nota": "—", "status": "Pôster de congresso; IC amplos", "motivo": "Excluída: veículo internacional"},
+  {"noticia": "iDIET na esofagite eosinofílica (ACG)", "veiculo": "Healio", "data": "29/10/2026", "url": "https://www.healio.com/news/gastroenterology/20261028/novel-idiet-boosts-histologic-endoscopic-response-in-eosinophilic-esophagitis", "nota": "—", "status": "Apresentação em congresso; n=44", "motivo": "Excluída: veículo internacional"},
+  {"noticia": "Jovem de 24 anos morre de anafilaxia após churros com amendoim", "veiculo": "SnackSafely (via The Packet)", "data": "22/10/2026", "url": "https://snacksafely.com/2026/10/24-year-old-dies-from-anaphylaxis-after-cafe-repeatedly-assured-him-food-was-peanut-free/", "nota": "—", "status": "Datas internas inconsistentes (sem ano)", "motivo": "Excluída: fora do período e datas do caso não confirmadas"},
+  {"noticia": "Anvisa/FDA: remibrutinibe em dermografismo sintomático", "veiculo": "AJMC", "data": "07/10/2026", "url": "https://www.ajmc.com/view/fda-approves-first-symptomatic-dermographism-treatment", "nota": "—", "status": "Aprovação FDA (não Brasil)", "motivo": "Excluída: fora do período e internacional"},
+  {"noticia": "Caneta de adrenalina brasileira (Fiocruz)", "veiculo": "CNN Brasil / Agência Brasil", "data": "10/11/2024", "url": "https://www.cnnbrasil.com.br/saude/alergia-grave-pesquisadores-criam-1a-caneta-de-adrenalina-brasileira/", "nota": "—", "status": "Protótipo; sem aprovação da Anvisa", "motivo": "Excluída: matéria antiga (2024)"}
+ ]
+}
