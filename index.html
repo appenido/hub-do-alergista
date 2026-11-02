@@ -2835,35 +2835,30 @@ function _hash(str){
   return (h>>>0).toString(36);
 }
 
-function fazerCadastro(){
-  var nome      = (document.getElementById('cadNome').value||'').trim();
-  var categoria = document.getElementById('cadCategoria').value||'';
-  var espEl     = document.getElementById('cadEspecialidade');
-  var especialidade = espEl ? (espEl.value||'').trim() : '';
-  var email     = (document.getElementById('cadEmail').value||'').trim().toLowerCase();
-  var senha     = document.getElementById('cadSenha').value||'';
-  var senha2    = document.getElementById('cadSenha2').value||'';
-  var err       = document.getElementById('cadErr');
-  err.textContent = '';
-  if(!nome)      { err.textContent='Informe seu nome completo.'; return; }
-  if(!categoria) { err.textContent='Selecione sua categoria profissional.'; return; }
-  if(categoria==='especialista' && !especialidade){ err.textContent='Informe sua especialidade.'; return; }
-  if(!email||!email.includes('@')) { err.textContent='E-mail inválido.'; return; }
-  if(senha.length<6) { err.textContent='Senha deve ter mínimo 6 caracteres.'; return; }
-  if(senha!==senha2) { err.textContent='As senhas não coincidem.'; return; }
+var SB_URL = 'https://jpdtqtenlivxgjkyizcg.supabase.co';
+var SB_KEY = 'sb_publishable_CzAI8BUm2Po7CfobLlxv8A_NtuTil8j';
+
+function _sbHeaders(token){
+  var h = {'apikey': SB_KEY, 'Content-Type':'application/json'};
+  if(token) h['Authorization'] = 'Bearer ' + token;
+  return h;
+}
+function _sbToken(){
+  try{ return (JSON.parse(localStorage.getItem('hub_session')||'{}')).token || ''; }catch(e){ return ''; }
+}
+function _salvarLocal(email, dados){
   try{
     var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
-    if(users[email]) { err.textContent='E-mail já cadastrado. Faça login.'; return; }
-    users[email] = {
-      nome: nome,
-      categoria: categoria,
-      especialidade: (categoria==='especialista') ? especialidade : CATEGORIA_LABEL[categoria],
-      endereco: '', crm: '', rqe: null,
-      hash: _hash(senha)
-    };
+    users[email] = Object.assign(users[email]||{}, dados);
     localStorage.setItem('hub_users', JSON.stringify(users));
-    _iniciarSessao(email, nome);
-  }catch(e){ err.textContent='Erro ao salvar. Tente novamente.'; }
+  }catch(e){}
+}
+function _metaDoUsuario(user){
+  var m = (user && (user.user_metadata||user.raw_user_meta_data)) || {};
+  return {
+    nome: m.nome||'', categoria: m.categoria||'', especialidade: m.especialidade||'',
+    endereco: m.endereco||'', crm: m.crm||'', rqe: m.rqe||null
+  };
 }
 
 var CATEGORIA_LABEL = {
@@ -2879,44 +2874,114 @@ function _cadCatMudou(){
   var box = document.getElementById('cadEspBox');
   if(box) box.style.display = (v==='especialista') ? '' : 'none';
 }
-
 function _perfCatMudou(){
   var el = document.getElementById('perfCategoria');
   var box = document.getElementById('perfEspBox');
   if(el && box) box.style.display = (el.value==='especialista') ? '' : 'none';
 }
 
+function fazerCadastro(){
+  var nome      = (document.getElementById('cadNome').value||'').trim();
+  var categoria = document.getElementById('cadCategoria').value||'';
+  var espEl     = document.getElementById('cadEspecialidade');
+  var especialidade = espEl ? (espEl.value||'').trim() : '';
+  var email     = (document.getElementById('cadEmail').value||'').trim().toLowerCase();
+  var senha     = document.getElementById('cadSenha').value||'';
+  var senha2    = document.getElementById('cadSenha2').value||'';
+  var err       = document.getElementById('cadErr');
+  err.style.color=''; err.textContent = '';
+  if(!nome)      { err.textContent='Informe seu nome completo.'; return; }
+  if(!categoria) { err.textContent='Selecione sua categoria profissional.'; return; }
+  if(categoria==='especialista' && !especialidade){ err.textContent='Informe sua especialidade.'; return; }
+  if(!email||!email.includes('@')) { err.textContent='E-mail inválido.'; return; }
+  if(senha.length<6) { err.textContent='Senha deve ter mínimo 6 caracteres.'; return; }
+  if(senha!==senha2) { err.textContent='As senhas não coincidem.'; return; }
+
+  var meta = {
+    nome: nome, categoria: categoria,
+    especialidade: (categoria==='especialista') ? especialidade : CATEGORIA_LABEL[categoria],
+    endereco:'', crm:'', rqe:null
+  };
+  err.textContent = 'Criando conta...';
+
+  fetch(SB_URL + '/auth/v1/signup', {
+    method:'POST', headers:_sbHeaders(),
+    body: JSON.stringify({email:email, password:senha, data: meta})
+  }).then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
+  .then(function(res){
+    if(!res.ok){
+      var m = (res.j && (res.j.msg || res.j.error_description || res.j.message)) || 'Erro ao criar conta.';
+      if(/already registered|already been registered/i.test(m)) m = 'E-mail já cadastrado. Faça login.';
+      err.textContent = m; return;
+    }
+    _salvarLocal(email, meta);
+    if(res.j.access_token){
+      _iniciarSessao(email, nome, res.j.access_token, res.j.refresh_token);
+    }else{
+      err.style.color='#16a34a';
+      err.textContent='Conta criada! Confirme pelo link enviado ao seu e-mail e depois faça login.';
+    }
+  }).catch(function(){
+    // Sem internet — cadastro local de emergência
+    _salvarLocal(email, Object.assign({hash:_hash(senha)}, meta));
+    _iniciarSessao(email, nome, '', '');
+  });
+}
+
 function fazerLogin(){
   var email = (document.getElementById('loginEmail').value||'').trim().toLowerCase();
   var senha = document.getElementById('loginSenha').value||'';
   var err   = document.getElementById('loginErr');
-  err.textContent = '';
+  err.style.color=''; err.textContent = '';
   if(!email) { err.textContent='Informe o e-mail.'; return; }
   if(!senha) { err.textContent='Informe a senha.'; return; }
-  try{
-    var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
-    var u = users[email];
-    if(!u){ err.textContent='Este e-mail não está cadastrado neste dispositivo/navegador. Use "Cadastrar" ou abra o app no mesmo navegador do cadastro.'; return; }
-    if(u.hash !== _hash(senha)){ err.textContent='Senha incorreta.'; return; }
-    _iniciarSessao(email, u.nome);
-  }catch(e){ err.textContent='Erro ao autenticar. Tente novamente.'; }
+  err.textContent = 'Entrando...';
+
+  fetch(SB_URL + '/auth/v1/token?grant_type=password', {
+    method:'POST', headers:_sbHeaders(),
+    body: JSON.stringify({email:email, password:senha})
+  }).then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
+  .then(function(res){
+    if(!res.ok || !res.j.access_token){
+      var m = (res.j && (res.j.msg || res.j.error_description || res.j.message)) || 'Erro ao entrar.';
+      if(/invalid login/i.test(m)) m = 'E-mail ou senha incorretos.';
+      if(/not confirmed/i.test(m)) m = 'Confirme seu e-mail pelo link que enviamos antes de entrar.';
+      // fallback local (contas antigas criadas só neste navegador)
+      try{
+        var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
+        var u = users[email];
+        if(u && u.hash && u.hash === _hash(senha)){ _iniciarSessao(email, u.nome, '', ''); return; }
+      }catch(e){}
+      err.textContent = m; return;
+    }
+    var meta = _metaDoUsuario(res.j.user);
+    _salvarLocal(email, meta);
+    _iniciarSessao(email, meta.nome || email, res.j.access_token, res.j.refresh_token);
+  }).catch(function(){
+    try{
+      var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
+      var u = users[email];
+      if(u && u.hash && u.hash === _hash(senha)){ _iniciarSessao(email, u.nome, '', ''); return; }
+    }catch(e){}
+    err.textContent = 'Sem conexão. Tente novamente.';
+  });
 }
 
-function _iniciarSessao(email, nome){
+function _iniciarSessao(email, nome, token, refresh){
   try{
-    var sess = {email:email, nome:nome, exp: Date.now() + 30*24*60*60*1000, v:2};
+    var sess = {email:email, nome:nome, token:token||'', refresh:refresh||'',
+                exp: Date.now() + 30*24*60*60*1000, v:2};
     localStorage.setItem('hub_session', JSON.stringify(sess));
   }catch(e){}
   document.getElementById('authScreen').style.display = 'none';
   window._mostrarApp();
   _atualizarInfoUsuario();
-  if(typeof toast==='function') toast('👋','Bem-vindo(a), '+nome.split(' ')[0]+'!');
+  if(typeof toast==='function') toast('👋','Bem-vindo(a), '+String(nome||'').split(' ')[0]+'!');
 }
 
 function fazerLogout(){
   try{ localStorage.removeItem('hub_session'); }catch(e){}
   document.getElementById('authScreen').style.display = 'flex';
-  // reset form
   ['loginEmail','loginSenha'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   ['cadNome','cadEspecialidade','cadEmail','cadSenha','cadSenha2'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   var cadCat=document.getElementById('cadCategoria');if(cadCat)cadCat.value='';
@@ -2970,13 +3035,12 @@ function salvarPerfil(){
   try{
     var sess  = JSON.parse(localStorage.getItem('hub_session')||'{}');
     var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
-    var u = users[sess.email];
-    if(!u){ erro('Sessão expirada. Faça login novamente.'); return; }
+    var u = users[sess.email] || {};
     var nome = (document.getElementById('perfNome').value||'').trim();
     var senha = document.getElementById('perfSenha').value||'';
     if(!nome){ erro('Informe seu nome completo.'); return; }
     if(senha && senha.length<6){ erro('A nova senha deve ter no mínimo 6 caracteres.'); return; }
-    u.nome          = nome;
+    u.nome = nome;
     var catEl = document.getElementById('perfCategoria');
     var cat   = catEl ? catEl.value : (u.categoria||'');
     var espIn = (document.getElementById('perfEspecialidade').value||'').trim();
@@ -2988,14 +3052,24 @@ function salvarPerfil(){
     var rqe         = (document.getElementById('perfRqe').value||'').trim();
     u.rqe           = rqe || null;
     if(senha) u.hash = _hash(senha);
-    users[sess.email] = u;
-    localStorage.setItem('hub_users', JSON.stringify(users));
+    _salvarLocal(sess.email, u);
     sess.nome = nome;
     localStorage.setItem('hub_session', JSON.stringify(sess));
     _atualizarInfoUsuario();
     preencherPerfil();
     if(msg){ msg.style.color='#16a34a'; msg.textContent='Dados salvos.'; }
     if(typeof toast==='function') toast('✅','Perfil atualizado');
+
+    // Sincroniza na nuvem
+    var token = sess.token;
+    if(token){
+      var body = {data:{nome:u.nome, categoria:u.categoria, especialidade:u.especialidade,
+                        endereco:u.endereco, crm:u.crm, rqe:u.rqe}};
+      if(senha) body.password = senha;
+      fetch(SB_URL + '/auth/v1/user', {method:'PUT', headers:_sbHeaders(token), body:JSON.stringify(body)})
+        .then(function(r){ if(!r.ok && msg){ msg.style.color='#e67e22'; msg.textContent='Salvo neste aparelho, mas não sincronizou na nuvem.'; } })
+        .catch(function(){ if(msg){ msg.style.color='#e67e22'; msg.textContent='Salvo neste aparelho (sem conexão).'; } });
+    }
   }catch(e){ erro('Erro ao salvar. Tente novamente.'); }
 }
 
