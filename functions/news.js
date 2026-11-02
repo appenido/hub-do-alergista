@@ -16,8 +16,8 @@ const FONTES = [
   { nome: 'Google Notícias',url: 'https://news.google.com/rss/search?q=alergia&hl=pt-BR&gl=BR&ceid=BR:pt-419' }
 ];
 
-const CHAVES = ['alergi', 'anafila', 'urticár', 'urticar', 'asma', 'dermatite atópica', 'dermatite atopica',
-                'imunodefici', 'rinite', 'imunoterapia', 'picada de abelha', 'intolerância alimentar'];
+// palavras inteiras (evita casar "asma" dentro de "plasma")
+const CHAVES = /(^|[^a-zà-ú])(alergi\w*|al[ée]rgic\w*|anafila\w*|anafil[áa]tic\w*|urtic[áa]ri\w*|asma|asm[áa]tic\w*|rinite|dermatite|imunodefici\w*|imunoterapia|imunobiol[óo]gic\w*|angioedema|bronco?espasmo)([^a-zà-ú]|$)/i;
 
 function limpar(t) {
   return (t || '').replace(/<!\[CDATA\[|\]\]>/g, '').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').trim();
@@ -34,9 +34,13 @@ function extrair(xml, nomeFonte) {
     const titulo = pega('title');
     if (!titulo) continue;
     const desc = pega('description');
-    const alvo = (titulo + ' ' + desc).toLowerCase();
-    if (!CHAVES.some((c) => alvo.includes(c))) continue;
-    out.push({ titulo, fonte: nomeFonte, data: pega('pubDate'), url: pega('link') });
+    const alvo = titulo + ' ' + desc;
+    if (!CHAVES.test(alvo)) continue;
+    const data = pega('pubDate');
+    const ts = Date.parse(data);
+    // só notícias dos últimos 120 dias
+    if (ts && Date.now() - ts > 120 * 24 * 3600 * 1000) continue;
+    out.push({ titulo, fonte: nomeFonte, data, url: pega('link') });
   }
   return out;
 }
