@@ -853,7 +853,7 @@ window._mostrarApp = function(){
 
   <!-- ══ DASHBOARD ══ -->
   <div class="page active" id="page-dashboard">
-    <a class="alert-bar" id="alertaNoticia" href="#" target="_blank" rel="noopener" style="text-decoration:none;cursor:pointer">
+    <a class="alert-bar" id="alertaNoticia" href="javascript:void(0)" onclick="navTo('alergonews')" style="text-decoration:none;cursor:pointer">
       <span style="font-size:18px">📰</span>
       <div class="alert-bar-text" id="alertaNoticiaTexto">Buscando as últimas notícias da mídia…</div>
       <div class="alert-tag" id="alertaNoticiaTag">Mídia</div>
@@ -2731,6 +2731,19 @@ window._mostrarApp = function(){
   </div>
 
   <!-- ══ PERFIL ══ -->
+
+  <div class="page" id="page-alergonews">
+    <div style="padding:16px 16px 8px">
+      <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px">
+        <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
+        Alergo News
+      </div>
+      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">As 10 notícias mais recentes da mídia brasileira sobre alergia e imunologia</div>
+    </div>
+    <div id="alergoNewsLista" style="padding:4px 16px 24px"></div>
+    <div style="height:80px"></div>
+  </div>
+
   <div class="page" id="page-perfil">
     <div style="padding:16px 16px 8px">
       <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px">
@@ -3364,6 +3377,34 @@ function _uas7CopiarLink(){
   }
 }
 
+
+/* ── PÁGINA ALERGO NEWS ─────────────────────────── */
+function renderAlergoNews(){
+  var box = document.getElementById('alergoNewsLista');
+  if(!box) return;
+  function cartao(n){
+    var dt = '';
+    try{ if(n.data) dt = new Date(n.data).toLocaleDateString('pt-BR'); }catch(e){}
+    return '<a href="' + (n.url||'#') + '" target="_blank" rel="noopener" style="display:block;text-decoration:none;background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:13px 14px;margin-bottom:9px">' +
+      '<div style="font-size:10px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.04em">' + (n.fonte||'Mídia') + (dt ? ' · ' + dt : '') + '</div>' +
+      '<div style="font-size:13px;font-weight:700;color:var(--navy);line-height:1.4;margin-top:4px">' + n.titulo + '</div>' +
+      '<div style="font-size:11px;color:var(--gray-500);margin-top:6px">Ler a reportagem →</div></a>';
+  }
+  if(_noticiasMidia.length){
+    box.innerHTML = _noticiasMidia.slice(0,10).map(cartao).join('');
+    return;
+  }
+  box.innerHTML = '<div style="font-size:12px;color:var(--gray-500);padding:10px">Carregando notícias…</div>';
+  fetch('/news').then(function(r){ return r.json(); }).then(function(d){
+    _noticiasMidia = (d.itens||[]).filter(function(i){ return i.titulo; });
+    box.innerHTML = _noticiasMidia.length
+      ? _noticiasMidia.slice(0,10).map(cartao).join('')
+      : '<div style="font-size:12px;color:var(--gray-500);padding:10px">Nenhuma notícia da especialidade no momento.</div>';
+  }).catch(function(){
+    box.innerHTML = '<div style="font-size:12px;color:var(--gray-500);padding:10px">Não foi possível carregar as notícias agora.</div>';
+  });
+}
+
 /* ── ALERTA: NOTÍCIAS DA MÍDIA BRASILEIRA ───────── */
 var _noticiasMidia = [], _noticiaIdx = 0, _noticiaTimer = null;
 function _mostrarNoticiaMidia(){
@@ -3372,7 +3413,7 @@ function _mostrarNoticiaMidia(){
   var g = document.getElementById('alertaNoticiaTag');
   if(!a || !t || !_noticiasMidia.length) return;
   var n = _noticiasMidia[_noticiaIdx % _noticiasMidia.length];
-  a.href = n.url || '#';
+
   var dt = '';
   try{ if(n.data) dt = ' · ' + new Date(n.data).toLocaleDateString('pt-BR'); }catch(e){}
   t.innerHTML = (n.fonte ? '<strong style="color:var(--gold)">' + n.fonte + dt + ':</strong> ' : '') + n.titulo;
@@ -3736,7 +3777,7 @@ function _deletarPrompt(idx){
 }
 
 /* ── NAVIGATION ── */
-var PAGE_TITLES={dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',noticias:'Notícias',scores:'Scores',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Meu perfil',mais:'Mais'};
+var PAGE_TITLES={dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',noticias:'Notícias',scores:'Scores',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Meu perfil',alergonews:'Alergo News',mais:'Mais'};
 
 var _navHistory = ['dashboard'];
 
@@ -3770,6 +3811,7 @@ function navTo(page){
   }
 
   if(page === 'dashboard'){ try{ filtrarHomeArtigos(); }catch(e){} }
+  if(page === 'alergonews') renderAlergoNews();
   if(page === 'perfil') preencherPerfil();
   if(page === 'artigos' && !_feedLoaded){ _feedLoaded = true; renderFeedChips(); carregarFeed('todos'); }
   if(page === 'imuno' && !_radarLoaded){ _radarLoaded = true; carregarRadar(false); }
