@@ -1,14 +1,77 @@
 {
- "atualizadoEm": "2026-11-02T23:13:55.922Z",
+ "atualizadoEm": "2026-11-02T23:18:49.339Z",
  "janela": "90 dias",
- "total": 1,
+ "total": 10,
  "itens": [
   {
-   "titulo": "Imunoterapia e câncer colorretal: veja novos e animadores estudos",
-   "fonte": "Veja Saúde",
-   "data": "2026-10-28T18:12:34.000Z",
-   "url": "https://saude.abril.com.br/coluna/com-a-palavra/imunoterapia-e-cancer-colorretal-veja-novos-e-animadores-estudos/",
-   "verificado": true
+   "titulo": "‘Bombinha de asma’ ganha versão sustentável que reduz pegada de carbono em até 90%",
+   "fonte": "Um só Planeta",
+   "data": "2026-10-30T10:00:00.000Z",
+   "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPOGdHaEN3a0xZcnA4V2U1Tklqa2dYVlo4a01aa3Fpa080aE01NmxTMXN0ZkxxQm1aTVdyYjQ0bW9CeDN3TTRkdHdPdXViUlQtNTdQNTNWTHJqNTZQRmVlS3AtTGJjX2hDWDFSa1gtNFp0UTRjU2dPaTNRLVJlTGRQMWtNMUQ3aFVXeUxFcHV1WXRRaENZVWF2ajBXN2lRUDVlc1Q0QWhSOTEtYko5TC01WWRSaFZ5aGc0QzRZNmV6blFVdDlHbHJFd2NodllFUGhmdXBrTlBrbDZDcDl4YWRteVVPb9IB8gFBVV95cUxOb25EY2ZFeGFHdHVNMXFEb1VTWVFVR2RFVDdMNl9VYVMxY3Bfa3ZqRmFWMGhsZHBkYkkyNTFEcGVDcjNnX29NbXpuZy1VY1lzMmp0a1J5ay0ycjJRRWthLUU1YmlTZnFTNTBLTzAzdmpiRnJoeF9Wenh0WjBTMzFoTFpYQnh0TUhQQUhpYmVIVTk4TDRKMktRa3VnVDk2SlBnQndSU3ZnZHN4RFVRMEdVVU9YREhHeWh6SEN4S3ZiSjZHdC1LNEZPbkRtLUpPaTJaMEktSDc4UHVQdVpfenZqc0JhUVZsd3dIWmxaTXY1T1NMdw?oc=5",
+   "verificado": false
+  },
+  {
+   "titulo": "Por que tanta gente sofre com alergia em Passo Fundo? A resposta pode estar nas lavouras",
+   "fonte": "GZH",
+   "data": "2026-10-29T08:58:56.000Z",
+   "url": "https://news.google.com/rss/articles/CBMikgJBVV95cUxQelN3VUFtamdlUU54UnhXYktheVpRTmlXU25UZ1JmLVd0b3g2Y3RLaWJ2UEFFQ0cwTWhRbTBwQkZvd1YybVNRek1aYzVjTmFLeWxqN19abHpuWlg5NlowMUlEOWNVWG1lcm5nWFlPY01SWDg5MjBLTVBWY1BkZ2JwWEIxVjd1d1RjV0xUQkdlMmZpbDJzQ1Y4XzZjZHV2UEZjWWFRWmtBOVhhUzNXNDZlS25JQkx3OXlHWk1lZm41d0ZfbzdXWE00dnRESFNpam94NFJabFpjcWFCVVpqQkIxeTBZbkdFcjNLZEFUVFdxWDF4UTJFVzM0X3h1QXgzYmQ0Y3VYZ0dqSVRTOW05NHhKcENR?oc=5",
+   "verificado": false
+  },
+  {
+   "titulo": "Demi Lovato dá notícias após relatos de hospitalização e reação alérgica",
+   "fonte": "Terra",
+   "data": "2026-10-28T20:11:00.000Z",
+   "url": "https://news.google.com/rss/articles/CBMilwJBVV95cUxPTTFXUGtjT0hTNlNBQ19uY0N5cnpQenVtc1NaUEpmR2M5NzVKbTR0RkNpenBDVnJ5alBWdFRtZDU1ekp2SzJqQTh5dFNNMklqUWJnVHFqYlBNa3V0Nl9oeHctb2tibGpVOHN3cVJjOEh0dlBNUWZCRzVpNnNEZllYVlU5YTUwYVoxSkRLZHphQjIxSWhZTW9Cck9IQzNNUG5aZXlUVE9JLWdaTFd4azhScHUyekozWGUtUC1URzVUVktuZXBrVENuUHhLSnQxMWdzMXMya2R1bC1wek5aRkpRbjd4SW5LV19EcEZOd1UxcU9xNTdNX182M3ZqZGx4aE43SHBtdXdvQlJhaXVlRGZST09iZUlOT28?oc=5",
+   "verificado": false
+  },
+  {
+   "titulo": "Demi Lovato é hospitalizada após reação alérgica e tranquiliza fãs: “Estou bem”",
+   "fonte": "96FM Bauru",
+   "data": "2026-10-28T18:30:00.000Z",
+   "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNSWxKVFVaZS1iV3hRMm5DcEh1eVdvbG91X01lNGRJOXNOcE5yeGpVUnZTN2dlZWZSby1iYlI5NUpCZVVZR1BWYzl2M2phRlM2VUZCV1FIV1BaRzJ5QzR3WnJTWUE1ZkpIaEVVNWwxVDlOYWpmX1cybTJYcGdrNDhFZDhtb3cwcF9wWllBMUhpajYzdGNTUV9GN0R0YWlrT3pveFlr?oc=5",
+   "verificado": false
+  },
+  {
+   "titulo": "Asma: Doença nem sempre visível: Muitas pessoas têm a doença mas não sabem",
+   "fonte": "G1",
+   "data": "2026-10-28T17:17:54.000Z",
+   "url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxNdUlDNEl2LXJ4OV9hcGViblY5cmdFQTJJd3F2cjFDWGtHcXFUU08wZjExWGFBeWduS2ZNRFdqRkFlNG42ck01S2NEM0pGWXdqYUFUd2JSWWVzc3pqc1drc3huWGJZeTZiVDczR0RvUnNFZHhOZnh1dG41N0hrOTVoek9FWXlNcHhUc2pJelR4YXZOZ2RrMHBZUzBmaGJmVmx1b3M5b0RQclZKeVNKajVOYnZCQVAzeW0zSE5DdXFvajE1Y3ZKQnQ1RTNkVnNUSW9vRkl3WnBRT1Yzalc5UlRfNGhQTFp1MU5MUmhTZnBhcG1DdjZ1dTkw0gGGAkFVX3lxTE80SkUwVUZhcXJ2LXNFS2d5OHBZQm4zcVpRMXNRWEk5R0Z0VldZajJGakN3TnA5eG9RVG9fTGFMdHZkYXlnTzU0QjhaRUxUTEYxSEZuWlhOV2ZteHR2T0ZuZ2VKMVZ0aDA4dlNyUDNrN0dqNC1WVzhjMlFtVXRjaDYzdTZvVjZxek1URGp4aXNiWGpqUHZ2bkktX05LMWNHYkhvR0NmeDZ2WVZoUmsxdHNBeTY4ZldWelBXelNacDVleE1aUkFVSDBYcXBGaDdqVkgyVmVzdnBoNGdWYVZ4V1NWTFBXS1MybE9lS2pMTVJCUm0yaVVxNzBGdmNGU2xQOUE4VnpSc3c?oc=5",
+   "verificado": false
+  },
+  {
+   "titulo": "Médica responde dúvidas de telespectadores sobre alergia alimentar",
+   "fonte": "G1",
+   "data": "2026-10-28T15:31:22.000Z",
+   "url": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPTEZzOE54c283WFluWEhTdmprdFRCUkFmb282ajlfOHg4MFpnUnh0MHZHUGhPc3BRWWpmYmp1WldaZC1HMy1iQTNTVzNiekJHdHU2UlM2TFp2akw2NWpGUE9iSk40bEw2Yy1URk5fTGV5SGRYT3B5eTdUUFNPeHdnZ0VtU2dLMUpOWXpiR3cyOVNoRTU1MEIwVmQxUFVKUkFIdG9lVE1QakJkVjR2QkRiYzV1LXVHcHBvNU5LazE1d0s2TnZfLVlUWks1VXBKQWhzNWhCSWYwWXo3SjBJenVv0gHuAUFVX3lxTE9wajJHVWJSVUVUNmNnZG5WUGlaV01XaTQ5Y0hqREtnaDZmYU1QVDRJSnZBcEZvRDNLYkNlT0xZUVo5Wi15b3B0R0NkekQ1Y3JaZ0pEd09LNFdBTmxxa3RSNTB0d2VfdnAxdHNfUEJvY1hKc1RqdlVrUTc3T0JEYTZWWkdLejlBODBpbk14X1QtdWxKU0Utd09TMmVNUDlsWDhNZUU0WjhKbVlsUUJtaW1HUlE0YVlrei1maG5xalY3Wnozd1NIUDExdkh2aTB2eUdQSTJMSFJiM0tvWUhoRGZSRmx2dDBZcnZhMHRVbGc?oc=5",
+   "verificado": false
+  },
+  {
+   "titulo": "Médica explica como identificar alergia alimentar",
+   "fonte": "G1",
+   "data": "2026-10-28T14:39:44.000Z",
+   "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOX1lGU3F6dDB0c2xBOU1Ud0NsNFliTXZyY1Q5MmZSLVIwVWFVQjlqV1BPNm55bnoyejZ5RENmSHZLX3h0MDkweGZueHZNNnh2Y3VFN3JjQ3c2YWs1eVVPNXR0Y3MxRFBxQmJ0OEdjejktVF95MnRMU3hKbFVDR3BlMDRsM1VKYWNnd0duQ0Y1eHBBMlVpWHFOa1lPT1JnR3J6SEVoZ1ZaOWhILUZNQWc3NWVrTGJHWFJwVFZqR04xdFREVUo1RHp5TdIB1wFBVV95cUxQNEtrNFNfY190RDlnWGtpZFYwb2xRNVlpVHMyMTh4MmFPSTdoUEJ6ZVpPRG41akY0cWZoWWdYQndJczZnN2RYVkozZG9BZ1dIRUhwLXpIWHhEX1lycGdYWWIzcXdycjFuZlhMZnY1aFNYOFNUQlBjV3FtdmR4Y3czV3U1R1pQQXNIWnpwcVRLYnU0bUkxeWRLYjBuRFVEb3FucmlxdURKRXB3dlQ2ZVBkd29SVk5zSVpmZkk2eEFmQS1CYUxSNDVmZHR1a1lFbE15cF9rdkQySQ?oc=5",
+   "verificado": false
+  },
+  {
+   "titulo": "Demi Lovato é hospitalizada e preocupa fãs: \"Reação alérgica\"",
+   "fonte": "CNN Brasil",
+   "data": "2026-10-28T14:11:08.000Z",
+   "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNSnUxczk0SmFBMTNZeV9FcUZxeXVnUmlSRlNJOHZnMjdLdmhNc2l3VkZ3RWpnOEVhX2JCRUdyQWZpekM0eUZkc3Y3X2Y0d3RhcFBVcFdUcExJNHc2Wm0xeDNtR2hTOXdiWExyTDhSYUJUX2cxTG5yY0d4M0NuUzFuc1VyVGlzV3g2MkhrTUkwSjN5YjFSZXdtYXRfdFRkUTNDN0VZV2J2UkI?oc=5",
+   "verificado": false
+  },
+  {
+   "titulo": "Demi Lovato tem reação alérgica; saiba estado de saúde",
+   "fonte": "Billboard Brasil",
+   "data": "2026-10-28T13:21:51.000Z",
+   "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1zT21qcXlpVDNWYW51YlIzeGZIRDBxUC1najh4REJLNlpfa0ZCcGdvQi1sYnNlRFNyZDhTM2lid3RST1dGdkgyQy1FdHFVSWp6ZGNXT2JicF9fOE5fNG5lVE5KUQ?oc=5",
+   "verificado": false
+  },
+  {
+   "titulo": "Boletim: Jogos Escolares / Prevenção, causa e tratamento da asma / Especial sobre a gripe",
+   "fonte": "Agência Minas",
+   "data": "2026-10-28T08:31:12.000Z",
+   "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOaTd4UmFkOUt4S3NYMGVpN2liU2FMZjJaWEhPZzdYWXhiQlJaS180a1puSE1uTUVCSTZiLTUxUjRJcGdiRy1XMUh0YVZJVTVJTUV3dUlBcHU3VDhNcm5jS0V2UnZVQ0JPWWJrcFpnaVpqd0dxTjZzNnhZNVpQNWhMcXJTU3V6VHhVZS1OY01BOUZsY3VRQVNPRzRCSEFVM0QzZ2NNRVVuTlZPTWU0VTVTem5qenZyVUhxbXV4MWlZN1N4OHh1R3RCTEZGRHZCTGtaQTBwR29QSkI?oc=5",
+   "verificado": false
   }
  ]
 }
