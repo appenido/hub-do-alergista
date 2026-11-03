@@ -1447,7 +1447,7 @@ window._mostrarApp = function(){
   <div class="page" id="page-guidelines">
     <div style="padding:14px 16px 8px;display:flex;flex-direction:column;gap:10px">
       <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px"><span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>Guidelines <span id="gl-update-badge" style="margin-left:auto;font-size:10px;font-weight:600;color:var(--gray-400);background:rgba(59,191,204,.1);border:1px solid rgba(59,191,204,.2);border-radius:20px;padding:2px 8px">🔄 revisado <span id="gl-date-text"></span></span></div>
-      <a href="https://pubmed.ncbi.nlm.nih.gov/?term=(allergy+OR+immunology+OR+asthma+OR+urticaria+OR+%22atopic+dermatitis%22+OR+anaphylaxis)+AND+(guideline%5BPublication+Type%5D+OR+practice+guideline%5BPublication+Type%5D+OR+consensus)&filter=datesearch.y_1&sort=date" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:9px;background:linear-gradient(135deg,rgba(59,191,204,.1),rgba(59,191,204,.03));border:1px solid rgba(59,191,204,.25);border-radius:12px;padding:11px 13px;text-decoration:none">
+      <a href="https://pubmed.ncbi.nlm.nih.gov/?term=(allergy+OR+allergic+OR+asthma+OR+urticaria+OR+angioedema+OR+%22atopic+dermatitis%22+OR+eczema+OR+anaphylaxis+OR+rhinitis+OR+%22food+allergy%22+OR+%22drug+allergy%22+OR+%22drug+hypersensitivity%22+OR+immunodeficiency+OR+%22eosinophilic+esophagitis%22+OR+mastocytosis+OR+hymenoptera+OR+omalizumab+OR+dupilumab+OR+mepolizumab+OR+tezepelumab)+AND+(guideline%5Bti%5D+OR+guidelines%5Bti%5D+OR+consensus%5Bti%5D+OR+%22practice+parameter%22%5Bti%5D+OR+%22position+paper%22%5Bti%5D+OR+%22position+statement%22%5Bti%5D+OR+recommendation%5Bti%5D+OR+%22systematic+review%22%5Bti%5D+OR+%22meta-analysis%22%5Bti%5D+OR+guideline%5Bpt%5D)&sort=date&filter=datesearch.y_5" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:9px;background:linear-gradient(135deg,rgba(59,191,204,.1),rgba(59,191,204,.03));border:1px solid rgba(59,191,204,.25);border-radius:12px;padding:11px 13px;text-decoration:none">
         <span style="font-size:16px">📡</span>
         <div style="flex:1">
           <div style="font-size:12.5px;font-weight:800;color:var(--teal-mid)">Diretrizes mais recentes (últimos 3 anos)</div>
@@ -6423,21 +6423,40 @@ document.addEventListener('click', function(eMat){
 /* ══ ÚLTIMAS PUBLICAÇÕES — PubMed E-utilities ao vivo ══ */
 var _feedTema = 'todos';
 var _feedLoaded = false;
-var FEED_JOURNALS = '("J Allergy Clin Immunol"[jour] OR "J Allergy Clin Immunol Pract"[jour] OR "Allergy"[jour] OR "Ann Allergy Asthma Immunol"[jour] OR "Clin Exp Allergy"[jour] OR "Pediatr Allergy Immunol"[jour] OR "World Allergy Organ J"[jour] OR "N Engl J Med"[jour] OR "Lancet"[jour] OR "JAMA"[jour])';
+// Todas as grandes revistas de alergia/imunologia + medicina geral de alto impacto
+var FEED_JOURNALS = '(' +
+  '"J Allergy Clin Immunol"[jour] OR "J Allergy Clin Immunol Pract"[jour] OR ' +
+  '"Allergy"[jour] OR "Ann Allergy Asthma Immunol"[jour] OR ' +
+  '"Clin Exp Allergy"[jour] OR "Pediatr Allergy Immunol"[jour] OR ' +
+  '"World Allergy Organ J"[jour] OR "Allergol Immunopathol (Madr)"[jour] OR ' +
+  '"Int Arch Allergy Immunol"[jour] OR "Allergy Asthma Immunol Res"[jour] OR ' +
+  '"J Clin Immunol"[jour] OR "Clin Immunol"[jour] OR ' +
+  '"Front Allergy"[jour] OR "Front Immunol"[jour] OR ' +
+  '"Allergy Asthma Clin Immunol"[jour] OR ' +
+  '"J Investig Allergol Clin Immunol"[jour] OR ' +
+  '"Acta Derm Venereol"[jour] OR "Br J Dermatol"[jour] OR "JAMA Dermatol"[jour] OR ' +
+  '"Chest"[jour] OR "Eur Respir J"[jour] OR "Am J Respir Crit Care Med"[jour] OR ' +
+  '"Lancet Respir Med"[jour] OR "Respir Med"[jour] OR ' +
+  '"N Engl J Med"[jour] OR "Lancet"[jour] OR "JAMA"[jour] OR "BMJ"[jour] OR ' +
+  '"Nat Med"[jour] OR "Nat Immunol"[jour] OR "Nat Rev Immunol"[jour] OR ' +
+  '"Sci Transl Med"[jour] OR "J Exp Med"[jour] OR ' +
+  '"Cell"[jour] OR "Immunity"[jour] OR ' +
+  '"J Pediatr"[jour] OR "Pediatrics"[jour] OR "JAMA Pediatr"[jour]' +
+')';
 var FEED_TEMAS = [
-  {id:'todos', label:'Todos', q:'(asthma OR "atopic dermatitis" OR urticaria OR "food allergy" OR anaphylaxis OR "allergic rhinitis" OR "eosinophilic esophagitis" OR "primary immunodeficiency" OR "drug hypersensitivity" OR mastocytosis OR "hymenoptera venom")'},
-  {id:'asma', label:'Asma', q:'asthma'},
-  {id:'da', label:'Dermatite atópica', q:'("atopic dermatitis" OR eczema)'},
-  {id:'urticaria', label:'Urticária', q:'(urticaria OR angioedema)'},
-  {id:'aa', label:'Alergia alimentar', q:'"food allergy"'},
-  {id:'anafilaxia', label:'Anafilaxia', q:'anaphylaxis'},
-  {id:'rinite', label:'Rinite', q:'("allergic rhinitis" OR rhinitis)'},
-  {id:'eoe', label:'Esof. eosinofílica', q:'"eosinophilic esophagitis"'},
-  {id:'eii', label:'Imunodeficiências', q:'("primary immunodeficiency" OR "inborn errors of immunity")'},
-  {id:'medicam', label:'Medicamentos', q:'("drug hypersensitivity" OR "drug allergy")'},
-  {id:'masto', label:'Mastocitose', q:'(mastocytosis OR "mast cell activation")'},
-  {id:'himen', label:'Himenópteros', q:'("hymenoptera venom" OR "insect sting allergy")'},
-  {id:'dc', label:'Derm. contato', q:'"allergic contact dermatitis"'}
+  {id:'todos', label:'Todos', q:'(asthma[tiab] OR "atopic dermatitis"[tiab] OR eczema[tiab] OR urticaria[tiab] OR angioedema[tiab] OR "food allergy"[tiab] OR anaphylaxis[tiab] OR "allergic rhinitis"[tiab] OR rhinitis[tiab] OR "eosinophilic esophagitis"[tiab] OR "primary immunodeficiency"[tiab] OR "inborn errors of immunity"[tiab] OR "drug hypersensitivity"[tiab] OR "drug allergy"[tiab] OR mastocytosis[tiab] OR "mast cell"[tiab] OR hymenoptera[tiab] OR "venom allergy"[tiab] OR omalizumab[tiab] OR dupilumab[tiab] OR mepolizumab[tiab] OR benralizumab[tiab] OR tezepelumab[tiab] OR tralokinumab[tiab] OR "hereditary angioedema"[tiab] OR "contact dermatitis"[tiab] OR "occupational asthma"[tiab])'},
+  {id:'asma', label:'Asma', q:'(asthma[tiab] OR "severe asthma"[tiab] OR "eosinophilic asthma"[tiab] OR "allergic asthma"[tiab] OR tezepelumab[tiab] OR benralizumab[tiab] OR mepolizumab[tiab] OR reslizumab[tiab] OR "biologic asthma"[tiab] OR GINA[tiab] OR "airway inflammation"[tiab] OR "type 2 asthma"[tiab] OR ABPA[tiab] OR "occupational asthma"[tiab])'},
+  {id:'da', label:'Dermatite atópica', q:'("atopic dermatitis"[tiab] OR eczema[tiab] OR "atopic eczema"[tiab] OR dupilumab[tiab] OR tralokinumab[tiab] OR lebrikizumab[tiab] OR nemolizumab[tiab] OR abrocitinib[tiab] OR upadacitinib[tiab] OR baricitinib[tiab] OR "JAK inhibitor"[tiab] OR "skin barrier"[tiab] OR filaggrin[tiab])'},
+  {id:'urticaria', label:'Urticária', q:'(urticaria[tiab] OR "chronic spontaneous urticaria"[tiab] OR "chronic urticaria"[tiab] OR angioedema[tiab] OR "hereditary angioedema"[tiab] OR HAE[tiab] OR barzolvolimab[tiab] OR ligelizumab[tiab] OR bradykinin[tiab] OR "cold urticaria"[tiab] OR "cholinergic urticaria"[tiab])'},
+  {id:'aa', label:'Alergia alimentar', q:'("food allergy"[tiab] OR "food hypersensitivity"[tiab] OR "peanut allergy"[tiab] OR "tree nut allergy"[tiab] OR "milk allergy"[tiab] OR "egg allergy"[tiab] OR "wheat allergy"[tiab] OR "sesame allergy"[tiab] OR "oral immunotherapy"[tiab] OR "epicutaneous immunotherapy"[tiab] OR "food-induced anaphylaxis"[tiab] OR "food challenge"[tiab])'},
+  {id:'anafilaxia', label:'Anafilaxia', q:'(anaphylaxis[tiab] OR "anaphylactic reaction"[tiab] OR epinephrine[tiab] OR "biphasic anaphylaxis"[tiab] OR "autoinjector"[tiab] OR "exercise-induced anaphylaxis"[tiab] OR "idiopathic anaphylaxis"[tiab])'},
+  {id:'rinite', label:'Rinite', q:'("allergic rhinitis"[tiab] OR rhinitis[tiab] OR rhinosinusitis[tiab] OR "nasal polyps"[tiab] OR "chronic rhinosinusitis"[tiab] OR ARIA[tiab] OR "allergen immunotherapy"[tiab] OR "subcutaneous immunotherapy"[tiab] OR "sublingual immunotherapy"[tiab])'},
+  {id:'eoe', label:'Esof. eosinofílica', q:'("eosinophilic esophagitis"[tiab] OR "eosinophilic gastrointestinal"[tiab] OR EoE[tiab] OR cendakimab[tiab] OR "esophageal dilation"[tiab] OR "elemental diet"[tiab] OR "six-food elimination"[tiab] OR "esophageal eosinophilia"[tiab])'},
+  {id:'eii', label:'Imunodeficiências', q:'("primary immunodeficiency"[tiab] OR "inborn errors of immunity"[tiab] OR "common variable immunodeficiency"[tiab] OR CVID[tiab] OR agammaglobulinemia[tiab] OR hypogammaglobulinemia[tiab] OR SCID[tiab] OR "Wiskott-Aldrich"[tiab] OR IVIG[tiab] OR "subcutaneous immunoglobulin"[tiab])'},
+  {id:'medicam', label:'Medicamentos', q:'("drug allergy"[tiab] OR "drug hypersensitivity"[tiab] OR "drug reaction"[tiab] OR "penicillin allergy"[tiab] OR "antibiotic allergy"[tiab] OR "beta-lactam allergy"[tiab] OR "aspirin hypersensitivity"[tiab] OR NSAID[tiab] OR radiocontrast[tiab] OR "drug desensitization"[tiab] OR delabeling[tiab] OR DRESS[tiab] OR "Stevens-Johnson"[tiab] OR "toxic epidermal necrolysis"[tiab] OR "allergy label"[tiab])'},
+  {id:'masto', label:'Mastocitose', q:'(mastocytosis[tiab] OR "systemic mastocytosis"[tiab] OR "mast cell activation"[tiab] OR MCAS[tiab] OR tryptase[tiab] OR avapritinib[tiab] OR midostaurin[tiab] OR "urticaria pigmentosa"[tiab])'},
+  {id:'himen', label:'Himenópteros', q:'("hymenoptera venom"[tiab] OR "insect sting allergy"[tiab] OR "bee venom"[tiab] OR "wasp venom"[tiab] OR "venom immunotherapy"[tiab] OR "fire ant"[tiab] OR "venom allergy"[tiab] OR "sting anaphylaxis"[tiab])'},
+  {id:'dc', label:'Derm. contato', q:'("allergic contact dermatitis"[tiab] OR "contact allergy"[tiab] OR "patch test"[tiab] OR "nickel allergy"[tiab] OR "occupational contact dermatitis"[tiab] OR hapten[tiab])'}
 ];
 
 function renderFeedChips(){
