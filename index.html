@@ -5968,8 +5968,32 @@ function navTo(page){
 }
 
 // Voltar (botão do app e botão físico/gesto do celular)
-// Regra: cada tela aberta à frente gera exatamente 1 entrada no histórico do navegador (_guards).
-var _guards = 0, _ignorePop = false, _emVoltar = false;
+// Estratégia: manter sempre 1 entrada-sentinela no histórico. O gesto/botão
+// voltar do celular consome a sentinela, nós tratamos e empurramos outra.
+// Só na home, sem camadas abertas, deixamos o voltar sair do app.
+var _emVoltar = false;
+
+var _SEL_CAMADAS = '.overlay.open,.ai-sheet.open,.sheet.open,.modal.open,#resumoSheet.open,#chatPanel.open,.igchat-drawer.open';
+
+function _camadasAbertas(){
+  var l = [], nl = document.querySelectorAll(_SEL_CAMADAS);
+  for(var i=0;i<nl.length;i++) l.push(nl[i]);
+  var auth = document.getElementById('authScreen');
+  if(auth && auth.style.display !== 'none' && auth.offsetParent !== null) l.push(auth);
+  return l;
+}
+
+/* fecha a camada aberta mais acima. true = fechou algo */
+function _fecharCamadaAberta(){
+  var abertos = _camadasAbertas();
+  if(!abertos.length) return false;
+  var el = abertos[abertos.length-1];
+  if(el.id === 'authScreen'){ el.style.display = 'none'; }
+  else { el.classList.remove('open'); }
+  if(typeof _uctPararPolling === 'function') try{ _uctPararPolling(); }catch(e){}
+  if(typeof _snot22PararPolling === 'function') try{ _snot22PararPolling(); }catch(e){}
+  return true;
+}
 
 function _doBack(){
   _emVoltar = true;
@@ -5984,99 +6008,69 @@ function _doBack(){
   } finally { _emVoltar = false; }
 }
 
-/* fecha a camada aberta mais acima (folha, modal, overlay). true = fechou algo */
-function _fecharCamadaAberta(){
-  var abertos = document.querySelectorAll('.sheet.open, .modal.open, #overlay.open, #aiSheet.open, #resumoSheet.open, [id$="Sheet"].open');
-  if(!abertos.length) return false;
-  abertos[abertos.length-1].classList.remove('open');
-  return true;
+function _paginaAtual(){
+  var at = document.querySelector('.page.active');
+  return at ? at.id.replace('page-','') : 'dashboard';
+}
+
+function _pushSentinela(){
+  try{ history.pushState({hubBack:1}, ''); }catch(e){}
 }
 
 function voltarApp(ev){
   if(ev && ev.preventDefault) ev.preventDefault();
-  if(_fecharCamadaAberta()) return;    // 1º: fecha a folha/modal por cima
-  if(_guards > 0){ history.back(); }   // o popstate faz a navegação
-  else { _doBack(); }
+  if(_fecharCamadaAberta()) return;
+  if(_paginaAtual() !== 'dashboard') _doBack();
 }
 window.voltarApp = voltarApp;
 
 var _tbBack = document.getElementById('tbBack');
 if(_tbBack) _tbBack.addEventListener('click', voltarApp);
 
-var _navToOriginal = navTo;
-navTo = function(page){
-  var antes = _navHistory[_navHistory.length-1];
-  _navToOriginal(page);
-  if(_emVoltar) return;
-  if(page === 'dashboard'){
-    if(_guards > 0){ var n = _guards; _guards = 0; _ignorePop = true; try{ history.go(-n); }catch(e){ _ignorePop = false; } }
-  } else if(antes !== page){
-    try{ history.pushState({hubGuard:true}, ''); _guards++; }catch(e){}
-  }
-};
-window.navTo = navTo;
+_pushSentinela();
 
 window.addEventListener('popstate', function(){
-  if(_ignorePop){ _ignorePop = false; return; }
-  if(window._fecharLayerTopo && window._fecharLayerTopo()) return;
-  if(_guards > 0){ _guards--; _doBack(); }
+  // 1º: camada por cima (modal, folha, drawer)
+  if(_fecharCamadaAberta()){ _pushSentinela(); return; }
+  // 2º: página interna → volta uma página do app
+  if(_paginaAtual() !== 'dashboard'){ _doBack(); _pushSentinela(); return; }
+  // 3º: já na home — deixa sair do app
 });
 
-/* ══ Camadas (modais, sheets, painéis): botão voltar do celular + seta ‹ ══
-   Qualquer elemento de camada que ganhe a classe .open cria uma entrada no
-   histórico; o botão físico/gesto de voltar fecha a camada do topo. */
-var _fechandoPorPop = false;
+/* ══ Seta ‹ flutuante para camadas que não têm botão próprio ══ */
 (function(){
-  var SEL = '.overlay,.ai-sheet,#resumoSheet,#chatPanel';
-  var abertos = [];
-  window._layersAbertos = abertos;
+  var SEL = '.overlay,.ai-sheet,.sheet,#resumoSheet,#chatPanel,.igchat-drawer';
 
   var seta = document.createElement('button');
   seta.id = 'layerBack';
   seta.setAttribute('aria-label','Voltar');
   seta.innerHTML = '\u2039';
-  seta.addEventListener('click', function(){ if(window._fecharLayerTopo) window._fecharLayerTopo(true); });
+  seta.addEventListener('click', function(){ _fecharCamadaAberta(); atualizarSeta(); });
   document.body.appendChild(seta);
 
   function temVoltarProprio(el){
     if(!el) return false;
-    var bs = el.querySelectorAll('button,.ai-sheet-close,.modal-close');
+    if(el.querySelector('.btn-back')) return true;
+    var bs = el.querySelectorAll('button,.ai-sheet-close,.modal-close,.igchat-close,.chat-x');
     for(var i=0;i<bs.length;i++){
       var t = (bs[i].textContent||'').toLowerCase();
-      if(t.indexOf('voltar')>-1 || t.indexOf('\u2039')>-1 || t.indexOf('\u2190')>-1) return true;
+      if(t.indexOf('voltar')>-1 || t.indexOf('\u2039')>-1) return true;
     }
     return false;
   }
   function atualizarSeta(){
+    var abertos = _camadasAbertas();
     var topo = abertos[abertos.length-1];
-    if(topo && !temVoltarProprio(topo)) seta.classList.add('visible');
+    if(topo && topo.id !== 'authScreen' && !temVoltarProprio(topo)) seta.classList.add('visible');
     else seta.classList.remove('visible');
   }
-
-  window._fecharLayerTopo = function(manual){
-    var el = abertos[abertos.length-1];
-    if(!el) return false;
-    if(manual){ el.classList.remove('open'); return true; }
-    _fechandoPorPop = true;
-    try{ el.classList.remove('open'); } finally { _fechandoPorPop = false; }
-    return true;
-  };
+  window._atualizarSetaCamada = atualizarSeta;
 
   var obs = new MutationObserver(function(muts){
-    muts.forEach(function(m){
-      var el = m.target;
-      if(!el || !el.matches || !el.matches(SEL)) return;
-      var aberto = el.classList.contains('open');
-      var i = abertos.indexOf(el);
-      if(aberto && i < 0){
-        abertos.push(el);
-        try{ history.pushState({hubLayer:true}, ''); }catch(e){}
-      } else if(!aberto && i >= 0){
-        abertos.splice(i,1);
-        if(!_fechandoPorPop){ _ignorePop = true; try{ history.back(); }catch(e){ _ignorePop = false; } }
-      } else { return; }
-      atualizarSeta();
-    });
+    for(var i=0;i<muts.length;i++){
+      var el = muts[i].target;
+      if(el && el.matches && el.matches(SEL)){ atualizarSeta(); return; }
+    }
   });
   obs.observe(document.body, {subtree:true, attributes:true, attributeFilter:['class']});
 })();
