@@ -269,6 +269,28 @@ body{
 .ig-tbl th{background:var(--navy);color:#fff;padding:5px 8px;text-align:left;font-size:11px}
 .ig-tbl td{padding:5px 8px;border-bottom:1px solid var(--gray-100)}
 .ig-tbl tr:nth-child(even) td{background:#f7fafb}
+/* ── IG CHAT BOT ── */
+.igchat-fab{position:fixed;bottom:80px;right:16px;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--teal-mid),var(--navy));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.25);z-index:1200;transition:transform .15s}
+.igchat-fab:hover{transform:scale(1.08)}
+.igchat-fab svg{width:24px;height:24px;fill:#fff}
+.igchat-drawer{position:fixed;bottom:0;right:0;width:min(360px,100vw);height:min(520px,90vh);background:#fff;border-radius:18px 18px 0 0;box-shadow:0 -4px 32px rgba(0,0,0,.18);display:flex;flex-direction:column;z-index:1201;transform:translateY(110%);transition:transform .28s cubic-bezier(.4,0,.2,1)}
+.igchat-drawer.open{transform:translateY(0)}
+.igchat-head{background:linear-gradient(135deg,#0d3d52,var(--teal-mid));border-radius:18px 18px 0 0;padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.igchat-head-ico{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:16px}
+.igchat-head-txt{flex:1;color:#fff}.igchat-head-txt b{display:block;font-size:13px;font-weight:800}.igchat-head-txt span{font-size:11px;opacity:.78}
+.igchat-close{background:none;border:none;color:rgba(255,255,255,.8);cursor:pointer;font-size:22px;line-height:1;padding:2px 4px}
+.igchat-msgs{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.igchat-msg{max-width:88%;padding:9px 12px;border-radius:14px;font-size:13px;line-height:1.5}
+.igchat-msg.bot{background:#f0f7fa;color:var(--navy);border-bottom-left-radius:4px;align-self:flex-start}
+.igchat-msg.usr{background:var(--teal-mid);color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
+.igchat-msg.bot ul{margin:6px 0 0;padding-left:16px}.igchat-msg.bot li{margin-bottom:3px}
+.igchat-chips-row{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px;flex-shrink:0}
+.igchat-chip{background:#f0f7fa;border:1px solid var(--teal-mid);border-radius:999px;padding:5px 12px;font-size:11.5px;color:var(--navy);cursor:pointer;font-family:Manrope,sans-serif;font-weight:600;white-space:nowrap}
+.igchat-chip:hover{background:#e0f2f8}
+.igchat-inp-row{display:flex;gap:8px;padding:10px 14px 12px;border-top:1px solid var(--gray-100);flex-shrink:0}
+.igchat-inp{flex:1;border:1.5px solid var(--gray-100);border-radius:10px;padding:9px 12px;font-size:13px;font-family:Manrope,sans-serif;outline:none;color:var(--navy)}
+.igchat-inp:focus{border-color:var(--teal-mid)}
+.igchat-send{background:var(--navy);color:#fff;border:none;border-radius:10px;padding:9px 14px;cursor:pointer;font-size:15px;display:flex;align-items:center}
 .ig-grupo{margin-top:10px}
 .ig-grupo-tit{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-mid);margin-bottom:6px}
 .ig-grupo-tit::after{content:'';flex:1;height:1px;background:var(--gray-100)}
@@ -2499,6 +2521,25 @@ window._mostrarApp = function(){
     </div>
 
     <div id="igSaida" style="display:none;padding:0 16px 20px"></div>
+  </div>
+
+
+  <!-- IG CHAT BOT -->
+  <button class="igchat-fab" id="igChatFab" onclick="igChatToggle()" title="Dúvidas sobre prescrição de IG" style="display:none">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.38 5.06L2 22l4.94-1.38A9.955 9.955 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+  </button>
+  <div class="igchat-drawer" id="igChatDrawer">
+    <div class="igchat-head">
+      <div class="igchat-head-ico">💊</div>
+      <div class="igchat-head-txt"><b>Assistente IG</b><span>Dúvidas sobre prescrição de imunoglobulinas</span></div>
+      <button class="igchat-close" onclick="igChatToggle()">×</button>
+    </div>
+    <div class="igchat-msgs" id="igChatMsgs"></div>
+    <div class="igchat-chips-row" id="igChatChips"></div>
+    <div class="igchat-inp-row">
+      <input class="igchat-inp" id="igChatInp" placeholder="Digite sua dúvida…" onkeydown="if(event.key==='Enter')igChatSend()">
+      <button class="igchat-send" onclick="igChatSend()">➤</button>
+    </div>
   </div>
 
     <!-- ══ FAVORITOS ══ -->
@@ -5765,6 +5806,123 @@ function imprimirIgOrientacao(){
     '<script>window.onload=function(){setTimeout(function(){window.print();},400);}<\/script></body></html>');
   win.document.close();
 }
+
+/* ── IG CHAT BOT ── */
+var _igChatOpen = false;
+var _igChatSugs = [
+  'Qual a dose padrão IV?','Qual a dose SC?','Quando usar SC vs IV?',
+  'Qual o alvo de IgG?','Como escalonar a velocidade?','Quando pré-medicar?',
+  'O que fazer em reação leve?','O que fazer em anafilaxia?','Intervalo entre infusões?',
+  'Indicações para imunomodulação?'
+];
+var _igChatKB = [
+  {kw:['dose','mg/kg','posologia','quanto'],r:'<b>Dose de reposição IV:</b><ul><li>Padrão: 400–600 mg/kg a cada 3–4 semanas</li><li>Com bronquiectasias/infecções frequentes: até 600 mg/kg</li><li>Alvo: manter IgG ≥ 500 mg/dL (≥ 800 em bronquiectasias)</li></ul>Ajuste individualizado — não basear apenas no nível sérico.'},
+  {kw:['dose sc','subcut'],r:'<b>Dose SC:</b><ul><li>Equivalente à dose IV mensal, dividida semanalmente ou quinzenalmente</li><li>Ex: 400 mg/kg/mês → 100 mg/kg/semana ou 200 mg/kg/quinzena</li><li>Concentrações disponíveis: 16,5–20%</li><li>Ajustar conforme nível de IgG e tolerância local</li></ul>'},
+  {kw:['sc','subcutane','subcut','iv','intraveno','via','rota','quando usar'],r:'<b>IV vs SC:</b><ul><li><b>SC</b>: estilo de vida ativo, fobia de acesso venoso, IgG mais estável, domiciliar</li><li><b>IV</b>: imunomodulação (dose alta), impossibilidade de SC, primeira dose de avaliação</li><li>Imunomodulação (≥ 1g/kg) é exclusiva IV</li><li>HyQvia permite volumes maiores SC com hialuronidase</li></ul>'},
+  {kw:['alvo','nivel','nível','meta','igg','serica','sérica'],r:'<b>Alvos de IgG sérica:</b><ul><li>≥ 500 mg/dL: padrão para IDCV, agamaglobulinemia, def. subclasse</li><li>≥ 800 mg/dL: IDCV com bronquiectasias ou infecções recorrentes graves</li><li>Mensurar nível mínimo (vale): antes da próxima infusão</li><li>Não suspender reposição com base apenas no nível — avaliar quadro clínico</li></ul>'},
+  {kw:['velocidade','escal','taxa','mL/h','infus','iniciar','ritmo'],r:'<b>Velocidades IV (exemplo Privigen 10%):</b><ul><li>Início: 0,3 mL/kg/h</li><li>Dobrar a cada 30 min se tolerado</li><li>Máximo: 4,8 mL/kg/h</li><li>1ª infusão: permanecer mais tempo em cada etapa</li><li>Cada produto tem protocolo próprio — confirmar na bula</li></ul>'},
+  {kw:['pre-medica','premed','antecedente','antes','antecipar','profilax'],r:'<b>Pré-medicação:</b><ul><li><b>Sem reações prévias</b>: não indicada de rotina</li><li><b>Reações leves</b>: anti-H1 oral (ex. cetirizina 10 mg) + paracetamol 30–60 min antes</li><li><b>Anafilaxia prévia</b>: avaliar troca de produto/via; se mantiver IV: anti-H1 IV + hidrocortisona IV + adrenalina disponível</li></ul>Pré-medicação universal não é recomendada pelas diretrizes (ASBAI 2023/AAAAI).'},
+  {kw:['reação leve','reac leve','evento leve','calafrio','cefaleia','nausea','náusea'],r:'<b>Manejo de reação leve durante infusão:</b><ul><li>Reduzir velocidade para 50% da atual</li><li>Anti-H1 IV/IM (ex. difenidramina) + paracetamol IV</li><li>Aguardar resolução dos sintomas</li><li>Retomar em velocidade menor gradualmente</li><li>Se recorrente: considerar pré-medicação nas próximas infusões</li></ul>'},
+  {kw:['anafilax','grave','choque','urticaria grave','broncoespasmo'],r:'<b>Manejo de anafilaxia durante infusão:</b><ul><li>🛑 PARAR a infusão imediatamente</li><li>Adrenalina 0,3–0,5 mg IM (lateral da coxa)</li><li>Acesso venoso + SF 0,9% em bolus</li><li>Anti-H1 IV + corticoide IV (hidrocortisona 200 mg)</li><li>Monitorização contínua, chamar suporte</li><li>Não reiniciar o produto no mesmo dia</li><li>Futuramente: avaliar troca de marca/via ou dessensibilização</li></ul>'},
+  {kw:['intervalo','frequencia','frequência','cada','semana','quinzena','mes','mês'],r:'<b>Intervalos de infusão:</b><ul><li><b>IV</b>: a cada 3–4 semanas (idealmente 3-4 sem para nível mínimo mais estável)</li><li><b>SC semanal</b>: melhor estabilidade do nível sérico, menor pico e vale</li><li><b>SC quinzenal</b>: alternativa para maior conveniência</li><li>HyQvia (SC facilitada): permite infusão mensal</li></ul>'},
+  {kw:['imunomodula','imunomod','kawasaki','ptb','pti','guillain','pidc','sdp','neuropatia','poliradicul'],r:'<b>Indicações imunomoduladoras (dose alta):</b><ul><li>PTI aguda: 0,8–1 g/kg dose única ou 1 g/kg × 2 dias ou 0,4 g/kg × 5 dias</li><li>Kawasaki: 2 g/kg dose única (< 10 dias de doença) + AAS</li><li>GBS aguda: 0,4 g/kg/dia × 5 dias (= 2 g/kg total)</li><li>PIDC: 2 g/kg ataque, 1 g/kg manutenção a cada 3 sem</li><li><b>Sempre IV</b> — não aplicar via SC em dose alta</li></ul>'},
+  {kw:['deficiencia','imunodefici','indicação','indicac','quem','quando repor'],r:'<b>Indicações de reposição:</b><ul><li>Agamaglobulinemia (XLA, autossômica)</li><li>IDCV (ICV)</li><li>SCID / imunodeficiência combinada grave</li><li>Def. específica de anticorpos com infecções recorrentes</li><li>Deficiência de subclasse IgG sintomática</li><li>Hipogamaglobulinemia secundária: LLC, mieloma, pós anti-CD20, pós-transplante</li><li>Síndrome nefrótica / enteropatia perdedora de proteína</li></ul>'},
+  {kw:['hizent','privigen','octagam','kiovig','flebo','tegeli','endob','hyqvia','cuvitru','gammanorm','gammaked','gamunex','produto','marca','concentracao','concentração'],r:'<b>Produtos disponíveis (ANVISA):</b><ul><li><b>IV 10%</b>: Privigen, Octagam, Kiovig, Flebogamma, Gammaked, Gamunex-C</li><li><b>IV 5%</b>: Tégéline, Endobulin</li><li><b>SC 20%</b>: Hizentra, Cuvitru</li><li><b>SC 10% facilitada</b>: HyQvia (+ hialuronidase rHuman)</li><li><b>SC 16,5%</b>: Gammanorm</li></ul>Não trocar entre marcas sem reavaliação — protocolos de infusão diferem.'},
+  {kw:['iga','deficiencia iga','anti-iga','risco iga'],r:'<b>Deficiência de IgA e reposição:</b><ul><li>IgG normal com def. IgA isolada: reposição geralmente não indicada</li><li>Se IgA < 7 mg/dL com anti-IgA detectável: risco de anafilaxia aos produtos</li><li>Usar produto com menor conteúdo de IgA (ex. Gammanorm, Octagam) com cautela</li><li>Preferir via SC quando possível — reação sistêmica menos provável</li></ul>'},
+  {kw:['renal','rim','creatinina','trombose','tromboembol','coagula','cardio','cardiaco','cardíaco'],r:'<b>Fatores de risco especiais:</b><ul><li><b>Insuf. renal</b>: preferir produto sem sacarose (maioria 10% modernos), hidratar bem, infundir lentamente</li><li><b>Trombose</b>: considerar SC (menor pico sérico), evitar alta velocidade IV, hidratação, profilaxia se indicado</li><li><b>Cardiopatia / IC</b>: infundir lentamente, monitorizar PA e saturação continuamente</li><li>Nenhum desses é contraindicação absoluta — avaliar risco-benefício</li></ul>'},
+  {kw:['grávida','gestante','gestação','lactante','gravidez'],r:'<b>Gestação e lactação:</b><ul><li>Reposição pode ser mantida na gestação em imunodeficiências primárias</li><li>IgG atravessa a placenta — pode beneficiar o feto</li><li>Informar a paciente; discutir risco-benefício com obstetra</li><li>Não há evidência de teratogenicidade com IgIV/SC em doses de reposição</li></ul>'},
+  {kw:['infec','infecção','infectado','bacteriana','viral'],r:'<b>Infusão em vigência de infecção:</b><ul><li>Diretrizes permitem manutenção em infecção intercorrente em imunodeficiência grave</li><li>Benefício: aporte de anticorpos específicos pode auxiliar no controle</li><li>Risco: maior chance de evento adverso durante a infusão</li><li>Decisão individualizada — se infecção grave ou instabilidade hemodinâmica, adiar se possível</li></ul>'},
+  {kw:['tempo','duracao','duração','quanto tempo','hora'],r:'<b>Duração das infusões:</b><ul><li><b>IV 1ª infusão</b>: 3–6 horas (escalonamento mais lento)</li><li><b>IV subsequentes</b>: podem ser encurtadas se toleradas, podendo chegar a 1–2 h em protocolos rápidos</li><li><b>SC</b>: depende do volume, velocidade e nº de sítios simultâneos</li><li>Observação pós-infusão: mínimo 30 min</li></ul>'},
+  {kw:['dup','dt','dut','sus','cobertura','plano','ans'],r:'<b>Cobertura pelos planos (DUT/ANS):</b><ul><li>A maioria das imunodeficiências primárias tem DUT publicada pela ANS</li><li>Exige laudo médico + exames (níveis de imunoglobulinas, subclasses, vacinas)</li><li>SUS: disponível em centros de referência (CRIE / Serviços de Imunologia)</li><li>Para dúvidas específicas por indicação, consultar a DUT vigente no site da ANS</li></ul>'}
+];
+var _igChatSugIdx = 0;
+
+function igChatToggle(){
+  _igChatOpen = !_igChatOpen;
+  var d = document.getElementById('igChatDrawer');
+  if(d) d.classList.toggle('open', _igChatOpen);
+  if(_igChatOpen && document.getElementById('igChatMsgs').children.length === 0){
+    igChatBot('Olá! Sou o assistente de prescrição de imunoglobulinas. Pode me perguntar sobre doses, velocidades de infusão, indicações, manejo de reações, escolha de produto, cobertura pelo plano e muito mais. 💊');
+    igChatShowSugs();
+  }
+}
+
+function igChatBot(txt){
+  var m = document.getElementById('igChatMsgs');
+  if(!m) return;
+  var d = document.createElement('div');
+  d.className = 'igchat-msg bot';
+  d.innerHTML = txt;
+  m.appendChild(d);
+  m.scrollTop = m.scrollHeight;
+}
+
+function igChatUsr(txt){
+  var m = document.getElementById('igChatMsgs');
+  if(!m) return;
+  var d = document.createElement('div');
+  d.className = 'igchat-msg usr';
+  d.textContent = txt;
+  m.appendChild(d);
+  m.scrollTop = m.scrollHeight;
+}
+
+function igChatShowSugs(){
+  var box = document.getElementById('igChatChips');
+  if(!box) return;
+  box.innerHTML = '';
+  var pool = _igChatSugs.slice(_igChatSugIdx, _igChatSugIdx + 4);
+  _igChatSugIdx = (_igChatSugIdx + 4) % _igChatSugs.length;
+  pool.forEach(function(q){
+    var b = document.createElement('button');
+    b.className = 'igchat-chip';
+    b.textContent = q;
+    b.onclick = function(){ igChatProcess(q); };
+    box.appendChild(b);
+  });
+}
+
+function igChatSend(){
+  var inp = document.getElementById('igChatInp');
+  if(!inp || !inp.value.trim()) return;
+  var q = inp.value.trim();
+  inp.value = '';
+  igChatProcess(q);
+}
+
+function igChatProcess(q){
+  igChatUsr(q);
+  var ql = q.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  var best = null, bestScore = 0;
+  _igChatKB.forEach(function(entry){
+    var score = 0;
+    entry.kw.forEach(function(k){
+      if(ql.indexOf(k.normalize('NFD').replace(/[\u0300-\u036f]/g,'')) >= 0) score++;
+    });
+    if(score > bestScore){ bestScore = score; best = entry; }
+  });
+  setTimeout(function(){
+    if(best && bestScore > 0){
+      igChatBot(best.r);
+    } else {
+      igChatBot('Não encontrei uma resposta específica para isso. Tente reformular ou escolha um dos tópicos abaixo. Para dúvidas complexas, consulte as diretrizes ASBAI 2023, AAAAI/ACAAI ou EAACI.');
+    }
+    igChatShowSugs();
+  }, 320);
+}
+
+// Mostrar fab apenas na página de imunoglobulinas
+document.addEventListener('DOMContentLoaded', function(){
+  function igChatVisib(){
+    var pg = document.querySelector('.page.active');
+    var fab = document.getElementById('igChatFab');
+    if(fab) fab.style.display = (pg && pg.id === 'page-imunoglobulinas') ? 'flex' : 'none';
+  }
+  igChatVisib();
+  document.querySelectorAll('.nav-btn, .bottom-nav button, [onclick*="showPage"]').forEach(function(b){
+    b.addEventListener('click', function(){ setTimeout(igChatVisib, 50); });
+  });
+});
 
 /* ── UPTODATE DISCREET TOGGLE ── */
 function toggleUtdBox(){
