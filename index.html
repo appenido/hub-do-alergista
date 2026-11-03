@@ -4233,10 +4233,14 @@ function filtrarHomeArtigos(){
       for(var i=0;i<achados.length;i++){ if(cards.indexOf(achados[i])===-1) cards.push(achados[i]); }
     });
   }
-  if(!cards.length) cards = Array.prototype.slice.call(lista.querySelectorAll('.art-card'));
-
-  // os 10 MAIS RECENTES, em ordem decrescente de data
+  // sempre 10: se os temas preferidos não bastarem, completa com os mais recentes dos demais
   cards.sort(function(a,b){ return _dataDoCard(b) - _dataDoCard(a); });
+  if(cards.length < 10){
+    var resto = Array.prototype.slice.call(lista.querySelectorAll('.art-card'))
+      .filter(function(c){ return cards.indexOf(c) === -1; })
+      .sort(function(a,b){ return _dataDoCard(b) - _dataDoCard(a); });
+    cards = cards.concat(resto.slice(0, 10 - cards.length));
+  }
   box.innerHTML = cards.slice(0,10).map(function(c){ return c.outerHTML; }).join('');
 }
 
