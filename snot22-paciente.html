@@ -59,6 +59,7 @@
   <div class="card" id="cardIntro">
     <div class="intro"><strong>Como responder:</strong> para cada item abaixo, marque o quanto ele incomodou você nas <strong>últimas 2 semanas</strong>, de <strong>0 (nenhum problema)</strong> a <strong>5 (problema o pior possível)</strong>. Responda todas as 22 perguntas e toque em enviar — o resultado vai direto para o seu médico.</div>
     <div style="margin-top:14px"><label class="lbl" for="nome">Seu nome completo</label><input type="text" id="nome" placeholder="Nome e sobrenome" autocomplete="name"></div>
+    <div style="margin-top:12px"><label class="lbl" for="dataRef">Data de hoje</label><input type="date" id="dataRef"></div>
   </div>
 
   <div class="card" id="cardQ"></div>
@@ -80,10 +81,11 @@
 (function(){
   var SUPA_URL='https://jpdtqtenlivxgjkyizcg.supabase.co';
   var SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwZHRxdGVubGl2eGdqa3lpemNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3MzkxMzgsImV4cCI6MjA2MjMxNTEzOH0.OCSGTv1HD6CLCbPVAgZwplkFMLGS0JuiT1XMRESYkWI';
-  var ITENS=['Necessidade de assoar o nariz','Nariz entupido / obstruído','Espirros','Coriza (nariz escorrendo)','Tosse','Secreção escorrendo na garganta','Secreção nasal espessa','Sensação de ouvido tampado','Tontura','Dor de ouvido','Dor ou pressão no rosto','Diminuição do olfato ou do paladar','Dificuldade para pegar no sono','Acordar durante a noite','Falta de uma boa noite de sono','Acordar cansado','Cansaço durante o dia','Redução da produtividade','Redução da concentração','Sentir-se frustrado, inquieto ou irritado','Sentir-se triste','Sentir-se envergonhado'];
+  var ITENS=['Necessidade de “assoar” o nariz','Espirros','Nariz “escorrendo”','Tosse','Secreção do nariz indo para a garganta','Secreção grossa saindo do nariz','Sensação de ouvido cheio ou tampado','Tontura ou vertigem','Dor de ouvido','Dor ou pressão no rosto','Dificuldade para conseguir dormir','Acorda no meio da noite','Falta de uma boa noite de sono','Acorda cansado','Fadiga ou cansaço durante o dia','Diminuição do seu rendimento para realizar atividades do seu dia a dia','Diminuição da sua concentração para realizar atividades do seu dia a dia','Frustrado, agitado ou irritado','Tristeza','Sensação de vergonha','Dificuldade para sentir “cheiros” ou “gostos”','Nariz entupido'];
   var $=function(i){return document.getElementById(i);};
   var sessao=(new URLSearchParams(location.search)).get('s')||('snot22-'+Date.now());
   var resp=new Array(22).fill(null);
+  (function(){var d=new Date();var iso=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);var el=$('dataRef');if(el) el.value=iso;})();
 
   var h='';
   for(var i=0;i<22;i++){
@@ -126,7 +128,7 @@
     fetch(SUPA_URL+'/rest/v1/snot22_results',{
       method:'POST',
       headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
-      body:JSON.stringify({sessao_id:sessao,paciente_nome:nome,respostas:resp,total:total})
+      body:JSON.stringify({sessao_id:sessao,paciente_nome:nome,respostas:resp,total:total,data_ref:($('dataRef').value||null),origem:'paciente'})
     }).then(function(r){
       if(!r.ok) throw new Error('falha');
       $('cardIntro').classList.add('hidden');
