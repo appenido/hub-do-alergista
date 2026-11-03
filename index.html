@@ -7153,7 +7153,7 @@ function carregarRadar(forcar){
     // O Supabase já filtra ANVISA e CONITEC pelo tema. Nas demais fontes,
     // exige referência clínica para evitar notícias regulatórias não pertinentes.
     var itens = itensBR.filter(function(it) {
-      return it.fonte === 'CONITEC' || it.fonte === 'ANVISA' || _ehTema(it);
+      return _ehTema(it);   // sempre restrito a alergia/imunologia, em todas as fontes
     });
     var fontes = d.fontes || {};
     var gerado = d.gerado_em ? new Date(d.gerado_em) : new Date();
