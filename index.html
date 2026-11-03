@@ -664,17 +664,18 @@ body{
 
 /* ── FAB VOLTAR ── */
 #fabVoltar{
-  position:fixed;bottom:calc(var(--bottomnav-h) + 14px);right:16px;
-  width:48px;height:48px;border-radius:50%;
-  background:var(--teal-mid);color:#fff;
-  border:none;cursor:pointer;
+  position:fixed;bottom:calc(var(--bottomnav-h) + 12px);right:12px;
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.92);color:var(--gray-500);
+  border:1px solid var(--gray-100);cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 18px rgba(13,31,45,.28);
-  z-index:250;opacity:0;pointer-events:none;
-  transition:opacity .22s,transform .22s;
-  transform:scale(.85);
-  font-size:20px;line-height:1;
+  box-shadow:0 1px 6px rgba(13,31,45,.10);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  z-index:4000;opacity:0;pointer-events:none;
+  transition:opacity .2s;
+  font-size:15px;line-height:1;
 }
+#fabVoltar:active{background:var(--gray-50);}
 #fabVoltar.visible{opacity:1;pointer-events:auto;transform:scale(1);}
 
 /* ── TOAST ── */
@@ -2982,7 +2983,7 @@ window._mostrarApp = function(){
 
 <!-- TOAST -->
 <div class="toast" id="toast"><span id="toastIcon">✅</span><span id="toastMsg">Feito!</span></div>
-<button id="fabVoltar" aria-label="Voltar" onclick="voltarApp()">&#8592;</button>
+<button id="fabVoltar" aria-label="Voltar" title="Voltar">&#8592;</button>
 
 <script>
 /* ── ABRIR LINK: usa <a> real (evita bloqueio/confirmação de popup) ── */
@@ -4592,7 +4593,17 @@ function _doBack(){
   } finally { _emVoltar = false; }
 }
 
-function voltarApp(){
+/* fecha a camada aberta mais acima (folha, modal, overlay). true = fechou algo */
+function _fecharCamadaAberta(){
+  var abertos = document.querySelectorAll('.sheet.open, .modal.open, #overlay.open, #aiSheet.open, #resumoSheet.open, [id$="Sheet"].open');
+  if(!abertos.length) return false;
+  abertos[abertos.length-1].classList.remove('open');
+  return true;
+}
+
+function voltarApp(ev){
+  if(ev && ev.preventDefault) ev.preventDefault();
+  if(_fecharCamadaAberta()) return;    // 1º: fecha a folha/modal por cima
   if(_guards > 0){ history.back(); }   // o popstate faz a navegação
   else { _doBack(); }
 }
@@ -4600,6 +4611,8 @@ window.voltarApp = voltarApp;
 
 var _tbBack = document.getElementById('tbBack');
 if(_tbBack) _tbBack.addEventListener('click', voltarApp);
+var _fabV = document.getElementById('fabVoltar');
+if(_fabV) _fabV.addEventListener('click', voltarApp);
 
 var _navToOriginal = navTo;
 navTo = function(page){
