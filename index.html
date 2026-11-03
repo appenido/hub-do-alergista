@@ -527,6 +527,30 @@ body{
 .ai-sheet-loading{padding:32px 18px;text-align:center;color:var(--gray-300);font-size:13px;}
 .ai-sheet-links{padding:12px 18px;display:flex;gap:8px;border-top:1px solid var(--gray-100);}
 
+/* Toda diretriz paga ganha o botão "Tentar grátis" */
+function _marcarGuiasPagas(){
+  document.querySelectorAll('.guide-card').forEach(function(c){
+    if(c.querySelector('.btn-ai-summary')) return;
+    var txt = c.textContent || '';
+    var pago = /\bPago\b/i.test(txt) || !!c.querySelector('.t-red');
+    if(!pago) return;
+    var alvo = c.querySelector('.art-links');
+    if(!alvo){
+      alvo = document.createElement('div');
+      alvo.className = 'art-links';
+      alvo.style.marginTop = '10px';
+      c.appendChild(alvo);
+    }
+    var b = document.createElement('button');
+    b.className = 'link-btn ai btn-ai-summary';
+    b.type = 'button';
+    b.textContent = '\ud83d\udcca Tentar grátis';
+    alvo.appendChild(b);
+  });
+}
+document.addEventListener('DOMContentLoaded', _marcarGuiasPagas);
+_marcarGuiasPagas();
+
 /* ── ASSISTENTE ── */
 .assist-header{
   background:linear-gradient(135deg,var(--navy),var(--teal));
@@ -5256,8 +5280,8 @@ function carregarGuidelinesLive(){
     try{ cached = JSON.parse(localStorage.getItem(_GL_ITENS_KEY)||'{}'); }catch(e){}
     if(cached.dia === hojeStr && Array.isArray(cached.itens) && cached.itens.length){
       _glCarregado = hojeStr;
-      _glPintar(box, cached.itens);
-      _glTraduzir(cached.itens).then(function(l){ _glPintar(box, l); });
+      _glPintar(box, cached.itens); _marcarGuiasPagas();
+      _glTraduzir(cached.itens).then(function(l){ _glPintar(box, l); _marcarGuiasPagas(); });
       return;
     }
   } else { return; }  // já carregado nesta sessão JS
@@ -6256,6 +6280,15 @@ function toast(icon,msg){
 
 
 
+function _aiBuscarPmid(titulo){
+  if(!titulo) return Promise.resolve('');
+  var url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=1&tool=HubClinico&term=' +
+            encodeURIComponent(titulo.replace(/[^\w\s\u00c0-\u017f-]/g,' ') + '[Title]');
+  return fetch(url).then(function(r){ return r.json(); })
+    .then(function(d){ return (((d||{}).esearchresult||{}).idlist||[])[0] || ''; })
+    .catch(function(){ return ''; });
+}
+
 function _aiTextoAbstract(uid){
   // baixa o resumo oficial do PubMed para a IA analisar o artigo de verdade
   var url = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&retmode=xml&tool=HubClinico&id=' + encodeURIComponent(uid);
@@ -6274,16 +6307,20 @@ function _aiTextoAbstract(uid){
 }
 
 function openAiSheet(card) {
+  var ehGuia = card.classList.contains('guide-card');
   var titulo = card.getAttribute('data-ai-title') ||
+               (ehGuia && card.querySelector('.gc-name') ? card.querySelector('.gc-name').textContent : '') ||
                (card.querySelector('.art-title') ? card.querySelector('.art-title').textContent : '');
   var tituloPt = card.querySelector('.art-title-pt') ? card.querySelector('.art-title-pt').textContent : titulo;
   var uid = card.getAttribute('data-uid') || '';
   var corpoEl = card.querySelector('.art-body');
-  var jornalEl = card.querySelector('.art-journal');
+  var jornalEl = card.querySelector('.art-journal') ||
+                 (ehGuia ? (card.querySelector('.gc-year') || card.querySelector('.gc-soc')) : null);
   var jornal = jornalEl ? jornalEl.textContent : '';
   var doi = card.dataset.doi || '';
   var pubHref = card.querySelector('a.link-btn.pub') ? card.querySelector('a.link-btn.pub').href
-              : 'https://pubmed.ncbi.nlm.nih.gov/?term=' + encodeURIComponent(titulo);
+              : (ehGuia && card.tagName === 'A' ? card.href : '')
+              || 'https://pubmed.ncbi.nlm.nih.gov/?term=' + encodeURIComponent(titulo);
 
   document.getElementById('aiSheetTitle').textContent = tituloPt || titulo;
 
@@ -6299,7 +6336,10 @@ function openAiSheet(card) {
   document.getElementById('aiSheet').classList.add('open');
 
   var pAbs = uid ? _aiTextoAbstract(uid)
-                 : Promise.resolve(corpoEl ? corpoEl.textContent : '');
+                 : _aiBuscarPmid(titulo).then(function(id){
+                     if(id) return _aiTextoAbstract(id);
+                     return corpoEl ? corpoEl.textContent : '';
+                   });
 
   pAbs.then(function(abstract){
     if(!abstract && corpoEl) abstract = corpoEl.textContent || '';
@@ -6454,7 +6494,8 @@ document.addEventListener('click', function(e3) {
 document.addEventListener('click', function(e2) {
   var aiBtn = e2.target.closest('.btn-ai-summary');
   if (!aiBtn) return;
-  var card = aiBtn.closest('.art-card');
+  e2.preventDefault(); e2.stopPropagation();   // guide-card é um link: não navegar
+  var card = aiBtn.closest('.art-card, .guide-card');
   if (card) openAiSheet(card);
 });
 
