@@ -458,7 +458,7 @@ body{
 .fc-badge{background:var(--aqua);color:var(--navy);font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;}
 
 /* ── FAV ROW ── */
-.fav-row{
+.fav-row-legacy{
   background:#fff;border-bottom:1px solid var(--gray-100);
   padding:13px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;
 }
@@ -880,6 +880,23 @@ _marcarGuiasPagas();
   .qcard{min-height:128px;}
 }
 
+
+/* ===== FAVORITOS ===== */
+.fav-host{position:relative;}
+.fav-star{position:absolute;top:8px;right:8px;z-index:5;background:rgba(255,255,255,.92);border:1px solid var(--gray-100);
+  border-radius:50%;width:30px;height:30px;line-height:1;display:flex;align-items:center;justify-content:center;
+  font-size:14px;cursor:pointer;padding:0;color:var(--gray-300);box-shadow:0 1px 4px rgba(13,31,45,.08);
+  transition:transform .15s,color .15s;-webkit-tap-highlight-color:transparent;}
+.fav-star:active{transform:scale(.85);}
+.fav-star.on{color:var(--gold);border-color:var(--gold);background:#fffdf3;}
+.fav-star.inline{position:static;width:auto;height:auto;border-radius:9px;padding:5px 10px;box-shadow:none;background:var(--gray-50);}
+.fav-row{display:flex;align-items:center;gap:11px;padding:13px 16px;border-bottom:1px solid var(--gray-100);background:#fff;}
+.fav-icon{font-size:20px;width:26px;text-align:center;}
+.fav-type{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--teal-mid);}
+.fav-title{font-size:13px;font-weight:600;color:var(--navy);line-height:1.35;}
+.fav-sub{font-size:11px;color:var(--gray-500);margin-top:2px;}
+.fav-grp{padding:14px 16px 6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-500);}
+.btn-remfav{background:transparent;border:none;font-size:15px;cursor:pointer;color:var(--gray-300);padding:6px;}
 </style>
 <script>
 /* Endereço canônico — os espelhos antigos redirecionam para cá */
@@ -3513,14 +3530,8 @@ window._mostrarApp = function(){
         Favoritos
       </div>
     </div>
-    <div class="gap-list" id="favList">
-      <div class="fav-row" data-fav="1"><div class="fav-icon">📄</div><div style="flex:1"><div class="fav-type">Artigo</div><div class="fav-title">Real-world evidence of tezepelumab for severe asthma · ERJ 2025</div></div><button class="btn btn-sm btn-remfav">🗑</button></div>
-      <div class="fav-row" data-fav="2"><div class="fav-icon">📋</div><div style="flex:1"><div class="fav-type">Guideline</div><div class="fav-title">GINA 2025 — Global Strategy for Asthma</div></div><button class="btn btn-sm btn-remfav">🗑</button></div>
-      <div class="fav-row" data-fav="3"><div class="fav-icon">📄</div><div style="flex:1"><div class="fav-type">Artigo</div><div class="fav-title">JADE COMPARE — Abrocitinib vs Dupilumab · NEJM 2021</div></div><button class="btn btn-sm btn-remfav">🗑</button></div>
-      <div class="fav-row" data-fav="4"><div class="fav-icon">⚡</div><div style="flex:1"><div class="fav-type">Prompt</div><div class="fav-title">Liberação de imunobiológico — asma grave</div></div><button class="btn btn-sm btn-remfav">🗑</button></div>
-      <div class="fav-row" data-fav="5"><div class="fav-icon">🧮</div><div style="flex:1"><div class="fav-type">Score</div><div class="fav-title">ACT — Asthma Control Test</div></div><button class="btn btn-sm btn-remfav">🗑</button></div>
-      <div class="fav-row" data-fav="6"><div class="fav-icon">📋</div><div style="flex:1"><div class="fav-type">Guideline</div><div class="fav-title">WAO Anaphylaxis Guidance 2020</div></div><button class="btn btn-sm btn-remfav">🗑</button></div>
-    </div>
+    <div class="gap-list" id="favList"></div>
+    <div id="favVazio" style="display:none;padding:34px 24px;text-align:center;color:var(--gray-500)"><div style="font-size:34px">⭐</div><div style="font-size:13.5px;font-weight:700;color:var(--navy);margin-top:8px">Nenhum favorito ainda</div><div style="font-size:11.5px;margin-top:4px;line-height:1.5">Toque na estrela ⭐ em qualquer artigo, score, guideline, prompt, imunobiológico ou notícia para salvar aqui.</div></div>
   </div>
 
 
@@ -6173,20 +6184,7 @@ document.addEventListener('click',function(e){
     toast('📋','Prompt copiado!');return;
   }
 
-  // save / fav
-  if(el.classList.contains('btn-save')||el.closest('.btn-save')){toast('🔖','Artigo salvo!');return;}
-  if(el.classList.contains('btn-fav')||el.closest('.btn-fav')){
-    var b=el.classList.contains('btn-fav')?el:el.closest('.btn-fav');
-    b.textContent='★';b.style.color='var(--gold)';
-    toast('⭐','Adicionado aos favoritos!');return;
-  }
-
-  // remove fav
-  if(el.classList.contains('btn-remfav')||el.closest('.btn-remfav')){
-    var row=el.closest('[data-fav]');
-    if(row){row.style.opacity='0';row.style.transition='opacity .3s';setTimeout(function(){row.remove();},300);}
-    toast('🗑','Removido dos favoritos.');return;
-  }
+  // favoritos: tratados pelo módulo HUBFAV (delegação em .fav-star)
 
   // usar modelo
   if(el.classList.contains('btn-use-model')||el.closest('.btn-use-model')){
@@ -7548,23 +7546,6 @@ document.addEventListener('click', function(e3) {
 
 
 
-/* ── SCORE FAVORITES ── */
-document.addEventListener('click', function(e4) {
-  var btn = e4.target.closest('.btn-fav-score');
-  if(!btn) return;
-  e4.stopPropagation();
-  var name = btn.dataset.scoreName || 'Score';
-  if(btn.style.color === 'var(--gold)' || btn.innerHTML === '★') {
-    btn.innerHTML = '⭐';
-    btn.style.color = 'var(--gray-300)';
-    toast('🗑', name + ' removido dos favoritos');
-  } else {
-    btn.innerHTML = '★';
-    btn.style.color = 'var(--gold)';
-    toast('⭐', name + ' adicionado aos favoritos!');
-  }
-});
-
 /* ── IMUNOBIOLÓGICOS ── */
 function toggleBio(id) {
   // Glossário DUT/PCDT usa bloco próprio (não .bio-card)
@@ -8066,7 +8047,8 @@ function imprimirIgOrientacao(){
     '<div style="margin-left:auto;font-size:10px;color:#999">'+ new Date().toLocaleDateString('pt-BR')+'</div></div>'+
     card.innerHTML+
     '<div style="margin-top:18px;font-size:10px;color:#999;border-top:1px solid #e5e7eb;padding-top:8px">Hub do Alergista — ferramenta de apoio ao médico prescritor. Confirmar velocidades na bula do produto.</div>'+
-    '<script>window.onload=function(){setTimeout(function(){window.print();},400);}<\/script></body></html>');
+    '<script>window.onload=function(){setTimeout(function(){window.print();},400);}<\/script>
+</body></html>');
   win.document.close();
 }
 
@@ -9498,6 +9480,209 @@ function chatToggle(){
       });
     }
   });
+})();
+</script>
+<script>
+/* =========================================================
+   HUBFAV — favoritos universais e persistentes
+   ========================================================= */
+(function(){
+  function _email(){ try{ return (JSON.parse(localStorage.getItem('hub_session')||'{}').email||'anon').toLowerCase(); }catch(e){ return 'anon'; } }
+  function _key(){ return 'hub_favs_' + _email(); }
+  function _load(){ try{ return JSON.parse(localStorage.getItem(_key())||'[]'); }catch(e){ return []; } }
+  function _save(a){ try{ localStorage.setItem(_key(), JSON.stringify(a)); }catch(e){} }
+  function _slug(t){ return (t||'').toLowerCase().replace(/\s+/g,' ').trim().slice(0,120); }
+  function _txt(el,sel){ var n=el.querySelector(sel); return n? n.textContent.trim() : ''; }
+
+  var HUBFAV = {
+    list:_load,
+    has:function(id){ return _load().some(function(f){ return f.id===id; }); },
+    add:function(it){ var a=_load(); if(a.some(function(f){return f.id===it.id;})) return false;
+      it.ts=Date.now(); a.unshift(it); _save(a); return true; },
+    remove:function(id){ var a=_load().filter(function(f){ return f.id!==id; }); _save(a); },
+    toggle:function(it){ if(this.has(it.id)){ this.remove(it.id); return false; } this.add(it); return true; }
+  };
+  window.HUBFAV = HUBFAV;
+
+  /* ---- definição do que é favoritável ---- */
+  var TIPOS = [
+    { sel:'.art-card', tipo:'Artigo', icone:'📄', pagina:'artigos',
+      titulo:function(c){ return _txt(c,'.art-title') || c.dataset.aiTitle || ''; },
+      sub:function(c){ return _txt(c,'.art-journal'); },
+      url:function(c){ var a=c.querySelector('.art-links a[href]'); return a? a.href : (c.dataset.pub||c.dataset.pdf||''); },
+      alvo:function(c){ return c.querySelector('.btn-save'); } },
+    { sel:'[data-score]', tipo:'Score', icone:'🧮', pagina:'scores',
+      titulo:function(c){ return _txt(c,'.sp-name') || (c.querySelector('[style*="font-weight:800"]')||{}).textContent || c.dataset.score; },
+      sub:function(c){ return _txt(c,'.sp-desc') || _txt(c,'[style*="font-size:11px"]'); },
+      acao:function(c){ return 'openScore(' + JSON.stringify(c.dataset.score) + ')'; },
+      alvo:function(c){ return c.querySelector('.btn-fav-score'); } },
+    { sel:'.prompt-card', tipo:'Prompt', icone:'⚡', pagina:'prompts',
+      titulo:function(c){ return _txt(c,'.pc-title'); },
+      sub:function(c){ return _txt(c,'.pc-cat'); },
+      texto:function(c){ return _txt(c,'.pc-body'); },
+      alvo:function(c){ return c.querySelector('.btn-fav'); } },
+    { sel:'.bio-card', tipo:'Imunobiológico', icone:'💉', pagina:'imuno',
+      titulo:function(c){ return _txt(c,'.bio-name'); },
+      sub:function(c){ return _txt(c,'.bio-comercial'); } },
+    { sel:'.news-card', tipo:'Notícia', icone:'📰', pagina:'noticias',
+      titulo:function(c){ return _txt(c,'.nc-title') || _txt(c,'.news-title') || (c.textContent||'').trim().slice(0,110); },
+      sub:function(c){ return _txt(c,'.nc-src') || _txt(c,'.news-src'); },
+      url:function(c){ var a=c.querySelector('a[href]'); return a? a.href : ''; } },
+    { sel:'.guide-card[data-guide]', tipo:'Guideline', icone:'📋', pagina:'guidelines',
+      titulo:function(c){ return (c.textContent||'').trim().split('\n')[0].slice(0,110); },
+      url:function(c){ var a=c.querySelector('a[href]'); return a? a.href : ''; } },
+    { sel:'[data-fav-item]', tipo:null, icone:null, pagina:null }
+  ];
+
+  function dados(card, def){
+    var tipo  = card.dataset.favTipo   || def.tipo   || 'Item';
+    var titulo= card.dataset.favTitulo || (def.titulo? def.titulo(card):'' ) || '';
+    if(!titulo) return null;
+    return {
+      id: tipo + '::' + _slug(titulo),
+      tipo: tipo,
+      titulo: titulo.slice(0,200),
+      sub: (card.dataset.favSub || (def.sub? def.sub(card):'') || '').slice(0,120),
+      icone: card.dataset.favIcone || def.icone || '⭐',
+      pagina: card.dataset.favPagina || def.pagina || '',
+      url: card.dataset.favUrl || (def.url? def.url(card):'') || '',
+      acao: def.acao? def.acao(card) : '',
+      texto: def.texto? def.texto(card).slice(0,4000) : ''
+    };
+  }
+
+  function montaBotao(card, def){
+    if(card.dataset.favReady==='1') return;
+    var d = dados(card, def);
+    if(!d) return;
+    card.dataset.favReady='1';
+    card.dataset.favId = d.id;
+    card.__fav = d;
+
+    var btn = def.alvo ? def.alvo(card) : null;
+    if(btn){ btn.className = 'fav-star inline'; }
+    else {
+      btn = document.createElement('button');
+      btn.type='button';
+      card.classList.add('fav-host');
+      card.appendChild(btn);
+      btn.className='fav-star';
+    }
+    btn.setAttribute('title','Favoritar');
+    btn.setAttribute('aria-label','Favoritar');
+    btn.dataset.favFor = d.id;
+    pinta(btn, HUBFAV.has(d.id));
+  }
+
+  function pinta(btn, on){
+    btn.classList.toggle('on', !!on);
+    btn.innerHTML = on ? '★' : '☆';
+    if(btn.classList.contains('inline')) btn.innerHTML = (on?'★':'☆') + ' Favorito';
+  }
+
+  function scan(root){
+    root = root || document;
+    TIPOS.forEach(function(def){
+      var nodes;
+      try{ nodes = root.querySelectorAll(def.sel); }catch(e){ return; }
+      Array.prototype.forEach.call(nodes, function(c){
+        if(c.closest('#page-favoritos')) return;
+        montaBotao(c, def);
+      });
+    });
+  }
+  function repinta(){
+    var ids = {}; HUBFAV.list().forEach(function(f){ ids[f.id]=1; });
+    document.querySelectorAll('.fav-star[data-fav-for]').forEach(function(b){
+      var on = !!ids[b.dataset.favFor];
+      if(b.classList.contains('on') !== on) pinta(b, on);
+    });
+  }
+  window.favScan = function(r){ scan(r); repinta(); };
+
+  /* ---- clique ---- */
+  document.addEventListener('click', function(ev){
+    var btn = ev.target.closest('.fav-star');
+    if(btn){
+      ev.preventDefault(); ev.stopPropagation();
+      var card = btn.closest('[data-fav-id]');
+      var d = card && card.__fav;
+      if(!d) return;
+      var on = HUBFAV.toggle(d);
+      document.querySelectorAll('.fav-star[data-fav-for="'+CSS.escape(d.id)+'"]').forEach(function(b){ pinta(b,on); });
+      if(typeof toast==='function') toast(on?'⭐':'🗑', on? 'Salvo nos favoritos!' : 'Removido dos favoritos.');
+      renderFav();
+      return;
+    }
+    var rem = ev.target.closest('.btn-remfav');
+    if(rem){
+      ev.preventDefault(); ev.stopPropagation();
+      var id = rem.dataset.favId;
+      HUBFAV.remove(id);
+      document.querySelectorAll('.fav-star[data-fav-for="'+CSS.escape(id)+'"]').forEach(function(b){ pinta(b,false); });
+      if(typeof toast==='function') toast('🗑','Removido dos favoritos.');
+      renderFav();
+      return;
+    }
+    var row = ev.target.closest('.fav-row[data-fav-open]');
+    if(row){
+      var it = JSON.parse(row.dataset.favOpen);
+      if(it.url){ window.open(it.url,'_blank','noopener'); return; }
+      if(it.texto && navigator.clipboard){ navigator.clipboard.writeText(it.texto).catch(function(){});
+        if(typeof toast==='function') toast('📋','Prompt copiado!'); }
+      irPara(it.pagina);
+      if(it.acao){ setTimeout(function(){ try{ eval(it.acao); }catch(e){} }, 120); }
+    }
+  }, true);
+
+  function irPara(pg){
+    if(!pg) return;
+    if(typeof window.navTo==='function'){ try{ window.navTo(pg); return; }catch(e){} }
+    var alvo=document.querySelector('[data-nav="'+pg+'"]');
+    if(alvo) alvo.click();
+  }
+
+  /* ---- página de favoritos ---- */
+  function esc(t){ return (t||'').replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function renderFav(){
+    var box = document.getElementById('favList');
+    if(!box) return;
+    var sig = JSON.stringify(HUBFAV.list().map(function(f){ return f.id; }));
+    if(box.dataset.sig === sig) return;
+    box.dataset.sig = sig;
+    var vazio = document.getElementById('favVazio');
+    var itens = HUBFAV.list();
+    if(!itens.length){ box.innerHTML=''; if(vazio) vazio.style.display='block'; return; }
+    if(vazio) vazio.style.display='none';
+    var grupos = {};
+    itens.forEach(function(f){ (grupos[f.tipo] = grupos[f.tipo]||[]).push(f); });
+    var html='';
+    Object.keys(grupos).forEach(function(t){
+      html += '<div class="fav-grp">'+esc(t)+' · '+grupos[t].length+'</div>';
+      grupos[t].forEach(function(f){
+        html += '<div class="fav-row" data-fav-open=\''+esc(JSON.stringify(f)).replace(/'/g,'&#39;')+'\' style="cursor:pointer">'
+             +  '<div class="fav-icon">'+ (f.icone||'⭐') +'</div>'
+             +  '<div style="flex:1;min-width:0"><div class="fav-type">'+esc(f.tipo)+'</div>'
+             +  '<div class="fav-title">'+esc(f.titulo)+'</div>'
+             +  (f.sub? '<div class="fav-sub">'+esc(f.sub)+'</div>':'')
+             +  '</div>'
+             +  '<button class="btn-remfav" data-fav-id="'+esc(f.id)+'" title="Remover">🗑</button></div>';
+      });
+    });
+    box.innerHTML = html;
+  }
+  window.renderFav = renderFav;
+
+  /* ---- hooks ---- */
+  var tmr=null, lock=false;
+  var obs = new MutationObserver(function(){
+    if(lock) return;
+    clearTimeout(tmr);
+    tmr=setTimeout(function(){ lock=true; scan(); repinta(); renderFav(); lock=false; },250);
+  });
+
+  function init(){ scan(); renderFav(); obs.observe(document.body,{childList:true,subtree:true}); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 })();
 </script>
 </body>
