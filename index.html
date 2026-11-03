@@ -6679,9 +6679,6 @@ function _uas7RenderCampos(){
   html += '<span style="font-size:17px;line-height:1">🌙</span>';
   html += '<div style="font-size:12px;color:var(--navy);line-height:1.5"><strong>Registre sempre à noite, antes de dormir</strong>, avaliando as últimas 24 horas. Um registro por dia, durante 7 dias seguidos.</div></div>';
 
-  // próxima semana (automática)
-  var prox = _uas7ProxSemana();
-  html += '<div style="font-size:12px;font-weight:800;color:var(--teal-mid);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em">Registro da ' + _uas7Ordinal(prox) + '</div>';
 
   // 7 dias, cada um com pápulas + prurido
   for(var d=0; d<7; d++){
