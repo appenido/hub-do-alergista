@@ -3864,7 +3864,7 @@ var _GL_TOPICOS = [
   ['rinite', ['rhinitis','rhinosinusitis','rinite','nasal polyp']],
   ['aa', ['food allergy','food allerg','cow milk','peanut','oral immunotherapy','alimentar']],
   ['eii', ['immunodeficiency','inborn errors of immunity','imunodefici']],
-  ['medicam', ['drug allergy','drug hypersensitivity','penicillin','medicament']],
+  ['medicam', ['drug allergy','drug hypersensitivity','penicillin','medicament','antibiotic allergy','beta-lactam','aspirin','nsaid','nonsteroidal','radiocontrast','delabel']],
   ['masto', ['mastocytosis','mast cell','mastocit']],
   ['eoe', ['eosinophilic esophagitis','eosinofílica']]
 ];
@@ -3954,9 +3954,14 @@ function carregarGuidelinesLive(){
   } else { return; }  // já carregado nesta sessão JS
   var ini = new Date(hoje.getFullYear()-3, hoje.getMonth(), hoje.getDate());
   var fmt = function(d){ return d.getFullYear() + '/' + ('0'+(d.getMonth()+1)).slice(-2) + '/' + ('0'+d.getDate()).slice(-2); };
-  var termo = '(allergy[tiab] OR allergic[tiab] OR asthma[tiab] OR urticaria[tiab] OR "atopic dermatitis"[tiab] OR anaphylaxis[tiab] OR immunodeficiency[tiab] OR "eosinophilic esophagitis"[tiab] OR angioedema[tiab] OR "food allergy"[tiab]) AND (guideline[pt] OR "practice guideline"[pt] OR consensus[ti] OR guidelines[ti] OR "practice parameter"[ti] OR "position paper"[ti])';
+  // Nota: guideline[pt] só indexa DEPOIS que o PubMed processa o artigo (semanas/meses).
+  // Por isso incluímos também palavras-chave no título E no abstract para capturar
+  // publicações recentes (ex: JACI, EAACI, WAO) antes da indexação do Publication Type.
+  var termoDoenca = '(allergy[tiab] OR allergic[tiab] OR asthma[tiab] OR urticaria[tiab] OR "atopic dermatitis"[tiab] OR anaphylaxis[tiab] OR immunodeficiency[tiab] OR "eosinophilic esophagitis"[tiab] OR angioedema[tiab] OR "food allergy"[tiab] OR "drug allergy"[tiab] OR "drug hypersensitivity"[tiab] OR rhinitis[tiab] OR "venom allergy"[tiab] OR mastocytosis[tiab])';
+  var termoDiretriz = '(guideline[pt] OR "practice guideline"[pt] OR guideline[ti] OR guidelines[ti] OR consensus[ti] OR "practice parameter"[ti] OR "position paper"[ti] OR "position statement"[ti] OR "expert opinion"[ti] OR "clinical practice"[ti] OR "management of"[ti] OR "diagnosis and management"[ti] OR recommendation[ti] OR recommendations[ti])';
+  var termo = termoDoenca + ' AND ' + termoDiretriz;
   var base = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
-  fetch(base + 'esearch.fcgi?db=pubmed&retmode=json&retmax=40&sort=pub_date&datetype=pdat&mindate=' + fmt(ini) + '&maxdate=' + fmt(hoje) + '&term=' + encodeURIComponent(termo))
+  fetch(base + 'esearch.fcgi?db=pubmed&retmode=json&retmax=60&sort=pub_date&datetype=pdat&mindate=' + fmt(ini) + '&maxdate=' + fmt(hoje) + '&term=' + encodeURIComponent(termo))
     .then(function(r){ return r.json(); })
     .then(function(d){
       var ids = (d.esearchresult && d.esearchresult.idlist) || [];
