@@ -3851,8 +3851,10 @@ function carregarNoticiasMidia(){
 }
 
 
-/* ── GUIDELINES AO VIVO (PubMed, últimos 3 anos, data exata) ── */
+/* ── GUIDELINES AO VIVO (PubMed, últimos 3 anos, cache 24h, atualização diária) ── */
 var _glCarregado = '';
+var _GL_ITENS_KEY = 'hub_gl_itens';  // {dia, itens[]} — expira a cada novo dia
+var _GL_PT_KEY    = 'hub_gl_pt';     // {dia, map{}} — expira a cada novo dia
 var _GL_TOPICOS = [
   ['asma', ['asthma','asthmat','wheez']],
   ['da', ['atopic dermatitis','eczema','dermatite']],
@@ -3876,7 +3878,6 @@ function _glTopico(txt){
 }
 var _GL_MESES = {jan:'01',feb:'02',mar:'03',apr:'04',may:'05',jun:'06',jul:'07',aug:'08',sep:'09',oct:'10',nov:'11',dec:'12'};
 function _glData(i){
-  // prioridade: data de publicação impressa/eletrônica real
   var fontes = [i.pubdate, i.epubdate, i.sortpubdate];
   for(var k=0;k<fontes.length;k++){
     var s = String(fontes[k]||'').trim();
@@ -3894,10 +3895,14 @@ function _glData(i){
   }
   return {br:'', ord:'0'};
 }
+/* cache de traduções com TTL diário */
 function _glTraduzir(itens){
   var titulos = itens.map(function(i){ return i._titulo; });
-  var cache = {};
-  try{ cache = JSON.parse(localStorage.getItem('hub_gl_pt')||'{}'); }catch(e){}
+  var hoje = new Date().toISOString().slice(0,10);
+  var entrada = {};
+  try{ entrada = JSON.parse(localStorage.getItem(_GL_PT_KEY)||'{}'); }catch(e){}
+  // invalida se o cache é de outro dia
+  var cache = (entrada.dia === hoje) ? (entrada.map || {}) : {};
   var faltam = titulos.filter(function(t){ return !cache[t]; });
   function aplicar(){
     itens.forEach(function(i){ if(cache[i._titulo]) i._tituloPt = cache[i._titulo]; });
@@ -3911,7 +3916,7 @@ function _glTraduzir(itens){
       var linhas = (d && d.resposta ? d.resposta : '').split('\n').map(function(l){ return l.replace(/^\s*[\d).\-•]+\s*/,'').trim(); }).filter(Boolean);
       if(linhas.length === faltam.length){
         faltam.forEach(function(t,k){ cache[t] = linhas[k]; });
-        try{ localStorage.setItem('hub_gl_pt', JSON.stringify(cache)); }catch(e){}
+        try{ localStorage.setItem(_GL_PT_KEY, JSON.stringify({dia:hoje, map:cache})); }catch(e){}
       }
       return aplicar();
     })
@@ -3936,7 +3941,17 @@ function carregarGuidelinesLive(){
   var box = document.getElementById('guidelines-live');
   if(!box) return;
   var hoje = new Date(), hojeStr = hoje.toISOString().slice(0,10);
-  if(_glCarregado === hojeStr) return;
+  /* ── verifica cache do dia no localStorage (persiste entre sessões) ── */
+  if(_glCarregado !== hojeStr){
+    var cached = {};
+    try{ cached = JSON.parse(localStorage.getItem(_GL_ITENS_KEY)||'{}'); }catch(e){}
+    if(cached.dia === hojeStr && Array.isArray(cached.itens) && cached.itens.length){
+      _glCarregado = hojeStr;
+      _glPintar(box, cached.itens);
+      _glTraduzir(cached.itens).then(function(l){ _glPintar(box, l); });
+      return;
+    }
+  } else { return; }  // já carregado nesta sessão JS
   var ini = new Date(hoje.getFullYear()-3, hoje.getMonth(), hoje.getDate());
   var fmt = function(d){ return d.getFullYear() + '/' + ('0'+(d.getMonth()+1)).slice(-2) + '/' + ('0'+d.getDate()).slice(-2); };
   var termo = '(allergy[tiab] OR allergic[tiab] OR asthma[tiab] OR urticaria[tiab] OR "atopic dermatitis"[tiab] OR anaphylaxis[tiab] OR immunodeficiency[tiab] OR "eosinophilic esophagitis"[tiab] OR angioedema[tiab] OR "food allergy"[tiab]) AND (guideline[pt] OR "practice guideline"[pt] OR consensus[ti] OR guidelines[ti] OR "practice parameter"[ti] OR "position paper"[ti])';
@@ -3961,6 +3976,8 @@ function carregarGuidelinesLive(){
       }).filter(function(i){ return i._ord !== '0' && i._ord <= limite; })
         .sort(function(a,b){ return a._ord < b._ord ? 1 : -1; })
         .slice(0,25);
+      /* salva no localStorage com TTL = hoje */
+      try{ localStorage.setItem(_GL_ITENS_KEY, JSON.stringify({dia:hojeStr, itens:itens})); }catch(e){}
       _glPintar(box, itens);
       _glCarregado = hojeStr;
       _glTraduzir(itens).then(function(l){ _glPintar(box, l); });
