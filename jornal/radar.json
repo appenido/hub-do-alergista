@@ -1,11 +1,11 @@
 {
- "ultimaTentativa": "2026-11-03T01:56:40.925Z",
- "atualizadoEm": "2026-11-03T01:56:40.925Z",
+ "ultimaTentativa": "2026-11-03T02:55:02.013Z",
+ "atualizadoEm": "2026-11-03T02:55:02.013Z",
  "status": "ok",
  "totalCandidatos": 60,
- "totalVerificados": 10,
- "totalPendentes": 9,
- "totalExcluidos": 10,
+ "totalVerificados": 9,
+ "totalPendentes": 7,
+ "totalExcluidos": 44,
  "falhasFonte": [],
  "itens": [
   {
@@ -34,14 +34,6 @@
   },
   {
    "status": "verificado",
-   "titulo": "Demi Lovato é hospitalizada por reação alérgica e atualiza fãs sobre sua saúde",
-   "fonte": "Vagalume",
-   "data": "2026-10-28T12:50:36.000Z",
-   "url": "https://www.vagalume.com.br/news/2026/10/28/demi-lovato-e-hospitalizada-por-reacao-alergica-e-atualiza-fas-sobre-sua-saude.html",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
    "titulo": "Halloween: fantasias, maquiagens e glitter podem desencadear crises alérgicas em crianças",
    "fonte": "JC",
    "data": "2026-10-27T18:54:00.000Z",
@@ -58,26 +50,10 @@
   },
   {
    "status": "verificado",
-   "titulo": "Alergia alimentar em crianças atinge 4,6%, aponta estudo",
-   "fonte": "Vitória News",
-   "data": "2026-10-24T14:00:12.000Z",
-   "url": "https://vitorianews.com.br/alergia-alimentar-em-criancas-atinge-46-aponta-estudo",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Saúde: Alergia a camarão pode causar reação fatal Morte de enfermeira brasileira durante lua de mel em Portugal alerta para os riscos da anafilaxia, reação alérgica grave que exige atendimento imediato e uso de adrenalina",
-   "fonte": "Portal Terra da Luz",
-   "data": "2026-10-23T21:45:29.000Z",
-   "url": "https://portalterradaluz.com.br/destaques/saude-alergia-a-camarao-pode-causar-reacao-fatal/",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Caso Amanda Marinho: Ela sabia que tinha alergia a camarão, e morreu depois de comer lula. Entenda o que liga os dois",
-   "fonte": "Espaço do Povo",
-   "data": "2026-10-23T13:23:00.000Z",
-   "url": "https://espacodopovo.com.br/alergia-frutos-do-mar-morte-lua-de-mel-portugal/",
+   "titulo": "Família encomenda 120 doces sem leite para aniversário de criança alérgica e descobre depois da primeira mordida que parte do recheio foi feita com ingrediente comum",
+   "fonte": "Correio Braziliense",
+   "data": "2026-10-22T02:37:00.000Z",
+   "url": "https://www.correiobraziliense.com.br/cbradar/doces-sem-leite-festa-infantil-alergia-responsabilidade-cdc/",
    "verificado": true
   },
   {
@@ -87,6 +63,22 @@
    "data": "2026-10-14T17:11:21.000Z",
    "url": "https://fotografia.folha.uol.com.br/galerias/1879057294759154-o-impacto-da-dermatite-atopica-na-saude-mental-de-pacientes-e-familiares",
    "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Mulher foi ao pronto-socorro após ataque de asma e ficou trancada no consultório após equipe inteira encerrar expediente e ir embora",
+   "fonte": "CNN Brasil",
+   "data": "2026-10-13T16:00:10.000Z",
+   "url": "https://www.cnnbrasil.com.br/curiosidades/mulher-foi-ao-pronto-socorro-apos-ataque-de-asma-e-ficou-trancada-no-consultorio-apos-equipe-inteira-encerrar-expediente-e-ir-embora/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "A batalha da Helena contra a dermatite atópica: como você pode ajudar",
+   "fonte": "Terra",
+   "data": "2026-10-02T09:02:57.000Z",
+   "url": "https://www.terra.com.br/noticias/a-batalha-da-helena-contra-a-dermatite-atopica-como-voce-pode-ajudar,813bab0f6a180486c12a8e6e94d74d0e2ffunsz1.html",
+   "verificado": true
   }
  ],
  "pendentes": [
@@ -95,20 +87,6 @@
    "titulo": "‘Bombinha de asma’ ganha versão sustentável que reduz pegada de carbono em até 90%",
    "fonte": "Um só Planeta",
    "url": "https://umsoplaneta.globo.com/energia/noticia/2026/10/30/bombinha-de-asma-ganha-versao-sustentavel-que-reduz-pegada-de-carbono-em-ate-90percent.ghtml",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Tratamentos de pele biológicos podem provocar troca entre dermatite atópica e psoríase",
-   "fonte": "bra1.com.br",
-   "url": "https://www.bra1.com.br/geral/id-716930/tratamentos_de_pele_biologicos_podem_provocar_troca_entre_dermatite_atopica_e_psoriase",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Anafilaxia: reação alérgica grave que pode matar se não for tratada com adrenalina na hora",
-   "fonte": "bra1.com.br",
-   "url": "https://www.bra1.com.br/geral/id-716823/anafilaxia__reacao_alergica_grave_que_pode_matar_se_nao_for_tratada_com_adrenalina_na_hora",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   },
   {
@@ -127,30 +105,30 @@
   },
   {
    "status": "pendente",
-   "titulo": "Reação alérgica grave durante viagem: o que você precisa saber antes de embarcar?",
-   "fonte": "THMais",
-   "url": "https://thmais.com.br/novabrasil/reacao-alergica-grave-durante-viagem-o-que-voce-precisa-saber-antes-de-embarcar/",
-   "motivo": "página retornou HTTP 403"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Pessoas com dermatite atópica têm maior risco de depressão e ansiedade",
-   "fonte": "Bem Paraná",
-   "url": "https://www.bemparana.com.br/noticias/pessoas-com-dermatite-atopica-tem-maior-risco-de-depressao-e-ansiedade/",
-   "motivo": "página retornou HTTP 403"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Alergia a camarão pode causar morte em poucos minutos; saiba como prevenir",
-   "fonte": "Galera Mix",
-   "url": "https://galeramix.com.br/materia/alergia-a-camarao-pode-causar-morte-em-poucos-minutos-saiba-como-prevenir-13304",
+   "titulo": "Morte em lua de mel por alergia a frutos do mar: por que é possível morrer comendo camarão e como se prevenir",
+   "fonte": "G1",
+   "url": "https://g1.globo.com/saude/noticia/2026/10/23/morte-em-lua-de-mel-por-alergia-a-frutos-do-mar-por-que-e-possivel-morrer-comendo-camarao-e-como-se-prevenir.ghtml",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   },
   {
    "status": "pendente",
-   "titulo": "Morte em lua de mel por alergia a frutos do mar: por que é possível morrer comendo camarão e como se prevenir",
+   "titulo": "Morte de enfermeira em lua de mel acende alerta para alergia alimentar",
+   "fonte": "Band",
+   "url": "https://www.band.com.br/saude/morte-de-enfermeira-em-lua-de-mel-acende-alerta-para-alergia-alimentar",
+   "motivo": "página retornou HTTP 403"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Pais são presos por negligência após criança morrer de crise de asma sem tratamento nos EUA",
+   "fonte": "O GLOBO",
+   "url": "https://oglobo.globo.com/saude/epoca/post/2026/10/pais-sao-presos-por-negligencia-apos-crianca-morrer-de-crise-de-asma-sem-tratamento-nos-eua.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Estudo mostra que exercícios físicos, como caminhadas, ajudam a controlar crises de asma",
    "fonte": "G1",
-   "url": "https://g1.globo.com/saude/noticia/2026/10/23/morte-em-lua-de-mel-por-alergia-a-frutos-do-mar-por-que-e-possivel-morrer-comendo-camarao-e-como-se-prevenir.ghtml",
+   "url": "https://g1.globo.com/jornal-nacional/noticia/2026/10/06/estudo-mostra-que-exercicios-fisicos-como-caminhadas-ajudam-a-controlar-crises-de-asma.ghtml",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   }
  ],
@@ -185,6 +163,20 @@
   },
   {
    "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Tratamentos de pele biológicos podem provocar troca entre dermatite atópica e psoríase",
+   "fonte": "bra1.com.br",
+   "url": "https://www.bra1.com.br/geral/id-716930/tratamentos_de_pele_biologicos_podem_provocar_troca_entre_dermatite_atopica_e_psoriase"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Anafilaxia: reação alérgica grave que pode matar se não for tratada com adrenalina na hora",
+   "fonte": "bra1.com.br",
+   "url": "https://www.bra1.com.br/geral/id-716823/anafilaxia__reacao_alergica_grave_que_pode_matar_se_nao_for_tratada_com_adrenalina_na_hora"
+  },
+  {
+   "status": "excluido",
    "motivo": "veículo estrangeiro",
    "titulo": "Fique atento ao risco de anafilaxia após picadas de formiga:",
    "fonte": "Vietnam.vn",
@@ -207,9 +199,44 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Demi Lovato é hospitalizada por reação alérgica e atualiza fãs sobre sua saúde",
+   "fonte": "Vagalume",
+   "url": "https://www.vagalume.com.br/news/2026/10/28/demi-lovato-e-hospitalizada-por-reacao-alergica-e-atualiza-fas-sobre-sua-saude.html"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Reação alérgica grave durante viagem: o que você precisa saber antes de embarcar?",
+   "fonte": "THMais",
+   "url": "https://thmais.com.br/novabrasil/reacao-alergica-grave-durante-viagem-o-que-voce-precisa-saber-antes-de-embarcar/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Dupilumabe demonstra eficácia global em múltiplos parâmetros da asma pediátrica",
    "fonte": "Medscape",
    "url": "https://portugues.medscape.com/viewarticle/dupilumabe-demonstra-efic%C3%A1cia-global-m%C3%BAltiplos-2026a10014ca"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Pessoas com dermatite atópica têm maior risco de depressão e ansiedade",
+   "fonte": "Bem Paraná",
+   "url": "https://www.bemparana.com.br/noticias/pessoas-com-dermatite-atopica-tem-maior-risco-de-depressao-e-ansiedade/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Alergia alimentar em crianças atinge 4,6%, aponta estudo",
+   "fonte": "Vitória News",
+   "url": "https://vitorianews.com.br/alergia-alimentar-em-criancas-atinge-46-aponta-estudo"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Alergia a camarão pode causar morte em poucos minutos; saiba como prevenir",
+   "fonte": "Galera Mix",
+   "url": "https://galeramix.com.br/materia/alergia-a-camarao-pode-causar-morte-em-poucos-minutos-saiba-como-prevenir-13304"
   },
   {
    "status": "excluido",
@@ -224,6 +251,27 @@
    "titulo": "Lua de mel termina em tragédia: mulher brasileira morre em Portugal após reação alérgica grave. Tinha casado 11 dias antes",
    "fonte": "Jornal SOL",
    "url": "https://sol.iol.pt/sociedade/noticias/lua-de-mel-termina-em-tragedia-mulher-brasileira-morre-em-portugal-apos-reacao-alergica-grave-tinha-casado-11-dias-antes/20261023/6adb9abd0cf2e5e7f37cac86"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Caso Amanda Marinho: Ela sabia que tinha alergia a camarão, e morreu depois de comer lula. Entenda o que liga os dois",
+   "fonte": "Espaço do Povo",
+   "url": "https://espacodopovo.com.br/alergia-frutos-do-mar-morte-lua-de-mel-portugal/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Saúde: Alergia a camarão pode causar reação fatal",
+   "fonte": "Portal Terra da Luz",
+   "url": "https://portalterradaluz.com.br/destaques/saude-alergia-a-camarao-pode-causar-reacao-fatal/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Alergia a camarão pode causar anafilaxia fatal; saiba como agir",
+   "fonte": "Diário do Centro do Mundo",
+   "url": "https://www.diariodocentrodomundo.com.br/essencial/morte-de-brasileira-em-lua-de-mel-alerta-para-risco-de-alergia-a-frutos-do-mar/"
   }
  ]
 }
