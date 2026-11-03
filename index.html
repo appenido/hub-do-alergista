@@ -3094,20 +3094,21 @@ window._mostrarApp = function(){
           style="width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-size:13px;font-family:Manrope,sans-serif">
       </div>
 
-      <div style="padding:0 16px 6px;display:flex;align-items:center;gap:8px">
-        <span style="font-size:11px;font-weight:800;color:#1e7a46;text-transform:uppercase;letter-spacing:.06em">Dispon\u00edveis no SUS</span>
-        <span style="font-size:10.5px;color:var(--gray-500)">Calend\u00e1rio Nacional de Vacina\u00e7\u00e3o 2026 \u2014 PNI/MS</span>
+      <div style="padding:6px 16px 6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="font-size:11px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.06em">Rede privada</span>
+        <span style="font-size:10.5px;color:var(--gray-500)">Registro ANVISA — recomendação SBIm · deslize →</span>
+      </div>
+      <div id="vacListaPriv" style="display:flex;flex-direction:row;gap:10px;overflow-x:auto;padding:2px 16px 10px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch"></div>
+      <div id="vacDetPriv" style="padding:0 16px"></div>
+
+      <div style="padding:18px 16px 6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <span style="font-size:11px;font-weight:800;color:#1e7a46;text-transform:uppercase;letter-spacing:.06em">Disponíveis no SUS</span>
+        <span style="font-size:10.5px;color:var(--gray-500)">Calendário Nacional de Vacinação 2026 — PNI/MS</span>
       </div>
       <div id="vacListaSUS" style="display:flex;flex-direction:column;gap:8px;padding:0 16px"></div>
 
-      <div style="padding:16px 16px 6px;display:flex;align-items:center;gap:8px">
-        <span style="font-size:11px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.06em">Rede privada</span>
-        <span style="font-size:10.5px;color:var(--gray-500)">Registro ANVISA \u2014 recomenda\u00e7\u00e3o SBIm</span>
-      </div>
-      <div id="vacListaPriv" style="display:flex;flex-direction:column;gap:8px;padding:0 16px"></div>
-
       <div style="margin:14px 16px 0;background:#f7fafb;border:1px solid var(--gray-100);border-radius:12px;padding:11px 13px;font-size:11px;color:var(--gray-500);line-height:1.55">
-        Popula\u00e7\u00f5es e esquemas do bloco SUS conforme a <b>Instru\u00e7\u00e3o Normativa do Calend\u00e1rio Nacional de Vacina\u00e7\u00e3o 2026</b> (PNI/Minist\u00e9rio da Sa\u00fade). Grupos especiais seguem o <b>Manual dos CRIE (2023)</b>. Recomenda\u00e7\u00f5es cl\u00ednicas das demais se\u00e7\u00f5es seguem a <b>SBIm</b>.
+        Populações e esquemas do bloco SUS conforme a <b>Instrução Normativa do Calendário Nacional de Vacinação 2026</b> (PNI/Ministério da Saúde). Grupos especiais seguem o <b>Manual dos CRIE (2023)</b>. Recomendações clínicas das demais seções seguem a <b>SBIm</b>.
       </div>
     </div>
 
@@ -4577,7 +4578,7 @@ function vacRenderVacinas(filtro){
   var priv=document.getElementById('vacListaPriv');
   if(!sus||!priv) return;
   var f=(filtro||'').toLowerCase();
-  sus.innerHTML=''; priv.innerHTML='';
+  sus.innerHTML=''; priv.innerHTML=''; var dp=document.getElementById('vacDetPriv'); if(dp) dp.innerHTML='';
   function linha(l,v){
     return '<tr><td style="padding:5px 8px 5px 0;color:var(--gray-500);font-weight:700;font-size:12px;white-space:nowrap;vertical-align:top">'+l+'</td>'
       +'<td style="padding:5px 0;color:var(--navy);font-size:12px;line-height:1.5">'+v+'</td></tr>';
@@ -4606,7 +4607,26 @@ function vacRenderVacinas(filtro){
       +(v.sus?'Fonte: Instrução Normativa do Calendário Nacional de Vacinação 2026 \u2014 PNI/Ministério da Saúde.'
              :'Produto com registro ANVISA, fora do Calendário Nacional \u2014 recomendação de uso conforme SBIm.')
       +'</div></div>';
-    (v.sus?sus:priv).appendChild(det);
+    if(v.sus){ sus.appendChild(det); return; }
+    var t=document.createElement('button');
+    t.type='button';
+    t.style.cssText='flex:0 0 156px;scroll-snap-align:start;text-align:left;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:12px;cursor:pointer;display:flex;flex-direction:column;gap:6px;font-family:Manrope,sans-serif;min-height:112px';
+    t.innerHTML='<span style="font-size:22px">'+(v.tipo.indexOf('Atenuada')>=0?'\ud83e\uddec':'\ud83d\udc89')+'</span>'
+      +'<span style="font-size:12.5px;font-weight:800;color:var(--navy);line-height:1.3">'+v.nome+'</span>'
+      +'<span style="font-size:10.5px;color:var(--gray-500);line-height:1.35">'+v.prot+'</span>';
+    t.onclick=function(){
+      var box=document.getElementById('vacDetPriv');
+      var on=t.getAttribute('data-on')==='1';
+      priv.querySelectorAll('button').forEach(function(x){x.setAttribute('data-on','0');x.style.borderColor='var(--gray-100)';x.style.background='#fff';});
+      if(on){ box.innerHTML=''; return; }
+      t.setAttribute('data-on','1'); t.style.borderColor='var(--teal-mid)'; t.style.background='#f0fafa';
+      box.innerHTML='<div style="background:#fff;border:1.5px solid var(--teal-mid);border-radius:14px;padding:12px 14px">'
+        +'<div style="font-size:13.5px;font-weight:800;color:var(--navy);margin-bottom:2px">'+v.nome+' '+badge+'</div>'
+        +'<table style="width:100%;border-collapse:collapse;margin-top:4px">'
+        +linha('População indicada',v.pop)+linha('Esquema',v.esq)+linha('Tipo',v.tipo)+linha('Observações',v.obs)
+        +'</table><div style="font-size:10.5px;color:var(--gray-500);margin-top:8px;line-height:1.45">Produto com registro ANVISA, fora do Calendário Nacional — recomendação de uso conforme SBIm.</div></div>';
+    };
+    priv.appendChild(t);
   });
   if(!sus.children.length) sus.innerHTML='<div style="color:var(--gray-500);font-size:12.5px;padding:4px 0">Nenhuma vacina encontrada.</div>';
   if(!priv.children.length) priv.innerHTML='<div style="color:var(--gray-500);font-size:12.5px;padding:4px 0">Nenhuma vacina encontrada.</div>';
