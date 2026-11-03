@@ -1497,6 +1497,7 @@ window._mostrarApp = function(){
     <div style="padding:14px 16px 8px;display:flex;flex-direction:column;gap:10px">
       <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px"><span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>Protocolos EAACI <span style="margin-left:auto;font-size:9.5px;font-weight:800;letter-spacing:.06em;color:var(--teal-mid);border:1px solid var(--teal-mid);border-radius:999px;padding:2px 7px">SÓ EAACI</span></div>
       <div style="font-size:11.5px;color:var(--gray-500);line-height:1.5">Resumos operacionais das diretrizes e position papers da <b>European Academy of Allergy and Clinical Immunology</b>. Esta aba contém <b>exclusivamente</b> documentos da EAACI (incluindo os que ela assina em conjunto com GA²LEN, ENDA, EuroGuiDerm e WAO). Toque no card para abrir a conduta. Sempre confira o documento original antes de aplicar.</div>
+      <div class="eaaci-btnrow" id="eaaci-btnrow"><button type="button" class="eaaci-btn" data-ego="eaaci-0">🆘 Anafilaxia</button><button type="button" class="eaaci-btn" data-ego="eaaci-1">💤 Perioperatória</button><button type="button" class="eaaci-btn" data-ego="eaaci-2">🔴 Urticária</button><button type="button" class="eaaci-btn" data-ego="eaaci-3">💧 Angioedema HE</button><button type="button" class="eaaci-btn" data-ego="eaaci-4">👃 Imunoterapia RC</button><button type="button" class="eaaci-btn" data-ego="eaaci-5">🐝 Veneno (VIT)</button><button type="button" class="eaaci-btn" data-ego="eaaci-6">🍽️ AA diagnóstico</button><button type="button" class="eaaci-btn" data-ego="eaaci-7">🥜 AA manejo/OIT</button><button type="button" class="eaaci-btn" data-ego="eaaci-8">🍼 AA prevenção</button><button type="button" class="eaaci-btn" data-ego="eaaci-9">🩹 Dermatite atópica</button><button type="button" class="eaaci-btn" data-ego="eaaci-10">💉 Biológicos</button><button type="button" class="eaaci-btn" data-ego="eaaci-11">💊 Betalactâmicos</button><button type="button" class="eaaci-btn" data-ego="eaaci-12">⚗️ Dessensibilização</button><button type="button" class="eaaci-btn" data-ego="eaaci-13">🧪 Teste cutâneo</button><button type="button" class="eaaci-btn" data-ego="eaaci-14">🧬 MAUG 2.0</button><button type="button" class="eaaci-btn" data-ego="eaaci-15">🫶 Esofagite Eos.</button></div>
       <div class="filter-chips" id="eaaci-chips">
         <div class="fchip on" data-efilter="all">🔔 Todos</div>
         <div class="fchip" data-efilter="anafilaxia">🆘 Anafilaxia</div>
@@ -1512,7 +1513,7 @@ window._mostrarApp = function(){
     </div>
     <div class="gap-list" id="eaaci-list">
 
-      <details class="guide-card eaaci-card" data-etopic="anafilaxia">
+      <details class="guide-card eaaci-card" id="eaaci-0" data-etopic="anafilaxia">
         <summary><div class="gc-soc">EAACI</div><div class="gc-name">Anaphylaxis Guidelines — diagnóstico e manejo</div><div class="gc-year">2021 (update 2025) · Allergy · Open Access</div><div class="gc-foot"><span class="tag t-red">Anafilaxia</span><span class="tag t-green">Gratuito</span></div></summary>
         <div class="eaaci-body">
           <b>Tratamento de 1ª linha — adrenalina IM, vasto lateral da coxa</b>
@@ -1539,7 +1540,7 @@ window._mostrarApp = function(){
         </div>
       </details>
 
-      <details class="guide-card eaaci-card" data-etopic="anafilaxia">
+      <details class="guide-card eaaci-card" id="eaaci-1" data-etopic="anafilaxia">
         <summary><div class="gc-soc">EAACI / ENDA</div><div class="gc-name">Anafilaxia perioperatória — investigação e reexposição</div><div class="gc-year">Position paper · Allergy</div><div class="gc-foot"><span class="tag t-red">Anafilaxia</span><span class="tag t-red">Medicamentos</span></div></summary>
         <div class="eaaci-body">
           <ul>
@@ -1552,7 +1553,7 @@ window._mostrarApp = function(){
         </div>
       </details>
 
-      <details class="guide-card eaaci-card" data-etopic="urticaria">
+      <details class="guide-card eaaci-card" id="eaaci-2" data-etopic="urticaria">
         <summary><div class="gc-soc">EAACI / GA²LEN / EuroGuiDerm / APAAACI</div><div class="gc-name">International Guideline for Urticaria</div><div class="gc-year">Atualização mais recente · Allergy</div><div class="gc-foot"><span class="tag t-green">Urticária</span></div></summary>
         <div class="eaaci-body">
           <b>Algoritmo terapêutico (objetivo: UAS7 = 0 / UCT ≥ 12)</b>
@@ -1575,7 +1576,7 @@ window._mostrarApp = function(){
         </div>
       </details>
 
-      <details class="guide-card eaaci-card" data-etopic="urticaria">
+      <details class="guide-card eaaci-card" id="eaaci-3" data-etopic="urticaria">
         <summary><div class="gc-soc">WAO / EAACI</div><div class="gc-name">Angioedema hereditário — diagnóstico e manejo</div><div class="gc-year">Guideline · WAO Journal · Open Access</div><div class="gc-foot"><span class="tag t-green">Urticária/AEH</span><span class="tag t-green">Gratuito</span></div></summary>
         <div class="eaaci-body">
           <b>Diagnóstico</b>
@@ -1599,7 +1600,7 @@ window._mostrarApp = function(){
         </div>
       </details>
 
-      <details class="guide-card eaaci-card" data-etopic="it">
+      <details class="guide-card eaaci-card" id="eaaci-4" data-etopic="it">
         <summary><div class="gc-soc">EAACI</div><div class="gc-name">Allergen Immunotherapy — rinoconjuntivite alérgica</div><div class="gc-year">Guideline · Allergy · Open Access</div><div class="gc-foot"><span class="tag t-teal">Imunoterapia</span><span class="tag t-teal">Rinite</span></div></summary>
         <div class="eaaci-body">
           <b>Indicação</b>
@@ -1622,7 +1623,7 @@ window._mostrarApp = function(){
         </div>
       </details>
 
-      <details class="guide-card eaaci-card" data-etopic="it">
+      <details class="guide-card eaaci-card" id="eaaci-5" data-etopic="it">
         <summary><div class="gc-soc">EAACI</div><div class="gc-name">Imunoterapia com veneno de himenópteros (VIT)</div><div class="gc-year">Guideline + update · Allergy · PMC Open Access</div><div class="gc-foot"><span class="tag t-navy">Himenópteros</span><span class="tag t-teal">Imunoterapia</span></div></summary>
         <div class="eaaci-body">
           <b>Indicação</b>
@@ -1646,7 +1647,7 @@ window._mostrarApp = function(){
         </div>
       </details>
 
-      <details class="guide-card eaaci-card" data-etopic="aa">
+      <details class="guide-card eaaci-card" id="eaaci-6" data-etopic="aa">
         <summary><div class="gc-soc">EAACI</div><div class="gc-name">Alergia alimentar IgE-mediada — diagnóstico</div><div class="gc-year">Guideline · Allergy · Open Access</div><div class="gc-foot"><span class="tag t-gold">Alergia Alimentar</span><span class="tag t-green">Gratuito</span></div></summary>
         <div class="eaaci-body">
           <ul>
@@ -1660,7 +1661,7 @@ window._mostrarApp = function(){
         </div>
       </details>
 
-      <details class="guide-card eaaci-card" data-etopic="aa">
+      <details class="guide-card eaaci-card" id="eaaci-7" data-etopic="aa">
         <summary><div class="gc-soc">EAACI</div><div class="gc-name">Alergia alimentar — manejo e imunoterapia oral</div><div class="gc-year">Guideline · Allergy · Open Access</div><div class="gc-foot"><span class="tag t-gold">Alergia Alimentar</span><span class="tag t-teal">Imunoterapia</span></div></summary>
         <div class="eaaci-body">
           <b>Manejo basal</b>
@@ -1679,7 +1680,7 @@ window._mostrarApp = function(){
         </div>
       </details>
 
-      <details class="guide-card eaaci-card" data-etopic="aa">
+      <details class="guide-card eaaci-card" id="eaaci-8" data-etopic="aa">
         <summary><div class="gc-soc">EAACI</div><div class="gc-name">Prevenção primária de alergia alimentar</div><div class="gc-year">Guideline · Allergy · Open Access</div><div class="gc-foot"><span class="tag t-gold">Alergia Alimentar</span><span class="tag t-green">Gratuito</span></div></summary>
         <div class="eaaci-body">
           <ul>
@@ -1693,7 +1694,7 @@ window._mostrarApp = function(){
         </div>
       </details>
 
-      <details class="guide-card eaaci-card" data-etopic="da">
+      <details class="guide-card eaaci-card" id="eaaci-9" data-etopic="da">
         <summary><div class="gc-soc">EAACI</div><div class="gc-name">Dermatite atópica — tratamento sistêmico e tópico</div><div class="gc-year">Guideline + updates · Allergy</div><div class="gc-foot"><span class="tag t-teal">Dermatite Atópica</span></div></summary>
         <div class="eaaci-body">
           <b>Base</b>
@@ -1713,7 +1714,7 @@ window._mostrarApp = function(){
         </div>
       </details>
 
-      <details class="guide-card eaaci-card" data-etopic="asma">
+      <details class="guide-card eaaci-card" id="eaaci-10" data-etopic="asma">
         <summary><div class="gc-soc">EAACI</div><div class="gc-name">Biologicals Guidelines — asma grave, rinossinusite com pólipos, DA e urticária</div><div class="gc-year">Guideline · Allergy</div><div class="gc-foot"><span class="tag t-teal">Asma</span><span class="tag t-gold">Imunobiológicos</span></div></summary>
         <div class="eaaci-body">
           <b>Antes de indicar</b>
@@ -1736,7 +1737,7 @@ window._mostrarApp = function(){
         </div>
       </details>
 
-      <details class="guide-card eaaci-card" data-etopic="medicam">
+      <details class="guide-card eaaci-card" id="eaaci-11" data-etopic="medicam">
         <summary><div class="gc-soc">EAACI / ENDA</div><div class="gc-name">Hipersensibilidade a betalactâmicos e delabeling</div><div class="gc-year">Position papers · Allergy</div><div class="gc-foot"><span class="tag t-red">Medicamentos</span></div></summary>
         <div class="eaaci-body">
           <ul>
@@ -1751,7 +1752,7 @@ window._mostrarApp = function(){
         </div>
       </details>
 
-      <details class="guide-card eaaci-card" data-etopic="medicam">
+      <details class="guide-card eaaci-card" id="eaaci-12" data-etopic="medicam">
         <summary><div class="gc-soc">EAACI</div><div class="gc-name">Dessensibilização a quimioterápicos e biológicos</div><div class="gc-year">Position paper · Allergy · PMC Open Access</div><div class="gc-foot"><span class="tag t-red">Medicamentos</span><span class="tag t-green">Gratuito</span></div></summary>
         <div class="eaaci-body">
           <ul>
@@ -1764,7 +1765,7 @@ window._mostrarApp = function(){
         </div>
       </details>
 
-      <details class="guide-card eaaci-card" data-etopic="diag">
+      <details class="guide-card eaaci-card" id="eaaci-13" data-etopic="diag">
         <summary><div class="gc-soc">EAACI</div><div class="gc-name">Padronização do teste cutâneo de puntura (SPT)</div><div class="gc-year">Position paper · Allergy · Open Access</div><div class="gc-foot"><span class="tag t-navy">Diagnóstico</span><span class="tag t-green">Gratuito</span></div></summary>
         <div class="eaaci-body">
           <ul>
@@ -1778,7 +1779,7 @@ window._mostrarApp = function(){
         </div>
       </details>
 
-      <details class="guide-card eaaci-card" data-etopic="diag">
+      <details class="guide-card eaaci-card" id="eaaci-14" data-etopic="diag">
         <summary><div class="gc-soc">EAACI</div><div class="gc-name">Molecular Allergology User's Guide (MAUG 2.0)</div><div class="gc-year">Documento oficial EAACI · Open Access</div><div class="gc-foot"><span class="tag t-navy">Diagnóstico</span><span class="tag t-green">Gratuito</span></div></summary>
         <div class="eaaci-body">
           <ul>
@@ -1792,7 +1793,7 @@ window._mostrarApp = function(){
         </div>
       </details>
 
-      <details class="guide-card eaaci-card" data-etopic="eoe">
+      <details class="guide-card eaaci-card" id="eaaci-15" data-etopic="eoe">
         <summary><div class="gc-soc">EAACI / EUREOS / UEG / ESPGHAN</div><div class="gc-name">Esofagite eosinofílica — diagnóstico e tratamento</div><div class="gc-year">Guideline conjunta · Open Access</div><div class="gc-foot"><span class="tag t-green">Esofagite Eosinofílica</span><span class="tag t-green">Gratuito</span></div></summary>
         <div class="eaaci-body">
           <ul>
@@ -7696,6 +7697,12 @@ if ('serviceWorker' in navigator) {
 .eaaci-body ul{margin:0 0 4px;padding-left:17px}
 .eaaci-body li{margin-bottom:4px}
 .eaaci-card.hidden-e{display:none}
+
+.eaaci-btnrow{display:flex;gap:7px;overflow-x:auto;padding:2px 0 4px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.eaaci-btnrow::-webkit-scrollbar{display:none}
+.eaaci-btn{flex:0 0 auto;white-space:nowrap;border:1px solid var(--gray-300);background:#fff;color:var(--navy);font-size:11.5px;font-weight:700;padding:7px 12px;border-radius:999px;cursor:pointer;font-family:inherit;transition:.15s}
+.eaaci-btn:hover{border-color:var(--teal-mid);color:var(--teal-mid)}
+.eaaci-btn.on{background:var(--navy);border-color:var(--navy);color:#fff}
 </style>
 <div id="auriWrap">
   <button id="auriFechar" onclick="auriFechar()" aria-label="Fechar o robô">×</button>
@@ -7906,6 +7913,21 @@ document.addEventListener('click', function(ev){
     card.classList.toggle('hidden-e', !show);
     if(!show) card.removeAttribute('open');
   });
+});
+</script>
+<script>
+/* -- BOTOES HORIZONTAIS EAACI -- */
+document.addEventListener('click', function(ev){
+  var b = ev.target.closest && ev.target.closest('#eaaci-btnrow .eaaci-btn');
+  if(!b) return;
+  var card = document.getElementById(b.getAttribute('data-ego'));
+  if(!card) return;
+  var allChip = document.querySelector('#eaaci-chips .fchip[data-efilter="all"]');
+  if(allChip && !allChip.classList.contains('on')) allChip.click();
+  document.querySelectorAll('#eaaci-btnrow .eaaci-btn').forEach(function(x){ x.classList.toggle('on', x===b); });
+  document.querySelectorAll('#eaaci-list .eaaci-card[open]').forEach(function(c){ if(c!==card) c.removeAttribute('open'); });
+  card.setAttribute('open','');
+  setTimeout(function(){ card.scrollIntoView({behavior:'smooth',block:'start'}); }, 60);
 });
 </script>
 </body>
