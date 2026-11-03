@@ -1875,19 +1875,6 @@ window._mostrarApp = function(){
       <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Dose por doença · critérios e exames para DUT · Rol ANS · PCDT/SUS</div>
       <div style="font-size:10.5px;color:var(--teal-mid);margin-top:6px;font-weight:700">✔ Fichas revisadas em 02/10/2026 contra ANS, ANVISA e CONITEC</div>
     </div>
-    <!-- RADAR REGULATÓRIO (ao vivo) -->
-    <div id="radarBox" style="margin:4px 16px 14px;background:#fff;border:1px solid var(--gray-100);border-radius:14px;overflow:hidden">
-      <div style="padding:12px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--gray-50)">
-        <span style="font-size:16px">📡</span>
-        <div style="flex:1;min-width:0">
-          <div style="font-size:13px;font-weight:800;color:var(--navy)">Radar regulatório — atualizações no Brasil</div>
-          <div id="radarStatus" style="font-size:10.5px;color:var(--gray-500)">Publicações dos órgãos brasileiros · mais recentes primeiro</div>
-        </div>
-        <button onclick="carregarRadar(true)" style="background:var(--gray-50);border:1px solid var(--gray-100);border-radius:9px;padding:6px 10px;font-size:11px;font-weight:700;color:var(--teal-mid);cursor:pointer;font-family:Manrope,sans-serif">🔄</button>
-      </div>
-      <div id="radarLista" style="max-height:520px;overflow-y:auto;-webkit-overflow-scrolling:touch"><div style="padding:14px;font-size:12px;color:var(--gray-300);text-align:center">⏳ Buscando novidades oficiais...</div></div>
-    </div>
-
     <!-- BLOCO EDUCACIONAL: DUT x PCDT x Rol -->
     <div style="margin:8px 16px 16px;background:linear-gradient(135deg,rgba(59,191,204,.08),rgba(59,191,204,.02));border:1px solid rgba(59,191,204,.22);border-radius:14px;overflow:hidden">
       <div onclick="toggleBio('glossario')" style="padding:13px 15px;display:flex;align-items:center;gap:9px;cursor:pointer">
@@ -1937,6 +1924,20 @@ window._mostrarApp = function(){
         </div>
 
       </div>
+
+    <!-- RADAR REGULATÓRIO (ao vivo) -->
+    <div id="radarBox" style="margin:4px 16px 14px;background:#fff;border:1px solid var(--gray-100);border-radius:14px;overflow:hidden">
+      <div style="padding:12px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--gray-50)">
+        <span style="font-size:16px">📡</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:800;color:var(--navy)">Radar regulatório — atualizações no Brasil</div>
+          <div id="radarStatus" style="font-size:10.5px;color:var(--gray-500)">Publicações dos órgãos brasileiros · mais recentes primeiro</div>
+        </div>
+        <button onclick="carregarRadar(true)" style="background:var(--gray-50);border:1px solid var(--gray-100);border-radius:9px;padding:6px 10px;font-size:11px;font-weight:700;color:var(--teal-mid);cursor:pointer;font-family:Manrope,sans-serif">🔄</button>
+      </div>
+      <div id="radarLista" style="max-height:520px;overflow-y:auto;-webkit-overflow-scrolling:touch"><div style="padding:14px;font-size:12px;color:var(--gray-300);text-align:center">⏳ Buscando novidades oficiais...</div></div>
+    </div>
+
     </div>
 
     <div class="bio-grid">
