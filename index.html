@@ -1880,12 +1880,12 @@ window._mostrarApp = function(){
       <div style="padding:12px 14px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--gray-50)">
         <span style="font-size:16px">📡</span>
         <div style="flex:1;min-width:0">
-          <div style="font-size:13px;font-weight:800;color:var(--navy)">Radar regulatório — aprovações no Brasil</div>
-          <div id="radarStatus" style="font-size:10.5px;color:var(--gray-500)">ANS · CONITEC · ANVISA · Diário Oficial — as 5 últimas aprovações</div>
+          <div style="font-size:13px;font-weight:800;color:var(--navy)">Radar regulatório — atualizações no Brasil</div>
+          <div id="radarStatus" style="font-size:10.5px;color:var(--gray-500)">Até 20 publicações relevantes de cada órgão</div>
         </div>
         <button onclick="carregarRadar(true)" style="background:var(--gray-50);border:1px solid var(--gray-100);border-radius:9px;padding:6px 10px;font-size:11px;font-weight:700;color:var(--teal-mid);cursor:pointer;font-family:Manrope,sans-serif">🔄</button>
       </div>
-      <div id="radarLista" style="max-height:340px;overflow-y:auto;-webkit-overflow-scrolling:touch"><div style="padding:14px;font-size:12px;color:var(--gray-300);text-align:center">⏳ Buscando novidades oficiais...</div></div>
+      <div id="radarLista" style="max-height:520px;overflow-y:auto;-webkit-overflow-scrolling:touch"><div style="padding:14px;font-size:12px;color:var(--gray-300);text-align:center">⏳ Buscando novidades oficiais...</div></div>
     </div>
 
     <!-- BLOCO EDUCACIONAL: DUT x PCDT x Rol -->
@@ -6458,11 +6458,11 @@ function carregarRadar(forcar){
       }
       return false;
     }
-    // SEMPRE restrito a alergia/imunologia; só relaxa a exigência de "aprovação"
-    var itensTema = itensBR.filter(_ehTema);
-    var itens = itensTema.filter(_ehAprovacao);
-    if(!itens.length) itens = itensTema;
-    itensAll = itensTema;
+    // O Supabase já filtra ANVISA e CONITEC pelo tema. Nas demais fontes,
+    // exige referência clínica para evitar notícias regulatórias não pertinentes.
+    var itens = itensBR.filter(function(it) {
+      return it.fonte === 'CONITEC' || it.fonte === 'ANVISA' || _ehTema(it);
+    });
     var fontes = d.fontes || {};
     var gerado = d.gerado_em ? new Date(d.gerado_em) : new Date();
     var hm = gerado.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
@@ -6478,39 +6478,52 @@ function carregarRadar(forcar){
     }
     if(status) status.textContent = dd + ' ' + hm + ' · ' + partes.join(' · ');
 
-    if(status) status.textContent += ' · ' + Math.min(itens.length,5) + ' últimas aprovações';
-    if(!itens.length){
-      lista.innerHTML = '<div style="padding:16px;font-size:12px;color:var(--gray-500);text-align:center">Nenhuma aprovação recente encontrada nos órgãos nacionais (ANS, CONITEC, ANVISA, Diário Oficial). Toque em 🔄 para atualizar.</div>';
-      return;
-    }
+    if(status) status.textContent += ' · até 20 publicações por órgão';
 
     itens.sort(function(a,b){
-      var da = Date.parse(a.data || '') || 0, db = Date.parse(b.data || '') || 0;
-      return db - da;   // mais recente no topo; sem data vão para o fim
+      var da = Date.parse(a.data || '') || 0;
+      var db = Date.parse(b.data || '') || 0;
+      return db - da;
     });
-    itens = itens.slice(0,5);   // só as 5 últimas aprovações
-    var FONTE_COR = {ANS:'#0056a6',CONITEC:'#2e7d32',DOU:'#6a1b9a',ANVISA:'#bf360c',FDA:'#1565c0'};
+
+    var cores = { ANS:'#0056a6', CONITEC:'#2e7d32', DOU:'#6a1b9a', ANVISA:'#bf360c' };
+    var titulos = { ANS:'ANS', CONITEC:'CONITEC', DOU:'Diário Oficial da União', ANVISA:'ANVISA' };
     var html = '';
-    for(var i=0;i<itens.length;i++){
-      var it = itens[i];
-      var cor = FONTE_COR[it.fonte] || 'var(--navy)';
-      var tags = '';
-      if(it.drogas && it.drogas.length){
-        for(var di=0;di<it.drogas.length && di<3;di++){
-          tags += '<span style="display:inline-block;background:rgba(0,86,166,.08);color:#0056a6;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:8px;margin-right:3px">' + it.drogas[di] + '</span>';
-        }
+    for(var fi=0;fi<nomes.length;fi++){
+      var orgao=nomes[fi];
+      var encontrados=itens.filter(function(it){return it.fonte===orgao;}).slice(0,20);
+      var fonteDisponivel=fontes[orgao] && fontes[orgao].ok;
+      html += '<details open style="background:#fff;border-bottom:1px solid var(--gray-100)">' +
+        '<summary style="padding:12px 14px;background:var(--gray-50);cursor:pointer;font-size:12px;font-weight:800;color:'+cores[orgao]+'">' +
+        titulos[orgao] + ' · ' + encontrados.length + (encontrados.length===1?' publicação':' publicações') +
+        '</summary>';
+      if(!encontrados.length){
+        html += '<div style="padding:13px 15px;font-size:11px;color:var(--gray-500)">' +
+          (fonteDisponivel?'Nenhuma publicação pertinente encontrada na busca atual.':'Fonte temporariamente indisponível.') + '</div>';
       }
-      var dataStr = it.data ? it.data.split('-').reverse().join('/') : '';
-      html += '<a href="' + (it.link||'#') + '" target="_blank" rel="noopener" style="display:block;text-decoration:none;padding:11px 14px;border-bottom:1px solid var(--gray-50)">' +
-        '<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">' +
-          '<span style="font-size:9.5px;font-weight:800;color:' + cor + ';text-transform:uppercase;letter-spacing:.04em">' + (it.fonte||'') + '</span>' +
-          (dataStr ? '<span style="font-size:9.5px;color:var(--gray-300)">· ' + dataStr + '</span>' : '') +
-          tags +
-        '</div>' +
-        '<div style="font-size:12.5px;font-weight:700;color:var(--navy);line-height:1.35;margin-bottom:3px">' + _feedEscape(it.titulo) + '</div>' +
-        (it.resumo ? '<div style="font-size:11px;color:var(--gray-500);line-height:1.4;margin-bottom:5px">' + _feedEscape(it.resumo.slice(0,220)) + '</div>' : '') +
-        '<span style="font-size:11px;font-weight:700;color:var(--teal-mid)">Abrir no site da fonte →</span>' +
-        '</a>';
+      for(var i=0;i<encontrados.length;i++){
+        var it=encontrados[i], tags='';
+        if(it.drogas && it.drogas.length){
+          for(var di=0;di<it.drogas.length && di<3;di++){
+            tags += '<span style="display:inline-block;background:rgba(0,86,166,.08);color:#0056a6;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:8px;margin-right:3px">' +
+              _feedEscape(it.drogas[di]) + '</span>';
+          }
+        }
+        var dataStr=/^\d{4}-\d{2}-\d{2}$/.test(it.data||'') ? it.data.split('-').reverse().join('/') : 'Data não informada';
+        var link=String(it.link||'');
+        // Nunca inserir endereços não confiáveis diretamente em atributos HTML.
+        var linkSeguro=/^https:\/\/(?:www\.)?(?:gov\.br|in\.gov\.br)\//i.test(link) ?
+          link.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;') : '';
+        html += '<div style="padding:11px 14px;border-bottom:1px solid var(--gray-50)">' +
+          '<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">' +
+          '<span style="font-size:9.5px;color:var(--gray-500)">'+dataStr+'</span>'+tags+'</div>' +
+          '<div style="font-size:12.5px;font-weight:700;color:var(--navy);line-height:1.4;margin-bottom:3px">' +
+          _feedEscape(it.titulo||'')+'</div>' +
+          (it.resumo?'<div style="font-size:11px;color:var(--gray-500);line-height:1.4;margin-bottom:5px">'+_feedEscape(it.resumo.slice(0,250))+'</div>':'') +
+          (linkSeguro?'<a href="'+linkSeguro+'" target="_blank" rel="noopener noreferrer" style="font-size:11px;font-weight:700;color:var(--teal-mid)">Abrir fonte oficial →</a>':'') +
+          '</div>';
+      }
+      html += '</details>';
     }
     lista.innerHTML = html;
   }).catch(function(e){
