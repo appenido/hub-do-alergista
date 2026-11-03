@@ -1,19 +1,35 @@
 {
- "ultimaTentativa": "2026-11-03T02:55:02.013Z",
- "atualizadoEm": "2026-11-03T02:55:02.013Z",
+ "ultimaTentativa": "2026-11-03T18:12:13.872Z",
+ "atualizadoEm": "2026-11-03T18:12:13.872Z",
  "status": "ok",
  "totalCandidatos": 60,
- "totalVerificados": 9,
- "totalPendentes": 7,
- "totalExcluidos": 44,
+ "totalVerificados": 10,
+ "totalPendentes": 6,
+ "totalExcluidos": 15,
  "falhasFonte": [],
  "itens": [
   {
    "status": "verificado",
-   "titulo": "Asma: Doença nem sempre visível: Muitas pessoas têm a doença mas não sabem",
+   "titulo": "Cerca de 30% dos brasileiros convivem com algum tipo de alergia",
    "fonte": "G1",
-   "data": "2026-10-28T17:17:54.000Z",
-   "url": "https://g1.globo.com/pa/santarem-regiao/videos-jornal-tapajos-1-edicao/video/asma-doenca-nem-sempre-visivel-muitas-pessoas-tem-a-doenca-mas-nao-sabem-15138299.ghtml",
+   "data": "2026-11-03T17:10:55.000Z",
+   "url": "https://g1.globo.com/sp/sao-jose-do-rio-preto-aracatuba/videos-tem-noticias-1-edicao/video/cerca-de-30-dos-brasileiros-convivem-com-algum-tipo-de-alergia-15155265.ghtml",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Por que tanta gente sofre com alergia em Passo Fundo? A resposta pode estar nas lavouras",
+   "fonte": "GZH",
+   "data": "2026-10-29T07:00:02.000Z",
+   "url": "https://gauchazh.clicrbs.com.br/passo-fundo/saude/noticia/2026/10/por-que-tanta-gente-sofre-com-alergia-em-passo-fundo-a-resposta-pode-estar-nas-lavouras-cmvsg6fe4010p016nihzqdwiw.html",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Demi Lovato dá notícias após relatos de hospitalização e reação alérgica",
+   "fonte": "Terra",
+   "data": "2026-10-28T17:11:05.000Z",
+   "url": "https://www.terra.com.br/diversao/musica/meu-sonora/pop-internacional/demi-lovato-da-noticias-apos-relatos-de-hospitalizacao-e-reacao-alergica,64254353439e24dd94ca339ee5132810j7qc0cli.html",
    "verificado": true
   },
   {
@@ -34,73 +50,65 @@
   },
   {
    "status": "verificado",
-   "titulo": "Halloween: fantasias, maquiagens e glitter podem desencadear crises alérgicas em crianças",
-   "fonte": "JC",
-   "data": "2026-10-27T18:54:00.000Z",
-   "url": "https://jc.uol.com.br/colunas/saude-e-bem-estar/2026/10/27/halloween-fantasias-maquiagens-e-glitter-podem-desencadear-crises-alergicas-em-criancas.html",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Saiba como identificar, prevenir e tratar a Dermatite atópica",
-   "fonte": "G1",
-   "data": "2026-10-24T18:33:14.000Z",
-   "url": "https://g1.globo.com/to/tocantins/videos-ja-1-edicao-to/video/saiba-como-identificar-prevenir-e-tratar-a-dermatite-atopica-15119537.ghtml",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Família encomenda 120 doces sem leite para aniversário de criança alérgica e descobre depois da primeira mordida que parte do recheio foi feita com ingrediente comum",
-   "fonte": "Correio Braziliense",
-   "data": "2026-10-22T02:37:00.000Z",
-   "url": "https://www.correiobraziliense.com.br/cbradar/doces-sem-leite-festa-infantil-alergia-responsabilidade-cdc/",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "O impacto da dermatite atópica na saúde mental de pacientes e familiares - 14/10/2026 - Saude",
-   "fonte": "UOL",
-   "data": "2026-10-14T17:11:21.000Z",
-   "url": "https://fotografia.folha.uol.com.br/galerias/1879057294759154-o-impacto-da-dermatite-atopica-na-saude-mental-de-pacientes-e-familiares",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Mulher foi ao pronto-socorro após ataque de asma e ficou trancada no consultório após equipe inteira encerrar expediente e ir embora",
+   "titulo": "Demi Lovato é hospitalizada e preocupa fãs: \"Reação alérgica\"",
    "fonte": "CNN Brasil",
-   "data": "2026-10-13T16:00:10.000Z",
-   "url": "https://www.cnnbrasil.com.br/curiosidades/mulher-foi-ao-pronto-socorro-apos-ataque-de-asma-e-ficou-trancada-no-consultorio-apos-equipe-inteira-encerrar-expediente-e-ir-embora/",
+   "data": "2026-10-28T14:11:08.000Z",
+   "url": "https://www.cnnbrasil.com.br/pop/celebridades/demi-lovato-e-hospitalizada-e-preocupa-fas-reacao-alergica/",
    "verificado": true
   },
   {
    "status": "verificado",
-   "titulo": "A batalha da Helena contra a dermatite atópica: como você pode ajudar",
-   "fonte": "Terra",
-   "data": "2026-10-02T09:02:57.000Z",
-   "url": "https://www.terra.com.br/noticias/a-batalha-da-helena-contra-a-dermatite-atopica-como-voce-pode-ajudar,813bab0f6a180486c12a8e6e94d74d0e2ffunsz1.html",
+   "titulo": "Família de mulher morta na Europa após reação alérgica luta para trazer corpo de volta ao Brasil",
+   "fonte": "R7",
+   "data": "2026-10-26T11:57:18.000Z",
+   "url": "https://record.r7.com/balanco-geral-manha/video/familia-de-mulher-morta-na-europa-apos-reacao-alergica-luta-para-trazer-corpo-de-volta-ao-brasil-26102026/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Alergia a Camarão Pode Ser Fatal em Minutos: Entenda os Riscos e Como Agir",
+   "fonte": "Forbes Brasil",
+   "data": "2026-10-24T08:00:00.000Z",
+   "url": "https://forbes.com.br/forbes-saude/2026/10/alergia-a-camarao-pode-ser-fatal-em-minutos-entenda-os-riscos-e-como-agir/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Veja quais os sintomas e como socorrer alguém com alergia a frutos do mar",
+   "fonte": "R7",
+   "data": "2026-10-23T14:29:24.000Z",
+   "url": "https://record.r7.com/hoje-em-dia/video/veja-quais-os-sintomas-e-como-socorrer-alguem-com-alergia-a-frutos-do-mar-23102026/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Brasileira morre em viagem a Portugal após reação alérgica",
+   "fonte": "SBT News",
+   "data": "2026-10-23T14:14:07.805Z",
+   "url": "https://sbtnews.sbt.com.br/noticia/brasil/brasileira-morre-em-viagem-a-portugal-apos-reacao-alergica",
    "verificado": true
   }
  ],
  "pendentes": [
   {
    "status": "pendente",
-   "titulo": "‘Bombinha de asma’ ganha versão sustentável que reduz pegada de carbono em até 90%",
-   "fonte": "Um só Planeta",
-   "url": "https://umsoplaneta.globo.com/energia/noticia/2026/10/30/bombinha-de-asma-ganha-versao-sustentavel-que-reduz-pegada-de-carbono-em-ate-90percent.ghtml",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Demi Lovato é hospitalizada após possível reação alérgica; saiba detalhes",
+   "titulo": "Demi Lovato atualiza estado de saúde após possível internação por reação alérgica e apaga publicação no Instagram",
    "fonte": "Globo",
-   "url": "https://revistaquem.globo.com/saude/noticia/2026/10/demi-lovato-e-hospitalizada-apos-possivel-reacao-alergica-saiba-detalhes.ghtml",
+   "url": "https://vogue.globo.com/celebridades/noticia/2026/10/demi-lovato-preocupa-fas-apos-aparecer-no-hospital-e-revelar-suspeita-de-reacao-alergica.ghtml",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   },
   {
    "status": "pendente",
-   "titulo": "Dermatite atópica pode ser mais difícil de identificar em peles negras, revela novo estudo",
-   "fonte": "Crescer",
-   "url": "https://revistacrescer.globo.com/saude/noticia/2026/10/dermatite-atopica-pode-ser-mais-dificil-de-identificar-em-peles-negras-revela-novo-estudo.ghtml",
+   "titulo": "Tudo sobre Alergia a camarão",
+   "fonte": "Forbes Brasil",
+   "url": "https://forbes.com.br/noticias-sobre/alergia-a-camarao/",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+  },
+  {
+   "status": "pendente",
+   "titulo": "O que se sabe sobre morte de enfermeira após possível reação alérgica a camarão durante lua de mel em Portugal",
+   "fonte": "O GLOBO",
+   "url": "https://oglobo.globo.com/brasil/noticia/2026/10/24/o-que-se-sabe-sobre-morte-de-enfermeira-apos-possivel-reacao-alergica-a-camarao-durante-lua-de-mel-em-portugal.ghtml",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   },
   {
@@ -112,27 +120,41 @@
   },
   {
    "status": "pendente",
+   "titulo": "Brasileira com alergia a camarão morre após comer lula durante lua de mel em Portugal",
+   "fonte": "O GLOBO",
+   "url": "https://oglobo.globo.com/brasil/noticia/2026/10/23/brasileira-com-alergia-a-camarao-morre-apos-comer-lula-durante-lua-de-mel-em-portugal.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+  },
+  {
+   "status": "pendente",
    "titulo": "Morte de enfermeira em lua de mel acende alerta para alergia alimentar",
    "fonte": "Band",
    "url": "https://www.band.com.br/saude/morte-de-enfermeira-em-lua-de-mel-acende-alerta-para-alergia-alimentar",
    "motivo": "página retornou HTTP 403"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Pais são presos por negligência após criança morrer de crise de asma sem tratamento nos EUA",
-   "fonte": "O GLOBO",
-   "url": "https://oglobo.globo.com/saude/epoca/post/2026/10/pais-sao-presos-por-negligencia-apos-crianca-morrer-de-crise-de-asma-sem-tratamento-nos-eua.ghtml",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Estudo mostra que exercícios físicos, como caminhadas, ajudam a controlar crises de asma",
-   "fonte": "G1",
-   "url": "https://g1.globo.com/jornal-nacional/noticia/2026/10/06/estudo-mostra-que-exercicios-fisicos-como-caminhadas-ajudam-a-controlar-crises-de-asma.ghtml",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   }
  ],
  "excluidos": [
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Rússia registra nova vacina contra alergia ao pólen de bétula",
+   "fonte": "Diário da Guanabara",
+   "url": "https://dgrj.com.br/internacional/russia-registra-nova-vacina-contra-alergia-ao-polen-de-betula"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Alergia e intolerância alimentar na infância: especialistas explicam os sinais que merecem atenção dos pais",
+   "fonte": "jornaltribuna.com.br",
+   "url": "https://www.jornaltribuna.com.br/2026/11/alergia-e-intolerancia-alimentar-na-infancia-especialistas-explicam-os-sinais-que-merecem-atencao-dos-pais"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "O homem entrou em coma e ficou roxo devido a um choque anafilático após tomar o medicamento.",
+   "fonte": "Vietnam.vn",
+   "url": "https://www.vietnam.vn/pt/nguoi-dan-ong-hon-me-tim-tai-vi-soc-phan-ve-sau-khi-dung-thuoc"
+  },
   {
    "status": "excluido",
    "motivo": "veículo estrangeiro",
@@ -149,24 +171,10 @@
   },
   {
    "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Processa recebe aprovação do FDA para estudo de fase 2 em urticária - Investing.com Brasil",
-   "fonte": "Investing.com Brasil - Finanças, Câmbio e Investimentos",
-   "url": "https://br.investing.com/news/company-news/processa-recebe-aprovacao-do-fda-para-estudo-de-fase-2-em-urticaria-93CH-2107926"
-  },
-  {
-   "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Kymera divulga resultados com foco em medicamento para dermatite atópica - Investing.com Brasil",
-   "fonte": "Investing.com Brasil - Finanças, Câmbio e Investimentos",
-   "url": "https://br.investing.com/news/earnings/kymera-divulga-resultados-com-foco-em-medicamento-para-dermatite-atopica-93CH-2106503"
-  },
-  {
-   "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Tratamentos de pele biológicos podem provocar troca entre dermatite atópica e psoríase",
-   "fonte": "bra1.com.br",
-   "url": "https://www.bra1.com.br/geral/id-716930/tratamentos_de_pele_biologicos_podem_provocar_troca_entre_dermatite_atopica_e_psoriase"
+   "titulo": "Demi Lovato é hospitalizada após reação alérgica e tranquiliza fãs: “Estou bem”",
+   "fonte": "96FM Bauru",
+   "url": "https://96fmbauru.com.br/demi-lovato-e-hospitalizada-apos-reacao-alergica-e-tranquiliza-fas-estou-bem"
   },
   {
    "status": "excluido",
@@ -177,17 +185,17 @@
   },
   {
    "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Demi Lovato tem reação alérgica; saiba estado de saúde",
+   "fonte": "Billboard Brasil",
+   "url": "https://billboard.com.br/demi-lovato-reacao-alergica/"
+  },
+  {
+   "status": "excluido",
    "motivo": "veículo estrangeiro",
    "titulo": "Fique atento ao risco de anafilaxia após picadas de formiga:",
    "fonte": "Vietnam.vn",
    "url": "https://www.vietnam.vn/pt/canh-giac-phan-ve-sau-kien-dot"
-  },
-  {
-   "status": "excluido",
-   "motivo": "fonte institucional/científica, não jornalística",
-   "titulo": "Boletim: Jogos Escolares / Prevenção, causa e tratamento da asma / Especial sobre a gripe",
-   "fonte": "Agência Minas",
-   "url": "https://www.agenciaminas.mg.gov.br/multimidia/audio/boletim-jogos-escolares-prevencao-causa-e-tratamento-da-asma-especial-sobre-a-gripe-80247"
   },
   {
    "status": "excluido",
@@ -199,30 +207,9 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Demi Lovato é hospitalizada por reação alérgica e atualiza fãs sobre sua saúde",
-   "fonte": "Vagalume",
-   "url": "https://www.vagalume.com.br/news/2026/10/28/demi-lovato-e-hospitalizada-por-reacao-alergica-e-atualiza-fas-sobre-sua-saude.html"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Reação alérgica grave durante viagem: o que você precisa saber antes de embarcar?",
    "fonte": "THMais",
    "url": "https://thmais.com.br/novabrasil/reacao-alergica-grave-durante-viagem-o-que-voce-precisa-saber-antes-de-embarcar/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Dupilumabe demonstra eficácia global em múltiplos parâmetros da asma pediátrica",
-   "fonte": "Medscape",
-   "url": "https://portugues.medscape.com/viewarticle/dupilumabe-demonstra-efic%C3%A1cia-global-m%C3%BAltiplos-2026a10014ca"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Pessoas com dermatite atópica têm maior risco de depressão e ansiedade",
-   "fonte": "Bem Paraná",
-   "url": "https://www.bemparana.com.br/noticias/pessoas-com-dermatite-atopica-tem-maior-risco-de-depressao-e-ansiedade/"
   },
   {
    "status": "excluido",
@@ -241,16 +228,9 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Brasileira morre devido a alergia a marisco durante lua de mel em Leiria",
-   "fonte": "Notícias ao Minuto",
-   "url": "https://www.noticiasaominuto.com/pais/3072024/brasileira-morre-devido-a-alergia-a-marisco-durante-lua-de-mel-em-leiria"
-  },
-  {
-   "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Lua de mel termina em tragédia: mulher brasileira morre em Portugal após reação alérgica grave. Tinha casado 11 dias antes",
-   "fonte": "Jornal SOL",
-   "url": "https://sol.iol.pt/sociedade/noticias/lua-de-mel-termina-em-tragedia-mulher-brasileira-morre-em-portugal-apos-reacao-alergica-grave-tinha-casado-11-dias-antes/20261023/6adb9abd0cf2e5e7f37cac86"
+   "titulo": "Brasileira morre em lua de mel em Portugal após reação alérgica; entenda",
+   "fonte": "InfoMoney",
+   "url": "https://www.infomoney.com.br/minhas-financas/brasileira-morre-lua-de-mel-portugal/"
   },
   {
    "status": "excluido",
@@ -258,20 +238,6 @@
    "titulo": "Caso Amanda Marinho: Ela sabia que tinha alergia a camarão, e morreu depois de comer lula. Entenda o que liga os dois",
    "fonte": "Espaço do Povo",
    "url": "https://espacodopovo.com.br/alergia-frutos-do-mar-morte-lua-de-mel-portugal/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Saúde: Alergia a camarão pode causar reação fatal",
-   "fonte": "Portal Terra da Luz",
-   "url": "https://portalterradaluz.com.br/destaques/saude-alergia-a-camarao-pode-causar-reacao-fatal/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Alergia a camarão pode causar anafilaxia fatal; saiba como agir",
-   "fonte": "Diário do Centro do Mundo",
-   "url": "https://www.diariodocentrodomundo.com.br/essencial/morte-de-brasileira-em-lua-de-mel-alerta-para-risco-de-alergia-a-frutos-do-mar/"
   }
  ]
 }
