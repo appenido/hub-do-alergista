@@ -3541,9 +3541,19 @@ function igNomeAutoComplete(val){
     matches.forEach(function(p){
       var div = document.createElement('div');
       div.style.cssText = 'padding:8px 12px;cursor:pointer;border-bottom:1px solid var(--gray-100);font-size:13px';
-      div.innerHTML = '<b>'+p.nome+'</b><span style="color:var(--gray-500);font-size:11px;margin-left:8px">'+
-        (p.dx||'')+(p.peso?' · '+p.peso+' kg':'')+(p.ultima?' · '+p.ultima:'')+'</span>';
-      (function(pn){ div.onclick = function(){ igSelecionarPaciente(pn); }; })(p.nome);
+      var infoSpan = '<span style="color:var(--gray-500);font-size:11px;margin-left:8px">'
+        +(p.dx||'')+(p.peso?' · '+p.peso+' kg':'')+(p.ultima?' · '+p.ultima:'')+'</span>';
+      var btns = '<span style="float:right;display:flex;gap:4px">'
+        +'<button type="button" title="Registrar infusão hoje" style="background:var(--teal-mid);color:#fff;border:none;border-radius:5px;padding:1px 6px;font-size:10px;cursor:pointer">&#128197; Registrar</button>'
+        +'<button type="button" title="Deletar paciente" style="background:#e53e3e;color:#fff;border:none;border-radius:5px;padding:1px 6px;font-size:10px;cursor:pointer">&#128465; Deletar</button>'
+        +'</span>';
+      div.innerHTML = '<b>'+p.nome+'</b>'+infoSpan+btns;
+      div.style.display = 'flex'; div.style.alignItems = 'center'; div.style.justifyContent = 'space-between';
+      (function(pn){
+        div.onclick = function(){ igSelecionarPaciente(pn); };
+        div.querySelector('button:first-child').onclick = function(e){ e.stopPropagation(); igRegistrarInfusao(pn); };
+        div.querySelector('button:last-child').onclick = function(e){ e.stopPropagation(); igDeletarPaciente(pn); };
+      })(p.nome);
       box.appendChild(div);
     });
     box.style.display = 'block';
@@ -3562,6 +3572,34 @@ function igSelecionarPaciente(nome){
     set('igVia',p.via); set('igProduto',p.produto);
     if(p.produto) renderIgPicker();
     toast('👤','Paciente carregado');
+  }catch(e){}
+}
+function igRegistrarInfusao(nome){
+  var box = document.getElementById('igNomeSugs');
+  if(box) box.style.display='none';
+  try{
+    var hist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
+    var p = hist[nome.toLowerCase()];
+    if(!p) return;
+    if(!p.infusoes) p.infusoes = [];
+    var hoje = new Date().toLocaleDateString('pt-BR');
+    var n = p.infusoes.length + 1;
+    p.infusoes.push({data:hoje, n:n, produto:p.produto});
+    p.ultima = hoje;
+    hist[nome.toLowerCase()] = p;
+    localStorage.setItem('igPacientes', JSON.stringify(hist));
+    toast('📅','Infusão nº'+n+' registrada ('+hoje+')');
+  }catch(e){ toast('⚠️','Erro ao registrar'); }
+}
+function igDeletarPaciente(nome){
+  if(!confirm('Deletar '+nome+' do histórico?')) return;
+  var box = document.getElementById('igNomeSugs');
+  if(box) box.style.display='none';
+  try{
+    var hist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
+    delete hist[nome.toLowerCase()];
+    localStorage.setItem('igPacientes', JSON.stringify(hist));
+    toast('🗑️','Paciente removido');
   }catch(e){}
 }
 function igCarregarPaciente(){
@@ -5734,20 +5772,49 @@ function gerarOrientacaoIg(){
     return '<table class="ig-tbl"><thead><tr><th>Tempo</th><th>Vel. (mL/kg/h)</th><th>Vel. absoluta</th><th>Observação</th></tr></thead><tbody>'+rows.join('')+'</tbody></table>';
   }
 
+  // ivRate com velocidades específicas por 1ª vs 2ª+ infusão
+  // ini1 = velocidade inicial 1ª infusão; ini = velocidade inicial 2ª+; max = máxima
+  var ivRateEx = {
+    privigen_10:   {ini1:0.3, ini:0.5, max:4.8},
+    octagam_10:    {ini1:0.6, ini:1.2, max:7.2},
+    kiovig_10:     {ini1:0.5, ini:1.0, max:6.0},
+    flebogamma_10: {ini1:0.5, ini:1.0, max:6.0},
+    tegeline_5:    {ini1:0.6, ini:0.6, max:4.2},
+    endobulin_5:   {ini1:0.5, ini:0.5, max:4.0},
+    gammaked_10:   {ini1:0.5, ini:1.2, max:8.0},
+    gamunex_10:    {ini1:0.5, ini:1.2, max:8.0}
+  };
+  var rx = ivRateEx[prod_k] || (r ? {ini1:r.ini, ini:r.ini, max:r.max} : null);
+
   var stepsIV = [];
   if(via === 'IV'){
     stepsIV.push({t:'Acesso venoso', d:'Acesso venoso periférico calibroso (≥ 20G). Confirmar permeabilidade antes de iniciar.'});
-    if(r){
-      stepsIV.push({t:'Velocidade inicial', d:'<b>'+r.ini+' mL/kg/h → '+vIniAbs+' mL/h</b> para '+peso+' kg. Manter por 30 min e monitorar tolerância.'});
-      stepsIV.push({t:'Escalonamento progressivo', d:gerarTabelaIV(peso, r)});
-      stepsIV.push({t:'Velocidade máxima', d:'<b>'+r.max+' mL/kg/h → '+vMaxAbs+' mL/h</b> para '+peso+' kg. Atingir somente se tolerado em todas as etapas anteriores.'});
+    if(rx){
+      if(primeira === 'sim'){
+        var vIni1Abs = (rx.ini1 * peso).toFixed(0);
+        stepsIV.push({t:'1ª infusão — velocidade inicial',
+          d:'<b>'+rx.ini1+' mL/kg/h → '+vIni1Abs+' mL/h</b> para '+peso+' kg.<br>'
+           +'Iniciar mais lentamente que nas infusões subsequentes. Manter por <b>30 min</b> com monitoramento rigoroso.'});
+        stepsIV.push({t:'1ª infusão — escalonamento', d:gerarTabelaIV(peso, {ini:rx.ini1, max:rx.max})});
+        stepsIV.push({t:'Velocidade máxima', d:'<b>'+rx.max+' mL/kg/h → '+(rx.max*peso).toFixed(0)+' mL/h</b>. Só atingir se tolerado em todas as etapas.'});
+        stepsIV.push({t:'Monitorização (1ª infusão)',
+          d:'PA, FC e SpO₂ a cada <b>15 min nos primeiros 60 min</b>; a cada 30 min nas horas seguintes. Permanecer no local durante toda a infusão.'});
+      } else {
+        var vIniSubseqAbs = (rx.ini * peso).toFixed(0);
+        stepsIV.push({t:'2ª infusão em diante — velocidade inicial',
+          d:'<b>'+rx.ini+' mL/kg/h → '+vIniSubseqAbs+' mL/h</b> para '+peso+' kg.<br>'
+           +'Pode iniciar na velocidade já tolerada nas infusões anteriores, se documentada. Manter por 30 min antes de escalonar.'});
+        stepsIV.push({t:'Escalonamento progressivo', d:gerarTabelaIV(peso, {ini:rx.ini, max:rx.max})});
+        stepsIV.push({t:'Velocidade máxima', d:'<b>'+rx.max+' mL/kg/h → '+(rx.max*peso).toFixed(0)+' mL/h</b>. Atingir somente se tolerado.'});
+        stepsIV.push({t:'Monitorização', d:'PA, FC e SpO₂ a cada 30 min durante a infusão.'});
+      }
     } else {
       stepsIV.push({t:'Velocidade', d:'Consultar bula do produto. Iniciar na menor velocidade e escalonar a cada 30 min.'});
-    }
-    if(primeira === 'sim'){
-      stepsIV.push({t:'Monitorização (1ª infusão)', d:'PA, FC e SpO₂ a cada 15 min nos primeiros 60 min; a cada 30 min nas horas seguintes.'});
-    } else {
-      stepsIV.push({t:'Monitorização', d:'PA, FC e SpO₂ a cada 30 min durante a infusão.'});
+      if(primeira === 'sim'){
+        stepsIV.push({t:'Monitorização (1ª infusão)', d:'PA, FC e SpO₂ a cada 15 min nos primeiros 60 min; a cada 30 min nas horas seguintes.'});
+      } else {
+        stepsIV.push({t:'Monitorização', d:'PA, FC e SpO₂ a cada 30 min durante a infusão.'});
+      }
     }
     stepsIV.push({t:'Encerramento', d:'Flush com SF 0,9% ao término. Observar mínimo 30 min após o fim.'});
   }
