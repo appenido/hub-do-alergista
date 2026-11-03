@@ -2475,6 +2475,9 @@ window._mostrarApp = function(){
       <div class="ig-f-row"><label>Infecção ativa no momento?</label>
         <select id="igInfAtiva"><option value="nao">Não</option><option value="sim">Sim — infecção em curso</option></select></div>
 
+      <div class="ig-f-row"><label>Produto a ser infundido</label>
+        <div id="igProdutoPicker" style="margin-top:4px"></div></div>
+
       <div class="ig-f-row"><label>Fatores de risco presentes (marque os que se aplicam)</label>
         <div class="ig-chips" id="igRiscos">
           <button type="button" class="ig-chip" data-r="renal">Insuficiência renal</button>
@@ -2487,10 +2490,6 @@ window._mostrarApp = function(){
           <button type="button" class="ig-chip" data-r="nenhum">Nenhum</button>
         </div></div>
 
-      <div style="margin-top:16px">
-        <div class="ig-form-tit" style="margin-bottom:8px">Produto a ser infundido</div>
-        <div id="igProdutoPicker"></div>
-      </div>
       <button class="ig-btn" onclick="gerarOrientacaoIg()">Gerar orientações de infusão</button>
     </div>
 
@@ -3456,6 +3455,20 @@ function _enderecoPreencher(u){
 
 /* ── Seletor visual de imunoglobulina ───────────── */
 var IG_MARCA = {csl:['CSL','#b0181f'],octa:['OCTAPHARMA','#0b4f9e'],takeda:['TAKEDA','#b2122d'],grifols:['GRIFOLS','#0a6b5a'],lfb:['LFB','#1d3f8f'],baxter:['BAXTER','#1f5fa8'],kedrion:['KEDRION','#117a5b']};
+var IG_PRODUTOS = {
+  privigen_10:   {nome:'Privigen 10%',   conc:'10%', via:'IV'},
+  octagam_10:    {nome:'Octagam 10%',    conc:'10%', via:'IV'},
+  kiovig_10:     {nome:'Kiovig 10%',     conc:'10%', via:'IV'},
+  flebogamma_10: {nome:'Flebogamma 10%', conc:'10%', via:'IV'},
+  tegeline_5:    {nome:'Tégéline 5%',    conc:'5%',  via:'IV'},
+  endobulin_5:   {nome:'Endobulin 5%',   conc:'5%',  via:'IV'},
+  gammaked_10:   {nome:'Gammaked 10%',   conc:'10%', via:'IV'},
+  gamunex_10:    {nome:'Gamunex-C 10%',  conc:'10%', via:'IV'},
+  hizentra_20:   {nome:'Hizentra 20%',   conc:'20%', via:'SC'},
+  cuvitru_20:    {nome:'Cuvitru 20%',    conc:'20%', via:'SC'},
+  hyqvia_10:     {nome:'HyQvia 10%',     conc:'10%', via:'SC'},
+  gammanorm_165: {nome:'Gammanorm 16,5%',conc:'16.5%',via:'SC'}
+};
 var IG_LOGO_IMG = {csl:'img/csl.png',takeda:'img/takeda.png',octa:'img/octa.png',grifols:'img/grifols.png',kedrion:'img/kedrion.png',baxter:'img/baxter.png',lfb:'img/lfb.png'};
 var IG_LOGO = {privigen_10:'csl',octagam_10:'octa',kiovig_10:'takeda',flebogamma_10:'grifols',tegeline_5:'lfb',endobulin_5:'baxter',gammaked_10:'grifols',gamunex_10:'grifols',hizentra_20:'csl',cuvitru_20:'takeda',hyqvia_10:'takeda',gammanorm_165:'octa'};
 var IG_FABRICANTE = {privigen_10:'CSL Behring',octagam_10:'Octapharma',kiovig_10:'Takeda',flebogamma_10:'Grifols',
