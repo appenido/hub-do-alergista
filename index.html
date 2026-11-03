@@ -3853,6 +3853,85 @@ function carregarNoticiasMidia(){
 
 /* ── GUIDELINES AO VIVO (PubMed, últimos 3 anos, data exata) ── */
 var _glCarregado = '';
+var _GL_TOPICOS = [
+  ['asma', ['asthma','asthmat','wheez']],
+  ['da', ['atopic dermatitis','eczema','dermatite']],
+  ['urticaria', ['urticaria','angioedema','hives','urticária']],
+  ['anafilaxia', ['anaphyla','anafila']],
+  ['himen', ['hymenoptera','venom','bee sting','himenóp']],
+  ['rinite', ['rhinitis','rhinosinusitis','rinite','nasal polyp']],
+  ['aa', ['food allergy','food allerg','cow milk','peanut','oral immunotherapy','alimentar']],
+  ['eii', ['immunodeficiency','inborn errors of immunity','imunodefici']],
+  ['medicam', ['drug allergy','drug hypersensitivity','penicillin','medicament']],
+  ['masto', ['mastocytosis','mast cell','mastocit']],
+  ['eoe', ['eosinophilic esophagitis','eosinofílica']]
+];
+function _glTopico(txt){
+  var t = String(txt||'').toLowerCase();
+  for(var i=0;i<_GL_TOPICOS.length;i++){
+    var ks = _GL_TOPICOS[i][1];
+    for(var j=0;j<ks.length;j++){ if(t.indexOf(ks[j]) > -1) return _GL_TOPICOS[i][0]; }
+  }
+  return '';
+}
+var _GL_MESES = {jan:'01',feb:'02',mar:'03',apr:'04',may:'05',jun:'06',jul:'07',aug:'08',sep:'09',oct:'10',nov:'11',dec:'12'};
+function _glData(i){
+  // prioridade: data de publicação impressa/eletrônica real
+  var fontes = [i.pubdate, i.epubdate, i.sortpubdate];
+  for(var k=0;k<fontes.length;k++){
+    var s = String(fontes[k]||'').trim();
+    if(!s) continue;
+    var m = s.match(/^(\d{4})[\/\-](\d{2})[\/\-](\d{2})/);
+    if(m) return {br:m[3]+'/'+m[2]+'/'+m[1], ord:m[1]+m[2]+m[3]};
+    m = s.match(/^(\d{4})\s+([A-Za-z]{3})\s*(\d{1,2})?/);
+    if(m){
+      var mm = _GL_MESES[m[2].toLowerCase()] || '01';
+      var dd = m[3] ? ('0'+m[3]).slice(-2) : '01';
+      return {br: (m[3] ? dd+'/' : '') + mm+'/'+m[1], ord:m[1]+mm+dd};
+    }
+    m = s.match(/^(\d{4})$/);
+    if(m) return {br:m[1], ord:m[1]+'0101'};
+  }
+  return {br:'', ord:'0'};
+}
+function _glTraduzir(itens){
+  var titulos = itens.map(function(i){ return i._titulo; });
+  var cache = {};
+  try{ cache = JSON.parse(localStorage.getItem('hub_gl_pt')||'{}'); }catch(e){}
+  var faltam = titulos.filter(function(t){ return !cache[t]; });
+  function aplicar(){
+    itens.forEach(function(i){ if(cache[i._titulo]) i._tituloPt = cache[i._titulo]; });
+    return itens;
+  }
+  if(!faltam.length) return Promise.resolve(aplicar());
+  var pedido = 'Traduza para o português do Brasil cada título de diretriz/consenso médico abaixo. Responda APENAS com os títulos traduzidos, um por linha, na mesma ordem, sem numeração e sem comentários.\n\n' + faltam.join('\n');
+  return fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta: pedido})})
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      var linhas = (d && d.resposta ? d.resposta : '').split('\n').map(function(l){ return l.replace(/^\s*[\d).\-•]+\s*/,'').trim(); }).filter(Boolean);
+      if(linhas.length === faltam.length){
+        faltam.forEach(function(t,k){ cache[t] = linhas[k]; });
+        try{ localStorage.setItem('hub_gl_pt', JSON.stringify(cache)); }catch(e){}
+      }
+      return aplicar();
+    })
+    .catch(function(){ return aplicar(); });
+}
+function _glFiltroAtivo(){
+  var c = document.querySelector('.fchip[data-gfilter].on');
+  return c ? c.dataset.gfilter : 'all';
+}
+function _glPintar(box, itens){
+  var f = _glFiltroAtivo();
+  box.innerHTML = itens.map(function(i){
+    var mostra = (f === 'all' || i._topico === f);
+    return '<a class="guide-card" data-topic="' + _jEsc(i._topico) + '" href="https://pubmed.ncbi.nlm.nih.gov/' + i.uid + '/" target="_blank" rel="noopener" style="display:' + (mostra?'block':'none') + ';text-decoration:none">' +
+      '<div class="gc-soc">' + _jEsc(i.source || 'PubMed') + '</div>' +
+      '<div class="gc-name">' + _jEsc(i._tituloPt || i._titulo) + '</div>' +
+      (i._tituloPt ? '<div style="font-size:11px;color:var(--gray-500);line-height:1.4;margin-top:3px">' + _jEsc(i._titulo) + '</div>' : '') +
+      '<div class="gc-year">Publicado em ' + _jEsc(i._data) + ' · PubMed</div></a>';
+  }).join('') || '<div style="font-size:12px;color:var(--gray-500);padding:6px 2px">Nenhuma diretriz encontrada.</div>';
+}
 function carregarGuidelinesLive(){
   var box = document.getElementById('guidelines-live');
   if(!box) return;
@@ -3872,19 +3951,19 @@ function carregarGuidelinesLive(){
     .then(function(r){ return r.json(); })
     .then(function(d){
       var itens = (d.result.uids||[]).map(function(id){ return d.result[id]; }).filter(Boolean);
+      var limite = fmt(hoje).replace(/\//g,'');
       itens = itens.map(function(i){
-        var m = String(i.sortpubdate||'').match(/(\d{4})\/(\d{2})\/(\d{2})/);
-        i._ord = m ? m[1]+m[2]+m[3] : '0';
-        i._data = m ? m[3]+'/'+m[2]+'/'+m[1] : (i.pubdate||'');
+        var dt = _glData(i);
+        i._ord = dt.ord; i._data = dt.br;
+        i._titulo = String(i.title||'').replace(/\.$/,'').replace(/^\[|\]$/g,'');
+        i._topico = _glTopico(i._titulo);
         return i;
-      }).sort(function(a,b){ return a._ord < b._ord ? 1 : -1; });
-      box.innerHTML = itens.map(function(i){
-        return '<a class="guide-card" href="https://pubmed.ncbi.nlm.nih.gov/' + i.uid + '/" target="_blank" rel="noopener" style="display:block;text-decoration:none">' +
-          '<div class="gc-soc">' + _jEsc(i.source || 'PubMed') + '</div>' +
-          '<div class="gc-name">' + _jEsc(String(i.title||'').replace(/\.$/,'')) + '</div>' +
-          '<div class="gc-year">Publicado em ' + _jEsc(i._data) + ' · PubMed</div></a>';
-      }).join('');
+      }).filter(function(i){ return i._ord !== '0' && i._ord <= limite; })
+        .sort(function(a,b){ return a._ord < b._ord ? 1 : -1; })
+        .slice(0,25);
+      _glPintar(box, itens);
       _glCarregado = hojeStr;
+      _glTraduzir(itens).then(function(l){ _glPintar(box, l); });
     })
     .catch(function(){
       box.innerHTML = '<div style="font-size:12px;color:var(--gray-500);padding:6px 2px">Não foi possível buscar as diretrizes agora. Veja as de referência abaixo.</div>';
@@ -4550,9 +4629,11 @@ document.addEventListener('click',function(e){
     } else if(gfilter!==undefined){
       document.querySelectorAll('.fchip[data-gfilter]').forEach(function(c){c.classList.remove('on');});
       fc.classList.add('on');
-      var glList=document.getElementById('guidelines-list');
-      (glList?glList.querySelectorAll('.guide-card[data-topic]'):document.querySelectorAll('.guide-card[data-topic]')).forEach(function(c){
-        c.style.display=(gfilter==='all'||c.dataset.topic===gfilter)?'block':'none';
+      ['guidelines-live','guidelines-list'].forEach(function(id){
+        var box=document.getElementById(id); if(!box) return;
+        box.querySelectorAll('.guide-card').forEach(function(c){
+          c.style.display=(gfilter==='all'||c.dataset.topic===gfilter)?'block':'none';
+        });
       });
     }
     return;
