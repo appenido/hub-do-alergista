@@ -1881,6 +1881,7 @@ window._mostrarApp = function(){
       <div class="guide-card" data-score="uas" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">UAS7</div><div style="font-size:11px;color:var(--gray-500)">Urticaria Activity Score · 0–42</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="UAS7" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🔴</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:60%;background:linear-gradient(90deg,var(--aqua),#c0392b)"></div></div><button class="sp-btn" style="margin-top:10px">Calcular UAS7 →</button></div>
       <div class="guide-card" data-score="uct" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">UCT</div><div style="font-size:11px;color:var(--gray-500)">Urticaria Control Test · 0–16</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="UCT" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🎯</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:65%;background:linear-gradient(90deg,#c0392b,var(--aqua))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular UCT →</button></div>
       <div class="guide-card" data-score="scorad" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">SCORAD</div><div style="font-size:11px;color:var(--gray-500)">Scoring Atopic Dermatitis · 0–103</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="SCORAD" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">📊</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:40%;background:linear-gradient(90deg,#3bbfcc,var(--gold))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular SCORAD →</button></div>
+      <div class="guide-card" data-score="snot22" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">SNOT-22</div><div style="font-size:11px;color:var(--gray-500)">Sino-Nasal Outcome Test · 0–110 · QR para o paciente</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="SNOT-22" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">👃</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:55%;background:linear-gradient(90deg,var(--aqua),#c0392b)"></div></div><button class="sp-btn" style="margin-top:10px">Aplicar SNOT-22 →</button></div>
       <div class="guide-card" data-score="cortico" style="cursor:pointer">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <div><div style="font-size:16px;font-weight:800;color:var(--navy)">Corticoide</div>
@@ -6082,7 +6083,7 @@ var _BUSCA_PAGINAS = [
   ['interacao','interacoes medicamentosas interacao droga farmaco'],
   ['artigos','artigos pubmed publicacoes papers estudos literatura'],
   ['guidelines','guidelines diretrizes consensos gina aaaai eaaci asbai protocolo'],
-  ['scores','scores calculadoras escores uas7 uct act easi scorad poem acq corticoide prednisona equivalencia'],
+  ['scores','scores calculadoras escores uas7 uct act easi scorad snot22 snot-22 polipose rinossinusite poem acq corticoide prednisona equivalencia'],
   ['assistente','ia assistente robo inteligencia artificial'],
   ['prompts','prompts modelos textos'],
   ['relatorios','relatorios laudos documentos plano de saude'],
@@ -6487,6 +6488,7 @@ function openScore(key){
     return;
   }
   var html='';
+  if(s.special==='snot22'){ html += _snot22RenderQR(); }
   s.fields.forEach(function(f){
     html+='<div class="sf"><label>'+f.lbl+'</label>';
     if(f.type==='num'){
@@ -6508,6 +6510,7 @@ function openScore(key){
   document.getElementById('mFields').innerHTML=html;
   document.getElementById('mResult').className='score-result';
   document.getElementById('overlay').classList.add('open');
+  if(s.special==='snot22'){ _snot22IniciarSessao(); }
 }
 
 
@@ -6785,6 +6788,163 @@ function _uctLimparHistorico(){
   toast('\ud83d\uddd1\ufe0f','Hist\u00f3rico do UCT apagado.');
 }
 
+
+/* ═════ SNOT-22 — QR Code para o paciente + polling Supabase + histórico ═════ */
+var _snot22SessaoId=null, _snot22PollTimer=null;
+var _snot22PatientUrl=new URL('snot22-paciente.html',location.href).href;
+
+function _snot22RenderQR(){
+  var h='';
+  h+='<div style="background:rgba(59,191,204,.10);border:1px solid rgba(59,191,204,.35);border-radius:10px;padding:11px 13px;margin-bottom:12px;display:flex;gap:9px;align-items:flex-start">';
+  h+='<span style="font-size:17px;line-height:1">\ud83d\udcf1</span>';
+  h+='<div style="font-size:12px;color:var(--navy);line-height:1.5"><strong>Pe\u00e7a ao paciente que escaneie o QR Code</strong> com a c\u00e2mera do celular. Ele responde as 22 perguntas e o resultado chega aqui automaticamente.</div></div>';
+  h+='<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:12px">';
+  h+='<div id="snot22-qr-canvas" style="background:#fff;border-radius:12px;padding:10px;width:180px;height:180px;display:flex;align-items:center;justify-content:center"><span style="color:#aaa;font-size:12px">Gerando\u2026</span></div>';
+  h+='<button type="button" onclick="_snot22CopiarLink()" style="background:var(--gray-50);border:1.5px solid var(--gray-100);color:var(--navy);border-radius:9px;padding:8px 14px;font-family:\'Manrope\',sans-serif;font-size:12px;font-weight:700;cursor:pointer">\ud83d\udd17 Copiar link do paciente</button>';
+  h+='</div>';
+  h+='<div id="snot22-aguardando" style="text-align:center;padding:10px;background:var(--gray-50);border-radius:10px;margin-bottom:12px;font-size:12.5px;color:var(--gray-500)">\u23f3 Aguardando o paciente responder\u2026</div>';
+  h+='<div id="snot22-resultado" style="display:none;border-radius:12px;margin-bottom:14px;overflow:hidden"></div>';
+  h+='<div id="snot22-historico-wrap">'+_snot22RenderHistorico()+'</div>';
+  h+='<div style="font-size:11px;color:var(--gray-500);text-align:center;margin:12px 0 10px">Ou preencha voc\u00ea mesmo os 22 itens abaixo.</div>';
+  return h;
+}
+
+function _snot22LinkPaciente(){
+  if(!_snot22SessaoId) _snot22SessaoId='snot22-'+Date.now();
+  return _snot22PatientUrl+'?s='+_snot22SessaoId;
+}
+
+function _snot22IniciarSessao(){
+  if(!window.QRCode){
+    var sc=document.createElement('script');
+    sc.src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+    sc.onload=_snot22GerarQR;
+    document.head.appendChild(sc);
+  } else { _snot22GerarQR(); }
+}
+
+function _snot22GerarQR(){
+  var wrap=document.getElementById('snot22-qr-canvas');
+  if(!wrap) return;
+  var url=_snot22LinkPaciente();
+  wrap.innerHTML='';
+  try{
+    new QRCode(wrap,{text:url,width:160,height:160,colorDark:'#0d1f2d',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+  }catch(e){
+    wrap.innerHTML='<span style="font-size:10px;word-break:break-all;color:#333">'+url+'</span>';
+  }
+  _snot22IniciarPolling();
+}
+
+function _snot22CopiarLink(){
+  var url=_snot22LinkPaciente();
+  try{ navigator.clipboard.writeText(url); if(typeof toast==='function') toast('\ud83d\udd17','Link copiado para enviar ao paciente'); }
+  catch(e){ if(typeof toast==='function') toast('\ud83d\udd17',url); }
+}
+
+function _snot22IniciarPolling(){ _snot22PararPolling(); _snot22PollTimer=setInterval(_snot22Checar,3000); }
+function _snot22PararPolling(){ if(_snot22PollTimer){ clearInterval(_snot22PollTimer); _snot22PollTimer=null; } }
+
+function _snot22Checar(){
+  if(!_snot22SessaoId) return;
+  fetch(_SUPA_URL+'/rest/v1/snot22_results?sessao_id=eq.'+encodeURIComponent(_snot22SessaoId)+'&order=created_at.desc&limit=1',{
+    headers:{'apikey':_SUPA_KEY,'Authorization':'Bearer '+_SUPA_KEY}
+  }).then(function(r){return r.json();}).then(function(rows){
+    if(!rows||!rows.length) return;
+    _snot22PararPolling();
+    _snot22MostrarResultado(rows[0]);
+    _snot22SalvarHistorico(rows[0]);
+    var hist=document.getElementById('snot22-historico-wrap');
+    if(hist) hist.innerHTML=_snot22RenderHistorico();
+  }).catch(function(){});
+}
+
+function _snot22Faixa(t){
+  if(t<=20) return {lbl:'\u2705 Impacto leve',cor:'#16a085',txt:'Sintomas com pouco impacto na qualidade de vida \u2014 manter o tratamento e reavaliar periodicamente.'};
+  if(t<=50) return {lbl:'\u26a0\ufe0f Impacto moderado',cor:'#d4a017',txt:'Impacto moderado \u2014 otimizar corticoide nasal e lavagem salina, revisar ades\u00e3o e investigar RSCcPN/comorbidade al\u00e9rgica.'};
+  return {lbl:'\ud83d\udd34 Impacto grave',cor:'#c0392b',txt:'Impacto importante \u2014 em RSCcPN refrat\u00e1ria, SNOT-22 \u2265 40 comp\u00f5e os crit\u00e9rios habituais para biol\u00f3gico.'};
+}
+
+function _snot22Dominios(resp){
+  function soma(ini,fim){var s=0;for(var i=ini;i<=fim;i++){s+=(resp[i]||0);}return s;}
+  return [
+    ['Rinol\u00f3gico (1\u20137)',soma(0,6),35],
+    ['Otol\u00f3gico/facial (8\u201312)',soma(7,11),25],
+    ['Sono (13\u201316)',soma(12,15),20],
+    ['Fun\u00e7\u00e3o/emocional (17\u201322)',soma(16,21),30]
+  ];
+}
+
+function _snot22MostrarResultado(row){
+  var aw=document.getElementById('snot22-aguardando');
+  if(aw) aw.style.display='none';
+  var res=document.getElementById('snot22-resultado');
+  if(!res) return;
+  var resp=row.respostas||[];
+  var t=(row.total!==undefined&&row.total!==null)?row.total:resp.reduce(function(a,b){return a+(b||0);},0);
+  var f=_snot22Faixa(t);
+  var nome=row.paciente_nome?row.paciente_nome:'Paciente';
+  var pct=Math.round(t/110*100);
+  var h='';
+  h+='<div style="background:linear-gradient(135deg,#0d1f2d,'+f.cor+');padding:16px;color:#fff">';
+  h+='<div style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.8;font-weight:700">Resultado do SNOT-22</div>';
+  h+='<div style="display:flex;align-items:baseline;gap:8px;margin-top:4px"><div style="font-size:30px;font-weight:900;line-height:1">'+t+'</div><div style="font-size:14px;opacity:.85;font-weight:700">/ 110</div></div>';
+  h+='<div style="font-size:14px;font-weight:800;margin-top:2px">'+f.lbl+'</div>';
+  h+='<div style="height:7px;background:rgba(255,255,255,.25);border-radius:4px;margin-top:10px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:#fff;border-radius:4px"></div></div>';
+  h+='<div style="font-size:11px;opacity:.8;margin-top:8px">'+nome+' \u00b7 '+new Date(row.created_at).toLocaleDateString('pt-BR')+'</div>';
+  h+='</div>';
+  h+='<div style="padding:14px 16px;background:#fff;border:1.5px solid '+f.cor+';border-top:none">';
+  h+='<div style="font-size:10.5px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Dom\u00ednios</div>';
+  _snot22Dominios(resp).forEach(function(d){
+    var w=Math.round(d[1]/d[2]*100);
+    h+='<div style="margin-bottom:9px">';
+    h+='<div style="display:flex;justify-content:space-between;font-size:12px;color:var(--navy);font-weight:600"><span>'+d[0]+'</span><span style="font-weight:800">'+d[1]+'/'+d[2]+'</span></div>';
+    h+='<div style="height:5px;background:var(--gray-50);border-radius:3px;margin-top:4px;overflow:hidden"><div style="height:100%;width:'+w+'%;background:'+f.cor+';border-radius:3px"></div></div>';
+    h+='</div>';
+  });
+  h+='<div style="margin-top:12px;background:var(--gray-50);border-left:3px solid '+f.cor+';border-radius:8px;padding:10px 12px;font-size:12px;color:var(--navy);line-height:1.5"><strong>Interpreta\u00e7\u00e3o:</strong> '+f.txt+'</div>';
+  h+='<div style="font-size:10.5px;color:var(--gray-500);margin-top:8px">\u2264 20 leve \u00b7 21\u201350 moderado \u00b7 &gt; 50 grave \u00b7 MCID \u2248 9 pontos</div>';
+  h+='</div>';
+  res.innerHTML=h;
+  res.style.display='block';
+  if(typeof toast==='function') toast('\ud83d\udc43','SNOT-22 recebido: '+t+'/110');
+}
+
+function _snot22GetHist(){ try{ return JSON.parse(localStorage.getItem('hub_snot22_hist')||'[]'); }catch(e){ return []; } }
+
+function _snot22SalvarHistorico(row){
+  var h=_snot22GetHist();
+  var resp=row.respostas||[];
+  var t=(row.total!==undefined&&row.total!==null)?row.total:resp.reduce(function(a,b){return a+(b||0);},0);
+  h.unshift({d:new Date(row.created_at).toLocaleDateString('pt-BR'),t:t,nome:row.paciente_nome||'\u2014'});
+  if(h.length>50) h=h.slice(0,50);
+  try{ localStorage.setItem('hub_snot22_hist',JSON.stringify(h)); }catch(e){}
+}
+
+function _snot22RenderHistorico(){
+  var h=_snot22GetHist();
+  if(!h.length) return '<div style="font-size:12px;color:var(--gray-500);text-align:center;padding:8px">Nenhum resultado recebido ainda.</div>';
+  var html='<div style="margin-top:6px">';
+  html+='<div style="font-size:12px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Hist\u00f3rico de SNOT-22</div>';
+  h.forEach(function(e){
+    var f=_snot22Faixa(e.t);
+    html+='<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--gray-100);border-radius:9px;margin-bottom:6px;background:#fff">';
+    html+='<div style="min-width:40px;height:36px;border-radius:8px;background:'+f.cor+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff">'+e.t+'</div>';
+    html+='<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700;color:var(--navy)">'+(e.nome||'\u2014')+'</div>';
+    html+='<div style="font-size:10.5px;color:var(--gray-500)">'+e.d+' \u00b7 '+f.lbl.replace(/^[^ ]+ /,'')+'</div></div></div>';
+  });
+  html+='<div style="text-align:right;margin-top:4px"><button type="button" onclick="_snot22LimparHistorico()" style="font-size:10px;color:var(--gray-500);background:none;border:none;cursor:pointer;padding:0">\ud83d\uddd1\ufe0f Apagar hist\u00f3rico</button></div>';
+  html+='</div>';
+  return html;
+}
+
+function _snot22LimparHistorico(){
+  try{ localStorage.removeItem('hub_snot22_hist'); }catch(e){}
+  var w=document.getElementById('snot22-historico-wrap');
+  if(w) w.innerHTML=_snot22RenderHistorico();
+  if(typeof toast==='function') toast('\ud83d\uddd1\ufe0f','Hist\u00f3rico do SNOT-22 apagado.');
+}
+
 function doCalc(){
   var s=SCORES[currentScore];if(!s)return;
   var vals;
@@ -6808,7 +6968,7 @@ function doCalc(){
   if(s.special==='uas7'){ _uas7Salvar(r); }
 }
 
-function closeModal(){document.getElementById('overlay').classList.remove('open');_uctPararPolling();}
+function closeModal(){document.getElementById('overlay').classList.remove('open');_uctPararPolling();_snot22PararPolling();}
 
 // Botão "Abrir em PDF": usa data-pdf do art-card, fallback Unpaywall
 document.addEventListener('click', function(e){

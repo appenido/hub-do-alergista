@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1a2e4a">
+<title>Questionário SNOT-22</title>
+<style>
+  :root{--navy:#1a2e4a;--navy2:#2a4a6e;--teal:#3bbfcc;--teal-mid:#2a9fad;--aqua:#5ce0ec;--gold:#d4a017;--red:#c0392b;--green:#16a085;--bg:#f0f4f8;--card:#fff;--gray:#64748b;--light:#e2e8f0;--soft:#f7fafc;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--navy);min-height:100vh;padding-bottom:40px;-webkit-text-size-adjust:100%}
+  .header{background:linear-gradient(135deg,var(--navy),var(--navy2));padding:22px 18px 18px;text-align:center;color:#fff;position:sticky;top:0;z-index:5}
+  .header h1{font-size:19px;font-weight:800;letter-spacing:-.3px}
+  .header p{font-size:12.5px;opacity:.8;margin-top:4px}
+  .progress{margin:12px auto 0;max-width:300px}
+  .progress-bar{height:8px;background:rgba(255,255,255,.18);border-radius:6px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--aqua));transition:width .3s}
+  .progress-txt{font-size:11.5px;opacity:.85;margin-top:6px}
+  .wrap{max-width:560px;margin:0 auto;padding:0 14px}
+  .card{background:var(--card);border-radius:16px;margin-top:14px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+  .intro{font-size:13.5px;line-height:1.6;color:var(--gray)}
+  .intro strong{color:var(--navy)}
+  label.lbl{display:block;font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+  input[type=text]{width:100%;border:1.5px solid var(--light);border-radius:10px;padding:11px 12px;font-size:16px;color:var(--navy);outline:none}
+  input[type=text]:focus{border-color:var(--teal)}
+  .q{border-bottom:1px solid var(--light);padding:14px 0}
+  .q:last-child{border-bottom:none}
+  .q-top{display:flex;gap:9px;align-items:flex-start;margin-bottom:9px}
+  .q-n{min-width:24px;height:24px;border-radius:7px;background:var(--soft);color:var(--gray);font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .q.done .q-n{background:var(--green);color:#fff}
+  .q-t{font-size:14px;font-weight:700;line-height:1.4}
+  .scale{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+  .sb{border:1.5px solid var(--light);border-radius:10px;background:#fff;padding:9px 2px;cursor:pointer;font-size:15px;font-weight:800;color:var(--navy);transition:all .12s;font-family:inherit}
+  .sb.sel{border-color:var(--teal);background:var(--teal);color:#fff}
+  .legend{display:flex;justify-content:space-between;font-size:10px;color:var(--gray);margin-top:5px}
+  .ref{background:rgba(59,191,204,.10);border:1px solid rgba(59,191,204,.35);border-radius:12px;padding:11px 12px;margin-top:12px;font-size:12.5px;line-height:1.6}
+  .ref b{display:block;margin-bottom:4px}
+  .btn{width:100%;padding:15px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--teal-mid),var(--teal));color:#fff;font-size:15.5px;font-weight:800;cursor:pointer;margin-top:14px;font-family:inherit}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .msg{font-size:13px;line-height:1.5;border-radius:11px;padding:11px 12px;margin-top:12px}
+  .msg.err{background:#fde8e6;color:var(--red)}
+  .total{text-align:center}
+  .total .n{font-size:46px;font-weight:900;letter-spacing:-2px;color:var(--teal-mid)}
+  .total .s{font-size:13.5px;color:var(--gray);line-height:1.6;margin-top:6px}
+  .hidden{display:none}
+  .footer{text-align:center;font-size:11px;color:var(--gray);margin-top:22px;padding:0 20px;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>👃 Questionário SNOT-22</h1>
+  <p>Sintomas nasais e sinusais · últimas 2 semanas</p>
+  <div class="progress"><div class="progress-bar"><div class="progress-fill" id="pFill"></div></div><div class="progress-txt" id="pTxt">0 de 22 respondidas</div></div>
+</div>
+
+<div class="wrap">
+
+  <div class="card" id="cardIntro">
+    <div class="intro"><strong>Como responder:</strong> para cada item abaixo, marque o quanto ele incomodou você nas <strong>últimas 2 semanas</strong>, de <strong>0 (nenhum problema)</strong> a <strong>5 (problema o pior possível)</strong>. Responda todas as 22 perguntas e toque em enviar — o resultado vai direto para o seu médico.</div>
+    <div style="margin-top:14px"><label class="lbl" for="nome">Seu nome completo</label><input type="text" id="nome" placeholder="Nome e sobrenome" autocomplete="name"></div>
+  </div>
+
+  <div class="card" id="cardQ"></div>
+
+  <div id="msgBox"></div>
+  <button class="btn" id="btnEnviar" disabled>Enviar respostas</button>
+
+  <div class="card hidden" id="cardFim">
+    <div class="total">
+      <div class="n" id="fimN">—</div>
+      <div class="s" id="fimS"></div>
+    </div>
+  </div>
+
+  <div class="footer">SNOT-22 — Sino-Nasal Outcome Test. Este questionário não substitui a avaliação médica.</div>
+</div>
+
+<script>
+(function(){
+  var SUPA_URL='https://jpdtqtenlivxgjkyizcg.supabase.co';
+  var SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwZHRxdGVubGl2eGdqa3lpemNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY3MzkxMzgsImV4cCI6MjA2MjMxNTEzOH0.OCSGTv1HD6CLCbPVAgZwplkFMLGS0JuiT1XMRESYkWI';
+  var ITENS=['Necessidade de assoar o nariz','Nariz entupido / obstruído','Espirros','Coriza (nariz escorrendo)','Tosse','Secreção escorrendo na garganta','Secreção nasal espessa','Sensação de ouvido tampado','Tontura','Dor de ouvido','Dor ou pressão no rosto','Diminuição do olfato ou do paladar','Dificuldade para pegar no sono','Acordar durante a noite','Falta de uma boa noite de sono','Acordar cansado','Cansaço durante o dia','Redução da produtividade','Redução da concentração','Sentir-se frustrado, inquieto ou irritado','Sentir-se triste','Sentir-se envergonhado'];
+  var $=function(i){return document.getElementById(i);};
+  var sessao=(new URLSearchParams(location.search)).get('s')||('snot22-'+Date.now());
+  var resp=new Array(22).fill(null);
+
+  var h='';
+  for(var i=0;i<22;i++){
+    h+='<div class="q" id="q'+i+'"><div class="q-top"><div class="q-n">'+(i+1)+'</div><div class="q-t">'+ITENS[i]+'</div></div><div class="scale">';
+    for(var v=0;v<=5;v++){h+='<button type="button" class="sb" data-q="'+i+'" data-v="'+v+'">'+v+'</button>';}
+    h+='</div><div class="legend"><span>0 · nenhum</span><span>5 · o pior possível</span></div></div>';
+  }
+  $('cardQ').innerHTML=h;
+
+  $('cardQ').addEventListener('click',function(e){
+    var b=e.target.closest('.sb'); if(!b) return;
+    var qi=parseInt(b.dataset.q), v=parseInt(b.dataset.v);
+    resp[qi]=v;
+    var box=$('q'+qi);
+    box.classList.add('done');
+    box.querySelectorAll('.sb').forEach(function(x){x.classList.toggle('sel',parseInt(x.dataset.v)===v);});
+    atualizar();
+  });
+
+  function respondidas(){var n=0;for(var i=0;i<22;i++){if(resp[i]!==null)n++;}return n;}
+  function atualizar(){
+    var n=respondidas();
+    $('pFill').style.width=Math.round(n/22*100)+'%';
+    $('pTxt').textContent=n+' de 22 respondidas';
+    $('btnEnviar').disabled=(n<22);
+  }
+
+  function interpretar(t){
+    if(t<=20) return 'Impacto leve dos sintomas nasais na sua qualidade de vida.';
+    if(t<=50) return 'Impacto moderado dos sintomas nasais na sua qualidade de vida.';
+    return 'Impacto importante dos sintomas nasais na sua qualidade de vida.';
+  }
+
+  $('btnEnviar').onclick=function(){
+    var nome=$('nome').value.trim();
+    if(!nome){ $('msgBox').innerHTML='<div class="msg err">Escreva seu nome antes de enviar.</div>'; $('nome').focus(); window.scrollTo({top:0,behavior:'smooth'}); return; }
+    var total=resp.reduce(function(a,b){return a+b;},0);
+    var btn=$('btnEnviar'); btn.disabled=true; btn.textContent='Enviando…';
+    $('msgBox').innerHTML='';
+    fetch(SUPA_URL+'/rest/v1/snot22_results',{
+      method:'POST',
+      headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({sessao_id:sessao,paciente_nome:nome,respostas:resp,total:total})
+    }).then(function(r){
+      if(!r.ok) throw new Error('falha');
+      $('cardIntro').classList.add('hidden');
+      $('cardQ').classList.add('hidden');
+      btn.classList.add('hidden');
+      $('fimN').textContent=total+'/110';
+      $('fimS').innerHTML='<strong>Obrigado, '+nome.split(' ')[0]+'!</strong><br>Suas respostas foram enviadas ao seu médico.<br>'+interpretar(total);
+      $('cardFim').classList.remove('hidden');
+      window.scrollTo({top:0,behavior:'smooth'});
+    }).catch(function(){
+      btn.textContent='Tentar de novo'; btn.disabled=false;
+      $('msgBox').innerHTML='<div class="msg err">Não foi possível enviar (sem conexão?). Suas respostas continuam marcadas — toque em "Tentar de novo".</div>';
+    });
+  };
+
+  atualizar();
+})();
+</script>
+</body>
+</html>
