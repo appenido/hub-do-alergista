@@ -3070,12 +3070,27 @@ window._mostrarApp = function(){
         <button onclick="vacShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
         <div style="font-size:14px;font-weight:800;color:var(--navy)">Vacinas disponíveis no Brasil</div>
       </div>
-      <div style="padding:0 16px 8px;font-size:11.5px;color:var(--gray-500);line-height:1.5">Imunizantes com registro ativo na ANVISA. <b>SUS</b> = disponível no PNI; <b>Privada</b> = clínicas privadas de vacinação.</div>
-      <div style="padding:0 16px 8px">
+      <div style="padding:0 16px 8px;font-size:11.5px;color:var(--gray-500);line-height:1.5">Imunizantes com registro ativo na ANVISA, separados por rede. Toque em cada vacina para ver a população liberada.</div>
+      <div style="padding:0 16px 10px">
         <input type="text" id="vacBuscaVac" placeholder="Buscar vacina..." oninput="vacRenderVacinas(this.value)"
           style="width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-size:13px;font-family:Manrope,sans-serif">
       </div>
-      <div id="vacListaVacinas" style="display:flex;flex-direction:column;gap:8px;padding:0 16px"></div>
+
+      <div style="padding:0 16px 6px;display:flex;align-items:center;gap:8px">
+        <span style="font-size:11px;font-weight:800;color:#1e7a46;text-transform:uppercase;letter-spacing:.06em">Dispon\u00edveis no SUS</span>
+        <span style="font-size:10.5px;color:var(--gray-500)">Calend\u00e1rio Nacional de Vacina\u00e7\u00e3o 2026 \u2014 PNI/MS</span>
+      </div>
+      <div id="vacListaSUS" style="display:flex;flex-direction:column;gap:8px;padding:0 16px"></div>
+
+      <div style="padding:16px 16px 6px;display:flex;align-items:center;gap:8px">
+        <span style="font-size:11px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.06em">Rede privada</span>
+        <span style="font-size:10.5px;color:var(--gray-500)">Registro ANVISA \u2014 recomenda\u00e7\u00e3o SBIm</span>
+      </div>
+      <div id="vacListaPriv" style="display:flex;flex-direction:column;gap:8px;padding:0 16px"></div>
+
+      <div style="margin:14px 16px 0;background:#f7fafb;border:1px solid var(--gray-100);border-radius:12px;padding:11px 13px;font-size:11px;color:var(--gray-500);line-height:1.55">
+        Popula\u00e7\u00f5es e esquemas do bloco SUS conforme a <b>Instru\u00e7\u00e3o Normativa do Calend\u00e1rio Nacional de Vacina\u00e7\u00e3o 2026</b> (PNI/Minist\u00e9rio da Sa\u00fade). Grupos especiais seguem o <b>Manual dos CRIE (2023)</b>. Recomenda\u00e7\u00f5es cl\u00ednicas das demais se\u00e7\u00f5es seguem a <b>SBIm</b>.
+      </div>
     </div>
 
   </div><!-- /page-imunizacoes -->
@@ -4095,34 +4110,127 @@ var IG_BULAS = {
 
 /* ═══ IMUNIZAÇÕES — SBIm ═══ */
 var VAC_CATALOGO=[
- {id:'bcg',nome:'BCG-ID',prot:'Tuberculose (formas graves)',tipo:'Atenuada',rede:'SUS',idade:'Dose única ao nascer (até 5 anos não vacinados)',obs:'Contraindicada em imunodeprimidos. RN ≥ 2 kg.'},
- {id:'hepb',nome:'Hepatite B',prot:'Hepatite B',tipo:'Inativada (recombinante)',rede:'SUS e privada',idade:'Ao nascer (≤ 12 h) + esquema em 3 doses; qualquer idade não vacinada',obs:'Dobro da dose e 4 doses em diálise e imunodeprimidos. Anti-HBs pós-vacinal nesses grupos.'},
- {id:'penta',nome:'Pentavalente (DTPw-HB-Hib)',prot:'Difteria, tétano, coqueluche, hepatite B, Hib',tipo:'Inativada',rede:'SUS',idade:'2, 4 e 6 meses',obs:'Alternativa privada: hexavalente acelular (DTPa-VIP-HB-Hib).'},
- {id:'hexa',nome:'Hexavalente acelular (DTPa-VIP-HB-Hib)',prot:'Difteria, tétano, coqueluche, pólio, hepatite B, Hib',tipo:'Inativada',rede:'Privada',idade:'2, 4 e 6 meses (reforço 15 meses)',obs:'Preferível à DTPw em prematuros, cardiopatas, pneumopatas e doença neurológica.'},
- {id:'vip',nome:'Poliomielite inativada (VIP)',prot:'Poliomielite',tipo:'Inativada',rede:'SUS e privada',idade:'2, 4, 6 meses + reforços 15 meses e 4 anos',obs:'Única forma recomendada — VOP descontinuada no Brasil (2024).'},
- {id:'pnc',nome:'Pneumocócica conjugada (VPC10 / VPC13 / VPC15 / VPC20)',prot:'Doença pneumocócica invasiva',tipo:'Inativada conjugada',rede:'VPC10 no SUS; VPC13/15/20 privada',idade:'2, 4 meses + reforço 12 meses; adultos de risco e ≥ 60 anos',obs:'SBIm prefere a conjugada de maior valência disponível. Em risco: VPC seguida de VPP23 ≥ 8 semanas depois.'},
- {id:'vpp23',nome:'Pneumocócica polissacarídica 23-valente (VPP23)',prot:'Doença pneumocócica',tipo:'Inativada polissacarídica',rede:'SUS (grupos de risco) e privada',idade:'≥ 2 anos com comorbidade; ≥ 60 anos institucionalizados',obs:'Sempre após a conjugada. Segunda dose 5 anos depois (dose única de reforço).'},
- {id:'menc',nome:'Meningocócica C conjugada',prot:'Meningococo C',tipo:'Inativada conjugada',rede:'SUS',idade:'3 e 5 meses + reforço 12 meses',obs:'SBIm prefere a ACWY quando disponível.'},
- {id:'menacwy',nome:'Meningocócica ACWY conjugada',prot:'Meningococos A, C, W e Y',tipo:'Inativada conjugada',rede:'SUS (adolescentes 11–14 a) e privada',idade:'A partir de 3 meses conforme fabricante; reforço na adolescência',obs:'Indicada em asplenia, deficiência de complemento, eculizumabe, HIV e viajantes.'},
- {id:'menb',nome:'Meningocócica B (recombinante)',prot:'Meningococo B',tipo:'Inativada recombinante',rede:'Privada',idade:'3 e 5 meses + reforço 12 meses; adolescentes e grupos de risco',obs:'Reatogênica — antitérmico profilático em lactentes.'},
- {id:'rota',nome:'Rotavírus (monovalente / pentavalente)',prot:'Gastroenterite por rotavírus',tipo:'Atenuada oral',rede:'SUS e privada',idade:'1ª dose até 3 m 15 d; última até 7 m 29 d',obs:'Limites de idade rígidos. Contraindicada em imunodeficiência combinada grave e história de intussuscepção.'},
- {id:'fa',nome:'Febre amarela',prot:'Febre amarela',tipo:'Atenuada',rede:'SUS e privada',idade:'9 meses + reforço aos 4 anos',obs:'Contraindicada em imunodeprimidos, < 6 meses e gestantes (avaliar risco/benefício). Cautela > 60 anos na 1ª dose.'},
- {id:'triplice',nome:'Tríplice viral (SCR)',prot:'Sarampo, caxumba, rubéola',tipo:'Atenuada',rede:'SUS e privada',idade:'12 meses + 2ª dose 15 meses (tetraviral); adultos até 2 doses',obs:'Contraindicada em gestantes e imunodeprimidos graves.'},
- {id:'tetraviral',nome:'Tetraviral (SCR-V)',prot:'Sarampo, caxumba, rubéola e varicela',tipo:'Atenuada',rede:'SUS e privada',idade:'15 meses (2ª dose de SCR + 1ª de varicela)',obs:'Não usar como primeira dose de SCR.'},
- {id:'varicela',nome:'Varicela',prot:'Catapora',tipo:'Atenuada',rede:'SUS e privada',idade:'15 meses e 4 anos; suscetíveis em qualquer idade (2 doses)',obs:'Profilaxia pós-exposição até 5 dias. Contraindicada em imunossupressão grave.'},
- {id:'hepa',nome:'Hepatite A',prot:'Hepatite A',tipo:'Inativada',rede:'SUS (15 meses, dose única) e privada (2 doses)',idade:'A partir de 12 meses',obs:'SBIm recomenda 2 doses (0 e 6 meses). Hepatopatas e HIV: 2 doses sempre.'},
- {id:'dtpa',nome:'dTpa / dTpa-VIP',prot:'Difteria, tétano e coqueluche (acelular)',tipo:'Inativada',rede:'SUS (gestantes) e privada',idade:'Reforço aos 5 e 14 anos; gestantes a cada gestação ≥ 20 semanas; a cada 10 anos',obs:'Substitui um reforço de dT. Indicada a prof. de saúde e contactantes de lactentes (estratégia cocoon).'},
- {id:'dt',nome:'Dupla adulto (dT)',prot:'Difteria e tétano',tipo:'Inativada',rede:'SUS e privada',idade:'Reforço a cada 10 anos',obs:'Em ferimentos de risco, antecipar se última dose > 5 anos.'},
- {id:'hpv',nome:'HPV (nonavalente / quadrivalente)',prot:'HPV — câncer de colo, ânus, orofaringe e verrugas',tipo:'Inativada recombinante',rede:'SUS (9–14 anos, dose única) e privada',idade:'9 a 45 anos',obs:'3 doses (0-2-6) em imunodeprimidos, HIV, transplantados e oncológicos de qualquer idade até 45 anos.'},
- {id:'influenza',nome:'Influenza (trivalente / quadrivalente)',prot:'Gripe',tipo:'Inativada',rede:'SUS (trivalente) e privada (quadrivalente)',idade:'A partir de 6 meses — anual',obs:'Duas doses na primovacinação de 6 m a < 9 anos. Prioridade em comorbidades e gestantes.'},
- {id:'covid',nome:'COVID-19 (mRNA / recombinante)',prot:'SARS-CoV-2',tipo:'Inativada / mRNA',rede:'SUS e privada',idade:'A partir de 6 meses conforme produto',idadeNum:0,obs:'Reforço anual em ≥ 60 anos, gestantes, imunodeprimidos e comorbidades.'},
- {id:'vsr_nirse',nome:'Nirsevimabe (anticorpo monoclonal anti-VSR)',prot:'Vírus sincicial respiratório',tipo:'Imunização passiva',rede:'SUS e privada',idade:'Lactentes < 8 meses na 1ª temporada de VSR',obs:'Dose única. Não é vacina — imunização passiva.'},
- {id:'vsr_gest',nome:'VSR materna (RSVpreF)',prot:'VSR no lactente',tipo:'Inativada recombinante',rede:'Privada',idade:'Gestantes entre 24 e 36 semanas',obs:'Protege o lactente nos primeiros meses de vida.'},
- {id:'herpes',nome:'Herpes-zóster recombinante (RZV)',prot:'Herpes-zóster e neuralgia pós-herpética',tipo:'Inativada recombinante adjuvada',rede:'Privada',idade:'≥ 50 anos; ≥ 18 anos com imunossupressão',obs:'2 doses (0 e 2–6 meses). Pode ser usada em imunodeprimidos — ao contrário da atenuada.'},
- {id:'dengue',nome:'Dengue (Qdenga — TAK-003)',prot:'Dengue (4 sorotipos)',tipo:'Atenuada',rede:'SUS (10–14 anos) e privada',idade:'4 a 60 anos — 2 doses com intervalo de 3 meses',obs:'Contraindicada em gestantes, lactantes e imunodeprimidos.'},
- {id:'raiva',nome:'Raiva (cultivo celular)',prot:'Raiva',tipo:'Inativada',rede:'SUS e privada',idade:'Pré ou pós-exposição, qualquer idade',obs:'Pré-exposição para viajantes de risco e profissionais expostos.'},
- {id:'febretif',nome:'Febre tifoide',prot:'Salmonella typhi',tipo:'Inativada polissacarídica',rede:'Privada',idade:'≥ 2 anos — reforço a cada 3 anos',obs:'Viajantes a áreas endêmicas.'},
- {id:'hib',nome:'Haemophilus influenzae b (Hib isolada)',prot:'Hib',tipo:'Inativada conjugada',rede:'SUS (CRIE) e privada',idade:'Esquema conforme idade; grupos de risco em qualquer idade',obs:'Indicada em asplenia, IDP, transplante e implante coclear mesmo em adultos.'}
+ /* ===== DISPONÍVEIS NO SUS — Calendário Nacional de Vacinação 2026 (PNI/MS) ===== */
+ {id:'bcg',sus:1,nome:'BCG',prot:'Formas graves de tuberculose',tipo:'Atenuada',
+  pop:'Crianças até 4 anos, 11 meses e 29 dias. Contatos domiciliares de hanseníase a partir de 1 ano.',
+  esq:'Dose única ao nascer, preferencialmente na maternidade. ID 0,05 mL (&lt; 1 ano) ou 0,1 mL (\u2265 1 ano). Contato de hanseníase: 1 dose (intervalo mínimo de 6 meses se já houver 1 dose).',
+  obs:'Contraindicada a partir de 5 anos (exceto contato de hanseníase sem HIV), em imunodeficiências, corticoide em dose elevada por &gt; 2 semanas, gestação e neoplasia maligna. Adiar 3 meses após imunossupressores.'},
+ {id:'hepb',sus:1,nome:'Hepatite B',prot:'Hepatite B',tipo:'Inativada (recombinante)',
+  pop:'Toda a população, desde o nascimento \u2014 sem limite de idade.',
+  esq:'Dose ao nascer (idealmente nas primeiras 12 h); demais doses com a penta aos 2, 4 e 6 meses. A partir de 7 anos sem esquema completo: 3 doses (0, 1 e 6 meses).',
+  obs:'Gestante: completar o esquema até 45 dias do puerpério.'},
+ {id:'penta',sus:1,nome:'Pentavalente (DTP + Hib + HB)',prot:'Difteria, tétano, coqueluche, Hib e hepatite B',tipo:'Inativada',
+  pop:'Crianças de 2 meses a 6 anos, 11 meses e 29 dias.',
+  esq:'3 doses aos 2, 4 e 6 meses (intervalo de 60 dias; mínimo 30). Reforços com DTP aos 15 meses e aos 4 anos.',obs:'\u2014'},
+ {id:'vip',sus:1,nome:'Poliomielite inativada (VIP)',prot:'Poliomielite',tipo:'Inativada',
+  pop:'Crianças de 2 meses a 4 anos, 11 meses e 29 dias. Viajantes internacionais a partir de 5 anos para áreas recomendadas.',
+  esq:'3 doses aos 2, 4 e 6 meses (intervalo de 60 dias; mínimo 30) + reforço aos 15 meses.',
+  obs:'VOP descontinuada \u2014 esquema integralmente inativado.'},
+ {id:'rota',sus:1,nome:'Rotavírus humano (oral)',prot:'Gastroenterite por rotavírus',tipo:'Atenuada oral',
+  pop:'Crianças até 23 meses e 29 dias, respeitados os limites por dose.',
+  esq:'2 doses aos 2 e 4 meses (intervalo de 60 dias; mínimo 30). 1\u00aa dose entre 1 mês e 15 dias e 11 meses e 29 dias; 2\u00aa dose até 23 meses e 29 dias.',
+  obs:'Limites de idade rígidos \u2014 não iniciar nem completar fora da janela.'},
+ {id:'pnc10',sus:1,nome:'Pneumocócica 10-valente (VPC10)',prot:'Doença pneumocócica invasiva',tipo:'Inativada conjugada',
+  pop:'Crianças de 2 meses a 4 anos, 11 meses e 29 dias.',
+  esq:'2 doses aos 2 e 4 meses (intervalo de 60 dias; mínimo 30) + reforço aos 12 meses (60 dias após a 2\u00aa dose). Esquemas de atualização variam conforme a idade.',
+  obs:'Indicações clínicas especiais seguem o Manual do CRIE (2023).'},
+ {id:'menc',sus:1,nome:'Meningocócica C conjugada',prot:'Meningococo C',tipo:'Inativada conjugada',
+  pop:'Crianças de 3 meses a 11 meses e 29 dias.',
+  esq:'2 doses aos 3 e 5 meses (intervalo de 60 dias; mínimo 30). Reforço com MenACWY aos 12 meses (até 4 anos, 11 meses e 29 dias).',obs:'\u2014'},
+ {id:'menacwy',sus:1,nome:'Meningocócica ACWY conjugada',prot:'Meningococos A, C, W e Y',tipo:'Inativada conjugada',
+  pop:'Crianças aos 12 meses (até 4 anos, 11 meses e 29 dias) e adolescentes de 11 a 14 anos.',
+  esq:'1 dose de reforço aos 12 meses (60 dias após a 2\u00aa dose de MenC). Adolescentes: 1 dose.',obs:'\u2014'},
+ {id:'influenza',sus:1,nome:'Influenza trivalente',prot:'Gripe',tipo:'Inativada',
+  pop:'Crianças de 6 meses a 5 anos, 11 meses e 29 dias; gestantes; pessoas a partir de 60 anos; e demais grupos prioritários da campanha anual.',
+  esq:'Primovacinação em crianças: 2 doses com intervalo de 30 dias. Depois, 1 dose anual. Gestante: 1 dose por gestação. Idoso: 1 dose anual.',obs:'\u2014'},
+ {id:'covid',sus:1,nome:'COVID-19',prot:'SARS-CoV-2',tipo:'mRNA / recombinante',
+  pop:'Crianças de 6 meses a 4 anos, 11 meses e 29 dias; gestantes; pessoas a partir de 60 anos; e grupos especiais (imunossuprimidos e comorbidades).',
+  esq:'Pfizer: 3 doses aos 6, 7 e 9 meses. Moderna: 2 doses aos 6 e 7 meses. \u2265 60 anos: 2 doses com intervalo de 6 meses. Gestante: 1 dose por gestação.',obs:'\u2014'},
+ {id:'fa',sus:1,nome:'Febre amarela',prot:'Febre amarela',tipo:'Atenuada',
+  pop:'Pessoas de 9 meses a 59 anos, 11 meses e 29 dias. Casos excepcionais (6 a 8 meses, gestantes e \u2265 60 anos) mediante avaliação de risco\u2013benefício.',
+  esq:'1 dose aos 9 meses + reforço aos 4 anos (intervalo mínimo de 30 dias). Sem histórico a partir de 5 anos: 1 dose.',
+  obs:'Situações especiais (HIV com CD4 e carga viral, doença falciforme, lactantes) seguem quadros próprios do PNI.'},
+ {id:'triplice',sus:1,nome:'Tríplice viral (SCR)',prot:'Sarampo, caxumba e rubéola',tipo:'Atenuada',
+  pop:'Pessoas de 12 meses a 59 anos. Trabalhadores da saúde em qualquer idade.',
+  esq:'2 doses aos 12 e 15 meses (intervalo de 30 dias; mínimo 15). De 30 a 59 anos: 1 dose. Trabalhador da saúde: 2 doses.',
+  obs:'Alergia à lactoalbumina: considerar tetraviral (sem proteínas do leite).'},
+ {id:'varicela',sus:1,nome:'Varicela (monovalente)',prot:'Catapora',tipo:'Atenuada',
+  pop:'População geral de 15 meses a 6 anos, 11 meses e 29 dias. Povos indígenas sem limite máximo de idade. Trabalhadores da saúde.',
+  esq:'2 doses \u2014 intervalo de 3 meses dos 1 aos 12 anos; 8 semanas a partir dos 13 anos. Usar tetraviral na falta da monovalente.',obs:'\u2014'},
+ {id:'dtp',sus:1,nome:'DTP (tríplice bacteriana)',prot:'Difteria, tétano e coqueluche',tipo:'Inativada',
+  pop:'Crianças de 15 meses a 6 anos, 11 meses e 29 dias.',
+  esq:'Reforços aos 15 meses e aos 4 anos, após o esquema com a pentavalente.',
+  obs:'Não indicada a partir dos 7 anos \u2014 usar dT ou dTpa.'},
+ {id:'hepa',sus:1,nome:'Hepatite A',prot:'Hepatite A',tipo:'Inativada',
+  pop:'Crianças de 15 meses a 4 anos, 11 meses e 29 dias.',
+  esq:'1 dose.',obs:'Não administrar em menores de 12 meses. A SBIm recomenda 2 doses (disponíveis na rede privada).'},
+ {id:'vpp23',sus:1,nome:'Pneumocócica 23-valente (VPP23)',prot:'Doença pneumocócica',tipo:'Inativada polissacarídica',
+  pop:'Pessoas de 60 anos ou mais acamadas ou institucionalizadas. Povos indígenas a partir de 5 anos sem vacina conjugada. Grupos de risco pelo CRIE.',
+  esq:'2 doses com intervalo mínimo de 5 anos. Com 1 dose prévia, completar com mais 1.',
+  obs:'Não usar em menores de 2 anos.'},
+ {id:'dt',sus:1,nome:'Dupla adulto (dT)',prot:'Difteria e tétano',tipo:'Inativada',
+  pop:'Toda a população a partir de 7 anos.',
+  esq:'3 doses se esquema incompleto (intervalo de 60 dias; mínimo 30). Reforço a cada 10 anos \u2014 ou a cada 5 anos em risco de difteria/tétano.',obs:'\u2014'},
+ {id:'dtpa',sus:1,nome:'dTpa (tríplice bacteriana acelular do adulto)',prot:'Difteria, tétano e coqueluche',tipo:'Inativada',
+  pop:'Gestantes a partir da 20\u00aa semana; puérperas até 45 dias pós-parto não vacinadas na gestação; profissionais de saúde, parteiras tradicionais e estagiários de maternidade e UTI/UCI neonatal.',
+  esq:'Esquema básico completo: 1 dose de dTpa + reforço a cada 10 anos (5 anos em exposição de risco). Menos de 3 doses: 1 dose de dTpa + 1 ou 2 de dT, totalizando 3 (intervalo 60 dias). Gestante: 1 dose a cada gravidez, a partir da 20\u00aa semana.',
+  obs:'IM 0,5 mL, preferencialmente no deltoide.'},
+ {id:'hpv4',sus:1,nome:'HPV quadrivalente (HPV4)',prot:'HPV 6, 11, 16 e 18',tipo:'Inativada recombinante',
+  pop:'Pessoas de 9 a 14 anos, 11 meses e 29 dias (resgate de 15 a 19 anos). Grupos prioritários: imunodeprimidos de 9 a 45 anos, usuários de PrEP de 15 a 45 anos, papilomatose respiratória recorrente a partir de 2 anos e vítimas de abuso sexual.',
+  esq:'População geral: 1 dose. Imunodeprimidos (9\u201345 anos) e PrEP (15\u201345 anos): 3 doses (0, 2 e 6 meses). Papilomatose respiratória recorrente: 3 doses (0, 2 e 6 meses). Vítimas de abuso sexual: 2 doses (0 e 6 meses) de 9 a 14 anos; 3 doses (0, 2 e 6 meses) de 15 a 45 anos.',obs:'\u2014'},
+ {id:'dengue',sus:1,nome:'Dengue (atenuada \u2014 TAK-003)',prot:'Dengue (4 sorotipos)',tipo:'Atenuada',
+  pop:'Pessoas de 10 a 14 anos, 11 meses e 29 dias, conforme disponibilidade e priorização do MS.',
+  esq:'Esquema iniciado deve ser concluído, com intervalo mínimo de 3 meses entre as doses.',
+  obs:'Contraindicada em gestantes, lactantes e imunodeprimidos.'},
+ {id:'vvsr',sus:1,nome:'VSR recombinante materna (VVSR A e B)',prot:'VSR no lactente, via gestante',tipo:'Inativada recombinante',
+  pop:'Gestantes a partir da 28\u00aa semana gestacional, sem restrição de idade materna.',
+  esq:'Dose única em cada gestação.',
+  obs:'IM 0,5 mL no deltoide. Pode ser aplicada junto com a dTpa e demais vacinas, em locais diferentes.'},
+ {id:'raiva',sus:1,nome:'Raiva (cultivo celular)',prot:'Raiva',tipo:'Inativada',
+  pop:'Profilaxia pós-exposição em qualquer idade, conforme protocolo de agravo. Pré-exposição para profissionais e grupos de risco.',
+  esq:'Conforme o protocolo de profilaxia antirrábica humana do MS.',obs:'Disponível nas unidades de saúde e CRIE.'},
+ {id:'hib_crie',sus:1,nome:'Haemophilus influenzae b (Hib isolada) \u2014 CRIE',prot:'Hib',tipo:'Inativada conjugada',
+  pop:'Grupos de risco atendidos pelo CRIE: asplenia, imunodeficiências, transplantados, implante coclear, entre outros \u2014 em qualquer idade.',
+  esq:'Conforme o Manual dos CRIE (2023).',obs:'Acesso via Centro de Referência para Imunobiológicos Especiais.'},
+
+ /* ===== REDE PRIVADA — registro ANVISA, fora do calendário do SUS ===== */
+ {id:'hexa',sus:0,nome:'Hexavalente acelular (DTPa-VIP-HB-Hib)',prot:'Difteria, tétano, coqueluche, pólio, hepatite B e Hib',tipo:'Inativada',
+  pop:'Lactentes a partir de 2 meses.',esq:'2, 4 e 6 meses + reforço aos 15 meses.',
+  obs:'Preferível à DTPw em prematuros, cardiopatas, pneumopatas e doença neurológica (menor reatogenicidade).'},
+ {id:'pnc15',sus:0,nome:'Pneumocócica conjugada 13, 15 e 20-valente',prot:'Doença pneumocócica invasiva',tipo:'Inativada conjugada',
+  pop:'Crianças a partir de 6 semanas, adultos de risco e pessoas \u2265 60 anos.',
+  esq:'Conforme a idade; em grupos de risco, VPC seguida de VPP23 após \u2265 8 semanas (ou 6\u201312 meses em idosos).',
+  obs:'A SBIm prefere a conjugada de maior valência disponível.'},
+ {id:'menb',sus:0,nome:'Meningocócica B (recombinante)',prot:'Meningococo B',tipo:'Inativada recombinante',
+  pop:'A partir de 2 meses; adolescentes e grupos de risco.',
+  esq:'3 e 5 meses + reforço aos 12 meses; adolescentes e adultos de risco: 2 doses.',
+  obs:'Reatogênica \u2014 antitérmico profilático em lactentes.'},
+ {id:'tetraviral_p',sus:0,nome:'Tetraviral (SCR-V)',prot:'Sarampo, caxumba, rubéola e varicela',tipo:'Atenuada',
+  pop:'Crianças de 12 meses a 11 anos (no SUS, apenas aos 15 meses como 2\u00aa dose de SCR).',
+  esq:'Dose aos 15 meses, após a 1\u00aa dose de tríplice viral.',obs:'Não usar como primeira dose de SCR.'},
+ {id:'hepa_p',sus:0,nome:'Hepatite A (esquema de 2 doses)',prot:'Hepatite A',tipo:'Inativada',
+  pop:'A partir de 12 meses, em qualquer idade suscetível.',esq:'2 doses (0 e 6 meses).',
+  obs:'Recomendação SBIm; o SUS oferece dose única aos 15 meses. Hepatopatas e HIV: sempre 2 doses.'},
+ {id:'hpv9',sus:0,nome:'HPV nonavalente (HPV9)',prot:'HPV 6, 11, 16, 18, 31, 33, 45, 52 e 58',tipo:'Inativada recombinante',
+  pop:'Pessoas de 9 a 45 anos, de ambos os sexos.',
+  esq:'9\u201314 anos: 2 doses (0 e 6 meses). A partir de 15 anos e imunodeprimidos: 3 doses (0, 2 e 6 meses).',
+  obs:'Maior cobertura sorotípica que a quadrivalente do SUS.'},
+ {id:'influenza4',sus:0,nome:'Influenza quadrivalente (e alta dose)',prot:'Gripe',tipo:'Inativada',
+  pop:'A partir de 6 meses; formulação de alta dose a partir de 60 anos.',
+  esq:'Dose anual. Primovacinação de 6 meses a 8 anos: 2 doses com 30 dias de intervalo.',
+  obs:'A SBIm prefere a quadrivalente à trivalente ofertada no SUS.'},
+ {id:'herpes',sus:0,nome:'Herpes-zóster recombinante (RZV)',prot:'Herpes-zóster e neuralgia pós-herpética',tipo:'Inativada recombinante adjuvada',
+  pop:'\u2265 50 anos; \u2265 18 anos com imunossupressão ou risco aumentado.',
+  esq:'2 doses (0 e 2\u20136 meses; 0 e 1\u20132 meses em imunodeprimidos).',
+  obs:'Por ser inativada, pode ser usada em imunodeprimidos \u2014 ao contrário da atenuada.'},
+ {id:'nirse',sus:0,nome:'Nirsevimabe (anticorpo monoclonal anti-VSR)',prot:'Vírus sincicial respiratório',tipo:'Imunização passiva',
+  pop:'Lactentes na 1\u00aa temporada de VSR, sobretudo prematuros e cardiopatas.',
+  esq:'Dose única antes ou durante a temporada.',obs:'Não é vacina \u2014 imunização passiva. Programas estaduais podem ofertá-lo.'},
+ {id:'febretif',sus:0,nome:'Febre tifoide',prot:'Salmonella typhi',tipo:'Inativada polissacarídica',
+  pop:'A partir de 2 anos \u2014 viajantes a áreas endêmicas.',esq:'Dose única, reforço a cada 3 anos.',obs:'\u2014'},
+ {id:'dengue_p',sus:0,nome:'Dengue (TAK-003) \u2014 faixa ampliada',prot:'Dengue (4 sorotipos)',tipo:'Atenuada',
+  pop:'4 a 60 anos na rede privada (no SUS, restrita a 10\u201314 anos).',esq:'2 doses com intervalo de 3 meses.',
+  obs:'Contraindicada em gestantes, lactantes e imunodeprimidos.'}
 ];
 
 function vacShowHub(){
@@ -4447,29 +4555,43 @@ function vacRenderPacientes(filtro){
   }catch(e){ box.innerHTML='<div style="color:#e53e3e;font-size:12px">Erro ao carregar.</div>'; }
 }
 function vacRenderVacinas(filtro){
-  var box=document.getElementById('vacListaVacinas'); if(!box) return;
+  var sus=document.getElementById('vacListaSUS');
+  var priv=document.getElementById('vacListaPriv');
+  if(!sus||!priv) return;
   var f=(filtro||'').toLowerCase();
-  box.innerHTML='';
+  sus.innerHTML=''; priv.innerHTML='';
+  function linha(l,v){
+    return '<tr><td style="padding:5px 8px 5px 0;color:var(--gray-500);font-weight:700;font-size:12px;white-space:nowrap;vertical-align:top">'+l+'</td>'
+      +'<td style="padding:5px 0;color:var(--navy);font-size:12px;line-height:1.5">'+v+'</td></tr>';
+  }
   VAC_CATALOGO.filter(function(v){
     return !f || (v.nome+' '+v.prot).toLowerCase().indexOf(f)>=0;
   }).forEach(function(v){
     var det=document.createElement('details');
     det.style.cssText='background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;overflow:hidden';
+    var badge=v.sus
+      ? '<span style="font-size:9.5px;font-weight:800;background:#e6f7ed;color:#1e7a46;border-radius:6px;padding:2px 6px;letter-spacing:.04em">SUS</span>'
+      : '<span style="font-size:9.5px;font-weight:800;background:#eef2f7;color:var(--navy);border-radius:6px;padding:2px 6px;letter-spacing:.04em">PRIVADA</span>';
     det.innerHTML='<summary style="padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;list-style:none">'
-      +'<span style="font-size:20px">'+(v.tipo.indexOf('Atenuada')>=0?'🧬':'💉')+'</span>'
-      +'<div style="flex:1"><div style="font-size:13px;font-weight:800;color:var(--navy)">'+v.nome+'</div>'
-      +'<div style="font-size:11px;color:var(--gray-500)">'+v.prot+'</div></div>'
-      +'<span style="color:var(--gray-300);font-size:16px">›</span></summary>'
+      +'<span style="font-size:20px">'+(v.tipo.indexOf('Atenuada')>=0?'\ud83e\uddec':'\ud83d\udc89')+'</span>'
+      +'<div style="flex:1"><div style="font-size:13px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:6px;flex-wrap:wrap">'+v.nome+' '+badge+'</div>'
+      +'<div style="font-size:11px;color:var(--gray-500);margin-top:2px">'+v.prot+'</div></div>'
+      +'<span style="color:var(--gray-300);font-size:16px">\u203a</span></summary>'
       +'<div style="padding:0 14px 12px;border-top:1px solid var(--gray-100)">'
       +'<table style="width:100%;border-collapse:collapse;margin-top:6px">'
-      +'<tr><td style="padding:4px 8px 4px 0;color:var(--gray-500);font-weight:700;font-size:12px;white-space:nowrap;vertical-align:top">Tipo</td><td style="padding:4px 0;color:var(--navy);font-size:12px">'+v.tipo+'</td></tr>'
-      +'<tr><td style="padding:4px 8px 4px 0;color:var(--gray-500);font-weight:700;font-size:12px;white-space:nowrap;vertical-align:top">Disponibilidade</td><td style="padding:4px 0;color:var(--navy);font-size:12px">'+v.rede+'</td></tr>'
-      +'<tr><td style="padding:4px 8px 4px 0;color:var(--gray-500);font-weight:700;font-size:12px;white-space:nowrap;vertical-align:top">Idade / esquema</td><td style="padding:4px 0;color:var(--navy);font-size:12px">'+v.idade+'</td></tr>'
-      +'<tr><td style="padding:4px 8px 4px 0;color:var(--gray-500);font-weight:700;font-size:12px;white-space:nowrap;vertical-align:top">Observações</td><td style="padding:4px 0;color:var(--navy);font-size:12px">'+v.obs+'</td></tr>'
-      +'</table></div>';
-    box.appendChild(det);
+      +linha(v.sus?'População liberada no SUS':'População indicada',v.pop)
+      +linha('Esquema',v.esq)
+      +linha('Tipo',v.tipo)
+      +linha('Observações',v.obs)
+      +'</table>'
+      +'<div style="font-size:10.5px;color:var(--gray-500);margin-top:8px;line-height:1.45">'
+      +(v.sus?'Fonte: Instrução Normativa do Calendário Nacional de Vacinação 2026 \u2014 PNI/Ministério da Saúde.'
+             :'Produto com registro ANVISA, fora do Calendário Nacional \u2014 recomendação de uso conforme SBIm.')
+      +'</div></div>';
+    (v.sus?sus:priv).appendChild(det);
   });
-  if(!box.children.length) box.innerHTML='<div style="color:var(--gray-500);font-size:13px;padding:8px 0">Nenhuma vacina encontrada.</div>';
+  if(!sus.children.length) sus.innerHTML='<div style="color:var(--gray-500);font-size:12.5px;padding:4px 0">Nenhuma vacina encontrada.</div>';
+  if(!priv.children.length) priv.innerHTML='<div style="color:var(--gray-500);font-size:12.5px;padding:4px 0">Nenhuma vacina encontrada.</div>';
 }
 
 function igShowHub(){
