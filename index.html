@@ -8498,8 +8498,23 @@ function _prefetchFeeds(){
   }
   proximo();
 }
-var _tradCache = {};   // título original -> tradução (persistido em localStorage)
-try{ _tradCache = JSON.parse(localStorage.getItem('hub_trad_titulos')||'{}'); }catch(e){ _tradCache = {}; }
+var _tradCache = {};   // título original -> tradução (persistido em localStorage, TTL semanal)
+(function(){
+  try{
+    var raw = JSON.parse(localStorage.getItem('hub_trad_titulos')||'{}');
+    // suporte a formato legado (objeto puro) e novo (com semana)
+    var semanaAtual = new Date().toISOString().slice(0,10).replace(/-\d\d$/,'');  // YYYY-MM
+    if(raw._semana && raw._semana !== semanaAtual){
+      // expirou — começa cache vazio para o novo mês
+      _tradCache = {};
+    } else {
+      _tradCache = raw._data || raw;
+      if(!raw._semana){ // migrar formato legado
+        _tradCache = raw;
+      }
+    }
+  }catch(e){ _tradCache = {}; }
+})();
 
 function carregarFeed(tema){
   _feedTema = tema;
@@ -8507,10 +8522,12 @@ function carregarFeed(tema){
   var box = document.getElementById('feedResults');
   if(!box) return;
 
-  // já buscado nesta sessão → mostra na hora, sem tela de carregamento
+  // já buscado nesta sessão → mostra na hora e reaplicar traduções pendentes
   if(_feedCache[tema]){
     box.style.opacity = '1';
     box.innerHTML = _feedCache[tema];
+    // reaplicar traduções: novos títulos sem cache ou cache atualizado
+    _traduzirTitulosFeed(box, tema);
     return;
   }
 
@@ -8595,11 +8612,16 @@ function _tradLoad(){
   try{ return JSON.parse(localStorage.getItem('hub_trad_titulos')||'{}'); }catch(e){ return {}; }
 }
 function _tradSave(){
-  try{ localStorage.setItem('hub_trad_titulos', JSON.stringify(_tradCache)); }catch(e){}
+  try{
+    var semanaAtual = new Date().toISOString().slice(0,10).replace(/-\d\d$/,'');
+    localStorage.setItem('hub_trad_titulos', JSON.stringify({_semana: semanaAtual, _data: _tradCache}));
+  }catch(e){}
 }
 function _ehPortugues(txt){
-  // heurística simples: título já em PT não precisa de tradução
-  return /\b(de|da|do|em|com|para|na|no|uma|dos|das)\b/i.test(txt) && !/\b(the|of|with|and|for|in|a randomized|study|trial|patients)\b/i.test(txt);
+  // Apenas considera em PT se tiver MÚLTIPLAS palavras PT E nenhuma palavra EN típica de abstract
+  var ptCount = (txt.match(/\b(de|da|do|em|com|para|na|no|uma|dos|das|são|é|foi|pelo|pela|nos|nas|ao|à|um|se)\b/gi)||[]).length;
+  var enMarkers = /\b(the|of|with|and|for|in|a randomized|study|trial|patients|vs\.|versus|effect|efficacy|safety|phase|randomized|placebo|controlled|double.blind|single.blind|cohort|meta.analysis|systematic|review|among|between|after|before|versus|outcomes|results|methods|adults|children|clinical)\b/i;
+  return ptCount >= 3 && !enMarkers.test(txt);
 }
 function _aplicarTrad(el){
   var o = el.getAttribute('data-original');
