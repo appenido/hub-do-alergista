@@ -4186,11 +4186,20 @@ document.addEventListener('DOMContentLoaded', function(){
 
 /* ── Ordena cards de artigo por data (desc) ───── */
 var _MESES_PT = {jan:0,fev:1,mar:2,abr:3,mai:4,jun:5,jul:6,ago:7,set:8,out:9,nov:10,dez:11};
+var _MESES_EN = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
 function _dataDoCard(c){
   var j = c.querySelector('.art-journal');
   var txt = j ? j.textContent : '';
+  // formato do hub: "Lancet G&H · jun/2026"
   var m = txt.match(/(jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)\/(\d{4})/i);
   if(m) return new Date(parseInt(m[2],10), _MESES_PT[m[1].toLowerCase()], 1).getTime();
+  // formato do PubMed: "2026 Nov 12", "2026 Nov", "2026"
+  var p = txt.match(/(\d{4})(?:\s+([A-Za-z]{3})[a-z]*)?(?:\s+(\d{1,2}))?/);
+  if(p){
+    var mes = p[2] ? _MESES_EN[p[2].toLowerCase()] : 0;
+    if(mes === undefined) mes = 0;
+    return new Date(parseInt(p[1],10), mes, p[3] ? parseInt(p[3],10) : 1).getTime();
+  }
   var d = Date.parse(txt.replace(/^[^·]*·\s*/,''));
   return isNaN(d) ? 0 : d;
 }
@@ -7374,17 +7383,17 @@ function _traduzirUm(el, tema, box){
 }
 function _traduzirTitulosFeed(box, tema){
   var els = box.querySelectorAll('.art-title-pt[data-original]');
-  if(!els.length) return;
+  if(!els.length) return Promise.resolve();
   if(tema) _feedCache[tema] = box.innerHTML;   // lista já utilizável
 
   var pendentes = [];
   els.forEach(function(e){ if(!_aplicarTrad(e)) pendentes.push(e); });
-  if(!pendentes.length){ if(tema) _feedCache[tema] = box.innerHTML; return; }
+  if(!pendentes.length){ if(tema) _feedCache[tema] = box.innerHTML; return Promise.resolve(); }
 
   // 1ª tentativa: lote único (rápido e barato)
   var titulos = pendentes.map(function(e){ return e.getAttribute('data-original'); });
   var pedido = 'Traduza para o português do Brasil cada um dos ' + titulos.length + ' títulos de artigo médico abaixo. Responda com EXATAMENTE ' + titulos.length + ' linhas, uma tradução por linha, na mesma ordem, sem numeração, sem aspas e sem nenhum texto extra.\n\n' + titulos.join('\n');
-  fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta: pedido})})
+  return fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta: pedido})})
     .then(function(r){ return r.json(); })
     .then(function(d){
       var linhas = (d && d.resposta ? d.resposta : '').split('\n')
@@ -7405,7 +7414,7 @@ function _traduzirTitulosFeed(box, tema){
       // 2ª tentativa: um pedido por título (sempre alinhado)
       var seq = Promise.resolve();
       pendentes.forEach(function(e){ seq = seq.then(function(){ return _traduzirUm(e, tema, box); }); });
-      seq.then(function(){ _tradSave(); if(tema) _feedCache[tema] = box.innerHTML; });
+      return seq.then(function(){ _tradSave(); if(tema) _feedCache[tema] = box.innerHTML; });
     });
 }
 
@@ -7431,7 +7440,20 @@ function carregarFeedHome(){
     var esum = base + 'esummary.fcgi?db=pubmed&retmode=json&tool=HubClinico&id=' + ids.join(',');
     return fetch(esum).then(function(r2){ return r2.json(); }).then(function(d2){
       var html = _renderFeedHome(d2);
-      if(html){ box.innerHTML = html; _homeFeedLoaded = true; _traduzirTitulosFeed(box); }
+      if(!html) return;
+      // monta fora da tela, traduz e só então publica — a home nunca mostra título em inglês
+      var tmp = document.createElement('div');
+      tmp.innerHTML = html;
+      return Promise.resolve(_traduzirTitulosFeed(tmp)).then(function(){
+        var faltou = false;
+        tmp.querySelectorAll('.art-title-pt[data-original]').forEach(function(e){
+          if(e.textContent.trim() === (e.getAttribute('data-original')||'').trim() && !_ehPortugues(e.textContent)) faltou = true;
+        });
+        if(faltou) return;                 // sem tradução → mantém os cards estáticos (já em português)
+        box.innerHTML = tmp.innerHTML;
+        _homeFeedLoaded = true;
+        ordenarArtigosPorData('homeArtigos');
+      });
     });
   }).catch(function(){
     box.innerHTML = fallback;           // erro/sem internet → volta os estáticos
@@ -7443,8 +7465,13 @@ function _renderFeedHome(d2){
   var res = d2 ? d2.result : null;
   if(!res || !res.uids || !res.uids.length) return '';
   var html = '';
-  for(var u=0; u<res.uids.length; u++){
-    var uid = res.uids[u];
+  var uids = res.uids.slice().sort(function(x,y){   // mais recente primeiro
+    var dx = Date.parse(((res[x]||{}).sortpubdate || (res[x]||{}).pubdate || '').replace(/\//g,'-')) || 0;
+    var dy = Date.parse(((res[y]||{}).sortpubdate || (res[y]||{}).pubdate || '').replace(/\//g,'-')) || 0;
+    return dy - dx;
+  });
+  for(var u=0; u<uids.length; u++){
+    var uid = uids[u];
     var a = res[uid];
     if(!a) continue;
     var journal = a.source || a.fulljournalname || '';
