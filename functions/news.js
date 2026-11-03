@@ -9,16 +9,18 @@ const CORS = {
 };
 
 const FONTES = [
-  { nome: 'G1',             url: 'https://g1.globo.com/rss/g1/ciencia-e-saude/' },
-  { nome: 'Agência Brasil', url: 'https://agenciabrasil.ebc.com.br/rss/saude/feed.xml' },
-  { nome: 'Agência Brasil', url: 'https://agenciabrasil.ebc.com.br/rss/geral/feed.xml' },
-  { nome: 'Fiocruz',        url: 'https://portal.fiocruz.br/rss.xml' },
+  { nome: 'G1',             url: 'https://g1.globo.com/rss/g1/ciencia-e-saude/', direta: true },
+  { nome: 'Agência Brasil', url: 'https://agenciabrasil.ebc.com.br/rss/saude/feed.xml', direta: true },
+  { nome: 'Agência Brasil', url: 'https://agenciabrasil.ebc.com.br/rss/geral/feed.xml', direta: true },
   { nome: 'Google Notícias',url: 'https://news.google.com/rss/search?q=alergia&hl=pt-BR&gl=BR&ceid=BR:pt-419' },
   { nome: 'Google Notícias',url: 'https://news.google.com/rss/search?q=asma+OR+%22rinite+al%C3%A9rgica%22&hl=pt-BR&gl=BR&ceid=BR:pt-419' },
   { nome: 'Google Notícias',url: 'https://news.google.com/rss/search?q=anafilaxia+OR+urtic%C3%A1ria+OR+angioedema&hl=pt-BR&gl=BR&ceid=BR:pt-419' },
-  { nome: 'Google Notícias',url: 'https://news.google.com/rss/search?q=%22dermatite+at%C3%B3pica%22+OR+imunoterapia+OR+imunobiol%C3%B3gico&hl=pt-BR&gl=BR&ceid=BR:pt-419' },
+  { nome: 'Google Notícias',url: 'https://news.google.com/rss/search?q=%22dermatite+at%C3%B3pica%22+OR+imunobiol%C3%B3gico&hl=pt-BR&gl=BR&ceid=BR:pt-419' },
   { nome: 'Google Notícias',url: 'https://news.google.com/rss/search?q=%22alergia+alimentar%22+OR+%22imunodefici%C3%AAncia%22&hl=pt-BR&gl=BR&ceid=BR:pt-419' }
 ];
+
+// só entra se o veículo (tag <source> do Google Notícias) for um site/revista de peso nacional ou regional reconhecido
+const VEICULOS_FAMOSOS = /^(g1|globo|o globo|gshow|epoca|revista crescer|uol|folha de s\.?paulo|folha|vivabem|jc ?\(?uol\)?|estad[ãa]o|veja|veja sa[úu]de|super interessante|exame|metr[óo]poles|terra|r7|band|cnn brasil|sbt ?(news)?|ag[êe]ncia brasil|correio braziliense|gaúchazh|gauchazh|zero hora|clicrbs|gazeta do povo|forbes brasil|cartacapital|jovem pan|ig|isto[ée]|billboard brasil|vagalume)/i;
 
 // palavras inteiras (evita casar "asma" dentro de "plasma")
 const CHAVES = /(^|[^a-zà-ú])(alergi\w*|al[ée]rgic\w*|anafila\w*|anafil[áa]tic\w*|urtic[áa]ri\w*|asma|asm[áa]tic\w*|rinite|dermatite|imunodefici\w*|imunoterapia (?:alerg|sublingual|subcut|com al[ée]rgeno)\w*|imunobiol[óo]gic\w*|angioedema|bronco?espasmo)([^a-zà-ú]|$)/i;
@@ -29,7 +31,7 @@ function limpar(t) {
   return (t || '').replace(/<!\[CDATA\[|\]\]>/g, '').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').trim();
 }
 
-function extrair(xml, nomeFonte) {
+function extrair(xml, fonteInfo) {
   const out = [];
   const blocos = xml.split(/<item[\s>]/).slice(1, 40);
   for (const b of blocos) {
@@ -43,11 +45,20 @@ function extrair(xml, nomeFonte) {
     const alvo = titulo + ' ' + desc;
     if (!CHAVES.test(alvo)) continue;
     if (ONCOLOGIA.test(alvo)) continue;
+
+    let fonte = fonteInfo.nome;
+    if (!fonteInfo.direta) {
+      // o Google Notícias traz o veículo real na tag <source>; sem isso, não dá pra confirmar que é famoso
+      const real = pega('source');
+      if (!real || !VEICULOS_FAMOSOS.test(real)) continue;
+      fonte = real;
+    }
+
     const data = pega('pubDate');
     const ts = Date.parse(data);
     // só notícias dos últimos 120 dias
     if (ts && Date.now() - ts > 120 * 24 * 3600 * 1000) continue;
-    out.push({ titulo, fonte: nomeFonte, data, url: pega('link') });
+    out.push({ titulo, fonte, data, url: pega('link') });
   }
   return out;
 }
@@ -66,7 +77,7 @@ export async function onRequestGet() {
       });
       const t = await r.text();
       if (!r.ok) { falhas.push(f.nome + ' HTTP ' + r.status); return; }
-      itens.push(...extrair(t, f.nome));
+      itens.push(...extrair(t, f));
     } catch (e) {
       falhas.push(f.nome + ' ' + ((e && e.message) || 'falha'));
     }

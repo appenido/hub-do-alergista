@@ -30,11 +30,19 @@ const INSTITUCIONAIS = /(\.gov\.br$|\.gov$|^gov\.br$|asbai\.org|sbp\.com\.br|\bs
 const ESTRANGEIROS = /(vietnam\.vn|investing\.com|publico\.pt|observador\.pt|sapo\.pt|\.vn$|\.pt$|\.es$|\.ao$|\.mz$)/i;
 const VETERINARIO = /(cão|cães|gato\b|gatos\b|veterinári|pet\b|tutor de animais|caesegatos\.com\.br|petlove|portalpet)/i;
 const ONCOLOGIA = /(c[âa]ncer|oncol[óo]gic\w*|quimioterapia|radioterapia|tumor(?!al da al)|neoplasia|carcinoma|melanoma|metast[áa]tic\w*)/i;
-const BR_OK = ['globo.com','uol.com.br','metropoles.com','terra.com.br','r7.com','ig.com.br','band.com.br','cnnbrasil.com.br','estadao.com.br','abril.com.br','ebc.com.br','billboard.com.br','gauchazh.clicrbs.com.br','clicrbs.com.br'];
+// só veículos de peso nacional/regional reconhecidos — nada de portal obscuro
+const BR_OK = [
+  'globo.com','g1.globo.com','oglobo.globo.com','epoca.globo.com','crescer.globo.com',
+  'uol.com.br','folha.uol.com.br','www1.folha.uol.com.br','vivabem.uol.com.br','jc.uol.com.br',
+  'estadao.com.br','abril.com.br','veja.abril.com.br','saude.abril.com.br','super.abril.com.br','exame.com',
+  'metropoles.com','terra.com.br','r7.com','band.com.br','cnnbrasil.com.br','sbt.com.br','sbtnews.sbt.com.br',
+  'ebc.com.br','agenciabrasil.ebc.com.br','correiobraziliense.com.br','gauchazh.clicrbs.com.br','clicrbs.com.br',
+  'gazetadopovo.com.br','forbes.com.br','cartacapital.com.br','jovempan.com.br','ig.com.br','istoe.com.br'
+];
 
 const limpar = (t) => (t||'').replace(/<!\[CDATA\[|\]\]>/g,'').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').trim();
 const UA = { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Accept-Language': 'pt-BR,pt;q=0.9' };
-const brasileiro = (h) => /\.br$/.test(h) || BR_OK.some((d) => h === d || h.endsWith('.' + d));
+const brasileiro = (h) => BR_OK.some((d) => h === d || h.endsWith('.' + d));   // só a lista de veículos famosos acima, não qualquer .br
 const institucional = (h) => INSTITUCIONAIS.test(h);
 
 function itensDoRss(xml){
