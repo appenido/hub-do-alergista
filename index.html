@@ -924,6 +924,21 @@ window._mostrarApp = function(){
       <button class="auth-btn" onclick="fazerLogin()">Entrar →</button>
       <div class="auth-err" id="loginErr"></div>
     </div>
+    <!-- CONFIRMAR CÓDIGO -->
+    <div id="formCodigo" style="display:none">
+      <div style="font-size:14px;font-weight:800;color:var(--navy);margin-bottom:6px">Confirme seu e-mail</div>
+      <p style="font-size:12.5px;color:var(--gray-500);line-height:1.55;margin:0 0 14px">Enviamos um código de 6 dígitos para <strong id="codEmailAlvo" style="color:var(--navy)"></strong>. Digite-o abaixo para ativar sua conta.</p>
+      <div class="auth-field">
+        <label for="codInput">Código de 6 dígitos</label>
+        <input type="text" id="codInput" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" style="letter-spacing:.35em;text-align:center;font-weight:800;font-size:19px">
+      </div>
+      <button class="auth-btn" onclick="confirmarCodigo()">Confirmar e entrar →</button>
+      <div class="auth-err" id="codErr"></div>
+      <div style="text-align:center;margin-top:12px">
+        <button type="button" onclick="reenviarCodigo()" style="background:none;border:none;color:var(--teal-mid);font-family:'Manrope',sans-serif;font-size:12px;font-weight:800;cursor:pointer;text-decoration:underline">Reenviar código</button>
+      </div>
+    </div>
+
     <!-- CADASTRO -->
     <div id="formCad" style="display:none">
       <div class="auth-field"><label>Nome completo *</label><input type="text" id="cadNome" placeholder="Seu nome" autocomplete="name"></div>
@@ -3578,8 +3593,68 @@ function authModo(modo){
   var isLogin = (modo==='login');
   document.getElementById('tabLogin').classList.toggle('active', isLogin);
   document.getElementById('tabCad').classList.toggle('active', !isLogin);
+  var tabs = document.querySelector('.auth-tabs');
+  if(tabs) tabs.style.display = '';
+  var fc = document.getElementById('formCodigo');
+  if(fc) fc.style.display = 'none';
   document.getElementById('formLogin').style.display = isLogin ? '' : 'none';
   document.getElementById('formCad').style.display  = isLogin ? 'none' : '';
+}
+
+/* ── Confirmação de e-mail por código de 6 dígitos ── */
+var _cadPendente = null;   // {email, senha, nome, meta}
+
+function _mostrarCodigo(email){
+  var tabs = document.querySelector('.auth-tabs');
+  if(tabs) tabs.style.display = 'none';
+  document.getElementById('formLogin').style.display = 'none';
+  document.getElementById('formCad').style.display   = 'none';
+  document.getElementById('formCodigo').style.display = '';
+  var alvo = document.getElementById('codEmailAlvo');
+  if(alvo) alvo.textContent = email;
+  var inp = document.getElementById('codInput');
+  if(inp){ inp.value=''; inp.focus(); }
+}
+
+function confirmarCodigo(){
+  var err = document.getElementById('codErr');
+  var inp = document.getElementById('codInput');
+  var codigo = inp ? (inp.value||'').replace(/\D/g,'') : '';
+  err.style.color=''; err.textContent='';
+  if(!_cadPendente){ err.textContent='Sessão expirada. Refaça o cadastro.'; return; }
+  if(codigo.length !== 6){ err.textContent='Digite os 6 dígitos do código.'; return; }
+  err.textContent = 'Confirmando...';
+
+  fetch(SB_URL + '/auth/v1/verify', {
+    method:'POST', headers:_sbHeaders(),
+    body: JSON.stringify({type:'signup', email:_cadPendente.email, token:codigo})
+  }).then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
+  .then(function(res){
+    if(!res.ok || !res.j.access_token){
+      var m = (res.j && (res.j.msg || res.j.error_description || res.j.message)) || 'Código inválido.';
+      if(/expired/i.test(m))  m = 'Código expirado. Toque em "Reenviar código".';
+      if(/invalid/i.test(m))  m = 'Código incorreto. Confira o e-mail e tente de novo.';
+      err.textContent = m; return;
+    }
+    _salvarLocal(_cadPendente.email, _cadPendente.meta);
+    _iniciarSessao(_cadPendente.email, _cadPendente.nome, res.j.access_token, res.j.refresh_token);
+    _cadPendente = null;
+  }).catch(function(){
+    err.textContent = 'Sem conexão para confirmar o código. Tente novamente.';
+  });
+}
+
+function reenviarCodigo(){
+  var err = document.getElementById('codErr');
+  if(!_cadPendente){ err.textContent='Sessão expirada. Refaça o cadastro.'; return; }
+  err.style.color=''; err.textContent='Reenviando...';
+  fetch(SB_URL + '/auth/v1/resend', {
+    method:'POST', headers:_sbHeaders(),
+    body: JSON.stringify({type:'signup', email:_cadPendente.email})
+  }).then(function(r){
+    err.style.color = r.ok ? '#16a34a' : '';
+    err.textContent = r.ok ? 'Novo código enviado. Confira seu e-mail.' : 'Não foi possível reenviar agora. Aguarde um minuto.';
+  }).catch(function(){ err.textContent = 'Sem conexão para reenviar o código.'; });
 }
 
 function _hash(str){
@@ -3668,6 +3743,7 @@ function fazerCadastro(){
   if(senha!==senha2) { err.textContent='As senhas não coincidem.'; return; }
 
   var meta = {
+    app: 'hub',
     nome: nome, categoria: categoria,
     especialidade: (categoria==='especialista') ? especialidade : CATEGORIA_LABEL[categoria],
     endereco:'', crm:'', rqe:null, interesses: _interessesSelecionados()
@@ -3684,12 +3760,14 @@ function fazerCadastro(){
       if(/already registered|already been registered/i.test(m)) m = 'E-mail já cadastrado. Faça login.';
       err.textContent = m; return;
     }
-    _salvarLocal(email, meta);
     if(res.j.access_token){
+      _salvarLocal(email, meta);
       _iniciarSessao(email, nome, res.j.access_token, res.j.refresh_token);
     }else{
-      err.style.color='#16a34a';
-      err.textContent='Conta criada! Confirme pelo link enviado ao seu e-mail e depois faça login.';
+      // Conta criada: falta confirmar com o código enviado por e-mail
+      _cadPendente = {email:email, senha:senha, nome:nome, meta:meta};
+      err.textContent = '';
+      _mostrarCodigo(email);
     }
   }).catch(function(){
     // Sem internet — cadastro local de emergência
