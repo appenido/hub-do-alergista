@@ -7546,7 +7546,7 @@ document.addEventListener('click', function(eN){
 
 
 /* ══ CONSULTAR CRM — webservice oficial do CFM (SOAP, via backend) ══ */
-var CRM_ENDPOINT = (function(){var h=location.hostname;if(/netlify\.app$/.test(h)) return '/.netlify/functions/crm';if(/pages\.dev$/.test(h)) return '/crm';if(h==='localhost'||h==='127.0.0.1') return '/crm';return 'https://hubdoalergista.pages.dev/crm';})();
+var CRM_ENDPOINT = (function(){var h=location.hostname;return (h==='localhost'||h==='127.0.0.1'||/pages\.dev$/.test(h)) ? '/crm' : 'https://hubdoalergista.pages.dev/crm';})();
 
 var CRM_PORTAL = 'https://portal.cfm.org.br/busca-medicos';
 
