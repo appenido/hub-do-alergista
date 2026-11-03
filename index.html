@@ -262,8 +262,13 @@ body{
 .ig-alert.crit{background:#fdecec;border:1px solid #e88a8a;color:#8a2020}
 .ig-alert.warn{background:#fff8e6;border:1px solid #e8c766;color:#6b5312}
 .ig-alert.ok{background:#eaf7f3;border:1px solid #8fd3bf;color:#1d6a53}
-.ig-step{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--gray-100);font-size:12.5px}
+.ig-step{display:grid;grid-template-columns:26px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray-100);font-size:12.5px}
 .ig-step b{color:var(--navy)}
+.ig-sn{background:var(--navy);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:2px;flex-shrink:0}
+.ig-tbl{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0}
+.ig-tbl th{background:var(--navy);color:#fff;padding:5px 8px;text-align:left;font-size:11px}
+.ig-tbl td{padding:5px 8px;border-bottom:1px solid var(--gray-100)}
+.ig-tbl tr:nth-child(even) td{background:#f7fafb}
 .ig-grupo{margin-top:10px}
 .ig-grupo-tit{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-mid);margin-bottom:6px}
 .ig-grupo-tit::after{content:'';flex:1;height:1px;background:var(--gray-100)}
@@ -5608,103 +5613,157 @@ function gerarOrientacaoIg(){
   }
 
   // --- PROTOCOLO DE INFUSÃO IV ---
-  var stepsIV = [];
-  if(via === 'IV'){
-    if(primeira === 'sim'){
-      stepsIV = [
-        {t:'Acesso venoso', d:'Instalar acesso venoso periférico calibroso (≥ 20G). Confirmar permeabilidade.'},
-        {t:'Velocidade inicial', d:'Iniciar a 0,01 mL/kg/min (≈ 0,6 mL/kg/h). Manter por 30 min.'},
-        {t:'Escalonamento', d:'Se tolerado, dobrar a velocidade a cada 30 min até máx. 0,08 mL/kg/min (≈ 4,8 mL/kg/h). Seguir bula do produto específico.'},
-        {t:'Monitorização', d:'PA, FC e SpO₂ a cada 15 min nos primeiros 60 min; a cada 30 min nas horas seguintes.'},
-        {t:'Duração estimada', d:'Primeira infusão: 3–6 h. Infusões subsequentes podem ser encurtadas se toleradas.'}
-      ];
-    } else {
-      stepsIV = [
-        {t:'Acesso venoso', d:'Instalar acesso venoso. Confirmar permeabilidade.'},
-        {t:'Velocidade', d:'Iniciar na última velocidade tolerada pelo paciente. Escalonar conforme protocolo habitual do serviço e bula do produto.'},
-        {t:'Monitorização', d:'PA, FC e SpO₂ a cada 30 min durante a infusão.'}
-      ];
+  // Velocidades por produto (mL/kg/h) conforme bulas ANVISA
+  var ivRate = {
+    privigen_10:   {ini:0.3, max:4.8},
+    octagam_10:    {ini:0.6, max:7.2},
+    kiovig_10:     {ini:0.5, max:6.0},
+    flebogamma_10: {ini:0.5, max:6.0},
+    tegeline_5:    {ini:0.6, max:4.2},
+    endobulin_5:   {ini:0.5, max:4.0},
+    gammaked_10:   {ini:0.5, max:8.0},
+    gamunex_10:    {ini:0.5, max:8.0}
+  };
+  var r = ivRate[prod_k];
+  var vIniAbs = r ? +(r.ini * peso).toFixed(1) : null;
+  var vMaxAbs = r ? +(r.max * peso).toFixed(1) : null;
+
+  function gerarTabelaIV(peso, r){
+    var steps = [r.ini];
+    var v = r.ini;
+    while(v < r.max - 0.01){
+      v = +(v*2).toFixed(2);
+      if(v > r.max) v = r.max;
+      steps.push(v);
     }
-    stepsIV.push({t:'Encerramento', d:'Flush com SF 0,9% ao término. Observar mínimo 30 min após o fim da infusão.'});
+    var rows = steps.map(function(vel, i){
+      var abs = +(vel*peso).toFixed(1);
+      var obs = i===0?'Observar sinais de intolerância':i===steps.length-1?'Manter se bem tolerado':'Avaliar tolerância antes de progredir';
+      return '<tr><td>'+(i===0?'0–30':'30 min por etapa')+'</td><td>'+vel+' mL/kg/h</td><td><b>'+abs+' mL/h</b></td><td>'+obs+'</td></tr>';
+    });
+    return '<table class="ig-tbl"><thead><tr><th>Tempo</th><th>Vel. (mL/kg/h)</th><th>Vel. absoluta</th><th>Observação</th></tr></thead><tbody>'+rows.join('')+'</tbody></table>';
   }
 
-  // --- PROTOCOLO SC ---
+  var stepsIV = [];
+  if(via === 'IV'){
+    stepsIV.push({t:'Acesso venoso', d:'Acesso venoso periférico calibroso (≥ 20G). Confirmar permeabilidade antes de iniciar.'});
+    if(r){
+      stepsIV.push({t:'Velocidade inicial', d:'<b>'+r.ini+' mL/kg/h → '+vIniAbs+' mL/h</b> para '+peso+' kg. Manter por 30 min e monitorar tolerância.'});
+      stepsIV.push({t:'Escalonamento progressivo', d:gerarTabelaIV(peso, r)});
+      stepsIV.push({t:'Velocidade máxima', d:'<b>'+r.max+' mL/kg/h → '+vMaxAbs+' mL/h</b> para '+peso+' kg. Atingir somente se tolerado em todas as etapas anteriores.'});
+    } else {
+      stepsIV.push({t:'Velocidade', d:'Consultar bula do produto. Iniciar na menor velocidade e escalonar a cada 30 min.'});
+    }
+    if(primeira === 'sim'){
+      stepsIV.push({t:'Monitorização (1ª infusão)', d:'PA, FC e SpO₂ a cada 15 min nos primeiros 60 min; a cada 30 min nas horas seguintes.'});
+    } else {
+      stepsIV.push({t:'Monitorização', d:'PA, FC e SpO₂ a cada 30 min durante a infusão.'});
+    }
+    stepsIV.push({t:'Encerramento', d:'Flush com SF 0,9% ao término. Observar mínimo 30 min após o fim.'});
+  }
+
   var stepsSC = [];
   if(via === 'SC'){
+    var scRate = {hizentra_20:{ini:15,max:25},cuvitru_20:{ini:15,max:25},hyqvia_10:{ini:10,max:300},gammanorm_165:{ini:10,max:20}};
+    var rs = scRate[prod_k]||{ini:15,max:20};
+    var duracaoEst = volML ? +(volML/rs.ini).toFixed(1) : '?';
     stepsSC = [
-      {t:'Sítio de aplicação', d:'Abdome (periumbilical evitado), coxa ou braço. Rodízio de sítios a cada infusão.'},
-      {t:'Volume por sítio', d:'Adultos: até 20–30 mL/sítio. Crianças: até 10–15 mL/sítio. Múltiplos sítios simultâneos se necessário.'},
-      {t:'Velocidade inicial (1ª infusão)', d:'15 mL/h/sítio. Aumentar progressivamente (25 → 40 mL/h) conforme tolerância.'},
-      {t:'Manutenção', d:'20–40 mL/h/sítio nas infusões subsequentes, conforme tolerância.'},
-      {t:'Duração', d:'Variável. Volume total ÷ (velocidade × nº de sítios).'},
-      {t:'Observação', d:'Observar ao menos 30 min após término. Reações locais (edema, eritema) são comuns e geralmente autolimitadas.'}
+      {t:'Sítio de aplicação', d:'Abdome (evitar periumbilical), coxa anterior ou braço. Rodízio a cada infusão.'},
+      {t:'Volume por sítio', d:'Adultos: até 20–30 mL/sítio. Crianças (< 20 kg): até 10–15 mL/sítio. Usar múltiplos sítios simultâneos se necessário.'},
+      {t:'Velocidade inicial', d:'<b>'+rs.ini+' mL/h/sítio</b>. Progredir até '+rs.max+' mL/h/sítio nas infusões seguintes conforme tolerância.'+(prod_k==='hyqvia_10'?' HyQvia: fase hialuronidase 10 min antes da fase IgG — ver protocolo específico.':'')},
+      {t:'Duração estimada', d:volML+' mL ÷ '+rs.ini+' mL/h ≈ <b>'+duracaoEst+' h</b> com 1 sítio. Reduzir com múltiplos sítios simultâneos.'},
+      {t:'Observação', d:'Reações locais (edema, eritema, prurido) são comuns e autolimitadas. Observar 30 min após término.'}
     ];
   }
 
   // --- RENDER ---
   function tag(cls,txt){ return '<div class="ig-alert '+cls+'">'+txt+'</div>'; }
   function kv(k,v){ return '<div class="ig-kv"><b>'+k+'</b><span>'+v+'</span></div>'; }
-  function step(n,t,d){ return '<div class="ig-step"><span class="ig-sn">'+n+'</span><b>'+t+'</b><p>'+d+'</p></div>'; }
+  function step(n,t,d){ return '<div class="ig-step"><span class="ig-sn">'+n+'</span><div><b>'+t+'</b><p style="margin:4px 0 0;font-size:12.5px;line-height:1.55">'+d+'</p></div></div>'; }
 
-  var h = '<div class="ig-out">';
-  h += '<div class="ig-big">Orientação de Infusão</div>';
+  var logoKey = IG_LOGO[prod_k];
+  var logoSrc = logoKey ? IG_LOGO_IMG[logoKey] : '';
+  var logoHtml = logoSrc ? '<img src="'+logoSrc+'" style="height:20px;width:auto;object-fit:contain;margin-right:8px;vertical-align:middle">' : '';
+
+  var h = '<div class="ig-out" id="igSaidaCard">';
+  h += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">';
+  h += '<div style="display:flex;align-items:center">'+logoHtml+'<span style="font-size:1.05rem;font-weight:800;color:var(--navy)">Orientação de Infusão</span></div>';
+  h += '<button onclick="imprimirIgOrientacao()" style="display:flex;align-items:center;gap:6px;background:var(--navy);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:Manrope,sans-serif"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>Imprimir PDF</button>';
+  h += '</div>';
   h += kv('Paciente', nome);
-  h += kv('Produto', prod.nome + (prod.conc?' · '+prod.conc:''));
+  h += kv('Produto', prod.nome+(prod.conc?' · '+prod.conc:''));
   h += kv('Indicação', info.label);
-  h += kv('Via', via === 'IV' ? 'Intravenosa (IV)' : 'Subcutânea (SC)');
+  h += kv('Via', via==='IV'?'Intravenosa (IV)':'Subcutânea (SC)');
   h += kv('Peso', peso+' kg');
 
   h += '<hr style="border:none;border-top:1px solid var(--gray-100);margin:12px 0">';
   h += '<div class="ig-big" style="font-size:1rem;margin-bottom:6px">Dose calculada</div>';
   h += kv('Dose', mgkg+' mg/kg → <b>'+doseG+' g</b>');
-  if(volML) h += kv('Volume aproximado', volML+' mL ('+prod.conc+')');
+  if(volML) h += kv('Volume', volML+' mL ('+prod.conc+')');
   h += kv('Frequência', info.freq);
 
-  // Alerta IgG
   if(!isNaN(igG)){
-    if(igBaixo){
-      h += tag('warn', '⚠️ IgG atual ('+igG+' mg/dL) abaixo do alvo ≥ '+igAlvo+' mg/dL para esta indicação. Confirme a dose e a frequência com o médico responsável. A decisão de reposição deve considerar o quadro clínico global, não apenas o nível sérico.');
-    } else if(igOk){
-      h += tag('ok', '✅ IgG atual ('+igG+' mg/dL) dentro do alvo ≥ '+igAlvo+' mg/dL. Manter posologia e reavaliação periódica.');
-    }
+    if(igBaixo) h += tag('warn','⚠️ IgG atual ('+igG+' mg/dL) abaixo do alvo ≥ '+igAlvo+' mg/dL. A decisão deve considerar o quadro clínico global.');
+    else if(igOk) h += tag('ok','✅ IgG atual ('+igG+' mg/dL) dentro do alvo ≥ '+igAlvo+' mg/dL. Manter posologia.');
   } else {
-    h += tag('warn', 'ℹ️ Nível de IgG não informado. A decisão de reposição deve basear-se no quadro clínico e histórico de infecções, não apenas no valor sérico.');
+    h += tag('warn','ℹ️ IgG não informada. Decisão baseada no quadro clínico e histórico de infecções.');
   }
-
-  if(avisoInf){
-    h += tag('warn', '⚠️ Infecção ativa no momento da infusão. Avalie custo-benefício com o médico prescritor. Diretrizes permitem infusão em infecção intercorrente se a imunodeficiência é grave, mas o risco de eventos adversos pode ser maior.');
-  }
-
+  if(avisoInf) h += tag('warn','⚠️ Infecção ativa. Avalie custo-benefício antes de iniciar.');
   if(riscos.length){
-    var rMap = {renal:'Insuficiência renal',trombose:'Risco tromboembólico',cardio:'Doença cardiovascular',iga:'Deficiência de IgA c/ anti-IgA',desidrat:'Desidratação',gest:'Gestação/lactação',troca:'Troca de produto'};
-    var rl = riscos.map(function(r){ return rMap[r]||r; }).join(', ');
-    h += tag('warn', '⚠️ Fatores de atenção identificados: <b>'+rl+'</b>. Adote as precauções específicas para cada fator antes e durante a infusão. Esses fatores não são contraindicações absolutas — avalie individualmente.');
+    var rMap={renal:'Insuf. renal',trombose:'Risco tromboembólico',cardio:'Cardiopatia',iga:'Def. IgA',desidrat:'Desidratação',gest:'Gestação/lactação',troca:'Troca de produto'};
+    h += tag('warn','⚠️ Atenção: <b>'+riscos.map(function(x){return rMap[x]||x;}).join(' · ')+'</b>. Não são contraindicações absolutas — avalie individualmente.');
   }
 
   h += '<hr style="border:none;border-top:1px solid var(--gray-100);margin:12px 0">';
-
-  // Pré-medicação
   h += '<div class="ig-big" style="font-size:1rem;margin-bottom:6px">Pré-medicação</div>';
-  if(premedItems.length === 0){
-    h += tag('ok', '✅ Sem reações anteriores relatadas. Pré-medicação de rotina não está indicada — avalie individualmente.');
+  if(premedItems.length===0){
+    h += tag('ok','✅ Sem reações anteriores. Pré-medicação de rotina não indicada — avalie individualmente.');
   } else {
-    premedItems.forEach(function(p){ h += '<div style="padding:4px 0 4px 8px;border-left:3px solid var(--teal-mid);margin:4px 0">'+p+'</div>'; });
+    premedItems.forEach(function(p){ h += '<div style="padding:4px 0 4px 8px;border-left:3px solid var(--teal-mid);margin:4px 0;font-size:13px">'+p+'</div>'; });
   }
 
-  // Protocolo de infusão
   h += '<hr style="border:none;border-top:1px solid var(--gray-100);margin:12px 0">';
   h += '<div class="ig-big" style="font-size:1rem;margin-bottom:6px">Protocolo de infusão</div>';
-  var steps = via === 'IV' ? stepsIV : stepsSC;
-  steps.forEach(function(st, i){ h += step(i+1, st.t, st.d); });
+  var stepsArr = via==='IV' ? stepsIV : stepsSC;
+  stepsArr.forEach(function(st,i){ h += step(i+1, st.t, st.d); });
 
   h += '<hr style="border:none;border-top:1px solid var(--gray-100);margin:12px 0">';
-  h += tag('warn', '⚠️ Ferramenta de apoio ao médico prescritor. A decisão clínica, a conferência das informações e a responsabilidade pela prescrição são do profissional assistente. Velocidades de infusão devem ser confirmadas na bula do produto selecionado.');
-
+  h += tag('warn','⚠️ Ferramenta de apoio. Decisão clínica e responsabilidade são do médico prescritor. Confirmar velocidades na bula do produto.');
   h += '</div>';
 
   var out = document.getElementById('igSaida');
   if(out){ out.innerHTML = h; out.style.display = 'block'; out.scrollIntoView({behavior:'smooth',block:'start'}); }
   toast('✅','Orientações geradas');
+}
+
+function imprimirIgOrientacao(){
+  var card = document.getElementById('igSaidaCard');
+  if(!card){ toast('⚠️','Gere as orientações primeiro'); return; }
+  var win = window.open('','_blank','width=820,height=950');
+  win.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Orientação de Infusão</title>'+
+    '<style>@import url(https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap);'+
+    'body{font-family:Manrope,Arial,sans-serif;font-size:13px;color:#0d1f2d;margin:24px 28px;line-height:1.55}'+
+    '.ig-kv{display:flex;gap:8px;margin:3px 0}.ig-kv b{min-width:140px}.ig-kv span{color:#333}'+
+    '.ig-alert{border-radius:8px;padding:8px 12px;margin:8px 0;font-size:12px}'+
+    '.ig-alert.warn{background:#fff8e1;border-left:3px solid #f59e0b;color:#78350f}'+
+    '.ig-alert.ok{background:#e6f4ea;border-left:3px solid #22c55e;color:#14532d}'+
+    '.ig-step{display:grid;grid-template-columns:26px 1fr;gap:8px;padding:7px 0;border-bottom:1px solid #e5e7eb;font-size:12.5px}'+
+    '.ig-sn{background:#0d3d52;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;margin-top:1px}'+
+    '.ig-tbl{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0}'+
+    '.ig-tbl th{background:#0d3d52;color:#fff;padding:5px 8px;text-align:left;font-size:11px}'+
+    '.ig-tbl td{padding:5px 8px;border-bottom:1px solid #e5e7eb}.ig-tbl tr:nth-child(even) td{background:#f7fafb}'+
+    '.ig-big{font-size:1rem;font-weight:800;color:#0d1f2d}'+
+    'hr{border:none;border-top:1px solid #e5e7eb;margin:10px 0}'+
+    '@media print{button{display:none!important}body{margin:12px 16px}}</style></head><body>'+
+    '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:2px solid #0d3d52">'+
+    '<img src="'+location.origin+'/img/icon-512.png" style="height:36px;border-radius:8px" onerror="this.style.display='none'">'+
+    '<div><div style="font-size:15px;font-weight:800;color:#0d3d52">Hub do Alergista</div>'+
+    '<div style="font-size:10px;color:#666">Assistente de Reposição de Imunoglobulina</div></div>'+
+    '<div style="margin-left:auto;font-size:10px;color:#999">'+ new Date().toLocaleDateString('pt-BR')+'</div></div>'+
+    card.innerHTML+
+    '<div style="margin-top:18px;font-size:10px;color:#999;border-top:1px solid #e5e7eb;padding-top:8px">Hub do Alergista — ferramenta de apoio ao médico prescritor. Confirmar velocidades na bula do produto.</div>'+
+    '<script>window.onload=function(){setTimeout(function(){window.print();},400);}<\/script></body></html>');
+  win.document.close();
 }
 
 /* ── UPTODATE DISCREET TOGGLE ── */
