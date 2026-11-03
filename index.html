@@ -6666,6 +6666,7 @@ function openScore(key){
   if(s.special==='uas7'){
     document.getElementById('mFields').innerHTML=_uas7RenderQR() + _scoreBlocoPaciente() + _uas7RenderCampos();
     _uas7IniciarQR();
+    _scoreSugestoes();
     document.getElementById('mResult').className='score-result';
     document.getElementById('overlay').classList.add('open');
     return;
@@ -6695,6 +6696,7 @@ function openScore(key){
   document.getElementById('mResult').className='score-result';
   document.getElementById('overlay').classList.add('open');
   if(s.special==='snot22'){ _snot22IniciarSessao(); }
+  _scoreSugestoes();
 }
 
 
@@ -7180,11 +7182,27 @@ function _scoreBlocoPaciente(){
   var h='';
   h+='<div style="border:1px solid var(--gray-100);border-radius:12px;padding:12px;margin-bottom:14px;background:var(--gray-50)">';
   h+='<div style="font-size:10.5px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Paciente (para salvar no hist\u00f3rico)</div>';
-  h+='<div class="sf" style="margin-bottom:8px"><input type="text" id="pac_nome" placeholder="Nome completo do paciente" style="border:1px solid var(--gray-100);border-radius:9px;padding:10px 12px;font-family:Manrope,sans-serif;font-size:14px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box"></div>';
+  h+='<div class="sf" style="margin-bottom:8px"><input type="text" id="pac_nome" list="pac_sugestoes" autocomplete="off" placeholder="Nome completo do paciente" style="border:1px solid var(--gray-100);border-radius:9px;padding:10px 12px;font-family:Manrope,sans-serif;font-size:14px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box"><datalist id="pac_sugestoes"></datalist></div>';
   h+='<div class="sf" style="margin-bottom:0"><input type="date" id="pac_data" value="'+_scoreHoje()+'" style="border:1px solid var(--gray-100);border-radius:9px;padding:10px 12px;font-family:Manrope,sans-serif;font-size:14px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box"></div>';
   h+='<div style="font-size:10.5px;color:var(--gray-500);margin-top:7px">Preenchendo o nome, o resultado fica salvo em <strong>Pacientes</strong>. Em branco, o score s\u00f3 \u00e9 calculado.</div>';
   h+='</div>';
   return h;
+}
+
+/* sugestões: pacientes que já têm score salvo — garante o agrupamento automático */
+function _scoreSugestoes(){
+  var email=_scoreEmail();
+  if(!email) return;
+  var aplicar=function(lista){
+    var dl=document.getElementById('pac_sugestoes');
+    if(!dl) return;
+    dl.innerHTML=(lista||[]).map(function(n){ return '<option value="'+String(n).replace(/"/g,'&quot;')+'"></option>'; }).join('');
+  };
+  if(_pacDados && _pacDados.length){ aplicar(_pacDados.map(function(p){return p.paciente_nome;})); return; }
+  _scoreRpc('score_pacientes',{p_email:email}).then(function(rows){
+    _pacDados=rows||[];
+    aplicar(_pacDados.map(function(p){return p.paciente_nome;}));
+  }).catch(function(){});
 }
 
 function _scoreNomeLegivel(key){
@@ -7224,6 +7242,8 @@ function _scoreRegistrar(key, r, nomeForcado, dataForcada, detalhes, origem){
 
 /* ═════ Aba Pacientes ═════ */
 var _pacDados = [];
+var _pacRegistros = [];
+var _pacAbertoNome = '';
 
 function _pacCarregar(){
   var box=document.getElementById('pacLista');
@@ -7272,8 +7292,10 @@ function _pacAbrir(nome){
   document.getElementById('pacSheetTitle').textContent=nome;
   body.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">Carregando\u2026</div>';
   sheet.classList.add('open');
+  _pacAbertoNome=nome;
   _scoreRpc('score_do_paciente',{p_email:_scoreEmail(), p_paciente:nome}).then(function(rows){
     rows=rows||[];
+    _pacRegistros=rows;
     if(!rows.length){ body.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">Sem registros.</div>'; return; }
     var porScore={};
     rows.forEach(function(r){ (porScore[r.score]=porScore[r.score]||[]).push(r); });
@@ -7288,7 +7310,8 @@ function _pacAbrir(nome){
         h+='<div style="font-size:14px;font-weight:900;color:var(--navy);min-width:56px">'+(r.score_txt||r.total||'\u2014')+'</div>';
         h+='<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700;color:var(--navy)">'+(r.rotulo||'')+'</div>';
         h+='<div style="font-size:10.5px;color:var(--gray-500)">'+d+(r.origem==='paciente'?' \u00b7 respondido pelo paciente':'')+'</div></div>';
-        h+='<button onclick="_pacApagar('+r.id+',\''+nome.replace(/'/g,"\\'")+'\')" title="Apagar" style="background:none;border:none;color:var(--gray-300);font-size:14px;cursor:pointer;padding:0 2px">\ud83d\uddd1\ufe0f</button>';
+        h+='<button onclick="_pacEditar('+r.id+')" title="Editar" style="background:none;border:none;color:var(--gray-300);font-size:14px;cursor:pointer;padding:0 4px">\u270f\ufe0f</button>';
+        h+='<button onclick="_pacApagar('+r.id+')" title="Apagar" style="background:none;border:none;color:var(--gray-300);font-size:14px;cursor:pointer;padding:0 2px">\ud83d\uddd1\ufe0f</button>';
         h+='</div>';
       });
       h+='</div>';
@@ -7299,11 +7322,40 @@ function _pacAbrir(nome){
   });
 }
 
-function _pacApagar(id, nome){
+function _pacApagar(id){
+  var r=_pacRegistros.filter(function(x){return x.id===id;})[0];
+  var desc=r?(r.score+' '+(r.score_txt||'')):'este registro';
+  if(!confirm('Apagar '+desc+'?')) return;
   _scoreRpc('score_apagar',{p_email:_scoreEmail(), p_id:id}).then(function(){
     if(typeof toast==='function') toast('\ud83d\uddd1\ufe0f','Registro apagado.');
-    _pacAbrir(nome); _pacCarregar();
-  }).catch(function(){});
+    _pacDados=[];
+    _pacAbrir(_pacAbertoNome); _pacCarregar();
+  }).catch(function(e){ if(typeof toast==='function') toast('\u26a0\ufe0f','N\u00e3o consegui apagar. '+(e.message||'')); });
+}
+
+function _pacEditar(id){
+  var r=_pacRegistros.filter(function(x){return x.id===id;})[0];
+  if(!r) return;
+  var nome=prompt('Nome do paciente neste registro:', r.paciente_nome||_pacAbertoNome);
+  if(nome===null) return;
+  nome=nome.trim();
+  if(!nome){ if(typeof toast==='function') toast('\u26a0\ufe0f','O nome n\u00e3o pode ficar em branco.'); return; }
+  var dAtual=r.data_ref||'';
+  var data=prompt('Data do registro (dd/mm/aaaa):', dAtual?dAtual.split('-').reverse().join('/'):'');
+  if(data===null) return;
+  data=data.trim();
+  var iso=null;
+  if(data){
+    var m=data.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if(!m){ if(typeof toast==='function') toast('\u26a0\ufe0f','Data inv\u00e1lida. Use dd/mm/aaaa.'); return; }
+    iso=m[3]+'-'+('0'+m[2]).slice(-2)+'-'+('0'+m[1]).slice(-2);
+  }
+  _scoreRpc('score_editar',{p_email:_scoreEmail(), p_id:id, p_paciente:nome, p_data:iso}).then(function(){
+    if(typeof toast==='function') toast('\u270f\ufe0f','Registro atualizado.');
+    _pacDados=[];
+    _pacCarregar();
+    _pacAbrir(nome);
+  }).catch(function(e){ if(typeof toast==='function') toast('\u26a0\ufe0f','N\u00e3o consegui editar. '+(e.message||'')); });
 }
 
 (function(){
