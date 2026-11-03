@@ -265,16 +265,17 @@ body{
 .ig-step{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--gray-100);font-size:12.5px}
 .ig-step b{color:var(--navy)}
 .ig-grupo{margin-top:10px}
-.ig-grupo-tit{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#7ee0ec;margin-bottom:6px}
-.ig-grupo-tit::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.18)}
+.ig-grupo-tit{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-mid);margin-bottom:6px}
+.ig-grupo-tit::after{content:'';flex:1;height:1px;background:var(--gray-100)}
 .ig-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.ig-card{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.18);border-radius:12px;padding:10px 11px;text-align:left;cursor:pointer;color:#fff;font-family:'Manrope',sans-serif;display:flex;flex-direction:column;gap:3px}
-.ig-card .ig-n{font-size:12.5px;font-weight:800;line-height:1.25}
-.ig-card .ig-f{font-size:10.5px;color:rgba(255,255,255,.65)}
-.ig-card .ig-c{display:inline-block;align-self:flex-start;margin-top:3px;background:rgba(255,255,255,.14);border-radius:999px;padding:2px 8px;font-size:10px;font-weight:700}
+.ig-card{background:#f4f8fb;border:1.5px solid var(--gray-100);border-radius:12px;padding:10px 11px;text-align:left;cursor:pointer;color:var(--navy);font-family:'Manrope',sans-serif;display:flex;flex-direction:column;gap:3px;transition:border-color .15s}
+.ig-card:hover{border-color:var(--teal-mid)}
+.ig-card .ig-n{font-size:12.5px;font-weight:800;line-height:1.25;color:var(--navy)}
+.ig-card .ig-f{font-size:10.5px;color:var(--gray-500)}
+.ig-card .ig-c{display:inline-block;align-self:flex-start;margin-top:3px;background:var(--gray-100);border-radius:999px;padding:2px 8px;font-size:10px;font-weight:700}
 .ig-card .ig-marca{display:inline-flex;align-items:center;justify-content:center;align-self:flex-start;min-width:34px;height:17px;padding:0 6px;border-radius:5px;color:#fff;font-size:7.5px;font-weight:900;letter-spacing:.4px;margin-bottom:2px}
 .ig-card .ig-txt{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0}
-.ig-card .ig-logo-img{align-self:flex-start;height:15px;width:auto;max-width:96px;object-fit:contain;background:#fff;border-radius:3px;padding:1px 3px}
+.ig-card .ig-logo-img{align-self:flex-start;height:18px;width:auto;max-width:80px;object-fit:contain;margin-bottom:2px}
 .ig-card.full{justify-content:center}
 .ig-ficha-slot{grid-column:1 / -1;margin:2px 0 6px}
 .ig-ficha-slot .igp-card{margin:0}
@@ -285,7 +286,7 @@ body{
 .igp-nome{font-size:14px;font-weight:800;color:var(--navy);line-height:1.25}
 .igp-fab{font-size:11.5px;color:var(--gray-500);margin-top:1px}
 .igp-conc{display:inline-block;margin-top:6px;padding:3px 9px;border-radius:999px;background:rgba(31,105,128,.1);color:var(--teal-mid);font-size:10.5px;font-weight:800;letter-spacing:.2px}
-.ig-card.sel{background:#fff;border-color:#7ee0ec;box-shadow:0 0 0 2px #7ee0ec}
+.ig-card.sel{background:#e6f7fb;border-color:var(--teal-mid);box-shadow:0 0 0 2px var(--teal-mid)}
 .ig-card.sel .ig-n{color:var(--navy)}
 .ig-card.sel .ig-f{color:var(--gray-500)}
 .ig-card.sel .ig-c{background:var(--teal-mid);color:#fff}
@@ -2412,18 +2413,11 @@ window._mostrarApp = function(){
       <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Selecione o produto, preencha o caso e receba as orientações de infusão</div>
     </div>
 
-    <!-- 1. PRODUTO -->
-    <div style="margin:4px 16px 14px;background:linear-gradient(135deg,#0d1f2d,#1f6980);border-radius:16px;overflow:hidden">
-      <div style="padding:14px 16px 4px;font-size:11px;font-weight:800;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.06em">1 · Produto</div>
-      <div style="padding:4px 14px 16px">
-        <input type="hidden" id="igProduto" value="">
-        <div id="igProdutoPicker"></div>
-      </div>
-    </div>
+    <input type="hidden" id="igProduto" value="">
 
     <!-- 2. CASO -->
     <div class="ig-form" id="igFormBox">
-      <div class="ig-form-tit">2 · Dados do paciente</div>
+      <div class="ig-form-tit">Dados do paciente</div>
 
       <div class="ig-f-row"><label>Nome do paciente</label>
         <input type="text" id="igNome" placeholder="Nome completo"></div>
@@ -2493,6 +2487,10 @@ window._mostrarApp = function(){
           <button type="button" class="ig-chip" data-r="nenhum">Nenhum</button>
         </div></div>
 
+      <div style="margin-top:16px">
+        <div class="ig-form-tit" style="margin-bottom:8px">Produto a ser infundido</div>
+        <div id="igProdutoPicker"></div>
+      </div>
       <button class="ig-btn" onclick="gerarOrientacaoIg()">Gerar orientações de infusão</button>
     </div>
 
