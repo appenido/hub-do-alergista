@@ -7887,44 +7887,12 @@ if ('serviceWorker' in navigator) {
 </script>
 <!-- ══ CHATBOT DE DÚVIDAS ══ -->
 <style>
-/* AURI — mascote em camadas (cabeca / braco / corpo) */
-@keyframes auriFlutua{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-@keyframes auriCabeca{0%,100%{transform:rotate(-3.2deg)}50%{transform:rotate(3.2deg)}}
-@keyframes auriAcena{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(-26deg)}}
-@keyframes auriSombra{0%,100%{transform:scale(1);opacity:.28}50%{transform:scale(.86);opacity:.18}}
-@keyframes auriBalao{0%{opacity:0;transform:translateY(10px) scale(.8)}60%{opacity:1;transform:translateY(0) scale(1.04)}100%{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes auriPop{0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
-#auriWrap{position:fixed;left:8px;bottom:calc(var(--bottomnav-h) + 4px);width:132px;z-index:250;
-  -webkit-tap-highlight-color:transparent}
-#auriWrap.auri-hidden{display:none}
-#auriFig{position:relative;width:132px;height:172px;cursor:pointer;background:none;border:none;padding:0;display:block;
-  animation:auriFlutua 4.2s ease-in-out infinite;filter:drop-shadow(0 12px 14px rgba(13,31,45,.28))}
-#auriFig.auri-pop{animation:auriPop .5s ease}
-#auriFig img{position:absolute;inset:0;width:100%;height:auto;display:block;pointer-events:none;user-select:none}
-#auriFig .auri-cabeca{transform-origin:55.5% 26%;animation:auriCabeca 5.4s ease-in-out infinite}
-#auriFig .auri-braco{transform-origin:35.9% 41.7%;animation:auriAcena 2.2s ease-in-out infinite}
-#auriPiscar{position:absolute;left:16%;top:16%;width:52%;height:10%;background:#0b1118;border-radius:50%;
-  opacity:0;transition:opacity .08s;pointer-events:none}
-#auriPiscar.on{opacity:.92}
-#auriSombra{position:absolute;left:18%;bottom:-6px;width:64%;height:12px;border-radius:50%;
-  background:radial-gradient(ellipse,rgba(13,31,45,.5),transparent 70%);animation:auriSombra 4.2s ease-in-out infinite}
-#auriBalao{position:absolute;left:112px;bottom:100px;width:min(224px,54vw);background:#fff;color:var(--navy);
-  border:2.5px solid var(--navy);border-radius:16px;padding:10px 12px;font-size:11.6px;line-height:1.45;font-weight:600;
-  box-shadow:4px 5px 0 rgba(13,31,45,.18);animation:auriBalao .45s cubic-bezier(.34,1.56,.64,1);z-index:2}
-#auriBalao b{color:var(--teal-mid);display:block;font-size:10px;letter-spacing:.5px;text-transform:uppercase;margin-bottom:2px}
-#auriBalao::after{content:'';position:absolute;left:-13px;bottom:16px;width:0;height:0;
-  border:7px solid transparent;border-right-color:var(--navy)}
-#auriBalao::before{content:'';position:absolute;left:-9px;bottom:16px;width:0;height:0;z-index:1;
-  border:7px solid transparent;border-right-color:#fff}
-#auriFechar{position:absolute;right:-10px;bottom:-8px;width:22px;height:22px;border-radius:50%;border:2px solid #fff;
-  background:var(--navy);color:#fff;font-size:14px;line-height:1;cursor:pointer;z-index:3;padding:0;
-  box-shadow:0 3px 8px rgba(13,31,45,.35)}
-#auriReabrir{position:fixed;left:10px;bottom:calc(var(--bottomnav-h) + 10px);width:42px;height:42px;border-radius:50%;
-  border:2px solid #fff;background:var(--navy);color:#fff;font-size:19px;cursor:pointer;z-index:250;display:none;
-  box-shadow:0 6px 16px rgba(13,31,45,.3)}
-#auriReabrir.on{display:block}
-@media(max-width:380px){#auriWrap,#auriFig{width:112px}#auriFig{height:146px}#auriBalao{left:94px;bottom:112px}}
-@media(prefers-reduced-motion:reduce){#auriFig,#auriFig .auri-cabeca,#auriFig .auri-braco,#auriSombra{animation:none}}
+/* Botao flutuante do chat de duvidas */
+#auriReabrir{position:fixed;left:10px;bottom:calc(var(--bottomnav-h) + 10px);width:46px;height:46px;border-radius:50%;
+  border:none;background:var(--navy);color:#fff;font-size:20px;line-height:1;cursor:pointer;z-index:250;
+  box-shadow:0 4px 16px rgba(13,31,45,.3);transition:transform .18s;-webkit-tap-highlight-color:transparent}
+#auriReabrir:active{transform:scale(.92)}
+#auriReabrir:focus-visible{outline:2px solid var(--teal-mid);outline-offset:3px}
 .chat-avatar{width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.75);flex-shrink:0}
 .chat-hdr-l{display:flex;align-items:center;gap:9px}
 #chatPanel{position:fixed;bottom:calc(var(--bottomnav-h) + 72px);left:12px;right:12px;max-width:420px;margin:0 auto;
@@ -7969,18 +7937,7 @@ if ('serviceWorker' in navigator) {
 .eaaci-grid .qcard.on{border-color:var(--teal-mid);box-shadow:0 0 0 2px rgba(59,191,204,.18)}
 .eaaci-grid .ql{font-size:9px}
 </style>
-<div id="auriWrap">
-  <button id="auriFechar" onclick="auriFechar()" aria-label="Fechar o robô">×</button>
-  <div id="auriBalao" role="status" aria-live="polite"></div>
-  <button id="auriFig" onclick="auriClique()" aria-label="Abrir o chat com o Robô Alergista AURI">
-    <img class="auri-corpo" src="img/auri-body.png" alt="AURI, robô alergista">
-    <img class="auri-braco" src="img/auri-arm.png" alt="">
-    <img class="auri-cabeca" src="img/auri-head.png" alt="">
-    <span id="auriPiscar"></span>
-    <span id="auriSombra"></span>
-  </button>
-</div>
-<button id="auriReabrir" onclick="auriAbrir()" aria-label="Mostrar o Robô Alergista">🤖</button>
+<button id="auriReabrir" onclick="chatToggle()" aria-label="Abrir o tira-dúvidas">💬</button>
 <div id="chatPanel" role="dialog" aria-label="Tira-dúvidas">
   <div class="chat-hdr">
     <div class="chat-hdr-l"><img class="chat-avatar" src="img/auri.png" alt=""><div><div class="chat-hdr-t">AURI — Robô Alergista</div><div class="chat-hdr-s">Dúvidas clínicas e do app</div></div></div>
@@ -8108,62 +8065,7 @@ function chatToggle(){
 
 
 <script>
-/* ══ AURI — balões de dica, piscada e reações ══ */
-var AURI_DICAS = [
-  ['Rinite','Lavagem nasal com soro antes do corticoide tópico melhora a deposição da medicação.'],
-  ['Asma','CI-formoterol como resgate reduz exacerbações frente ao SABA isolado (GINA).'],
-  ['Urticária','Anti-H1 de 2ª geração pode ser aumentado até 4x a dose antes de escalonar.'],
-  ['Dermatite atópica','Emoliente 2x/dia é a base: reduz crises e poupa corticoide tópico.'],
-  ['Testes alérgicos','Suspenda anti-histamínico 7 dias antes do teste cutâneo de leitura imediata.'],
-  ['Anafilaxia','Adrenalina IM na face anterolateral da coxa é a 1ª linha — sem exceção.'],
-  ['Vacinas','Alergia a ovo não contraindica a vacina da gripe nas apresentações atuais.'],
-  ['Imunoterapia','ITA modifica a história natural da rinite e pode prevenir novas sensibilizações.'],
-  ['Alergia alimentar','Introdução precoce de amendoim reduz o risco de alergia em lactentes de risco.'],
-  ['Agendamentos','Toque em mim para marcar consulta, tirar dúvidas ou navegar pelo Hub.']
-];
-(function(){
-  var balao=document.getElementById('auriBalao'), fig=document.getElementById('auriFig');
-  if(!balao||!fig) return;
-  var i=Math.floor(Math.random()*AURI_DICAS.length), timer;
-  function mostra(){
-    var d=AURI_DICAS[i%AURI_DICAS.length]; i++;
-    balao.innerHTML='<b>'+d[0]+'</b>'+d[1];
-    balao.style.animation='none'; void balao.offsetWidth; balao.style.animation='';
-  }
-  function ciclo(){ mostra(); timer=setTimeout(ciclo,7000); }
-  ciclo();
-  window.auriDica=function(txt,tit){ clearTimeout(timer); balao.innerHTML='<b>'+(tit||'AURI')+'</b>'+txt;
-    balao.style.animation='none'; void balao.offsetWidth; balao.style.animation='';
-    timer=setTimeout(ciclo,7000); };
-  /* piscada aleatória */
-  var olho=document.getElementById('auriPiscar');
-  (function pisca(){
-    setTimeout(function(){
-      if(olho){ olho.classList.add('on'); setTimeout(function(){ olho.classList.remove('on'); },110); }
-      pisca();
-    }, 2600+Math.random()*4200);
-  })();
-})();
-function auriClique(){
-  var f=document.getElementById('auriFig');
-  f.classList.remove('auri-pop'); void f.offsetWidth; f.classList.add('auri-pop');
-  if(window.auriDica) auriDica('Pode perguntar! Rinite, asma, urticária, dermatite, testes, vacinas ou agendamento.','Oi!');
-  chatToggle();
-}
-function auriFechar(){
-  document.getElementById('auriWrap').classList.add('auri-hidden');
-  document.getElementById('auriReabrir').classList.add('on');
-  try{ localStorage.setItem('auriOculto','1'); }catch(e){}
-  var p=document.getElementById('chatPanel'); if(p) p.classList.remove('open');
-}
-function auriAbrir(){
-  document.getElementById('auriWrap').classList.remove('auri-hidden');
-  document.getElementById('auriReabrir').classList.remove('on');
-  try{ localStorage.removeItem('auriOculto'); }catch(e){}
-}
-try{ if(localStorage.getItem('auriOculto')==='1'){
-  document.getElementById('auriWrap').classList.add('auri-hidden');
-  document.getElementById('auriReabrir').classList.add('on'); } }catch(e){}
+/* o chat e aberto pelo botao flutuante; chatToggle() cuida do painel */
 </script>
 
 <script>
