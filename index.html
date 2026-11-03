@@ -992,6 +992,7 @@ window._mostrarApp = function(){
       <div class="qcard" data-nav="imuno"><div class="qi qi-gold">💉</div><div class="ql">Imunobiológicos</div></div>
       <div class="qcard" data-nav="interacao"><div class="qi qi-teal">⚕️</div><div class="ql">Interações medicamentosas</div></div>
       <div class="qcard" data-nav="imunoglobulinas"><div class="qi qi-navy">💧</div><div class="ql">Imunoglobulinas</div></div>
+      <div class="qcard" data-nav="imunizacoes"><div class="qi qi-green">🛡️</div><div class="ql">Imunizações</div></div>
       <a class="qcard" href="https://portal.cfm.org.br/busca-medicos" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit"><div class="qi qi-green">🏥</div><div class="ql">Consultar CRM</div></a>
       <div class="qcard" data-nav="favoritos"><div class="qi qi-navy">⭐</div><div class="ql">Favoritos</div></div>
     </div>
@@ -2958,6 +2959,127 @@ window._mostrarApp = function(){
 
   </div><!-- /page-imunoglobulinas -->
 
+  <!-- ══ IMUNIZAÇÕES (SBIm) ══ -->
+  <div class="page" id="page-imunizacoes">
+
+    <div id="vac-menu-hub" style="padding:16px">
+      <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
+        Imunizações
+      </div>
+      <div style="font-size:12px;color:var(--gray-500);margin-bottom:16px">Calendário vacinal por idade e comorbidades — referência exclusiva SBIm</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <button onclick="vacShowSub('pacientes')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+          <span style="font-size:26px">👥</span>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Pacientes cadastrados</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Calendários já gerados e salvos</div></div>
+          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
+        </button>
+        <button onclick="vacShowSub('novo')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+          <span style="font-size:26px">📝</span>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Cadastrar novo paciente</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Idade e comorbidades → calendário SBIm</div></div>
+          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
+        </button>
+        <button onclick="vacShowSub('vacinas')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+          <span style="font-size:26px">💉</span>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Vacinas disponíveis no Brasil</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Produtos com registro ANVISA — SUS e rede privada</div></div>
+          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
+        </button>
+      </div>
+      <div style="margin-top:14px;background:#f7fafb;border:1px solid var(--gray-100);border-radius:12px;padding:11px 13px;font-size:11.5px;color:var(--gray-500);line-height:1.55">
+        Todas as recomendações desta seção seguem exclusivamente os Calendários de Vacinação e Guias da <b>Sociedade Brasileira de Imunizações (SBIm)</b>. Ferramenta de apoio — não substitui a avaliação clínica.
+      </div>
+    </div>
+
+    <!-- SUB: PACIENTES -->
+    <div id="vac-sub-pacientes" style="display:none">
+      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px">
+        <button onclick="vacShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
+        <div style="font-size:14px;font-weight:800;color:var(--navy)">Pacientes cadastrados</div>
+      </div>
+      <div style="padding:0 16px 8px">
+        <input type="text" id="vacBuscaPac" placeholder="Buscar paciente..." oninput="vacRenderPacientes(this.value)"
+          style="width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-size:13px;font-family:Manrope,sans-serif">
+      </div>
+      <div id="vacListaPacientes" style="padding:0 16px 16px;display:flex;flex-direction:column;gap:8px"></div>
+    </div>
+
+    <!-- SUB: NOVO CADASTRO -->
+    <div id="vac-sub-novo" style="display:none">
+      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 4px">
+        <button onclick="vacShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
+        <div style="font-size:14px;font-weight:800;color:var(--navy)">Cadastrar paciente</div>
+      </div>
+
+      <div class="ig-form">
+        <div class="ig-form-tit">Dados do paciente</div>
+
+        <div class="ig-f-row"><label>Nome do paciente</label>
+          <input type="text" id="vacNome" placeholder="Nome completo" autocomplete="off"></div>
+
+        <div class="ig-f-2">
+          <div class="ig-f-row"><label>Idade</label>
+            <div style="display:flex;gap:6px">
+              <input type="number" id="vacIdade" inputmode="numeric" placeholder="Ex: 34" style="flex:1">
+              <select id="vacIdadeUn" style="width:92px"><option value="anos">anos</option><option value="meses">meses</option></select>
+            </div></div>
+          <div class="ig-f-row"><label>Sexo</label>
+            <select id="vacSexo"><option value="f">Feminino</option><option value="m">Masculino</option></select></div>
+        </div>
+
+        <div class="ig-f-row"><label>Situação especial</label>
+          <select id="vacGest">
+            <option value="nao">Nenhuma</option>
+            <option value="gestante">Gestante</option>
+            <option value="puerpera">Puérpera (até 45 dias)</option>
+            <option value="prematuro">Prematuro (&lt; 37 semanas)</option>
+          </select></div>
+
+        <div class="ig-f-row"><label>Comorbidades / condições (marque as que se aplicam)</label>
+          <div class="ig-chips" id="vacComorb">
+            <button type="button" class="ig-chip" data-c="asma">Asma</button>
+            <button type="button" class="ig-chip" data-c="dpoc">DPOC / pneumopatia crônica</button>
+            <button type="button" class="ig-chip" data-c="cardio">Cardiopatia crônica</button>
+            <button type="button" class="ig-chip" data-c="dm">Diabetes mellitus</button>
+            <button type="button" class="ig-chip" data-c="renal">Doença renal crônica / diálise</button>
+            <button type="button" class="ig-chip" data-c="hepato">Hepatopatia crônica</button>
+            <button type="button" class="ig-chip" data-c="asplenia">Asplenia / disfunção esplênica</button>
+            <button type="button" class="ig-chip" data-c="complemento">Deficiência de complemento</button>
+            <button type="button" class="ig-chip" data-c="idp">Imunodeficiência primária (IDP)</button>
+            <button type="button" class="ig-chip" data-c="hiv">HIV / aids</button>
+            <button type="button" class="ig-chip" data-c="transplante">Transplante (TOS ou TCTH)</button>
+            <button type="button" class="ig-chip" data-c="onco">Neoplasia / quimioterapia</button>
+            <button type="button" class="ig-chip" data-c="imunossup">Imunossupressor / biológico / corticoide alta dose</button>
+            <button type="button" class="ig-chip" data-c="autoimune">Doença autoimune</button>
+            <button type="button" class="ig-chip" data-c="fistula">Fístula liquórica / implante coclear</button>
+            <button type="button" class="ig-chip" data-c="obesidade">Obesidade</button>
+            <button type="button" class="ig-chip" data-c="tabagismo">Tabagismo</button>
+            <button type="button" class="ig-chip" data-c="prof_saude">Profissional de saúde</button>
+            <button type="button" class="ig-chip" data-c="viajante">Viajante internacional</button>
+            <button type="button" class="ig-chip" data-c="nenhuma">Nenhuma</button>
+          </div></div>
+
+        <button class="ig-btn" onclick="vacGerarCalendario()">Gerar calendário vacinal</button>
+      </div>
+
+      <div id="vacSaida" style="display:none;padding:0 16px 20px"></div>
+    </div>
+
+    <!-- SUB: VACINAS ANVISA -->
+    <div id="vac-sub-vacinas" style="display:none;padding-bottom:24px">
+      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px">
+        <button onclick="vacShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
+        <div style="font-size:14px;font-weight:800;color:var(--navy)">Vacinas disponíveis no Brasil</div>
+      </div>
+      <div style="padding:0 16px 8px;font-size:11.5px;color:var(--gray-500);line-height:1.5">Imunizantes com registro ativo na ANVISA. <b>SUS</b> = disponível no PNI; <b>Privada</b> = clínicas privadas de vacinação.</div>
+      <div style="padding:0 16px 8px">
+        <input type="text" id="vacBuscaVac" placeholder="Buscar vacina..." oninput="vacRenderVacinas(this.value)"
+          style="width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-size:13px;font-family:Manrope,sans-serif">
+      </div>
+      <div id="vacListaVacinas" style="display:flex;flex-direction:column;gap:8px;padding:0 16px"></div>
+    </div>
+
+  </div><!-- /page-imunizacoes -->
+
 
   <!-- IG CHAT BOT -->
   <button class="igchat-fab" id="igChatFab" onclick="igChatToggle()" title="Dúvidas sobre prescrição de IG" style="display:none">
@@ -3970,6 +4092,385 @@ var IG_BULAS = {
   hyqvia_10:{nome:'HyQvia 10%',fab:'Takeda',conc:'10%',via:'SC',frascos:'25, 50, 100, 200, 300, 400 mL (duplo: hialuronidase + IgG)',conservacao:'2–8 °C; até 25 °C por 3 meses. Não congelar.',ini:'10 mL/h (fase IgG após 10 min de hialuronidase)',max:'Até 300 mL/h (1–3 sítios)',pre:'Hialuronidase pré-infusão obrigatória — protocolo de iniciação (8 primeiras infusões)',obs:'Única SC de alto volume. Permite dose mensal com 1 sítio.',anvisa:'MS-7.3.39.001.1-0487'},
   gammanorm_165:{nome:'Gammanorm 16,5%',fab:'Octapharma',conc:'16,5%',via:'SC',frascos:'10, 20, 50 mL',conservacao:'2–8 °C. Não congelar.',ini:'10 mL/h/sítio; progredir até 20 mL/h/sítio',max:'20 mL/h/sítio',pre:'Não requer pré-medicação de rotina',obs:'Maltose. Vol. máx 15 mL/sítio.',anvisa:'MS-7.3.39.001.1-0390'}
 };
+
+/* ═══ IMUNIZAÇÕES — SBIm ═══ */
+var VAC_CATALOGO=[
+ {id:'bcg',nome:'BCG-ID',prot:'Tuberculose (formas graves)',tipo:'Atenuada',rede:'SUS',idade:'Dose única ao nascer (até 5 anos não vacinados)',obs:'Contraindicada em imunodeprimidos. RN ≥ 2 kg.'},
+ {id:'hepb',nome:'Hepatite B',prot:'Hepatite B',tipo:'Inativada (recombinante)',rede:'SUS e privada',idade:'Ao nascer (≤ 12 h) + esquema em 3 doses; qualquer idade não vacinada',obs:'Dobro da dose e 4 doses em diálise e imunodeprimidos. Anti-HBs pós-vacinal nesses grupos.'},
+ {id:'penta',nome:'Pentavalente (DTPw-HB-Hib)',prot:'Difteria, tétano, coqueluche, hepatite B, Hib',tipo:'Inativada',rede:'SUS',idade:'2, 4 e 6 meses',obs:'Alternativa privada: hexavalente acelular (DTPa-VIP-HB-Hib).'},
+ {id:'hexa',nome:'Hexavalente acelular (DTPa-VIP-HB-Hib)',prot:'Difteria, tétano, coqueluche, pólio, hepatite B, Hib',tipo:'Inativada',rede:'Privada',idade:'2, 4 e 6 meses (reforço 15 meses)',obs:'Preferível à DTPw em prematuros, cardiopatas, pneumopatas e doença neurológica.'},
+ {id:'vip',nome:'Poliomielite inativada (VIP)',prot:'Poliomielite',tipo:'Inativada',rede:'SUS e privada',idade:'2, 4, 6 meses + reforços 15 meses e 4 anos',obs:'Única forma recomendada — VOP descontinuada no Brasil (2024).'},
+ {id:'pnc',nome:'Pneumocócica conjugada (VPC10 / VPC13 / VPC15 / VPC20)',prot:'Doença pneumocócica invasiva',tipo:'Inativada conjugada',rede:'VPC10 no SUS; VPC13/15/20 privada',idade:'2, 4 meses + reforço 12 meses; adultos de risco e ≥ 60 anos',obs:'SBIm prefere a conjugada de maior valência disponível. Em risco: VPC seguida de VPP23 ≥ 8 semanas depois.'},
+ {id:'vpp23',nome:'Pneumocócica polissacarídica 23-valente (VPP23)',prot:'Doença pneumocócica',tipo:'Inativada polissacarídica',rede:'SUS (grupos de risco) e privada',idade:'≥ 2 anos com comorbidade; ≥ 60 anos institucionalizados',obs:'Sempre após a conjugada. Segunda dose 5 anos depois (dose única de reforço).'},
+ {id:'menc',nome:'Meningocócica C conjugada',prot:'Meningococo C',tipo:'Inativada conjugada',rede:'SUS',idade:'3 e 5 meses + reforço 12 meses',obs:'SBIm prefere a ACWY quando disponível.'},
+ {id:'menacwy',nome:'Meningocócica ACWY conjugada',prot:'Meningococos A, C, W e Y',tipo:'Inativada conjugada',rede:'SUS (adolescentes 11–14 a) e privada',idade:'A partir de 3 meses conforme fabricante; reforço na adolescência',obs:'Indicada em asplenia, deficiência de complemento, eculizumabe, HIV e viajantes.'},
+ {id:'menb',nome:'Meningocócica B (recombinante)',prot:'Meningococo B',tipo:'Inativada recombinante',rede:'Privada',idade:'3 e 5 meses + reforço 12 meses; adolescentes e grupos de risco',obs:'Reatogênica — antitérmico profilático em lactentes.'},
+ {id:'rota',nome:'Rotavírus (monovalente / pentavalente)',prot:'Gastroenterite por rotavírus',tipo:'Atenuada oral',rede:'SUS e privada',idade:'1ª dose até 3 m 15 d; última até 7 m 29 d',obs:'Limites de idade rígidos. Contraindicada em imunodeficiência combinada grave e história de intussuscepção.'},
+ {id:'fa',nome:'Febre amarela',prot:'Febre amarela',tipo:'Atenuada',rede:'SUS e privada',idade:'9 meses + reforço aos 4 anos',obs:'Contraindicada em imunodeprimidos, < 6 meses e gestantes (avaliar risco/benefício). Cautela > 60 anos na 1ª dose.'},
+ {id:'triplice',nome:'Tríplice viral (SCR)',prot:'Sarampo, caxumba, rubéola',tipo:'Atenuada',rede:'SUS e privada',idade:'12 meses + 2ª dose 15 meses (tetraviral); adultos até 2 doses',obs:'Contraindicada em gestantes e imunodeprimidos graves.'},
+ {id:'tetraviral',nome:'Tetraviral (SCR-V)',prot:'Sarampo, caxumba, rubéola e varicela',tipo:'Atenuada',rede:'SUS e privada',idade:'15 meses (2ª dose de SCR + 1ª de varicela)',obs:'Não usar como primeira dose de SCR.'},
+ {id:'varicela',nome:'Varicela',prot:'Catapora',tipo:'Atenuada',rede:'SUS e privada',idade:'15 meses e 4 anos; suscetíveis em qualquer idade (2 doses)',obs:'Profilaxia pós-exposição até 5 dias. Contraindicada em imunossupressão grave.'},
+ {id:'hepa',nome:'Hepatite A',prot:'Hepatite A',tipo:'Inativada',rede:'SUS (15 meses, dose única) e privada (2 doses)',idade:'A partir de 12 meses',obs:'SBIm recomenda 2 doses (0 e 6 meses). Hepatopatas e HIV: 2 doses sempre.'},
+ {id:'dtpa',nome:'dTpa / dTpa-VIP',prot:'Difteria, tétano e coqueluche (acelular)',tipo:'Inativada',rede:'SUS (gestantes) e privada',idade:'Reforço aos 5 e 14 anos; gestantes a cada gestação ≥ 20 semanas; a cada 10 anos',obs:'Substitui um reforço de dT. Indicada a prof. de saúde e contactantes de lactentes (estratégia cocoon).'},
+ {id:'dt',nome:'Dupla adulto (dT)',prot:'Difteria e tétano',tipo:'Inativada',rede:'SUS e privada',idade:'Reforço a cada 10 anos',obs:'Em ferimentos de risco, antecipar se última dose > 5 anos.'},
+ {id:'hpv',nome:'HPV (nonavalente / quadrivalente)',prot:'HPV — câncer de colo, ânus, orofaringe e verrugas',tipo:'Inativada recombinante',rede:'SUS (9–14 anos, dose única) e privada',idade:'9 a 45 anos',obs:'3 doses (0-2-6) em imunodeprimidos, HIV, transplantados e oncológicos de qualquer idade até 45 anos.'},
+ {id:'influenza',nome:'Influenza (trivalente / quadrivalente)',prot:'Gripe',tipo:'Inativada',rede:'SUS (trivalente) e privada (quadrivalente)',idade:'A partir de 6 meses — anual',obs:'Duas doses na primovacinação de 6 m a < 9 anos. Prioridade em comorbidades e gestantes.'},
+ {id:'covid',nome:'COVID-19 (mRNA / recombinante)',prot:'SARS-CoV-2',tipo:'Inativada / mRNA',rede:'SUS e privada',idade:'A partir de 6 meses conforme produto',idadeNum:0,obs:'Reforço anual em ≥ 60 anos, gestantes, imunodeprimidos e comorbidades.'},
+ {id:'vsr_nirse',nome:'Nirsevimabe (anticorpo monoclonal anti-VSR)',prot:'Vírus sincicial respiratório',tipo:'Imunização passiva',rede:'SUS e privada',idade:'Lactentes < 8 meses na 1ª temporada de VSR',obs:'Dose única. Não é vacina — imunização passiva.'},
+ {id:'vsr_gest',nome:'VSR materna (RSVpreF)',prot:'VSR no lactente',tipo:'Inativada recombinante',rede:'Privada',idade:'Gestantes entre 24 e 36 semanas',obs:'Protege o lactente nos primeiros meses de vida.'},
+ {id:'herpes',nome:'Herpes-zóster recombinante (RZV)',prot:'Herpes-zóster e neuralgia pós-herpética',tipo:'Inativada recombinante adjuvada',rede:'Privada',idade:'≥ 50 anos; ≥ 18 anos com imunossupressão',obs:'2 doses (0 e 2–6 meses). Pode ser usada em imunodeprimidos — ao contrário da atenuada.'},
+ {id:'dengue',nome:'Dengue (Qdenga — TAK-003)',prot:'Dengue (4 sorotipos)',tipo:'Atenuada',rede:'SUS (10–14 anos) e privada',idade:'4 a 60 anos — 2 doses com intervalo de 3 meses',obs:'Contraindicada em gestantes, lactantes e imunodeprimidos.'},
+ {id:'raiva',nome:'Raiva (cultivo celular)',prot:'Raiva',tipo:'Inativada',rede:'SUS e privada',idade:'Pré ou pós-exposição, qualquer idade',obs:'Pré-exposição para viajantes de risco e profissionais expostos.'},
+ {id:'febretif',nome:'Febre tifoide',prot:'Salmonella typhi',tipo:'Inativada polissacarídica',rede:'Privada',idade:'≥ 2 anos — reforço a cada 3 anos',obs:'Viajantes a áreas endêmicas.'},
+ {id:'hib',nome:'Haemophilus influenzae b (Hib isolada)',prot:'Hib',tipo:'Inativada conjugada',rede:'SUS (CRIE) e privada',idade:'Esquema conforme idade; grupos de risco em qualquer idade',obs:'Indicada em asplenia, IDP, transplante e implante coclear mesmo em adultos.'}
+];
+
+function vacShowHub(){
+  var hub=document.getElementById('vac-menu-hub');
+  if(hub) hub.style.display='block';
+  ['pacientes','novo','vacinas'].forEach(function(k){
+    var el=document.getElementById('vac-sub-'+k); if(el) el.style.display='none';
+  });
+}
+function vacShowSub(sub){
+  var hub=document.getElementById('vac-menu-hub');
+  if(hub) hub.style.display='none';
+  ['pacientes','novo','vacinas'].forEach(function(k){
+    var el=document.getElementById('vac-sub-'+k);
+    if(el) el.style.display=(k===sub)?'block':'none';
+  });
+  if(sub==='pacientes') vacRenderPacientes('');
+  if(sub==='vacinas') vacRenderVacinas('');
+  if(sub==='novo'){
+    var o=document.getElementById('vacSaida'); if(o){o.style.display='none';o.innerHTML='';}
+  }
+}
+
+(function(){
+  document.addEventListener('click',function(e){
+    var c=e.target.closest?e.target.closest('#vacComorb .ig-chip'):null;
+    if(!c) return;
+    if(c.dataset.c==='nenhuma'){
+      document.querySelectorAll('#vacComorb .ig-chip').forEach(function(x){x.classList.remove('on');});
+      c.classList.add('on'); return;
+    }
+    var n=document.querySelector('#vacComorb .ig-chip[data-c="nenhuma"]');
+    if(n) n.classList.remove('on');
+    c.classList.toggle('on');
+  });
+})();
+
+function vacComorbSel(){
+  var r=[];
+  document.querySelectorAll('#vacComorb .ig-chip.on').forEach(function(c){ if(c.dataset.c!=='nenhuma') r.push(c.dataset.c); });
+  return r;
+}
+
+function vacImunossup(c){
+  return ['idp','hiv','transplante','onco','imunossup','asplenia','complemento','renal'].some(function(k){return c.indexOf(k)>=0;});
+}
+
+/* Motor de recomendação — SBIm */
+function vacCalcular(idadeMeses,sexo,situacao,comorb){
+  var A=idadeMeses/12, rec=[], alertas=[];
+  function add(nome,quando,motivo,tag){ rec.push({nome:nome,quando:quando,motivo:motivo,tag:tag||'rotina'}); }
+  var imuno=vacImunossup(comorb);
+
+  /* ===== CRIANÇAS E ADOLESCENTES (< 20 anos) ===== */
+  if(A<20){
+    if(idadeMeses<1) add('BCG-ID','Dose única ao nascer','Calendário da criança SBIm');
+    if(idadeMeses<12) add('Hepatite B','Ao nascer (≤ 12 h) + esquema básico','Calendário da criança SBIm');
+    if(idadeMeses<84) add('Pentavalente ou Hexavalente acelular','2, 4 e 6 meses + reforços 15 m e 4 anos','Difteria, tétano, coqueluche, hepatite B, Hib (+ pólio na hexa)');
+    if(idadeMeses<60) add('Poliomielite inativada (VIP)','2, 4, 6 meses + reforços 15 m e 4 anos','Esquema integralmente inativado — VOP descontinuada');
+    if(idadeMeses<=8) add('Rotavírus','1ª dose até 3 m 15 d; última até 7 m 29 d','Janela etária rígida');
+    if(A<6) add('Pneumocócica conjugada (maior valência disponível)','2 e 4 meses + reforço aos 12 meses','SBIm prefere VPC15/VPC20 quando disponível');
+    if(A<6) add('Meningocócica ACWY conjugada','3 e 5 meses + reforço 12 meses','SBIm prefere ACWY à meningo C isolada');
+    if(A<6) add('Meningocócica B','3 e 5 meses + reforço aos 12 meses','Calendário SBIm da criança (rede privada)');
+    if(idadeMeses>=6) add('Influenza (preferir quadrivalente)','Anual — 2 doses na primovacinação até 8 anos','Recomendação universal SBIm');
+    if(idadeMeses>=6) add('COVID-19','Conforme produto e idade; reforço anual em grupos de risco','Calendário SBIm');
+    if(idadeMeses>=9&&!imuno) add('Febre amarela','9 meses + reforço aos 4 anos','Área de recomendação');
+    if(idadeMeses>=12) add('Tríplice viral (SCR)','12 meses e 15 meses (2ª dose como tetraviral)','Calendário SBIm');
+    if(idadeMeses>=12) add('Hepatite A','2 doses: 12 meses e 6 meses após','SBIm recomenda 2 doses (SUS oferece 1)');
+    if(idadeMeses>=12) add('Varicela','15 meses e 4 anos (2 doses)','Calendário SBIm');
+    if(A>=4&&A<=60) add('Dengue (TAK-003)','2 doses com intervalo de 3 meses','SBIm — avaliar epidemiologia local; contraindicada em imunodeprimidos');
+    if(A>=5) add('dTpa','Reforços aos 5 e aos 14 anos','SBIm prefere dTpa à DTP no reforço');
+    if(A>=9) add('HPV nonavalente','9–14 anos: 2 doses (0-6 m). A partir de 15 anos: 3 doses','Calendário SBIm do adolescente');
+    if(A>=11) add('Meningocócica ACWY — reforço','Dose de reforço na adolescência','Calendário SBIm do adolescente');
+    if(A>=11) add('Meningocócica B — adolescente','2 doses','Calendário SBIm do adolescente');
+  }
+
+  /* ===== ADULTOS (20–59) ===== */
+  if(A>=20&&A<60){
+    add('Influenza (preferir quadrivalente)','Dose anual','Recomendação SBIm para todos os adultos');
+    add('COVID-19','Esquema primário + reforço conforme risco','Calendário SBIm do adulto');
+    add('dTpa','Reforço a cada 10 anos (substituir 1 dose de dT)','Proteção contra coqueluche no adulto');
+    add('Hepatite B','3 doses se não vacinado ou esquema incompleto','Recomendada a todos os adultos não imunes');
+    add('Hepatite A','2 doses em suscetíveis (sorologia prévia opcional)','SBIm — adulto');
+    add('Tríplice viral (SCR)','Até 29 anos: 2 doses. 30–59 anos: 1 dose','Contraindicada se imunossupressão grave');
+    add('Varicela','2 doses em suscetíveis','SBIm — adulto sem história de doença ou vacinação');
+    if(A<=45) add('HPV nonavalente','3 doses (0-2-6 meses) até 45 anos','SBIm recomenda em ambos os sexos');
+    if(!imuno) add('Febre amarela','Dose única se não vacinado','Área de recomendação / viagem');
+    add('Meningocócica ACWY','Dose única, reforço a cada 5 anos em risco contínuo','SBIm — adulto');
+    if(A>=4&&A<=60) add('Dengue (TAK-003)','2 doses com intervalo de 3 meses','Avaliar epidemiologia; contraindicada em imunodeprimidos');
+  }
+
+  /* ===== IDOSOS (≥ 60) ===== */
+  if(A>=60){
+    add('Influenza (preferir quadrivalente ou alta dose)','Dose anual','Calendário SBIm do idoso');
+    add('COVID-19','Reforço conforme recomendação vigente','Grupo prioritário');
+    add('Pneumocócica: VPC (15 ou 20) seguida de VPP23','VPC → VPP23 após 6–12 meses; 2ª VPP23 5 anos depois','Esquema sequencial SBIm do idoso');
+    add('Herpes-zóster recombinante (RZV)','2 doses (0 e 2–6 meses)','SBIm — ≥ 50 anos, inclusive com história prévia de zóster');
+    add('dTpa ou dT','Reforço a cada 10 anos','Manter proteção antitetânica');
+    add('Hepatite B','3 doses se não vacinado','SBIm — idoso');
+    add('Hepatite A','2 doses em suscetíveis, sobretudo hepatopatas','SBIm — idoso');
+    add('Meningocócica ACWY','Avaliar individualmente (risco epidemiológico)','SBIm — idoso');
+    alertas.push('Febre amarela em ≥ 60 anos: na primovacinação, avaliar risco–benefício individual (maior risco de eventos adversos graves).');
+  }
+
+  /* ===== SITUAÇÕES ESPECIAIS ===== */
+  if(situacao==='gestante'){
+    add('dTpa','A cada gestação, a partir da 20ª semana','Proteção do lactente contra coqueluche','especial');
+    add('Influenza','Dose anual em qualquer idade gestacional','Gestante é grupo prioritário','especial');
+    add('COVID-19','Em qualquer idade gestacional','Grupo prioritário SBIm','especial');
+    add('Hepatite B','Se não vacinada — 3 doses','Segura na gestação','especial');
+    add('VSR materna (RSVpreF)','Dose única entre 24 e 36 semanas','Proteção do lactente contra VSR','especial');
+    alertas.push('Contraindicadas na gestação: vacinas atenuadas — tríplice viral, varicela, febre amarela (salvo risco elevado de exposição) e dengue.');
+  }
+  if(situacao==='puerpera'){
+    add('Tríplice viral e varicela','Aplicar no pós-parto imediato se suscetível','Oportunidade de atualização — compatível com amamentação','especial');
+    add('dTpa','Se não recebeu na gestação, aplicar no puerpério','Estratégia cocoon','especial');
+  }
+  if(situacao==='prematuro'){
+    add('Nirsevimabe (anti-VSR)','Dose única antes ou durante a 1ª temporada de VSR','Imunização passiva — prematuros são grupo prioritário','especial');
+    alertas.push('Prematuro: vacinar pela idade cronológica, sem correção. Preferir vacinas acelulares (hexavalente). BCG se ≥ 2 kg.');
+  }
+
+  /* ===== COMORBIDADES ===== */
+  function has(k){ return comorb.indexOf(k)>=0; }
+  if(has('asma')||has('dpoc')){
+    add('Pneumocócica: VPC + VPP23','VPC (15/20) → VPP23 após ≥ 8 semanas (≥ 2 anos)','Pneumopatia crônica','comorb');
+    add('Influenza anual','Prioridade máxima','Pneumopatia crônica — risco de exacerbação','comorb');
+    if(A>=18) add('Herpes-zóster recombinante','2 doses','Risco aumentado em DPOC e uso de corticoide','comorb');
+  }
+  if(has('cardio')||has('dm')||has('hepato')||has('obesidade')||has('tabagismo')){
+    add('Pneumocócica: VPC + VPP23','Esquema sequencial','Comorbidade crônica — risco de doença invasiva','comorb');
+    add('Influenza anual','Dose anual','Comorbidade crônica','comorb');
+    if(has('hepato')) add('Hepatite A e B','Esquema completo e sorologia pós-vacinal','Hepatopatia — risco de hepatite fulminante','comorb');
+  }
+  if(has('renal')){
+    add('Hepatite B — esquema reforçado','4 doses com o dobro da dose; anti-HBs 1–2 meses após','Doença renal crônica / diálise','comorb');
+    add('Pneumocócica: VPC + VPP23','Esquema sequencial completo','Alto risco de doença invasiva','comorb');
+    add('Influenza anual','Dose anual','Grupo prioritário','comorb');
+  }
+  if(has('asplenia')||has('complemento')){
+    add('Meningocócica ACWY','2 doses (0–2 meses) + reforço a cada 5 anos','Risco extremo de doença meningocócica','comorb');
+    add('Meningocócica B','2 a 3 doses conforme idade + reforços','Risco extremo','comorb');
+    add('Pneumocócica: VPC + VPP23','Esquema sequencial completo','Asplenia é indicação formal','comorb');
+    add('Haemophilus influenzae b (Hib)','Dose em qualquer idade se não vacinado','Bactéria encapsulada','comorb');
+    alertas.push('Esplenectomia eletiva: vacinar preferencialmente até 14 dias antes do procedimento (ou 14 dias após, se de urgência).');
+  }
+  if(has('fistula')){
+    add('Pneumocócica: VPC + VPP23','Esquema sequencial','Fístula liquórica / implante coclear','comorb');
+    add('Haemophilus influenzae b (Hib)','Dose em qualquer idade','Indicação SBIm — grupos especiais','comorb');
+    add('Meningocócica ACWY e B','Esquema completo','Risco de meningite','comorb');
+  }
+  if(has('hiv')){
+    add('Pneumocócica: VPC + VPP23','Esquema sequencial completo','HIV — indicação formal','comorb');
+    add('HPV nonavalente','3 doses (0-2-6), independentemente da idade, até 45 anos','HIV — 3 doses sempre','comorb');
+    add('Meningocócica ACWY','2 doses + reforços','HIV é indicação formal','comorb');
+    add('Hepatite A e B','Esquemas completos com sorologia pós-vacinal','Resposta subótima em HIV','comorb');
+    alertas.push('HIV: vacinas atenuadas (SCR, varicela, febre amarela) só se CD4 ≥ 200 cél/mm³ em adultos (≥ 15% em crianças) e sem imunossupressão grave.');
+  }
+  if(has('idp')){
+    add('Pneumocócica: VPC + VPP23','Esquema sequencial completo','Imunodeficiência primária','comorb');
+    add('Meningocócica ACWY e B','Esquema completo + reforços','IDP — indicação formal','comorb');
+    add('Haemophilus influenzae b (Hib)','Dose em qualquer idade','IDP','comorb');
+    add('Influenza anual','Dose anual — estender aos contactantes','Proteção do núcleo familiar','comorb');
+    alertas.push('IDP: vacinas atenuadas em geral contraindicadas (deficiências de células T/B, SCID). Em deficiências de anticorpos em reposição de IgG, a resposta vacinal pode ser prejudicada — avaliar individualmente.');
+    alertas.push('Pacientes em reposição de imunoglobulina: respeitar intervalo de 8 meses para vacinas de vírus vivo atenuado, quando indicadas.');
+  }
+  if(has('transplante')){
+    add('Esquema completo pré-transplante','Idealmente ≥ 4 semanas antes para atenuadas e ≥ 2 semanas para inativadas','Janela de oportunidade','comorb');
+    add('Pneumocócica, meningocócica ACWY/B, Hib, hepatites A e B','Esquemas completos','Transplantado é grupo de altíssimo risco','comorb');
+    add('Herpes-zóster recombinante','2 doses (vacina inativada — segura no imunodeprimido)','SBIm — ≥ 18 anos imunossuprimidos','comorb');
+    alertas.push('TCTH: revacinar integralmente a partir de 6–12 meses pós-transplante. Atenuadas apenas após 24 meses e sem DECH/imunossupressão.');
+  }
+  if(has('onco')||has('imunossup')||has('autoimune')){
+    add('Influenza anual','Dose anual','Imunossupressão','comorb');
+    add('Pneumocócica: VPC + VPP23','Esquema sequencial','Imunossupressão','comorb');
+    if(A>=18) add('Herpes-zóster recombinante (RZV)','2 doses (0 e 1–2 meses em imunodeprimidos)','Vacina inativada — indicada no imunossuprimido','comorb');
+    alertas.push('Imunossupressão: vacinar preferencialmente 2–4 semanas antes de iniciar o imunossupressor, ou 3 meses após suspendê-lo. Atenuadas contraindicadas durante o tratamento.');
+    alertas.push('Corticoide em dose imunossupressora: prednisona ≥ 2 mg/kg/dia ou ≥ 20 mg/dia por ≥ 14 dias.');
+  }
+  if(has('prof_saude')){
+    add('Hepatite B + anti-HBs pós-vacinal','3 doses e confirmação sorológica','Exposição ocupacional','comorb');
+    add('Tríplice viral, varicela, dTpa e influenza anual','Esquemas completos','Calendário SBIm do profissional de saúde','comorb');
+  }
+  if(has('viajante')){
+    add('Febre amarela','≥ 10 dias antes da viagem (Certificado Internacional)','Viagem internacional','comorb');
+    add('Hepatite A, febre tifoide e raiva (pré-exposição)','Conforme destino e tipo de viagem','Viajante internacional','comorb');
+    add('Meningocócica ACWY','Obrigatória para Arábia Saudita (Hajj/Umrah)','Exigência sanitária','comorb');
+  }
+
+  /* dedup por nome */
+  var vis={},fin=[];
+  rec.forEach(function(r){ if(!vis[r.nome]){vis[r.nome]=1;fin.push(r);} });
+  return {rec:fin,alertas:alertas};
+}
+
+function vacGerarCalendario(){
+  var nome=(document.getElementById('vacNome').value||'').trim();
+  var idv=parseFloat(document.getElementById('vacIdade').value);
+  var un=document.getElementById('vacIdadeUn').value;
+  var sexo=document.getElementById('vacSexo').value;
+  var sit=document.getElementById('vacGest').value;
+  var comorb=vacComorbSel();
+  var out=document.getElementById('vacSaida');
+  if(!nome){ alert('Informe o nome do paciente.'); return; }
+  if(isNaN(idv)||idv<0){ alert('Informe a idade do paciente.'); return; }
+  var meses=(un==='meses')?idv:idv*12;
+  var r=vacCalcular(meses,sexo,sit,comorb);
+  var idadeTxt=idv+' '+un;
+
+  var h='<div class="ig-out"><h4>Calendário vacinal — SBIm</h4>'
+    +'<div class="ig-kv"><span>Paciente</span><span>'+nome+'</span></div>'
+    +'<div class="ig-kv"><span>Idade</span><span>'+idadeTxt+'</span></div>'
+    +'<div class="ig-kv"><span>Situação</span><span>'+({nao:'—',gestante:'Gestante',puerpera:'Puérpera',prematuro:'Prematuro'}[sit])+'</span></div>'
+    +'<div class="ig-kv"><span>Comorbidades</span><span>'+(comorb.length?comorb.length+' selecionada(s)':'Nenhuma')+'</span></div></div>';
+
+  function bloco(tit,arr,cor){
+    if(!arr.length) return '';
+    var x='<div class="ig-out"><h4>'+tit+'</h4>';
+    arr.forEach(function(v){
+      x+='<div style="border-left:3px solid '+cor+';padding:6px 0 6px 10px;margin-bottom:9px">'
+        +'<div style="font-size:13.5px;font-weight:800;color:var(--navy)">'+v.nome+'</div>'
+        +'<div style="font-size:12.5px;color:var(--navy);margin-top:2px">'+v.quando+'</div>'
+        +'<div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">'+v.motivo+'</div></div>';
+    });
+    return x+'</div>';
+  }
+  h+=bloco('Calendário de rotina para a idade',r.rec.filter(function(v){return v.tag==='rotina';}),'var(--teal-mid)');
+  h+=bloco('Situação especial',r.rec.filter(function(v){return v.tag==='especial';}),'#d69e2e');
+  h+=bloco('Indicações por comorbidade',r.rec.filter(function(v){return v.tag==='comorb';}),'var(--navy)');
+
+  if(r.alertas.length){
+    h+='<div class="ig-out"><h4>Alertas e contraindicações</h4>';
+    r.alertas.forEach(function(a){ h+='<div class="ig-alert" style="background:#fff8e6;border:1px solid #f0d9a0;color:#7a5c00">⚠️ '+a+'</div>'; });
+    h+='</div>';
+  }
+  h+='<div style="font-size:11px;color:var(--gray-500);line-height:1.5;padding:0 2px 10px">Fonte: Calendários de Vacinação e Guias de Grupos Especiais da Sociedade Brasileira de Imunizações (SBIm). Apoio à decisão — não substitui a avaliação clínica individual.</div>'
+    +'<div style="display:flex;gap:8px">'
+    +'<button class="ig-btn" style="flex:1;margin:0" onclick="vacSalvarPaciente()">💾 Salvar paciente</button>'
+    +'<button class="ig-btn" style="flex:1;margin:0;background:var(--teal-mid)" onclick="vacCopiar()">📋 Copiar</button></div>';
+
+  out.innerHTML=h; out.style.display='block';
+  window._vacAtual={nome:nome,idade:idv,un:un,sexo:sexo,situacao:sit,comorb:comorb,rec:r.rec,alertas:r.alertas};
+  out.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function vacTexto(p){
+  var t='CALENDÁRIO VACINAL — SBIm\n\nPaciente: '+p.nome+'\nIdade: '+p.idade+' '+p.un+'\n';
+  if(p.situacao!=='nao') t+='Situação: '+p.situacao+'\n';
+  if(p.comorb.length) t+='Comorbidades: '+p.comorb.join(', ')+'\n';
+  t+='\nVACINAS INDICADAS:\n';
+  p.rec.forEach(function(v){ t+='\n• '+v.nome+'\n  '+v.quando+'\n  ('+v.motivo+')\n'; });
+  if(p.alertas.length){ t+='\nALERTAS:\n'; p.alertas.forEach(function(a){ t+='– '+a+'\n'; }); }
+  t+='\nReferência: Sociedade Brasileira de Imunizações (SBIm).';
+  return t;
+}
+function vacCopiar(){
+  if(!window._vacAtual) return;
+  var t=vacTexto(window._vacAtual);
+  if(navigator.clipboard) navigator.clipboard.writeText(t).then(function(){ alert('Calendário copiado.'); });
+  else alert(t);
+}
+function vacSalvarPaciente(){
+  if(!window._vacAtual) return;
+  try{
+    var hist=JSON.parse(localStorage.getItem('vacPacientes')||'{}');
+    var p=window._vacAtual;
+    hist[p.nome]={nome:p.nome,idade:p.idade,un:p.un,sexo:p.sexo,situacao:p.situacao,comorb:p.comorb,rec:p.rec,alertas:p.alertas,atualizado:new Date().toISOString().slice(0,10)};
+    localStorage.setItem('vacPacientes',JSON.stringify(hist));
+    alert('Paciente salvo em "Pacientes cadastrados".');
+  }catch(e){ alert('Não foi possível salvar.'); }
+}
+function vacDeletarPaciente(nome){
+  if(!confirm('Excluir '+nome+'?')) return;
+  try{
+    var hist=JSON.parse(localStorage.getItem('vacPacientes')||'{}');
+    delete hist[nome]; localStorage.setItem('vacPacientes',JSON.stringify(hist));
+  }catch(e){}
+}
+function vacVerPaciente(nome){
+  try{
+    var hist=JSON.parse(localStorage.getItem('vacPacientes')||'{}');
+    var p=hist[nome]; if(!p) return;
+    window._vacAtual=p;
+    vacShowSub('novo');
+    document.getElementById('vacNome').value=p.nome;
+    document.getElementById('vacIdade').value=p.idade;
+    document.getElementById('vacIdadeUn').value=p.un;
+    document.getElementById('vacSexo').value=p.sexo;
+    document.getElementById('vacGest').value=p.situacao;
+    document.querySelectorAll('#vacComorb .ig-chip').forEach(function(c){
+      c.classList.toggle('on',(p.comorb||[]).indexOf(c.dataset.c)>=0);
+    });
+    vacGerarCalendario();
+  }catch(e){}
+}
+function vacRenderPacientes(filtro){
+  var box=document.getElementById('vacListaPacientes'); if(!box) return;
+  try{
+    var hist=JSON.parse(localStorage.getItem('vacPacientes')||'{}');
+    var lista=Object.values(hist).filter(function(p){
+      return !filtro || p.nome.toLowerCase().indexOf(filtro.toLowerCase())>=0;
+    }).sort(function(a,b){ return (b.atualizado||'').localeCompare(a.atualizado||''); });
+    box.innerHTML='';
+    if(!lista.length){ box.innerHTML='<div style="color:var(--gray-500);font-size:13px;padding:8px 0">Nenhum paciente cadastrado ainda.</div>'; return; }
+    lista.forEach(function(p){
+      var div=document.createElement('div');
+      div.style.cssText='background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px';
+      div.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between">'
+        +'<b style="font-size:13.5px;color:var(--navy)">'+p.nome+'</b>'
+        +'<span style="font-size:11px;color:var(--gray-500)">'+((p.rec&&p.rec.length)||0)+' vacinas</span></div>'
+        +'<div style="font-size:11.5px;color:var(--gray-500)">'+p.idade+' '+p.un+(p.comorb&&p.comorb.length?' · '+p.comorb.length+' comorbidade(s)':'')+(p.atualizado?' · '+p.atualizado:'')+'</div>'
+        +'<div style="display:flex;gap:6px;margin-top:6px">'
+        +'<button class="bvv" style="flex:1;background:var(--teal-mid);color:#fff;border:none;border-radius:8px;padding:6px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:Manrope,sans-serif">🛡️ Ver calendário</button>'
+        +'<button class="bvd" style="background:#fff0f0;color:#e53e3e;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer">🗑</button>'
+        +'</div>';
+      (function(pn){
+        div.querySelector('.bvv').onclick=function(){ vacVerPaciente(pn); };
+        div.querySelector('.bvd').onclick=function(){ vacDeletarPaciente(pn); vacRenderPacientes(filtro||''); };
+      })(p.nome);
+      box.appendChild(div);
+    });
+  }catch(e){ box.innerHTML='<div style="color:#e53e3e;font-size:12px">Erro ao carregar.</div>'; }
+}
+function vacRenderVacinas(filtro){
+  var box=document.getElementById('vacListaVacinas'); if(!box) return;
+  var f=(filtro||'').toLowerCase();
+  box.innerHTML='';
+  VAC_CATALOGO.filter(function(v){
+    return !f || (v.nome+' '+v.prot).toLowerCase().indexOf(f)>=0;
+  }).forEach(function(v){
+    var det=document.createElement('details');
+    det.style.cssText='background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;overflow:hidden';
+    det.innerHTML='<summary style="padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;list-style:none">'
+      +'<span style="font-size:20px">'+(v.tipo.indexOf('Atenuada')>=0?'🧬':'💉')+'</span>'
+      +'<div style="flex:1"><div style="font-size:13px;font-weight:800;color:var(--navy)">'+v.nome+'</div>'
+      +'<div style="font-size:11px;color:var(--gray-500)">'+v.prot+'</div></div>'
+      +'<span style="color:var(--gray-300);font-size:16px">›</span></summary>'
+      +'<div style="padding:0 14px 12px;border-top:1px solid var(--gray-100)">'
+      +'<table style="width:100%;border-collapse:collapse;margin-top:6px">'
+      +'<tr><td style="padding:4px 8px 4px 0;color:var(--gray-500);font-weight:700;font-size:12px;white-space:nowrap;vertical-align:top">Tipo</td><td style="padding:4px 0;color:var(--navy);font-size:12px">'+v.tipo+'</td></tr>'
+      +'<tr><td style="padding:4px 8px 4px 0;color:var(--gray-500);font-weight:700;font-size:12px;white-space:nowrap;vertical-align:top">Disponibilidade</td><td style="padding:4px 0;color:var(--navy);font-size:12px">'+v.rede+'</td></tr>'
+      +'<tr><td style="padding:4px 8px 4px 0;color:var(--gray-500);font-weight:700;font-size:12px;white-space:nowrap;vertical-align:top">Idade / esquema</td><td style="padding:4px 0;color:var(--navy);font-size:12px">'+v.idade+'</td></tr>'
+      +'<tr><td style="padding:4px 8px 4px 0;color:var(--gray-500);font-weight:700;font-size:12px;white-space:nowrap;vertical-align:top">Observações</td><td style="padding:4px 0;color:var(--navy);font-size:12px">'+v.obs+'</td></tr>'
+      +'</table></div>';
+    box.appendChild(det);
+  });
+  if(!box.children.length) box.innerHTML='<div style="color:var(--gray-500);font-size:13px;padding:8px 0">Nenhuma vacina encontrada.</div>';
+}
 
 function igShowHub(){
   var hub=document.getElementById('ig-menu-hub');
@@ -5046,7 +5547,7 @@ function _deletarPrompt(idx){
 
 /* ── NAVIGATION ── */
 window.crmInit = crmInit;
-var PAGE_TITLES={eaaci:'Protocolos EAACI',dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',noticias:'Notícias',scores:'Scores',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Meu perfil',alergonews:'Alergo News',jornal:'Alergia News',mais:'Mais'};
+var PAGE_TITLES={eaaci:'Protocolos EAACI',dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',imunizacoes:'Imunizações',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',noticias:'Notícias',scores:'Scores',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Meu perfil',alergonews:'Alergo News',jornal:'Alergia News',mais:'Mais'};
 
 var _navHistory = ['dashboard'];
 
@@ -5060,6 +5561,7 @@ function navTo(page){
   var pg=document.getElementById('page-'+page);
   if(pg)pg.classList.add('active');
   if(page === 'crm' && typeof window.crmInit === 'function') window.crmInit();
+  if(page === 'imunizacoes' && typeof window.vacShowHub === 'function') vacShowHub();
   document.querySelectorAll('[data-nav="'+page+'"]').forEach(function(n){n.classList.add('active');});
   window.scrollTo(0,0);
   var sa=document.querySelector('.scroll-area');
