@@ -123,24 +123,24 @@
     var nome=$('nome').value.trim();
     if(!nome){ $('msgBox').innerHTML='<div class="msg err">Escreva seu nome antes de enviar.</div>'; $('nome').focus(); window.scrollTo({top:0,behavior:'smooth'}); return; }
     var total=resp.reduce(function(a,b){return a+b;},0);
-    var btn=$('btnEnviar'); btn.disabled=true; btn.textContent='Enviando…';
+    var btn=$('btnEnviar'); btn.disabled=true; btn.textContent='Enviando\u2026';
     $('msgBox').innerHTML='';
-    fetch(SUPA_URL+'/rest/v1/snot22_results',{
+    fetch(SUPA_URL+'/rest/v1/rpc/snot22_registrar',{
       method:'POST',
-      headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
-      body:JSON.stringify({sessao_id:sessao,paciente_nome:nome,respostas:resp,total:total,data_ref:($('dataRef').value||null),origem:'paciente'})
+      headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({p_sessao:sessao,p_respostas:resp,p_total:total,p_paciente:nome,p_data:($('dataRef').value||null),p_origem:'paciente'})
     }).then(function(r){
-      if(!r.ok) throw new Error('falha');
+      if(!r.ok) return r.text().then(function(t){ throw new Error('HTTP '+r.status+(t?' \u2014 '+t.slice(0,180):'')); });
       $('cardIntro').classList.add('hidden');
       $('cardQ').classList.add('hidden');
       btn.classList.add('hidden');
       $('fimN').textContent=total+'/110';
-      $('fimS').innerHTML='<strong>Obrigado, '+nome.split(' ')[0]+'!</strong><br>Suas respostas foram enviadas ao seu médico.<br>'+interpretar(total);
+      $('fimS').innerHTML='<strong>Obrigado, '+nome.split(' ')[0]+'!</strong><br>Suas respostas foram enviadas ao seu m\u00e9dico.<br>'+interpretar(total);
       $('cardFim').classList.remove('hidden');
       window.scrollTo({top:0,behavior:'smooth'});
-    }).catch(function(){
+    }).catch(function(e){
       btn.textContent='Tentar de novo'; btn.disabled=false;
-      $('msgBox').innerHTML='<div class="msg err">Não foi possível enviar (sem conexão?). Suas respostas continuam marcadas — toque em "Tentar de novo".</div>';
+      $('msgBox').innerHTML='<div class="msg err">N\u00e3o foi poss\u00edvel enviar. Suas respostas continuam marcadas \u2014 toque em "Tentar de novo".<br><span style="font-size:11px;opacity:.8">'+(e&&e.message?e.message:'erro de rede')+'</span></div>';
     });
   };
 

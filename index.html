@@ -7007,8 +7007,10 @@ function _snot22PararPolling(){ if(_snot22PollTimer){ clearInterval(_snot22PollT
 
 function _snot22Checar(){
   if(!_snot22SessaoId) return;
-  fetch(_SUPA_URL+'/rest/v1/snot22_results?sessao_id=eq.'+encodeURIComponent(_snot22SessaoId)+'&order=created_at.desc&limit=1',{
-    headers:{'apikey':_SUPA_KEY,'Authorization':'Bearer '+_SUPA_KEY}
+  fetch(_SUPA_URL+'/rest/v1/rpc/snot22_da_sessao',{
+    method:'POST',
+    headers:{'apikey':_SUPA_KEY,'Authorization':'Bearer '+_SUPA_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({p_sessao:_snot22SessaoId})
   }).then(function(r){return r.json();}).then(function(rows){
     if(!rows||!rows.length) return;
     _snot22PararPolling();
@@ -7088,10 +7090,10 @@ function _snot22RegistrarManual(r){
   var w=document.getElementById('snot22-historico-wrap');
   if(w) w.innerHTML=_snot22RenderHistorico();
   _snot22PararPolling();
-  fetch(_SUPA_URL+'/rest/v1/snot22_results',{
+  fetch(_SUPA_URL+'/rest/v1/rpc/snot22_registrar',{
     method:'POST',
-    headers:{'apikey':_SUPA_KEY,'Authorization':'Bearer '+_SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
-    body:JSON.stringify({sessao_id:_snot22SessaoId||('snot22-manual-'+Date.now()),paciente_nome:nome,respostas:resp,total:total,data_ref:data||null,origem:'medico'})
+    headers:{'apikey':_SUPA_KEY,'Authorization':'Bearer '+_SUPA_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({p_sessao:(_snot22SessaoId||('snot22-manual-'+Date.now())),p_respostas:resp,p_total:total,p_paciente:nome,p_data:(data||null),p_origem:'medico'})
   }).catch(function(){});
   if(typeof toast==='function') toast('\ud83d\udcbe','SNOT-22 de '+nome.split(' ')[0]+' salvo no hist\u00f3rico.');
 }
