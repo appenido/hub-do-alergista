@@ -864,11 +864,6 @@ body{
 }
 
 </style>
-<style id="authGateStyle">
-/* Gate: body oculto até verificar sessão */
-body > *:not(#authScreen) { display:none !important; }
-#authScreen { display:flex !important; }
-</style>
 <script>
 /* Endereço canônico — os espelhos antigos redirecionam para cá */
 (function(){
@@ -882,15 +877,12 @@ body > *:not(#authScreen) { display:none !important; }
 </script>
 <script>
 (function(){
+  // Acesso livre: a sessão serve só para personalizar o app, nunca para bloquear.
   var SESS_VER = 2;
   try{
     var s = JSON.parse(localStorage.getItem('hub_session')||'null');
-    if(s && s.exp && Date.now() < s.exp && s.v && s.v >= SESS_VER){
-      // Sessão válida — remover gate imediatamente
-      document.getElementById('authGateStyle').remove();
-    } else {
+    if(!(s && s.exp && Date.now() < s.exp && s.v && s.v >= SESS_VER)){
       localStorage.removeItem('hub_session');
-      // Gate permanece: authScreen visível, resto oculto
     }
   }catch(e){}
 })();
@@ -903,9 +895,12 @@ body > *:not(#authScreen) { display:none !important; }
 window._mostrarApp = function(){
   var g = document.getElementById('authGateStyle');
   if(g) g.remove();
+  var a = document.getElementById('authScreen');
+  if(a) a.style.display = 'none';
 };
 </script>
 <div id="authScreen">
+  <button type="button" onclick="fecharAuth()" aria-label="Fechar" style="position:absolute;top:14px;right:16px;background:rgba(255,255,255,.14);border:none;color:#fff;font-size:20px;font-weight:700;width:34px;height:34px;border-radius:50%;cursor:pointer;line-height:1">×</button>
   <div class="auth-logo">
     <div class="auth-logo-icon">
       <svg viewBox="0 0 512 512" width="28" height="28" fill="none"><g stroke="#fff" stroke-width="70" stroke-linecap="round"><line x1="256" y1="286" x2="256" y2="432"/><line x1="256" y1="286" x2="162" y2="139"/><line x1="256" y1="286" x2="350" y2="139"/></g><circle cx="256" cy="432" r="50" fill="#fff"/><circle cx="162" cy="139" r="50" fill="#fff"/><circle cx="350" cy="139" r="50" fill="#fff"/><circle cx="256" cy="286" r="40" fill="#fff"/></svg>
@@ -3419,7 +3414,7 @@ window._mostrarApp = function(){
     <div style="margin:16px 16px 0;background:#f8fafc;border:1px solid var(--gray-100);border-radius:13px;padding:14px 16px">
       <div style="font-size:11px;font-weight:700;color:var(--gray-500);margin-bottom:4px">Conta</div>
       <div id="authUserInfo" style="font-size:13px;color:var(--navy);font-weight:600;margin-bottom:12px">—</div>
-      <button onclick="fazerLogout()" style="width:100%;background:#fff;border:1.5px solid #e74c3c;color:#e74c3c;border-radius:10px;padding:10px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Sair da conta →</button>
+      <button data-conta-btn data-sair="Sair da conta →" data-entrar="Entrar ou criar conta →" onclick="fazerLogout()" style="width:100%;background:#fff;border:1.5px solid #e74c3c;color:#e74c3c;border-radius:10px;padding:10px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Sair da conta →</button>
     </div>
     <div style="height:80px"></div>
   </div>
@@ -3462,7 +3457,7 @@ window._mostrarApp = function(){
       <div id="perfMenu">
         <button onclick="escolherFotoPerfil()" class="perf-menu-btn">📷 Mudar foto do perfil</button>
         <button onclick="abrirDadosCadastrais()" class="perf-menu-btn">📝 Editar dados cadastrais</button>
-        <button onclick="fazerLogout()" class="perf-menu-btn perf-menu-sair">↪ Sair</button>
+        <button data-conta-btn data-sair="↪ Sair" data-entrar="↪ Entrar" onclick="fazerLogout()" class="perf-menu-btn perf-menu-sair">↪ Sair</button>
       </div>
       <div id="perfForm" style="display:none">
       <div class="perf-field"><label>Nome completo</label><input id="perfNome" type="text"></div>
@@ -3831,13 +3826,15 @@ function _iniciarSessao(email, nome, token, refresh){
 
 function fazerLogout(){
   try{ localStorage.removeItem('hub_session'); }catch(e){}
-  document.getElementById('authScreen').style.display = 'flex';
+  document.getElementById('authScreen').style.display = 'none';
   ['loginEmail','loginSenha'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   ['cadNome','cadEspecialidade','cadEmail','cadSenha','cadSenha2'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   var cadCat=document.getElementById('cadCategoria');if(cadCat)cadCat.value='';
   var cadEspBox=document.getElementById('cadEspBox');if(cadEspBox)cadEspBox.style.display='none';
   ['loginErr','cadErr'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent='';});
   authModo('login');
+  _atualizarInfoUsuario();
+  if(typeof toast==='function') toast('👋','Você saiu da conta.');
 }
 
 function _iniciais(nome){
@@ -3846,7 +3843,36 @@ function _iniciais(nome){
   return (p[0][0]+(p.length>1?p[p.length-1][0]:'')).toUpperCase();
 }
 
+/* Acesso livre: a tela de login só aparece quando a pessoa pede */
+function abrirAuth(modo){
+  var a = document.getElementById('authScreen');
+  if(!a) return;
+  a.style.display = 'flex';
+  try{ authModo(modo || 'login'); }catch(e){}
+  window.scrollTo(0,0);
+}
+
+function fecharAuth(){
+  var a = document.getElementById('authScreen');
+  if(a) a.style.display = 'none';
+}
+
+function _atualizarBotoesConta(){
+  try{
+    var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
+    var logado = !!sess.email;
+    document.querySelectorAll('[data-conta-btn]').forEach(function(b){
+      b.textContent = logado ? b.getAttribute('data-sair') : b.getAttribute('data-entrar');
+      b.onclick = logado ? fazerLogout : function(){ abrirAuth('login'); };
+      if(b.classList.contains('perf-menu-sair')) return;
+      b.style.borderColor = logado ? '#e74c3c' : 'var(--teal-mid)';
+      b.style.color       = logado ? '#e74c3c' : 'var(--teal-mid)';
+    });
+  }catch(e){}
+}
+
 function _atualizarInfoUsuario(){
+  _atualizarBotoesConta();
   try{
     var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
     var el = document.getElementById('authUserInfo');
