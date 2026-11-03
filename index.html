@@ -742,14 +742,30 @@ body{
   margin:0 16px 12px;overflow:hidden;
   transition:box-shadow .2s;
 }
-.bio-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 16px;align-items:start;}
-.bio-grid .bio-card{margin:0;}
+.bio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 16px 16px;align-items:stretch;}
+.bio-grid .bio-card{margin:0;display:flex;flex-direction:column;}
 .bio-grid .bio-card.open{grid-column:1 / -1;}
-.bio-grid .bio-header{padding:12px 13px;gap:10px;}
-.bio-grid .bio-icon{width:38px;height:38px;border-radius:10px;font-size:17px;}
-.bio-grid .bio-name{font-size:13.5px;line-height:1.2;}
-.bio-grid .bio-comercial{font-size:10.5px;line-height:1.25;}
-@media(min-width:720px){.bio-grid{grid-template-columns:repeat(3,1fr);}}
+.bio-grid .bio-header{
+  flex:1;flex-direction:column;align-items:center;justify-content:flex-start;
+  text-align:center;gap:8px;padding:14px 10px 12px;min-width:0;
+}
+.bio-grid .bio-icon{width:40px;height:40px;border-radius:11px;font-size:18px;}
+.bio-grid .bio-header>div:not(.bio-icon):not(.bio-chevron){width:100%;min-width:0;}
+.bio-grid .bio-name{
+  font-size:13px;line-height:1.25;min-width:0;
+  overflow-wrap:anywhere;word-break:break-word;hyphens:auto;
+}
+.bio-grid .bio-comercial{font-size:10px;line-height:1.3;margin-top:3px;overflow-wrap:anywhere;}
+.bio-grid .bio-chevron{display:none;}
+.bio-grid .bio-new,.bio-grid .bio-norol{display:inline-block;margin:4px 0 0;}
+.bio-grid .bio-card.open .bio-header{
+  flex-direction:row;align-items:center;text-align:left;gap:12px;padding:14px 16px;
+}
+.bio-grid .bio-card.open .bio-chevron{display:block;}
+.bio-grid .bio-card.open .bio-name{font-size:15px;}
+.bio-grid .bio-card.open .bio-comercial{font-size:11.5px;}
+@media(min-width:560px){.bio-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+@media(min-width:860px){.bio-grid{grid-template-columns:repeat(4,minmax(0,1fr));}}
 .bio-card:active{box-shadow:0 4px 16px rgba(13,31,45,.12);}
 .bio-header{
   padding:14px 16px;display:flex;align-items:center;gap:12px;
