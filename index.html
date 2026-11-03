@@ -1999,7 +1999,7 @@ window._mostrarApp = function(){
 
   <!-- ══ SCORES ══ -->
   <div class="page" id="page-scores">
-    <div class="sec-hdr"><h2>Scores e Calculadoras</h2></div>
+    <div class="sec-hdr"><h2>Scores e Calculadoras</h2><span class="see-all" data-nav="pacientes">Pacientes</span></div>
     <div class="gap-list">
       <div class="guide-card" data-score="act" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">ACT</div><div style="font-size:11px;color:var(--gray-500)">Asthma Control Test · 0–25</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="ACT" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🫁</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:75%;background:linear-gradient(90deg,var(--aqua),var(--teal-mid))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular ACT →</button></div>
       <div class="guide-card" data-score="easi" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">EASI</div><div style="font-size:11px;color:var(--gray-500)">Eczema Area &amp; Severity Index · 0–72</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="EASI" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🩹</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:50%;background:linear-gradient(90deg,#f0d98a,var(--gold))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular EASI →</button></div>
@@ -3525,6 +3525,15 @@ window._mostrarApp = function(){
 
 
   <!-- ══ MAIS ══ -->
+  <!-- ══ PACIENTES ══ -->
+  <div class="page" id="page-pacientes">
+    <div class="sec-hdr"><h2>Pacientes</h2><span class="see-all" onclick="_pacCarregar()">atualizar</span></div>
+    <div style="padding:0 0 10px">
+      <input type="text" id="pacBusca" placeholder="Buscar paciente\u2026" oninput="_pacRender()" style="width:100%;box-sizing:border-box;border:1px solid var(--gray-100);border-radius:10px;padding:11px 13px;font-family:Manrope,sans-serif;font-size:14px;color:var(--navy);background:var(--gray-50);outline:none">
+    </div>
+    <div id="pacLista"><div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">Carregando\u2026</div></div>
+  </div>
+
   <div class="page" id="page-mais">
     <div style="padding:16px 16px 8px">
       <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px">
@@ -3533,6 +3542,7 @@ window._mostrarApp = function(){
       </div>
     </div>
     <div class="gap-list">
+      <div class="guide-card" data-nav="pacientes" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">👥</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Pacientes</div><div style="font-size:11.5px;color:var(--gray-500)">Scores salvos por paciente</div></div></div></div>
       <div class="guide-card" data-nav="casos" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💬</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Fórum de Discussão</div><div style="font-size:11.5px;color:var(--gray-500)">Discussões por especialidade · área médica restrita</div></div></div></div>
       <div class="guide-card" data-nav="educacao" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🎓</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Educação Continuada</div><div style="font-size:11.5px;color:var(--gray-500)">ASBAI · EAACI Nexus · UCARE LevelUp</div></div></div></div>
       <div class="guide-card" data-nav="imuno" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💉</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Imunobiológicos</div><div style="font-size:11.5px;color:var(--gray-500)">Rol ANS · DUT SUS · Relatórios · 9 biológicos</div></div></div></div>
@@ -3637,6 +3647,18 @@ window._mostrarApp = function(){
 </div><!-- /scroll-area -->
 
 <!-- bottom nav removed -->
+
+<div class="ai-sheet" id="pacSheet">
+  <div class="ai-sheet-inner">
+    <div class="ai-sheet-handle"></div>
+    <div class="ai-sheet-hdr">
+      <button id="pacSheetClose" class="btn-back" aria-label="Voltar">‹</button>
+      <div class="ai-sheet-title" id="pacSheetTitle">Paciente</div>
+      <div style="width:38px"></div>
+    </div>
+    <div class="ai-sheet-body" id="pacSheetBody"></div>
+  </div>
+</div>
 
 <!-- MODAL SCORES -->
 <div class="overlay" id="overlay">
@@ -5912,7 +5934,7 @@ function _deletarPrompt(idx){
 
 /* ── NAVIGATION ── */
 window.crmInit = crmInit;
-var PAGE_TITLES={eaaci:'Protocolos EAACI',dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',imunizacoes:'Imunizações',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',noticias:'Notícias',scores:'Scores',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Meu perfil',alergonews:'Alergo News',jornal:'Alergia News',mais:'Mais'};
+var PAGE_TITLES={eaaci:'Protocolos EAACI',dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',imunizacoes:'Imunizações',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',noticias:'Notícias',scores:'Scores',pacientes:'Pacientes',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Meu perfil',alergonews:'Alergo News',jornal:'Alergia News',mais:'Mais'};
 
 var _navHistory = ['dashboard'];
 
@@ -5951,6 +5973,7 @@ function navTo(page){
   if(page === 'educacao') carregarCursosLive();
   if(page === 'guidelines'){ ordenarGuidelinesEstaticos(); carregarGuidelinesLive(); }
   if(page === 'perfil') preencherPerfil();
+  if(page === 'pacientes') _pacCarregar();
   if(page === 'artigos' && !_feedLoaded){ _feedLoaded = true; renderFeedChips(); carregarFeed('todos'); }
   if(page === 'imuno'){
     var hojeR = new Date().toLocaleDateString('pt-BR');
@@ -6149,7 +6172,7 @@ document.addEventListener('click',function(e){
 
   // news / guide / forum / course
   if(el.closest('.news-card'))  {toast('📰','Abrindo notícia...');return;}
-  if(el.closest('.guide-card')&&!el.closest('[data-score]')&&!el.classList.contains('btn-fav')&&!el.closest('.btn-fav')){toast('📋','Abrindo guideline...');return;}
+  if(el.closest('.guide-card')&&!el.closest('[data-score]')&&!el.closest('[data-pac]')&&!el.classList.contains('btn-fav')&&!el.closest('.btn-fav')){toast('📋','Abrindo guideline...');return;}
   if(el.closest('.course-card')){toast('🎓','Abrindo curso...');return;}
 
   // notif
@@ -6201,6 +6224,7 @@ var _BUSCA_PAGINAS = [
   ['interacao','interacoes medicamentosas interacao droga farmaco'],
   ['artigos','artigos pubmed publicacoes papers estudos literatura'],
   ['guidelines','guidelines diretrizes consensos gina aaaai eaaci asbai protocolo'],
+  ['pacientes','pacientes lista historico scores salvos registros paciente'],
   ['scores','scores calculadoras escores uas7 uct act easi scorad snot22 snot-22 polipose rinossinusite poem acq corticoide prednisona equivalencia'],
   ['assistente','ia assistente robo inteligencia artificial'],
   ['prompts','prompts modelos textos'],
@@ -6617,7 +6641,7 @@ function openScore(key){
   document.getElementById('mDesc').textContent=s.desc;
   // UAS7 tem interface própria (7 dias + histórico semanal)
   if(s.special==='uas7'){
-    document.getElementById('mFields').innerHTML=_uas7RenderQR() + _uas7RenderCampos();
+    document.getElementById('mFields').innerHTML=_uas7RenderQR() + _scoreBlocoPaciente() + _uas7RenderCampos();
     _uas7IniciarQR();
     document.getElementById('mResult').className='score-result';
     document.getElementById('overlay').classList.add('open');
@@ -6625,6 +6649,7 @@ function openScore(key){
   }
   var html='';
   if(s.special==='snot22'){ html += _snot22RenderQR(); }
+  html += _scoreBlocoPaciente();
   s.fields.forEach(function(f){
     html+='<div class="sf"><label>'+f.lbl+'</label>';
     if(f.type==='num'){
@@ -6715,6 +6740,7 @@ function _uas7Salvar(r){
     var box = document.getElementById('uas7HistBox');
     if(box){ box.outerHTML = _uas7RenderHistorico(); }
     toast('💾', _uas7Ordinal(hist.length) + ' registrada no histórico.');
+    _scoreRegistrar('uas', r, undefined, undefined, {semana:hist.length});
   } catch(e){}
 }
 
@@ -6938,12 +6964,7 @@ function _snot22RenderQR(){
   h+='<div id="snot22-aguardando" style="text-align:center;padding:10px;background:var(--gray-50);border-radius:10px;margin-bottom:12px;font-size:12.5px;color:var(--gray-500)">\u23f3 Aguardando o paciente responder\u2026</div>';
   h+='<div id="snot22-resultado" style="display:none;border-radius:12px;margin-bottom:14px;overflow:hidden"></div>';
   h+='<div id="snot22-historico-wrap">'+_snot22RenderHistorico()+'</div>';
-  h+='<div style="border-top:1px solid var(--gray-100);margin:14px 0 12px;padding-top:12px">';
-  h+='<div style="font-size:11px;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Ou registre voc\u00ea mesmo</div>';
-  h+='<div class="sf"><label>Nome completo do paciente</label><input type="text" id="sn_nome" placeholder="Nome e sobrenome" style="border:1px solid var(--gray-100);border-radius:9px;padding:10px 12px;font-family:Manrope,sans-serif;font-size:14px;color:var(--navy);background:var(--gray-50);outline:none;width:100%;box-sizing:border-box"></div>';
-  h+='<div class="sf"><label>Data da aplica\u00e7\u00e3o</label><input type="date" id="sn_data" value="'+_snot22Hoje()+'" style="border:1px solid var(--gray-100);border-radius:9px;padding:10px 12px;font-family:Manrope,sans-serif;font-size:14px;color:var(--navy);background:var(--gray-50);outline:none;width:100%;box-sizing:border-box"></div>';
-  h+='<div style="font-size:11px;color:var(--gray-500)">Preencha os 22 itens abaixo e toque em calcular \u2014 o resultado fica salvo no hist\u00f3rico com o nome e a data.</div>';
-  h+='</div>';
+  h+='<div style="font-size:11px;color:var(--gray-500);text-align:center;margin:12px 0 2px">Ou preencha voc\u00ea mesmo os 22 itens abaixo.</div>';
   return h;
 }
 
@@ -7048,6 +7069,7 @@ function _snot22MostrarResultado(row){
   res.innerHTML=h;
   res.style.display='block';
   if(typeof toast==='function') toast('\ud83d\udc43','SNOT-22 recebido: '+t+'/110');
+  _scoreRegistrar('snot22', {score:t+'/110', lbl:f.lbl}, (row.paciente_nome||''), (row.data_ref||null), {respostas:resp}, 'paciente');
 }
 
 function _snot22Hoje(){
@@ -7056,7 +7078,7 @@ function _snot22Hoje(){
 }
 
 function _snot22RegistrarManual(r){
-  var nomeEl=document.getElementById('sn_nome'), dataEl=document.getElementById('sn_data');
+  var nomeEl=document.getElementById('pac_nome'), dataEl=document.getElementById('pac_data');
   var nome=nomeEl?nomeEl.value.trim():'';
   var data=dataEl?dataEl.value:'';
   if(!nome){ if(typeof toast==='function') toast('\u270f\ufe0f','Informe o nome do paciente para salvar no hist\u00f3rico.'); if(nomeEl) nomeEl.focus(); return; }
@@ -7065,6 +7087,7 @@ function _snot22RegistrarManual(r){
   for(var i=1;i<=22;i++){ var el=document.getElementById('sn'+i); resp.push(el?(parseInt(el.value)||0):0); }
   var iso=data?(data+'T12:00:00'):new Date().toISOString();
   _snot22SalvarHistorico({created_at:iso,paciente_nome:nome,respostas:resp,total:total,data_ref:data||null});
+  _scoreRegistrar('snot22', {score:total+'/110', lbl:_snot22Faixa(total).lbl}, nome, data||null, {respostas:resp});
   var w=document.getElementById('snot22-historico-wrap');
   if(w) w.innerHTML=_snot22RenderHistorico();
   _snot22PararPolling();
@@ -7112,6 +7135,160 @@ function _snot22LimparHistorico(){
   if(typeof toast==='function') toast('\ud83d\uddd1\ufe0f','Hist\u00f3rico do SNOT-22 apagado.');
 }
 
+/* ═════ Lista de pacientes — registro dos scores no Supabase ═════ */
+function _scoreEmail(){
+  try{ return (JSON.parse(localStorage.getItem('hub_session')||'{}').email||'').toLowerCase(); }catch(e){ return ''; }
+}
+
+function _scoreHoje(){
+  var d=new Date();
+  return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);
+}
+
+function _scoreRpc(fn, body){
+  return fetch(_SUPA_URL+'/rest/v1/rpc/'+fn,{
+    method:'POST',
+    headers:{'apikey':_SUPA_KEY,'Authorization':'Bearer '+_SUPA_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  }).then(function(r){ if(!r.ok) return r.text().then(function(t){ throw new Error('HTTP '+r.status+' '+t.slice(0,140)); }); return r.status===204?null:r.json(); });
+}
+
+function _scoreBlocoPaciente(){
+  var h='';
+  h+='<div style="border:1px solid var(--gray-100);border-radius:12px;padding:12px;margin-bottom:14px;background:var(--gray-50)">';
+  h+='<div style="font-size:10.5px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Paciente (para salvar no hist\u00f3rico)</div>';
+  h+='<div class="sf" style="margin-bottom:8px"><input type="text" id="pac_nome" placeholder="Nome completo do paciente" style="border:1px solid var(--gray-100);border-radius:9px;padding:10px 12px;font-family:Manrope,sans-serif;font-size:14px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box"></div>';
+  h+='<div class="sf" style="margin-bottom:0"><input type="date" id="pac_data" value="'+_scoreHoje()+'" style="border:1px solid var(--gray-100);border-radius:9px;padding:10px 12px;font-family:Manrope,sans-serif;font-size:14px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box"></div>';
+  h+='<div style="font-size:10.5px;color:var(--gray-500);margin-top:7px">Preenchendo o nome, o resultado fica salvo em <strong>Pacientes</strong>. Em branco, o score s\u00f3 \u00e9 calculado.</div>';
+  h+='</div>';
+  return h;
+}
+
+function _scoreNomeLegivel(key){
+  var m={act:'ACT',easi:'EASI',uas:'UAS7',uct:'UCT',scorad:'SCORAD',snot22:'SNOT-22',icpeUce:'ICPE-UCE',cortico:'Corticoide'};
+  return m[key]||key;
+}
+
+/* salva um resultado na lista de pacientes; nome vazio = não salva */
+function _scoreRegistrar(key, r, nomeForcado, dataForcada, detalhes, origem){
+  var email=_scoreEmail();
+  var nome=nomeForcado;
+  if(nome===undefined || nome===null){
+    var el=document.getElementById('pac_nome');
+    nome=el?el.value.trim():'';
+  }
+  if(!nome) return;
+  if(!email){ if(typeof toast==='function') toast('\ud83d\udd12','Entre na sua conta para salvar o score no hist\u00f3rico do paciente.'); return; }
+  var data=dataForcada;
+  if(data===undefined || data===null){
+    var dEl=document.getElementById('pac_data');
+    data=dEl?dEl.value:'';
+  }
+  var txt=String(r.score||'');
+  var num=parseFloat(txt.replace(',','.'));
+  if(isNaN(num)) num=null;
+  _scoreRpc('score_salvar',{
+    p_email:email, p_paciente:nome, p_score:_scoreNomeLegivel(key),
+    p_total:num, p_score_txt:txt, p_rotulo:(r.lbl||''),
+    p_detalhes:(detalhes||null), p_data:(data||null), p_origem:(origem||'medico')
+  }).then(function(){
+    if(typeof toast==='function') toast('\ud83d\udc64','Salvo em Pacientes: '+nome.split(' ')[0]+' \u00b7 '+_scoreNomeLegivel(key)+' '+txt);
+  }).catch(function(e){
+    if(typeof toast==='function') toast('\u26a0\ufe0f','N\u00e3o consegui salvar no hist\u00f3rico. '+(e.message||''));
+  });
+}
+
+
+/* ═════ Aba Pacientes ═════ */
+var _pacDados = [];
+
+function _pacCarregar(){
+  var box=document.getElementById('pacLista');
+  var email=_scoreEmail();
+  if(!email){
+    if(box) box.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px;line-height:1.6">\ud83d\udd12 Entre na sua conta para ver e guardar os scores dos seus pacientes.</div>';
+    return;
+  }
+  if(box) box.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">Carregando\u2026</div>';
+  _scoreRpc('score_pacientes',{p_email:email}).then(function(rows){
+    _pacDados = rows||[];
+    _pacRender();
+  }).catch(function(e){
+    if(box) box.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">N\u00e3o consegui carregar. '+(e.message||'')+'</div>';
+  });
+}
+
+function _pacRender(){
+  var box=document.getElementById('pacLista');
+  if(!box) return;
+  var q=(document.getElementById('pacBusca')||{}).value||'';
+  q=q.trim().toLowerCase();
+  var lista=_pacDados.filter(function(p){ return !q || (p.paciente_nome||'').toLowerCase().indexOf(q)>-1; });
+  if(!lista.length){
+    box.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px;line-height:1.6">'+(_pacDados.length?'Nenhum paciente com esse nome.':'Ainda n\u00e3o h\u00e1 scores salvos.<br><span style="font-size:11.5px">Abra um score, informe o nome do paciente e calcule \u2014 ele aparece aqui.</span>')+'</div>';
+    return;
+  }
+  var h='';
+  lista.forEach(function(p){
+    var ini=(p.paciente_nome||'?').trim().charAt(0).toUpperCase();
+    var d=p.ultimo?new Date(p.ultimo).toLocaleDateString('pt-BR'):'';
+    h+='<div class="guide-card" data-pac="1" style="cursor:pointer;margin-bottom:8px" onclick="_pacAbrir('+JSON.stringify(p.paciente_nome).replace(/"/g,'&quot;')+')">';
+    h+='<div style="display:flex;align-items:center;gap:12px">';
+    h+='<div style="min-width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,var(--aqua),var(--teal-mid));color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900">'+ini+'</div>';
+    h+='<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:800;color:var(--navy)">'+p.paciente_nome+'</div>';
+    h+='<div style="font-size:11.5px;color:var(--gray-500)">'+(p.scores||'').split(',').join(' \u00b7 ')+'</div></div>';
+    h+='<div style="text-align:right"><div style="font-size:11px;color:var(--gray-500)">'+d+'</div><div style="font-size:10.5px;color:var(--gray-300)">'+p.registros+' registro'+(p.registros>1?'s':'')+'</div></div>';
+    h+='</div></div>';
+  });
+  box.innerHTML=h;
+}
+
+function _pacAbrir(nome){
+  var sheet=document.getElementById('pacSheet');
+  var body=document.getElementById('pacSheetBody');
+  document.getElementById('pacSheetTitle').textContent=nome;
+  body.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">Carregando\u2026</div>';
+  sheet.classList.add('open');
+  _scoreRpc('score_do_paciente',{p_email:_scoreEmail(), p_paciente:nome}).then(function(rows){
+    rows=rows||[];
+    if(!rows.length){ body.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">Sem registros.</div>'; return; }
+    var porScore={};
+    rows.forEach(function(r){ (porScore[r.score]=porScore[r.score]||[]).push(r); });
+    var h='';
+    Object.keys(porScore).forEach(function(sc){
+      var itens=porScore[sc];
+      h+='<div style="margin-bottom:16px">';
+      h+='<div style="font-size:11px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">'+sc+' \u00b7 '+itens.length+'</div>';
+      itens.forEach(function(r){
+        var d=r.data_ref?r.data_ref.split('-').reverse().join('/'):new Date(r.created_at).toLocaleDateString('pt-BR');
+        h+='<div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--gray-100);border-radius:10px;margin-bottom:6px;background:#fff">';
+        h+='<div style="font-size:14px;font-weight:900;color:var(--navy);min-width:56px">'+(r.score_txt||r.total||'\u2014')+'</div>';
+        h+='<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700;color:var(--navy)">'+(r.rotulo||'')+'</div>';
+        h+='<div style="font-size:10.5px;color:var(--gray-500)">'+d+(r.origem==='paciente'?' \u00b7 respondido pelo paciente':'')+'</div></div>';
+        h+='<button onclick="_pacApagar('+r.id+',\''+nome.replace(/'/g,"\\'")+'\')" title="Apagar" style="background:none;border:none;color:var(--gray-300);font-size:14px;cursor:pointer;padding:0 2px">\ud83d\uddd1\ufe0f</button>';
+        h+='</div>';
+      });
+      h+='</div>';
+    });
+    body.innerHTML=h;
+  }).catch(function(e){
+    body.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">Erro ao carregar. '+(e.message||'')+'</div>';
+  });
+}
+
+function _pacApagar(id, nome){
+  _scoreRpc('score_apagar',{p_email:_scoreEmail(), p_id:id}).then(function(){
+    if(typeof toast==='function') toast('\ud83d\uddd1\ufe0f','Registro apagado.');
+    _pacAbrir(nome); _pacCarregar();
+  }).catch(function(){});
+}
+
+(function(){
+  var b=document.getElementById('pacSheetClose');
+  if(b) b.addEventListener('click', function(){ document.getElementById('pacSheet').classList.remove('open'); });
+})();
+
+
 function doCalc(){
   var s=SCORES[currentScore];if(!s)return;
   var vals;
@@ -7134,6 +7311,7 @@ function doCalc(){
   res.classList.add('show');
   if(s.special==='uas7'){ _uas7Salvar(r); }
   if(s.special==='snot22'){ _snot22RegistrarManual(r); }
+  else { _scoreRegistrar(currentScore, r, undefined, undefined, {valores:vals}); }
 }
 
 function closeModal(){document.getElementById('overlay').classList.remove('open');_uctPararPolling();_snot22PararPolling();}
