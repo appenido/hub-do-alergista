@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1a2e4a">
+<title>Controle da Urticária — UCT</title>
+<style>
+  :root{
+    --navy:#1a2e4a; --navy2:#2a4a6e; --teal:#3bbfcc; --teal-mid:#2a9fad; --aqua:#5ce0ec;
+    --gold:#d4a017; --red:#c0392b; --green:#16a085;
+    --bg:#f0f4f8; --card:#fff; --gray:#64748b; --light:#e2e8f0; --soft:#f7fafc;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--navy);min-height:100vh;padding-bottom:40px;-webkit-text-size-adjust:100%}
+  .header{background:linear-gradient(135deg,var(--navy),var(--navy2));padding:22px 18px 18px;text-align:center;color:#fff}
+  .header h1{font-size:19px;font-weight:800;letter-spacing:-.3px}
+  .header p{font-size:12.5px;opacity:.8;margin-top:4px}
+  .progress{margin:14px auto 0;max-width:280px}
+  .progress-bar{height:8px;background:rgba(255,255,255,.18);border-radius:6px;overflow:hidden}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--aqua));transition:width .4s}
+  .progress-txt{font-size:11.5px;opacity:.85;margin-top:6px}
+  .wrap{max-width:520px;margin:0 auto;padding:0 14px}
+  .card{background:var(--card);border-radius:16px;margin-top:14px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,.07)}
+  .intro{font-size:13.5px;line-height:1.6;color:var(--gray)}
+  .intro strong{color:var(--navy)}
+  label.lbl{display:block;font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+  input[type=text]{width:100%;border:1.5px solid var(--light);border-radius:10px;padding:11px 12px;font-size:16px;color:var(--navy);outline:none}
+  input[type=text]:focus{border-color:var(--teal)}
+  .q{border:1.5px solid var(--light);border-radius:14px;padding:13px;margin-top:12px;background:#fff}
+  .q.done{border-color:rgba(22,160,133,.4)}
+  .q-top{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+  .q-n{min-width:26px;height:26px;border-radius:8px;background:var(--soft);color:var(--gray);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px}
+  .q.done .q-n{background:var(--green);color:#fff}
+  .q-t{flex:1;font-size:14px;font-weight:600;line-height:1.45}
+  .opts{display:flex;flex-direction:column;gap:7px}
+  .ob{width:100%;text-align:left;border:1.5px solid var(--light);background:#fff;border-radius:10px;padding:11px 12px;font-size:13.5px;color:var(--navy);cursor:pointer;font-family:inherit;display:flex;gap:9px;align-items:center}
+  .ob b{min-width:20px;height:20px;border-radius:50%;background:var(--soft);color:var(--gray);font-size:11px;display:flex;align-items:center;justify-content:center}
+  .ob.sel{border-color:var(--teal);background:rgba(59,191,204,.08)}
+  .ob.sel b{background:var(--teal);color:#fff}
+  .btn{width:100%;margin-top:16px;border:none;border-radius:12px;padding:15px;font-size:15px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--teal-mid),var(--teal));cursor:pointer;font-family:inherit}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .msg{border-radius:10px;padding:11px 12px;font-size:13px;margin-top:10px}
+  .msg.err{background:rgba(192,57,43,.1);color:var(--red)}
+  .hidden{display:none}
+  .fim{text-align:center;padding:26px 16px}
+  .fim .n{font-size:38px;font-weight:900;color:var(--teal-mid)}
+  .fim .s{font-size:14px;line-height:1.6;color:var(--gray);margin-top:10px}
+  .footer{text-align:center;font-size:11px;color:var(--gray);margin-top:18px;padding:0 20px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Controle da Urticária — UCT</h1>
+  <p>4 perguntas sobre as últimas 4 semanas</p>
+  <div class="progress">
+    <div class="progress-bar"><div class="progress-fill" id="pFill"></div></div>
+    <div class="progress-txt" id="pTxt">0 de 4 respondidas</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="card" id="cardIntro">
+    <div class="intro"><strong>Responda pensando nas últimas 4 semanas.</strong> Não existe resposta certa ou errada — o resultado vai direto para o seu médico.</div>
+    <div style="margin-top:14px">
+      <label class="lbl" for="nome">Seu nome</label>
+      <input type="text" id="nome" placeholder="Nome completo" autocomplete="name">
+    </div>
+    <div id="msgBox"></div>
+  </div>
+
+  <div id="cardQ"></div>
+
+  <button class="btn" id="btnEnviar" disabled>Enviar ao meu médico</button>
+
+  <div class="card hidden" id="cardFim">
+    <div class="fim">
+      <div class="n" id="fimN"></div>
+      <div class="s" id="fimS"></div>
+    </div>
+  </div>
+
+  <div class="footer">UCT — Urticaria Control Test. Este questionário não substitui a avaliação médica.</div>
+</div>
+
+<script>
+(function(){
+  var SUPA_URL='https://jpdtqtenlivxgjkyizcg.supabase.co';
+  var SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwZHRxdGVubGl2eGdqa3lpemNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5MTg3NTMsImV4cCI6MjEwNjQ5NDc1M30.OCSGTv1HD6CLCbPVAgZwplkFMLGS0JuiT1XMRESYkWI';
+  var PERGUNTAS=[
+    {t:'Nas últimas 4 semanas, o quanto você sofreu com os sintomas físicos da urticária (coceira, placas, inchaço)?',
+     o:['Muitíssimo','Muito','Mais ou menos','Um pouco','Nada']},
+    {t:'Nas últimas 4 semanas, o quanto a sua qualidade de vida foi afetada pela urticária?',
+     o:['Muitíssimo','Muito','Mais ou menos','Um pouco','Nada']},
+    {t:'Nas últimas 4 semanas, com que frequência o tratamento para a urticária NÃO foi suficiente para controlar os sintomas?',
+     o:['Sempre','Com frequência','Às vezes','Raramente','Nunca']},
+    {t:'De modo geral, o quanto a sua urticária esteve controlada nas últimas 4 semanas?',
+     o:['Nada controlada','Pouco controlada','Mais ou menos controlada','Bem controlada','Completamente controlada']}
+  ];
+  var $=function(i){return document.getElementById(i);};
+  var sessao=(new URLSearchParams(location.search)).get('s')||('uct-'+Date.now());
+  var resp=[null,null,null,null];
+
+  var h='';
+  for(var i=0;i<4;i++){
+    h+='<div class="card q" id="q'+i+'"><div class="q-top"><div class="q-n">'+(i+1)+'</div><div class="q-t">'+PERGUNTAS[i].t+'</div></div><div class="opts">';
+    for(var v=0;v<5;v++){
+      h+='<button type="button" class="ob" data-q="'+i+'" data-v="'+v+'"><b>'+v+'</b><span>'+PERGUNTAS[i].o[v]+'</span></button>';
+    }
+    h+='</div></div>';
+  }
+  $('cardQ').innerHTML=h;
+
+  $('cardQ').addEventListener('click',function(e){
+    var b=e.target.closest('.ob'); if(!b) return;
+    var qi=parseInt(b.dataset.q), v=parseInt(b.dataset.v);
+    resp[qi]=v;
+    var box=$('q'+qi);
+    box.classList.add('done');
+    box.querySelectorAll('.ob').forEach(function(x){x.classList.toggle('sel',parseInt(x.dataset.v)===v);});
+    atualizar();
+  });
+
+  function respondidas(){var n=0;for(var i=0;i<4;i++){if(resp[i]!==null)n++;}return n;}
+  function atualizar(){
+    var n=respondidas();
+    $('pFill').style.width=Math.round(n/4*100)+'%';
+    $('pTxt').textContent=n+' de 4 respondidas';
+    $('btnEnviar').disabled=(n<4);
+  }
+
+  function interpretar(t){
+    if(t>=12) return 'Sua urticária parece bem controlada. Mantenha o tratamento e converse com seu médico na próxima consulta.';
+    if(t>=7)  return 'O controle ainda está insuficiente. Seu médico vai avaliar ajustes no tratamento.';
+    return 'Sua urticária não está controlada. Seu médico foi avisado e vai reavaliar o tratamento.';
+  }
+
+  $('btnEnviar').onclick=function(){
+    var nome=$('nome').value.trim();
+    if(!nome){ $('msgBox').innerHTML='<div class="msg err">Escreva seu nome antes de enviar.</div>'; $('nome').focus(); window.scrollTo({top:0,behavior:'smooth'}); return; }
+    var total=resp.reduce(function(a,b){return a+b;},0);
+    var btn=$('btnEnviar'); btn.disabled=true; btn.textContent='Enviando…';
+    $('msgBox').innerHTML='';
+    fetch(SUPA_URL+'/rest/v1/uct_results',{
+      method:'POST',
+      headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body:JSON.stringify({sessao_id:sessao,paciente_nome:nome,q1:resp[0],q2:resp[1],q3:resp[2],q4:resp[3]})
+    }).then(function(r){
+      if(!r.ok) return r.text().then(function(t){ throw new Error('HTTP '+r.status+(t?' — '+t.slice(0,180):'')); });
+      $('cardIntro').classList.add('hidden');
+      $('cardQ').classList.add('hidden');
+      btn.classList.add('hidden');
+      $('fimN').textContent=total+'/16';
+      $('fimS').innerHTML='<strong>Obrigado, '+nome.split(' ')[0]+'!</strong><br>Suas respostas foram enviadas ao seu médico.<br>'+interpretar(total);
+      $('cardFim').classList.remove('hidden');
+      window.scrollTo({top:0,behavior:'smooth'});
+    }).catch(function(err){
+      btn.disabled=false; btn.textContent='Enviar ao meu médico';
+      $('msgBox').innerHTML='<div class="msg err">Não foi possível enviar. Verifique sua internet e tente de novo.<br><span style="font-size:11px;opacity:.8">'+(err&&err.message?err.message:'')+'</span></div>';
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  };
+})();
+</script>
+</body>
+</html>
