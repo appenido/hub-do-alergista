@@ -29,6 +29,7 @@ const CHAVES = /(^|[^a-zà-ú])(alergi\w*|al[ée]rgic\w*|anafila\w*|anafil[áa]t
 const INSTITUCIONAIS = /(\.gov\.br$|\.gov$|^gov\.br$|asbai\.org|sbp\.com\.br|\bsbi\.org|scielo|doaj\.org|elsevier|pubmed|ncbi\.nlm\.nih\.gov|prnewswire|segs\.com\.br|\.edu\.br$|blogspot\.com$|wordpress\.com$|agenciaminas\.mg\.gov\.br)/i;
 const ESTRANGEIROS = /(vietnam\.vn|investing\.com|publico\.pt|observador\.pt|sapo\.pt|\.vn$|\.pt$|\.es$|\.ao$|\.mz$)/i;
 const VETERINARIO = /(cão|cães|gato\b|gatos\b|veterinári|pet\b|tutor de animais|caesegatos\.com\.br|petlove|portalpet)/i;
+const ONCOLOGIA = /(c[âa]ncer|oncol[óo]gic\w*|quimioterapia|radioterapia|tumor(?!al da al)|neoplasia|carcinoma|melanoma|metast[áa]tic\w*)/i;
 const BR_OK = ['globo.com','uol.com.br','metropoles.com','terra.com.br','r7.com','ig.com.br','band.com.br','cnnbrasil.com.br','estadao.com.br','abril.com.br','ebc.com.br','billboard.com.br','gauchazh.clicrbs.com.br','clicrbs.com.br'];
 
 const limpar = (t) => (t||'').replace(/<!\[CDATA\[|\]\]>/g,'').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&#39;/g,"'").replace(/&quot;/g,'"').trim();
@@ -43,6 +44,7 @@ function itensDoRss(xml){
     let titulo = pega('title'); if (!titulo) continue;
     const descRaw = (b.match(/<description[^>]*>([\s\S]*?)<\/description>/) || [])[1] || '';
     if (!CHAVES.test(titulo + ' ' + limpar(descRaw))) continue;
+    if (ONCOLOGIA.test(titulo + ' ' + limpar(descRaw))) continue;   // oncologia não é escopo de alergia/imunologia clínica
     out.push({
       titulo: titulo.replace(/\s+-\s+[^-]+$/, '').trim(),
       fonte: pega('source'),

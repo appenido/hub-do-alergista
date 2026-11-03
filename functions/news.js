@@ -21,7 +21,9 @@ const FONTES = [
 ];
 
 // palavras inteiras (evita casar "asma" dentro de "plasma")
-const CHAVES = /(^|[^a-zà-ú])(alergi\w*|al[ée]rgic\w*|anafila\w*|anafil[áa]tic\w*|urtic[áa]ri\w*|asma|asm[áa]tic\w*|rinite|dermatite|imunodefici\w*|imunoterapia|imunobiol[óo]gic\w*|angioedema|bronco?espasmo)([^a-zà-ú]|$)/i;
+const CHAVES = /(^|[^a-zà-ú])(alergi\w*|al[ée]rgic\w*|anafila\w*|anafil[áa]tic\w*|urtic[áa]ri\w*|asma|asm[áa]tic\w*|rinite|dermatite|imunodefici\w*|imunoterapia (?:alerg|sublingual|subcut|com al[ée]rgeno)\w*|imunobiol[óo]gic\w*|angioedema|bronco?espasmo)([^a-zà-ú]|$)/i;
+// exclui conteúdo de oncologia (câncer), que não é escopo de alergia/imunologia clínica
+const ONCOLOGIA = /(c[âa]ncer|oncol[óo]gic\w*|quimioterapia|radioterapia|tumor(?!al da al)|neoplasia|carcinoma|melanoma|metast[áa]tic\w*)/i;
 
 function limpar(t) {
   return (t || '').replace(/<!\[CDATA\[|\]\]>/g, '').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').trim();
@@ -40,6 +42,7 @@ function extrair(xml, nomeFonte) {
     const desc = pega('description');
     const alvo = titulo + ' ' + desc;
     if (!CHAVES.test(alvo)) continue;
+    if (ONCOLOGIA.test(alvo)) continue;
     const data = pega('pubDate');
     const ts = Date.parse(data);
     // só notícias dos últimos 120 dias
