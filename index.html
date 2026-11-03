@@ -581,6 +581,17 @@ body{
   line-height:1.6;display:flex;gap:9px;
 }
 
+#layerBack{
+  position:fixed;top:10px;left:12px;z-index:9999;
+  width:38px;height:38px;border-radius:11px;
+  background:rgba(13,31,45,.92);border:1px solid rgba(255,255,255,.18);
+  color:#fff;font-size:22px;line-height:1;
+  display:none;align-items:center;justify-content:center;
+  cursor:pointer;font-family:'Manrope',sans-serif;
+  box-shadow:0 4px 14px rgba(0,0,0,.25);
+}
+#layerBack.visible{display:flex;}
+#layerBack:active{background:rgba(13,31,45,1);}
 /* ── MODAL OVERLAY ── */
 .overlay{
   position:fixed;inset:0;background:rgba(13,31,45,.6);
@@ -5124,8 +5135,68 @@ window.navTo = navTo;
 
 window.addEventListener('popstate', function(){
   if(_ignorePop){ _ignorePop = false; return; }
+  if(window._fecharLayerTopo && window._fecharLayerTopo()) return;
   if(_guards > 0){ _guards--; _doBack(); }
 });
+
+/* ══ Camadas (modais, sheets, painéis): botão voltar do celular + seta ‹ ══
+   Qualquer elemento de camada que ganhe a classe .open cria uma entrada no
+   histórico; o botão físico/gesto de voltar fecha a camada do topo. */
+var _fechandoPorPop = false;
+(function(){
+  var SEL = '.overlay,.ai-sheet,#resumoSheet,#chatPanel';
+  var abertos = [];
+  window._layersAbertos = abertos;
+
+  var seta = document.createElement('button');
+  seta.id = 'layerBack';
+  seta.setAttribute('aria-label','Voltar');
+  seta.innerHTML = '\u2039';
+  seta.addEventListener('click', function(){ if(window._fecharLayerTopo) window._fecharLayerTopo(true); });
+  document.body.appendChild(seta);
+
+  function temVoltarProprio(el){
+    if(!el) return false;
+    var bs = el.querySelectorAll('button,.ai-sheet-close,.modal-close');
+    for(var i=0;i<bs.length;i++){
+      var t = (bs[i].textContent||'').toLowerCase();
+      if(t.indexOf('voltar')>-1 || t.indexOf('\u2039')>-1 || t.indexOf('\u2190')>-1) return true;
+    }
+    return false;
+  }
+  function atualizarSeta(){
+    var topo = abertos[abertos.length-1];
+    if(topo && !temVoltarProprio(topo)) seta.classList.add('visible');
+    else seta.classList.remove('visible');
+  }
+
+  window._fecharLayerTopo = function(manual){
+    var el = abertos[abertos.length-1];
+    if(!el) return false;
+    if(manual){ el.classList.remove('open'); return true; }
+    _fechandoPorPop = true;
+    try{ el.classList.remove('open'); } finally { _fechandoPorPop = false; }
+    return true;
+  };
+
+  var obs = new MutationObserver(function(muts){
+    muts.forEach(function(m){
+      var el = m.target;
+      if(!el || !el.matches || !el.matches(SEL)) return;
+      var aberto = el.classList.contains('open');
+      var i = abertos.indexOf(el);
+      if(aberto && i < 0){
+        abertos.push(el);
+        try{ history.pushState({hubLayer:true}, ''); }catch(e){}
+      } else if(!aberto && i >= 0){
+        abertos.splice(i,1);
+        if(!_fechandoPorPop){ _ignorePop = true; try{ history.back(); }catch(e){ _ignorePop = false; } }
+      } else { return; }
+      atualizarSeta();
+    });
+  });
+  obs.observe(document.body, {subtree:true, attributes:true, attributeFilter:['class']});
+})();
 // Badge de data dinâmica nos Guidelines
 (function(){
   var el=document.getElementById('gl-date-text');

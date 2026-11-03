@@ -1,5 +1,6 @@
 // Rede primeiro: sempre entrega a versão publicada mais nova; o cache só é usado offline.
->>>> 409573f (feat(ig): menu hub com 3 opções + bulas ANVISA IV/SC)
+const CACHE = 'hub-alergista-v107';
+const CACHE = 'hub-alergista-v106';
 const ASSETS = ['./', 'index.html', 'uas7-paciente.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {
