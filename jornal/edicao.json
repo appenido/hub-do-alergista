@@ -11,16 +11,6 @@
    "titulo": "Inflamação tipo 2 pode desencadear doenças como asma e dermatite atópica",
    "fonte": "Metrópoles",
    "data": "29/10/2026"
-  },
-  {
-   "titulo": "Recomendação para atualizar informações sobre riscos de alergias após relações sexuais",
-   "fonte": "FATÍVIA",
-   "data": "31/10/2026"
-  },
-  {
-   "titulo": "Alimentação mudada: novos ingredientes e alérgenos desconhecidos serão alvo de estudo",
-   "fonte": "BRA 1",
-   "data": "27/10/2026"
   }
  ],
  "editorial": "Edição de 27 de outubro a 2 de novembro de 2026, com matérias da imprensa brasileira verificadas uma a uma: veículo, título e data original de publicação.",
@@ -32,30 +22,6 @@
    "url": "https://www.metropoles.com/saude/inflamacao-tipo-2-pode-desencadear-doencas-como-asma-e-dermatite-atopica",
    "resumo": "Reportagem sobre inflamação tipo 2 e sua relação com asma, dermatite atópica e rinossinusite.",
    "destaque": true
-  },
-  {
-   "manchete": "Recomendação para atualizar informações sobre riscos de alergias após relações sexuais",
-   "fonte": "FATÍVIA",
-   "data": "31/10/2026",
-   "url": "https://www.fativia.com/noticia/recomendacao-para-atualizar-informacoes-sobre-riscos-de-alergias-apos-relacoes-sexuais",
-   "resumo": "Anafilaxia associada à exposição à amoxicilina pelo fluido seminal e proposta de incluir o risco em bula. Conteúdo derivado da New Scientist.",
-   "destaque": false
-  },
-  {
-   "manchete": "Demi Lovato é hospitalizada após reação alérgica e preocupa fãs",
-   "fonte": "Rádio Itatiaia",
-   "data": "28/10/2026",
-   "url": "https://www.itatiaia.com.br/entretenimento/demi-lovato-e-hospitalizada-apos-reacao-alergica-e-preocupa-fas/",
-   "resumo": "Possível reação alérgica com atendimento hospitalar; causa não confirmada.",
-   "destaque": false
-  },
-  {
-   "manchete": "Alimentação mudada: novos ingredientes e alérgenos desconhecidos serão alvo de estudo",
-   "fonte": "BRA 1",
-   "data": "27/10/2026",
-   "url": "https://www.bra1.com.br/geral/id-716194/alimentacao_mudada__novos_ingredientes_e_alergenos_desconhecidos_serao_alvo_de_estudo",
-   "resumo": "Alérgenos emergentes e alimentos pouco estudados entram na pauta do congresso da ASBAI.",
-   "destaque": false
   }
  ],
  "fato_ou_exagero": {
