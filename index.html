@@ -2447,7 +2447,14 @@ window._mostrarApp = function(){
       <div class="ig-form-tit">Dados do paciente</div>
 
       <div class="ig-f-row"><label>Nome do paciente</label>
-        <input type="text" id="igNome" placeholder="Nome completo"></div>
+        <div style="display:flex;gap:6px;position:relative">
+          <input type="text" id="igNome" placeholder="Nome completo" autocomplete="off"
+            oninput="igNomeAutoComplete(this.value)" style="flex:1">
+          <button type="button" onclick="igCarregarPaciente()" title="Carregar dados salvos"
+            style="background:var(--teal-mid);color:#fff;border:none;border-radius:9px;padding:0 12px;font-size:18px;cursor:pointer;flex-shrink:0">⬇</button>
+        </div>
+        <div id="igNomeSugs" style="display:none;position:absolute;background:#fff;border:1.5px solid var(--teal-mid);border-radius:10px;z-index:500;width:100%;max-height:160px;overflow-y:auto;box-shadow:0 4px 16px rgba(0,0,0,.12)"></div>
+      </div>
 
       <div class="ig-f-2">
         <div class="ig-f-row"><label>Idade</label>
@@ -3502,24 +3509,66 @@ function _enderecoPreencher(u){
 /* ── Seletor visual de imunoglobulina ───────────── */
 var IG_MARCA = {csl:['CSL','#b0181f'],octa:['OCTAPHARMA','#0b4f9e'],takeda:['TAKEDA','#b2122d'],grifols:['GRIFOLS','#0a6b5a'],lfb:['LFB','#1d3f8f'],baxter:['BAXTER','#1f5fa8'],kedrion:['KEDRION','#117a5b']};
 var IG_PRODUTOS = {
-  privigen_10:   {nome:'Privigen 10%',   conc:'10%', via:'IV'},
-  octagam_10:    {nome:'Octagam 10%',    conc:'10%', via:'IV'},
-  kiovig_10:     {nome:'Kiovig 10%',     conc:'10%', via:'IV'},
-  flebogamma_10: {nome:'Flebogamma 10%', conc:'10%', via:'IV'},
-  tegeline_5:    {nome:'Tégéline 5%',    conc:'5%',  via:'IV'},
-  endobulin_5:   {nome:'Endobulin 5%',   conc:'5%',  via:'IV'},
-  gammaked_10:   {nome:'Gammaked 10%',   conc:'10%', via:'IV'},
-  gamunex_10:    {nome:'Gamunex-C 10%',  conc:'10%', via:'IV'},
-  hizentra_20:   {nome:'Hizentra 20%',   conc:'20%', via:'SC'},
-  cuvitru_20:    {nome:'Cuvitru 20%',    conc:'20%', via:'SC'},
-  hyqvia_10:     {nome:'HyQvia 10%',     conc:'10%', via:'SC'},
-  gammanorm_165: {nome:'Gammanorm 16,5%',conc:'16.5%',via:'SC'}
+  privigen_10:   {nome:'Privigen 10%',   conc:'10%',   via:'IV', mL:[50,100,200,400]},
+  octagam_10:    {nome:'Octagam 10%',    conc:'10%',   via:'IV', mL:[20,50,100,200,500]},
+  kiovig_10:     {nome:'Kiovig 10%',     conc:'10%',   via:'IV', mL:[10,25,50,100,200,400]},
+  flebogamma_10: {nome:'Flebogamma 10%', conc:'10%',   via:'IV', mL:[50,100,200,400]},
+  tegeline_5:    {nome:'Tégéline 5%',    conc:'5%',    via:'IV', mL:[50,100,200]},
+  endobulin_5:   {nome:'Endobulin 5%',   conc:'5%',    via:'IV', mL:[50,100,200,400]},
+  gammaked_10:   {nome:'Gammaked 10%',   conc:'10%',   via:'IV', mL:[10,25,50,100,200]},
+  gamunex_10:    {nome:'Gamunex-C 10%',  conc:'10%',   via:'IV', mL:[10,25,50,100,200]},
+  hizentra_20:   {nome:'Hizentra 20%',   conc:'20%',   via:'SC', mL:[5,10,20,50]},
+  cuvitru_20:    {nome:'Cuvitru 20%',    conc:'20%',   via:'SC', mL:[10,20,50]},
+  hyqvia_10:     {nome:'HyQvia 10%',     conc:'10%',   via:'SC', mL:[25,50,100,200,300,400]},
+  gammanorm_165: {nome:'Gammanorm 16,5%',conc:'16.5%', via:'SC', mL:[10,20,50]}
 };
 var IG_LOGO_IMG = {csl:'img/csl.png',takeda:'img/takeda.png',octa:'img/octa.png',grifols:'img/grifols.png',kedrion:'img/kedrion.png',baxter:'img/baxter.png',lfb:'img/lfb.png'};
 var IG_LOGO = {privigen_10:'csl',octagam_10:'octa',kiovig_10:'takeda',flebogamma_10:'grifols',tegeline_5:'lfb',endobulin_5:'baxter',gammaked_10:'grifols',gamunex_10:'grifols',hizentra_20:'csl',cuvitru_20:'takeda',hyqvia_10:'takeda',gammanorm_165:'octa'};
 var IG_FABRICANTE = {privigen_10:'CSL Behring',octagam_10:'Octapharma',kiovig_10:'Takeda',flebogamma_10:'Grifols',
   tegeline_5:'LFB · SUS',endobulin_5:'Baxter',gammaked_10:'Grifols/Kedrion',gamunex_10:'Grifols',
   hizentra_20:'CSL Behring',cuvitru_20:'Takeda',hyqvia_10:'Takeda · c/ hialuronidase',gammanorm_165:'Octapharma'};
+function igNomeAutoComplete(val){
+  var box = document.getElementById('igNomeSugs');
+  if(!box) return;
+  if(!val || val.length < 2){ box.style.display='none'; return; }
+  try{
+    var hist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
+    var matches = Object.values(hist).filter(function(p){
+      return p.nome.toLowerCase().indexOf(val.toLowerCase())>=0;
+    });
+    if(!matches.length){ box.style.display='none'; return; }
+    box.innerHTML = '';
+    matches.forEach(function(p){
+      var div = document.createElement('div');
+      div.style.cssText = 'padding:8px 12px;cursor:pointer;border-bottom:1px solid var(--gray-100);font-size:13px';
+      div.innerHTML = '<b>'+p.nome+'</b><span style="color:var(--gray-500);font-size:11px;margin-left:8px">'+
+        (p.dx||'')+(p.peso?' · '+p.peso+' kg':'')+(p.ultima?' · '+p.ultima:'')+'</span>';
+      (function(pn){ div.onclick = function(){ igSelecionarPaciente(pn); }; })(p.nome);
+      box.appendChild(div);
+    });
+    box.style.display = 'block';
+  }catch(e){ box.style.display='none'; }
+}
+function igSelecionarPaciente(nome){
+  var box = document.getElementById('igNomeSugs');
+  if(box) box.style.display='none';
+  try{
+    var hist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
+    var p = hist[nome.toLowerCase()];
+    if(!p) return;
+    var set = function(id,v){ var el=document.getElementById(id); if(el&&v!=null) el.value=v; };
+    set('igNome',p.nome); set('igIdade',p.idade); set('igIdadeUn',p.idUn);
+    set('igPeso',p.peso); set('igDx',p.dx); set('igIgG',p.igG);
+    set('igVia',p.via); set('igProduto',p.produto);
+    if(p.produto) renderIgPicker();
+    toast('👤','Paciente carregado');
+  }catch(e){}
+}
+function igCarregarPaciente(){
+  var nome = (document.getElementById('igNome')||{}).value||'';
+  igSelecionarPaciente(nome.trim());
+}
+
 function renderIgPicker(){
   var box = document.getElementById('igProdutoPicker');
   if(!box) return;
@@ -5741,6 +5790,31 @@ function gerarOrientacaoIg(){
   h += '<div class="ig-big" style="font-size:1rem;margin-bottom:6px">Dose calculada</div>';
   h += kv('Dose', mgkg+' mg/kg → <b>'+doseG+' g</b>');
   if(volML) h += kv('Volume', volML+' mL ('+prod.conc+')');
+  // Cálculo de frascos
+  function calcAmpolas(volTotal, disponiveis){
+    var sorted = disponiveis.slice().sort(function(a,b){return b-a;});
+    var best = null, bestWaste = Infinity;
+    function combo(rest, idx, acc){
+      if(rest <= 0){ var w=-rest; if(w<bestWaste){bestWaste=w;best=acc.slice();} return; }
+      if(idx>=sorted.length) return;
+      var maxN = Math.ceil(rest/sorted[idx]);
+      for(var n=maxN;n>=1;n--){
+        acc.push({v:sorted[idx],n:n});
+        combo(rest-n*sorted[idx], idx+1, acc);
+        acc.pop();
+      }
+      combo(rest, idx+1, acc);
+    }
+    combo(volTotal,0,[]);
+    return best;
+  }
+  var ampolasInfo = (prod && prod.mL) ? calcAmpolas(volML, prod.mL) : null;
+  if(ampolasInfo && ampolasInfo.length){
+    var aStr = ampolasInfo.map(function(x){ return x.n+'× '+x.v+' mL'; }).join(' + ');
+    var aTotal = ampolasInfo.reduce(function(t,x){ return t+x.n*x.v; },0);
+    var sobraStr = (aTotal > volML) ? ' (sobra '+(aTotal-volML)+' mL)' : '';
+    h += kv('Frascos necessários', '<b>'+aStr+'</b> = '+aTotal+' mL'+sobraStr);
+  }
   h += kv('Frequência', info.freq);
 
   if(!isNaN(igG)){
@@ -5774,6 +5848,19 @@ function gerarOrientacaoIg(){
 
   var out = document.getElementById('igSaida');
   if(out){ out.innerHTML = h; out.style.display = 'block'; out.scrollIntoView({behavior:'smooth',block:'start'}); }
+  // Salvar histórico do paciente
+  if(nome && nome !== '(não informado)'){
+    try{
+      var igHist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
+      var chave = nome.trim().toLowerCase();
+      igHist[chave] = {
+        nome:nome.trim(), idade:isNaN(idade)?'':idade, idUn:idUn, peso:peso,
+        dx:dx, igG:isNaN(igG)?null:igG, via:via,
+        produto:prod_k, ultima:new Date().toLocaleDateString('pt-BR')
+      };
+      localStorage.setItem('igPacientes', JSON.stringify(igHist));
+    }catch(e){}
+  }
   toast('✅','Orientações geradas');
 }
 
