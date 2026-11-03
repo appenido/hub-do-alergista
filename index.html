@@ -3856,17 +3856,17 @@ var _glCarregado = '';
 var _GL_ITENS_KEY = 'hub_gl_itens';  // {dia, itens[]} — expira a cada novo dia
 var _GL_PT_KEY    = 'hub_gl_pt';     // {dia, map{}} — expira a cada novo dia
 var _GL_TOPICOS = [
-  ['asma', ['asthma','asthmat','wheez']],
-  ['da', ['atopic dermatitis','eczema','dermatite']],
-  ['urticaria', ['urticaria','angioedema','hives','urticária']],
-  ['anafilaxia', ['anaphyla','anafila']],
-  ['himen', ['hymenoptera','venom','bee sting','himenóp']],
-  ['rinite', ['rhinitis','rhinosinusitis','rinite','nasal polyp']],
-  ['aa', ['food allergy','food allerg','cow milk','peanut','oral immunotherapy','alimentar']],
-  ['eii', ['immunodeficiency','inborn errors of immunity','imunodefici']],
-  ['medicam', ['drug allergy','drug hypersensitivity','penicillin','medicament','antibiotic allergy','beta-lactam','aspirin','nsaid','nonsteroidal','radiocontrast','delabel']],
-  ['masto', ['mastocytosis','mast cell','mastocit']],
-  ['eoe', ['eosinophilic esophagitis','eosinofílica']]
+  ['asma', ['asthma','asthmat','wheez','wheezing','gina','bronchial','tezepelumab','benralizumab','mepolizumab','reslizumab','abpa','allergic bronchopulmonary','omalizumab','severe asthma','eosinophilic asthma','occupational asthma']],
+  ['da', ['atopic dermatitis','eczema','atopic eczema','dermatite','dupilumab','tralokinumab','lebrikizumab','abrocitinib','upadacitinib','baricitinib','dermatology','skin barrier','filaggrin','contact dermatitis','patch test']],
+  ['urticaria', ['urticaria','angioedema','hives','urticária','chronic urticaria','csu','hereditary angioedema','hae','bradykinin','omalizumab urticaria','uas7','uct','aicd','cold urticaria','cholinergic']],
+  ['anafilaxia', ['anaphyla','anafila','epinephrine','epipen','adrenaline','biphasic','food-induced anaphylaxis','exercise-induced']],
+  ['himen', ['hymenoptera','venom allergy','bee sting','wasp venom','himenóp','apidae','vespidae','ant sting','insect sting']],
+  ['rinite', ['rhinitis','rhinosinusitis','rinite','nasal polyp','aria','nasal','sinusitis','chronic rhinosinusitis','polyposis','nasal congestion','intranasal']],
+  ['aa', ['food allergy','food hypersensitivity','food-induced','cow milk','peanut','tree nut','milk allergy','egg allergy','wheat allergy','sesame','shellfish','fish allergy','oral immunotherapy','sublingual immunotherapy','epicutaneous immunotherapy','oit','slit','epit','allergen immunotherapy','alergia alimentar']],
+  ['eii', ['immunodeficiency','inborn errors of immunity','primary immunodeficiency','common variable','agammaglobulinemia','hypogammaglobulinemia','igg subclass','imunodefici','wiskott','ataxia telangiectasia','good syndrome','scid','bruton','ivig','subcutaneous immunoglobulin']],
+  ['medicam', ['drug allergy','drug hypersensitivity','drug reaction','penicillin allergy','antibiotic allergy','beta-lactam','aspirin hypersensitivity','nsaid','nonsteroidal','radiocontrast','delabeling','drug desensitization','dress','sjs','ten','stevens-johnson','drug rash','drug-induced','medicament','allergy label']],
+  ['masto', ['mastocytosis','mast cell activation','mastocit','tryptase','kit mutation','urticaria pigmentosa','systemic mastocytosis','mcas']],
+  ['eoe', ['eosinophilic esophagitis','eosinophilic gastrointestinal','esofagite eosinofílica','eosinophilia','hypereosinophilic','eosinophil','dupilumab eosinophilic']]
 ];
 function _glTopico(txt){
   var t = String(txt||'').toLowerCase();
@@ -3954,14 +3954,69 @@ function carregarGuidelinesLive(){
   } else { return; }  // já carregado nesta sessão JS
   var ini = new Date(hoje.getFullYear()-3, hoje.getMonth(), hoje.getDate());
   var fmt = function(d){ return d.getFullYear() + '/' + ('0'+(d.getMonth()+1)).slice(-2) + '/' + ('0'+d.getDate()).slice(-2); };
-  // Nota: guideline[pt] só indexa DEPOIS que o PubMed processa o artigo (semanas/meses).
-  // Por isso incluímos também palavras-chave no título E no abstract para capturar
-  // publicações recentes (ex: JACI, EAACI, WAO) antes da indexação do Publication Type.
-  var termoDoenca = '(allergy[tiab] OR allergic[tiab] OR asthma[tiab] OR urticaria[tiab] OR "atopic dermatitis"[tiab] OR anaphylaxis[tiab] OR immunodeficiency[tiab] OR "eosinophilic esophagitis"[tiab] OR angioedema[tiab] OR "food allergy"[tiab] OR "drug allergy"[tiab] OR "drug hypersensitivity"[tiab] OR rhinitis[tiab] OR "venom allergy"[tiab] OR mastocytosis[tiab])';
-  var termoDiretriz = '(guideline[pt] OR "practice guideline"[pt] OR guideline[ti] OR guidelines[ti] OR consensus[ti] OR "practice parameter"[ti] OR "position paper"[ti] OR "position statement"[ti] OR "expert opinion"[ti] OR "clinical practice"[ti] OR "management of"[ti] OR "diagnosis and management"[ti] OR recommendation[ti] OR recommendations[ti])';
+  // Query abrangente: cobre todas as grandes revistas e sociedades de alergia/imunologia.
+  // Usa palavras-chave no título (não só [pt]) para capturar artigos recentes ainda
+  // sem indexação de Publication Type pelo PubMed.
+  //
+  // DOENÇAS cobertas: asma, DA, urticária/angioedema, anafilaxia, rinite/rinossinusite,
+  // alergia alimentar, alergia a medicamentos/hiposensibilização, imunodeficiência,
+  // EOE, mastocitose, alergia a veneno, alergia a látex, alergia ocupacional,
+  // imunoterapia, biologicos/biológicos (omalizumabe, dupilumabe, etc.)
+  //
+  // REVISTAS/SOCIEDADES: JACI, JACI-In Practice, Allergy (EAACI), JACI Open,
+  // Clinical & Experimental Allergy, Pediatric Allergy & Immunology,
+  // Annals of Allergy Asthma & Immunology (AAAAI), WAO Journal,
+  // NEJM, Lancet, BMJ, JAMA, Nature Medicine, Nature Immunology,
+  // Journal of Clinical Immunology, Frontiers in Allergy/Immunology,
+  // Clinical Immunology, Allergologia et Immunopathologia, Revistaas brasileiras (ASBAI)
+  // — capturadas automaticamente por termo de doença + tipo de documento.
+  var termoDoenca = '(' +
+    '"allergy"[tiab] OR "allergic"[tiab] OR "allergies"[tiab] OR ' +
+    '"asthma"[tiab] OR "asthmatic"[tiab] OR "wheeze"[tiab] OR "wheezing"[tiab] OR ' +
+    '"atopic dermatitis"[tiab] OR "eczema"[tiab] OR "atopic eczema"[tiab] OR ' +
+    '"urticaria"[tiab] OR "hives"[tiab] OR "angioedema"[tiab] OR ' +
+    '"anaphylaxis"[tiab] OR "anaphylactic"[tiab] OR ' +
+    '"rhinitis"[tiab] OR "allergic rhinitis"[tiab] OR "rhinosinusitis"[tiab] OR "nasal polyp"[tiab] OR ' +
+    '"food allergy"[tiab] OR "food hypersensitivity"[tiab] OR "food-induced"[tiab] OR ' +
+    '"peanut allergy"[tiab] OR "tree nut allergy"[tiab] OR "milk allergy"[tiab] OR "egg allergy"[tiab] OR ' +
+    '"oral immunotherapy"[tiab] OR "sublingual immunotherapy"[tiab] OR "allergen immunotherapy"[tiab] OR ' +
+    '"drug allergy"[tiab] OR "drug hypersensitivity"[tiab] OR "drug reaction"[tiab] OR ' +
+    '"penicillin allergy"[tiab] OR "antibiotic allergy"[tiab] OR "beta-lactam"[tiab] OR ' +
+    '"NSAIDs hypersensitivity"[tiab] OR "aspirin hypersensitivity"[tiab] OR "radiocontrast"[tiab] OR ' +
+    '"drug desensitization"[tiab] OR "delabeling"[tiab] OR ' +
+    '"venom allergy"[tiab] OR "hymenoptera"[tiab] OR "bee sting"[tiab] OR "wasp venom"[tiab] OR ' +
+    '"immunodeficiency"[tiab] OR "inborn errors of immunity"[tiab] OR "primary immunodeficiency"[tiab] OR ' +
+    '"common variable immunodeficiency"[tiab] OR "agammaglobulinemia"[tiab] OR ' +
+    '"eosinophilic esophagitis"[tiab] OR "eosinophilic gastrointestinal"[tiab] OR ' +
+    '"mastocytosis"[tiab] OR "mast cell"[tiab] OR "mast cell activation"[tiab] OR ' +
+    '"latex allergy"[tiab] OR "occupational allergy"[tiab] OR "occupational asthma"[tiab] OR ' +
+    '"omalizumab"[tiab] OR "dupilumab"[tiab] OR "benralizumab"[tiab] OR "mepolizumab"[tiab] OR ' +
+    '"reslizumab"[tiab] OR "tezepelumab"[tiab] OR "tralokinumab"[tiab] OR "lebrikizumab"[tiab] OR ' +
+    '"biologic"[tiab] OR "biologics"[tiab] OR "monoclonal antibody"[tiab] OR ' +
+    '"contact dermatitis"[tiab] OR "patch test"[tiab] OR "epicutaneous"[tiab] OR ' +
+    '"ABPA"[tiab] OR "allergic bronchopulmonary"[tiab] OR ' +
+    '"hereditary angioedema"[tiab] OR "HAE"[tiab] OR ' +
+    '"eosinophil"[tiab] OR "eosinophilia"[tiab] OR "hypereosinophilic"[tiab]' +
+  ')';
+  var termoDiretriz = '(' +
+    'guideline[pt] OR "practice guideline"[pt] OR ' +
+    'guideline[ti] OR guidelines[ti] OR ' +
+    'consensus[ti] OR ' +
+    '"practice parameter"[ti] OR "practice parameters"[ti] OR ' +
+    '"position paper"[ti] OR "position statement"[ti] OR ' +
+    '"expert opinion"[ti] OR "expert consensus"[ti] OR ' +
+    '"clinical practice guideline"[ti] OR ' +
+    '"evidence-based"[ti] OR ' +
+    '"systematic review"[ti] OR "meta-analysis"[ti] OR ' +
+    '"management of"[ti] OR "diagnosis and management"[ti] OR ' +
+    '"diagnosis and treatment"[ti] OR ' +
+    'recommendation[ti] OR recommendations[ti] OR ' +
+    '"EAACI guidelines"[ti] OR "AAAAI guidelines"[ti] OR "WAO guidelines"[ti] OR ' +
+    '"GINA"[tiab] OR "ARIA"[tiab] OR "GRADE"[tiab]' +
+  ')';
   var termo = termoDoenca + ' AND ' + termoDiretriz;
   var base = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
-  fetch(base + 'esearch.fcgi?db=pubmed&retmode=json&retmax=60&sort=pub_date&datetype=pdat&mindate=' + fmt(ini) + '&maxdate=' + fmt(hoje) + '&term=' + encodeURIComponent(termo))
+  fetch(base + 'esearch.fcgi?db=pubmed&retmode=json&retmax=100&sort=pub_date&datetype=pdat&mindate=' + fmt(ini) + '&maxdate=' + fmt(hoje) + '&term=' + encodeURIComponent(termo))
     .then(function(r){ return r.json(); })
     .then(function(d){
       var ids = (d.esearchresult && d.esearchresult.idlist) || [];
