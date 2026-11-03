@@ -959,6 +959,7 @@ window._mostrarApp = function(){
       <div class="qcard" data-nav="assistente"><div class="qi qi-gold">🤖</div><div class="ql">Assistente IA</div></div>
       <div class="qcard" data-nav="artigos"><div class="qi qi-teal">📄</div><div class="ql">Artigos</div></div>
       <div class="qcard" data-nav="guidelines"><div class="qi qi-navy">📋</div><div class="ql">Guidelines</div></div>
+      <div class="qcard" data-nav="eaaci"><div class="qi qi-teal">🇪🇺</div><div class="ql">Protocolos EAACI</div></div>
       <div class="qcard" data-nav="prompts"><div class="qi qi-green">⚡</div><div class="ql">Prompts</div></div>
       <div class="qcard" data-nav="educacao"><div class="qi qi-teal">🎓</div><div class="ql">Cursos</div></div>
       <div class="qcard" data-nav="imuno"><div class="qi qi-gold">💉</div><div class="ql">Imunobiológicos</div></div>
@@ -1489,6 +1490,325 @@ window._mostrarApp = function(){
       <div class="guide-card" data-topic="masto"><div class="gc-soc">ECNM / EuRN</div><div class="gc-name">European Consensus-Based Recommendations for Mastocytosis — 2024</div><div class="gc-year">2024 · JACI · PMC Open Access</div><div class="gc-foot"><span class="tag t-purple">Mastocitose</span><span class="tag t-green">Gratuito</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://www.jacionline.org/article/S0091-6749(24)00118-8/fulltext" target="_blank" rel="noopener">🔗 Ver guideline</a></div></div>
       <div class="guide-card" data-topic="eoe"><div class="gc-soc">AGREE / ACG / AGA</div><div class="gc-name">Clinical Guidelines for Eosinophilic Esophagitis — AGREE 2024</div><div class="gc-year">2024 · Gastroenterology · Pago</div><div class="gc-foot"><span class="tag t-green">Esofagite Eosinofílica</span><span class="tag t-red">Pago</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://www.gastrojournal.org/article/S0016-5085(24)00476-8/fulltext" target="_blank" rel="noopener">🔗 Ver guideline</a></div></div>
     </div>
+  </div>
+
+  <!-- ══ PROTOCOLOS EAACI ══ -->
+  <div class="page" id="page-eaaci">
+    <div style="padding:14px 16px 8px;display:flex;flex-direction:column;gap:10px">
+      <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px"><span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>Protocolos EAACI <span style="margin-left:auto;font-size:9.5px;font-weight:800;letter-spacing:.06em;color:var(--teal-mid);border:1px solid var(--teal-mid);border-radius:999px;padding:2px 7px">SÓ EAACI</span></div>
+      <div style="font-size:11.5px;color:var(--gray-500);line-height:1.5">Resumos operacionais das diretrizes e position papers da <b>European Academy of Allergy and Clinical Immunology</b>. Esta aba contém <b>exclusivamente</b> documentos da EAACI (incluindo os que ela assina em conjunto com GA²LEN, ENDA, EuroGuiDerm e WAO). Toque no card para abrir a conduta. Sempre confira o documento original antes de aplicar.</div>
+      <div class="filter-chips" id="eaaci-chips">
+        <div class="fchip on" data-efilter="all">🔔 Todos</div>
+        <div class="fchip" data-efilter="anafilaxia">🆘 Anafilaxia</div>
+        <div class="fchip" data-efilter="urticaria">🔴 Urticária/AEH</div>
+        <div class="fchip" data-efilter="it">💉 Imunoterapia</div>
+        <div class="fchip" data-efilter="aa">🍽️ Alergia Alimentar</div>
+        <div class="fchip" data-efilter="da">🩹 Dermatite Atópica</div>
+        <div class="fchip" data-efilter="asma">🫁 Asma/Biológicos</div>
+        <div class="fchip" data-efilter="medicam">💊 Medicamentos</div>
+        <div class="fchip" data-efilter="diag">🧪 Diagnóstico</div>
+        <div class="fchip" data-efilter="eoe">🫶 Esofagite Eosinofílica</div>
+      </div>
+    </div>
+    <div class="gap-list" id="eaaci-list">
+
+      <details class="guide-card eaaci-card" data-etopic="anafilaxia">
+        <summary><div class="gc-soc">EAACI</div><div class="gc-name">Anaphylaxis Guidelines — diagnóstico e manejo</div><div class="gc-year">2021 (update 2025) · Allergy · Open Access</div><div class="gc-foot"><span class="tag t-red">Anafilaxia</span><span class="tag t-green">Gratuito</span></div></summary>
+        <div class="eaaci-body">
+          <b>Tratamento de 1ª linha — adrenalina IM, vasto lateral da coxa</b>
+          <ul>
+            <li>0,01 mg/kg da solução 1 mg/mL — máx. 0,5 mg no adulto.</li>
+            <li>Autoinjetor: 0,15 mg (7,5–25 kg) · 0,3 mg (&gt;25 kg) · 0,5 mg em adultos/obesos quando disponível.</li>
+            <li>Repetir em 5–10 min se resposta insuficiente (até 1/3 dos casos exige 2ª dose).</li>
+            <li>Sem contraindicação absoluta na anafilaxia.</li>
+          </ul>
+          <b>Medidas simultâneas</b>
+          <ul>
+            <li>Posição supina com membros inferiores elevados (sentado se dispneia; decúbito lateral na gestante). <b>Não</b> colocar de pé nem sentar abruptamente.</li>
+            <li>O₂ sob máscara, acesso venoso, cristaloide 20 mL/kg em bolus se hipotensão.</li>
+            <li>Anti-H1 e corticoide são <b>adjuvantes</b> — nunca substituem ou retardam a adrenalina.</li>
+            <li>Refratária: infusão de adrenalina com monitorização; glucagon se em betabloqueador.</li>
+          </ul>
+          <b>Observação e alta</b>
+          <ul>
+            <li>Mínimo 2 h após resolução; 6 h se reação grave, 2 doses de adrenalina, asma associada ou atraso no tratamento; 12 h se risco muito alto/acesso difícil a serviço de saúde.</li>
+            <li>Alta com: 2 autoinjetores + treino, plano de ação escrito, identificação do gatilho, encaminhamento ao alergista, triptase basal após 24 h.</li>
+          </ul>
+          <b>Confirmação laboratorial</b>
+          <ul><li>Triptase sérica entre 30 min e 2 h do início, comparada à basal (≥24 h depois): aumento ≥ (1,2 × basal) + 2 ng/mL.</li></ul>
+        </div>
+      </details>
+
+      <details class="guide-card eaaci-card" data-etopic="anafilaxia">
+        <summary><div class="gc-soc">EAACI / ENDA</div><div class="gc-name">Anafilaxia perioperatória — investigação e reexposição</div><div class="gc-year">Position paper · Allergy</div><div class="gc-foot"><span class="tag t-red">Anafilaxia</span><span class="tag t-red">Medicamentos</span></div></summary>
+        <div class="eaaci-body">
+          <ul>
+            <li>Triptase na crise (30 min–2 h) e basal após 24 h — obrigatória para documentar o episódio.</li>
+            <li>Investigação alergológica completa em 4–6 semanas: bloqueadores neuromusculares, látex, antibióticos (betalactâmicos), clorexidina, azul patente, hipnóticos, AINEs, gelatinas.</li>
+            <li>Testes cutâneos com concentrações não irritantes padronizadas + IgE específica quando disponível (succinilcolina/rocurônio, clorexidina, látex).</li>
+            <li>Relatório final deve nomear o agente culpado <b>e</b> as alternativas seguras testadas para a próxima anestesia.</li>
+            <li>Evitar rotular toda a classe sem teste: reatividade cruzada entre bloqueadores neuromusculares é variável.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="guide-card eaaci-card" data-etopic="urticaria">
+        <summary><div class="gc-soc">EAACI / GA²LEN / EuroGuiDerm / APAAACI</div><div class="gc-name">International Guideline for Urticaria</div><div class="gc-year">Atualização mais recente · Allergy</div><div class="gc-foot"><span class="tag t-green">Urticária</span></div></summary>
+        <div class="eaaci-body">
+          <b>Algoritmo terapêutico (objetivo: UAS7 = 0 / UCT ≥ 12)</b>
+          <ul>
+            <li><b>Passo 1</b> — anti-H1 de 2ª geração em dose padrão, uso contínuo (não "se necessário").</li>
+            <li><b>Passo 2</b> — aumentar até 4× a dose do mesmo anti-H1, reavaliando em 2–4 semanas.</li>
+            <li><b>Passo 3</b> — omalizumabe 300 mg SC a cada 4 semanas, mantendo o anti-H1; avaliar resposta em 6 meses (resposta lenta existe; considerar aumento de dose/redução de intervalo em não respondedores parciais).</li>
+            <li><b>Passo 4</b> — ciclosporina A (off-label) associada ao anti-H1, com controle de PA e função renal.</li>
+            <li>Corticoide sistêmico apenas em exacerbações, curso curto (≤10 dias). <b>Nunca</b> manutenção.</li>
+            <li>Anti-H2, montelucaste e anti-H1 de 1ª geração não são recomendados.</li>
+          </ul>
+          <b>Investigação</b>
+          <ul>
+            <li>Urticária espontânea crônica: hemograma + PCR/VHS. Opcional conforme suspeita: IgE total, anti-TPO, D-dímero, função tireoidiana, H. pylori.</li>
+            <li>Urticárias induzidas: teste de provocação específico (gelo, FricTest, teste de esforço, pressão).</li>
+            <li>Biópsia e rastreio amplo de neoplasia/parasitose não são rotina.</li>
+          </ul>
+          <b>Monitorização</b>
+          <ul><li>UAS7 (atividade), UCT (controle), AAS/AECT (angioedema), CU-Q2oL (qualidade de vida) — em todas as consultas.</li></ul>
+        </div>
+      </details>
+
+      <details class="guide-card eaaci-card" data-etopic="urticaria">
+        <summary><div class="gc-soc">WAO / EAACI</div><div class="gc-name">Angioedema hereditário — diagnóstico e manejo</div><div class="gc-year">Guideline · WAO Journal · Open Access</div><div class="gc-foot"><span class="tag t-green">Urticária/AEH</span><span class="tag t-green">Gratuito</span></div></summary>
+        <div class="eaaci-body">
+          <b>Diagnóstico</b>
+          <ul>
+            <li>C4 + C1-INH antigênico + C1-INH funcional; repetir alterado. C1q baixo sugere AE adquirido.</li>
+            <li>Rastrear familiares de 1º grau; dosar em todo angioedema recorrente sem urticária e sem resposta a anti-H1.</li>
+          </ul>
+          <b>Crise — tratar toda crise, precocemente</b>
+          <ul>
+            <li>Icatibanto SC, C1-INH IV (plasmático ou recombinante) ou ecalantida, conforme disponibilidade.</li>
+            <li>Crise laríngea é emergência: tratar + via aérea; adrenalina, corticoide e anti-H1 são ineficazes.</li>
+            <li>Todo paciente deve ter ≥2 doses de medicação de crise em casa e treino de autoadministração.</li>
+          </ul>
+          <b>Profilaxia</b>
+          <ul>
+            <li>Longo prazo (1ª linha): lanadelumabe ou C1-INH subcutâneo/IV; berotralstate oral como alternativa.</li>
+            <li>Curto prazo antes de procedimentos com manipulação de via aérea/odontológicos: C1-INH 1 h antes.</li>
+            <li>Evitar IECA e contraceptivos com estrogênio.</li>
+            <li>Plano de ação escrito + cartão de emergência; acompanhamento ≥1×/ano em centro de referência.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="guide-card eaaci-card" data-etopic="it">
+        <summary><div class="gc-soc">EAACI</div><div class="gc-name">Allergen Immunotherapy — rinoconjuntivite alérgica</div><div class="gc-year">Guideline · Allergy · Open Access</div><div class="gc-foot"><span class="tag t-teal">Imunoterapia</span><span class="tag t-teal">Rinite</span></div></summary>
+        <div class="eaaci-body">
+          <b>Indicação</b>
+          <ul>
+            <li>Sintomas moderados/graves com sensibilização IgE <b>comprovada e clinicamente relevante</b> (SPT e/ou IgE específica correlacionados à história).</li>
+            <li>Resposta insuficiente à farmacoterapia otimizada, efeitos adversos dos medicamentos ou desejo de modificar a história natural.</li>
+            <li>Produtos com evidência própria — não extrapolar entre fabricantes. SLIT em comprimido para gramíneas, ácaros e Ambrosia; SCIT para gramíneas, ácaros, pólens de árvores, Alternaria, epitélios.</li>
+          </ul>
+          <b>Execução</b>
+          <ul>
+            <li>Duração mínima 3 anos para efeito sustentado pós-tratamento.</li>
+            <li>SCIT: aplicar em serviço com adrenalina disponível; observar 30 min. 1ª dose de SLIT sob supervisão médica.</li>
+            <li>Reavaliar adesão e resposta anualmente — suspender se sem benefício após o 1º ano completo bem conduzido.</li>
+          </ul>
+          <b>Contraindicações / cautelas</b>
+          <ul>
+            <li>Asma grave não controlada (contraindicação); checar controle da asma antes de cada aplicação.</li>
+            <li>Cautela: betabloqueador, doença autoimune ativa, neoplasia ativa, gestação (não iniciar; pode manter).</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="guide-card eaaci-card" data-etopic="it">
+        <summary><div class="gc-soc">EAACI</div><div class="gc-name">Imunoterapia com veneno de himenópteros (VIT)</div><div class="gc-year">Guideline + update · Allergy · PMC Open Access</div><div class="gc-foot"><span class="tag t-navy">Himenópteros</span><span class="tag t-teal">Imunoterapia</span></div></summary>
+        <div class="eaaci-body">
+          <b>Indicação</b>
+          <ul>
+            <li>Reação sistêmica grau II–IV (Ring &amp; Messmer) + sensibilização comprovada ao veneno culpado.</li>
+            <li>Considerar em reação cutânea sistêmica isolada com risco ocupacional/qualidade de vida ou exposição frequente.</li>
+            <li>Reação local extensa isoladamente não é indicação.</li>
+          </ul>
+          <b>Investigação</b>
+          <ul>
+            <li>SPT/intradérmico + IgE específica para veneno de abelha e vespa; componentes (Api m 1, Ves v 1, Ves v 5) para dupla positividade e escolha do extrato.</li>
+            <li><b>Triptase basal em todos</b> — elevada aponta doença de mastócitos e risco de falha/reação grave.</li>
+          </ul>
+          <b>Esquema e duração</b>
+          <ul>
+            <li>Manutenção 100 µg a cada 4 semanas (pode estender a 6–8 semanas após o 1º ano).</li>
+            <li>Duração padrão 3–5 anos.</li>
+            <li><b>Indefinida/vitalícia</b>: mastocitose ou triptase elevada, reação quase fatal, apicultores e outros expostos de forma intensa, recidiva após suspensão.</li>
+            <li>Manter autoinjetor de adrenalina durante e após o tratamento nos grupos de risco.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="guide-card eaaci-card" data-etopic="aa">
+        <summary><div class="gc-soc">EAACI</div><div class="gc-name">Alergia alimentar IgE-mediada — diagnóstico</div><div class="gc-year">Guideline · Allergy · Open Access</div><div class="gc-foot"><span class="tag t-gold">Alergia Alimentar</span><span class="tag t-green">Gratuito</span></div></summary>
+        <div class="eaaci-body">
+          <ul>
+            <li>História clínica dirigida é o ponto de partida — define quais alimentos testar. <b>Não</b> rastrear painéis amplos.</li>
+            <li>SPT e/ou IgE específica apenas para os alimentos suspeitos; sensibilização sem história não é alergia.</li>
+            <li>Diagnóstico molecular quando muda conduta: Ara h 2 (amendoim), Cor a 9/14 (avelã), ω-5 gliadina (trigo/WDEIA), Pru p 3 vs Pru p 1/4 (LTP × síndrome pólen-alimento), tropomiosina (crustáceos), alfa-Gal.</li>
+            <li><b>Teste de provocação oral (TPO) é o padrão-ouro</b> — indicado quando história e testes são discordantes, para confirmar resolução e para liberar alimentos evitados sem necessidade.</li>
+            <li>IgG/IgG4, teste de contato (patch) para alergia IgE, dietas de eliminação diagnósticas prolongadas e testes bioenergéticos <b>não</b> são recomendados.</li>
+            <li>Reavaliar periodicamente: leite e ovo frequentemente resolvem; amendoim e castanhas, menos.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="guide-card eaaci-card" data-etopic="aa">
+        <summary><div class="gc-soc">EAACI</div><div class="gc-name">Alergia alimentar — manejo e imunoterapia oral</div><div class="gc-year">Guideline · Allergy · Open Access</div><div class="gc-foot"><span class="tag t-gold">Alergia Alimentar</span><span class="tag t-teal">Imunoterapia</span></div></summary>
+        <div class="eaaci-body">
+          <b>Manejo basal</b>
+          <ul>
+            <li>Exclusão apenas do alimento comprovado + leitura de rótulos e orientação nutricional (risco de deficiências e de baixo crescimento).</li>
+            <li>Plano de emergência escrito + autoinjetor de adrenalina para quem já teve reação sistêmica, tem asma associada ou alergia a amendoim/castanhas/leite com risco.</li>
+            <li>Introduzir formas processadas toleradas (leite/ovo cozidos em matriz de trigo) quando o TPO permitir — acelera a tolerância e amplia a dieta.</li>
+          </ul>
+          <b>Imunoterapia oral (OIT)</b>
+          <ul>
+            <li>Indicada para amendoim, leite e ovo em crianças, em <b>centro especializado</b>, com escalonamento supervisionado.</li>
+            <li>Objetivo primário é elevar o limiar de reação (proteção contra exposição acidental), não necessariamente a cura.</li>
+            <li>Requer dose diária contínua, evitar exercício/banho quente e AINE próximos à dose; suspender em infecção aguda e asma descompensada.</li>
+            <li>Rastrear esofagite eosinofílica em disfagia/dor persistente durante a OIT.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="guide-card eaaci-card" data-etopic="aa">
+        <summary><div class="gc-soc">EAACI</div><div class="gc-name">Prevenção primária de alergia alimentar</div><div class="gc-year">Guideline · Allergy · Open Access</div><div class="gc-foot"><span class="tag t-gold">Alergia Alimentar</span><span class="tag t-green">Gratuito</span></div></summary>
+        <div class="eaaci-body">
+          <ul>
+            <li>Aleitamento materno conforme recomendação geral; não há dieta de exclusão para a gestante ou lactante.</li>
+            <li><b>Introduzir ovo bem cozido e amendoim (em forma segura) na alimentação complementar, a partir dos ~4–6 meses</b>, sem atrasar.</li>
+            <li>Uma vez introduzido, manter consumo regular.</li>
+            <li>Fórmulas parcial/extensamente hidrolisadas <b>não</b> são recomendadas para prevenção de alergia.</li>
+            <li>Evitar fórmula de leite de vaca suplementar nas primeiras semanas em quem está em aleitamento.</li>
+            <li>Probióticos, prebióticos e vitamina D: evidência insuficiente para recomendar com finalidade preventiva.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="guide-card eaaci-card" data-etopic="da">
+        <summary><div class="gc-soc">EAACI</div><div class="gc-name">Dermatite atópica — tratamento sistêmico e tópico</div><div class="gc-year">Guideline + updates · Allergy</div><div class="gc-foot"><span class="tag t-teal">Dermatite Atópica</span></div></summary>
+        <div class="eaaci-body">
+          <b>Base</b>
+          <ul>
+            <li>Emolientes em quantidade generosa e contínua; educação do paciente/família; controle de fatores desencadeantes.</li>
+            <li>Corticoide tópico conforme potência e área; inibidor de calcineurina tópico em face, pescoço e dobras; terapia proativa 2×/semana nas áreas de recaída.</li>
+          </ul>
+          <b>Sistêmico (doença moderada a grave refratária)</b>
+          <ul>
+            <li>Biológicos: dupilumabe, tralocinumabe, lebriquizumabe — preferidos pelo perfil de segurança de longo prazo.</li>
+            <li>Inibidores de JAK (upadacitinibe, abrocitinibe, baricitinibe): início rápido de ação; exigem triagem e cautela em &gt;65 anos, tabagismo, risco cardiovascular/tromboembólico e neoplasia prévia; monitorar hemograma, lipídios, enzimas hepáticas, rastrear TB/hepatites/zóster.</li>
+            <li>Ciclosporina para controle de curto prazo; metotrexato e azatioprina como alternativas.</li>
+            <li><b>Corticoide sistêmico de manutenção não é recomendado</b> — apenas curso muito curto em exacerbação grave.</li>
+          </ul>
+          <b>Monitorização</b>
+          <ul><li>EASI, SCORAD, POEM, NRS do prurido e DLQI/IDQOL para definir resposta e troca de terapia.</li></ul>
+        </div>
+      </details>
+
+      <details class="guide-card eaaci-card" data-etopic="asma">
+        <summary><div class="gc-soc">EAACI</div><div class="gc-name">Biologicals Guidelines — asma grave, rinossinusite com pólipos, DA e urticária</div><div class="gc-year">Guideline · Allergy</div><div class="gc-foot"><span class="tag t-teal">Asma</span><span class="tag t-gold">Imunobiológicos</span></div></summary>
+        <div class="eaaci-body">
+          <b>Antes de indicar</b>
+          <ul>
+            <li>Confirmar diagnóstico, adesão, técnica inalatória, comorbidades (rinossinusite, obesidade, DRGE, disfunção de cordas vocais) e exposições.</li>
+            <li>Fenotipar: eosinófilos no sangue, FeNO, IgE total e sensibilização perene, exacerbações/ano, uso de corticoide oral, polipose nasal.</li>
+          </ul>
+          <b>Escolha</b>
+          <ul>
+            <li>Anti-IgE (omalizumabe): asma alérgica perene + IgE na faixa de dose; também urticária crônica espontânea.</li>
+            <li>Anti-IL5/IL5R (mepolizumabe, benralizumabe, reslizumabe): fenótipo eosinofílico, exacerbações frequentes, corticodependência.</li>
+            <li>Anti-IL4Rα (dupilumabe): asma T2 com eosinofilia e/ou FeNO elevado, polipose nasal, dermatite atópica e EoE associadas.</li>
+            <li>Anti-TSLP (tezepelumabe): útil inclusive com biomarcadores T2 mais baixos.</li>
+          </ul>
+          <b>Avaliação de resposta</b>
+          <ul>
+            <li>Reavaliar em ~4 meses e novamente em 12 meses: exacerbações, dose de corticoide oral, função pulmonar, ACQ/ACT, SNOT-22 na polipose.</li>
+            <li>Sem resposta clara → trocar de alvo em vez de manter indefinidamente. Desmame de corticoide oral é meta prioritária.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="guide-card eaaci-card" data-etopic="medicam">
+        <summary><div class="gc-soc">EAACI / ENDA</div><div class="gc-name">Hipersensibilidade a betalactâmicos e delabeling</div><div class="gc-year">Position papers · Allergy</div><div class="gc-foot"><span class="tag t-red">Medicamentos</span></div></summary>
+        <div class="eaaci-body">
+          <ul>
+            <li>Classificar primeiro: reação <b>imediata</b> (&lt;1–6 h, urticária/anafilaxia) × <b>não imediata</b> (exantema tardio) × reação grave (SJS/NET, DRESS, PEGA, citopenias, nefrite) — grave é contraindicação definitiva e proíbe provocação.</li>
+            <li>Rotular corretamente: a maioria dos "alérgicos a penicilina" não é. Rótulo errado piora desfechos e aumenta uso de alternativas de amplo espectro.</li>
+            <li><b>Baixo risco</b> (exantema benigno da infância, história remota/vaga, intolerância gastrointestinal): pode ir direto ao teste de provocação oral, sem teste cutâneo prévio, em ambiente adequado.</li>
+            <li>Risco moderado/alto: testes cutâneos (prick e intradérmico) com concentrações não irritantes — PPL/MDM quando disponíveis, amoxicilina, ampicilina, cefalosporinas, o fármaco culpado — seguidos de provocação se negativos.</li>
+            <li>Reatividade cruzada depende das <b>cadeias laterais</b>, não do anel: alergia à amoxicilina frequentemente permite cefalosporinas de cadeia lateral distinta; testar antes de liberar.</li>
+            <li>Reações não imediatas leves: patch test e leituras tardias da intradérmica podem ajudar; provocação prolongada (vários dias) quando necessário.</li>
+            <li>Encerrar sempre com documento claro: fármaco proibido, alternativas liberadas e data.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="guide-card eaaci-card" data-etopic="medicam">
+        <summary><div class="gc-soc">EAACI</div><div class="gc-name">Dessensibilização a quimioterápicos e biológicos</div><div class="gc-year">Position paper · Allergy · PMC Open Access</div><div class="gc-foot"><span class="tag t-red">Medicamentos</span><span class="tag t-green">Gratuito</span></div></summary>
+        <div class="eaaci-body">
+          <ul>
+            <li>Indicada quando o fármaco é o melhor tratamento disponível e não há alternativa equivalente — platinas, taxanos, anticorpos monoclonais, outros.</li>
+            <li>Classificar o fenótipo da reação inicial (tipo I/IgE, liberação de citocinas, mista) para ajustar protocolo e pré-medicação.</li>
+            <li>Protocolos escalonados (tipicamente 12 passos, 3 soluções) com infusão em serviço com monitorização e equipe treinada; reação grau 4 prévia ou reação não imediata grave (SJS/NET, DRESS) contraindicam.</li>
+            <li>Testes cutâneos ajudam a confirmar mecanismo IgE e a estratificar risco; negativo não exclui a necessidade de dessensibilizar.</li>
+            <li><b>Cada ciclo exige nova dessensibilização</b> — não há tolerância permanente; falhas com reação leve geralmente permitem ajuste do protocolo e continuidade.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="guide-card eaaci-card" data-etopic="diag">
+        <summary><div class="gc-soc">EAACI</div><div class="gc-name">Padronização do teste cutâneo de puntura (SPT)</div><div class="gc-year">Position paper · Allergy · Open Access</div><div class="gc-foot"><span class="tag t-navy">Diagnóstico</span><span class="tag t-green">Gratuito</span></div></summary>
+        <div class="eaaci-body">
+          <ul>
+            <li>Controles obrigatórios: histamina 10 mg/mL (positivo) e solvente (negativo). Leitura em 15–20 min.</li>
+            <li>Positividade: pápula com diâmetro médio ≥3 mm maior que o controle negativo.</li>
+            <li>Distância mínima entre puncturas de 2 cm; antebraço volar ou dorso; evitar áreas com eczema ou dermografismo.</li>
+            <li>Suspender anti-H1 por ~3–7 dias; atenção a antidepressivos tricíclicos, corticoide tópico potente na área e omalizumabe (podem reduzir a resposta).</li>
+            <li>Material de emergência disponível; o teste deve ser realizado/supervisionado por profissional treinado.</li>
+            <li>SPT reflete sensibilização — a relevância clínica vem da história e, quando necessário, da provocação.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="guide-card eaaci-card" data-etopic="diag">
+        <summary><div class="gc-soc">EAACI</div><div class="gc-name">Molecular Allergology User's Guide (MAUG 2.0)</div><div class="gc-year">Documento oficial EAACI · Open Access</div><div class="gc-foot"><span class="tag t-navy">Diagnóstico</span><span class="tag t-green">Gratuito</span></div></summary>
+        <div class="eaaci-body">
+          <ul>
+            <li>Usar diagnóstico por componentes quando a resposta muda a conduta: risco de reação sistêmica, escolha de extrato para imunoterapia, reatividade cruzada inexplicada.</li>
+            <li>Marcadores de risco: proteínas de armazenamento (Ara h 2, Cor a 9/14, Jug r 1), LTP (Pru p 3), ω-5 gliadina, tropomiosina, alfa-Gal, parvalbumina.</li>
+            <li>Marcadores de reatividade cruzada benigna: profilinas (Bet v 2), PR-10 (Bet v 1, Mal d 1), CCD.</li>
+            <li>Marcadores de sensibilização genuína para imunoterapia: Phl p 1/5, Der p 1/2/23, Bet v 1, Ole e 1, Alt a 1.</li>
+            <li>Veneno: Api m 1 × Ves v 1/Ves v 5 definem o extrato na dupla positividade.</li>
+            <li>Não usar como rastreio populacional nem como substituto da história clínica.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="guide-card eaaci-card" data-etopic="eoe">
+        <summary><div class="gc-soc">EAACI / EUREOS / UEG / ESPGHAN</div><div class="gc-name">Esofagite eosinofílica — diagnóstico e tratamento</div><div class="gc-year">Guideline conjunta · Open Access</div><div class="gc-foot"><span class="tag t-green">Esofagite Eosinofílica</span><span class="tag t-green">Gratuito</span></div></summary>
+        <div class="eaaci-body">
+          <ul>
+            <li>Diagnóstico: sintomas de disfunção esofágica + <b>≥15 eosinófilos/campo de grande aumento</b> em biópsias (≥6 fragmentos, proximal e distal), excluídas outras causas de eosinofilia.</li>
+            <li>IBP em dose dobrada por 8–12 semanas é opção de 1ª linha; reavaliar com nova endoscopia/biópsia.</li>
+            <li>Corticoide tópico deglutido (budesonida orodispersível 1 mg 2×/dia na indução) com alta taxa de remissão histológica; orientar não ingerir alimentos/líquidos após a dose e rastrear candidíase.</li>
+            <li>Dieta de eliminação empírica (leite isolado ou 6 alimentos) como alternativa, com reintrodução guiada por biópsia e apoio nutricional.</li>
+            <li>Dupilumabe para doença refratária/corticodependente.</li>
+            <li>Dilatação endoscópica para estenose sintomática — não trata a inflamação, sempre associada a terapia anti-inflamatória.</li>
+            <li><b>Resposta é histológica</b>: remissão &lt;15 eos/CGA; sintoma isolado não basta. Manutenção é necessária — a doença recidiva ao suspender.</li>
+          </ul>
+        </div>
+      </details>
+
+    </div>
+    <div style="padding:10px 16px 22px;font-size:10.5px;color:var(--gray-500);line-height:1.5">Conteúdo resumido para apoio à decisão clínica, sem substituir a leitura dos documentos originais da EAACI. Doses e condutas devem ser conferidas na versão vigente da diretriz e na bula aprovada no Brasil.</div>
   </div>
 
   <!-- ══ SCORES ══ -->
@@ -4519,7 +4839,7 @@ function _deletarPrompt(idx){
 
 /* ── NAVIGATION ── */
 window.crmInit = crmInit;
-var PAGE_TITLES={dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',noticias:'Notícias',scores:'Scores',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Meu perfil',alergonews:'Alergo News',jornal:'Alergia News',mais:'Mais'};
+var PAGE_TITLES={eaaci:'Protocolos EAACI',dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',noticias:'Notícias',scores:'Scores',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Meu perfil',alergonews:'Alergo News',jornal:'Alergia News',mais:'Mais'};
 
 var _navHistory = ['dashboard'];
 
@@ -7363,6 +7683,19 @@ if ('serviceWorker' in navigator) {
 .chat-in{display:flex;gap:7px;padding:10px 12px;border-top:1px solid var(--gray-100);background:#fff}
 .chat-in input{flex:1;border:1.5px solid var(--gray-100);border-radius:10px;padding:9px 11px;font-family:'Manrope',sans-serif;font-size:12.8px;color:var(--navy);outline:none}
 .chat-in button{background:var(--navy);border:none;color:#fff;border-radius:10px;padding:0 14px;font-weight:800;font-size:13px;cursor:pointer;font-family:'Manrope',sans-serif}
+
+/* ── PROTOCOLOS EAACI ── */
+.eaaci-card{display:block;cursor:pointer}
+.eaaci-card>summary{list-style:none;cursor:pointer}
+.eaaci-card>summary::-webkit-details-marker{display:none}
+.eaaci-card>summary::after{content:'\203A';float:right;margin-top:-18px;color:var(--gray-300);font-size:17px;transition:transform .18s}
+.eaaci-card[open]>summary::after{transform:rotate(90deg)}
+.eaaci-body{margin-top:10px;padding-top:10px;border-top:1px dashed var(--gray-300);font-size:12px;color:var(--gray-600,#4b5563);line-height:1.6}
+.eaaci-body b{color:var(--navy);display:block;margin:8px 0 3px;font-size:11.5px}
+.eaaci-body b:first-child{margin-top:0}
+.eaaci-body ul{margin:0 0 4px;padding-left:17px}
+.eaaci-body li{margin-bottom:4px}
+.eaaci-card.hidden-e{display:none}
 </style>
 <div id="auriWrap">
   <button id="auriFechar" onclick="auriFechar()" aria-label="Fechar o robô">×</button>
@@ -7561,5 +7894,19 @@ try{ if(localStorage.getItem('auriOculto')==='1'){
   document.getElementById('auriReabrir').classList.add('on'); } }catch(e){}
 </script>
 
+<script>
+/* -- FILTRO PROTOCOLOS EAACI -- */
+document.addEventListener('click', function(ev){
+  var chip = ev.target.closest && ev.target.closest('#eaaci-chips .fchip');
+  if(!chip) return;
+  var f = chip.getAttribute('data-efilter');
+  document.querySelectorAll('#eaaci-chips .fchip').forEach(function(c){ c.classList.toggle('on', c===chip); });
+  document.querySelectorAll('#eaaci-list .eaaci-card').forEach(function(card){
+    var show = (f==='all') || (card.getAttribute('data-etopic')===f);
+    card.classList.toggle('hidden-e', !show);
+    if(!show) card.removeAttribute('open');
+  });
+});
+</script>
 </body>
 </html>
