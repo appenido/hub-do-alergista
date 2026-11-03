@@ -239,6 +239,31 @@ body{
 .hero-chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 10px;font-size:10.5px;font-weight:700;color:#fff;}
 
 
+.ig-form{margin:0 16px 16px;background:#fff;border:1px solid var(--gray-100);border-radius:16px;padding:14px 14px 16px}
+.ig-form-tit{font-size:11px;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.ig-f-row{display:flex;flex-direction:column;gap:5px;margin-bottom:11px}
+.ig-f-row label{font-size:11.5px;font-weight:700;color:var(--navy)}
+.ig-f-row input,.ig-f-row select{font-family:'Manrope',sans-serif;font-size:14px;color:var(--navy);background:#f7fafb;border:1.5px solid var(--gray-100);border-radius:10px;padding:11px 12px;outline:none;width:100%;box-sizing:border-box}
+.ig-f-row input:focus,.ig-f-row select:focus{border-color:var(--teal-mid)}
+.ig-f-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ig-chips{display:flex;flex-wrap:wrap;gap:6px}
+.ig-chip{font-family:'Manrope',sans-serif;font-size:11.5px;font-weight:700;padding:7px 11px;border-radius:20px;border:1.5px solid var(--gray-100);background:#fff;color:var(--gray-500);cursor:pointer}
+.ig-chip.on{background:var(--teal-mid);border-color:var(--teal-mid);color:#fff}
+.ig-btn{width:100%;background:var(--navy);color:#fff;border:none;border-radius:11px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;margin-top:4px}
+.ig-out{background:#fff;border:1px solid var(--gray-100);border-radius:16px;padding:16px;margin-bottom:12px}
+.ig-out h4{font-size:11px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px}
+.ig-out p,.ig-out li{font-size:13px;color:var(--navy);line-height:1.65;margin:0 0 6px}
+.ig-out ul{margin:0;padding-left:18px}
+.ig-big{font-size:28px;font-weight:900;color:var(--navy);line-height:1.1;margin:2px 0 6px}
+.ig-kv{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--gray-100);font-size:13px}
+.ig-kv span:first-child{color:var(--gray-500)}
+.ig-kv span:last-child{font-weight:800;color:var(--navy);text-align:right}
+.ig-alert{border-radius:11px;padding:11px 13px;font-size:12.5px;line-height:1.55;margin-bottom:8px}
+.ig-alert.crit{background:#fdecec;border:1px solid #e88a8a;color:#8a2020}
+.ig-alert.warn{background:#fff8e6;border:1px solid #e8c766;color:#6b5312}
+.ig-alert.ok{background:#eaf7f3;border:1px solid #8fd3bf;color:#1d6a53}
+.ig-step{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--gray-100);font-size:12.5px}
+.ig-step b{color:var(--navy)}
 .ig-grupo{margin-top:10px}
 .ig-grupo-tit{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#7ee0ec;margin-bottom:6px}
 .ig-grupo-tit::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.18)}
@@ -2382,283 +2407,96 @@ window._mostrarApp = function(){
     <div style="padding:16px 16px 8px">
       <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px">
         <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
-        Imunoglobulinas
+        Assistente de Reposição de Imunoglobulina
       </div>
-      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Reposição e imunomodulação · IGIV · IGSC · calculadora de dose</div>
-      
+      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Selecione o produto, preencha o caso e receba as orientações de infusão</div>
     </div>
 
-    <!-- DOSE CALCULATOR -->
-    <div style="margin:4px 16px 16px;background:linear-gradient(135deg,#0d1f2d,#1f6980);border-radius:16px;overflow:hidden">
-      <div style="padding:16px 16px 8px;display:flex;align-items:center;gap:10px">
-        <div style="width:40px;height:40px;background:rgba(255,255,255,.12);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px">🧮</div>
-        <div>
-          <div style="font-size:14px;font-weight:800;color:#fff">Calculadora de Dose</div>
-          <div style="font-size:10.5px;color:rgba(255,255,255,.6)">Imunoglobulina humana por peso</div>
-        </div>
-      </div>
-      <div style="padding:8px 16px 18px;display:flex;flex-direction:column;gap:11px">
-        <div style="display:flex;flex-direction:column;gap:5px">
-          <label style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.85)">Peso do paciente (kg)</label>
-          <input type="number" id="igPeso" inputmode="decimal" placeholder="Ex: 70" style="font-size:16px;border:1.5px solid rgba(255,255,255,.2);border-radius:11px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:15px;color:#fff;background:rgba(255,255,255,.1);outline:none;width:100%;box-sizing:border-box">
-        </div>
-        <div style="display:flex;flex-direction:column;gap:5px">
-          <label style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.85)">Produto / Imunoglobulina</label>
-          <input type="hidden" id="igProduto" value="generic">
-          <div id="igProdutoPicker"></div>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:5px">
-          <label style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.85)">Finalidade</label>
-          <select id="igFinalidade" onchange="toggleCustomMg()" style="border:1.5px solid rgba(255,255,255,.2);border-radius:11px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:14px;color:#fff;background:rgba(255,255,255,.1);outline:none;width:100%;box-sizing:border-box">
-            <option value="reposicao_iv" style="color:#0d1f2d">Reposição IDP — Via IV (400–800 mg/kg/mês)</option>
-            <option value="reposicao_sc" style="color:#0d1f2d">Reposição IDP — Via SC (100–150 mg/kg/semana)</option>
-            <option value="imunomod" style="color:#0d1f2d">Imunomodulação — 2 g/kg (Kawasaki, GBS, PTI)</option>
-            <option value="custom" style="color:#0d1f2d">Dose personalizada — definir mg/kg</option>
-          </select>
-        </div>
-        <div id="igRepIvMgWrap" style="flex-direction:column;gap:5px;display:flex">
-          <label style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.85)">Quantos mg/kg você quer fazer? (400–800)</label>
-          <select id="igRepIvMg" style="border:1.5px solid rgba(255,255,255,.2);border-radius:11px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:14px;color:#fff;background:rgba(255,255,255,.1);outline:none;width:100%;box-sizing:border-box">
-            <option value="400" style="color:#0d1f2d">400 mg/kg</option>
-            <option value="450" style="color:#0d1f2d">450 mg/kg</option>
-            <option value="500" selected style="color:#0d1f2d">500 mg/kg</option>
-            <option value="550" style="color:#0d1f2d">550 mg/kg</option>
-            <option value="600" style="color:#0d1f2d">600 mg/kg</option>
-            <option value="650" style="color:#0d1f2d">650 mg/kg</option>
-            <option value="700" style="color:#0d1f2d">700 mg/kg</option>
-            <option value="750" style="color:#0d1f2d">750 mg/kg</option>
-            <option value="800" style="color:#0d1f2d">800 mg/kg</option>
-          </select>
-        </div>
-        <div id="igCustomMgWrap" style="display:none;flex-direction:column;gap:5px">
-          <label style="font-size:11.5px;font-weight:700;color:rgba(255,255,255,.85)">Dose desejada (mg/kg)</label>
-          <input type="number" id="igCustomMg" inputmode="decimal" placeholder="Ex: 500" style="font-size:16px;border:1.5px solid rgba(255,255,255,.2);border-radius:11px;padding:12px 14px;font-family:'Manrope',sans-serif;font-size:15px;color:#fff;background:rgba(255,255,255,.1);outline:none;width:100%;box-sizing:border-box">
-        </div>
-        <button onclick="calcularIg()" style="background:var(--aqua);color:var(--navy);border:none;border-radius:11px;padding:13px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif">Calcular dose</button>
-        <div id="igResultado" style="display:none;background:rgba(255,255,255,.12);border-radius:12px;padding:14px 16px;color:#fff"></div>
+    <!-- 1. PRODUTO -->
+    <div style="margin:4px 16px 14px;background:linear-gradient(135deg,#0d1f2d,#1f6980);border-radius:16px;overflow:hidden">
+      <div style="padding:14px 16px 4px;font-size:11px;font-weight:800;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.06em">1 · Produto</div>
+      <div style="padding:4px 14px 16px">
+        <input type="hidden" id="igProduto" value="">
+        <div id="igProdutoPicker"></div>
       </div>
     </div>
 
-    <div style="padding:0 0 16px">
-    <div id="igFichasReserva"></div>
-    <div id="igFichaTitulo" style="padding:4px 16px 8px;font-size:12px;font-weight:800;color:var(--navy);letter-spacing:.4px;text-transform:uppercase">Ficha do produto selecionado</div>
-    <div class="bio-card igp-card" id="ig-privigen">
-      <div class="bio-header igp-header" onclick="toggleIg('privigen')">
-        <div class="igp-info"><div class="igp-nome">Privigen® 10%</div><div class="igp-fab">CSL Behring</div><span class="igp-conc">10% · 100 mg/mL</span></div>
-        <div class="bio-chevron">›</div>
+    <!-- 2. CASO -->
+    <div class="ig-form" id="igFormBox">
+      <div class="ig-form-tit">2 · Dados do paciente</div>
+
+      <div class="ig-f-row"><label>Nome do paciente</label>
+        <input type="text" id="igNome" placeholder="Nome completo"></div>
+
+      <div class="ig-f-2">
+        <div class="ig-f-row"><label>Idade</label>
+          <div style="display:flex;gap:6px">
+            <input type="number" id="igIdade" inputmode="numeric" placeholder="Ex: 34" style="flex:1">
+            <select id="igIdadeUn" style="width:92px"><option value="anos">anos</option><option value="meses">meses</option></select>
+          </div></div>
+        <div class="ig-f-row"><label>Peso (kg)</label>
+          <input type="number" id="igPeso" inputmode="decimal" placeholder="Ex: 70"></div>
       </div>
-      <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 10% líquida estabilizada com prolina — frascos de 2,5 g / 5 g / 10 g / 20 g</div></div>
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal derivada de plasma humano. Em altas doses exerce efeito imunomodulador (bloqueio de receptores Fc, modulação do complemento, neutralização de autoanticorpos e citocinas).</div></div>
-        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos (agamaglobulinemia, IDCV, SCID, Wiskott-Aldrich)</li><li>Hipogamaglobulinemia secundária (mieloma múltiplo, LLC)</li><li>Púrpura trombocitopênica imune (PTI)</li><li>Doença de Kawasaki</li><li>Síndrome de Guillain-Barré</li><li>Polineuropatia desmielinizante inflamatória crônica (PIDC)</li><li>Dermatomiosite, miastenia gravis</li></ul></div></div>
-        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">≥ 3 anos (IDP) · adultos e crianças</div></div>
-        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição (IDP): 400–800 mg/kg a cada 3–4 semanas. Imunomodulação: 2 g/kg dividido em 2–5 dias. Meta: IgG ≥600 mg/dL.</div></div>
-        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para imunodeficiências primárias em todas as idades (PCDT IDP). Idade conforme critério diagnóstico.</span></div></div>
-        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Não há DUT específica: a ANS entende que as imunoglobulinas IV e SC já têm cobertura obrigatória quando prescritas nas indicações da bula registrada na ANVISA (ciclo de atualização do Rol 2019/2020). Documente indicação, dose e via. <em>Revisado em 02/11/2026.</em></span></div></div>
-        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: ✅ disponível via CEAF (apresentações 2,5 g e 5,0 g). PCDT de Imunodeficiência Primária com predominância de defeitos de anticorpos (Portaria SAS/MS nº 495/2007): CID D80.0–D80.8 e D83.x; 300–600 mg/kg a cada 3 semanas ou 400–800 mg/kg a cada 4 semanas. <strong>Em análise:</strong> Consulta Pública CONITEC 71/2026 para ampliar a IgIV a novos CIDs (D82.2, G11.3, D84.8, D89.8), com recomendação preliminar favorável.</div></div>
-        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Isenta de açúcares e com baixo teor de IgA — opção em risco renal.</div></div>
-        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igiv','Imunoglobulina Humana IV')">📝 Gerar relatório para plano de saúde</button></div>
+
+      <div class="ig-f-row"><label>Diagnóstico / indicação</label>
+        <select id="igDx">
+          <option value="">Selecione…</option>
+          <option value="agama">Agamaglobulinemia (XLA / autossômica)</option>
+          <option value="idcv">Imunodeficiência comum variável (ICV)</option>
+          <option value="idcv_bq">ICV ou IDP com bronquiectasias</option>
+          <option value="scid">SCID / imunodeficiência combinada</option>
+          <option value="dea">Deficiência específica de anticorpos (IgG normal)</option>
+          <option value="subclasse">Deficiência de subclasses de IgG</option>
+          <option value="sec_hemato">Hipogamaglobulinemia secundária (LLC, mieloma)</option>
+          <option value="sec_cd20">Hipogamaglobulinemia pós anti-CD20 (rituximabe)</option>
+          <option value="sec_tx">Pós-transplante / pós CAR-T</option>
+          <option value="perda">Perda proteica (enteropatia, síndrome nefrótica)</option>
+          <option value="iga">Deficiência isolada de IgA</option>
+          <option value="imunomod">Indicação imunomoduladora (PTI, Kawasaki, GBS, PIDC)</option>
+        </select></div>
+
+      <div class="ig-f-2">
+        <div class="ig-f-row"><label>IgG sérica atual (mg/dL)</label>
+          <input type="number" id="igIgG" inputmode="decimal" placeholder="Ex: 320"></div>
+        <div class="ig-f-row"><label>Via desejada</label>
+          <select id="igVia"><option value="IV">Intravenosa (IGIV)</option><option value="SC">Subcutânea (IGSC)</option></select></div>
       </div>
+
+      <div class="ig-f-row"><label>Infecções de repetição documentadas?</label>
+        <select id="igInfRep"><option value="sim">Sim — infecções bacterianas recorrentes/graves</option><option value="nao">Não / não documentadas</option></select></div>
+
+      <div class="ig-f-row"><label>É a primeira infusão de imunoglobulina?</label>
+        <select id="igPrimeira"><option value="sim">Sim — primeira infusão</option><option value="nao">Não — já recebeu antes</option></select></div>
+
+      <div class="ig-f-row"><label>Reação infusional prévia à imunoglobulina</label>
+        <select id="igReacao">
+          <option value="nenhuma">Nenhuma</option>
+          <option value="leve">Leve/moderada (cefaleia, febre, calafrio, mialgia)</option>
+          <option value="anafilaxia">Anafilaxia / reação sistêmica grave</option>
+        </select></div>
+
+      <div class="ig-f-row"><label>Anafilaxia a outro medicamento</label>
+        <select id="igAnafOutro"><option value="nao">Não</option><option value="sim">Sim</option></select></div>
+
+      <div class="ig-f-row"><label>Infecção ativa no momento?</label>
+        <select id="igInfAtiva"><option value="nao">Não</option><option value="sim">Sim — infecção em curso</option></select></div>
+
+      <div class="ig-f-row"><label>Fatores de risco presentes (marque os que se aplicam)</label>
+        <div class="ig-chips" id="igRiscos">
+          <button type="button" class="ig-chip" data-r="renal">Insuficiência renal</button>
+          <button type="button" class="ig-chip" data-r="trombose">Risco tromboembólico</button>
+          <button type="button" class="ig-chip" data-r="cardio">Cardiopatia / IC</button>
+          <button type="button" class="ig-chip" data-r="iga">Deficiência de IgA conhecida</button>
+          <button type="button" class="ig-chip" data-r="desidrat">Desidratação</button>
+          <button type="button" class="ig-chip" data-r="gest">Gestação</button>
+          <button type="button" class="ig-chip" data-r="troca">Troca de fabricante</button>
+          <button type="button" class="ig-chip" data-r="nenhum">Nenhum</button>
+        </div></div>
+
+      <button class="ig-btn" onclick="gerarOrientacaoIg()">Gerar orientações de infusão</button>
     </div>
-    <div class="bio-card igp-card" id="ig-octagam">
-      <div class="bio-header igp-header" onclick="toggleIg('octagam')">
-        <div class="igp-info"><div class="igp-nome">Octagam® 10%</div><div class="igp-fab">Octapharma</div><span class="igp-conc">10% · 100 mg/mL</span></div>
-        <div class="bio-chevron">›</div>
-      </div>
-      <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 5% e 10% — frascos de 2,5 g / 5 g / 10 g</div></div>
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal derivada de plasma humano. Em altas doses exerce efeito imunomodulador (bloqueio de receptores Fc, modulação do complemento, neutralização de autoanticorpos e citocinas).</div></div>
-        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos (agamaglobulinemia, IDCV, SCID, Wiskott-Aldrich)</li><li>Hipogamaglobulinemia secundária (mieloma múltiplo, LLC)</li><li>Púrpura trombocitopênica imune (PTI)</li><li>Doença de Kawasaki</li><li>Síndrome de Guillain-Barré</li><li>Polineuropatia desmielinizante inflamatória crônica (PIDC)</li><li>Dermatomiosite, miastenia gravis</li></ul></div></div>
-        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">Todas as idades (0+ anos, ajuste por peso)</div></div>
-        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição (IDP): 400–800 mg/kg a cada 3–4 semanas. Imunomodulação: 2 g/kg dividido em 2–5 dias. Meta: IgG ≥600 mg/dL.</div></div>
-        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para imunodeficiências primárias em todas as idades (PCDT IDP). Idade conforme critério diagnóstico.</span></div></div>
-        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Não há DUT específica: a ANS entende que as imunoglobulinas IV e SC já têm cobertura obrigatória quando prescritas nas indicações da bula registrada na ANVISA (ciclo de atualização do Rol 2019/2020). Documente indicação, dose e via. <em>Revisado em 02/11/2026.</em></span></div></div>
-        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: ✅ disponível via CEAF (apresentações 2,5 g e 5,0 g). PCDT de Imunodeficiência Primária com predominância de defeitos de anticorpos (Portaria SAS/MS nº 495/2007): CID D80.0–D80.8 e D83.x; 300–600 mg/kg a cada 3 semanas ou 400–800 mg/kg a cada 4 semanas. <strong>Em análise:</strong> Consulta Pública CONITEC 71/2026 para ampliar a IgIV a novos CIDs (D82.2, G11.3, D84.8, D89.8), com recomendação preliminar favorável.</div></div>
-        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">A 10% permite menor volume e infusão mais rápida; a 5% é preferível em cardiopatas e nefropatas.</div></div>
-        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igiv','Imunoglobulina Humana IV')">📝 Gerar relatório para plano de saúde</button></div>
-      </div>
-    </div>
-    <div class="bio-card igp-card" id="ig-kiovig">
-      <div class="bio-header igp-header" onclick="toggleIg('kiovig')">
-        <div class="igp-info"><div class="igp-nome">Kiovig® 10%</div><div class="igp-fab">Takeda</div><span class="igp-conc">10% · 100 mg/mL</span></div>
-        <div class="bio-chevron">›</div>
-      </div>
-      <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 10% líquida — frascos de 1 g a 20 g</div></div>
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal derivada de plasma humano. Em altas doses exerce efeito imunomodulador (bloqueio de receptores Fc, modulação do complemento, neutralização de autoanticorpos e citocinas).</div></div>
-        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos (agamaglobulinemia, IDCV, SCID, Wiskott-Aldrich)</li><li>Hipogamaglobulinemia secundária (mieloma múltiplo, LLC)</li><li>Púrpura trombocitopênica imune (PTI)</li><li>Doença de Kawasaki</li><li>Síndrome de Guillain-Barré</li><li>Polineuropatia desmielinizante inflamatória crônica (PIDC)</li><li>Dermatomiosite, miastenia gravis</li></ul></div></div>
-        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">Todas as idades (0+ anos, ajuste por peso)</div></div>
-        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição (IDP): 400–800 mg/kg a cada 3–4 semanas. Imunomodulação: 2 g/kg dividido em 2–5 dias. Meta: IgG ≥600 mg/dL.</div></div>
-        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para imunodeficiências primárias em todas as idades (PCDT IDP). Idade conforme critério diagnóstico.</span></div></div>
-        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Não há DUT específica: a ANS entende que as imunoglobulinas IV e SC já têm cobertura obrigatória quando prescritas nas indicações da bula registrada na ANVISA (ciclo de atualização do Rol 2019/2020). Documente indicação, dose e via. <em>Revisado em 02/11/2026.</em></span></div></div>
-        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: ✅ disponível via CEAF (apresentações 2,5 g e 5,0 g). PCDT de Imunodeficiência Primária com predominância de defeitos de anticorpos (Portaria SAS/MS nº 495/2007): CID D80.0–D80.8 e D83.x; 300–600 mg/kg a cada 3 semanas ou 400–800 mg/kg a cada 4 semanas. <strong>Em análise:</strong> Consulta Pública CONITEC 71/2026 para ampliar a IgIV a novos CIDs (D82.2, G11.3, D84.8, D89.8), com recomendação preliminar favorável.</div></div>
-        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Estabilizada com glicina, isenta de sacarose e maltose — não interfere na glicemia capilar.</div></div>
-        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igiv','Imunoglobulina Humana IV')">📝 Gerar relatório para plano de saúde</button></div>
-      </div>
-    </div>
-    <div class="bio-card igp-card" id="ig-flebogamma">
-      <div class="bio-header igp-header" onclick="toggleIg('flebogamma')">
-        <div class="igp-info"><div class="igp-nome">Flebogamma® DIF 10%</div><div class="igp-fab">Grifols</div><span class="igp-conc">10% · 100 mg/mL</span></div>
-        <div class="bio-chevron">›</div>
-      </div>
-      <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 5% e 10% DIF — frascos de 2,5 g a 20 g</div></div>
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal derivada de plasma humano. Em altas doses exerce efeito imunomodulador (bloqueio de receptores Fc, modulação do complemento, neutralização de autoanticorpos e citocinas).</div></div>
-        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos (agamaglobulinemia, IDCV, SCID, Wiskott-Aldrich)</li><li>Hipogamaglobulinemia secundária (mieloma múltiplo, LLC)</li><li>Púrpura trombocitopênica imune (PTI)</li><li>Doença de Kawasaki</li><li>Síndrome de Guillain-Barré</li><li>Polineuropatia desmielinizante inflamatória crônica (PIDC)</li><li>Dermatomiosite, miastenia gravis</li></ul></div></div>
-        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">≥ 2 anos (IDP) · adultos e crianças</div></div>
-        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição (IDP): 400–800 mg/kg a cada 3–4 semanas. Imunomodulação: 2 g/kg dividido em 2–5 dias. Meta: IgG ≥600 mg/dL.</div></div>
-        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para imunodeficiências primárias em todas as idades (PCDT IDP). Idade conforme critério diagnóstico.</span></div></div>
-        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Não há DUT específica: a ANS entende que as imunoglobulinas IV e SC já têm cobertura obrigatória quando prescritas nas indicações da bula registrada na ANVISA (ciclo de atualização do Rol 2019/2020). Documente indicação, dose e via. <em>Revisado em 02/11/2026.</em></span></div></div>
-        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: ✅ disponível via CEAF (apresentações 2,5 g e 5,0 g). PCDT de Imunodeficiência Primária com predominância de defeitos de anticorpos (Portaria SAS/MS nº 495/2007): CID D80.0–D80.8 e D83.x; 300–600 mg/kg a cada 3 semanas ou 400–800 mg/kg a cada 4 semanas. <strong>Em análise:</strong> Consulta Pública CONITEC 71/2026 para ampliar a IgIV a novos CIDs (D82.2, G11.3, D84.8, D89.8), com recomendação preliminar favorável.</div></div>
-        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Dupla inativação viral e nanofiltração. Isenta de sacarose — menor risco de lesão renal aguda.</div></div>
-        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igiv','Imunoglobulina Humana IV')">📝 Gerar relatório para plano de saúde</button></div>
-      </div>
-    </div>
-    <div class="bio-card igp-card" id="ig-tegeline">
-      <div class="bio-header igp-header" onclick="toggleIg('tegeline')">
-        <div class="igp-info"><div class="igp-nome">Tegeline® 5%</div><div class="igp-fab">LFB · SUS</div><span class="igp-conc">5% · 50 mg/mL</span></div>
-        <div class="bio-chevron">›</div>
-      </div>
-      <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 5% liofilizada — frascos de 0,5 g / 2,5 g / 5 g / 10 g</div></div>
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal derivada de plasma humano. Em altas doses exerce efeito imunomodulador (bloqueio de receptores Fc, modulação do complemento, neutralização de autoanticorpos e citocinas).</div></div>
-        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos (agamaglobulinemia, IDCV, SCID, Wiskott-Aldrich)</li><li>Hipogamaglobulinemia secundária (mieloma múltiplo, LLC)</li><li>Púrpura trombocitopênica imune (PTI)</li><li>Doença de Kawasaki</li><li>Síndrome de Guillain-Barré</li><li>Polineuropatia desmielinizante inflamatória crônica (PIDC)</li><li>Dermatomiosite, miastenia gravis</li></ul></div></div>
-        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">Todas as idades (0+ anos, ajuste por peso)</div></div>
-        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição (IDP): 400–800 mg/kg a cada 3–4 semanas. Imunomodulação: 2 g/kg dividido em 2–5 dias. Meta: IgG ≥600 mg/dL.</div></div>
-        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para imunodeficiências primárias em todas as idades (PCDT IDP). Idade conforme critério diagnóstico.</span></div></div>
-        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Não há DUT específica: a ANS entende que as imunoglobulinas IV e SC já têm cobertura obrigatória quando prescritas nas indicações da bula registrada na ANVISA (ciclo de atualização do Rol 2019/2020). Documente indicação, dose e via. <em>Revisado em 02/11/2026.</em></span></div></div>
-        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: ✅ disponível via CEAF (apresentações 2,5 g e 5,0 g). PCDT de Imunodeficiência Primária com predominância de defeitos de anticorpos (Portaria SAS/MS nº 495/2007): CID D80.0–D80.8 e D83.x; 300–600 mg/kg a cada 3 semanas ou 400–800 mg/kg a cada 4 semanas. <strong>Em análise:</strong> Consulta Pública CONITEC 71/2026 para ampliar a IgIV a novos CIDs (D82.2, G11.3, D84.8, D89.8), com recomendação preliminar favorável.</div></div>
-        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Liofilizada, exige reconstituição. Contém sacarose: atenção em nefropatas e idosos. Habitual no CEAF.</div></div>
-        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igiv','Imunoglobulina Humana IV')">📝 Gerar relatório para plano de saúde</button></div>
-      </div>
-    </div>
-    <div class="bio-card igp-card" id="ig-endobulin">
-      <div class="bio-header igp-header" onclick="toggleIg('endobulin')">
-        <div class="igp-info"><div class="igp-nome">Endobulin® S/D 5%</div><div class="igp-fab">Baxter</div><span class="igp-conc">5% · 50 mg/mL</span></div>
-        <div class="bio-chevron">›</div>
-      </div>
-      <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 5% liofilizada — frascos de 0,5 g / 2,5 g / 5 g / 10 g</div></div>
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal derivada de plasma humano. Em altas doses exerce efeito imunomodulador (bloqueio de receptores Fc, modulação do complemento, neutralização de autoanticorpos e citocinas).</div></div>
-        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos (agamaglobulinemia, IDCV, SCID, Wiskott-Aldrich)</li><li>Hipogamaglobulinemia secundária (mieloma múltiplo, LLC)</li><li>Púrpura trombocitopênica imune (PTI)</li><li>Doença de Kawasaki</li><li>Síndrome de Guillain-Barré</li><li>Polineuropatia desmielinizante inflamatória crônica (PIDC)</li><li>Dermatomiosite, miastenia gravis</li></ul></div></div>
-        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">Todas as idades (0+ anos, ajuste por peso)</div></div>
-        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição (IDP): 400–800 mg/kg a cada 3–4 semanas. Imunomodulação: 2 g/kg dividido em 2–5 dias. Meta: IgG ≥600 mg/dL.</div></div>
-        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para imunodeficiências primárias em todas as idades (PCDT IDP). Idade conforme critério diagnóstico.</span></div></div>
-        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Não há DUT específica: a ANS entende que as imunoglobulinas IV e SC já têm cobertura obrigatória quando prescritas nas indicações da bula registrada na ANVISA (ciclo de atualização do Rol 2019/2020). Documente indicação, dose e via. <em>Revisado em 02/11/2026.</em></span></div></div>
-        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: ✅ disponível via CEAF (apresentações 2,5 g e 5,0 g). PCDT de Imunodeficiência Primária com predominância de defeitos de anticorpos (Portaria SAS/MS nº 495/2007): CID D80.0–D80.8 e D83.x; 300–600 mg/kg a cada 3 semanas ou 400–800 mg/kg a cada 4 semanas. <strong>Em análise:</strong> Consulta Pública CONITEC 71/2026 para ampliar a IgIV a novos CIDs (D82.2, G11.3, D84.8, D89.8), com recomendação preliminar favorável.</div></div>
-        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Inativação por solvente/detergente. Reconstituição necessária; infundir lentamente no início.</div></div>
-        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igiv','Imunoglobulina Humana IV')">📝 Gerar relatório para plano de saúde</button></div>
-      </div>
-    </div>
-    <div class="bio-card igp-card" id="ig-gammaked">
-      <div class="bio-header igp-header" onclick="toggleIg('gammaked')">
-        <div class="igp-info"><div class="igp-nome">Gammaked® 10%</div><div class="igp-fab">Grifols/Kedrion</div><span class="igp-conc">10% · 100 mg/mL</span></div>
-        <div class="bio-chevron">›</div>
-      </div>
-      <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 10% líquida, estabilizada com glicina — frascos de 1 g a 20 g</div></div>
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal derivada de plasma humano. Em altas doses exerce efeito imunomodulador (bloqueio de receptores Fc, modulação do complemento, neutralização de autoanticorpos e citocinas).</div></div>
-        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos (agamaglobulinemia, IDCV, SCID, Wiskott-Aldrich)</li><li>Hipogamaglobulinemia secundária (mieloma múltiplo, LLC)</li><li>Púrpura trombocitopênica imune (PTI)</li><li>Doença de Kawasaki</li><li>Síndrome de Guillain-Barré</li><li>Polineuropatia desmielinizante inflamatória crônica (PIDC)</li><li>Dermatomiosite, miastenia gravis</li></ul></div></div>
-        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">≥ 2 anos (IDP) · adultos e crianças</div></div>
-        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição (IDP): 400–800 mg/kg a cada 3–4 semanas. Imunomodulação: 2 g/kg dividido em 2–5 dias. Meta: IgG ≥600 mg/dL.</div></div>
-        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para imunodeficiências primárias em todas as idades (PCDT IDP). Idade conforme critério diagnóstico.</span></div></div>
-        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Não há DUT específica: a ANS entende que as imunoglobulinas IV e SC já têm cobertura obrigatória quando prescritas nas indicações da bula registrada na ANVISA (ciclo de atualização do Rol 2019/2020). Documente indicação, dose e via. <em>Revisado em 02/11/2026.</em></span></div></div>
-        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: ✅ disponível via CEAF (apresentações 2,5 g e 5,0 g). PCDT de Imunodeficiência Primária com predominância de defeitos de anticorpos (Portaria SAS/MS nº 495/2007): CID D80.0–D80.8 e D83.x; 300–600 mg/kg a cada 3 semanas ou 400–800 mg/kg a cada 4 semanas. <strong>Em análise:</strong> Consulta Pública CONITEC 71/2026 para ampliar a IgIV a novos CIDs (D82.2, G11.3, D84.8, D89.8), com recomendação preliminar favorável.</div></div>
-        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Pode ser usada por via IV ou SC conforme bula — útil quando se planeja transição de via.</div></div>
-        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igiv','Imunoglobulina Humana IV')">📝 Gerar relatório para plano de saúde</button></div>
-      </div>
-    </div>
-    <div class="bio-card igp-card" id="ig-gamunex">
-      <div class="bio-header igp-header" onclick="toggleIg('gamunex')">
-        <div class="igp-info"><div class="igp-nome">Gamunex-C® 10%</div><div class="igp-fab">Grifols</div><span class="igp-conc">10% · 100 mg/mL</span></div>
-        <div class="bio-chevron">›</div>
-      </div>
-      <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 10% líquida — frascos de 1 g a 20 g</div></div>
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal derivada de plasma humano. Em altas doses exerce efeito imunomodulador (bloqueio de receptores Fc, modulação do complemento, neutralização de autoanticorpos e citocinas).</div></div>
-        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos (agamaglobulinemia, IDCV, SCID, Wiskott-Aldrich)</li><li>Hipogamaglobulinemia secundária (mieloma múltiplo, LLC)</li><li>Púrpura trombocitopênica imune (PTI)</li><li>Doença de Kawasaki</li><li>Síndrome de Guillain-Barré</li><li>Polineuropatia desmielinizante inflamatória crônica (PIDC)</li><li>Dermatomiosite, miastenia gravis</li></ul></div></div>
-        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">≥ 2 anos (IDP) · adultos e crianças</div></div>
-        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição (IDP): 400–800 mg/kg a cada 3–4 semanas. Imunomodulação: 2 g/kg dividido em 2–5 dias. Meta: IgG ≥600 mg/dL.</div></div>
-        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para imunodeficiências primárias em todas as idades (PCDT IDP). Idade conforme critério diagnóstico.</span></div></div>
-        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Não há DUT específica: a ANS entende que as imunoglobulinas IV e SC já têm cobertura obrigatória quando prescritas nas indicações da bula registrada na ANVISA (ciclo de atualização do Rol 2019/2020). Documente indicação, dose e via. <em>Revisado em 02/11/2026.</em></span></div></div>
-        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: ✅ disponível via CEAF (apresentações 2,5 g e 5,0 g). PCDT de Imunodeficiência Primária com predominância de defeitos de anticorpos (Portaria SAS/MS nº 495/2007): CID D80.0–D80.8 e D83.x; 300–600 mg/kg a cada 3 semanas ou 400–800 mg/kg a cada 4 semanas. <strong>Em análise:</strong> Consulta Pública CONITEC 71/2026 para ampliar a IgIV a novos CIDs (D82.2, G11.3, D84.8, D89.8), com recomendação preliminar favorável.</div></div>
-        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Indicação formal em PIDC. Também admite uso subcutâneo em IDP conforme bula.</div></div>
-        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igiv','Imunoglobulina Humana IV')">📝 Gerar relatório para plano de saúde</button></div>
-      </div>
-    </div>
-    <div class="bio-card igp-card" id="ig-hizentra">
-      <div class="bio-header igp-header" onclick="toggleIg('hizentra')">
-        <div class="igp-info"><div class="igp-nome">Hizentra® 20%</div><div class="igp-fab">CSL Behring</div><span class="igp-conc">20% · 200 mg/mL</span></div>
-        <div class="bio-chevron">›</div>
-      </div>
-      <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 20% SC — seringas/frascos de 1 g / 2 g / 4 g / 10 g</div></div>
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal por via subcutânea, com níveis séricos mais estáveis que a via IV, menos efeitos adversos sistêmicos e possibilidade de autoaplicação domiciliar.</div></div>
-        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos</li><li>Hipogamaglobulinemia secundária</li><li>PIDC (terapia de manutenção — conforme bula do produto)</li><li>Pacientes com reações adversas à IGIV ou acesso venoso difícil</li></ul></div></div>
-        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">Todas as idades (disponível no Brasil desde 2015)</div></div>
-        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição: 100–150 mg/kg 1×/semana (após conversão da dose IV mensal, fator 1,37–1,5). Esquema inicial: 100 mg/kg/semana ou 200 mg/kg a cada 14 dias.</div></div>
-        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para IDP. Frequentemente solicitada quando há intolerância à via IV; muitas vezes judicializada.</span></div></div>
-        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Sem DUT específica: cobertura obrigatória quando prescrita nas indicações da bula (mesmo entendimento da ANS para IV e SC). <em>Revisado em 02/11/2026.</em></span></div></div>
-        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: a IGIV é a forma padrão — a via subcutânea não está incorporada. <strong>Em análise:</strong> Consulta Pública CONITEC 67/2026 (jul/2026) sobre a imunoglobulina subcutânea. Até lá, a IGSC frequentemente requer via judicial.</div></div>
-        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Concentração 20% reduz o volume por sítio. Reação local é o evento adverso mais comum.</div></div>
-        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igsc','Imunoglobulina Humana SC')">📝 Gerar relatório para plano de saúde</button></div>
-      </div>
-    </div>
-    <div class="bio-card igp-card" id="ig-cuvitru">
-      <div class="bio-header igp-header" onclick="toggleIg('cuvitru')">
-        <div class="igp-info"><div class="igp-nome">Cuvitru® 20%</div><div class="igp-fab">Takeda</div><span class="igp-conc">20% · 200 mg/mL</span></div>
-        <div class="bio-chevron">›</div>
-      </div>
-      <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 20% SC — frascos de 1 g a 10 g</div></div>
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal por via subcutânea, com níveis séricos mais estáveis que a via IV, menos efeitos adversos sistêmicos e possibilidade de autoaplicação domiciliar.</div></div>
-        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos</li><li>Hipogamaglobulinemia secundária</li><li>PIDC (terapia de manutenção — conforme bula do produto)</li><li>Pacientes com reações adversas à IGIV ou acesso venoso difícil</li></ul></div></div>
-        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">≥ 2 anos · adultos e crianças</div></div>
-        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição: 100–150 mg/kg 1×/semana (após conversão da dose IV mensal, fator 1,37–1,5). Esquema inicial: 100 mg/kg/semana ou 200 mg/kg a cada 14 dias.</div></div>
-        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para IDP. Frequentemente solicitada quando há intolerância à via IV; muitas vezes judicializada.</span></div></div>
-        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Sem DUT específica: cobertura obrigatória quando prescrita nas indicações da bula (mesmo entendimento da ANS para IV e SC). <em>Revisado em 02/11/2026.</em></span></div></div>
-        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: a IGIV é a forma padrão — a via subcutânea não está incorporada. <strong>Em análise:</strong> Consulta Pública CONITEC 67/2026 (jul/2026) sobre a imunoglobulina subcutânea. Até lá, a IGSC frequentemente requer via judicial.</div></div>
-        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Isenta de estabilizantes açucarados; permite volumes maiores por sítio e infusão mais rápida.</div></div>
-        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igsc','Imunoglobulina Humana SC')">📝 Gerar relatório para plano de saúde</button></div>
-      </div>
-    </div>
-    <div class="bio-card igp-card" id="ig-gammanorm">
-      <div class="bio-header igp-header" onclick="toggleIg('gammanorm')">
-        <div class="igp-info"><div class="igp-nome">Gammanorm® 16,5%</div><div class="igp-fab">Octapharma</div><span class="igp-conc">16,5% · 165 mg/mL</span></div>
-        <div class="bio-chevron">›</div>
-      </div>
-      <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 16,5% SC — frascos de 1 g / 1,65 g / 3,3 g</div></div>
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Reposição de IgG policlonal por via subcutânea, com níveis séricos mais estáveis que a via IV, menos efeitos adversos sistêmicos e possibilidade de autoaplicação domiciliar.</div></div>
-        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos</li><li>Hipogamaglobulinemia secundária</li><li>PIDC (terapia de manutenção — conforme bula do produto)</li><li>Pacientes com reações adversas à IGIV ou acesso venoso difícil</li></ul></div></div>
-        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">Todas as idades, conforme bula</div></div>
-        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição: 100–150 mg/kg 1×/semana (após conversão da dose IV mensal, fator 1,37–1,5). Esquema inicial: 100 mg/kg/semana ou 200 mg/kg a cada 14 dias.</div></div>
-        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">Coberta para IDP. Frequentemente solicitada quando há intolerância à via IV; muitas vezes judicializada.</span></div></div>
-        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-yes">✅ Sim — no Rol ANS</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Sem DUT específica: cobertura obrigatória quando prescrita nas indicações da bula (mesmo entendimento da ANS para IV e SC). <em>Revisado em 02/11/2026.</em></span></div></div>
-        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: a IGIV é a forma padrão — a via subcutânea não está incorporada. <strong>Em análise:</strong> Consulta Pública CONITEC 67/2026 (jul/2026) sobre a imunoglobulina subcutânea. Até lá, a IGSC frequentemente requer via judicial.</div></div>
-        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Concentração intermediária; pode ser administrada também por via intramuscular em situações específicas.</div></div>
-        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('igsc','Imunoglobulina Humana SC')">📝 Gerar relatório para plano de saúde</button></div>
-      </div>
-    </div>
-    <div class="bio-card igp-card" id="ig-hyqvia">
-      <div class="bio-header igp-header" onclick="toggleIg('hyqvia')">
-        <div class="igp-info"><div class="igp-nome">HyQvia® 10%</div><div class="igp-fab">Takeda · c/ hialuronidase</div><span class="igp-conc">10% · 100 mg/mL</span></div>
-        <div class="bio-chevron">›</div>
-      </div>
-      <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">IgG 10% + hialuronidase humana recombinante — kit duplo de 2,5 g a 30 g</div></div>
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Imunoglobulina humana 10% combinada com hialuronidase humana recombinante, que aumenta a dispersão e a absorção subcutânea, permitindo grandes volumes por sítio e infusões menos frequentes (a cada 3–4 semanas).</div></div>
-        <div class="bio-section"><div class="bio-label">Indicações</div><div class="bio-value"><ul><li>Imunodeficiências primárias com defeito de anticorpos</li><li>Hipogamaglobulinemia secundária</li><li>Pacientes que desejam intervalo maior entre as infusões subcutâneas</li></ul></div></div>
-        <div class="bio-section"><div class="bio-label">Idade</div><div class="bio-value">≥ 2 anos (conforme bula) · adultos e crianças</div></div>
-        <div class="bio-section"><div class="bio-label">Posologia</div><div class="bio-value">Reposição: 300–600 mg/kg a cada 3–4 semanas SC (mesma dose mensal da IGIV), após período de titulação.</div></div>
-        <div class="bio-section"><div class="bio-label">Idade liberada pela DUT</div><div class="bio-value" style="display:flex;align-items:flex-start;gap:7px"><span style="font-size:15px;flex-shrink:0">📋</span><span style="font-size:12.5px;color:var(--teal-mid);font-weight:600">A partir de 2 anos conforme bula. Não amplamente incluída no Rol; acesso geralmente judicial.</span></div></div>
-        <div class="bio-section"><div class="bio-label">Cobertura ANS</div><div class="bio-value"><span class="bio-ans-no">❌ Não amplamente incluído</span><br><span style="font-size:11.5px;color:var(--gray-500);display:block;margin-top:6px">Rol ANS: ainda não amplamente incluída. Avaliação caso a caso — fundamente a necessidade clínica e a falha/intolerância às alternativas. <em>Revisado em 02/11/2026.</em></span></div></div>
-        <div class="bio-section"><div class="bio-label">DUT / SUS</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">SUS: não disponível pela via padrão. Acesso por processo judicial na maioria dos casos.</div></div>
-        <div class="bio-section"><div class="bio-label">Observação prática</div><div class="bio-value" style="font-size:12.5px;color:var(--gray-500)">Administrar a hialuronidase antes da IgG, no mesmo sítio. Permite a dose mensal inteira em um único sítio.</div></div>
-        <div class="bio-section"><button class="bio-rel-btn" onclick="openRelatorioSheet('hyqvia','IGSC Facilitada (Hialuronidase)')">📝 Gerar relatório para plano de saúde</button></div>
-      </div>
-    </div>
-    </div>
+
+    <div id="igSaida" style="display:none;padding:0 16px 20px"></div>
   </div>
 
     <!-- ══ FAVORITOS ══ -->
@@ -3628,58 +3466,47 @@ var IG_FABRICANTE = {privigen_10:'CSL Behring',octagam_10:'Octapharma',kiovig_10
 function renderIgPicker(){
   var box = document.getElementById('igProdutoPicker');
   if(!box) return;
-  var atual = (document.getElementById('igProduto')||{}).value || 'generic';
+  var atual = (document.getElementById('igProduto')||{}).value || '';
   function grupo(titulo, via){
     var h = '<div class="ig-grupo"><div class="ig-grupo-tit">' + titulo + '</div><div class="ig-grid">';
     Object.keys(IG_PRODUTOS).forEach(function(k){
       var p = IG_PRODUTOS[k];
       if(!p.via || p.via.indexOf(via) !== 0) return;
-      var foto = '';
-      var marca = (function(){var key=IG_LOGO[k]; var src=IG_LOGO_IMG[key]; if(src) return '<img class="ig-logo-img" src="'+src+'" alt="" loading="lazy">';
-             var m=IG_MARCA[key];return m?'<span class="ig-marca" style="background:'+m[1]+'">'+m[0]+'</span>':'';})();
+      var key = IG_LOGO[k], src = IG_LOGO_IMG[key];
+      var marca = src ? '<img class="ig-logo-img" src="'+src+'" alt="" loading="lazy">' : '';
       h += '<button type="button" class="ig-card' + (k===atual?' sel':'') + '" onclick="selecionarIgProduto(\'' + k + '\')">' +
-           foto + '<span class="ig-txt">' + marca +
+           '<span class="ig-txt">' + marca +
            '<span class="ig-n">' + p.nome + '</span>' +
-           '<span class="ig-f">' + (IG_FABRICANTE[k]||'') + '</span>' +
-           '<span class="ig-c">' + (p.conc/10).toString().replace('.',',') + '% · ' + p.conc + ' mg/mL</span></span></button>' +
-           (k===atual ? '<div class="ig-ficha-slot" id="igFichaSlot"></div>' : '');
+           '<span class="ig-f">' + (IG_FABRICANTE[k]||'') + '</span></span></button>';
     });
     return h + '</div></div>';
   }
-  box.innerHTML = grupo('💧 Intravenosa (IV)', 'IV') + grupo('💉 Subcutânea (SC)', 'SC') +
-    '<div class="ig-grupo"><div class="ig-grid"><button type="button" class="ig-card full' + (atual==='generic'?' sel':'') + '" onclick="selecionarIgProduto(\'generic\')">' +
-    '<span class="ig-n">Calcular apenas em gramas</span><span class="ig-f">Sem escolher produto</span></button></div></div>';
+  box.innerHTML = grupo('\ud83d\udca7 Intravenosa (IV)', 'IV') + grupo('\ud83d\udc89 Subcut\u00e2nea (SC)', 'SC');
 }
-var _igFichaAberta = false;
 function selecionarIgProduto(k){
   var inp = document.getElementById('igProduto');
-  var antes = inp ? inp.value : 'generic';
-  _igFichaAberta = (k === antes) ? !_igFichaAberta : true;
-  if(inp) inp.value = k;
-  var atual = document.querySelector('#page-imunoglobulinas .igp-card.ativa');
-  var reservas = document.getElementById('igFichasReserva');
-  if(atual && reservas) reservas.appendChild(atual);
+  if(inp) inp.value = (inp.value === k) ? '' : k;
+  var via = document.getElementById('igVia');
+  var p = IG_PRODUTOS[k];
+  if(via && p && p.via && inp.value) via.value = (p.via.indexOf('SC')===0) ? 'SC' : 'IV';
   renderIgPicker();
-  mostrarFichaIg(k);
 }
-function mostrarFichaIg(k){
-  var alvo = (k && k !== 'generic') ? 'ig-' + k.split('_')[0] : null;
-  document.querySelectorAll('#page-imunoglobulinas .igp-card').forEach(function(c){
-    c.classList.toggle('ativa', c.id === alvo);
-    if(c.id !== alvo) c.classList.remove('open');
-  });
-  var tit = document.getElementById('igFichaTitulo');
-  if(tit) tit.style.display = 'none';
-  if(!_igFichaAberta){
-    document.querySelectorAll('#page-imunoglobulinas .igp-card').forEach(function(c){ c.classList.remove('ativa'); c.classList.remove('open'); });
-    return;
-  }
-  var slot = document.getElementById('igFichaSlot');
-  var ficha = alvo ? document.getElementById(alvo) : null;
-  if(slot && ficha){ slot.appendChild(ficha); ficha.classList.add('open'); }
-}
-document.addEventListener('DOMContentLoaded', function(){ mostrarFichaIg((document.getElementById('igProduto')||{}).value); });
 document.addEventListener('DOMContentLoaded', renderIgPicker);
+document.addEventListener('DOMContentLoaded', function(){
+  var box = document.getElementById('igRiscos');
+  if(!box) return;
+  box.addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('.ig-chip') : null;
+    if(!b) return;
+    if(b.dataset.r === 'nenhum'){
+      box.querySelectorAll('.ig-chip').forEach(function(c){ c.classList.remove('on'); });
+      b.classList.add('on'); return;
+    }
+    var nen = box.querySelector('.ig-chip[data-r="nenhum"]');
+    if(nen) nen.classList.remove('on');
+    b.classList.toggle('on');
+  });
+});
 
 /* ── Ordena cards de artigo por data (desc) ───── */
 var _MESES_PT = {jan:0,fev:1,mar:2,abr:3,mai:4,jun:5,jul:6,ago:7,set:8,out:9,nov:10,dez:11};
@@ -5684,140 +5511,189 @@ var _tbLogo = document.getElementById('tbLogo');
 if(_tbLogo) _tbLogo.addEventListener('click', function(){ navTo('dashboard'); });
 
 /* ── IMUNOGLOBULINAS ── */
-function toggleIg(id) {
-  var card = document.getElementById('ig-' + id);
-  if(!card) return;
-  var isOpen = card.classList.contains('open');
-  document.querySelectorAll('#page-imunoglobulinas .bio-card.open').forEach(function(c){ c.classList.remove('open'); });
-  if(!isOpen) card.classList.add('open');
-}
+function gerarOrientacaoIg(){
+  var prod_k = (document.getElementById('igProduto')||{}).value||'';
+  var prod   = prod_k ? IG_PRODUTOS[prod_k] : null;
+  var nome   = (document.getElementById('igNome')||{}).value||'(não informado)';
+  var idade  = parseFloat((document.getElementById('igIdade')||{}).value);
+  var idUn   = (document.getElementById('igIdadeUn')||{}).value||'anos';
+  var peso   = parseFloat((document.getElementById('igPeso')||{}).value);
+  var dx     = (document.getElementById('igDx')||{}).value||'';
+  var igG    = parseFloat((document.getElementById('igIgG')||{}).value);
+  var via    = (document.getElementById('igVia')||{}).value||'IV';
+  var infRep = (document.getElementById('igInfRep')||{}).value||'';
+  var primeira = (document.getElementById('igPrimeira')||{}).value||'nao';
+  var reacao   = (document.getElementById('igReacao')||{}).value||'nenhuma';
+  var anafOutro = (document.getElementById('igAnafOutro')||{}).value||'';
+  var infAtiva  = (document.getElementById('igInfAtiva')||{}).value||'nao';
+  var riscosEl  = document.querySelectorAll('#igRiscos .ig-chip.on');
+  var riscos = [];
+  riscosEl.forEach(function(c){ if(c.dataset.r !== 'nenhum') riscos.push(c.dataset.r); });
 
+  // --- VALIDAÇÕES ---
+  if(!prod_k || !prod){ toast('⚠️','Selecione o produto acima'); return; }
+  if(!dx){ toast('⚠️','Selecione a indicação clínica'); return; }
+  if(isNaN(peso) || peso <= 0){ toast('⚠️','Digite um peso válido'); return; }
+  if(peso < 2 || peso > 250){ toast('⛔','Peso fora da faixa aceita (2–250 kg)'); return; }
+  if(isNaN(idade) || idade < 0){ toast('⚠️','Digite a idade do paciente'); return; }
 
-function toggleCustomMg(){
-  var repWrap = document.getElementById('igRepIvMgWrap');
-  var finEl = document.getElementById('igFinalidade');
-  if(repWrap && finEl) repWrap.style.display = (finEl.value === 'reposicao_iv') ? 'flex' : 'none';
-  var fin=document.getElementById('igFinalidade').value;
-  var wrap=document.getElementById('igCustomMgWrap');
-  if(wrap) wrap.style.display = (fin==='custom') ? 'flex' : 'none';
-}
-
-// Concentrações dos produtos (mg/mL)
-var IG_PRODUTOS = {
-  privigen_10:   {nome:'Privigen® 10%',     conc:100, via:'IV'},
-  octagam_10:    {nome:'Octagam® 10%',      conc:100, via:'IV'},
-  kiovig_10:     {nome:'Kiovig® 10%',       conc:100, via:'IV'},
-  flebogamma_10: {nome:'Flebogamma® DIF 10%',conc:100, via:'IV'},
-  tegeline_5:    {nome:'Tegeline® 5%',      conc:50,  via:'IV'},
-  endobulin_5:   {nome:'Endobulin® S/D 5%', conc:50,  via:'IV'},
-  gammaked_10:   {nome:'Gammaked® 10%',     conc:100, via:'IV'},
-  gamunex_10:    {nome:'Gamunex-C® 10%',    conc:100, via:'IV'},
-  hizentra_20:   {nome:'Hizentra® 20%',     conc:200, via:'SC'},
-  cuvitru_20:    {nome:'Cuvitru® 20%',      conc:200, via:'SC'},
-  hyqvia_10:     {nome:'HyQvia® 10%',       conc:100, via:'SC facilitada'},
-  gammanorm_165: {nome:'Gammanorm® 16,5%',  conc:165, via:'SC'},
-  generic:       {nome:null,                conc:null, via:null}
-};
-
-function _igVolLine(gramas, prod) {
-  if(!prod || prod.conc === null) return '';
-  var ml = (gramas * 1000 / prod.conc).toFixed(1);
-  return '<br>→ <strong style="color:#7ee0ec">' + ml + ' mL</strong> de ' + prod.nome + ' (' + prod.conc + ' mg/mL)';
-}
-
-
-function _igTopo(etiqueta, valor, sub){
-  return '<div style="border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:10px;margin-bottom:10px">' +
-    '<div style="font-size:10.5px;font-weight:800;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.06em">' + etiqueta + '</div>' +
-    '<div style="font-size:28px;font-weight:900;color:#fff;line-height:1.1;margin-top:3px">' + valor + '</div>' +
-    (sub ? '<div style="font-size:11.5px;color:rgba(255,255,255,.75);margin-top:3px">' + sub + '</div>' : '') + '</div>';
-}
-function _igLinha(rotulo, valor){
-  return '<div style="display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.10);font-size:12.5px">' +
-    '<span style="color:rgba(255,255,255,.75)">' + rotulo + '</span>' +
-    '<span style="color:#fff;font-weight:700;text-align:right">' + valor + '</span></div>';
-}
-function _igNota(txt){
-  return '<div style="margin-top:10px;background:rgba(255,255,255,.10);border-left:3px solid #7ee0ec;border-radius:8px;padding:9px 11px;font-size:11.5px;color:rgba(255,255,255,.88);line-height:1.5">' + txt + '</div>';
-}
-function _igVolTexto(gramas, prod){
-  if(!prod || prod.conc === null) return null;
-  return (gramas * 1000 / prod.conc).toFixed(1) + ' mL de ' + prod.nome;
-}
-
-function calcularIg() {
-  var peso = parseFloat(document.getElementById('igPeso').value);
-  var fin = document.getElementById('igFinalidade').value;
-  var res = document.getElementById('igResultado');
-  var prodKey = document.getElementById('igProduto') ? document.getElementById('igProduto').value : 'generic';
-  var prod = IG_PRODUTOS[prodKey] || IG_PRODUTOS['generic'];
-  if(!isFinite(peso) || peso <= 0) { toast('⚠️','Digite um peso válido'); return; }
-  if(peso < 2 || peso > 250) { toast('⛔','Peso fora da faixa aceita (2–250 kg). Confira o valor.'); return; }
-  var viaFin = (fin === 'reposicao_sc') ? 'SC' : 'IV';
-  if(prod.via && fin !== 'custom'){
-    var viaProd = prod.via.indexOf('SC') === 0 ? 'SC' : 'IV';
-    if(viaProd !== viaFin){
-      toast('⛔','Produto incompatível com a via escolhida: ' + prod.nome + ' é de uso ' + (viaProd==='SC'?'subcutâneo':'intravenoso') + '.');
-      return;
-    }
-    if(fin === 'imunomod' && viaProd === 'SC'){
-      toast('⛔','Imunomodulação em dose alta não se aplica a apresentação subcutânea.');
-      return;
-    }
+  // Compatibilidade via × produto
+  var viaProd = (prod.via && prod.via.indexOf('SC') === 0) ? 'SC' : 'IV';
+  if(viaProd !== via){
+    toast('⛔','Produto incompatível com via escolhida: '+prod.nome+' é de uso '+(viaProd==='SC'?'subcutâneo':'intravenoso')+'.');
+    return;
   }
 
-  var html = '';
-  if(fin === 'reposicao_iv') {
-    var selMg = document.getElementById('igRepIvMg');
-    var mgEsc = selMg ? parseFloat(selMg.value) : 500;
-    var escolhida = peso * mgEsc / 1000;
-    var tabela = '';
-    for(var mk = 400; mk <= 800; mk += 50){
-      var g = peso * mk / 1000;
-      var destaque = (mk === mgEsc);
-      tabela += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.12);' + (destaque ? 'font-weight:800;color:#7ee0ec' : 'color:rgba(255,255,255,.8)') + '">' +
-                '<span>' + mk + ' mg/kg</span><span>' + g.toFixed(1) + ' g</span></div>';
+  // Aviso infecção ativa — não bloqueia, mas alerta (guideline: avaliar custo-benefício)
+  var avisoInf = (infAtiva === 'sim');
+
+  // --- CÁLCULO DE DOSE ---
+  // Indicações e doses (ASBAI 2023 / AAAAI-ACAAI / EAACI)
+  var dxMap = {
+    agama:     {label:'Agamaglobulinemia',       doseIV:400, doseSC:null, freq:'3–4 sem',   freqSC:'semanal/quinzenal'},
+    idcv:      {label:'Imunodeficiência Comum Variável', doseIV:400, doseSC:null, freq:'3–4 sem', freqSC:'semanal/quinzenal'},
+    idcv_bq:   {label:'IDCV c/ bronquiectasias', doseIV:600, doseSC:null, freq:'3–4 sem',   freqSC:'semanal/quinzenal'},
+    scid:      {label:'Imunodef. Combinada Grave',doseIV:400, doseSC:null, freq:'2–4 sem',   freqSC:'semanal'},
+    dea:       {label:'Def. específica de anticorpos', doseIV:400, doseSC:null, freq:'3–4 sem', freqSC:'semanal/quinzenal'},
+    subclasse: {label:'Def. de subclasse IgG',   doseIV:400, doseSC:null, freq:'3–4 sem',   freqSC:'semanal/quinzenal'},
+    sec_hemato:{label:'Imunodef. secundária hematológica', doseIV:400, doseSC:null, freq:'3–4 sem', freqSC:'semanal/quinzenal'},
+    sec_cd20:  {label:'Imunodef. pós anti-CD20', doseIV:400, doseSC:null, freq:'3–4 sem',   freqSC:'semanal/quinzenal'},
+    sec_tx:    {label:'Imunodef. pós-transplante',doseIV:400, doseSC:null, freq:'3–4 sem',   freqSC:'semanal/quinzenal'},
+    perda:     {label:'Enteropatia perdedora de proteína', doseIV:400, doseSC:null, freq:'2–4 sem', freqSC:null},
+    iga:       {label:'Def. de IgA c/ anti-IgA', doseIV:400, doseSC:null, freq:'3–4 sem',   freqSC:'semanal/quinzenal'},
+    imunomod:  {label:'Imunomodulação (dose alta)',doseIV:1000, doseSC:null, freq:'1–5 dias (dose única ou dividida)', freqSC:null}
+  };
+  var info = dxMap[dx] || {label:dx, doseIV:400, doseSC:null, freq:'3–4 sem'};
+
+  // Imunomodulação apenas IV
+  if(dx === 'imunomod' && via === 'SC'){
+    toast('⛔','Imunomodulação em dose alta é exclusiva via IV.'); return;
+  }
+
+  var mgkg  = (via === 'SC' && info.doseSC) ? info.doseSC : info.doseIV;
+  var doseG = +(peso * mgkg / 1000).toFixed(1);
+
+  // Concentração e volume
+  var concMatch = prod.conc ? prod.conc.match(/(\d+(?:\.\d+)?)\s*%/) : null;
+  var concPct   = concMatch ? parseFloat(concMatch[1]) : null;
+  var concMgmL  = concPct ? concPct * 10 : null;
+  var volML     = concMgmL ? +(doseG * 1000 / concMgmL).toFixed(0) : null;
+
+  // Nível-alvo IgG
+  var igAlvo = (dx === 'idcv_bq') ? 800 : 500; // EAACI: ≥800 em bronquiectasias, ≥500 padrão
+  var igOk   = (!isNaN(igG) && igG >= igAlvo);
+  var igBaixo= (!isNaN(igG) && igG < igAlvo);
+
+  // --- PRÉ-MEDICAÇÃO (não universal — apenas condicional) ---
+  var premedItems = [];
+  if(reacao === 'leve'){
+    premedItems.push('Antialérgico oral (anti-H1) 30–60 min antes: ex. cetirizina 10 mg VO');
+    premedItems.push('Paracetamol 500–750 mg VO 30 min antes (para calafrios)');
+  } else if(reacao === 'anafilaxia'){
+    premedItems.push('⚠️ Discutir com equipe especializada antes da infusão');
+    premedItems.push('Avaliar troca de produto / via ou protocolo de dessensibilização');
+    premedItems.push('Não iniciar sem acesso venoso seguro e adrenalina disponível');
+    premedItems.push('Considerar pré-medicação IV: hidrocortisona + anti-H1 IV + anti-H2 IV');
+  }
+
+  // --- PROTOCOLO DE INFUSÃO IV ---
+  var stepsIV = [];
+  if(via === 'IV'){
+    if(primeira === 'sim'){
+      stepsIV = [
+        {t:'Acesso venoso', d:'Instalar acesso venoso periférico calibroso (≥ 20G). Confirmar permeabilidade.'},
+        {t:'Velocidade inicial', d:'Iniciar a 0,01 mL/kg/min (≈ 0,6 mL/kg/h). Manter por 30 min.'},
+        {t:'Escalonamento', d:'Se tolerado, dobrar a velocidade a cada 30 min até máx. 0,08 mL/kg/min (≈ 4,8 mL/kg/h). Seguir bula do produto específico.'},
+        {t:'Monitorização', d:'PA, FC e SpO₂ a cada 15 min nos primeiros 60 min; a cada 30 min nas horas seguintes.'},
+        {t:'Duração estimada', d:'Primeira infusão: 3–6 h. Infusões subsequentes podem ser encurtadas se toleradas.'}
+      ];
+    } else {
+      stepsIV = [
+        {t:'Acesso venoso', d:'Instalar acesso venoso. Confirmar permeabilidade.'},
+        {t:'Velocidade', d:'Iniciar na última velocidade tolerada pelo paciente. Escalonar conforme protocolo habitual do serviço e bula do produto.'},
+        {t:'Monitorização', d:'PA, FC e SpO₂ a cada 30 min durante a infusão.'}
+      ];
     }
-    var volIv = _igVolTexto(escolhida, prod);
-    html = _igTopo('Reposição IDP · Via IV · a cada 3–4 semanas', escolhida.toFixed(1) + ' g', 'por infusão') +
-      _igLinha('Dose escolhida', mgEsc + ' mg/kg') +
-      _igLinha('Peso', peso + ' kg') +
-      (volIv ? _igLinha('Volume', volIv) : '') +
-      _igLinha('Meta de IgG sérica', '≥ 600 mg/dL') +
-      '<div style="margin-top:12px;font-size:10.5px;font-weight:800;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Faixa 400–800 mg/kg (a cada 50)</div>' +
-      '<div style="font-size:12px">' + tabela + '</div>' +
-      _igNota('Iniciar com taxa de infusão baixa e ajustar a dose pelo nível sérico de IgG e pela resposta clínica.');
-  } else if(fin === 'reposicao_sc') {
-    var minS = (peso * 0.1); var maxS = (peso * 0.15); var usualS = (peso * 0.125);
-    var volSc = _igVolTexto(usualS, prod);
-    html = _igTopo('Reposição IDP · Via SC · semanal', usualS.toFixed(1) + ' g', 'dose média (~125 mg/kg)') +
-      _igLinha('Faixa recomendada', minS.toFixed(1) + ' – ' + maxS.toFixed(1) + ' g/semana (100–150 mg/kg)') +
-      _igLinha('Peso', peso + ' kg') +
-      (volSc ? _igLinha('Volume', volSc) : '') +
-      _igLinha('Alternativa a cada 14 dias', (peso * 0.25).toFixed(1) + ' g') +
-      _igNota('Converter a partir da dose IV mensal e ajustar conforme o nível de IgG.');
-  } else if(fin === 'custom') {
-    var mgkg = parseFloat(document.getElementById('igCustomMg').value);
-    if(!isFinite(mgkg) || mgkg <= 0) { toast('⚠️','Digite a dose em mg/kg'); return; }
-    if(mgkg > 2000) { toast('⛔','Dose acima de 2000 mg/kg — valor implausível. Confira.'); return; }
-    var totalG = peso * mgkg / 1000;
-    html = '<div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Dose personalizada · ' + mgkg + ' mg/kg</div>' +
-      '<div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">' + totalG.toFixed(2).replace('.',',') + ' g</div>' +
-      '<div style="font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.8">' + mgkg + ' mg/kg × ' + peso + ' kg = <strong style="color:#7ee0ec">' + (peso*mgkg).toFixed(0) + ' mg</strong> (' + totalG.toFixed(2).replace('.',',') + ' g).' +
-      _igVolLine(totalG, prod) + '</div>';
+    stepsIV.push({t:'Encerramento', d:'Flush com SF 0,9% ao término. Observar mínimo 30 min após o fim da infusão.'});
+  }
+
+  // --- PROTOCOLO SC ---
+  var stepsSC = [];
+  if(via === 'SC'){
+    stepsSC = [
+      {t:'Sítio de aplicação', d:'Abdome (periumbilical evitado), coxa ou braço. Rodízio de sítios a cada infusão.'},
+      {t:'Volume por sítio', d:'Adultos: até 20–30 mL/sítio. Crianças: até 10–15 mL/sítio. Múltiplos sítios simultâneos se necessário.'},
+      {t:'Velocidade inicial (1ª infusão)', d:'15 mL/h/sítio. Aumentar progressivamente (25 → 40 mL/h) conforme tolerância.'},
+      {t:'Manutenção', d:'20–40 mL/h/sítio nas infusões subsequentes, conforme tolerância.'},
+      {t:'Duração', d:'Variável. Volume total ÷ (velocidade × nº de sítios).'},
+      {t:'Observação', d:'Observar ao menos 30 min após término. Reações locais (edema, eritema) são comuns e geralmente autolimitadas.'}
+    ];
+  }
+
+  // --- RENDER ---
+  function tag(cls,txt){ return '<div class="ig-alert '+cls+'">'+txt+'</div>'; }
+  function kv(k,v){ return '<div class="ig-kv"><b>'+k+'</b><span>'+v+'</span></div>'; }
+  function step(n,t,d){ return '<div class="ig-step"><span class="ig-sn">'+n+'</span><b>'+t+'</b><p>'+d+'</p></div>'; }
+
+  var h = '<div class="ig-out">';
+  h += '<div class="ig-big">Orientação de Infusão</div>';
+  h += kv('Paciente', nome);
+  h += kv('Produto', prod.nome + (prod.conc?' · '+prod.conc:''));
+  h += kv('Indicação', info.label);
+  h += kv('Via', via === 'IV' ? 'Intravenosa (IV)' : 'Subcutânea (SC)');
+  h += kv('Peso', peso+' kg');
+
+  h += '<hr style="border:none;border-top:1px solid var(--gray-100);margin:12px 0">';
+  h += '<div class="ig-big" style="font-size:1rem;margin-bottom:6px">Dose calculada</div>';
+  h += kv('Dose', mgkg+' mg/kg → <b>'+doseG+' g</b>');
+  if(volML) h += kv('Volume aproximado', volML+' mL ('+prod.conc+')');
+  h += kv('Frequência', info.freq);
+
+  // Alerta IgG
+  if(!isNaN(igG)){
+    if(igBaixo){
+      h += tag('warn', '⚠️ IgG atual ('+igG+' mg/dL) abaixo do alvo ≥ '+igAlvo+' mg/dL para esta indicação. Confirme a dose e a frequência com o médico responsável. A decisão de reposição deve considerar o quadro clínico global, não apenas o nível sérico.');
+    } else if(igOk){
+      h += tag('ok', '✅ IgG atual ('+igG+' mg/dL) dentro do alvo ≥ '+igAlvo+' mg/dL. Manter posologia e reavaliação periódica.');
+    }
   } else {
-    var total = peso * 2; var porDia2 = peso * 1; var porDia5 = peso * 0.4;
-    html = '<div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Imunomodulação · Via IV · dose total</div>' +
-      '<div style="font-size:22px;font-weight:800;color:#fff;margin-bottom:4px">' + total.toFixed(1) + ' g (total)</div>' +
-      '<div style="font-size:12.5px;color:rgba(255,255,255,.8);line-height:1.8">Dose total de 2 g/kg para ' + peso + ' kg.' +
-      _igVolLine(total, prod) +
-      '<br>Dividir em 2 dias: <strong style="color:#7ee0ec">' + porDia2.toFixed(1) + ' g/dia</strong> (1 g/kg/dia)' + _igVolLine(porDia2, prod) +
-      '<br>ou em 5 dias: <strong style="color:#7ee0ec">' + porDia5.toFixed(1) + ' g/dia</strong> (400 mg/kg/dia)' + _igVolLine(porDia5, prod) +
-      '<br>⚠️ Máx. 500 mg/kg/dia em idosos ou risco trombótico.</div>';
+    h += tag('warn', 'ℹ️ Nível de IgG não informado. A decisão de reposição deve basear-se no quadro clínico e histórico de infecções, não apenas no valor sérico.');
   }
-  res.innerHTML = html;
-  res.style.display = 'block';
-  toast('🧮','Dose calculada');
+
+  if(avisoInf){
+    h += tag('warn', '⚠️ Infecção ativa no momento da infusão. Avalie custo-benefício com o médico prescritor. Diretrizes permitem infusão em infecção intercorrente se a imunodeficiência é grave, mas o risco de eventos adversos pode ser maior.');
+  }
+
+  if(riscos.length){
+    var rMap = {renal:'Insuficiência renal',trombose:'Risco tromboembólico',cardio:'Doença cardiovascular',iga:'Deficiência de IgA c/ anti-IgA',desidrat:'Desidratação',gest:'Gestação/lactação',troca:'Troca de produto'};
+    var rl = riscos.map(function(r){ return rMap[r]||r; }).join(', ');
+    h += tag('warn', '⚠️ Fatores de atenção identificados: <b>'+rl+'</b>. Adote as precauções específicas para cada fator antes e durante a infusão. Esses fatores não são contraindicações absolutas — avalie individualmente.');
+  }
+
+  h += '<hr style="border:none;border-top:1px solid var(--gray-100);margin:12px 0">';
+
+  // Pré-medicação
+  h += '<div class="ig-big" style="font-size:1rem;margin-bottom:6px">Pré-medicação</div>';
+  if(premedItems.length === 0){
+    h += tag('ok', '✅ Sem reações anteriores relatadas. Pré-medicação de rotina não está indicada — avalie individualmente.');
+  } else {
+    premedItems.forEach(function(p){ h += '<div style="padding:4px 0 4px 8px;border-left:3px solid var(--teal-mid);margin:4px 0">'+p+'</div>'; });
+  }
+
+  // Protocolo de infusão
+  h += '<hr style="border:none;border-top:1px solid var(--gray-100);margin:12px 0">';
+  h += '<div class="ig-big" style="font-size:1rem;margin-bottom:6px">Protocolo de infusão</div>';
+  var steps = via === 'IV' ? stepsIV : stepsSC;
+  steps.forEach(function(st, i){ h += step(i+1, st.t, st.d); });
+
+  h += '<hr style="border:none;border-top:1px solid var(--gray-100);margin:12px 0">';
+  h += tag('warn', '⚠️ Ferramenta de apoio ao médico prescritor. A decisão clínica, a conferência das informações e a responsabilidade pela prescrição são do profissional assistente. Velocidades de infusão devem ser confirmadas na bula do produto selecionado.');
+
+  h += '</div>';
+
+  var out = document.getElementById('igSaida');
+  if(out){ out.innerHTML = h; out.style.display = 'block'; out.scrollIntoView({behavior:'smooth',block:'start'}); }
+  toast('✅','Orientações geradas');
 }
 
 /* ── UPTODATE DISCREET TOGGLE ── */
