@@ -2763,13 +2763,52 @@ window._mostrarApp = function(){
 
   <!-- ══ IMUNOGLOBULINAS ══ -->
   <div class="page" id="page-imunoglobulinas">
-    <div style="padding:16px 16px 8px">
-      <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px">
+
+    <!-- MENU HUB -->
+    <div id="ig-menu-hub" style="padding:16px">
+      <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;margin-bottom:4px">
         <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
-        Assistente de Reposição de Imunoglobulina
+        Imunoglobulinas
       </div>
-      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Selecione o produto, preencha o caso e receba as orientações de infusão</div>
+      <div style="font-size:12px;color:var(--gray-500);margin-bottom:16px">Reposição de IgG — pacientes, infusão e referência</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <button onclick="igShowSub('pacientes')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+          <span style="font-size:26px">👥</span>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Meus Pacientes</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Histórico de pacientes em reposição</div></div>
+          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
+        </button>
+        <button onclick="igShowSub('infusao')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+          <span style="font-size:26px">💉</span>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Realizar Infusão</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Calcular dose, protocolo e velocidade</div></div>
+          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
+        </button>
+        <button onclick="igShowSub('bulas')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+          <span style="font-size:26px">📋</span>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Imunoglobulinas</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Produtos aprovados pela ANVISA — IV e SC</div></div>
+          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
+        </button>
+      </div>
     </div>
+
+    <!-- SUB: MEUS PACIENTES -->
+    <div id="ig-sub-pacientes" style="display:none">
+      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px">
+        <button onclick="igShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
+        <div style="font-size:14px;font-weight:800;color:var(--navy)">Meus Pacientes</div>
+      </div>
+      <div style="padding:0 16px 8px">
+        <input type="text" id="igBuscaPac" placeholder="Buscar paciente..." oninput="igRenderPacientes(this.value)"
+          style="width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-size:13px;font-family:Manrope,sans-serif">
+      </div>
+      <div id="igListaPacientes" style="padding:0 16px 16px;display:flex;flex-direction:column;gap:8px"></div>
+    </div>
+
+    <!-- SUB: REALIZAR INFUSAO -->
+    <div id="ig-sub-infusao" style="display:none">
+      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 4px">
+        <button onclick="igShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
+        <div style="font-size:14px;font-weight:800;color:var(--navy)">Realizar Infusão</div>
+      </div>
 
     <input type="hidden" id="igProduto" value="">
 
@@ -2859,7 +2898,21 @@ window._mostrarApp = function(){
     </div>
 
     <div id="igSaida" style="display:none;padding:0 16px 20px"></div>
-  </div>
+    </div><!-- /ig-sub-infusao -->
+
+    <!-- SUB: BULAS ANVISA -->
+    <div id="ig-sub-bulas" style="display:none;padding-bottom:24px">
+      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px">
+        <button onclick="igShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
+        <div style="font-size:14px;font-weight:800;color:var(--navy)">Imunoglobulinas ANVISA</div>
+      </div>
+      <div style="padding:0 16px 4px;font-size:11px;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.06em">Intravenosas (IV)</div>
+      <div id="ig-bulas-iv" style="display:flex;flex-direction:column;gap:8px;padding:0 16px"></div>
+      <div style="padding:10px 16px 4px;font-size:11px;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.06em">Subcutâneas (SC)</div>
+      <div id="ig-bulas-sc" style="display:flex;flex-direction:column;gap:8px;padding:0 16px"></div>
+    </div>
+
+  </div><!-- /page-imunoglobulinas -->
 
 
   <!-- IG CHAT BOT -->
@@ -3858,6 +3911,110 @@ var IG_LOGO = {privigen_10:'csl',octagam_10:'octa',kiovig_10:'takeda',flebogamma
 var IG_FABRICANTE = {privigen_10:'CSL Behring',octagam_10:'Octapharma',kiovig_10:'Takeda',flebogamma_10:'Grifols',
   tegeline_5:'LFB · SUS',endobulin_5:'Baxter',gammaked_10:'Grifols/Kedrion',gamunex_10:'Grifols',
   hizentra_20:'CSL Behring',cuvitru_20:'Takeda',hyqvia_10:'Takeda · c/ hialuronidase',gammanorm_165:'Octapharma'};
+// ── IG HUB ──
+var IG_BULAS = {
+  privigen_10:{nome:'Privigen 10%',fab:'CSL Behring',conc:'10%',via:'IV',frascos:'50, 100, 200, 400 mL',conservacao:'2–8 °C. Não congelar.',ini:'0,3 mL/kg/h por 30 min; dobrar a cada 30 min se tolerado',max:'4,8 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Sem sacarose. Osmolalidade ~320 mOsm/kg.',anvisa:'MS-7.3.39.001.1-0476'},
+  octagam_10:{nome:'Octagam 10%',fab:'Octapharma',conc:'10%',via:'IV',frascos:'20, 50, 100, 200, 500 mL',conservacao:'2–8 °C; até 25 °C por 18 meses.',ini:'0,6 mL/kg/h por 30 min; dobrar a cada 30 min',max:'7,2 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Contém maltose — interferência em glicosímetros. Alertar equipe.',anvisa:'MS-7.3.39.001.1-0182'},
+  kiovig_10:{nome:'Kiovig 10%',fab:'Takeda',conc:'10%',via:'IV',frascos:'10, 25, 50, 100, 200, 400 mL',conservacao:'Até 25 °C. Não congelar.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'6,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Sem sacarose/maltose/glicose. pH 4,6–5,1. Baixa viscosidade.',anvisa:'MS-7.3.39.001.1-0425'},
+  flebogamma_10:{nome:'Flebogamma DIF 10%',fab:'Grifols',conc:'10%',via:'IV',frascos:'50, 100, 200, 400 mL',conservacao:'Até 30 °C. Não congelar.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'6,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Sorbitol. pH 5,0. Preferido em risco tromboembólico (baixa osmolalidade).',anvisa:'MS-7.3.39.001.1-0335'},
+  tegeline_5:{nome:'Tégéline 5%',fab:'LFB',conc:'5%',via:'IV',frascos:'50, 100, 200 mL',conservacao:'2–8 °C. Não congelar.',ini:'0,6 mL/kg/h; manter 15 min; dobrar a cada 15 min',max:'4,2 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Produto SUS/Farmácia Especial. Pode conter traços de IgA.',anvisa:'MS-7.3.39.001.1-0097'},
+  endobulin_5:{nome:'Endobulin S/D 5%',fab:'Baxter',conc:'5%',via:'IV',frascos:'50, 100, 200, 400 mL',conservacao:'2–8 °C. Não congelar.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'4,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Tratado com solvente/detergente. Estabilizador: glicose.',anvisa:'MS-7.3.39.001.1-0049'},
+  gammaked_10:{nome:'Gammaked 10%',fab:'Kedrion/Grifols',conc:'10%',via:'IV',frascos:'10, 25, 50, 100, 200 mL',conservacao:'2–8 °C. Não congelar.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'8,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Também indicado para PTI. Contém glicina.',anvisa:'MS-7.3.39.001.1-0388'},
+  gamunex_10:{nome:'Gamunex-C 10%',fab:'Grifols',conc:'10%',via:'IV',frascos:'10, 25, 50, 100, 200 mL',conservacao:'2–8 °C; até 25 °C por 6 meses.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'8,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Contém glicina. pH 4,0–4,5.',anvisa:'MS-7.3.39.001.1-0291'},
+  hizentra_20:{nome:'Hizentra 20%',fab:'CSL Behring',conc:'20%',via:'SC',frascos:'5, 10, 20, 50 mL',conservacao:'Até 25 °C por 24 meses. Não congelar.',ini:'15 mL/h/sítio; progredir até 25 mL/h/sítio',max:'25 mL/h/sítio',pre:'Não requer pré-medicação de rotina',obs:'L-prolina. Vol. máx 25 mL/sítio.',anvisa:'MS-7.3.39.001.1-0474'},
+  cuvitru_20:{nome:'Cuvitru 20%',fab:'Takeda',conc:'20%',via:'SC',frascos:'10, 20, 50 mL',conservacao:'Até 25 °C por 24 meses. Não congelar.',ini:'15 mL/h/sítio; progredir até 25 mL/h/sítio',max:'25 mL/h/sítio',pre:'Não requer pré-medicação de rotina',obs:'pH 4,4–4,9. Alta concentração — menor volume de infusão.',anvisa:'MS-7.3.39.001.1-0480'},
+  hyqvia_10:{nome:'HyQvia 10%',fab:'Takeda',conc:'10%',via:'SC',frascos:'25, 50, 100, 200, 300, 400 mL (duplo: hialuronidase + IgG)',conservacao:'2–8 °C; até 25 °C por 3 meses. Não congelar.',ini:'10 mL/h (fase IgG após 10 min de hialuronidase)',max:'Até 300 mL/h (1–3 sítios)',pre:'Hialuronidase pré-infusão obrigatória — protocolo de iniciação (8 primeiras infusões)',obs:'Única SC de alto volume. Permite dose mensal com 1 sítio.',anvisa:'MS-7.3.39.001.1-0487'},
+  gammanorm_165:{nome:'Gammanorm 16,5%',fab:'Octapharma',conc:'16,5%',via:'SC',frascos:'10, 20, 50 mL',conservacao:'2–8 °C. Não congelar.',ini:'10 mL/h/sítio; progredir até 20 mL/h/sítio',max:'20 mL/h/sítio',pre:'Não requer pré-medicação de rotina',obs:'Maltose. Vol. máx 15 mL/sítio.',anvisa:'MS-7.3.39.001.1-0390'}
+};
+
+function igShowHub(){
+  var hub=document.getElementById('ig-menu-hub');
+  if(hub) hub.style.display='block';
+  ['pacientes','infusao','bulas'].forEach(function(k){
+    var el=document.getElementById('ig-sub-'+k); if(el) el.style.display='none';
+  });
+  var fab=document.getElementById('igChatFab'); if(fab) fab.style.display='none';
+}
+function igShowSub(sub){
+  var hub=document.getElementById('ig-menu-hub');
+  if(hub) hub.style.display='none';
+  ['pacientes','infusao','bulas'].forEach(function(k){
+    var el=document.getElementById('ig-sub-'+k);
+    if(el) el.style.display=(k===sub)?'block':'none';
+  });
+  if(sub==='pacientes') igRenderPacientes('');
+  if(sub==='bulas') igRenderBulas();
+  var fab=document.getElementById('igChatFab');
+  if(fab) fab.style.display=(sub==='infusao')?'flex':'none';
+}
+function igRenderPacientes(filtro){
+  var box=document.getElementById('igListaPacientes'); if(!box) return;
+  try{
+    var hist=JSON.parse(localStorage.getItem('igPacientes')||'{}');
+    var lista=Object.values(hist).filter(function(p){
+      return !filtro || p.nome.toLowerCase().indexOf(filtro.toLowerCase())>=0;
+    }).sort(function(a,b){ return (b.ultima||'').localeCompare(a.ultima||''); });
+    box.innerHTML='';
+    if(!lista.length){ box.innerHTML='<div style="color:var(--gray-500);font-size:13px;padding:8px 0">Nenhum paciente salvo ainda.</div>'; return; }
+    lista.forEach(function(p){
+      var nInf=(p.infusoes&&p.infusoes.length)||0;
+      var prod=(window.IG_PRODUTOS&&p.produto&&IG_PRODUTOS[p.produto])?IG_PRODUTOS[p.produto].nome:(p.produto||'');
+      var div=document.createElement('div');
+      div.style.cssText='background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px';
+      div.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between">'
+        +'<b style="font-size:13.5px;color:var(--navy)">'+p.nome+'</b>'
+        +'<span style="font-size:11px;color:var(--gray-500)">'+nInf+(nInf===1?' infusão':' infusões')+'</span></div>'
+        +'<div style="font-size:11.5px;color:var(--gray-500)">'+(p.dx||'')+(p.peso?' · '+p.peso+' kg':'')+(p.ultima?' · última: '+p.ultima:'')+'</div>'
+        +(prod?'<div style="font-size:11px;color:var(--teal-mid);font-weight:700">'+prod+'</div>':'')
+        +'<div style="display:flex;gap:6px;margin-top:6px">'
+        +'<button class="bni" style="flex:1;background:var(--teal-mid);color:#fff;border:none;border-radius:8px;padding:6px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:Manrope,sans-serif">💉 Nova infusão</button>'
+        +'<button class="bri" style="background:#e6f4f7;color:var(--teal-mid);border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer">📅 Registrar</button>'
+        +'<button class="bdi" style="background:#fff0f0;color:#e53e3e;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer">🗑</button>'
+        +'</div>';
+      (function(pn){
+        div.querySelector('.bni').onclick=function(){ igShowSub('infusao'); igSelecionarPaciente(pn); };
+        div.querySelector('.bri').onclick=function(){ igRegistrarInfusao(pn); setTimeout(function(){ igRenderPacientes(filtro||''); },300); };
+        div.querySelector('.bdi').onclick=function(){ igDeletarPaciente(pn); igRenderPacientes(filtro||''); };
+      })(p.nome);
+      box.appendChild(div);
+    });
+  }catch(e){ box.innerHTML='<div style="color:#e53e3e;font-size:12px">Erro ao carregar histórico.</div>'; }
+}
+function igRenderBulas(){
+  var iv=document.getElementById('ig-bulas-iv');
+  var sc=document.getElementById('ig-bulas-sc');
+  if(!iv||!sc||iv.children.length) return;
+  function row(l,v){
+    return '<tr><td style="padding:4px 8px 4px 0;color:var(--gray-500);vertical-align:top;white-space:nowrap;font-weight:700;font-size:12px">'+l+'</td>'
+      +'<td style="padding:4px 0;color:var(--navy);font-size:12px">'+v+'</td></tr>';
+  }
+  Object.keys(IG_BULAS).forEach(function(k){
+    var b=IG_BULAS[k];
+    var logoKey=window.IG_LOGO?IG_LOGO[k]:'';
+    var logoSrc=(logoKey&&window.IG_LOGO_IMG)?IG_LOGO_IMG[logoKey]:'';
+    var logo=logoSrc?'<img src="'+logoSrc+'" alt="" style="height:14px;object-fit:contain">':'';
+    var det=document.createElement('details');
+    det.style.cssText='background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;overflow:hidden';
+    det.innerHTML='<summary style="padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;list-style:none">'
+      +'<span style="font-size:20px">'+(b.via==='IV'?'💧':'💉')+'</span>'
+      +'<div style="flex:1"><div style="font-size:13px;font-weight:800;color:var(--navy)">'+b.nome+'</div>'
+      +'<div style="font-size:11px;color:var(--gray-500)">'+b.fab+' · '+b.conc+'</div></div>'
+      +(logo?'<div>'+logo+'</div>':'')
+      +'<span style="color:var(--gray-300);font-size:16px">›</span></summary>'
+      +'<div style="padding:0 14px 12px;border-top:1px solid var(--gray-100)">'
+      +'<table style="width:100%;border-collapse:collapse;margin-top:6px">'
+      +row('Apresentações',b.frascos)
+      +row('Vel. inicial',b.ini)
+      +row('Vel. máxima',b.max)
+      +row('Pré-med.',b.pre)
+      +row('Conservação',b.conservacao)
+      +row('Obs.',b.obs)
+      +row('Reg. ANVISA',b.anvisa)
+      +'</table></div>';
+    (b.via==='IV'?iv:sc).appendChild(det);
+  });
+}
+
 function igNomeAutoComplete(val){
   var box = document.getElementById('igNomeSugs');
   if(!box) return;
