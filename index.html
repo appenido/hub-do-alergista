@@ -8069,7 +8069,7 @@ function _uctMostrarResultado(row){
   h +=   '<div style="display:flex;align-items:baseline;gap:8px;margin-top:4px"><div style="font-size:30px;font-weight:900;line-height:1">' + t + '</div><div style="font-size:14px;opacity:.85;font-weight:700">/ 16</div></div>';
   h +=   '<div style="font-size:14px;font-weight:800;margin-top:2px">' + lbl + '</div>';
   h +=   '<div style="height:7px;background:rgba(255,255,255,.25);border-radius:4px;margin-top:10px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:#fff;border-radius:4px"></div></div>';
-  h +=   '<div style="font-size:11px;opacity:.8;margin-top:8px">' + nome + ' \u00b7 ' + new Date(row.created_at).toLocaleDateString('pt-BR') + '</div>';
+  h +=   '<div style="font-size:11px;opacity:.8;margin-top:8px">' + _escHtml(nome) + ' \u00b7 ' + new Date(row.created_at).toLocaleDateString('pt-BR') + '</div>';
   h += '</div>';
   h += '<div style="padding:14px 16px">';
   h +=   '<div style="font-size:10.5px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Itens (0\u20134 cada)</div>';
@@ -8232,7 +8232,7 @@ function _snot22MostrarResultado(row){
   h+='<div style="display:flex;align-items:baseline;gap:8px;margin-top:4px"><div style="font-size:30px;font-weight:900;line-height:1">'+t+'</div><div style="font-size:14px;opacity:.85;font-weight:700">/ 110</div></div>';
   h+='<div style="font-size:14px;font-weight:800;margin-top:2px">'+f.lbl+'</div>';
   h+='<div style="height:7px;background:rgba(255,255,255,.25);border-radius:4px;margin-top:10px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:#fff;border-radius:4px"></div></div>';
-  h+='<div style="font-size:11px;opacity:.8;margin-top:8px">'+nome+' \u00b7 '+new Date(row.created_at).toLocaleDateString('pt-BR')+'</div>';
+  h+='<div style="font-size:11px;opacity:.8;margin-top:8px">'+_escHtml(nome)+' \u00b7 '+new Date(row.created_at).toLocaleDateString('pt-BR')+'</div>';
   h+='</div>';
   h+='<div style="padding:14px 16px;background:#fff;border:1.5px solid '+f.cor+';border-top:none">';
   h+='<div style="font-size:10.5px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Dom\u00ednios</div>';
