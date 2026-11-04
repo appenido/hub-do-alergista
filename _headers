@@ -1,0 +1,18 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  X-Frame-Options: DENY
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+/snot22-paciente.html
+  Cache-Control: no-store
+
+/uct-paciente.html
+  Cache-Control: no-store
+
+/uas7-paciente.html
+  Cache-Control: no-store
+
+/privacidade.html
+  Cache-Control: no-store
