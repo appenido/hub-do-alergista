@@ -277,7 +277,7 @@ window.fazerCadastro=async function(){
   aviso.textContent='Solicitando cadastro…';
   if(botao){botao.disabled=true;botao.textContent='Enviando…';}
   try{
-    const r=await fetch(SB+'/auth/v1/signup',{method:'POST',
+    const r=await fetch(SB+'/auth/v1/signup?redirect_to='+encodeURIComponent('https://hubdoalergista.pages.dev/'),{method:'POST',
       headers:{apikey:KEY,'Content-Type':'application/json'},
       body:JSON.stringify({email,password:senha,data:meta})});
     const d=await r.json().catch(()=>({}));
