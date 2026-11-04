@@ -2264,7 +2264,7 @@ window._bloquearApp=function(){};
 
   <!-- ══ SCORES ══ -->
   <div class="page" id="page-scores">
-    <div class="sec-hdr"><h2>Scores e Calculadoras</h2><span class="see-all" data-nav="pacientes">Pacientes</span></div>
+    <div class="sec-hdr"><h2>Scores e Calculadoras</h2><span class="see-all" style="font-size:11px;color:var(--gray-500)">Cálculo sem armazenamento</span></div>
     <div class="gap-list">
       <div class="guide-card" data-score="act" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">ACT</div><div style="font-size:11px;color:var(--gray-500)">Asthma Control Test · 0–25</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="ACT" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🫁</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:75%;background:linear-gradient(90deg,var(--aqua),var(--teal-mid))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular ACT →</button></div>
       <div class="guide-card" data-score="easi" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">EASI</div><div style="font-size:11px;color:var(--gray-500)">Eczema Area &amp; Severity Index · 0–72</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="EASI" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🩹</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:50%;background:linear-gradient(90deg,#f0d98a,var(--gold))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular EASI →</button></div>
@@ -3247,38 +3247,11 @@ window._bloquearApp=function(){};
         <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
         Imunoglobulinas
       </div>
-      <div style="font-size:12px;color:var(--gray-500);margin-bottom:16px">Reposição de IgG — pacientes, infusão e referência</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px"><button type="button" onclick="igShowSub('cadastro')" style="display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:16px;text-align:left;cursor:pointer"><span style="font-size:26px">👤</span><span><span style="display:block;font-size:13.5px;font-weight:800;color:var(--navy)">Cadastrar paciente</span><span style="display:block;font-size:11.5px;color:var(--gray-500)">Informações e histórico</span></span></button><button type="button" onclick="igAbrirPrescricao('primeira')" style="display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:16px;text-align:left;cursor:pointer"><span style="font-size:26px">💧</span><span><span style="display:block;font-size:13.5px;font-weight:800;color:var(--navy)">Prescrever primeira infusão</span><span style="display:block;font-size:11.5px;color:var(--gray-500)">Esquema inicial por produto</span></span></button><button type="button" onclick="igAbrirPrescricao('rotina')" style="display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:16px;text-align:left;cursor:pointer"><span style="font-size:26px">🔄</span><span><span style="display:block;font-size:13.5px;font-weight:800;color:var(--navy)">Prescrever infusão de rotina</span><span style="display:block;font-size:11.5px;color:var(--gray-500)">Esquema subsequente e tolerabilidade</span></span></button><button type="button" onclick="igShowSub('pacientes')" style="display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:16px;text-align:left;cursor:pointer"><span style="font-size:26px">📋</span><span><span style="display:block;font-size:13.5px;font-weight:800;color:var(--navy)">Lista de pacientes</span><span style="display:block;font-size:11.5px;color:var(--gray-500)">Pesquisar, selecionar e registrar</span></span></button></div></div>
-
-    <!-- SUB: CADASTRO IG -->
-    <div id="ig-sub-cadastro" style="display:none;padding:14px 16px 24px">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><button type="button" onclick="igShowHub()" style="border:0;background:none;color:var(--teal-mid);font-size:22px;cursor:pointer">←</button><span style="font-size:15px;font-weight:800;color:var(--navy)">Cadastrar paciente</span></div>
-      <div class="ig-alert warn" style="font-size:11.5px">Armazenamento local, sem autenticação ou sincronização: não cadastre dados identificáveis de pacientes reais até integrar uma solução segura e adequada à LGPD. Prefira identificador não nominativo.</div>
-      <form class="ig-form" id="igCadastroForm" onsubmit="igCadastrarPaciente(event)">
-        <div class="ig-f-row"><label>Código do paciente (preferencialmente sem identificação)</label><input id="igCadNome" type="text" required maxlength="120" placeholder="Código do paciente"></div>
-        <div class="ig-f-2"><div class="ig-f-row"><label>Idade (anos)</label><input id="igCadIdade" type="number" min="0" max="130" step="0.1" required></div><div class="ig-f-row"><label>Peso (kg)</label><input id="igCadPeso" type="number" min="2" max="250" step="0.1" required></div></div>
-        <div class="ig-f-row"><label>Diagnóstico / indicação</label><select id="igCadDx" required></select></div>
-        <div class="ig-f-2"><div class="ig-f-row"><label>IgG (mg/dL)</label><input id="igCadIgG" type="number" min="0" placeholder="Opcional"></div><div class="ig-f-row"><label>Via</label><select id="igCadVia"><option value="IV">Intravenosa</option><option value="SC">Subcutânea</option></select></div></div>
-        <div class="ig-f-row"><label>Produto (mesma marca usada anteriormente)</label><select id="igCadProduto" required onchange="igCadastroViaDoProduto(this.value)"></select></div>
-        <div class="ig-f-row"><label>Infecções recorrentes documentadas</label><select id="igCadInfRep"><option value="sim">Sim</option><option value="nao">Não</option></select></div>
-        <div class="ig-f-row"><label>Reações infusionais prévias</label><select id="igCadReacao"><option value="nenhuma">Nenhuma conhecida</option><option value="leve">Reação leve/moderada</option><option value="anafilaxia">Anafilaxia / reação grave</option></select></div>
-        <div class="ig-f-2"><div class="ig-f-row"><label>Nº de infusões anteriores do MESMO produto</label><input id="igCadHistoricoNum" type="number" min="0" max="999" value="0"></div><div class="ig-f-row"><label>Última infusão</label><input id="igCadUltima" type="date"></div></div>
-        <div class="ig-f-row"><label style="display:flex;gap:8px;align-items:flex-start"><input id="igCadToleranciaDoc" type="checkbox" style="width:auto;margin-top:3px;flex-shrink:0"> Boa tolerância comprovada em prontuário para este produto, sem reações documentadas</label></div>
-        <button type="submit" class="ig-btn">Salvar paciente</button>
-      </form>
-    </div>
-    <!-- SUB: MEUS PACIENTES -->
-    <div id="ig-sub-pacientes" style="display:none">
-      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px">
-        <button onclick="igShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
-        <div style="font-size:14px;font-weight:800;color:var(--navy)">Lista de pacientes</div>
-      </div>
-      <div style="padding:0 16px 8px">
-        <input type="text" id="igBuscaPac" placeholder="Buscar paciente..." oninput="igRenderPacientes(this.value)"
-          style="width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-size:13px;font-family:Manrope,sans-serif">
-      </div>
-      <div id="igListaPacientes" style="padding:0 16px 16px;display:flex;flex-direction:column;gap:8px"></div>
-    </div>
+      <div style="font-size:12px;color:var(--gray-500);margin-bottom:16px">Reposição de IgG — simulação e referência, sem cadastro de pacientes</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
+        <button type="button" onclick="igAbrirPrescricao('primeira')" style="display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:16px;text-align:left;cursor:pointer"><span style="font-size:26px">💧</span><span><span style="display:block;font-size:13.5px;font-weight:800;color:var(--navy)">Simular primeira infusão</span><span style="display:block;font-size:11.5px;color:var(--gray-500)">Cálculo sem dados identificáveis nem armazenamento</span></span></button>
+        <button type="button" onclick="igAbrirPrescricao('rotina')" style="display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:16px;text-align:left;cursor:pointer"><span style="font-size:26px">🔄</span><span><span style="display:block;font-size:13.5px;font-weight:800;color:var(--navy)">Simular infusão de rotina</span><span style="display:block;font-size:11.5px;color:var(--gray-500)">Tolerabilidade informada no momento</span></span></button>
+      </div></div>
 
     <!-- SUB: REALIZAR INFUSAO -->
     <div id="ig-sub-infusao" style="display:none">
@@ -3287,7 +3260,7 @@ window._bloquearApp=function(){};
         <div style="font-size:14px;font-weight:800;color:var(--navy)" id="igTituloPrescricao">Prescrever primeira infusão</div>
       </div>
 
-    <div style="padding:12px 16px;background:#eef6f8;margin:8px 16px 12px;border-radius:12px"><label for="igPrescPaciente" style="display:block;font-size:12px;font-weight:800;margin-bottom:6px">Selecionar paciente cadastrado</label><select id="igPrescPaciente" onchange="igSelecionarPaciente(this.value)" style="padding:10px;width:100%;border:1px solid #b8d6dd;border-radius:8px"><option value="">Selecione um paciente...</option></select><div id="igPrescModoAviso" style="font-size:11.5px;margin-top:8px">As velocidades consideram o produto e a tolerabilidade documentada.</div></div>
+    <div id="igPrescModoAviso" style="font-size:11.5px;color:var(--gray-500);line-height:1.6;margin:8px 16px 12px">Simulação sem nome nem gravação de dados. Não introduza dados identificáveis de pacientes.</div>
     <input type="hidden" id="igProduto" value="">
 
     <!-- 2. CASO -->
@@ -3301,18 +3274,9 @@ window._bloquearApp=function(){};
       </div>
     </div>
     <div class="ig-form" id="igFormBox">
-      <div class="ig-form-tit">Dados do paciente</div>
+      <div class="ig-form-tit">Dados clínicos não identificáveis — cálculo temporário</div>
 
-      <div class="ig-f-row"><label>Nome do paciente</label>
-        <div style="display:flex;gap:6px;position:relative">
-          <input type="text" id="igNome" placeholder="Nome completo" autocomplete="off"
-            oninput="igNomeAutoComplete(this.value)" style="flex:1">
-          <button type="button" onclick="igCarregarPaciente()" title="Carregar dados salvos"
-            style="background:var(--teal-mid);color:#fff;border:none;border-radius:9px;padding:0 12px;font-size:18px;cursor:pointer;flex-shrink:0">⬇</button>
-        </div>
-        <div id="igNomeSugs" style="display:none;position:absolute;background:#fff;border:1.5px solid var(--teal-mid);border-radius:10px;z-index:500;width:100%;max-height:160px;overflow-y:auto;box-shadow:0 4px 16px rgba(0,0,0,.12)"></div>
-      </div>
-
+      <input type="hidden" id="igNome" value="">
       <div class="ig-f-2">
         <div class="ig-f-row"><label>Idade</label>
           <div style="display:flex;gap:6px">
@@ -3407,35 +3371,16 @@ window._bloquearApp=function(){};
         Imunizações
       </div>
       <div style="font-size:12px;color:var(--gray-500);margin-bottom:16px">Calendários oficiais SBIm 2026/2027 e PNI 2026 — recomendações e oferta pelo SUS</div>
+      
       <div style="display:flex;flex-direction:column;gap:10px">
-        <button type="button" onclick="vacAbrirCalendarios('sbim')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
-          <span style="font-size:26px">📗</span>
-          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Calendários SBIm 2026/2027</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Todas as idades, gestantes e grupos especiais</div></div>
-          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
-        </button>
-        <button type="button" onclick="vacAbrirCalendarios('pni')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
-          <span style="font-size:26px">🇧🇷</span>
-          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">PNI — Calendário Nacional 2026</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Vacinas do SUS, faixas etárias e normativa</div></div>
-          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
-        </button>
-        <button onclick="vacShowSub('pacientes')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
-          <span style="font-size:26px">👥</span>
-          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Pacientes cadastrados</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Calendários já gerados e salvos</div></div>
-          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
-        </button>
-        <button onclick="vacShowSub('novo')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
-          <span style="font-size:26px">📝</span>
-          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Cadastrar novo paciente</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Idade e comorbidades → calendário SBIm</div></div>
-          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
-        </button>
-        <button onclick="vacShowSub('vacinas')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+        <button type="button" onclick="vac26Abrir('sbim')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
           <span style="font-size:26px">💉</span>
-          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Vacinas disponíveis no Brasil</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Produtos com registro ANVISA — SUS e rede privada</div></div>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Central de Vacinas</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">SBIm 2026/2027 e PNI 2026 · conteúdo integrado por faixa etária</div></div>
           <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
         </button>
-        <button onclick="vacShowSub('atraso')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+        <button type="button" onclick="vacShowSub('atraso')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
           <span style="font-size:26px">⏱️</span>
-          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Recuperação de doses em atraso</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Idades e intervalos mínimos — Separata SBIm 25.09.2026</div></div>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Recuperação de doses em atraso</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Intervalos mínimos e esquemas de resgate SBIm</div></div>
           <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
         </button>
       </div>
@@ -3444,149 +3389,26 @@ window._bloquearApp=function(){};
       </div>
     </div>
 
-    <!-- SUB: CATÁLOGO OFICIAL DE CALENDÁRIOS (SBIm 2026/27 e PNI 2026) -->
-    <section id="vac-sub-calendarios" style="display:none;padding-bottom:24px" aria-label="Calendários de vacinação oficiais">
-      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 10px">
-        <button type="button" onclick="vacFecharCalendario();vacShowHub()" aria-label="Voltar para Imunizações" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
-        <div style="font-size:14px;font-weight:800;color:var(--navy)">Calendários de vacinação</div>
-      </div>
-      <div class="vac-cal-tabs" role="tablist" aria-label="Selecionar fonte do calendário">
-        <button type="button" role="tab" id="vacCalTabSBIm" onclick="vacSelecionarFonteCalendarios('sbim')">SBIm 2026/2027</button>
-        <button type="button" role="tab" id="vacCalTabPNI" onclick="vacSelecionarFonteCalendarios('pni')">PNI 2026 (SUS)</button>
-      </div>
-      <p id="vacCalLegenda" class="vac-cal-nota"></p>
-      <div style="padding:0 16px 8px">
-        <label for="vacCalBusca" style="display:block;font-size:11px;color:var(--gray-500);margin-bottom:5px">Buscar por faixa etária ou grupo</label>
-        <input id="vacCalBusca" type="search" placeholder="Ex.: idosos, prematuro, gestante..." oninput="vacFiltrarCalendarios()" autocomplete="off" style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font:12px Manrope,sans-serif" />
-      </div>
-      <div id="vacCalendariosLista" style="padding:0 16px"></div>
-      <div id="vacCalPreview" class="vac-cal-visualizador" style="display:none;margin-left:16px;margin-right:16px" aria-live="polite">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px">
-          <div>
-            <div id="vacCalPreviewTitulo" style="font-size:13px;font-weight:800;color:var(--navy)"></div>
-            <div id="vacCalPreviewOrigem" style="font-size:10.5px;color:var(--gray-500);line-height:1.5;margin-top:3px"></div>
-          </div>
-          <button type="button" onclick="vacFecharCalendario()" aria-label="Fechar visualização" style="background:#f1f5f8;border:1px solid var(--gray-100);border-radius:8px;padding:5px 10px;cursor:pointer">✕</button>
-        </div>
-        <a id="vacCalPreviewLink" class="vac-cal-link" href="#" target="_blank" rel="noopener noreferrer">Abrir documento oficial</a>
-        <div id="vacCalPreviewAviso" style="font-size:10.5px;color:var(--gray-500);line-height:1.5;margin:9px 0"></div>
-        <iframe id="vacCalPreviewFrame" class="vac-cal-frame" loading="lazy" title="Calendário oficial" referrerpolicy="strict-origin-when-cross-origin" style="display:none"></iframe>
-      </div>
-      <div class="vac-cal-nota" style="margin-top:14px;padding:12px;border-radius:11px;background:#fff;border:1px solid var(--gray-100)">
-        Atenção: as recomendações SBIm podem incluir esquemas diferentes dos disponíveis no SUS, além de indicações fora de bula.
-        O PNI deve seguir a normativa vigente, histórico vacinal, condições clínicas e regras de acesso aos CRIE/RIE.
-        Os documentos são consultados diretamente nos sites das instituições responsáveis, sem armazenar cópias no Hub.
-      </div>
-    </section>
-
-    <!-- SUB: PACIENTES -->
-    <div id="vac-sub-pacientes" style="display:none">
-      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px">
-        <button onclick="vacShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
-        <div style="font-size:14px;font-weight:800;color:var(--navy)">Pacientes cadastrados</div>
-      </div>
-      <div style="padding:0 16px 8px">
-        <input type="text" id="vacBuscaPac" placeholder="Buscar paciente..." oninput="vacRenderPacientes(this.value)"
-          style="width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-size:13px;font-family:Manrope,sans-serif">
-      </div>
-      <div id="vacListaPacientes" style="padding:0 16px 16px;display:flex;flex-direction:column;gap:8px"></div>
-    </div>
-
-    <!-- SUB: NOVO CADASTRO -->
-    <div id="vac-sub-novo" style="display:none">
-      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 4px">
-        <button onclick="vacShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
-        <div style="font-size:14px;font-weight:800;color:var(--navy)">Cadastrar paciente</div>
-      </div>
-
-      <div style="margin:4px 16px 14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:16px;padding:14px">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-          <span style="font-size:22px">📱</span>
-          <div><div style="font-size:13px;font-weight:800;color:var(--navy)">Meu SUS Digital — caderneta de vacinação</div>
-          <div style="font-size:11px;color:var(--gray-500);margin-top:1px">O paciente lê o QR code e abre no celular dele</div></div>
-        </div>
-        <div style="display:flex;justify-content:center;margin-bottom:10px">
-          <div style="width:190px;height:190px;border:1.5px solid var(--gray-100);border-radius:12px;padding:8px;box-sizing:border-box;background:#fff"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31 31" shape-rendering="crispEdges" style="width:100%;height:100%;display:block"><rect width="100%" height="100%" fill="#fff"/><path fill="#0f2a3d" d="M1 1h1v1h-1zM2 1h1v1h-1zM3 1h1v1h-1zM4 1h1v1h-1zM5 1h1v1h-1zM6 1h1v1h-1zM7 1h1v1h-1zM9 1h1v1h-1zM10 1h1v1h-1zM11 1h1v1h-1zM12 1h1v1h-1zM14 1h1v1h-1zM15 1h1v1h-1zM16 1h1v1h-1zM20 1h1v1h-1zM21 1h1v1h-1zM23 1h1v1h-1zM24 1h1v1h-1zM25 1h1v1h-1zM26 1h1v1h-1zM27 1h1v1h-1zM28 1h1v1h-1zM29 1h1v1h-1zM1 2h1v1h-1zM7 2h1v1h-1zM9 2h1v1h-1zM10 2h1v1h-1zM11 2h1v1h-1zM13 2h1v1h-1zM14 2h1v1h-1zM17 2h1v1h-1zM21 2h1v1h-1zM23 2h1v1h-1zM29 2h1v1h-1zM1 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM5 3h1v1h-1zM7 3h1v1h-1zM10 3h1v1h-1zM12 3h1v1h-1zM17 3h1v1h-1zM19 3h1v1h-1zM21 3h1v1h-1zM23 3h1v1h-1zM25 3h1v1h-1zM26 3h1v1h-1zM27 3h1v1h-1zM29 3h1v1h-1zM1 4h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM7 4h1v1h-1zM9 4h1v1h-1zM11 4h1v1h-1zM13 4h1v1h-1zM15 4h1v1h-1zM16 4h1v1h-1zM18 4h1v1h-1zM20 4h1v1h-1zM23 4h1v1h-1zM25 4h1v1h-1zM26 4h1v1h-1zM27 4h1v1h-1zM29 4h1v1h-1zM1 5h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM7 5h1v1h-1zM12 5h1v1h-1zM13 5h1v1h-1zM15 5h1v1h-1zM17 5h1v1h-1zM18 5h1v1h-1zM20 5h1v1h-1zM21 5h1v1h-1zM23 5h1v1h-1zM25 5h1v1h-1zM26 5h1v1h-1zM27 5h1v1h-1zM29 5h1v1h-1zM1 6h1v1h-1zM7 6h1v1h-1zM10 6h1v1h-1zM11 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM17 6h1v1h-1zM20 6h1v1h-1zM23 6h1v1h-1zM29 6h1v1h-1zM1 7h1v1h-1zM2 7h1v1h-1zM3 7h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM9 7h1v1h-1zM11 7h1v1h-1zM13 7h1v1h-1zM15 7h1v1h-1zM17 7h1v1h-1zM19 7h1v1h-1zM21 7h1v1h-1zM23 7h1v1h-1zM24 7h1v1h-1zM25 7h1v1h-1zM26 7h1v1h-1zM27 7h1v1h-1zM28 7h1v1h-1zM29 7h1v1h-1zM9 8h1v1h-1zM12 8h1v1h-1zM16 8h1v1h-1zM17 8h1v1h-1zM18 8h1v1h-1zM19 8h1v1h-1zM1 9h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM6 9h1v1h-1zM7 9h1v1h-1zM8 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1zM14 9h1v1h-1zM16 9h1v1h-1zM17 9h1v1h-1zM18 9h1v1h-1zM19 9h1v1h-1zM23 9h1v1h-1zM26 9h1v1h-1zM28 9h1v1h-1zM29 9h1v1h-1zM1 10h1v1h-1zM2 10h1v1h-1zM3 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM11 10h1v1h-1zM14 10h1v1h-1zM15 10h1v1h-1zM16 10h1v1h-1zM20 10h1v1h-1zM21 10h1v1h-1zM23 10h1v1h-1zM24 10h1v1h-1zM25 10h1v1h-1zM29 10h1v1h-1zM1 11h1v1h-1zM4 11h1v1h-1zM6 11h1v1h-1zM7 11h1v1h-1zM8 11h1v1h-1zM9 11h1v1h-1zM10 11h1v1h-1zM11 11h1v1h-1zM12 11h1v1h-1zM14 11h1v1h-1zM18 11h1v1h-1zM19 11h1v1h-1zM22 11h1v1h-1zM25 11h1v1h-1zM27 11h1v1h-1zM28 11h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM6 12h1v1h-1zM8 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1zM16 12h1v1h-1zM17 12h1v1h-1zM19 12h1v1h-1zM20 12h1v1h-1zM22 12h1v1h-1zM23 12h1v1h-1zM29 12h1v1h-1zM7 13h1v1h-1zM10 13h1v1h-1zM15 13h1v1h-1zM16 13h1v1h-1zM17 13h1v1h-1zM18 13h1v1h-1zM24 13h1v1h-1zM26 13h1v1h-1zM27 13h1v1h-1zM1 14h1v1h-1zM3 14h1v1h-1zM4 14h1v1h-1zM6 14h1v1h-1zM10 14h1v1h-1zM11 14h1v1h-1zM12 14h1v1h-1zM15 14h1v1h-1zM16 14h1v1h-1zM17 14h1v1h-1zM18 14h1v1h-1zM20 14h1v1h-1zM22 14h1v1h-1zM23 14h1v1h-1zM27 14h1v1h-1zM28 14h1v1h-1zM29 14h1v1h-1zM2 15h1v1h-1zM5 15h1v1h-1zM6 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM10 15h1v1h-1zM11 15h1v1h-1zM12 15h1v1h-1zM14 15h1v1h-1zM17 15h1v1h-1zM19 15h1v1h-1zM20 15h1v1h-1zM23 15h1v1h-1zM24 15h1v1h-1zM27 15h1v1h-1zM28 15h1v1h-1zM29 15h1v1h-1zM3 16h1v1h-1zM4 16h1v1h-1zM6 16h1v1h-1zM12 16h1v1h-1zM13 16h1v1h-1zM15 16h1v1h-1zM19 16h1v1h-1zM21 16h1v1h-1zM23 16h1v1h-1zM24 16h1v1h-1zM25 16h1v1h-1zM28 16h1v1h-1zM3 17h1v1h-1zM4 17h1v1h-1zM6 17h1v1h-1zM7 17h1v1h-1zM9 17h1v1h-1zM10 17h1v1h-1zM11 17h1v1h-1zM13 17h1v1h-1zM15 17h1v1h-1zM19 17h1v1h-1zM22 17h1v1h-1zM25 17h1v1h-1zM26 17h1v1h-1zM28 17h1v1h-1zM3 18h1v1h-1zM5 18h1v1h-1zM8 18h1v1h-1zM11 18h1v1h-1zM15 18h1v1h-1zM16 18h1v1h-1zM21 18h1v1h-1zM24 18h1v1h-1zM26 18h1v1h-1zM27 18h1v1h-1zM28 18h1v1h-1zM1 19h1v1h-1zM4 19h1v1h-1zM7 19h1v1h-1zM9 19h1v1h-1zM10 19h1v1h-1zM11 19h1v1h-1zM12 19h1v1h-1zM13 19h1v1h-1zM14 19h1v1h-1zM15 19h1v1h-1zM16 19h1v1h-1zM21 19h1v1h-1zM24 19h1v1h-1zM25 19h1v1h-1zM27 19h1v1h-1zM4 20h1v1h-1zM8 20h1v1h-1zM9 20h1v1h-1zM10 20h1v1h-1zM13 20h1v1h-1zM14 20h1v1h-1zM15 20h1v1h-1zM16 20h1v1h-1zM17 20h1v1h-1zM18 20h1v1h-1zM19 20h1v1h-1zM21 20h1v1h-1zM27 20h1v1h-1zM2 21h1v1h-1zM4 21h1v1h-1zM7 21h1v1h-1zM8 21h1v1h-1zM10 21h1v1h-1zM11 21h1v1h-1zM14 21h1v1h-1zM15 21h1v1h-1zM16 21h1v1h-1zM17 21h1v1h-1zM18 21h1v1h-1zM21 21h1v1h-1zM22 21h1v1h-1zM23 21h1v1h-1zM24 21h1v1h-1zM25 21h1v1h-1zM26 21h1v1h-1zM27 21h1v1h-1zM9 22h1v1h-1zM12 22h1v1h-1zM18 22h1v1h-1zM19 22h1v1h-1zM21 22h1v1h-1zM25 22h1v1h-1zM26 22h1v1h-1zM27 22h1v1h-1zM28 22h1v1h-1zM29 22h1v1h-1zM1 23h1v1h-1zM2 23h1v1h-1zM3 23h1v1h-1zM4 23h1v1h-1zM5 23h1v1h-1zM6 23h1v1h-1zM7 23h1v1h-1zM9 23h1v1h-1zM10 23h1v1h-1zM11 23h1v1h-1zM12 23h1v1h-1zM13 23h1v1h-1zM15 23h1v1h-1zM19 23h1v1h-1zM20 23h1v1h-1zM21 23h1v1h-1zM23 23h1v1h-1zM25 23h1v1h-1zM26 23h1v1h-1zM28 23h1v1h-1zM1 24h1v1h-1zM7 24h1v1h-1zM9 24h1v1h-1zM10 24h1v1h-1zM12 24h1v1h-1zM14 24h1v1h-1zM15 24h1v1h-1zM16 24h1v1h-1zM21 24h1v1h-1zM25 24h1v1h-1zM26 24h1v1h-1zM1 25h1v1h-1zM3 25h1v1h-1zM4 25h1v1h-1zM5 25h1v1h-1zM7 25h1v1h-1zM11 25h1v1h-1zM16 25h1v1h-1zM17 25h1v1h-1zM18 25h1v1h-1zM21 25h1v1h-1zM22 25h1v1h-1zM23 25h1v1h-1zM24 25h1v1h-1zM25 25h1v1h-1zM27 25h1v1h-1zM28 25h1v1h-1zM1 26h1v1h-1zM3 26h1v1h-1zM4 26h1v1h-1zM5 26h1v1h-1zM7 26h1v1h-1zM9 26h1v1h-1zM10 26h1v1h-1zM13 26h1v1h-1zM14 26h1v1h-1zM16 26h1v1h-1zM17 26h1v1h-1zM18 26h1v1h-1zM20 26h1v1h-1zM22 26h1v1h-1zM24 26h1v1h-1zM25 26h1v1h-1zM26 26h1v1h-1zM29 26h1v1h-1zM1 27h1v1h-1zM3 27h1v1h-1zM4 27h1v1h-1zM5 27h1v1h-1zM7 27h1v1h-1zM9 27h1v1h-1zM11 27h1v1h-1zM13 27h1v1h-1zM18 27h1v1h-1zM19 27h1v1h-1zM24 27h1v1h-1zM27 27h1v1h-1zM29 27h1v1h-1zM1 28h1v1h-1zM7 28h1v1h-1zM11 28h1v1h-1zM12 28h1v1h-1zM13 28h1v1h-1zM15 28h1v1h-1zM17 28h1v1h-1zM21 28h1v1h-1zM22 28h1v1h-1zM23 28h1v1h-1zM24 28h1v1h-1zM25 28h1v1h-1zM26 28h1v1h-1zM28 28h1v1h-1zM1 29h1v1h-1zM2 29h1v1h-1zM3 29h1v1h-1zM4 29h1v1h-1zM5 29h1v1h-1zM6 29h1v1h-1zM7 29h1v1h-1zM9 29h1v1h-1zM12 29h1v1h-1zM14 29h1v1h-1zM16 29h1v1h-1zM19 29h1v1h-1zM20 29h1v1h-1zM21 29h1v1h-1zM22 29h1v1h-1zM25 29h1v1h-1zM28 29h1v1h-1z"/></svg></div>
-        </div>
-        <a href="https://meususdigital.saude.gov.br" target="_blank" rel="noopener noreferrer"
-           style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--navy);color:#fff;border-radius:11px;padding:12px;font-size:13px;font-weight:800;text-decoration:none">
-          🔗 Abrir Meu SUS Digital
-        </a>
-      </div>
-
-      <div class="ig-form">
-        <div class="ig-form-tit">Dados do paciente</div>
-
-        <div class="ig-f-row"><label>Nome do paciente</label>
-          <input type="text" id="vacNome" placeholder="Nome completo" autocomplete="off"></div>
-
-        <div class="ig-f-2">
-          <div class="ig-f-row"><label>Idade</label>
-            <div style="display:flex;gap:6px">
-              <input type="number" id="vacIdade" inputmode="numeric" placeholder="Ex: 34" style="flex:1">
-              <select id="vacIdadeUn" style="width:92px"><option value="anos">anos</option><option value="meses">meses</option></select>
-            </div></div>
-          <div class="ig-f-row"><label>Sexo</label>
-            <select id="vacSexo"><option value="f">Feminino</option><option value="m">Masculino</option></select></div>
-        </div>
-
-        <div class="ig-f-row"><label>Situação especial</label>
-          <select id="vacGest">
-            <option value="nao">Nenhuma</option>
-            <option value="gestante">Gestante</option>
-            <option value="puerpera">Puérpera (até 45 dias)</option>
-            <option value="prematuro">Prematuro (&lt; 37 semanas)</option>
-          </select></div>
-
-        <div class="ig-f-row"><label>Comorbidades / condições (marque as que se aplicam)</label>
-          <div class="ig-chips" id="vacComorb">
-            <button type="button" class="ig-chip" data-c="asma">Asma</button>
-            <button type="button" class="ig-chip" data-c="dpoc">DPOC / pneumopatia crônica</button>
-            <button type="button" class="ig-chip" data-c="cardio">Cardiopatia crônica</button>
-            <button type="button" class="ig-chip" data-c="dm">Diabetes mellitus</button>
-            <button type="button" class="ig-chip" data-c="renal">Doença renal crônica / diálise</button>
-            <button type="button" class="ig-chip" data-c="hepato">Hepatopatia crônica</button>
-            <button type="button" class="ig-chip" data-c="asplenia">Asplenia / disfunção esplênica</button>
-            <button type="button" class="ig-chip" data-c="complemento">Deficiência de complemento</button>
-            <button type="button" class="ig-chip" data-c="idp">Imunodeficiência primária (IDP)</button>
-            <button type="button" class="ig-chip" data-c="hiv">HIV / aids</button>
-            <button type="button" class="ig-chip" data-c="transplante">Transplante (TOS ou TCTH)</button>
-            <button type="button" class="ig-chip" data-c="onco">Neoplasia / quimioterapia</button>
-            <button type="button" class="ig-chip" data-c="imunossup">Imunossupressor / biológico / corticoide alta dose</button>
-            <button type="button" class="ig-chip" data-c="autoimune">Doença autoimune</button>
-            <button type="button" class="ig-chip" data-c="fistula">Fístula liquórica / implante coclear</button>
-            <button type="button" class="ig-chip" data-c="obesidade">Obesidade</button>
-            <button type="button" class="ig-chip" data-c="tabagismo">Tabagismo</button>
-            <button type="button" class="ig-chip" data-c="prof_saude">Profissional de saúde</button>
-            <button type="button" class="ig-chip" data-c="viajante">Viajante internacional</button>
-            <button type="button" class="ig-chip" data-c="nenhuma">Nenhuma</button>
-          </div></div>
-
-        <button class="ig-btn" onclick="vacGerarCalendario()">Gerar calendário vacinal</button>
-      </div>
-
-      <div id="vacSaida" style="display:none;padding:0 16px 20px"></div>
-    </div>
-
     <!-- SUB: VACINAS ANVISA -->
     <div id="vac-sub-vacinas" style="display:none;padding-bottom:24px">
       <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px">
         <button onclick="vacShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
         <div style="font-size:14px;font-weight:800;color:var(--navy)">Vacinas disponíveis no Brasil</div>
       </div>
-      <div style="padding:0 16px 8px;font-size:11.5px;color:var(--gray-500);line-height:1.5">Imunizantes com registro ativo na ANVISA, separados por rede. Toque em cada vacina para ver a população liberada.</div>
+      <div style="padding:0 16px 8px;font-size:11.5px;color:var(--gray-500);line-height:1.5">Calendários SBIm 2026/2027 e PNI 2026 integrados à Central. Selecione o grupo para consultar doses e observações; abaixo, consulte o catálogo detalhado por vacina.</div>
       <div style="padding:0 16px 10px">
         <input type="text" id="vacBuscaVac" placeholder="Buscar vacina..." oninput="vacRenderVacinas(this.value)"
           style="width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-size:13px;font-family:Manrope,sans-serif">
       </div>
 
+      <div id="vac26Integra" aria-label="Calendários integrados por idade e situação especial"></div>
+      <div style="padding:0 16px 8px;font-size:12px;font-weight:800;color:var(--navy)">Catálogo de vacinas e detalhes por produto</div>
       <div id="vacListaAll" class="bio-grid vac-grid"></div>
       <div id="vacListaSUS" style="display:none"></div>
       <div id="vacListaPriv" style="display:none"></div>
 
       <div style="margin:14px 16px 0;background:#f7fafb;border:1px solid var(--gray-100);border-radius:12px;padding:11px 13px;font-size:11px;color:var(--gray-500);line-height:1.55">
-        Populações e esquemas do bloco SUS conforme a <b>Instrução Normativa do Calendário Nacional de Vacinação 2026</b> (PNI/Ministério da Saúde). Grupos especiais seguem o <b>Manual dos CRIE (2023)</b>. Recomendações clínicas das demais seções seguem a <b>SBIm</b>.
-        <div style="margin-top:6px">Selos de disponibilidade por rede: <a href="https://sbim.org.br/images/livreto-Calend-SBIm-2026-27-260619a.pdf_2026-06-19.pdf" target="_blank" rel="noopener noreferrer" style="color:var(--teal-mid)">SBIm 2026/2027</a>. Apresentações combinadas estão identificadas nos cartões.</div>
+        Informações clínicas sintetizadas com base no <b>PNI/Ministério da Saúde 2026</b> e nos <b>Calendários SBIm 2026/2027</b>. As recomendações SBIm e a disponibilidade no SUS não são equivalentes. O aplicativo não oferece cadastro nem armazenamento de dados de pacientes.
       </div>
     </div>
 
@@ -3900,16 +3722,6 @@ window._bloquearApp=function(){};
 
 
   <!-- ══ MAIS ══ -->
-  <!-- ══ PACIENTES ══ -->
-  <div class="page" id="page-pacientes">
-    <div class="sec-hdr"><h2>Pacientes</h2><span class="see-all" onclick="_pacCarregar()">atualizar</span></div>
-    <div style="padding:0 0 10px">
-      <input type="text" id="pacBusca" placeholder="Buscar paciente\u2026" oninput="_pacRender()" style="width:100%;box-sizing:border-box;border:1px solid var(--gray-100);border-radius:10px;padding:11px 13px;font-family:Manrope,sans-serif;font-size:14px;color:var(--navy);background:var(--gray-50);outline:none">
-    </div>
-    <div id="pacLista"><div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">Carregando\u2026</div></div>
-  </div>
-
-
   <!-- ══ LABORATÓRIO ══ -->
   <div class="page" id="page-laboratorio">
     <div style="padding:16px 16px 8px">
@@ -3986,7 +3798,6 @@ window._bloquearApp=function(){};
       </div>
     </div>
     <div class="gap-list">
-      <div class="guide-card" data-nav="pacientes" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">👥</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Pacientes</div><div style="font-size:11.5px;color:var(--gray-500)">Scores salvos por paciente</div></div></div></div>
       <div class="guide-card" data-nav="casos" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💬</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Fórum de Discussão</div><div style="font-size:11.5px;color:var(--gray-500)">Discussões por especialidade · área médica restrita</div></div></div></div>
       <div class="guide-card" data-nav="educacao" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🎓</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Educação Continuada</div><div style="font-size:11.5px;color:var(--gray-500)">ASBAI · EAACI Nexus · UCARE LevelUp</div></div></div></div>
       <div class="guide-card" data-nav="imuno" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💉</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Imunobiológicos</div><div style="font-size:11.5px;color:var(--gray-500)">Rol ANS · DUT SUS · Relatórios · 9 biológicos</div></div></div></div>
@@ -4937,23 +4748,19 @@ var VAC_CATALOGO=[
 function vacShowHub(){
   var hub=document.getElementById('vac-menu-hub');
   if(hub) hub.style.display='block';
-  ['pacientes','novo','vacinas','atraso','calendarios'].forEach(function(k){
+  ['vacinas','atraso'].forEach(function(k){
     var el=document.getElementById('vac-sub-'+k); if(el) el.style.display='none';
   });
 }
 function vacShowSub(sub){
   var hub=document.getElementById('vac-menu-hub');
   if(hub) hub.style.display='none';
-  ['pacientes','novo','vacinas','atraso','calendarios'].forEach(function(k){
+  ['vacinas','atraso'].forEach(function(k){
     var el=document.getElementById('vac-sub-'+k);
     if(el) el.style.display=(k===sub)?'block':'none';
   });
-  if(sub==='pacientes') vacRenderPacientes('');
   if(sub==='vacinas') vacRenderVacinas('');
   if(sub==='atraso') atrRender();
-  if(sub==='novo'){
-    var o=document.getElementById('vacSaida'); if(o){o.style.display='none';o.innerHTML='';}
-  }
 }
 
 
@@ -5313,134 +5120,6 @@ function vacCalcular(idadeMeses,sexo,situacao,comorb){
   return {rec:fin,alertas:alertas};
 }
 
-function vacGerarCalendario(){
-  var nome=(document.getElementById('vacNome').value||'').trim();
-  var idv=parseFloat(document.getElementById('vacIdade').value);
-  var un=document.getElementById('vacIdadeUn').value;
-  var sexo=document.getElementById('vacSexo').value;
-  var sit=document.getElementById('vacGest').value;
-  var comorb=vacComorbSel();
-  var out=document.getElementById('vacSaida');
-  if(!nome){ alert('Informe o nome do paciente.'); return; }
-  if(isNaN(idv)||idv<0){ alert('Informe a idade do paciente.'); return; }
-  var meses=(un==='meses')?idv:idv*12;
-  var r=vacCalcular(meses,sexo,sit,comorb);
-  var idadeTxt=idv+' '+un;
-
-  var h='<div class="ig-out"><h4>Calendário vacinal — SBIm</h4>'
-    +'<div class="ig-kv"><span>Paciente</span><span>'+nome+'</span></div>'
-    +'<div class="ig-kv"><span>Idade</span><span>'+idadeTxt+'</span></div>'
-    +'<div class="ig-kv"><span>Situação</span><span>'+({nao:'—',gestante:'Gestante',puerpera:'Puérpera',prematuro:'Prematuro'}[sit])+'</span></div>'
-    +'<div class="ig-kv"><span>Comorbidades</span><span>'+(comorb.length?comorb.length+' selecionada(s)':'Nenhuma')+'</span></div></div>';
-
-  function bloco(tit,arr,cor){
-    if(!arr.length) return '';
-    var x='<div class="ig-out"><h4>'+tit+'</h4>';
-    arr.forEach(function(v){
-      x+='<div style="border-left:3px solid '+cor+';padding:6px 0 6px 10px;margin-bottom:9px">'
-        +'<div style="font-size:13.5px;font-weight:800;color:var(--navy)">'+v.nome+'</div>'
-        +'<div style="font-size:12.5px;color:var(--navy);margin-top:2px">'+v.quando+'</div>'
-        +'<div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">'+v.motivo+'</div></div>';
-    });
-    return x+'</div>';
-  }
-  h+=bloco('Calendário de rotina para a idade',r.rec.filter(function(v){return v.tag==='rotina';}),'var(--teal-mid)');
-  h+=bloco('Situação especial',r.rec.filter(function(v){return v.tag==='especial';}),'#d69e2e');
-  h+=bloco('Indicações por comorbidade',r.rec.filter(function(v){return v.tag==='comorb';}),'var(--navy)');
-
-  if(r.alertas.length){
-    h+='<div class="ig-out"><h4>Alertas e contraindicações</h4>';
-    r.alertas.forEach(function(a){ h+='<div class="ig-alert" style="background:#fff8e6;border:1px solid #f0d9a0;color:#7a5c00">⚠️ '+a+'</div>'; });
-    h+='</div>';
-  }
-  h+='<div style="font-size:11px;color:var(--gray-500);line-height:1.5;padding:0 2px 10px">Fonte: Calendários de Vacinação e Guias de Grupos Especiais da Sociedade Brasileira de Imunizações (SBIm). Apoio à decisão — não substitui a avaliação clínica individual.</div>'
-    +'<div style="display:flex;gap:8px">'
-    +'<button class="ig-btn" style="flex:1;margin:0" onclick="vacSalvarPaciente()">💾 Salvar paciente</button>'
-    +'<button class="ig-btn" style="flex:1;margin:0;background:var(--teal-mid)" onclick="vacCopiar()">📋 Copiar</button></div>';
-
-  out.innerHTML=h; out.style.display='block';
-  window._vacAtual={nome:nome,idade:idv,un:un,sexo:sexo,situacao:sit,comorb:comorb,rec:r.rec,alertas:r.alertas};
-  out.scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-function vacTexto(p){
-  var t='CALENDÁRIO VACINAL — SBIm\n\nPaciente: '+p.nome+'\nIdade: '+p.idade+' '+p.un+'\n';
-  if(p.situacao!=='nao') t+='Situação: '+p.situacao+'\n';
-  if(p.comorb.length) t+='Comorbidades: '+p.comorb.join(', ')+'\n';
-  t+='\nVACINAS INDICADAS:\n';
-  p.rec.forEach(function(v){ t+='\n• '+v.nome+'\n  '+v.quando+'\n  ('+v.motivo+')\n'; });
-  if(p.alertas.length){ t+='\nALERTAS:\n'; p.alertas.forEach(function(a){ t+='– '+a+'\n'; }); }
-  t+='\nReferência: Sociedade Brasileira de Imunizações (SBIm).';
-  return t;
-}
-function vacCopiar(){
-  if(!window._vacAtual) return;
-  var t=vacTexto(window._vacAtual);
-  if(navigator.clipboard) navigator.clipboard.writeText(t).then(function(){ alert('Calendário copiado.'); });
-  else alert(t);
-}
-function vacSalvarPaciente(){
-  if(!window._vacAtual) return;
-  try{
-    var hist=JSON.parse(localStorage.getItem('vacPacientes')||'{}');
-    var p=window._vacAtual;
-    hist[p.nome]={nome:p.nome,idade:p.idade,un:p.un,sexo:p.sexo,situacao:p.situacao,comorb:p.comorb,rec:p.rec,alertas:p.alertas,atualizado:new Date().toISOString().slice(0,10)};
-    localStorage.setItem('vacPacientes',JSON.stringify(hist));
-    alert('Paciente salvo em "Pacientes cadastrados".');
-  }catch(e){ alert('Não foi possível salvar.'); }
-}
-function vacDeletarPaciente(nome){
-  if(!confirm('Excluir '+nome+'?')) return;
-  try{
-    var hist=JSON.parse(localStorage.getItem('vacPacientes')||'{}');
-    delete hist[nome]; localStorage.setItem('vacPacientes',JSON.stringify(hist));
-  }catch(e){}
-}
-function vacVerPaciente(nome){
-  try{
-    var hist=JSON.parse(localStorage.getItem('vacPacientes')||'{}');
-    var p=hist[nome]; if(!p) return;
-    window._vacAtual=p;
-    vacShowSub('novo');
-    document.getElementById('vacNome').value=p.nome;
-    document.getElementById('vacIdade').value=p.idade;
-    document.getElementById('vacIdadeUn').value=p.un;
-    document.getElementById('vacSexo').value=p.sexo;
-    document.getElementById('vacGest').value=p.situacao;
-    document.querySelectorAll('#vacComorb .ig-chip').forEach(function(c){
-      c.classList.toggle('on',(p.comorb||[]).indexOf(c.dataset.c)>=0);
-    });
-    vacGerarCalendario();
-  }catch(e){}
-}
-function vacRenderPacientes(filtro){
-  var box=document.getElementById('vacListaPacientes'); if(!box) return;
-  try{
-    var hist=JSON.parse(localStorage.getItem('vacPacientes')||'{}');
-    var lista=Object.values(hist).filter(function(p){
-      return !filtro || p.nome.toLowerCase().indexOf(filtro.toLowerCase())>=0;
-    }).sort(function(a,b){ return (b.atualizado||'').localeCompare(a.atualizado||''); });
-    box.innerHTML='';
-    if(!lista.length){ box.innerHTML='<div style="color:var(--gray-500);font-size:13px;padding:8px 0">Nenhum paciente cadastrado ainda.</div>'; return; }
-    lista.forEach(function(p){
-      var div=document.createElement('div');
-      div.style.cssText='background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px';
-      div.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between">'
-        +'<b style="font-size:13.5px;color:var(--navy)">'+p.nome+'</b>'
-        +'<span style="font-size:11px;color:var(--gray-500)">'+((p.rec&&p.rec.length)||0)+' vacinas</span></div>'
-        +'<div style="font-size:11.5px;color:var(--gray-500)">'+p.idade+' '+p.un+(p.comorb&&p.comorb.length?' · '+p.comorb.length+' comorbidade(s)':'')+(p.atualizado?' · '+p.atualizado:'')+'</div>'
-        +'<div style="display:flex;gap:6px;margin-top:6px">'
-        +'<button class="bvv" style="flex:1;background:var(--teal-mid);color:#fff;border:none;border-radius:8px;padding:6px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:Manrope,sans-serif">🛡️ Ver calendário</button>'
-        +'<button class="bvd" style="background:#fff0f0;color:#e53e3e;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer">🗑</button>'
-        +'</div>';
-      (function(pn){
-        div.querySelector('.bvv').onclick=function(){ vacVerPaciente(pn); };
-        div.querySelector('.bvd').onclick=function(){ vacDeletarPaciente(pn); vacRenderPacientes(filtro||''); };
-      })(p.nome);
-      box.appendChild(div);
-    });
-  }catch(e){ box.innerHTML='<div style="color:#e53e3e;font-size:12px">Erro ao carregar.</div>'; }
-}
 function vacRenderVacinas(filtro){
   var f=(filtro||'').toLowerCase().trim();
   var box=document.getElementById('vacListaAll');
@@ -11161,7 +10840,7 @@ function chatToggle(){
 })();
 </script>
 <script src="lgpd-runtime.js?v=20261104-6"></script>
-<script src="calendarios-imunizacoes.js?v=20261104-1"></script>
+<script src="calendarios-imunizacoes.js?v=20261104-2"></script>
 </body>
 </html>
 
