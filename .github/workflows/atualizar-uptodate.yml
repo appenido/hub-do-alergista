@@ -5,6 +5,10 @@ on:
     # 06:00 em Brasília (UTC-3), diariamente.
     - cron: '0 9 * * *'
   workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/atualizar_uptodate.py'
+      - '.github/workflows/atualizar-uptodate.yml'
 
 permissions:
   contents: write
@@ -41,7 +45,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if ! git diff --quiet -- data/uptodate.json; then
             git add data/uptodate.json
-            git commit -m "Radar UpToDate: verificação diária [skip ci]"
+            git commit -m "Radar UpToDate: verificação diária"
             git push origin HEAD:main
           else
             echo "Nenhuma alteração no índice."
