@@ -4,6 +4,7 @@
 // Item que não passa por todo o fluxo vai para "pendentes", nunca para a lista principal.
 // Falha total preserva os resultados verificados anteriores (atualizadoEm não muda).
 import fs from 'node:fs';
+import { resolverLinkCandidato } from './radar-link.mjs';
 
 const SAIDA = 'jornal/radar.json';
 const Q = (s) => 'https://news.google.com/rss/search?q=' + encodeURIComponent(s) + '&hl=pt-BR&gl=BR&ceid=BR:pt-419';
@@ -98,12 +99,23 @@ async function resolverUrlReal(linkGoogle){
 }
 
 function dataDaPagina(html){
-  const pats = [
-    /<meta[^>]+property=["']article:published_time["'][^>]+content=["']([^"']+)/i,
-    /<meta[^>]+name=["'](?:date|pubdate|publish-date)["'][^>]+content=["']([^"']+)/i,
-    /"datePublished"\s*:\s*"([^"]+)"/i
-  ];
-  for (const p of pats) { const m = html.match(p); if (m) { const t = Date.parse(m[1]); if (t) return t; } }
+  // A ordem de atributos <meta> varia por veículo: content pode vir antes de name/property.
+  const metas = html.match(/<meta\b[^>]*>/gi) || [];
+  const chaves = new Set(['article:published_time', 'date', 'pubdate', 'publish-date', 'datepublished', 'datecreated', 'dc.date.issued', 'dc.date']);
+  for (const tag of metas) {
+    const attrs = {};
+    for (const m of tag.matchAll(/([\w:.-]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)) attrs[m[1].toLowerCase()] = m[2] ?? m[3];
+    const tipo = (attrs.property || attrs.name || attrs.itemprop || '').toLowerCase();
+    if (!chaves.has(tipo)) continue;
+    const ts = Date.parse(attrs.content || '');
+    if (Number.isFinite(ts)) return ts;
+  }
+  // JSON-LD e dados estruturados preservam a data original mesmo sem meta tags.
+  const jsonld = html.match(/"datePublished"\s*:\s*"([^"]+)"/i);
+  if (jsonld) {
+    const ts = Date.parse(jsonld[1]);
+    if (Number.isFinite(ts)) return ts;
+  }
   return 0;
 }
 
@@ -117,8 +129,8 @@ async function abrirPagina(url){
 }
 
 async function verificarCandidato(c){
-  // 1) resolve a URL real do veículo a partir do link do Google Notícias
-  const res = await resolverUrlReal(c.linkGoogle);
+  // 1) Links de RSS direto já são URLs do veículo; Google Notícias requer resolução.
+  const res = await resolverLinkCandidato(c.linkGoogle, resolverUrlReal);
   if (!res.ok) return { status: 'pendente', titulo: c.titulo, fonte: c.fonte, linkGoogle: c.linkGoogle, motivo: res.motivo };
 
   let host = '';
@@ -136,7 +148,7 @@ async function verificarCandidato(c){
 
   const ts = dataDaPagina(pg.html);
   if (!ts) return { status: 'pendente', titulo: c.titulo, fonte: c.fonte, url: pg.finalUrl, motivo: 'data de publicação não encontrada na página (meta tags ausentes)' };
-  if (Date.now() - ts > 90*24*3600*1000) return { status: 'excluido', motivo: 'publicação fora da janela de 90 dias', titulo: c.titulo, fonte: c.fonte, url: pg.finalUrl };
+  if (ts > Date.now() + 5*60*1000 || Date.now() - ts > 7*24*3600*1000) return { status: 'excluido', motivo: 'publicação fora da janela de 7 dias', titulo: c.titulo, fonte: c.fonte, url: pg.finalUrl };
 
   const h1 = (pg.html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
   return {
@@ -224,5 +236,5 @@ run().catch((e) => {
     pendentes: anterior ? anterior.pendentes || [] : [],
     excluidos: anterior ? anterior.excluidos || [] : []
   });
-  process.exit(0);
+  process.exitCode = 1;
 });
