@@ -3127,6 +3127,11 @@ window._mostrarApp = function(){
           <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Vacinas disponíveis no Brasil</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Produtos com registro ANVISA — SUS e rede privada</div></div>
           <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
         </button>
+        <button onclick="vacShowSub('atraso')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+          <span style="font-size:26px">⏱️</span>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Recuperação de doses em atraso</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Idades e intervalos mínimos — Separata SBIm 25.09.2026</div></div>
+          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
+        </button>
       </div>
       <div style="margin-top:14px;background:#f7fafb;border:1px solid var(--gray-100);border-radius:12px;padding:11px 13px;font-size:11.5px;color:var(--gray-500);line-height:1.55">
         Todas as recomendações desta seção seguem exclusivamente os Calendários de Vacinação e Guias da <b>Sociedade Brasileira de Imunizações (SBIm)</b>. Ferramenta de apoio — não substitui a avaliação clínica.
@@ -3248,6 +3253,46 @@ window._mostrarApp = function(){
 
       <div style="margin:14px 16px 0;background:#f7fafb;border:1px solid var(--gray-100);border-radius:12px;padding:11px 13px;font-size:11px;color:var(--gray-500);line-height:1.55">
         Populações e esquemas do bloco SUS conforme a <b>Instrução Normativa do Calendário Nacional de Vacinação 2026</b> (PNI/Ministério da Saúde). Grupos especiais seguem o <b>Manual dos CRIE (2023)</b>. Recomendações clínicas das demais seções seguem a <b>SBIm</b>.
+      </div>
+    </div>
+
+    <!-- SUB: RECUPERAÇÃO DE DOSES EM ATRASO (Separata SBIm 25.09.2026) -->
+    <div id="vac-sub-atraso" style="display:none;padding-bottom:24px">
+      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px">
+        <button onclick="vacShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
+        <div style="font-size:14px;font-weight:800;color:var(--navy)">Recuperação de doses em atraso</div>
+      </div>
+      <div style="padding:0 16px 10px;font-size:11.5px;color:var(--gray-500);line-height:1.5">
+        Idades mínimas e intervalos mínimos entre doses para recuperar esquemas atrasados.
+        <b>Separata SBIm — edição digital 25.09.2026.</b>
+      </div>
+
+      <div style="padding:0 16px 10px">
+        <input type="text" id="atrBusca" placeholder="Buscar vacina (ex.: hexa, HPV, pneumo)..." oninput="atrRender()"
+          style="width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-size:13px;font-family:Manrope,sans-serif">
+      </div>
+
+      <div style="padding:0 16px 12px;display:flex;gap:8px">
+        <button id="atrTab1" class="atr-tab atr-tab-on" onclick="atrTab(1)">Crianças &lt; 7 anos</button>
+        <button id="atrTab2" class="atr-tab" onclick="atrTab(2)">≥ 7 anos, adolescentes e adultos</button>
+      </div>
+
+      <div id="atrAviso" style="margin:0 16px 12px;background:#fff8e6;border:1px solid #f0d9a0;border-radius:12px;padding:10px 12px;font-size:11.5px;color:#7a5b16;line-height:1.5">
+        Dose aplicada antes da idade mínima ou com intervalo menor que o mínimo <b>não é válida</b> e deve ser repetida, respeitando o intervalo adequado. Esquema em atraso <b>não precisa ser reiniciado</b> — basta completar as doses faltantes.
+      </div>
+
+      <div id="atrTabela" style="padding:0 16px"></div>
+
+      <div style="padding:20px 16px 6px;font-size:13px;font-weight:800;color:var(--navy)">Comentários e orientações</div>
+      <div style="padding:0 16px 8px;font-size:11.5px;color:var(--gray-500)">Toque para abrir cada item.</div>
+      <div id="atrComent" style="padding:0 16px;display:flex;flex-direction:column;gap:7px"></div>
+
+      <div style="padding:20px 16px 6px;font-size:13px;font-weight:800;color:var(--navy)">Nomes comerciais e fabricantes</div>
+      <div id="atrNomes" style="padding:0 16px"></div>
+
+      <div style="margin:16px 16px 0;background:#f7fafb;border:1px solid var(--gray-100);border-radius:12px;padding:11px 13px;font-size:11px;color:var(--gray-500);line-height:1.55">
+        Fonte: <b>SBIm — Separata “Recuperação de doses em atraso”, edição digital de 25.09.2026</b>, com base em CDC, AAP, Manual de Normas e Procedimentos para Vacinação (MS, 2024) e Instrução Normativa do Calendário Nacional de Vacinação.
+        <a href="https://sbim.org.br/calendario-de-vacinacao/esquemas-em-atraso" target="_blank" rel="noopener noreferrer" style="color:var(--teal-mid);font-weight:700">Ver no site da SBIm</a>
       </div>
     </div>
 
@@ -4643,22 +4688,206 @@ var VAC_CATALOGO=[
 function vacShowHub(){
   var hub=document.getElementById('vac-menu-hub');
   if(hub) hub.style.display='block';
-  ['pacientes','novo','vacinas'].forEach(function(k){
+  ['pacientes','novo','vacinas','atraso'].forEach(function(k){
     var el=document.getElementById('vac-sub-'+k); if(el) el.style.display='none';
   });
 }
 function vacShowSub(sub){
   var hub=document.getElementById('vac-menu-hub');
   if(hub) hub.style.display='none';
-  ['pacientes','novo','vacinas'].forEach(function(k){
+  ['pacientes','novo','vacinas','atraso'].forEach(function(k){
     var el=document.getElementById('vac-sub-'+k);
     if(el) el.style.display=(k===sub)?'block':'none';
   });
   if(sub==='pacientes') vacRenderPacientes('');
   if(sub==='vacinas') vacRenderVacinas('');
+  if(sub==='atraso') atrRender();
   if(sub==='novo'){
     var o=document.getElementById('vacSaida'); if(o){o.style.display='none';o.innerHTML='';}
   }
+}
+
+
+/* ═══ RECUPERAÇÃO DE DOSES EM ATRASO — Separata SBIm 25.09.2026 ═══ */
+var ATR_COLS=['Início da vacinação básica de rotina','Idade máxima para iniciar o esquema','Idade mínima para D1','Idade máxima para D1','Idade máxima da última dose','D1 → D2','D2 → D3','D1 → D3','Fim do esquema básico → 1º reforço','1º → 2º reforço'];
+var NSA='Não se aplica', NH='Não há';
+var ATR_T1=[
+['BCG',1,['0–1 mês','< 5 anos','Nascimento','< 5 anos','< 5 anos','Se necessário, 6 meses',NSA,NSA,NSA,NSA]],
+['Hepatite B',2,['Primeiras 12 h de vida',NH,'Nascimento',NH,NH,'4 semanas','8 semanas','16 semanas',NSA,NSA]],
+['Hepatite A',3,['12 meses',NH,'12 meses',NH,NH,'6 meses',NSA,NSA,NSA,NSA]],
+['Hepatite A e B',4,['12 meses','< 16 anos','12 meses',NH,NH,'6 meses',NSA,NSA,NSA,NSA]],
+['Rotavírus pentavalente (RV5)',5,['2 meses','11 meses e 29 dias','6 semanas','11 meses e 29 dias','23 meses e 29 dias','4 semanas','4 semanas','4 semanas',NSA,NSA]],
+['Rotavírus monovalente (RV1)',5,['2 meses','11 meses e 29 dias','6 semanas','11 meses e 29 dias','23 meses e 29 dias','4 semanas',NSA,NSA,NSA,NSA]],
+['DTPa',6,['2 meses','< 7 anos','6 semanas','< 7 anos','< 7 anos','4 semanas','4 semanas','4 semanas','6 meses','6 meses']],
+['DTPa-VIP',7,['4 anos','13 anos','4 anos','13 anos','13 anos',NSA,NSA,NSA,'6 meses','6 meses']],
+['DTP',8,['2 meses','< 7 anos','6 semanas','< 7 anos','< 7 anos','4 semanas','4 semanas','4 semanas','6 meses','6 meses']],
+['DT',9,['2 meses','< 7 anos','6 semanas','< 7 anos','< 7 anos','4 semanas','4 semanas','4 semanas','6 meses','6 meses']],
+['Hib',10,['2 meses','5 anos','6 semanas','5 anos','5 anos','4 ou 8 semanas, conforme o histórico vacinal (ver comentário 10)','4 ou 8 semanas, conforme o histórico vacinal (ver comentário 10)','8 semanas (ver comentário 10)','Ver comentário 10',NSA]],
+['VIP (poliomielite inativada)',11,['2 meses',NH,'6 semanas',NH,NH,'4 semanas','4 semanas','4 semanas','6 meses',NSA]],
+['Hexa acelular (DTPa-VIP-HB/Hib)',12,['2 meses','< 7 anos','6 semanas','< 7 anos','< 7 anos','4 semanas','4 semanas','4 semanas','6 meses',NSA]],
+['Penta acelular (DTPa-VIP/Hib)',12,['2 meses','< 7 anos','6 semanas','< 7 anos','< 7 anos','4 semanas','4 semanas','4 semanas','6 meses',NSA]],
+['Penta de células inteiras (DTP-HB/Hib)',13,['2 meses','< 7 anos','6 semanas','< 7 anos','< 7 anos','4 semanas','4 semanas','4 semanas','6 meses',NSA]],
+['dTpa',14,['4 anos',NH,'3 anos',NH,NH,'4 semanas','4 semanas','4 semanas','6 meses','5 anos']],
+['dTpa-VIP',15,['4 anos',NH,'3 anos',NH,NH,'4 semanas','4 semanas','4 semanas','6 meses','5 anos']],
+['Pneumocócicas conjugadas VPC13, VPC15 e VPC20',16,['2 meses',NH,'6 semanas',NH,NH,'4 ou 8 semanas, conforme o histórico vacinal (ver comentário 16)','4 ou 8 semanas, conforme o histórico vacinal (ver comentário 16)','8 semanas (ver comentário 16)','Ver comentário 16',NSA]],
+['Pneumocócica conjugada VPC10',17,['12 meses','< 5 anos','6 meses','< 5 anos','< 5 anos','4 semanas ou 60 dias, conforme o histórico vacinal (ver comentário 17)',NSA,NSA,'60 dias (ver comentário 17)',NSA]],
+['Tríplice viral (sarampo, caxumba e rubéola)',18,['12 meses',NH,'6 meses',NH,NH,'4 semanas',NSA,NSA,NSA,NSA]],
+['Varicela',19,['12 meses',NH,'9 meses',NH,NH,'3 meses',NSA,NSA,NSA,NSA]],
+['Tetraviral (SCRV)',20,['12 meses','A depender do fabricante','9 meses','A depender do fabricante','A depender do fabricante','3 meses',NSA,NSA,NSA,NSA]],
+['Febre amarela',21,['9 meses',NH,'6 meses',NH,NH,'4 semanas',NSA,NSA,NSA,NSA]],
+['Influenza 3V/4V',22,['6 meses',NH,'6 meses',NH,NH,'4 semanas (duas doses recomendadas apenas na primovacinação de menores de 9 anos)',NSA,NSA,'Doses anuais nos anos subsequentes à primovacinação','Doses anuais nos anos subsequentes à primovacinação']],
+['Meningocócica C',23,['3 meses',NH,'2 meses',NH,NH,'8 semanas',NSA,NSA,'2 meses','5 anos']],
+['Meningocócica ACWY',24,['3 meses',NH,'A depender do fabricante (ver comentário 24)',NH,NH,'8 semanas, a depender da idade de início (ver comentário 24)',NSA,NSA,'8 semanas, a depender da idade de início (ver comentário 24)','5 anos']],
+['Meningocócica B (Bexsero®)',25,['3 meses','50 anos','2 meses','50 anos','50 anos','Depende da idade de início da vacinação (ver comentário 25)',NSA,NSA,'Depende da idade de início da vacinação (ver comentário 25)',NSA]],
+['Dengue (Takeda)',26,['4 anos','60 anos','4 anos','60 anos',NH,'3 meses',NSA,NSA,NSA,NSA]],
+['Covid-19 (Pfizer)',27,['6 meses','< 5 anos','6 meses','< 5 anos','< 5 anos','4 semanas','8 semanas','12 semanas',NSA,NSA]]
+];
+var ATR_T2=[
+['Hepatite B',2,['Primeiras 12 h de vida',NH,'Nascimento',NH,NH,'4 semanas','8 semanas','16 semanas',NSA,NSA]],
+['Hepatite A',3,['12 meses',NH,'12 meses',NH,NH,'6 meses',NSA,NSA,NSA,NSA]],
+['Hepatite A e B — para &lt; 16 anos',4,['12 meses','15 anos',NH,'15 anos',NH,'6 meses',NSA,NSA,NSA,NSA]],
+['Hepatite A+B — para ≥ 16 anos',4,['12 meses',NH,NH,NH,NH,'4 semanas','8 semanas','16 semanas',NSA,NSA]],
+['VIP (poliomielite inativada)',11,['2 meses',NH,'6 semanas',NH,NH,'4 semanas','4 semanas','4 semanas',NSA,NSA]],
+['dTpa',14,['4 anos',NH,'3 anos',NH,NH,'4 semanas','4 semanas','4 semanas','6 meses','5 anos']],
+['dTpa + VIP',15,['4 anos',NH,'3 anos',NH,NH,'4 semanas','4 semanas','4 semanas','6 meses','10 anos']],
+['Tríplice viral (SCR)',18,['12 meses',NH,'6 meses',NH,NH,'4 semanas',NSA,NSA,NSA,NSA]],
+['Varicela — para &lt; 13 anos',19,['12 meses','12 anos','9 meses','12 anos',NH,'3 meses',NSA,NSA,NSA,NSA]],
+['Varicela — para ≥ 13 anos',19,['12 meses',NH,'13 anos',NH,NH,'4 semanas',NSA,NSA,NSA,NSA]],
+['Tetraviral (SCRV)',20,['12 meses','A depender do fabricante','9 meses','A depender do fabricante','A depender do fabricante','12 semanas',NSA,NSA,NSA,NSA]],
+['dT (dupla adulto)',28,['7 anos',NH,'7 anos',NH,NH,'4 semanas','4 semanas','4 semanas','10 anos','10 anos']],
+['HPV4 (quadrivalente)',29,['9 anos','45 anos','9 anos','14 anos','Resgate até 19 anos','No PNI, esquema de rotina até 14 anos: dose única',NSA,NSA,NSA,NSA]],
+['HPV9 (nonavalente) — início &lt; 20 anos',30,['&lt; 20 anos','19 anos','9 anos','19 anos',NH,'6 meses',NSA,NSA,NSA,NSA]],
+['HPV9 (nonavalente) — início ≥ 20 anos',30,['≥ 20 anos',NH,'20 anos','45 anos',NH,'4 semanas','12 semanas','16 semanas',NSA,NSA]],
+['Febre amarela',21,['9 meses',NH,'6 meses',NH,NH,'10 anos',NSA,NSA,NSA,NSA]],
+['Influenza 3V/4V',22,['6 meses',NH,'6 meses',NH,NH,'4 semanas (duas doses recomendadas apenas na primovacinação de menores de 9 anos)',NSA,NSA,'Doses anuais nos anos subsequentes à primovacinação','Doses anuais nos anos subsequentes à primovacinação']],
+['Influenza HD (high dose)',31,['60 anos',NH,'60 anos',NH,NH,NSA,NSA,NSA,'Doses anuais ao longo da vida','Doses anuais ao longo da vida']],
+['Meningocócica C',23,['3 meses',NH,'2 meses',NH,NH,NSA,NSA,NSA,'5 anos, durante a adolescência','5 anos, durante a adolescência']],
+['Meningocócica ACWY',24,['3 meses',NH,'A depender do fabricante',NH,NH,NSA,NSA,NSA,'5 anos, durante a adolescência','5 anos, durante a adolescência']],
+['Meningocócica B (Bexsero®)',25,['3 meses','50 anos','2 meses',NH,NH,'4 semanas',NSA,NSA,NSA,NSA]],
+['Herpes-zóster inativada (recombinante)',32,['50 anos',NH,'18 anos',NH,NH,'8 semanas',NSA,NSA,NSA,NSA]],
+['Dengue (Takeda)',26,['4 anos','60 anos','4 anos','60 anos',NH,'3 meses',NSA,NSA,NSA,NSA]],
+['VSR — Arexvy®',33,['Idosos: 60 anos na rotina. Pacientes com comorbidades: 50 anos',NH,'50 anos',NH,NH,NSA,NSA,NSA,NSA,NSA]],
+['VSR — Abrysvo®',34,['Idosos: 60 anos na rotina. Pacientes com comorbidades: 18 anos',NH,'50 anos',NH,NH,NSA,NSA,NSA,NSA,NSA]],
+['VSR — Abrysvo® (gestantes)',34,['Gestantes',NH,NH,NH,NH,NSA,NSA,NSA,'Uma dose a cada gestação','Uma dose a cada gestação']]
+];
+var ATR_COM=[
+[1,'BCG','Para conviventes de pacientes com hanseníase, se indicada, não há limite de idade.'],
+[2,'Hepatite B','No sistema privado, o esquema pode ser de três ou quatro doses no primeiro ano de vida, ambos adequados para bebês nascidos a termo, a depender da vacina administrada no quarto mês: penta acelular (DTPa-VIP/Hib) ou hexa acelular (DTPa-VIP-HB/Hib), que inclui o componente hepatite B. Na rede pública, nas doses dos 2, 4 e 6 meses, é usada a penta de células inteiras (DTP-HB/Hib), com componente HB. O esquema de 4 doses de HB só é obrigatório para RNPT que recebem a primeira dose ao nascimento (ou no primeiro mês de vida).<br><br>Para crianças vacinadas no primeiro ano de vida, a idade mínima para a última dose é de 6 meses.<br><br>Utilizando-se vacinas combinadas à vacina tríplice bacteriana para vacinação contra hepatite B, os intervalos requeridos de oito semanas entre a D2 e a D3 e de 16 semanas entre a D1 e a D3 devem-se ao componente HB. Considerando apenas os demais componentes (DTP e Hib), os intervalos mínimos são de quatro semanas.'],
+[3,'Hepatite A','No PNI, esquema de dose única, aplicada na rotina aos 15 meses, com possibilidade de atualização até 4 anos, 11 meses e 29 dias.'],
+[4,'Hepatite A e B (combinada A+B)','O esquema de duas doses é recomendado apenas até antes dos 16 anos.'],
+[5,'RV1 e RV5 (rotavírus mono e pentavalente)','Se for praticada intercambialidade entre RV1 e RV5, com uma dose de RV5 ou desconhecida, o esquema deve ser de três doses.'],
+[6,'DTPa (tríplice bacteriana infantil acelular)','Pode ser usada como alternativa às doses de rotina da hexa e da penta acelulares em caso de indisponibilidade ou no reforço dos 4 anos, na indisponibilidade da vacina dTpa-VIP.'],
+[7,'DTPa-VIP (tríplice bacteriana infantil acelular com pólio)','É indicada como alternativa para a vacinação de reforço tardio (5ª dose) para crianças em idade pré-escolar ou em adolescentes (entre 4 e 13 anos) previamente vacinados com o esquema primário.'],
+[8,'DTP (tríplice bacteriana de células inteiras)','No PNI, usada como rotina nos reforços dos 15 meses e dos 4 anos de idade. Na indisponibilidade da penta de células inteiras (DTP-HB/Hib), pode ser utilizada no primeiro ano de vida.'],
+[9,'DT (dupla bacteriana infantil)','É recomendada para crianças que têm contraindicação para vacinas com componente pertussis. Não utilizar na rotina de vacinação infantil. Disponível apenas nos CRIE.'],
+[10,'Hib (Haemophilus influenzae tipo b)','No sistema privado, disponível apenas em formulações combinadas à DTPa (penta e hexa acelulares).<br><br><b>Recuperação de acordo com o histórico vacinal:</b><br>• D1 entre 7 e 11 meses: D2 com intervalo mínimo de quatro semanas da D1 e D3 (dose final) aos 12–15 meses de idade ou com intervalo mínimo de oito semanas após a D2.<br>• D1 entre 12 e 14 meses: D2 (dose final) com intervalo mínimo de oito semanas após a D1.<br>• D1 antes de 12 meses e D2 antes dos 15 meses de idade: D3 (dose final) com intervalo mínimo de oito semanas após a D2.<br>• D1 e D2 antes dos 12 meses de idade: D3 (dose final) dos 12 aos 59 meses de idade, com intervalo mínimo de oito semanas após a D2.<br>• D1 a partir de 15 meses de idade: não são necessárias doses adicionais.<br>• Não vacinados entre 15 e 59 meses de idade: administrar uma dose.'],
+[11,'VIP (poliomielite inativada)','Disponível no sistema privado apenas em formulações combinadas (penta e hexa acelulares, DTPa-VIP e dTpa-VIP).'],
+[12,'Penta (DTPa-VIP/Hib) e hexa (DTPa-VIP-HB/Hib) acelulares','No PNI, disponíveis apenas para grupos especiais. Podem ser intercambiadas com a vacina penta de células inteiras no esquema de vacinação infantil.'],
+[13,'Penta de células inteiras (DTP-HB/Hib)','Disponível apenas no sistema público.'],
+[14,'dTpa (tríplice bacteriana acelular do tipo adulto)','Pode ser usada a partir dos 3 anos de idade para atualização de calendários em atraso ou na rotina para os reforços dos 4–5 anos, 9–10 anos e a cada 10 anos. É recomendada e oferecida pelo PNI para gestantes, a cada gestação.'],
+[15,'dTpa-VIP (tríplice bacteriana acelular do tipo adulto com pólio)','Preferencial para o reforço contra a poliomielite aos 4–5 anos, conforme recomendações da SBIm. Pode ser usada nas doses de reforço ao longo da vida. A critério médico, pode substituir a dose de dTpa na gestação.'],
+[16,'Pneumocócicas conjugadas 13, 15 e 20-valentes (VPC13, VPC15 e VPC20)','Não indicadas doses adicionais para crianças saudáveis que receberam pelo menos uma dose de VPC13, 15 ou 20 a partir dos 24 meses de idade.<br><br>Crianças saudáveis entre 2 e 5 anos de idade não vacinadas devem receber apenas uma dose de VPC13, 15 ou 20.<br><br>Para crianças saudáveis que receberam esquema completo com VPC13 ou 15, não há recomendação de dose adicional de VPC20.<br><br>As vacinas VPC13, 15 e 20 são intercambiáveis em qualquer ponto do esquema vacinal.<br><br><b>Recuperação de acordo com o histórico vacinal:</b><br>• Intervalos entre D1 e D2: quatro semanas se a D1 tiver sido aplicada antes dos 12 meses; oito semanas (considerar dose final) se a D1 tiver sido aplicada a partir dos 12 meses.<br>• Intervalos entre D2 e D3: quatro semanas se a idade no momento da aplicação for inferior a 12 meses e a D2 tiver sido administrada com menos de 7 meses de idade; oito semanas (e obrigatoriamente após completar 12 meses) como dose final para crianças saudáveis que receberam a dose entre 7 e 11 meses ou para crianças a partir de 12 meses que tenham recebido ao menos uma dose antes dos 12 meses de idade.<br>• Intervalo entre a última dose do esquema primário e a dose de reforço: oito semanas. A dose de reforço é indicada apenas para crianças entre 12 e 59 meses de idade que receberam as doses do esquema primário antes dos 12 meses de idade.<br><br>A vacina VPC13 não está mais disponível no sistema privado. As vacinas VPC15 e VPC20 atualmente só estão disponíveis no sistema privado.'],
+[17,'Pneumocócica conjugada 10-valente (VPC10)','Disponível apenas no sistema público para crianças até 4 anos, 11 meses e 29 dias de idade.<br><br>Crianças saudáveis a partir de 12 meses, previamente vacinadas ou não com VPC10, poderão receber, no sistema público, uma dose até antes de completar 5 anos de idade.<br><br>Crianças previamente vacinadas com VPC10 podem completar vacinação com VPC15, 15 ou 20 ou, se o esquema de VPC10 estiver completo, receber doses adicionais destas vacinas. O esquema a ser usado é o esquema completo de VPC13, 15 ou 20 recomendado para a idade em que a criança inicia a vacinação com essas vacinas.<br><br><b>Recuperação de acordo com o histórico vacinal:</b><br>• Intervalos entre D1-D2: quatro semanas para crianças entre 5 e 11 meses; sessenta dias (considerar como dose final) para crianças a partir de 12 meses.<br>• Intervalo entre última dose do esquema primário e dose de reforço: 60 dias. A dose de reforço só é indicada se houver histórico de administração de outra(s) dose(s) antes dos 12 meses de idade.'],
+[18,'Tríplice viral (sarampo, caxumba e rubéola)','Doses aplicadas antes de completar 12 meses de idade (“dose 0”) não devem ser contabilizadas. É considerado protegido o indivíduo com registro de duas doses aplicadas a partir dos 12 meses de idade, com intervalo mínimo de quatro semanas entre elas.'],
+[19,'Varicela','Doses aplicadas antes de completar 12 meses de idade (“dose 0”) devem ser desconsideradas. O PNI recomenda a D1 aos 15 meses (com a vacina tetraviral) e a D2 aos 4 anos (com a vacina varicela). A SBIm recomenda que as duas doses sejam administradas dentro do segundo ano de vida.<br><br><b>Intervalo entre as duas doses de acordo com a idade:</b><br>• Para menores de 13 anos: 3 meses.<br>• A partir de 13 anos: 4 semanas.'],
+[20,'Tetraviral (sarampo, caxumba, rubéola e varicela)','Doses aplicadas antes de completar 12 meses de idade devem ser desconsideradas (“dose 0”). A SBIm recomenda a tetraviral aos 12 e 15 meses de idade, podendo ser substituída pelas formulações tríplice viral e varicela isoladas.<br><br>A vacina do laboratório GSK é licenciada sem limite de idade. A vacina do laboratório MSD tem limite de idade até 12 anos.<br><br><b>Intervalo mínimo entre as doses de acordo com a idade:</b><br>• Para menores de 13 anos: três meses (se deve ao componente varicela).<br>• A partir de 13 anos: quatro semanas.'],
+[21,'Febre amarela','O PNI adota na rotina infantil uma dose aos 9 meses e outra aos 4 anos de idade. A SBIm recomenda que o intervalo mínimo de um mês entre as duas doses da infância pode ser utilizado. Crianças que receberam a primeira dose antes de completar 5 anos poderão receber a segunda em qualquer idade, respeitando o intervalo mínimo de quatro semanas. O PNI recomenda dose única a partir de 5 anos de idade. A SBIm recomenda considerar duas doses em qualquer idade, com intervalo de 10 anos.'],
+[22,'Influenza 3V e 4V (tri e tetravalente)','No PNI, a vacina está no calendário de rotina da criança dos 6 meses até antes de completar 6 anos, idosos e gestantes. Nas Campanhas Nacionais de Vacinação são incluídos outros grupos prioritários. A SBIm recomenda a vacinação universal a partir dos 6 meses.'],
+[23,'Meningocócica C','No PNI, usada na rotina infantil aos 3 e 5 meses de vida. Os reforços dos 12 meses e da adolescência são feitos com a vacina MenACWY. Para adultos e idosos, disponível apenas para situações de risco.<br><br>A SBIm recomenda utilizar preferencialmente a vacina meningocócica ACWY, tanto na rotina como nas situações especiais.'],
+[24,'Meningocócica ACWY','A idade mínima varia de acordo com o fabricante: 6 semanas (Pfizer); 2 meses (GSK) ou 12 meses (Sanofi).<br><br>Para crianças que receberam MenC, a SBIm recomenda MenACWY para ampliar a proteção. O esquema a ser adotado é o recomendado pelo fabricante da vacina utilizada para a idade em que se inicia a MenACWY.<br><br><b>Nimenrix® (Pfizer, ACWY-TT):</b> 6 semanas a &lt; 6 meses — 2 doses + reforço; 6 a &lt; 12 meses — 1 dose + reforço; ≥ 12 meses a adultos — 1 dose.<br><b>Menveo® (GSK, ACWY-CRM):</b> 2 a 6 meses — 2 doses + reforço; 7 a &lt; 24 meses — 1 dose + reforço; ≥ 24 meses a adultos — 1 dose.<br><b>MenQuadfi® (Sanofi, ACWY-TT):</b> 6 semanas a &lt; 6 meses — 2 doses + reforço; 6 a 11 meses — 1 dose + reforço; ≥ 12 meses a adultos — 1 dose.<br><br><b>Intervalos mínimos entre doses:</b><br>• Crianças que iniciam no primeiro semestre de vida: oito semanas entre a D1 e a D2 e seis meses para a dose de reforço, que deve ser aplicada após os 12 meses de idade.<br>• Crianças que iniciam no segundo semestre de vida: oito semanas entre a dose administrada e a dose de reforço.<br>• Crianças vacinadas entre 12 e 23 meses: as vacinas da Pfizer e da Sanofi não têm indicação de dose de reforço. Para a vacina da GSK, o intervalo mínimo para o reforço é de oito semanas.<br><br>A SBIm preconiza mais duas doses de reforço durante a infância, com intervalos de 5 anos. Para adolescentes: vacinados na infância — reforço aos 11 anos ou cinco anos após a última dose; não vacinados, até os 15 anos — duas doses com intervalo de cinco anos; não vacinados a partir de 16 anos — uma dose.<br><br>Adultos e idosos: recomendada dose única apenas em situações de risco. Em caso de imunossupressão, pode ser indicada dose de reforço.'],
+[25,'Meningocócica B','O esquema varia de acordo com a idade no início da vacinação.<br><br><b>MenB (GSK — Bexsero®):</b> 2 meses a 23 meses — 2 doses + reforço; ≥ 24 meses a 50 anos — 2 doses.<br><br><b>Intervalos mínimos conforme a idade ao iniciar o esquema:</b><br>• Entre 2 e 5 meses: dois meses entre a D1 e a D2 e seis meses entre a D2 e a dose de reforço, que deve ser aplicada após os 12 meses de idade.<br>• Entre 6 e 11 meses: dois meses entre a D1 e a D2 e dois meses entre a D2 e a dose de reforço, que deve ser aplicada após os 12 meses de idade.<br>• Entre 12 e 23 meses: dois meses entre a D1 e a D2 e 12 meses entre a D2 e a dose de reforço.<br>• A partir de 24 meses: um mês entre a D1 e a D2.'],
+[26,'Dengue (Qdenga® — Takeda)','No PNI, disponível para todas as cidades do país apenas para adolescentes dos 10 aos 14 anos. Mais informações na Nota Técnica nº 4/2026 CGICI-DPNI-SVSA/MS.'],
+[27,'Covid-19','No PNI, disponível na rotina de vacinação para crianças de 6 meses até antes de completar 5 anos, gestantes e idosos, bem como para imunocomprometidos e outros grupos prioritários.'],
+[28,'dT (dupla bacteriana do tipo adulto)','Disponível apenas no sistema público para atualização do esquema básico contra difteria e tétano a partir dos 7 anos de idade e para as doses de reforços a cada 10 anos.'],
+[29,'HPV4 (quadrivalente)','Disponível apenas no PNI.<br>• Rotina: dose única para meninos e meninas até 14 anos, 11 meses e 29 dias de idade.<br>• Estratégia de resgate: conforme a organização de cada unidade federada, dose única para os adolescentes sem histórico vacinal contra HPV, na faixa etária de 15 a 19 anos, 11 meses e 29 dias.<br>• Alguns grupos prioritários foram incluídos em outras faixas etárias, com diferentes esquemas. Consultar Notas Técnicas específicas do Ministério da Saúde.'],
+[30,'HPV9 (nonavalente)','Disponível apenas no setor privado. A SBIm recomenda na rotina:<br>• Até 19 anos de idade: duas doses com intervalo de 6 meses.<br>• A partir de 20 anos de idade e pessoas com imunossupressão de qualquer idade: três doses no esquema 0-2-6 meses.'],
+[31,'Influenza HD (“high dose”)','Disponível apenas no sistema privado. A SBIm indica preferencialmente para pessoas a partir de 60 anos, sobretudo se há comorbidade de risco.'],
+[32,'Herpes-zóster inativada','Indivíduos imunodeprimidos ou com probabilidade de se tornarem imunossuprimidos podem se beneficiar de esquema vacinal mais curto, com quatro semanas de intervalo entre as doses.'],
+[33,'VSR — GSK (Arexvy®)','Disponível apenas no sistema privado.'],
+[34,'VSR — Pfizer (Abrysvo®)','Disponível no sistema privado para idosos, pessoas com comorbidades e gestantes. No PNI, apenas para gestantes, que devem receber uma dose a cada gestação.']
+];
+var ATR_NOMES=[
+['Hepatite B (HB)','Engerix® (GSK) · Recombivax® (MSD)'],
+['Rotavírus monovalente (RV1)','Rotarix® (GSK)'],
+['Rotavírus pentavalente (RV5)','RotaTeq® (MSD)'],
+['Penta acelular (DTPa-VIP/Hib)','Infanrix Penta® (GSK) · Pentaxim® (Sanofi)'],
+['Hexa acelular (DTPa-VIP-HB/Hib)','Infanrix Hexa® (GSK) · Hexaxim® (Sanofi)'],
+['Tríplice bacteriana acelular infantil (DTPa)','Infanrix® (GSK)'],
+['Tríplice bacteriana acelular do adulto (dTpa)','Adacel® (Sanofi) · Refortrix® (GSK)'],
+['Tríplice bacteriana acelular infantil com pólio (DTPa-VIP)','Tetraxim® (Sanofi)'],
+['Tríplice bacteriana acelular do adulto com pólio (dTpa-VIP)','Adacel Quadra® (Sanofi) · Refortrix IPV® (GSK)'],
+['Pneumocócica conjugada 10-valente (VPC10)','Synflorix® (GSK)'],
+['Pneumocócica conjugada 13-valente (VPC13)','Prevenar 13® (Pfizer)'],
+['Pneumocócica conjugada 15-valente (VPC15)','Vaxneuvance® (MSD)'],
+['Pneumocócica conjugada 20-valente (VPC20)','Prevenar 20® (Pfizer)'],
+['Hepatite A (HA)','Havrix® (GSK) · Vaqta® (MSD)'],
+['Combinada hepatite A+B','Twinrix® (GSK)'],
+['Tríplice viral (SCR)','Priorix® (GSK) · MMR II® (MSD)'],
+['Tetraviral (SCRV)','Priorix Tetra® (GSK) · ProQuad® (MSD)'],
+['Varicela (VV)','Varilrix® (GSK) · Varivax® (MSD)'],
+['Meningocócica C (MenC)','Menjugate® (GSK)'],
+['Meningocócica ACWY','Menveo® (GSK) · Nimenrix® (Pfizer) · MenQuadfi® (Sanofi)'],
+['Meningocócica B (MenB)','Bexsero® (GSK)'],
+['Febre amarela (FA)','Stamaril® (Sanofi)'],
+['Dengue','QDenga® (Takeda)'],
+['HPV quadrivalente (HPV4)','Gardasil® (MSD)'],
+['HPV nonavalente (HPV9)','Gardasil 9® (MSD)'],
+['Influenza trivalente (IV3)','Fluarix® (GSK) · Vaxigripe® (Sanofi) · Influvac® (Abbott)'],
+['Influenza quadrivalente (IV4)','Fluarix Tetra® (GSK) · Vaxigripe Tetra® (Sanofi) · Influvac Tetra® (Abbott)'],
+['Influenza High Dose (IHD)','Efluelda® (Sanofi)'],
+['VSR','Arexvy® (GSK) · Abrysvo® (Pfizer)'],
+['Herpes-zóster (HZ)','Shingrix® (GSK)']
+];
+var ATR_TAB=1;
+function atrTab(n){
+  ATR_TAB=n;
+  var a=document.getElementById('atrTab1'),b=document.getElementById('atrTab2');
+  if(a) a.className='atr-tab'+(n===1?' atr-tab-on':'');
+  if(b) b.className='atr-tab'+(n===2?' atr-tab-on':'');
+  atrRender();
+}
+function atrRender(){
+  var q=(document.getElementById('atrBusca')||{}).value||'';
+  q=q.trim().toLowerCase();
+  var dados=(ATR_TAB===1?ATR_T1:ATR_T2).filter(function(r){
+    return !q || r[0].toLowerCase().indexOf(q)>=0;
+  });
+  var h='<div class="atr-wrap"><table class="atr-tb"><thead><tr><th class="atr-sticky">Vacina</th>';
+  ATR_COLS.forEach(function(c){h+='<th>'+c+'</th>';});
+  h+='</tr></thead><tbody>';
+  if(!dados.length){
+    h+='<tr><td class="atr-sticky" colspan="11" style="text-align:center;color:var(--gray-500)">Nenhuma vacina encontrada.</td></tr>';
+  }
+  dados.forEach(function(r){
+    h+='<tr><td class="atr-sticky"><b>'+r[0]+'</b> <sup class="atr-ref" onclick="atrAbreCom('+r[1]+')">'+r[1]+'</sup></td>';
+    r[2].forEach(function(v){
+      h+='<td'+(v===NSA?' class="atr-nsa"':'')+'>'+v+'</td>';
+    });
+    h+='</tr>';
+  });
+  h+='</tbody></table></div><div style="font-size:10.5px;color:var(--gray-500);margin-top:6px">Deslize a tabela para o lado para ver todas as colunas. Toque no número ao lado da vacina para abrir o comentário.</div>';
+  var el=document.getElementById('atrTabela'); if(el) el.innerHTML=h;
+  var c=document.getElementById('atrComent');
+  if(c && !c.innerHTML){
+    var hc='';
+    ATR_COM.forEach(function(x){
+      hc+='<details id="atr-com-'+x[0]+'" class="atr-det"><summary><span class="atr-num">'+x[0]+'</span> '+x[1]+'</summary><div class="atr-det-b">'+x[2]+'</div></details>';
+    });
+    c.innerHTML=hc;
+  }
+  var n=document.getElementById('atrNomes');
+  if(n && !n.innerHTML){
+    var hn='<div class="atr-wrap"><table class="atr-tb atr-tb2"><thead><tr><th>Vacina</th><th>Nomes comerciais (fabricante)</th></tr></thead><tbody>';
+    ATR_NOMES.forEach(function(x){hn+='<tr><td><b>'+x[0]+'</b></td><td>'+x[1]+'</td></tr>';});
+    hn+='</tbody></table></div>';
+    n.innerHTML=hn;
+  }
+}
+function atrAbreCom(n){
+  var d=document.getElementById('atr-com-'+n);
+  if(!d) return;
+  d.open=true;
+  d.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
 (function(){
@@ -9451,6 +9680,27 @@ if ('serviceWorker' in navigator) {
 
 #eaaci-list .eaaci-card{background:#fff;border-bottom:1px solid var(--gray-100);padding:14px 16px;display:none;flex-direction:column;gap:5px}
 #eaaci-list .eaaci-card.sel{display:flex}
+/* ═══ RECUPERAÇÃO DE DOSES EM ATRASO ═══ */
+.atr-tab{flex:1;background:#fff;border:1.5px solid var(--gray-100);border-radius:11px;padding:9px 8px;font-size:11.5px;font-weight:800;color:var(--gray-500);font-family:Manrope,sans-serif;cursor:pointer;line-height:1.3}
+.atr-tab-on{background:var(--navy);border-color:var(--navy);color:#fff}
+.atr-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--gray-100);border-radius:12px;background:#fff}
+.atr-tb{border-collapse:collapse;font-size:10.5px;min-width:980px;width:100%}
+.atr-tb2{min-width:520px}
+.atr-tb th{background:#e8f2f4;color:var(--navy);font-weight:800;text-align:left;padding:8px 9px;border-bottom:1.5px solid #cfe2e6;vertical-align:middle;font-size:10px;line-height:1.3}
+.atr-tb td{padding:8px 9px;border-bottom:1px solid var(--gray-100);vertical-align:top;line-height:1.4;color:var(--navy)}
+.atr-tb tbody tr:nth-child(even) td{background:#fafcfc}
+.atr-tb .atr-sticky{position:sticky;left:0;z-index:2;background:#fff;min-width:168px;box-shadow:2px 0 0 rgba(0,0,0,.04)}
+.atr-tb tbody tr:nth-child(even) .atr-sticky{background:#fafcfc}
+.atr-tb thead .atr-sticky{background:#e8f2f4;z-index:3}
+.atr-nsa{color:var(--gray-300)}
+.atr-ref{display:inline-block;background:var(--teal-mid);color:#fff;border-radius:50%;width:14px;height:14px;line-height:14px;text-align:center;font-size:9px;font-weight:800;cursor:pointer;vertical-align:super}
+.atr-det{background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;overflow:hidden}
+.atr-det summary{list-style:none;cursor:pointer;padding:10px 12px;font-size:12.5px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px}
+.atr-det summary::-webkit-details-marker{display:none}
+.atr-num{background:var(--teal-mid);color:#fff;border-radius:7px;min-width:21px;height:21px;line-height:21px;text-align:center;font-size:10.5px;font-weight:800;flex-shrink:0}
+.atr-det[open] summary{border-bottom:1px solid var(--gray-100)}
+.atr-det-b{padding:10px 12px;font-size:12px;line-height:1.6;color:var(--gray-600,#4a5a63)}
+
 </style>
 <button id="auriReabrir" onclick="chatToggle()" aria-label="Abrir o tira-dúvidas">💬</button>
 <div id="chatPanel" role="dialog" aria-label="Tira-dúvidas">
