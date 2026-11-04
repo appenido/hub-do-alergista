@@ -1639,23 +1639,23 @@ window._mostrarApp = function(){
     <div style="padding:14px 16px 8px;display:flex;flex-direction:column;gap:10px">
       <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px"><span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>Protocolos EAACI <span style="margin-left:auto;font-size:9.5px;font-weight:800;letter-spacing:.06em;color:var(--teal-mid);border:1px solid var(--teal-mid);border-radius:999px;padding:2px 7px">SÓ EAACI</span></div>
       <div style="font-size:11.5px;color:var(--gray-500);line-height:1.5">Resumos operacionais das diretrizes e position papers da <b>European Academy of Allergy and Clinical Immunology</b>. Esta aba contém <b>exclusivamente</b> documentos da EAACI (incluindo os que ela assina em conjunto com GA²LEN, ENDA, EuroGuiDerm e WAO). Toque no card para abrir a conduta. Sempre confira o documento original antes de aplicar.</div>
-      <div class="quick-grid eaaci-grid" id="eaaci-btnrow">
-        <div class="qcard eaaci-q" data-ego="eaaci-0" data-etopic="anafilaxia"><div class="qi qi-gold">🆘</div><div class="ql">Anafilaxia</div></div>
-        <div class="qcard eaaci-q" data-ego="eaaci-1" data-etopic="anafilaxia"><div class="qi qi-gold">💤</div><div class="ql">Anafilaxia perioperatória</div></div>
-        <div class="qcard eaaci-q" data-ego="eaaci-2" data-etopic="urticaria"><div class="qi qi-green">🔴</div><div class="ql">Urticária crônica</div></div>
-        <div class="qcard eaaci-q" data-ego="eaaci-3" data-etopic="urticaria"><div class="qi qi-green">💧</div><div class="ql">Angioedema hereditário</div></div>
-        <div class="qcard eaaci-q" data-ego="eaaci-4" data-etopic="it"><div class="qi qi-teal">👃</div><div class="ql">Imunoterapia rinite</div></div>
-        <div class="qcard eaaci-q" data-ego="eaaci-5" data-etopic="it"><div class="qi qi-navy">🐝</div><div class="ql">Veneno himenópteros</div></div>
-        <div class="qcard eaaci-q" data-ego="eaaci-6" data-etopic="aa"><div class="qi qi-gold">🍽️</div><div class="ql">Alergia alimentar diagnóstico</div></div>
-        <div class="qcard eaaci-q" data-ego="eaaci-7" data-etopic="aa"><div class="qi qi-gold">🥜</div><div class="ql">Alergia alimentar manejo/OIT</div></div>
-        <div class="qcard eaaci-q" data-ego="eaaci-8" data-etopic="aa"><div class="qi qi-gold">🍼</div><div class="ql">Prevenção alergia alimentar</div></div>
-        <div class="qcard eaaci-q" data-ego="eaaci-9" data-etopic="da"><div class="qi qi-teal">🩹</div><div class="ql">Dermatite atópica</div></div>
-        <div class="qcard eaaci-q" data-ego="eaaci-10" data-etopic="asma"><div class="qi qi-gold">💉</div><div class="ql">Biológicos asma/DA</div></div>
-        <div class="qcard eaaci-q" data-ego="eaaci-11" data-etopic="medicam"><div class="qi qi-navy">💊</div><div class="ql">Betalactâmicos delabeling</div></div>
-        <div class="qcard eaaci-q" data-ego="eaaci-12" data-etopic="medicam"><div class="qi qi-navy">⚗️</div><div class="ql">Dessensibilização</div></div>
-        <div class="qcard eaaci-q" data-ego="eaaci-13" data-etopic="diag"><div class="qi qi-teal">🧪</div><div class="ql">Teste cutâneo SPT</div></div>
-        <div class="qcard eaaci-q" data-ego="eaaci-14" data-etopic="diag"><div class="qi qi-navy">🧬</div><div class="ql">Alergia molecular</div></div>
-        <div class="qcard eaaci-q" data-ego="eaaci-15" data-etopic="eoe"><div class="qi qi-green">🫶</div><div class="ql">Esofagite eosinofílica</div></div>
+      <div class="bio-grid eaaci-grid" id="eaaci-btnrow">
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-0" data-etopic="anafilaxia" aria-controls="eaaci-0" aria-expanded="false"><div class="qi qi-gold">🆘</div><div class="ql">Anafilaxia</div></button>
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-1" data-etopic="anafilaxia" aria-controls="eaaci-1" aria-expanded="false"><div class="qi qi-gold">💤</div><div class="ql">Anafilaxia perioperatória</div></button>
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-2" data-etopic="urticaria" aria-controls="eaaci-2" aria-expanded="false"><div class="qi qi-green">🔴</div><div class="ql">Urticária crônica</div></button>
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-3" data-etopic="urticaria" aria-controls="eaaci-3" aria-expanded="false"><div class="qi qi-green">💧</div><div class="ql">Angioedema hereditário</div></button>
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-4" data-etopic="it" aria-controls="eaaci-4" aria-expanded="false"><div class="qi qi-teal">👃</div><div class="ql">Imunoterapia rinite</div></button>
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-5" data-etopic="it" aria-controls="eaaci-5" aria-expanded="false"><div class="qi qi-navy">🐝</div><div class="ql">Veneno himenópteros</div></button>
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-6" data-etopic="aa" aria-controls="eaaci-6" aria-expanded="false"><div class="qi qi-gold">🍽️</div><div class="ql">Alergia alimentar diagnóstico</div></button>
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-7" data-etopic="aa" aria-controls="eaaci-7" aria-expanded="false"><div class="qi qi-gold">🥜</div><div class="ql">Alergia alimentar manejo/OIT</div></button>
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-8" data-etopic="aa" aria-controls="eaaci-8" aria-expanded="false"><div class="qi qi-gold">🍼</div><div class="ql">Prevenção alergia alimentar</div></button>
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-9" data-etopic="da" aria-controls="eaaci-9" aria-expanded="false"><div class="qi qi-teal">🩹</div><div class="ql">Dermatite atópica</div></button>
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-10" data-etopic="asma" aria-controls="eaaci-10" aria-expanded="false"><div class="qi qi-gold">💉</div><div class="ql">Biológicos asma/DA</div></button>
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-11" data-etopic="medicam" aria-controls="eaaci-11" aria-expanded="false"><div class="qi qi-navy">💊</div><div class="ql">Betalactâmicos delabeling</div></button>
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-12" data-etopic="medicam" aria-controls="eaaci-12" aria-expanded="false"><div class="qi qi-navy">⚗️</div><div class="ql">Dessensibilização</div></button>
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-13" data-etopic="diag" aria-controls="eaaci-13" aria-expanded="false"><div class="qi qi-teal">🧪</div><div class="ql">Teste cutâneo SPT</div></button>
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-14" data-etopic="diag" aria-controls="eaaci-14" aria-expanded="false"><div class="qi qi-navy">🧬</div><div class="ql">Alergia molecular</div></button>
+        <button type="button" class="qcard eaaci-q" data-ego="eaaci-15" data-etopic="eoe" aria-controls="eaaci-15" aria-expanded="false"><div class="qi qi-green">🫶</div><div class="ql">Esofagite eosinofílica</div></button>
       </div>
       <div class="filter-chips" id="eaaci-chips">
         <div class="fchip on" data-efilter="all">🔔 Todos</div>
@@ -10491,9 +10491,16 @@ if ('serviceWorker' in navigator) {
 .eaaci-btn:hover{border-color:var(--teal-mid);color:var(--teal-mid)}
 .eaaci-btn.on{background:var(--navy);border-color:var(--navy);color:#fff}
 
+/* Protocolos: mesma grade horizontal responsiva das vacinas e biológicos. */
 .eaaci-grid{padding:0;margin-top:2px}
+.eaaci-grid .qcard{
+  aspect-ratio:auto;min-height:118px;padding:14px 10px 12px;gap:8px;
+  border-radius:14px;justify-content:flex-start;font:inherit;
+}
+.eaaci-grid .qi{width:40px;height:40px;border-radius:11px;font-size:18px;flex-shrink:0}
+.eaaci-grid .ql{font-size:13px;font-weight:800;line-height:1.25;color:var(--navy);overflow-wrap:anywhere;hyphens:auto}
 .eaaci-grid .qcard.on{border-color:var(--teal-mid);box-shadow:0 0 0 2px rgba(59,191,204,.18)}
-.eaaci-grid .ql{font-size:9px}
+.eaaci-grid .qcard:focus-visible{outline:2px solid var(--teal-mid);outline-offset:2px}
 
 #eaaci-list .eaaci-card{display:none}
 #eaaci-list .eaaci-card.sel{display:block;border:1.5px solid var(--teal-mid);box-shadow:0 6px 22px rgba(13,31,45,.10);background:#fff}
@@ -10670,11 +10677,11 @@ function chatToggle(){
 </script>
 
 <script>
-/* -- PROTOCOLOS EAACI: grade de quadrados + painel unico -- */
+/* -- PROTOCOLOS EAACI: grade horizontal responsiva + painel unico -- */
 (function(){
   function clearSel(){
     document.querySelectorAll('#eaaci-list .eaaci-card').forEach(function(c){ c.classList.remove('sel'); c.removeAttribute('open'); });
-    document.querySelectorAll('#eaaci-btnrow .eaaci-q').forEach(function(x){ x.classList.remove('on'); });
+    document.querySelectorAll('#eaaci-btnrow .eaaci-q').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-expanded','false'); });
     var e=document.getElementById('eaaci-empty'); if(e) e.style.display='flex';
   }
   document.addEventListener('click', function(ev){
@@ -10687,7 +10694,7 @@ function chatToggle(){
       clearSel();
       if(card && !already){
         card.classList.add('sel'); card.setAttribute('open','');
-        q.classList.add('on');
+        q.classList.add('on'); q.setAttribute('aria-expanded','true');
         document.getElementById('eaaci-empty').style.display='none';
         setTimeout(function(){ card.scrollIntoView({behavior:'smooth',block:'center'}); },60);
       }
