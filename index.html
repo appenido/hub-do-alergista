@@ -6044,7 +6044,7 @@ function carregarGuidelinesLive(){
   }catch(e){}
   if(status)status.textContent='Consultando publicações recentes no PubMed…';
   box.innerHTML='<div style="font-size:12px;color:var(--gray-500);padding:6px 2px">Buscando diretrizes, consensos, posicionamentos, algoritmos e revisões…</div>';
-  return fetch('/guidelines?tema='+encodeURIComponent(tema),{headers:{Accept:'application/json'},signal:AbortSignal.timeout(45000)})
+  return fetch('/guidelines?schema=3&tema='+encodeURIComponent(tema),{cache:'no-store',headers:{Accept:'application/json'},signal:AbortSignal.timeout(45000)})
     .then(function(r){if(!r.ok)throw new Error('Consulta indisponível');return r.json();})
     .then(function(d){
       if(d.schema!==3||d.topic!==tema||!Array.isArray(d.itens)||!d.itens.every(_glValido)||isNaN(Date.parse(d.updatedAt)))throw new Error('Metadados inválidos');
