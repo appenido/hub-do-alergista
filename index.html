@@ -1615,7 +1615,7 @@ window._mostrarApp = function(){
   </div>
 
     <!-- ══ GUIDELINES ══ -->
-  <div class="page" id="page-guidelines" data-guidelines-version="2">
+  <div class="page" id="page-guidelines" data-guidelines-version="3">
     <div style="padding:14px 16px 8px;display:flex;flex-direction:column;gap:10px">
       <div style="font-size:15px;font-weight:800;color:var(--navy)">Diretrizes e evidências</div>
       <div style="font-size:11.5px;color:var(--gray-500);line-height:1.5">Diretrizes, consensos, recomendações, posicionamentos, parâmetros de prática, algoritmos clínicos e revisões das principais revistas de Alergia e Imunologia e áreas relacionadas.</div>
@@ -5981,7 +5981,7 @@ function carregarNoticiasMidia(){
 /* ── DIRETRIZES E EVIDÊNCIAS: identidade por PMID, sem tradução por posição ── */
 var _glCarregado = {};
 var _glRequest = 0;
-var _GL_ITENS_KEY = 'hub_gl_v3_';
+var _GL_ITENS_KEY = 'hub_gl_v4_';
 function _glHoje(){ return new Date().toLocaleDateString('en-CA',{timeZone:'America/Sao_Paulo'}); }
 function _glFiltroAtivo(){
   var c=document.querySelector('#page-guidelines .fchip[data-gfilter].on');
@@ -6038,7 +6038,7 @@ function carregarGuidelinesLive(){
   if(mem&&mem.dia===dia){mostrar(mem);return Promise.resolve();}
   try{
     var cache=JSON.parse(localStorage.getItem(_GL_ITENS_KEY+tema)||'null');
-    if(cache&&cache.schema===2&&cache.dia===dia&&cache.topic===tema&&Array.isArray(cache.itens)&&cache.itens.every(_glValido)&&!isNaN(Date.parse(cache.updatedAt))){
+    if(cache&&cache.schema===3&&cache.dia===dia&&cache.topic===tema&&Array.isArray(cache.itens)&&cache.itens.every(_glValido)&&!isNaN(Date.parse(cache.updatedAt))){
       _glCarregado[tema]=cache;mostrar(cache);return Promise.resolve();
     }
   }catch(e){}
@@ -6047,7 +6047,7 @@ function carregarGuidelinesLive(){
   return fetch('/guidelines?tema='+encodeURIComponent(tema),{headers:{Accept:'application/json'},signal:AbortSignal.timeout(45000)})
     .then(function(r){if(!r.ok)throw new Error('Consulta indisponível');return r.json();})
     .then(function(d){
-      if(d.schema!==2||d.topic!==tema||!Array.isArray(d.itens)||!d.itens.every(_glValido)||isNaN(Date.parse(d.updatedAt)))throw new Error('Metadados inválidos');
+      if(d.schema!==3||d.topic!==tema||!Array.isArray(d.itens)||!d.itens.every(_glValido)||isNaN(Date.parse(d.updatedAt)))throw new Error('Metadados inválidos');
       d.dia=dia;_glCarregado[tema]=d;
       try{localStorage.setItem(_GL_ITENS_KEY+tema,JSON.stringify(d));}catch(e){}
       mostrar(d);

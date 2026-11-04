@@ -1,5 +1,5 @@
 // Uma publicação é identificada pelo PMID; título, DOI e data vêm do mesmo registro.
-export const SCHEMA = 2;
+export const SCHEMA = 3;
 export const JOURNALS = [
   'J Allergy Clin Immunol', 'J Allergy Clin Immunol Pract', 'Allergy',
   'Clin Exp Allergy', 'Pediatr Allergy Immunol', 'Ann Allergy Asthma Immunol',
