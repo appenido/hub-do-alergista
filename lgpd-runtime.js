@@ -46,6 +46,7 @@ async function token(){
   return refreshPending;
 }
 async function rpc(nome,dados,autenticado=true){
+  if(/^(?:score_|clinical_|uct_|uas7_|snot22_)/.test(nome))erro('Registro clínico de pacientes desativado no Hub.');
   const jwt=autenticado?await token():KEY;
   const res=await fetch(SB+'/rest/v1/rpc/'+nome,{
     method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+jwt,'Content-Type':'application/json'},
@@ -57,10 +58,7 @@ async function rpc(nome,dados,autenticado=true){
 window._hubTokenValido=token;
 window._sbToken=function(){return lerAuth().access||'';};
 window._hubRpc=rpc;
-window._scoreRpc=function(fn,body){
-  if(!/^score_(salvar|pacientes|do_paciente|editar|apagar)$/.test(fn))return Promise.reject(new Error('Operação não permitida.'));
-  return rpc(fn,body,true);
-};
+window._scoreRpc=function(){return Promise.reject(new Error('O cadastro de pacientes foi desativado.'));};
 window._iniciarSessao=function(email,nome,access,refresh){
   armazenarAuth(email,nome,access,refresh);
   var tela=document.getElementById('authScreen');if(tela)tela.style.display='none';
@@ -324,55 +322,7 @@ window.fazerLogout=function(){
   if(typeof sairOriginal==='function')sairOriginal();
   if(typeof window._bloquearApp==='function')window._bloquearApp();
 };
-function mostrarErroQR(tipo,err){
-  const el=document.getElementById(tipo+'-qr-canvas');
-  if(el)el.textContent='Faça login para gerar link seguro. '+(err&&err.message||'');
-  if(typeof window.toast==='function')window.toast('⚠','Autenticação necessária para gerar o questionário.');
-}
-async function criarSessao(tipo){
-  const id=await rpc('clinical_criar_sessao',{p_tipo:tipo},true);
-  if(typeof id!=='string'||!new RegExp('^'+tipo+'-[a-f0-9]{32}$').test(id))erro('Erro na criação da sessão.');
-  return id;
-}
-function gerarQR(tipo,gerador){
-  criarSessao(tipo).then(id=>{
-    if(tipo==='uct')window._uctSessaoId=id;
-    else if(tipo==='snot22')window._snot22SessaoId=id;
-    else window._uas7SessaoId=id;
-    const continuar=()=>{
-      const el=document.getElementById(tipo+'-qr-canvas');
-      if(el&&typeof gerador==='function')gerador();
-    };
-    if(window.QRCode){continuar();return;}
-    const script=document.createElement('script');
-    script.src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
-    script.onload=continuar;script.onerror=()=>mostrarErroQR(tipo,new Error('QR Code indisponível'));
-    document.head.appendChild(script);
-  }).catch(e=>mostrarErroQR(tipo,e));
-}
-window._snot22IniciarSessao=()=>gerarQR('snot22',window._snot22GerarQR);
-window._uas7IniciarQR=()=>gerarQR('uas7',window._uas7GerarQR);
-window._uctIniciarSessao=()=>gerarQR('uct',window._uctGerarQR);
-window._snot22LinkPaciente=function(){return window._snot22SessaoId?window._snot22PatientUrl+'?s='+window._snot22SessaoId:'';};
-window._uas7LinkPaciente=function(){return window._uas7SessaoId?window._uas7PatientUrl+'?s='+window._uas7SessaoId:'';};
-window._snot22Checar=function(){
-  if(!window._snot22SessaoId)return;
-  rpc('snot22_da_sessao',{p_sessao:window._snot22SessaoId},true).then(rows=>{
-    if(!rows||!rows.length)return;
-    if(typeof window._snot22PararPolling==='function')window._snot22PararPolling();
-    window._snot22MostrarResultado(rows[0]);window._snot22SalvarHistorico(rows[0]);
-    const e=document.getElementById('snot22-historico-wrap');if(e)e.innerHTML=window._snot22RenderHistorico();
-  }).catch(()=>{});
-};
-window._uctChecar=function(){
-  if(!window._uctSessaoId)return;
-  rpc('uct_da_sessao',{p_sessao:window._uctSessaoId},true).then(rows=>{
-    if(!rows||!rows.length)return;
-    if(typeof window._uctPararPolling==='function')window._uctPararPolling();
-    window._uctMostrarResultado(rows[0]);window._uctSalvarHistorico(rows[0]);
-    const e=document.getElementById('uct-historico-wrap');if(e)e.innerHTML=window._uctRenderHistorico();
-  }).catch(()=>{});
-};
+/* Registro de questionários de pacientes e QR Code desativados. */
 const perguntaOriginal=window.perguntarIaHub;
 const proibido=/(?:\b\d{3}[. ]?\d{3}[. ]?\d{3}[- ]?\d{2}\b)|(?:\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b)|(?:\b(?:CPF|RG|CNS|prontuário|nome completo|paciente:)[\s:]+\S+)/i;
 window.perguntarIaHub=function(){
@@ -394,25 +344,7 @@ function limparChavesLegadas(){
   }catch(_){}
 }
 async function exportarDados(){
-  if(!confirm('Exportar seu perfil e registros clínicos? O arquivo ficará sem criptografia no dispositivo. Guarde-o em local seguro.'))return;
-  try{
-    await token();
-    const perfil=JSON.parse(localStorage.getItem('hub_session')||'{}');
-    const users=JSON.parse(sessionStorage.getItem('hub_users')||'{}');
-    const nomes=await rpc('score_pacientes',{p_email:perfil.email});
-    const registros=[];
-    for(const p of (nomes||[])){
-      const rr=await rpc('score_do_paciente',{p_email:perfil.email,p_paciente:p.paciente_nome});
-      registros.push({paciente:p.paciente_nome,resultados:rr});
-    }
-    const out={exportado_em:new Date().toISOString(),perfil:{...perfil,...(users[perfil.email]||{})},registros};
-    delete out.perfil.hash;delete out.perfil.token;delete out.perfil.refresh;
-    const blob=new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
-    const url=URL.createObjectURL(blob),a=document.createElement('a');
-    a.href=url;a.download='hub-meus-dados-'+new Date().toISOString().slice(0,10)+'.json';
-    document.body.appendChild(a);a.click();a.remove();
-    setTimeout(()=>URL.revokeObjectURL(url),1000);
-  }catch(e){alert('Não foi possível exportar: '+e.message);}
+  alert('O cadastro de pacientes está desativado. Registros clínicos históricos não foram excluídos; o acesso deve ser solicitado ao responsável pelo tratamento dos dados.');
 }
 async function solicitar(tipo){
   const descricao=tipo==='exclusao'?'exclusão de dados ou da conta':'acesso ou correção de dados';
@@ -432,9 +364,9 @@ async function consultarPedidos(){
   }catch(e){alert(e.message);}
 }
 function limparDadosLocais(){
-  if(!confirm('Apagar o histórico local dos questionários e as chaves de IA salvas nesta sessão? Os registros do servidor serão preservados.'))return;
+  if(!confirm('Remover históricos clínicos antigos deste navegador e chaves de IA da sessão? Registros antigos do servidor serão preservados.'))return;
   try{
-    ['hub_snot22_hist','hub_uct_hist','hub_uas7_hist'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});
+    ['hub_snot22_hist','hub_uct_hist','hub_uas7_hist','igPacientes','vacPacientes'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});
     Object.keys(localStorage).filter(k=>k.indexOf('hub_aikey_')===0).forEach(k=>localStorage.removeItem(k));
     Object.keys(sessionStorage).filter(k=>k.indexOf('hub_aikey_')===0).forEach(k=>sessionStorage.removeItem(k));
   }catch(_){}
@@ -446,14 +378,14 @@ function telaPrivacidade(){
   const wrap=document.createElement('section');wrap.id='hub-privacidade';
   wrap.style.cssText='margin:14px 12px;padding:13px;border:1px solid #dbe5eb;border-radius:12px;background:white;';
   const h=document.createElement('h3');h.textContent='Privacidade e segurança';h.style.cssText='font-size:14px;line-height:1.4;font-weight:650;margin:0 0 7px;color:#0d1f2d';wrap.appendChild(h);
-  const p=document.createElement('p');p.textContent='O acesso aos conteúdos é livre. Preferências são armazenadas neste navegador; registros clínicos protegidos no servidor não são disponibilizados sem autenticação.';p.style.cssText='font-size:11px;line-height:1.45;color:#495866;margin:0 0 7px;';wrap.appendChild(p);
+  const p=document.createElement('p');p.textContent='O conteúdo permanece público. Cadastros, listas e novos registros clínicos de pacientes estão desativados. As calculadoras funcionam sem salvar dados. Registros históricos anteriores não foram excluídos e dependem de procedimento específico para acesso ou eliminação.';p.style.cssText='font-size:11px;line-height:1.45;color:#495866;margin:0 0 7px;';wrap.appendChild(p);
   function add(label,fn){
     const b=document.createElement('button');b.type='button';b.textContent=label;
     b.style.cssText='display:block;width:100%;text-align:left;padding:8px 10px;margin-top:5px;border:1px solid #dbe5eb;border-radius:8px;background:#f5f9fa;color:#0d1f2d;font-family:inherit;font-size:11.5px;line-height:1.4;font-weight:500;cursor:pointer;';
     b.addEventListener('click',fn);wrap.appendChild(b);
   }
   add('Política de privacidade',()=>location.assign('privacidade.html'));
-  add('Limpar histórico dos questionários e chaves de IA',limparDadosLocais);
+  add('Limpar dados clínicos antigos deste navegador e chaves de IA',limparDadosLocais);
   add('Limpar preferências deste dispositivo',()=>{
     if(!confirm('Apagar as áreas de interesse selecionadas neste dispositivo?'))return;
     localStorage.removeItem('hub_public_interesses');
