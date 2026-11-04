@@ -3665,7 +3665,7 @@ window._mostrarApp = function(){
       <div style="padding:0 16px 10px">
         <div class="lab-search">
           <span style="color:var(--gray-500);font-size:14px">🔍</span>
-          <input id="igeBusca" type="text" placeholder="Buscar alérgeno, código ou nome científico…" oninput="igeRender()" autocomplete="off">
+          <input id="igeBusca" type="text" placeholder="Buscar alérgeno, código ou nome científico…" oninput="_igeFiltroGrupo='';igeRenderChips();igeRender()" autocomplete="off">
           <button id="igeClear" onclick="document.getElementById('igeBusca').value='';igeRender();" style="display:none;border:none;background:transparent;font-size:16px;color:var(--gray-500);cursor:pointer">×</button>
         </div>
         <div class="lab-chips" id="igeChips"></div>
