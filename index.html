@@ -1617,16 +1617,12 @@ window._mostrarApp = function(){
   </div>
 
     <!-- ══ GUIDELINES ══ -->
-  <div class="page" id="page-guidelines">
+  <div class="page" id="page-guidelines" data-guidelines-version="2">
     <div style="padding:14px 16px 8px;display:flex;flex-direction:column;gap:10px">
-      <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px"><span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>Guidelines <span id="gl-update-badge" style="margin-left:auto;font-size:10px;font-weight:600;color:var(--gray-400);background:rgba(59,191,204,.1);border:1px solid rgba(59,191,204,.2);border-radius:20px;padding:2px 8px">🔄 revisado <span id="gl-date-text"></span></span></div>
-      <a href="https://pubmed.ncbi.nlm.nih.gov/?term=(allergy+OR+allergic+OR+asthma+OR+urticaria+OR+angioedema+OR+%22atopic+dermatitis%22+OR+eczema+OR+anaphylaxis+OR+rhinitis+OR+%22food+allergy%22+OR+%22drug+allergy%22+OR+%22drug+hypersensitivity%22+OR+immunodeficiency+OR+%22eosinophilic+esophagitis%22+OR+mastocytosis+OR+hymenoptera+OR+omalizumab+OR+dupilumab+OR+mepolizumab+OR+tezepelumab)+AND+(guideline%5Bti%5D+OR+guidelines%5Bti%5D+OR+consensus%5Bti%5D+OR+%22practice+parameter%22%5Bti%5D+OR+%22position+paper%22%5Bti%5D+OR+%22position+statement%22%5Bti%5D+OR+recommendation%5Bti%5D+OR+%22systematic+review%22%5Bti%5D+OR+%22meta-analysis%22%5Bti%5D+OR+guideline%5Bpt%5D)&sort=date&filter=datesearch.y_5" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:9px;background:linear-gradient(135deg,rgba(59,191,204,.1),rgba(59,191,204,.03));border:1px solid rgba(59,191,204,.25);border-radius:12px;padding:11px 13px;text-decoration:none">
-        <span style="font-size:16px">📡</span>
-        <div style="flex:1">
-          <div style="font-size:12.5px;font-weight:800;color:var(--teal-mid)">Diretrizes mais recentes (últimos 3 anos)</div>
-          <div style="font-size:11px;color:var(--gray-500);line-height:1.4">Os cards abaixo são revisados diariamente para garantir a versão mais atual de cada diretriz — clique aqui para buscar novos consensos no PubMed</div>
-        </div>
-        <span style="color:var(--gray-300);font-size:16px">›</span>
+      <div style="font-size:15px;font-weight:800;color:var(--navy)">Diretrizes e evidências</div>
+      <div style="font-size:11.5px;color:var(--gray-500);line-height:1.5">Diretrizes, consensos, recomendações, posicionamentos, parâmetros de prática, algoritmos clínicos e revisões das principais revistas de Alergia e Imunologia e áreas relacionadas.</div>
+      <a href="https://pubmed.ncbi.nlm.nih.gov/?term=%28%22asthma%22%5Bti%5D%20OR%20%22asthmatic%22%5Bti%5D%20OR%20%22bronchopulmonary%20aspergillosis%22%5Bti%5D%20OR%20%22airway%20diseases%22%5Bti%5D%20OR%20%22atopic%20dermatitis%22%5Bti%5D%20OR%20%22atopic%20eczema%22%5Bti%5D%20OR%20%22eczema%22%5Bti%5D%20OR%20%22contact%20dermatitis%22%5Bti%5D%20OR%20%22urticaria%22%5Bti%5D%20OR%20%22angioedema%22%5Bti%5D%20OR%20%22anaphylaxis%22%5Bti%5D%20OR%20%22anaphylactic%22%5Bti%5D%20OR%20%22epinephrine%20autoinjector%22%5Bti%5D%20OR%20%22adrenaline%20autoinjector%22%5Bti%5D%20OR%20%22hymenoptera%22%5Bti%5D%20OR%20%22venom%20allergy%22%5Bti%5D%20OR%20%22venom%20immunotherapy%22%5Bti%5D%20OR%20%22insect%20sting%22%5Bti%5D%20OR%20%22bee%20sting%22%5Bti%5D%20OR%20%22wasp%20sting%22%5Bti%5D%20OR%20%22rhinitis%22%5Bti%5D%20OR%20%22rhinosinusitis%22%5Bti%5D%20OR%20%22nasal%20polyps%22%5Bti%5D%20OR%20%22nasal%20polyp%22%5Bti%5D%20OR%20%22food%20allergy%22%5Bti%5D%20OR%20%22food%20allergies%22%5Bti%5D%20OR%20%22food%20hypersensitivity%22%5Bti%5D%20OR%20%22food-allergic%22%5Bti%5D%20OR%20%22peanut%20allergy%22%5Bti%5D%20OR%20%22milk%20allergy%22%5Bti%5D%20OR%20%22egg%20allergy%22%5Bti%5D%20OR%20%22tree%20nut%20allergy%22%5Bti%5D%20OR%20%22oral%20immunotherapy%22%5Bti%5D%20OR%20%22pollen-food%22%5Bti%5D%20OR%20%22immunodeficiency%22%5Bti%5D%20OR%20%22immunodeficiencies%22%5Bti%5D%20OR%20%22inborn%20errors%20of%20immunity%22%5Bti%5D%20OR%20%22hypogammaglobulinemia%22%5Bti%5D%20OR%20%22agammaglobulinemia%22%5Bti%5D%20OR%20%22immunoglobulin%20replacement%22%5Bti%5D%20OR%20%22drug%20allergy%22%5Bti%5D%20OR%20%22drug%20hypersensitivity%22%5Bti%5D%20OR%20%22drug%20provocation%22%5Bti%5D%20OR%20%22drug%20desensitization%22%5Bti%5D%20OR%20%22drug%20skin%22%5Bti%5D%20OR%20%22penicillin%20allergy%22%5Bti%5D%20OR%20%22beta-lactam%20allergy%22%5Bti%5D%20OR%20%22antibiotic%20allergy%22%5Bti%5D%20OR%20%22nsaid%20hypersensitivity%22%5Bti%5D%20OR%20%22aspirin%20hypersensitivity%22%5Bti%5D%20OR%20%22perioperative%20hypersensitivity%22%5Bti%5D%20OR%20%22delabeling%22%5Bti%5D%20OR%20%22delabelling%22%5Bti%5D%20OR%20%22mastocytosis%22%5Bti%5D%20OR%20%22mast%20cell%20activation%22%5Bti%5D%20OR%20%22mast-cell%20activation%22%5Bti%5D%20OR%20%22eosinophilic%20esophagitis%22%5Bti%5D%20OR%20%22eosinophilic%20oesophagitis%22%5Bti%5D%20OR%20%22eosinophilic%20gastrointestinal%22%5Bti%5D%29%20AND%20%28%22J%20Allergy%20Clin%20Immunol%22%5Bjour%5D%20OR%20%22J%20Allergy%20Clin%20Immunol%20Pract%22%5Bjour%5D%20OR%20%22Allergy%22%5Bjour%5D%20OR%20%22Clin%20Exp%20Allergy%22%5Bjour%5D%20OR%20%22Pediatr%20Allergy%20Immunol%22%5Bjour%5D%20OR%20%22Ann%20Allergy%20Asthma%20Immunol%22%5Bjour%5D%20OR%20%22World%20Allergy%20Organ%20J%22%5Bjour%5D%20OR%20%22J%20Clin%20Immunol%22%5Bjour%5D%20OR%20%22J%20Allergy%20Clin%20Immunol%20Glob%22%5Bjour%5D%20OR%20%22Allergy%20Asthma%20Proc%22%5Bjour%5D%20OR%20%22Am%20J%20Respir%20Crit%20Care%20Med%22%5Bjour%5D%20OR%20%22Eur%20Respir%20J%22%5Bjour%5D%20OR%20%22Am%20J%20Gastroenterol%22%5Bjour%5D%20OR%20%22Braz%20J%20Otorhinolaryngol%22%5Bjour%5D%20OR%20%22J%20Hum%20Immun%22%5Bjour%5D%20OR%20%22Am%20J%20Hematol%22%5Bjour%5D%29%20AND%20%28guideline%5Bpt%5D%20OR%20%22practice%20guideline%22%5Bpt%5D%20OR%20guideline%2A%5Bti%5D%20OR%20consensus%5Bti%5D%20OR%20recommendation%2A%5Bti%5D%20OR%20%22practice%20parameter%22%5Bti%5D%20OR%20%22practice%20parameters%22%5Bti%5D%20OR%20%22position%20paper%22%5Bti%5D%20OR%20%22position%20statement%22%5Bti%5D%20OR%20statement%5Bti%5D%20OR%20guidance%5Bti%5D%20OR%20%22expert%20opinion%22%5Bti%5D%20OR%20algorithm%2A%5Bti%5D%20OR%20%22task%20force%22%5Bti%5D%20OR%20%22work%20group%22%5Bti%5D%20OR%20%22clinical%20update%22%5Bti%5D%20OR%20%22diagnosis%20and%20management%22%5Bti%5D%20OR%20%22diagnosis%20and%20treatment%22%5Bti%5D%20OR%20%22management%20of%22%5Bti%5D%20OR%20review%5Bpt%5D%20OR%20%22systematic%20review%22%5Bti%5D%20OR%20%22meta-analysis%22%5Bpt%5D%29%20NOT%20%28published%20erratum%5Bpt%5D%20OR%20retracted%20publication%5Bpt%5D%20OR%20retraction%20of%20publication%5Bpt%5D%20OR%20editorial%5Bpt%5D%20OR%20letter%5Bpt%5D%29&amp;sort=date&amp;filter=datesearch.y_3" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;gap:9px;background:rgba(59,191,204,.07);border:1px solid rgba(59,191,204,.25);border-radius:12px;padding:11px 13px;text-decoration:none">
+        <span style="font-size:16px">📡</span><div style="flex:1"><div style="font-size:12.5px;color:var(--teal-mid)">Buscar publicações no PubMed</div><div style="font-size:11px;color:var(--gray-500);line-height:1.4">JACI · JACI: In Practice · Allergy · Annals · Clinical &amp; Experimental Allergy · Pediatric Allergy and Immunology · WAO Journal e outras revistas da área.</div></div><span>›</span>
       </a>
       <div class="filter-chips">
         <div class="fchip on" data-gfilter="all">🔔 Todos</div>
@@ -1643,23 +1639,228 @@ window._mostrarApp = function(){
         <div class="fchip " data-gfilter="eoe">🫶 Esofagite Eosinofílica</div>
       </div>
     </div>
-    <div class="gap-list" id="guidelines-live"><div style="font-size:12px;color:var(--gray-500);padding:6px 2px">Buscando diretrizes publicadas nos últimos 3 anos…</div></div>
-    <div style="padding:6px 16px 0;font-size:10.5px;font-weight:800;color:var(--gray-500);letter-spacing:.08em">DIRETRIZES DE REFERÊNCIA</div>
+    <div id="gl-live-status" role="status" style="padding:6px 16px;font-size:10.5px;color:var(--gray-500)"></div>
+    <div class="gap-list" id="guidelines-live" aria-live="polite"></div>
+    <div id="gl-update-badge" style="padding:10px 16px 6px;font-size:11px;color:var(--gray-500)">Referências conferidas em <span id="gl-date-text">04/11/2026</span></div>
     <div class="gap-list" id="guidelines-list">
-      <div class="guide-card" data-topic="asma"><div class="gc-soc">GINA</div><div class="gc-name">Global Strategy for Asthma Management and Prevention — 2026</div><div class="gc-year">2026 · Download gratuito oficial</div><div class="gc-foot"><span class="tag t-teal">Asma</span><span class="tag t-green">Gratuito</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://ginasthma.org/wp-content/uploads/2026/05/GINA-2026-Strategy-Report-WMS.pdf" target="_blank" rel="noopener">📄 Abrir em PDF</a></div></div>
-      <div class="guide-card" data-topic="asma"><div class="gc-soc">GINA</div><div class="gc-name">GINA 2026 — Guia de Bolso e Severe Asthma Guide</div><div class="gc-year">2026 · Gratuito</div><div class="gc-foot"><span class="tag t-teal">Asma</span><span class="tag t-green">Gratuito</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://ginasthma.org/2026-gina-strategy-report/" target="_blank" rel="noopener">📄 Abrir em PDF</a></div></div>
-      <div class="guide-card" data-topic="da"><div class="gc-soc">EAACI / AAAAI / AAD / APAAACI</div><div class="gc-name">International Eczema Council (IEC) Consensus — Dupilumab & JAK Inhibitors Update 2024</div><div class="gc-year">2024 · JACI: In Practice · Pago</div><div class="gc-foot"><span class="tag t-gold">Dermatite Atópica</span><span class="tag t-red">Pago</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S2213219824001975" target="_blank" rel="noopener">🔗 Ver guideline</a></div></div>
-      <div class="guide-card" data-topic="urticaria"><div class="gc-soc">EAACI / GA²LEN / EuroGuiDerm / APAAACI</div><div class="gc-name">International Guideline for Urticaria — 2026</div><div class="gc-year">2026 · Allergy · Pago</div><div class="gc-foot"><span class="tag t-green">Urticária</span><span class="tag t-red">Pago</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://onlinelibrary.wiley.com/doi/10.1111/all.70210" target="_blank" rel="noopener">🔗 Ver guideline</a></div></div>
-      <div class="guide-card" data-topic="anafilaxia"><div class="gc-soc">WAO / EAACI</div><div class="gc-name">World Allergy Organization Anaphylaxis Guidance — Update 2024</div><div class="gc-year">2024 · WAO Journal · Open Access</div><div class="gc-foot"><span class="tag t-red">Anafilaxia</span><span class="tag t-green">Gratuito</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://www.waojournal.org/article/S1939-4551(24)00024-7/fulltext" target="_blank" rel="noopener">🔗 Ver guideline</a></div></div>
-      <div class="guide-card" data-topic="himen"><div class="gc-soc">EAACI</div><div class="gc-name">Guidelines on Allergen Immunotherapy: Hymenoptera Venom Allergy — 2023 Update</div><div class="gc-year">2023 · Allergy · PMC Open Access</div><div class="gc-foot"><span class="tag t-navy">Himenópteros</span><span class="tag t-green">Gratuito</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9546417/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a></div></div>
-      <div class="guide-card" data-topic="rinite"><div class="gc-soc">ARIA / EAACI</div><div class="gc-name">Allergic Rhinitis and Its Impact on Asthma (ARIA) 2024-2025</div><div class="gc-year">2025 · Allergy · PMC Open Access</div><div class="gc-foot"><span class="tag t-teal">Rinite</span><span class="tag t-green">Gratuito</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12862529/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a></div></div>
-      <div class="guide-card" data-topic="rinite"><div class="gc-soc">ASBAI</div><div class="gc-name">Consenso Brasileiro sobre Rinite — 2023</div><div class="gc-year">2023 · Braz J Otorhinolaryngol · PMC Open Access</div><div class="gc-foot"><span class="tag t-teal">Rinite</span><span class="tag t-teal">Nacional</span><span class="tag t-green">Gratuito</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10637984/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a></div></div>
-      <div class="guide-card" data-topic="aa"><div class="gc-soc">EAACI</div><div class="gc-name">EAACI Guidelines on Food Allergy and Anaphylaxis — 2024 Update</div><div class="gc-year">2024 · Allergy · Open Access</div><div class="gc-foot"><span class="tag t-gold">Alergia Alimentar</span><span class="tag t-green">Gratuito</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://onlinelibrary.wiley.com/doi/10.1111/all.16236" target="_blank" rel="noopener">🔗 Ver guideline</a></div></div>
-      <div class="guide-card" data-topic="eii"><div class="gc-soc">ESID / IPOPI</div><div class="gc-name">Diagnosis and Management of Primary Immunodeficiencies — ESID 2023</div><div class="gc-year">2023 · Front. Immunol. · Open Access</div><div class="gc-foot"><span class="tag t-purple">Erros Inatos</span><span class="tag t-green">Gratuito</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9898518/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a></div></div>
-      <div class="guide-card" data-topic="medicam"><div class="gc-soc">AAAAI / ACAAI</div><div class="gc-name">Drug Allergy: A 2023 Practice Parameter Update</div><div class="gc-year">2024 · Ann Allergy Asthma Immunol · Pago</div><div class="gc-foot"><span class="tag t-red">Medicamentos</span><span class="tag t-red">Pago</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://www.sciencedirect.com/science/article/pii/S1081120623007469" target="_blank" rel="noopener">🔗 Ver guideline</a></div></div>
-      <div class="guide-card" data-topic="medicam"><div class="gc-soc">EAACI</div><div class="gc-name">Position Paper: Drug Desensitization in Oncology Patients — 2022</div><div class="gc-year">2022 · Allergy · PMC Open Access</div><div class="gc-foot"><span class="tag t-red">Medicamentos</span><span class="tag t-green">Gratuito</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9546345/pdf/" target="_blank" rel="noopener">📄 Abrir em PDF</a></div></div>
-      <div class="guide-card" data-topic="masto"><div class="gc-soc">ECNM / EuRN</div><div class="gc-name">European Consensus-Based Recommendations for Mastocytosis — 2024</div><div class="gc-year">2024 · JACI · PMC Open Access</div><div class="gc-foot"><span class="tag t-purple">Mastocitose</span><span class="tag t-green">Gratuito</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://www.jacionline.org/article/S0091-6749(24)00118-8/fulltext" target="_blank" rel="noopener">🔗 Ver guideline</a></div></div>
-      <div class="guide-card" data-topic="eoe"><div class="gc-soc">AGREE / ACG / AGA</div><div class="gc-name">Clinical Guidelines for Eosinophilic Esophagitis — AGREE 2024</div><div class="gc-year">2024 · Gastroenterology · Pago</div><div class="gc-foot"><span class="tag t-green">Esofagite Eosinofílica</span><span class="tag t-red">Pago</span><button class="btn btn-sm btn-fav" style="margin-left:auto">⭐</button></div><div class="art-links" style="margin-top:10px"><a class="link-btn pub" href="https://www.gastrojournal.org/article/S0016-5085(24)00476-8/fulltext" target="_blank" rel="noopener">🔗 Ver guideline</a></div></div>
+      <div class="guide-card" data-guide="pmid-42847657" data-pmid="42847657" data-doi="10.1093/ajrccm/aamag542" data-topic="asma" data-topics="asma" data-date="2026-10-08" data-pub="https://pubmed.ncbi.nlm.nih.gov/42847657/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="GINA 2026: resumo executivo e principais mudanças" data-fav-sub="Am J Respir Crit Care Med" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/42847657/">
+        <div class="gc-soc">Am J Respir Crit Care Med · Relatório e atualização clínica</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/42847657/" target="_blank" rel="noopener noreferrer">GINA 2026: resumo executivo e principais mudanças</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">2026 Global Initiative for Asthma (GINA) Strategy Report: Executive Summary and Key Changes.</div>
+        <div class="gc-year">Publicado em 08/10/2026 · Edição 2026 · PMID 42847657</div>
+        <div class="gc-foot"><span class="tag t-teal">Asma</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/42847657/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1093/ajrccm/aamag542" target="_blank" rel="noopener noreferrer">Na revista</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-42618976" data-pmid="42618976" data-doi="10.1111/all.70466" data-topic="medicam" data-topics="medicam" data-date="2026-08-19" data-pub="https://pubmed.ncbi.nlm.nih.gov/42618976/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Posicionamento EAACI sobre testes cutâneos medicamentosos: metodologia e concentrações não irritantes" data-fav-sub="Allergy" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/42618976/">
+        <div class="gc-soc">Allergy · Posicionamento</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/42618976/" target="_blank" rel="noopener noreferrer">Posicionamento EAACI sobre testes cutâneos medicamentosos: metodologia e concentrações não irritantes</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">Updated EAACI Statement on Drug Hypersensitivity Skin Testing: Methodology and Non-Irritative Concentrations</div>
+        <div class="gc-year">Publicado em 19/08/2026 · Edição 2026 · PMID 42618976</div>
+        <div class="gc-foot"><span class="tag t-teal">Medicamentos</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/42618976/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1111/all.70466" target="_blank" rel="noopener noreferrer">Na revista</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-42310859" data-pmid="42310859" data-doi="10.1002/ajh.70395" data-topic="masto" data-topics="masto" data-date="2026-06-17" data-pub="https://pubmed.ncbi.nlm.nih.gov/42310859/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Mastocitose sistêmica no adulto: atualização de diagnóstico, risco e manejo" data-fav-sub="Am J Hematol" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/42310859/">
+        <div class="gc-soc">Am J Hematol · Revisão clínica</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/42310859/" target="_blank" rel="noopener noreferrer">Mastocitose sistêmica no adulto: atualização de diagnóstico, risco e manejo</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">Systemic Mastocytosis in Adults: 2026 Update on Diagnosis, Risk Stratification and Management</div>
+        <div class="gc-year">Publicado em 17/06/2026 · Edição 2026 · PMID 42310859</div>
+        <div class="gc-foot"><span class="tag t-teal">Mastocitose</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/42310859/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1002/ajh.70395" target="_blank" rel="noopener noreferrer">Na revista</a>
+          <a class="link-btn" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC13428365/" target="_blank" rel="noopener noreferrer">Texto completo</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-42304188" data-pmid="42304188" data-doi="10.1111/all.70415" data-topic="asma" data-topics="asma rinite" data-date="2026-06-16" data-pub="https://pubmed.ncbi.nlm.nih.gov/42304188/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Consenso EUFOREA sobre remissão nas doenças das vias aéreas" data-fav-sub="Allergy" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/42304188/">
+        <div class="gc-soc">Allergy · Consenso</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/42304188/" target="_blank" rel="noopener noreferrer">Consenso EUFOREA sobre remissão nas doenças das vias aéreas</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">Remission in Global Airway Diseases: EUFOREA Consensus Paper</div>
+        <div class="gc-year">Publicado em 16/06/2026 · Edição 2026 · PMID 42304188</div>
+        <div class="gc-foot"><span class="tag t-teal">Asma</span><span class="tag t-teal">Rinite</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/42304188/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1111/all.70415" target="_blank" rel="noopener noreferrer">Na revista</a>
+          <a class="link-btn" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC13569676/" target="_blank" rel="noopener noreferrer">Texto completo</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-42208906" data-pmid="42208906" data-doi="10.1016/j.jaci.2026.05.014" data-topic="eii" data-topics="eii" data-date="2026-05-27" data-pub="https://pubmed.ncbi.nlm.nih.gov/42208906/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Erros inatos da imunidade: novidades da atualização do parâmetro de prática" data-fav-sub="J Allergy Clin Immunol" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/42208906/">
+        <div class="gc-soc">J Allergy Clin Immunol · Revisão do parâmetro de prática</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/42208906/" target="_blank" rel="noopener noreferrer">Erros inatos da imunidade: novidades da atualização do parâmetro de prática</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">Practice parameter for inborn errors of immunity: What is new in the 2025 update.</div>
+        <div class="gc-year">Publicado em 27/05/2026 · Edição 2026 · PMID 42208906</div>
+        <div class="gc-foot"><span class="tag t-teal">Erros inatos</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/42208906/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1016/j.jaci.2026.05.014" target="_blank" rel="noopener noreferrer">Na revista</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-41936423" data-pmid="41936423" data-doi="10.1016/j.anai.2025.10.026" data-topic="eii" data-topics="eii" data-date="2026-04" data-pub="https://pubmed.ncbi.nlm.nih.gov/41936423/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Parâmetro de prática AAAAI/ACAAI/CIS para erros inatos da imunidade — edição 2025, publicada em 2026" data-fav-sub="Ann Allergy Asthma Immunol" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/41936423/">
+        <div class="gc-soc">Ann Allergy Asthma Immunol · Parâmetro de prática</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/41936423/" target="_blank" rel="noopener noreferrer">Parâmetro de prática AAAAI/ACAAI/CIS para erros inatos da imunidade — edição 2025, publicada em 2026</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">2025 Inborn errors of immunity practice parameter: Guidance from the Joint Task Force on Practice Parameters, the American Academy of Allergy, Asthma &amp; Immunology (AAAAI), the American College of Allergy, Asthma and Immunology (ACAAI) and the Clinical Immunology Society (CIS).</div>
+        <div class="gc-year">Publicado em 04/2026 · Edição 2026 · PMID 41936423</div>
+        <div class="gc-foot"><span class="tag t-teal">Erros inatos</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/41936423/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1016/j.anai.2025.10.026" target="_blank" rel="noopener noreferrer">Na revista</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-41649409" data-pmid="41649409" data-doi="10.1111/all.70210" data-topic="urticaria" data-topics="urticaria" data-date="2026-02-06" data-pub="https://pubmed.ncbi.nlm.nih.gov/41649409/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Diretriz internacional de definição, classificação, diagnóstico e manejo da urticária" data-fav-sub="Allergy" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/41649409/">
+        <div class="gc-soc">Allergy · Diretriz</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/41649409/" target="_blank" rel="noopener noreferrer">Diretriz internacional de definição, classificação, diagnóstico e manejo da urticária</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">The International Guideline for the Definition, Classification, Diagnosis and Management of Urticaria</div>
+        <div class="gc-year">Publicado em 06/02/2026 · Edição 2026 · PMID 41649409</div>
+        <div class="gc-foot"><span class="tag t-teal">Urticária</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/41649409/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1111/all.70210" target="_blank" rel="noopener noreferrer">Na revista</a>
+          <a class="link-btn" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC13466004/" target="_blank" rel="noopener noreferrer">Texto completo</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-41513334" data-pmid="41513334" data-doi="10.1016/j.jaip.2025.10.042" data-topic="masto" data-topics="masto" data-date="2026-01" data-pub="https://pubmed.ncbi.nlm.nih.gov/41513334/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Diagnóstico, prognóstico e manejo da mastocitose: cenário de 2026" data-fav-sub="J Allergy Clin Immunol Pract" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/41513334/">
+        <div class="gc-soc">J Allergy Clin Immunol Pract · Editorial clínico</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/41513334/" target="_blank" rel="noopener noreferrer">Diagnóstico, prognóstico e manejo da mastocitose: cenário de 2026</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">Diagnosis, Prognostication, and Management of Patients With Mastocytosis: Status 2026.</div>
+        <div class="gc-year">Publicado em 01/2026 · Edição 2026 · PMID 41513334</div>
+        <div class="gc-foot"><span class="tag t-teal">Mastocitose</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/41513334/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1016/j.jaip.2025.10.042" target="_blank" rel="noopener noreferrer">Na revista</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-41324154" data-pmid="41324154" data-doi="10.1111/all.70131" data-topic="rinite" data-topics="rinite" data-date="2025-12-01" data-pub="https://pubmed.ncbi.nlm.nih.gov/41324154/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="ARIA–EAACI 2024–2025: recomendações sobre tratamentos intranasais" data-fav-sub="Allergy" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/41324154/">
+        <div class="gc-soc">Allergy · Diretriz</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/41324154/" target="_blank" rel="noopener noreferrer">ARIA–EAACI 2024–2025: recomendações sobre tratamentos intranasais</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">Allergic Rhinitis and Its Impact on Asthma (ARIA)-EAACI Guidelines-2024-2025 Revision: Part I-Guidelines on Intranasal Treatments</div>
+        <div class="gc-year">Publicado em 01/12/2025 · Edição 2026 · PMID 41324154</div>
+        <div class="gc-foot"><span class="tag t-teal">Rinite</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/41324154/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1111/all.70131" target="_blank" rel="noopener noreferrer">Na revista</a>
+          <a class="link-btn" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC13040648/" target="_blank" rel="noopener noreferrer">Texto completo</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-41229167" data-pmid="41229167" data-doi="10.1111/all.70154" data-topic="himen" data-topics="himen" data-date="2025-11-12" data-pub="https://pubmed.ncbi.nlm.nih.gov/41229167/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Algoritmo de diagnóstico da alergia a himenópteros e escolha do veneno para imunoterapia" data-fav-sub="Allergy" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/41229167/">
+        <div class="gc-soc">Allergy · Algoritmo clínico e estudo diagnóstico</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/41229167/" target="_blank" rel="noopener noreferrer">Algoritmo de diagnóstico da alergia a himenópteros e escolha do veneno para imunoterapia</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">A Straightforward Algorithm for Diagnosing Hymenoptera Venom Allergy and Identifying the Relevant Venom for Immunotherapy</div>
+        <div class="gc-year">Publicado em 12/11/2025 · Edição 2026 · PMID 41229167</div>
+        <div class="gc-foot"><span class="tag t-teal">Himenópteros</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/41229167/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1111/all.70154" target="_blank" rel="noopener noreferrer">Na revista</a>
+          <a class="link-btn" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC13256283/" target="_blank" rel="noopener noreferrer">Texto completo</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-40990093" data-pmid="40990093" data-doi="10.1111/all.70061" data-topic="da" data-topics="da" data-date="2025-09-24" data-pub="https://pubmed.ncbi.nlm.nih.gov/40990093/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Biológicos na dermatite atópica: efetividade, segurança e perspectivas" data-fav-sub="Allergy" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/40990093/">
+        <div class="gc-soc">Allergy · Revisão clínica</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/40990093/" target="_blank" rel="noopener noreferrer">Biológicos na dermatite atópica: efetividade, segurança e perspectivas</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">Biologics to Treat Atopic Dermatitis: Effectiveness, Safety, and Future Directions</div>
+        <div class="gc-year">Publicado em 24/09/2025 · Edição 2026 · PMID 40990093</div>
+        <div class="gc-foot"><span class="tag t-teal">Dermatite atópica</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/40990093/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1111/all.70061" target="_blank" rel="noopener noreferrer">Na revista</a>
+          <a class="link-btn" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12862569/" target="_blank" rel="noopener noreferrer">Texto completo</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-41608113" data-pmid="41608113" data-doi="10.70962/jhi.20250002" data-topic="eii" data-topics="eii" data-date="2025-04-15" data-pub="https://pubmed.ncbi.nlm.nih.gov/41608113/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Classificação fenotípica IUIS 2024 dos erros inatos da imunidade" data-fav-sub="J Hum Immun" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/41608113/">
+        <div class="gc-soc">J Hum Immun · Classificação e árvores de decisão</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/41608113/" target="_blank" rel="noopener noreferrer">Classificação fenotípica IUIS 2024 dos erros inatos da imunidade</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">The 2024 update of IUIS phenotypic classification of human inborn errors of immunity</div>
+        <div class="gc-year">Publicado em 15/04/2025 · Edição 2025 · PMID 41608113</div>
+        <div class="gc-foot"><span class="tag t-teal">Erros inatos</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/41608113/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.70962/jhi.20250002" target="_blank" rel="noopener noreferrer">Na revista</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-39745304" data-pmid="39745304" data-doi="10.14309/ajg.0000000000003194" data-topic="eoe" data-topics="eoe" data-date="2025-01-01" data-pub="https://pubmed.ncbi.nlm.nih.gov/39745304/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Diretriz ACG para diagnóstico e manejo da esofagite eosinofílica" data-fav-sub="Am J Gastroenterol" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/39745304/">
+        <div class="gc-soc">Am J Gastroenterol · Diretriz</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/39745304/" target="_blank" rel="noopener noreferrer">Diretriz ACG para diagnóstico e manejo da esofagite eosinofílica</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">ACG Clinical Guideline: Diagnosis and Management of Eosinophilic Esophagitis.</div>
+        <div class="gc-year">Publicado em 01/01/2025 · Edição 2025 · PMID 39745304</div>
+        <div class="gc-foot"><span class="tag t-teal">Esofagite eosinofílica</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/39745304/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.14309/ajg.0000000000003194" target="_blank" rel="noopener noreferrer">Na revista</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-39580718" data-pmid="39580718" data-doi="10.1016/j.jaci.2024.09.031" data-topic="aa" data-topics="aa" data-date="2024-11-22" data-pub="https://pubmed.ncbi.nlm.nih.gov/39580718/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Orientações de consenso da AAAAI para uso do omalizumabe na alergia alimentar" data-fav-sub="J Allergy Clin Immunol" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/39580718/">
+        <div class="gc-soc">J Allergy Clin Immunol · Consenso e relatório de grupo de trabalho</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/39580718/" target="_blank" rel="noopener noreferrer">Orientações de consenso da AAAAI para uso do omalizumabe na alergia alimentar</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">The use and implementation of omalizumab as food allergy treatment: Consensus-based guidance and Work Group Report of the Adverse Reactions to Foods Committee of the American Academy of Allergy, Asthma &amp; Immunology.</div>
+        <div class="gc-year">Publicado em 22/11/2024 · Edição 2025 · PMID 39580718</div>
+        <div class="gc-foot"><span class="tag t-teal">Alergia alimentar</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/39580718/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1016/j.jaci.2024.09.031" target="_blank" rel="noopener noreferrer">Na revista</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-39473345" data-pmid="39473345" data-doi="10.1111/all.16345" data-topic="aa" data-topics="aa" data-date="2024-10-30" data-pub="https://pubmed.ncbi.nlm.nih.gov/39473345/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Diretriz EAACI para manejo da alergia alimentar mediada por IgE" data-fav-sub="Allergy" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/39473345/">
+        <div class="gc-soc">Allergy · Diretriz</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/39473345/" target="_blank" rel="noopener noreferrer">Diretriz EAACI para manejo da alergia alimentar mediada por IgE</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">EAACI guidelines on the management of IgE-mediated food allergy</div>
+        <div class="gc-year">Publicado em 30/10/2024 · Edição 2025 · PMID 39473345</div>
+        <div class="gc-foot"><span class="tag t-teal">Alergia alimentar</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/39473345/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1111/all.16345" target="_blank" rel="noopener noreferrer">Na revista</a>
+          <a class="link-btn" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11724237/" target="_blank" rel="noopener noreferrer">Texto completo</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-39388827" data-pmid="39388827" data-doi="10.1016/j.bjorl.2024.101500" data-topic="rinite" data-topics="rinite" data-date="2024-09-07" data-pub="https://pubmed.ncbi.nlm.nih.gov/39388827/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="V Consenso Brasileiro sobre Rinite — 2024" data-fav-sub="Braz J Otorhinolaryngol" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/39388827/">
+        <div class="gc-soc">Braz J Otorhinolaryngol · Consenso brasileiro</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/39388827/" target="_blank" rel="noopener noreferrer">V Consenso Brasileiro sobre Rinite — 2024</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">V Brazilian Consensus on Rhinitis - 2024</div>
+        <div class="gc-year">Publicado em 07/09/2024 · Edição 2025 · PMID 39388827</div>
+        <div class="gc-foot"><span class="tag t-teal">Rinite</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/39388827/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1016/j.bjorl.2024.101500" target="_blank" rel="noopener noreferrer">Na revista</a>
+          <a class="link-btn" href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11497470/" target="_blank" rel="noopener noreferrer">Texto completo</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-38155501" data-pmid="38155501" data-doi="10.1111/all.15996" data-topic="medicam" data-topics="medicam" data-date="2023-12-28" data-pub="https://pubmed.ncbi.nlm.nih.gov/38155501/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Posicionamento EAACI/ENDA sobre teste de provocação medicamentosa" data-fav-sub="Allergy" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/38155501/">
+        <div class="gc-soc">Allergy · Posicionamento</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/38155501/" target="_blank" rel="noopener noreferrer">Posicionamento EAACI/ENDA sobre teste de provocação medicamentosa</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">EAACI/ENDA position paper on drug provocation testing.</div>
+        <div class="gc-year">Publicado em 28/12/2023 · Edição 2024 · PMID 38155501</div>
+        <div class="gc-foot"><span class="tag t-teal">Medicamentos</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/38155501/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1111/all.15996" target="_blank" rel="noopener noreferrer">Na revista</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-38108679" data-pmid="38108679" data-doi="10.1016/j.anai.2023.11.009" data-topic="da" data-topics="da" data-date="2023-12-18" data-pub="https://pubmed.ncbi.nlm.nih.gov/38108679/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Recomendações AAAAI/ACAAI para dermatite atópica — edição 2023, publicada em 2024" data-fav-sub="Ann Allergy Asthma Immunol" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/38108679/">
+        <div class="gc-soc">Ann Allergy Asthma Immunol · Diretriz</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/38108679/" target="_blank" rel="noopener noreferrer">Recomendações AAAAI/ACAAI para dermatite atópica — edição 2023, publicada em 2024</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">Atopic dermatitis (eczema) guidelines: 2023 American Academy of Allergy, Asthma and Immunology/American College of Allergy, Asthma and Immunology Joint Task Force on Practice Parameters GRADE- and Institute of Medicine-based recommendations</div>
+        <div class="gc-year">Publicado em 18/12/2023 · Edição 2024 · PMID 38108679</div>
+        <div class="gc-foot"><span class="tag t-teal">Dermatite atópica</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/38108679/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1016/j.anai.2023.11.009" target="_blank" rel="noopener noreferrer">Na revista</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-38108678" data-pmid="38108678" data-doi="10.1016/j.anai.2023.09.015" data-topic="anafilaxia" data-topics="anafilaxia" data-date="2023-12-18" data-pub="https://pubmed.ncbi.nlm.nih.gov/38108678/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Anafilaxia: atualização do parâmetro de prática de 2023" data-fav-sub="Ann Allergy Asthma Immunol" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/38108678/">
+        <div class="gc-soc">Ann Allergy Asthma Immunol · Parâmetro de prática</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/38108678/" target="_blank" rel="noopener noreferrer">Anafilaxia: atualização do parâmetro de prática de 2023</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">Anaphylaxis: A 2023 practice parameter update.</div>
+        <div class="gc-year">Publicado em 18/12/2023 · Edição 2024 · PMID 38108678</div>
+        <div class="gc-foot"><span class="tag t-teal">Anafilaxia</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/38108678/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1016/j.anai.2023.09.015" target="_blank" rel="noopener noreferrer">Na revista</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-37815205" data-pmid="37815205" data-doi="10.1111/all.15902" data-topic="aa" data-topics="aa" data-date="2023-10-10" data-pub="https://pubmed.ncbi.nlm.nih.gov/37815205/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Diretriz EAACI para diagnóstico da alergia alimentar mediada por IgE" data-fav-sub="Allergy" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/37815205/">
+        <div class="gc-soc">Allergy · Diretriz</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/37815205/" target="_blank" rel="noopener noreferrer">Diretriz EAACI para diagnóstico da alergia alimentar mediada por IgE</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">EAACI guidelines on the diagnosis of IgE-mediated food allergy</div>
+        <div class="gc-year">Publicado em 10/10/2023 · Edição 2023 · PMID 37815205</div>
+        <div class="gc-foot"><span class="tag t-teal">Alergia alimentar</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/37815205/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1111/all.15902" target="_blank" rel="noopener noreferrer">Na revista</a>
+        </div>
+      </div>
+      <div class="guide-card" data-guide="pmid-36122788" data-pmid="36122788" data-doi="10.1016/j.jaci.2022.08.028" data-topic="medicam" data-topics="medicam" data-date="2022-09-17" data-pub="https://pubmed.ncbi.nlm.nih.gov/36122788/" data-fav-tipo="Diretriz / artigo" data-fav-titulo="Alergia a medicamentos: atualização do parâmetro de prática de 2022" data-fav-sub="J Allergy Clin Immunol" data-fav-url="https://pubmed.ncbi.nlm.nih.gov/36122788/">
+        <div class="gc-soc">J Allergy Clin Immunol · Parâmetro de prática</div>
+        <a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="https://pubmed.ncbi.nlm.nih.gov/36122788/" target="_blank" rel="noopener noreferrer">Alergia a medicamentos: atualização do parâmetro de prática de 2022</a>
+        <div class="gc-original" style="font-size:11px;color:var(--gray-500);line-height:1.45;margin-top:4px">Drug allergy: A 2022 practice parameter update</div>
+        <div class="gc-year">Publicado em 17/09/2022 · Edição 2022 · PMID 36122788</div>
+        <div class="gc-foot"><span class="tag t-teal">Medicamentos</span><button type="button" class="btn btn-sm btn-fav" style="margin-left:auto" aria-label="Favoritar publicação">⭐</button></div>
+        <div class="art-links" style="margin-top:10px;flex-wrap:wrap"><a class="link-btn pub" href="https://pubmed.ncbi.nlm.nih.gov/36122788/" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>
+          <a class="link-btn" href="https://doi.org/10.1016/j.jaci.2022.08.028" target="_blank" rel="noopener noreferrer">Na revista</a>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -5780,212 +5981,93 @@ function carregarNoticiasMidia(){
 }
 
 
-/* ── GUIDELINES AO VIVO (PubMed, últimos 3 anos, cache 24h, atualização diária) ── */
-var _glCarregado = '';
-var _GL_ITENS_KEY = 'hub_gl_itens';  // {dia, itens[]} — expira a cada novo dia
-var _GL_PT_KEY    = 'hub_gl_pt';     // {dia, map{}} — expira a cada novo dia
-var _GL_TOPICOS = [
-  ['asma', ['asthma','asthmat','wheez','wheezing','gina','bronchial','tezepelumab','benralizumab','mepolizumab','reslizumab','abpa','allergic bronchopulmonary','omalizumab','severe asthma','eosinophilic asthma','occupational asthma']],
-  ['da', ['atopic dermatitis','eczema','atopic eczema','dermatite','dupilumab','tralokinumab','lebrikizumab','abrocitinib','upadacitinib','baricitinib','dermatology','skin barrier','filaggrin','contact dermatitis','patch test']],
-  ['urticaria', ['urticaria','angioedema','hives','urticária','chronic urticaria','csu','hereditary angioedema','hae','bradykinin','omalizumab urticaria','uas7','uct','aicd','cold urticaria','cholinergic']],
-  ['anafilaxia', ['anaphyla','anafila','epinephrine','epipen','adrenaline','biphasic','food-induced anaphylaxis','exercise-induced']],
-  ['himen', ['hymenoptera','venom allergy','bee sting','wasp venom','himenóp','apidae','vespidae','ant sting','insect sting']],
-  ['rinite', ['rhinitis','rhinosinusitis','rinite','nasal polyp','aria','nasal','sinusitis','chronic rhinosinusitis','polyposis','nasal congestion','intranasal']],
-  ['aa', ['food allergy','food hypersensitivity','food-induced','cow milk','peanut','tree nut','milk allergy','egg allergy','wheat allergy','sesame','shellfish','fish allergy','oral immunotherapy','sublingual immunotherapy','epicutaneous immunotherapy','oit','slit','epit','allergen immunotherapy','alergia alimentar']],
-  ['eii', ['immunodeficiency','inborn errors of immunity','primary immunodeficiency','common variable','agammaglobulinemia','hypogammaglobulinemia','igg subclass','imunodefici','wiskott','ataxia telangiectasia','good syndrome','scid','bruton','ivig','subcutaneous immunoglobulin']],
-  ['medicam', ['drug allergy','drug hypersensitivity','drug reaction','penicillin allergy','antibiotic allergy','beta-lactam','aspirin hypersensitivity','nsaid','nonsteroidal','radiocontrast','delabeling','drug desensitization','dress','sjs','ten','stevens-johnson','drug rash','drug-induced','medicament','allergy label']],
-  ['masto', ['mastocytosis','mast cell activation','mastocit','tryptase','kit mutation','urticaria pigmentosa','systemic mastocytosis','mcas']],
-  ['eoe', ['eosinophilic esophagitis','eosinophilic gastrointestinal','esofagite eosinofílica','eosinophilia','hypereosinophilic','eosinophil','dupilumab eosinophilic']]
-];
-function _glTopico(txt){
-  var t = String(txt||'').toLowerCase();
-  for(var i=0;i<_GL_TOPICOS.length;i++){
-    var ks = _GL_TOPICOS[i][1];
-    for(var j=0;j<ks.length;j++){ if(t.indexOf(ks[j]) > -1) return _GL_TOPICOS[i][0]; }
-  }
-  return '';
-}
-var _GL_MESES = {jan:'01',feb:'02',mar:'03',apr:'04',may:'05',jun:'06',jul:'07',aug:'08',sep:'09',oct:'10',nov:'11',dec:'12'};
-function _glData(i){
-  var fontes = [i.pubdate, i.epubdate, i.sortpubdate];
-  for(var k=0;k<fontes.length;k++){
-    var s = String(fontes[k]||'').trim();
-    if(!s) continue;
-    var m = s.match(/^(\d{4})[\/\-](\d{2})[\/\-](\d{2})/);
-    if(m) return {br:m[3]+'/'+m[2]+'/'+m[1], ord:m[1]+m[2]+m[3]};
-    m = s.match(/^(\d{4})\s+([A-Za-z]{3})\s*(\d{1,2})?/);
-    if(m){
-      var mm = _GL_MESES[m[2].toLowerCase()] || '01';
-      var dd = m[3] ? ('0'+m[3]).slice(-2) : '01';
-      return {br: (m[3] ? dd+'/' : '') + mm+'/'+m[1], ord:m[1]+mm+dd};
-    }
-    m = s.match(/^(\d{4})$/);
-    if(m) return {br:m[1], ord:m[1]+'0101'};
-  }
-  return {br:'', ord:'0'};
-}
-/* cache de traduções com TTL diário */
-function _glTraduzir(itens){
-  var titulos = itens.map(function(i){ return i._titulo; });
-  var hoje = new Date().toISOString().slice(0,10);
-  var entrada = {};
-  try{ entrada = JSON.parse(localStorage.getItem(_GL_PT_KEY)||'{}'); }catch(e){}
-  // invalida se o cache é de outro dia
-  var cache = (entrada.dia === hoje) ? (entrada.map || {}) : {};
-  var faltam = titulos.filter(function(t){ return !cache[t]; });
-  function aplicar(){
-    itens.forEach(function(i){ if(cache[i._titulo]) i._tituloPt = cache[i._titulo]; });
-    return itens;
-  }
-  if(!faltam.length) return Promise.resolve(aplicar());
-  var pedido = 'Traduza para o português do Brasil cada título de diretriz/consenso médico abaixo. Responda APENAS com os títulos traduzidos, um por linha, na mesma ordem, sem numeração e sem comentários.\n\n' + faltam.join('\n');
-  return fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta: pedido})})
-    .then(function(r){ return r.json(); })
-    .then(function(d){
-      var linhas = (d && d.resposta ? d.resposta : '').split('\n').map(function(l){ return l.replace(/^\s*[\d).\-•]+\s*/,'').trim(); }).filter(Boolean);
-      if(linhas.length === faltam.length){
-        faltam.forEach(function(t,k){ cache[t] = linhas[k]; });
-        try{ localStorage.setItem(_GL_PT_KEY, JSON.stringify({dia:hoje, map:cache})); }catch(e){}
-      }
-      return aplicar();
-    })
-    .catch(function(){ return aplicar(); });
-}
+/* ── DIRETRIZES E EVIDÊNCIAS: identidade por PMID, sem tradução por posição ── */
+var _glCarregado = {};
+var _glRequest = 0;
+var _GL_ITENS_KEY = 'hub_gl_v3_';
+function _glHoje(){ return new Date().toLocaleDateString('en-CA',{timeZone:'America/Sao_Paulo'}); }
 function _glFiltroAtivo(){
-  var c = document.querySelector('.fchip[data-gfilter].on');
+  var c=document.querySelector('#page-guidelines .fchip[data-gfilter].on');
   return c ? c.dataset.gfilter : 'all';
 }
-function _glPintar(box, itens){
-  var f = _glFiltroAtivo();
-  box.innerHTML = itens.map(function(i){
-    var mostra = (f === 'all' || i._topico === f);
-    return '<a class="guide-card" data-topic="' + _jEsc(i._topico) + '" href="https://pubmed.ncbi.nlm.nih.gov/' + i.uid + '/" target="_blank" rel="noopener" style="display:' + (mostra?'block':'none') + ';text-decoration:none">' +
-      '<div class="gc-soc">' + _jEsc(i.source || 'PubMed') + '</div>' +
-      '<div class="gc-name">' + _jEsc(i._tituloPt || i._titulo) + '</div>' +
-      (i._tituloPt ? '<div style="font-size:11px;color:var(--gray-500);line-height:1.4;margin-top:3px">' + _jEsc(i._titulo) + '</div>' : '') +
-      '<div class="gc-year">Publicado em ' + _jEsc(i._data) + ' · PubMed</div></a>';
-  }).join('') || '<div style="font-size:12px;color:var(--gray-500);padding:6px 2px">Nenhuma diretriz encontrada.</div>';
+function _glDataBR(d){
+  var p=String(d||'').split('-');
+  return p.length===3 ? p[2]+'/'+p[1]+'/'+p[0] : p.length===2 ? p[1]+'/'+p[0] : (p[0]||'');
+}
+function _glValido(i){
+  return i && /^[1-9]\d{0,8}$/.test(String(i.pmid)) && typeof i.title==='string' && i.title.trim() &&
+    i.url==='https://pubmed.ncbi.nlm.nih.gov/'+i.pmid+'/' && Array.isArray(i.topics) && i.topics.length &&
+    typeof i.journal==='string' && /^\d{4}(?:-\d{2})?(?:-\d{2})?$/.test(i.date) && i.date<=_glHoje();
+}
+function aplicarFiltroGuidelines(f){
+  document.querySelectorAll('#page-guidelines .guide-card').forEach(function(c){
+    var temas=(c.dataset.topics||c.dataset.topic||'').split(' ');
+    c.style.display=(f==='all'||temas.indexOf(f)!==-1)?'block':'none';
+  });
+}
+function _glPintar(box,itens){
+  var esc=_jEsc;
+  var referencias={};
+  document.querySelectorAll('#guidelines-list [data-pmid]').forEach(function(c){referencias[c.dataset.pmid]=1;});
+  var vistos={};
+  var limpos=itens.filter(function(i){if(!_glValido(i)||referencias[i.pmid]||vistos[i.pmid])return false;vistos[i.pmid]=1;return true;})
+    .sort(function(a,b){return b.date.localeCompare(a.date);});
+  box.innerHTML=limpos.map(function(i){
+    var doi=/^10\.\d{4,9}\/\S+$/i.test(i.doi||'') ? i.doi : '';
+    var pmc=/^PMC\d+$/.test(i.pmcid||'') ? i.pmcid : '';
+    return '<div class="guide-card" data-guide="pmid-'+i.pmid+'" data-pmid="'+i.pmid+'" data-topic="'+esc(i.topics[0])+'" data-topics="'+esc(i.topics.join(' '))+'" data-date="'+esc(i.date)+'" data-pub="'+i.url+'" data-fav-tipo="Diretriz / artigo" data-fav-titulo="'+esc(i.title)+'" data-fav-sub="'+esc(i.journal)+'" data-fav-url="'+i.url+'">'+
+      '<div class="gc-soc">'+esc(i.journal)+' · '+esc(i.kind||'Artigo')+'</div>'+
+      '<a class="gc-name" style="display:block;text-decoration:none;color:var(--navy)" href="'+i.url+'" target="_blank" rel="noopener noreferrer">'+esc(i.title)+'</a>'+
+      '<div class="gc-year">Publicado em '+esc(_glDataBR(i.date))+' · PMID '+i.pmid+'</div>'+
+      '<div class="art-links" style="margin-top:10px;flex-wrap:wrap">'+
+      '<a class="link-btn pub" href="'+i.url+'" target="_blank" rel="noopener noreferrer">🔗 Abrir artigo</a>'+
+      (doi?'<a class="link-btn" href="https://doi.org/'+esc(doi)+'" target="_blank" rel="noopener noreferrer">Na revista</a>':'')+
+      (pmc?'<a class="link-btn" href="https://pmc.ncbi.nlm.nih.gov/articles/'+pmc+'/" target="_blank" rel="noopener noreferrer">Texto completo</a>':'')+
+      '</div></div>';
+  }).join('') || '<div style="font-size:12px;color:var(--gray-500);padding:6px 2px">As referências conferidas para este tema estão abaixo.</div>';
+  aplicarFiltroGuidelines(_glFiltroAtivo());
+  if(typeof window.favScan==='function') window.favScan(box);
 }
 function carregarGuidelinesLive(){
-  var box = document.getElementById('guidelines-live');
-  if(!box) return;
-  var hoje = new Date(), hojeStr = hoje.toISOString().slice(0,10);
-  /* ── verifica cache do dia no localStorage (persiste entre sessões) ── */
-  if(_glCarregado !== hojeStr){
-    var cached = {};
-    try{ cached = JSON.parse(localStorage.getItem(_GL_ITENS_KEY)||'{}'); }catch(e){}
-    if(cached.dia === hojeStr && Array.isArray(cached.itens) && cached.itens.length){
-      _glCarregado = hojeStr;
-      _glPintar(box, cached.itens); _marcarGuiasPagas();
-      _glTraduzir(cached.itens).then(function(l){ _glPintar(box, l); _marcarGuiasPagas(); });
-      return;
+  var box=document.getElementById('guidelines-live');if(!box)return Promise.resolve();
+  var tema=_glFiltroAtivo(),dia=_glHoje(),seq=++_glRequest;
+  var status=document.getElementById('gl-live-status');
+  function mostrar(d){
+    if(seq!==_glRequest||tema!==_glFiltroAtivo())return;
+    _glPintar(box,d.itens);
+    if(status)status.textContent='Consulta ao PubMed: '+new Date(d.updatedAt).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo'});
+  }
+  var mem=_glCarregado[tema];
+  if(mem&&mem.dia===dia){mostrar(mem);return Promise.resolve();}
+  try{
+    var cache=JSON.parse(localStorage.getItem(_GL_ITENS_KEY+tema)||'null');
+    if(cache&&cache.schema===2&&cache.dia===dia&&cache.topic===tema&&Array.isArray(cache.itens)&&cache.itens.every(_glValido)&&!isNaN(Date.parse(cache.updatedAt))){
+      _glCarregado[tema]=cache;mostrar(cache);return Promise.resolve();
     }
-  } else { return; }  // já carregado nesta sessão JS
-  var ini = new Date(hoje.getFullYear()-3, hoje.getMonth(), hoje.getDate());
-  var fmt = function(d){ return d.getFullYear() + '/' + ('0'+(d.getMonth()+1)).slice(-2) + '/' + ('0'+d.getDate()).slice(-2); };
-  // Query abrangente: cobre todas as grandes revistas e sociedades de alergia/imunologia.
-  // Usa palavras-chave no título (não só [pt]) para capturar artigos recentes ainda
-  // sem indexação de Publication Type pelo PubMed.
-  //
-  // DOENÇAS cobertas: asma, DA, urticária/angioedema, anafilaxia, rinite/rinossinusite,
-  // alergia alimentar, alergia a medicamentos/hiposensibilização, imunodeficiência,
-  // EOE, mastocitose, alergia a veneno, alergia a látex, alergia ocupacional,
-  // imunoterapia, biologicos/biológicos (omalizumabe, dupilumabe, etc.)
-  //
-  // REVISTAS/SOCIEDADES: JACI, JACI-In Practice, Allergy (EAACI), JACI Open,
-  // Clinical & Experimental Allergy, Pediatric Allergy & Immunology,
-  // Annals of Allergy Asthma & Immunology (AAAAI), WAO Journal,
-  // NEJM, Lancet, BMJ, JAMA, Nature Medicine, Nature Immunology,
-  // Journal of Clinical Immunology, Frontiers in Allergy/Immunology,
-  // Clinical Immunology, Allergologia et Immunopathologia, Revistaas brasileiras (ASBAI)
-  // — capturadas automaticamente por termo de doença + tipo de documento.
-  var termoDoenca = '(' +
-    '"allergy"[tiab] OR "allergic"[tiab] OR "allergies"[tiab] OR ' +
-    '"asthma"[tiab] OR "asthmatic"[tiab] OR "wheeze"[tiab] OR "wheezing"[tiab] OR ' +
-    '"atopic dermatitis"[tiab] OR "eczema"[tiab] OR "atopic eczema"[tiab] OR ' +
-    '"urticaria"[tiab] OR "hives"[tiab] OR "angioedema"[tiab] OR ' +
-    '"anaphylaxis"[tiab] OR "anaphylactic"[tiab] OR ' +
-    '"rhinitis"[tiab] OR "allergic rhinitis"[tiab] OR "rhinosinusitis"[tiab] OR "nasal polyp"[tiab] OR ' +
-    '"food allergy"[tiab] OR "food hypersensitivity"[tiab] OR "food-induced"[tiab] OR ' +
-    '"peanut allergy"[tiab] OR "tree nut allergy"[tiab] OR "milk allergy"[tiab] OR "egg allergy"[tiab] OR ' +
-    '"oral immunotherapy"[tiab] OR "sublingual immunotherapy"[tiab] OR "allergen immunotherapy"[tiab] OR ' +
-    '"drug allergy"[tiab] OR "drug hypersensitivity"[tiab] OR "drug reaction"[tiab] OR ' +
-    '"penicillin allergy"[tiab] OR "antibiotic allergy"[tiab] OR "beta-lactam"[tiab] OR ' +
-    '"NSAIDs hypersensitivity"[tiab] OR "aspirin hypersensitivity"[tiab] OR "radiocontrast"[tiab] OR ' +
-    '"drug desensitization"[tiab] OR "delabeling"[tiab] OR ' +
-    '"venom allergy"[tiab] OR "hymenoptera"[tiab] OR "bee sting"[tiab] OR "wasp venom"[tiab] OR ' +
-    '"immunodeficiency"[tiab] OR "inborn errors of immunity"[tiab] OR "primary immunodeficiency"[tiab] OR ' +
-    '"common variable immunodeficiency"[tiab] OR "agammaglobulinemia"[tiab] OR ' +
-    '"eosinophilic esophagitis"[tiab] OR "eosinophilic gastrointestinal"[tiab] OR ' +
-    '"mastocytosis"[tiab] OR "mast cell"[tiab] OR "mast cell activation"[tiab] OR ' +
-    '"latex allergy"[tiab] OR "occupational allergy"[tiab] OR "occupational asthma"[tiab] OR ' +
-    '"omalizumab"[tiab] OR "dupilumab"[tiab] OR "benralizumab"[tiab] OR "mepolizumab"[tiab] OR ' +
-    '"reslizumab"[tiab] OR "tezepelumab"[tiab] OR "tralokinumab"[tiab] OR "lebrikizumab"[tiab] OR ' +
-    '"biologic"[tiab] OR "biologics"[tiab] OR "monoclonal antibody"[tiab] OR ' +
-    '"contact dermatitis"[tiab] OR "patch test"[tiab] OR "epicutaneous"[tiab] OR ' +
-    '"ABPA"[tiab] OR "allergic bronchopulmonary"[tiab] OR ' +
-    '"hereditary angioedema"[tiab] OR "HAE"[tiab] OR ' +
-    '"eosinophil"[tiab] OR "eosinophilia"[tiab] OR "hypereosinophilic"[tiab]' +
-  ')';
-  var termoDiretriz = '(' +
-    'guideline[pt] OR "practice guideline"[pt] OR ' +
-    'guideline[ti] OR guidelines[ti] OR ' +
-    'consensus[ti] OR ' +
-    '"practice parameter"[ti] OR "practice parameters"[ti] OR ' +
-    '"position paper"[ti] OR "position statement"[ti] OR ' +
-    '"expert opinion"[ti] OR "expert consensus"[ti] OR ' +
-    '"clinical practice guideline"[ti] OR ' +
-    '"evidence-based"[ti] OR ' +
-    '"systematic review"[ti] OR "meta-analysis"[ti] OR ' +
-    '"management of"[ti] OR "diagnosis and management"[ti] OR ' +
-    '"diagnosis and treatment"[ti] OR ' +
-    'recommendation[ti] OR recommendations[ti] OR ' +
-    '"EAACI guidelines"[ti] OR "AAAAI guidelines"[ti] OR "WAO guidelines"[ti] OR ' +
-    '"GINA"[tiab] OR "ARIA"[tiab] OR "GRADE"[tiab]' +
-  ')';
-  var termo = termoDoenca + ' AND ' + termoDiretriz;
-  var base = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
-  fetch(base + 'esearch.fcgi?db=pubmed&retmode=json&retmax=100&sort=pub_date&datetype=pdat&mindate=' + fmt(ini) + '&maxdate=' + fmt(hoje) + '&term=' + encodeURIComponent(termo))
-    .then(function(r){ return r.json(); })
+  }catch(e){}
+  if(status)status.textContent='Consultando publicações recentes no PubMed…';
+  box.innerHTML='<div style="font-size:12px;color:var(--gray-500);padding:6px 2px">Buscando diretrizes, consensos, posicionamentos, algoritmos e revisões…</div>';
+  return fetch('/guidelines?tema='+encodeURIComponent(tema),{headers:{Accept:'application/json'},signal:AbortSignal.timeout(45000)})
+    .then(function(r){if(!r.ok)throw new Error('Consulta indisponível');return r.json();})
     .then(function(d){
-      var ids = (d.esearchresult && d.esearchresult.idlist) || [];
-      if(!ids.length) throw new Error('vazio');
-      return fetch(base + 'esummary.fcgi?db=pubmed&retmode=json&id=' + ids.join(','));
-    })
-    .then(function(r){ return r.json(); })
-    .then(function(d){
-      var itens = (d.result.uids||[]).map(function(id){ return d.result[id]; }).filter(Boolean);
-      var limite = fmt(hoje).replace(/\//g,'');
-      itens = itens.map(function(i){
-        var dt = _glData(i);
-        i._ord = dt.ord; i._data = dt.br;
-        i._titulo = String(i.title||'').replace(/\.$/,'').replace(/^\[|\]$/g,'');
-        i._topico = _glTopico(i._titulo);
-        return i;
-      }).filter(function(i){ return i._ord !== '0' && i._ord <= limite; })
-        .sort(function(a,b){ return a._ord < b._ord ? 1 : -1; })
-        .slice(0,25);
-      /* salva no localStorage com TTL = hoje */
-      try{ localStorage.setItem(_GL_ITENS_KEY, JSON.stringify({dia:hojeStr, itens:itens})); }catch(e){}
-      _glPintar(box, itens);
-      _glCarregado = hojeStr;
-      _glTraduzir(itens).then(function(l){ _glPintar(box, l); });
-    })
-    .catch(function(){
-      box.innerHTML = '<div style="font-size:12px;color:var(--gray-500);padding:6px 2px">Não foi possível buscar as diretrizes agora. Veja as de referência abaixo.</div>';
+      if(d.schema!==2||d.topic!==tema||!Array.isArray(d.itens)||!d.itens.every(_glValido)||isNaN(Date.parse(d.updatedAt)))throw new Error('Metadados inválidos');
+      d.dia=dia;_glCarregado[tema]=d;
+      try{localStorage.setItem(_GL_ITENS_KEY+tema,JSON.stringify(d));}catch(e){}
+      mostrar(d);
+    }).catch(function(){
+      if(seq!==_glRequest||tema!==_glFiltroAtivo())return;
+      if(status)status.textContent='Consulta ao PubMed indisponível neste momento.';
+      box.innerHTML='<div style="font-size:12px;color:var(--gray-500);padding:6px 2px">Veja abaixo as referências conferidas, com links diretos para cada publicação.</div>';
     });
 }
 function ordenarGuidelinesEstaticos(){
-  var lista = document.getElementById('guidelines-list');
-  if(!lista) return;
-  var corte = new Date().getFullYear() - 3;
-  var cards = Array.prototype.slice.call(lista.querySelectorAll('.guide-card'));
-  cards.forEach(function(c){
-    var y = parseInt((c.querySelector('.gc-year')||{}).textContent, 10) || 0;
-    c._y = y; if(y && y < corte) c.style.display = 'none';
-  });
-  cards.sort(function(a,b){ return b._y - a._y; }).forEach(function(c){ lista.appendChild(c); });
+  var lista=document.getElementById('guidelines-list');if(!lista)return;
+  Array.prototype.slice.call(lista.querySelectorAll('.guide-card')).sort(function(a,b){
+    return (b.dataset.date||'').localeCompare(a.dataset.date||'');
+  }).forEach(function(c){lista.appendChild(c);});
+  aplicarFiltroGuidelines(_glFiltroAtivo());
 }
+
 
 /* ── CURSOS: busca diária em qualquer idioma ── */
 function carregarCursosLive(){
@@ -7281,14 +7363,7 @@ window.addEventListener('popstate', function(){
   });
   obs.observe(document.body, {subtree:true, attributes:true, attributeFilter:['class']});
 })();
-// Badge de data dinâmica nos Guidelines
-(function(){
-  var el=document.getElementById('gl-date-text');
-  if(el){
-    var d=new Date();
-    el.textContent=d.getDate().toString().padStart(2,'0')+'/'+(d.getMonth()+1).toString().padStart(2,'0')+'/'+d.getFullYear();
-  }
-})();
+// A data de conferência das referências corresponde à revisão bibliográfica salva.
 
 // Logo click → home
 var _tbLogo2 = document.getElementById('tbLogo');
@@ -7350,7 +7425,11 @@ document.addEventListener('click',function(e){
 
   // news / guide / forum / course
   if(el.closest('.news-card'))  {toast('📰','Abrindo notícia...');return;}
-  if(el.closest('.guide-card')&&!el.closest('[data-score]')&&!el.closest('[data-pac]')&&!el.classList.contains('btn-fav')&&!el.closest('.btn-fav')){toast('📋','Abrindo guideline...');return;}
+  if(el.closest('#page-guidelines .guide-card')&&!el.closest('button,.fav-star')){
+    var guide=el.closest('.guide-card');
+    if(!el.closest('a')&&/^https:\/\/pubmed\.ncbi\.nlm\.nih\.gov\/\d+\/$/.test(guide.dataset.pub||'')) window.open(guide.dataset.pub,'_blank','noopener,noreferrer');
+    return;
+  }
   if(el.closest('.course-card')){toast('🎓','Abrindo curso...');return;}
 
   // notif
@@ -7374,12 +7453,8 @@ document.addEventListener('click',function(e){
     } else if(gfilter!==undefined){
       document.querySelectorAll('.fchip[data-gfilter]').forEach(function(c){c.classList.remove('on');});
       fc.classList.add('on');
-      ['guidelines-live','guidelines-list'].forEach(function(id){
-        var box=document.getElementById(id); if(!box) return;
-        box.querySelectorAll('.guide-card').forEach(function(c){
-          c.style.display=(gfilter==='all'||c.dataset.topic===gfilter)?'block':'none';
-        });
-      });
+      aplicarFiltroGuidelines(gfilter);
+      carregarGuidelinesLive();
     }
     return;
   }

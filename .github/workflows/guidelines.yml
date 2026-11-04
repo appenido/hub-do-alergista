@@ -1,0 +1,24 @@
+name: Verificar referências clínicas
+on:
+  push:
+    paths:
+      - index.html
+      - guidelines-core.mjs
+      - guidelines-referencias.json
+      - functions/guidelines.js
+      - tests/guidelines.test.mjs
+      - scripts/check-guidelines.mjs
+      - .github/workflows/guidelines.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  referencias:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/guidelines.test.mjs
+      - run: node scripts/check-guidelines.mjs
