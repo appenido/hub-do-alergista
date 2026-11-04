@@ -2395,21 +2395,7 @@ window._bloquearApp=function(){};
       <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px"><span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>Biblioteca de Prompts Médicos</div>
       <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Copie, edite e use na prática clínica diária</div>
     </div>
-    <!-- Criar novo prompt -->
-    <div style="margin:0 16px 12px;background:#f0fafa;border:1px solid rgba(59,191,204,.25);border-radius:13px;padding:13px 14px">
-      <div style="font-size:11px;font-weight:700;color:var(--teal-mid);margin-bottom:8px">+ Criar prompt personalizado</div>
-      <input id="newPromptTitle" placeholder="Título do prompt..." style="width:100%;box-sizing:border-box;border:1px solid var(--gray-100);border-radius:9px;padding:8px 11px;font-family:'Manrope',sans-serif;font-size:12.5px;color:var(--navy);margin-bottom:7px;outline:none">
-      <textarea id="newPromptBody" rows="3" placeholder="Texto do prompt (use [CAMPOS] para preencher depois)..." style="width:100%;box-sizing:border-box;border:1px solid var(--gray-100);border-radius:9px;padding:8px 11px;font-family:'Manrope',sans-serif;font-size:12.5px;color:var(--navy);resize:none;outline:none;line-height:1.5"></textarea>
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <input id="newPromptCat" placeholder="Categoria (ex: Relatório)" style="flex:1;border:1px solid var(--gray-100);border-radius:9px;padding:7px 10px;font-family:'Manrope',sans-serif;font-size:12px;color:var(--navy);outline:none">
-        <button onclick="salvarNovoPrompt()" style="background:var(--teal-mid);color:#fff;border:none;border-radius:9px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif">Salvar</button>
-      </div>
-    </div>
-    <!-- Prompts salvos pelo usuário -->
-    <div id="userPromptsSection" style="display:none;padding:0 16px;margin-bottom:8px">
-      <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal-mid);padding:4px 0 8px">Meus Prompts</div>
-      <div id="userPromptsList" style="display:flex;flex-direction:column;gap:8px"></div>
-    </div>
+    <p style="margin:0 16px 12px;border:1px solid var(--gray-100);background:#fff;padding:10px 12px;border-radius:10px;font-size:11.5px;color:var(--gray-500)">A criação e o salvamento de textos personalizados foram suspensos para impedir armazenamento inadvertido de dados clínicos. Os prompts científicos predefinidos continuam disponíveis.</p>
     <div class="gap-list">
       <div style="padding:14px 16px 6px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-300)">Relatórios</div>
       <div class="prompt-card"><div class="pc-cat">Relatório — Imunobiológico</div><div class="pc-title">Asma grave — liberação de imunobiológico</div><div class="pc-body">Gere um relatório médico para solicitação de [MEDICAMENTO: tezepelumabe/dupilumabe/benralizumabe/mepolizumabe] em paciente com asma grave. Inclua: diagnóstico com CID (J45.5), tempo de doença, frequência de exacerbações graves ([Nº]/ano), hospitalizações ([Nº]), uso de corticoide oral (ciclos/ano), ACT: [VALOR], eosinófilos: [VALOR] céls/µL, IgE total: [VALOR] UI/mL, FeNO: [VALOR] ppb, VEF₁: [VALOR]%, medicações atuais (CSI/LABA + dose), falha terapêutica documentada, critérios GINA de asma grave e justificativa do biológico escolhido.</div><div class="pc-acts"><button class="btn btn-sm btn-use-prompt">🤖 Usar na IA</button><button class="btn btn-sm btn-copy-prompt">📋 Copiar</button><button class="btn btn-sm btn-fav">⭐ Favoritar</button></div></div>
@@ -3863,18 +3849,6 @@ window._bloquearApp=function(){};
 </div><!-- /scroll-area -->
 
 <!-- bottom nav removed -->
-
-<div class="ai-sheet" id="pacSheet" style="display:none" aria-hidden="true">
-  <div class="ai-sheet-inner">
-    <div class="ai-sheet-handle"></div>
-    <div class="ai-sheet-hdr">
-      <button id="pacSheetClose" class="btn-back" aria-label="Voltar">‹</button>
-      <div class="ai-sheet-title" id="pacSheetTitle">Paciente</div>
-      <div style="width:38px"></div>
-    </div>
-    <div class="ai-sheet-body" id="pacSheetBody"></div>
-  </div>
-</div>
 
 <!-- MODAL SCORES -->
 <div class="overlay" id="overlay">
@@ -6066,69 +6040,9 @@ function renderSavedPromptsAssist(){
 }
 
 /* ── PROMPTS (página) ── */
-function _carregarPrompts(){
-  try{ return JSON.parse(localStorage.getItem('hub_custom_prompts')||'[]'); }catch(e){ return []; }
-}
-
-function _salvarPromptStorage(p){
-  var arr = _carregarPrompts();
-  arr.unshift(p);
-  try{ localStorage.setItem('hub_custom_prompts', JSON.stringify(arr)); }catch(e){}
-}
-
-function salvarNovoPrompt(){
-  var titulo = (document.getElementById('newPromptTitle')||{}).value||'';
-  var corpo  = (document.getElementById('newPromptBody')||{}).value||'';
-  var cat    = (document.getElementById('newPromptCat')||{}).value||'Geral';
-  titulo = titulo.trim(); corpo = corpo.trim();
-  if(!titulo){ toast('⚠️','Informe um título!'); return; }
-  if(!corpo) { toast('⚠️','Escreva o prompt!'); return; }
-  _salvarPromptStorage({titulo:titulo, corpo:corpo, categoria:cat, data:new Date().toLocaleDateString('pt-BR'), origem:'usuario'});
-  // limpar campos
-  ['newPromptTitle','newPromptBody'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
-  renderUserPrompts();
-  toast('💾','Prompt salvo!');
-}
-
-function renderUserPrompts(){
-  var sec  = document.getElementById('userPromptsSection');
-  var list = document.getElementById('userPromptsList');
-  if(!list) return;
-  var arr = _carregarPrompts().filter(function(p){ return p.origem==='usuario'; });
-  if(sec) sec.style.display = arr.length ? '' : 'none';
-  list.innerHTML = arr.map(function(p,i){
-    return '<div style="background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;padding:12px 14px;margin-bottom:10px">'
-      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'
-      +'<span style="background:var(--teal-light);color:var(--teal-mid);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px">'+_escHtml(p.categoria||'Geral')+'</span>'
-      +'<span style="font-size:10px;color:var(--gray-400)">'+_escHtml(p.data||'')+'</span>'
-      +'<button onclick="_deletarPrompt('+i+')" style="margin-left:auto;background:none;border:none;color:#e74c3c;font-size:16px;cursor:pointer;padding:0 4px" title="Remover">×</button>'
-      +'</div>'
-      +'<div style="font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:4px">'+_escHtml(p.titulo)+'</div>'
-      +'<div style="font-size:12.5px;color:var(--gray-500);line-height:1.5;white-space:pre-wrap">'+_escHtml((p.corpo||'').substring(0,200))+(p.corpo&&p.corpo.length>200?'…':'')+'</div>'
-      +'<div style="display:flex;gap:8px;margin-top:10px">'
-      +'<button onclick="usarPromptNoAssistente('+_escHtml(JSON.stringify(p.corpo))+')" style="flex:1;background:var(--teal-mid);color:#fff;border:none;border-radius:9px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Manrope\',sans-serif">Usar no Assistente ↗</button>'
-      +'</div></div>';
-  }).join('');
-}
-
-function _deletarPrompt(idx){
-  var arr = _carregarPrompts().filter(function(p){ return p.origem==='usuario'; });
-  var all = _carregarPrompts();
-  // remover pelo índice dentro dos user prompts
-  var userOnly = all.filter(function(p){ return p.origem==='usuario'; });
-  var target = userOnly[idx];
-  if(!target) return;
-  var newAll = all.filter(function(p){ return p!==target; });
-  // encontrar no all pelo título+corpo para remover
-  var removed = false;
-  newAll = all.filter(function(p){
-    if(!removed && p.origem==='usuario' && p.titulo===target.titulo && p.corpo===target.corpo){ removed=true; return false; }
-    return true;
-  });
-  try{ localStorage.setItem('hub_custom_prompts', JSON.stringify(newAll)); }catch(e){}
-  renderUserPrompts();
-  toast('🗑️','Prompt removido.');
-}
+function _carregarPrompts(){return [];}
+function renderUserPrompts(){ /* Salvamento de prompts personalizados desativado. */ }
+function salvarNovoPrompt(){if(typeof toast==='function')toast('⚠️','O salvamento de textos personalizados está desativado.');}
 
 /* ── NAVIGATION ── */
 window.crmInit = crmInit;
