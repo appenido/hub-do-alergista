@@ -1,5 +1,5 @@
 // Rede primeiro para arquivos estáticos; APIs e dados dinâmicos nunca entram no cache.
-const CACHE = 'hub-alergista-v1169-public';
+const CACHE = 'hub-alergista-v1170-public';
 const ASSETS = ['./', 'index.html', 'lgpd-runtime.js?v=20261104-6', 'ige-clinica.js?v=20261104-2', 'privacidade.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
 const PATHS = new Set(['/', '/index.html', '/ige-clinica.js', '/lgpd-runtime.js', '/privacidade.html', '/manifest.json', '/icon-192.png', '/icon-512.png']);
 

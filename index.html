@@ -4625,7 +4625,7 @@ var VAC_CATALOGO=[
   obs:'PNI em transição para VPC20; verificar protocolo MS vigente.',
   ea:'Locais: dor, eritema, enduração (muito comuns). Sistêmicos: febre, irritabilidade (comuns). Raros: anafilaxia, convulsão febril.',
   sbim:'https://sbim.org.br/calendario-sbim/criancas-0-menores-6-anos'},
- {id:'pnc20_sus',sus:1,particular:1,nome:'Pneumocócica 20-valente (VPC20) — SUS',comercial:'Apexxnar / Prevnar 20 (Pfizer)',fabricante:'Pfizer',
+ {id:'pnc20_sus',sus:1,particular:1,nome:'Pneumocócica 20-valente (VPC20)',comercial:'Apexxnar / Prevnar 20 (Pfizer)',fabricante:'Pfizer',
   prot:'Doença pneumocócica (20 sorotipos)',tipo:'Inativada (conjugada)',
   pop:'Adultos e idosos ≥18 anos — transição em curso no PNI/MS 2026.',
   esq:'1 dose (substitui a sequência VPC13 + VPP23 em adultos).',
@@ -4723,7 +4723,7 @@ var VAC_CATALOGO=[
   obs:'Não terapêutico.',
   ea:'Locais: eritema, dor, enduração (muito comuns). Sistêmicos: cefaleia, febre (comuns). Síncope vasovagal pós-vacinal (observar 15 min). Muito raros: anafilaxia.',
   sbim:'https://sbim.org.br/calendario-sbim/adolescentes'},
- {id:'dengue_sus',sus:1,particular:1,nome:'Dengue (Qdenga) — SUS',comercial:'Qdenga (Takeda)',fabricante:'Takeda',
+ {id:'dengue_sus',sus:1,particular:1,nome:'Dengue (Qdenga)',comercial:'Qdenga (Takeda)',fabricante:'Takeda',
   prot:'Dengue sorotipos 1, 2, 3 e 4',tipo:'Atenuada (quimérica tetravalente)',
   pop:'Crianças e adolescentes de 6–16 anos.',
   esq:'2 doses com intervalo de 3 meses.',
@@ -4767,13 +4767,6 @@ var VAC_CATALOGO=[
   obs:'Cobertura adicional sobre sorotipos 22F e 33F vs VPC13.',
   ea:'Locais: dor, eritema (muito comuns). Sistêmicos: febre, irritabilidade (comuns em lactentes). Raros: anafilaxia.',
   sbim:'https://sbim.org.br/calendarios-de-vacinacao'},
- {id:'pnc20',sus:0,particular:1,nome:'Pneumocócica 20-valente (VPC20) — rede privada',comercial:'Apexxnar / Prevnar 20 (Pfizer)',fabricante:'Pfizer',
-  prot:'Doença pneumocócica (20 sorotipos)',tipo:'Inativada (conjugada)',
-  pop:'Adultos e idosos ≥18 anos.',
-  esq:'1 dose. Pode substituir a sequência VPC13 + VPP23.',
-  obs:'Dispensa VPP23 após VPC20 em adultos.',
-  ea:'Locais: dor, eritema, enduração (muito comuns). Sistêmicos: fadiga, cefaleia, mialgia (comuns). Raros: anafilaxia.',
-  sbim:'https://sbim.org.br/calendarios-de-vacinacao'},
  {id:'menb',sus:0,particular:1,nome:'Meningocócica B (MenB)',comercial:'Bexsero (GSK) · Trumenba (Pfizer)',fabricante:'GSK / Pfizer',
   prot:'Doença meningocócica sorogrupo B',tipo:'Inativada (proteínas de membrana + OMVP)',
   pop:'Lactentes ≥2 meses, crianças, adolescentes e adultos em risco.',
@@ -4802,7 +4795,7 @@ var VAC_CATALOGO=[
   obs:'Protege ~90% dos cânceres causados por HPV. Preferível ao quadrivalente.',
   ea:'Locais: eritema, dor, enduração (muito comuns). Sistêmicos: cefaleia, febre (comuns). Síncope vasovagal (observar 15 min). Muito raros: anafilaxia.',
   sbim:'https://sbim.org.br/calendario-sbim/adolescentes'},
- {id:'influenza4',sus:0,particular:1,nome:'Influenza quadrivalente (rede privada)',comercial:'Vaxigrip Tetra (Sanofi) · Fluarix Tetra (GSK) · Influvac Tetra (Abbott)',fabricante:'Sanofi / GSK / Abbott/Viatris',
+ {id:'influenza4',sus:0,particular:1,nome:'Influenza quadrivalente',comercial:'Vaxigrip Tetra (Sanofi) · Fluarix Tetra (GSK) · Influvac Tetra (Abbott)',fabricante:'Sanofi / GSK / Abbott/Viatris',
   prot:'Influenza A(H1N1), A(H3N2), B/Yamagata e B/Victoria',tipo:'Inativada (fragmentada)',
   pop:'A partir de 6 meses. Para quem não está nos grupos prioritários do SUS.',
   esq:'Anual. &lt;9 anos sem vacinação anterior: 2 doses com 30 dias de intervalo.',
@@ -4830,7 +4823,7 @@ var VAC_CATALOGO=[
   obs:'Não protege contra Salmonella Paratyphi. Oral: evitar antibióticos 3 dias antes e depois.',
   ea:'Oral: náusea, dor abdominal, diarreia leve (incomuns). Injetável: dor local, febre baixa (incomuns). Muito raros: anafilaxia.',
   sbim:'https://sbim.org.br/viajantes'},
- {id:'dengue_p',sus:0,particular:1,nome:'Dengue (Dengvaxia) — rede privada',comercial:'Dengvaxia (Sanofi)',fabricante:'Sanofi',
+ {id:'dengue_p',sus:0,particular:1,nome:'Dengue (Dengvaxia)',comercial:'Dengvaxia (Sanofi)',fabricante:'Sanofi',
   prot:'Dengue sorotipos 1, 2, 3 e 4',tipo:'Atenuada (quimérica tetravalente)',
   pop:'9–45 anos COM sorologia positiva prévia documentada (soropositivos). Contraindicado em soronegativos.',
   esq:'3 doses: 0, 6 e 12 meses.',
@@ -5363,11 +5356,11 @@ function vacRenderVacinas(filtro){
     det.className='vac-card';
     var badge='';
     if(v.sus){
-      badge+='<span style="display:inline-flex;align-items:center;gap:3px;font-size:9.5px;font-weight:800;background:#1e7a46;color:#fff;border-radius:7px;padding:2px 7px 2px 5px;letter-spacing:.03em">'
-        +'<svg width="11" height="11" viewBox="0 0 20 20" fill="none" style="flex-shrink:0"><circle cx="10" cy="10" r="9" stroke="#fff" stroke-width="2"/><path d="M10 5v10M5 10h10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>'
-        +' SUS</span>';
+      badge+='<span title="Dispon\u00edvel no SUS" aria-label="Dispon\u00edvel no SUS" style="display:inline-flex;align-items:center;justify-content:center;background:#1e7a46;color:#fff;border-radius:50%;width:16px;height:16px">'
+        +'<svg width="10" height="10" viewBox="0 0 20 20" fill="none"><path d="M10 5v10M5 10h10" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>'
+        +'</span>';
     }
-    if(v.particular){
+    if(v.particular&&!v.sus){
       badge+='<span style="font-size:9.5px;font-weight:800;background:#1a3a6b;color:#fff;border-radius:7px;padding:2px 8px;letter-spacing:.03em">Particular</span>';
     }
     det.innerHTML='<summary class="vac-header">'
