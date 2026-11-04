@@ -889,9 +889,22 @@ _marcarGuiasPagas();
 .fav-star{position:absolute;top:8px;right:8px;z-index:5;background:rgba(255,255,255,.92);border:1px solid var(--gray-100);
   border-radius:50%;width:30px;height:30px;line-height:1;display:flex;align-items:center;justify-content:center;
   font-size:14px;cursor:pointer;padding:0;color:var(--gray-300);box-shadow:0 1px 4px rgba(13,31,45,.08);
-  transition:transform .15s,color .15s;-webkit-tap-highlight-color:transparent;}
+  opacity:.4;filter:saturate(0);
+  transition:transform .18s,color .18s,opacity .18s,box-shadow .25s,filter .25s;-webkit-tap-highlight-color:transparent;}
+.fav-star:hover{opacity:.7;}
+.fav-star:not(.on){opacity:.4 !important;filter:saturate(0) !important;}
 .fav-star:active{transform:scale(.85);}
-.fav-star.on{color:var(--gold);border-color:var(--gold);background:#fffdf3;}
+.fav-star.on{
+  color:var(--gold) !important;border-color:var(--gold) !important;background:#fffdf3 !important;
+  opacity:1 !important;filter:saturate(1) !important;
+  text-shadow:0 0 7px rgba(201,168,76,.75);
+  box-shadow:0 0 0 2px rgba(201,168,76,.16), 0 2px 12px rgba(201,168,76,.45);
+  animation:favBrilho .45s ease-out;}
+@keyframes favBrilho{
+  0%{transform:scale(.8);box-shadow:0 0 0 0 rgba(201,168,76,.6);}
+  55%{transform:scale(1.18);box-shadow:0 0 0 7px rgba(201,168,76,0);}
+  100%{transform:scale(1);}}
+@media (prefers-reduced-motion:reduce){.fav-star.on{animation:none;}}
 .fav-star.inline{position:static;width:auto;height:auto;border-radius:9px;padding:5px 10px;box-shadow:none;background:var(--gray-50);}
 .fav-row{display:flex;align-items:center;gap:11px;padding:13px 16px;border-bottom:1px solid var(--gray-100);background:#fff;}
 .fav-icon{font-size:20px;width:26px;text-align:center;}
