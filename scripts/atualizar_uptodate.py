@@ -53,13 +53,13 @@ class VisibleText(HTMLParser):
     def handle_starttag(self, tag, attrs):
         if tag in ("script", "style", "noscript", "svg"):
             self.ignored += 1
-        if not self.ignored and tag in ("p", "li", "br", "h1", "h2", "h3", "h4", "tr", "section"):
+        if not self.ignored and tag in ("p", "li", "br", "h1", "h2", "h3", "h4", "tr", "section", "div"):
             self.fragments.append("\n")
 
     def handle_endtag(self, tag):
         if tag in ("script", "style", "noscript", "svg"):
             self.ignored = max(0, self.ignored - 1)
-        if not self.ignored and tag in ("p", "li", "h1", "h2", "h3", "h4", "tr", "section"):
+        if not self.ignored and tag in ("p", "li", "h1", "h2", "h3", "h4", "tr", "section", "div"):
             self.fragments.append("\n")
 
     def handle_data(self, data):
