@@ -2696,7 +2696,7 @@ window._bloquearApp=function(){};
         </div>
         <button onclick="carregarRadar(true)" style="background:var(--gray-50);border:1px solid var(--gray-100);border-radius:9px;padding:6px 10px;font-size:11px;font-weight:700;color:var(--teal-mid);cursor:pointer;font-family:Manrope,sans-serif">🔄</button>
       </div>
-      <div id="radarLista" style="max-height:520px;overflow-y:auto;-webkit-overflow-scrolling:touch"><div style="padding:14px;font-size:12px;color:var(--gray-300);text-align:center">⏳ Buscando novidades oficiais...</div></div>
+      <div id="radarLista"><div style="padding:14px;font-size:12px;color:var(--gray-300);text-align:center">⏳ Buscando novidades oficiais...</div></div>
     </div>
 
     </div>
@@ -9633,6 +9633,7 @@ function carregarRadar(forcar){
     if(!cronologicos.length) {
       html = '<div style="padding:16px;font-size:12px;color:var(--gray-500);text-align:center">Nenhuma publicação pertinente encontrada nas fontes brasileiras no momento.</div>';
     }
+    var _restante = '';
     for(var i=0; i<cronologicos.length; i++){
       var it=cronologicos[i], tags='';
       if(it.drogas && it.drogas.length){
@@ -9645,7 +9646,7 @@ function carregarRadar(forcar){
       var link=String(it.link||'');
       var linkSeguro=/^https:\/\/(?:www\.)?(?:gov\.br|in\.gov\.br)\//i.test(link) ?
         link.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;') : '';
-      html += '<div style="padding:11px 14px;border-bottom:1px solid var(--gray-50)">' +
+      var _bloco = '<div style="padding:11px 14px;border-bottom:1px solid var(--gray-50)">' +
         '<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:4px">' +
           '<span style="font-size:9.5px;font-weight:800;color:'+(cores[it.fonte]||'var(--navy)')+'">'+_feedEscape(it.fonte||'')+'</span>' +
           '<span style="font-size:9.5px;color:var(--gray-500)">· '+dataStr+'</span>'+tags+
@@ -9655,6 +9656,11 @@ function carregarRadar(forcar){
         (it.resumo?'<div style="font-size:11px;color:var(--gray-500);line-height:1.4;margin-bottom:5px">'+_feedEscape(it.resumo.slice(0,250))+'</div>':'') +
         (linkSeguro?'<a href="'+linkSeguro+'" target="_blank" rel="noopener noreferrer" style="font-size:11px;font-weight:700;color:var(--teal-mid)">Abrir fonte oficial →</a>':'') +
         '</div>';
+      if(i === 0) html += _bloco; else _restante += _bloco;
+    }
+    if(_restante){
+      html += '<div id="radarResto" style="display:none;max-height:360px;overflow-y:auto;-webkit-overflow-scrolling:touch">' + _restante + '</div>' +
+        '<button id="radarVerMais" onclick="radarAlternar()" style="width:100%;background:var(--gray-50);border:none;border-top:1px solid var(--gray-100);padding:10px;font-size:11.5px;font-weight:700;color:var(--teal-mid);cursor:pointer;font-family:Manrope,sans-serif">Ver as outras ' + (cronologicos.length - 1) + ' atualizações ▾</button>';
     }
     lista.innerHTML = html;
   }).catch(function(e){
@@ -9662,6 +9668,18 @@ function carregarRadar(forcar){
     if(status) status.textContent = 'Erro: ' + (e && e.message ? e.message : 'verifique a conexão');
   });
 }
+
+function radarAlternar(){
+  var r = document.getElementById('radarResto');
+  var b = document.getElementById('radarVerMais');
+  if(!r || !b) return;
+  var aberto = r.style.display !== 'none';
+  r.style.display = aberto ? 'none' : 'block';
+  b.innerHTML = aberto
+    ? b.innerHTML.replace('Ocultar as outras', 'Ver as outras').replace('\u25b4','\u25be')
+    : b.innerHTML.replace('Ver as outras', 'Ocultar as outras').replace('\u25be','\u25b4');
+}
+window.radarAlternar = radarAlternar;
 
 var _feedCache = {};
 var _prefetchFeito = false;
