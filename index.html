@@ -3325,32 +3325,12 @@ window._bloquearApp=function(){};
       <div class="ig-f-row"><label>Infecções de repetição documentadas?</label>
         <select id="igInfRep"><option value="sim">Sim — infecções bacterianas recorrentes/graves</option><option value="nao">Não / não documentadas</option></select></div>
 
-      <div class="ig-f-row"><label>É a primeira infusão de imunoglobulina?</label>
-        <select id="igPrimeira"><option value="sim">Sim — primeira infusão</option><option value="nao">Não — já recebeu antes</option></select></div>
-
       <div class="ig-f-row"><label>Reação infusional prévia à imunoglobulina</label>
         <select id="igReacao">
           <option value="nenhuma">Nenhuma</option>
           <option value="leve">Leve/moderada (cefaleia, febre, calafrio, mialgia)</option>
           <option value="anafilaxia">Anafilaxia / reação sistêmica grave</option>
         </select></div>
-
-      <div class="ig-f-row" id="igPrivigenManutencaoBox" style="display:none;background:#f4f9fa;border:1px solid #d6e9ec;border-radius:12px;padding:12px">
-        <label style="font-size:13px">Privigen 10% — histórico de tolerância para manutenção</label>
-        <div style="font-size:11.5px;color:var(--gray-500);margin:5px 0 10px">Opção exclusiva para pacientes com mais de 3 infusões consecutivas de Privigen comprovadamente bem toleradas. Não se aplica automaticamente a outros produtos.</div>
-        <label for="igPrivigenSemReacao">Número de infusões consecutivas de Privigen sem reação, verificadas no prontuário</label>
-        <input type="number" id="igPrivigenSemReacao" min="0" max="999" step="1" value="0" inputmode="numeric" onchange="igAtualizarPrivigenManutencao()" oninput="igAtualizarPrivigenManutencao()">
-        <label style="display:flex;align-items:flex-start;gap:8px;margin:10px 0;line-height:1.5;font-size:11.5px">
-          <input id="igPrivigenDocumentado" type="checkbox" onchange="igAtualizarPrivigenManutencao()" style="width:auto;margin-top:3px;flex-shrink:0">
-          <span>Confirmo no prontuário: ausência de reações imediatas e tardias, mesmo produto, intervalo desde a última infusão de até 8 semanas e ausência de mudança clínica relevante.</span>
-        </label>
-        <label style="display:flex;align-items:flex-start;gap:8px;line-height:1.5;font-size:11.5px">
-          <input id="igPrivigenAcelerar" type="checkbox" onchange="igAtualizarPrivigenManutencao()" style="width:auto;margin-top:3px;flex-shrink:0">
-          <span>Prescritor autoriza iniciar esta infusão em 0,6 mL/kg/h por 30 minutos, seguida de escalonamento gradual conforme tolerância.</span>
-        </label>
-        <div id="igPrivigenAviso" aria-live="polite" style="font-size:11px;color:var(--gray-500);margin-top:8px"></div>
-        <div style="font-size:10.5px;color:var(--gray-500);margin-top:8px">A bula brasileira orienta início em 0,3 mL/kg/h. A individualização após ≥3 infusões consta da monografia canadense de 2025, seção 4.4. O critério operacional deste Hub é mais conservador (≥4).</div>
-      </div>
 
       <div class="ig-f-row"><label>Anafilaxia a outro medicamento</label>
         <select id="igAnafOutro"><option value="nao">Não</option><option value="sim">Sim</option></select></div>
@@ -4562,7 +4542,7 @@ function _enderecoPreencher(u){
 /* ── Seletor visual de imunoglobulina ───────────── */
 var IG_MARCA = {csl:['CSL','#b0181f'],octa:['OCTAPHARMA','#0b4f9e'],takeda:['TAKEDA','#b2122d'],grifols:['GRIFOLS','#0a6b5a'],lfb:['LFB','#1d3f8f'],baxter:['BAXTER','#1f5fa8'],kedrion:['KEDRION','#117a5b']};
 var IG_PRODUTOS = {
-  privigen_10:   {nome:'Privigen 10%',   conc:'10%',   via:'IV', mL:[50,100,200,400]},
+  privigen_10:   {nome:'Privigen 10%',   conc:'10%',   via:'IV', mL:[50]},
   octagam_10:    {nome:'Octagam 10%',    conc:'10%',   via:'IV', mL:[20,50,100,200,500]},
   kiovig_10:     {nome:'Kiovig 10%',     conc:'10%',   via:'IV', mL:[10,25,50,100,200,400]},
   flebogamma_10: {nome:'Flebogamma 10%', conc:'10%',   via:'IV', mL:[50,100,200,400]},
@@ -4572,7 +4552,7 @@ var IG_PRODUTOS = {
   gamunex_10:    {nome:'Gamunex-C 10%',  conc:'10%',   via:'IV', mL:[10,25,50,100,200]},
   hizentra_20:   {nome:'Hizentra 20%',   conc:'20%',   via:'SC', mL:[5,10,20,50]},
   cuvitru_20:    {nome:'Cuvitru 20%',    conc:'20%',   via:'SC', mL:[10,20,50]},
-  hyqvia_10:     {nome:'HyQvia 10%',     conc:'10%',   via:'SC', mL:[25,50,100,200,300,400]},
+  hyqvia_10:     {nome:'HyQvia 10%',     conc:'10%',   via:'SC', mL:[50]},
   gammanorm_165: {nome:'Gammanorm 16,5%',conc:'16.5%', via:'SC', mL:[10,20,50]}
 };
 var IG_LOGO_IMG = {csl:'img/csl.png',takeda:'img/takeda.png',octa:'img/octa.png',grifols:'img/grifols.png',kedrion:'img/kedrion.png',baxter:'img/baxter.png',lfb:'img/lfb.png'};
@@ -4582,7 +4562,7 @@ var IG_FABRICANTE = {privigen_10:'CSL Behring',octagam_10:'Octapharma',kiovig_10
   hizentra_20:'CSL Behring',cuvitru_20:'Takeda',hyqvia_10:'Takeda · c/ hialuronidase',gammanorm_165:'Octapharma'};
 // ── IG HUB ──
 var IG_BULAS = {
-  privigen_10:{nome:'Privigen 10%',fab:'CSL Behring',conc:'10%',via:'IV',frascos:'50, 100, 200, 400 mL',conservacao:'2–8 °C. Não congelar.',ini:'0,3 mL/kg/h por 30 min; dobrar a cada 30 min se tolerado',max:'4,8 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Sem sacarose. Osmolalidade ~320 mOsm/kg.',anvisa:'MS-7.3.39.001.1-0476'},
+  privigen_10:{nome:'Privigen 10%',fab:'CSL Behring',conc:'10%',via:'IV',frascos:'5 g (50 mL) — apresentação usada no Hub',conservacao:'2–8 °C. Não congelar.',ini:'0,3 mL/kg/h por 30 min; dobrar a cada 30 min se tolerado',max:'4,8 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Sem sacarose. Osmolalidade ~320 mOsm/kg.',anvisa:'MS-7.3.39.001.1-0476'},
   octagam_10:{nome:'Octagam 10%',fab:'Octapharma',conc:'10%',via:'IV',frascos:'20, 50, 100, 200, 500 mL',conservacao:'2–8 °C; até 25 °C por 18 meses.',ini:'0,6 mL/kg/h por 30 min; dobrar a cada 30 min',max:'7,2 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Contém maltose — interferência em glicosímetros. Alertar equipe.',anvisa:'MS-7.3.39.001.1-0182'},
   kiovig_10:{nome:'Kiovig 10%',fab:'Takeda',conc:'10%',via:'IV',frascos:'10, 25, 50, 100, 200, 400 mL',conservacao:'Até 25 °C. Não congelar.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'6,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Sem sacarose/maltose/glicose. pH 4,6–5,1. Baixa viscosidade.',anvisa:'MS-7.3.39.001.1-0425'},
   flebogamma_10:{nome:'Flebogamma DIF 10%',fab:'Grifols',conc:'10%',via:'IV',frascos:'50, 100, 200, 400 mL',conservacao:'Até 30 °C. Não congelar.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'6,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Sorbitol. pH 5,0. Preferido em risco tromboembólico (baixa osmolalidade).',anvisa:'MS-7.3.39.001.1-0335'},
@@ -4592,7 +4572,7 @@ var IG_BULAS = {
   gamunex_10:{nome:'Gamunex-C 10%',fab:'Grifols',conc:'10%',via:'IV',frascos:'10, 25, 50, 100, 200 mL',conservacao:'2–8 °C; até 25 °C por 6 meses.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'8,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Contém glicina. pH 4,0–4,5.',anvisa:'MS-7.3.39.001.1-0291'},
   hizentra_20:{nome:'Hizentra 20%',fab:'CSL Behring',conc:'20%',via:'SC',frascos:'5, 10, 20, 50 mL',conservacao:'Até 25 °C por 24 meses. Não congelar.',ini:'15 mL/h/sítio; progredir até 25 mL/h/sítio',max:'25 mL/h/sítio',pre:'Não requer pré-medicação de rotina',obs:'L-prolina. Vol. máx 25 mL/sítio.',anvisa:'MS-7.3.39.001.1-0474'},
   cuvitru_20:{nome:'Cuvitru 20%',fab:'Takeda',conc:'20%',via:'SC',frascos:'10, 20, 50 mL',conservacao:'Até 25 °C por 24 meses. Não congelar.',ini:'15 mL/h/sítio; progredir até 25 mL/h/sítio',max:'25 mL/h/sítio',pre:'Não requer pré-medicação de rotina',obs:'pH 4,4–4,9. Alta concentração — menor volume de infusão.',anvisa:'MS-7.3.39.001.1-0480'},
-  hyqvia_10:{nome:'HyQvia 10%',fab:'Takeda',conc:'10%',via:'SC',frascos:'25, 50, 100, 200, 300, 400 mL (duplo: hialuronidase + IgG)',conservacao:'2–8 °C; até 25 °C por 3 meses. Não congelar.',ini:'10 mL/h (fase IgG após 10 min de hialuronidase)',max:'Até 300 mL/h (1–3 sítios)',pre:'Hialuronidase pré-infusão obrigatória — protocolo de iniciação (8 primeiras infusões)',obs:'Única SC de alto volume. Permite dose mensal com 1 sítio.',anvisa:'MS-7.3.39.001.1-0487'},
+  hyqvia_10:{nome:'HyQvia 10%',fab:'Takeda',conc:'10%',via:'SC',frascos:'5 g: IgG 10% 50 mL + hialuronidase 2,5 mL — kit usado no Hub',conservacao:'2–8 °C; até 25 °C por 3 meses. Não congelar.',ini:'10 mL/h (fase IgG após 10 min de hialuronidase)',max:'Até 300 mL/h (1–3 sítios)',pre:'Hialuronidase pré-infusão obrigatória — protocolo de iniciação (8 primeiras infusões)',obs:'Única SC de alto volume. Permite dose mensal com 1 sítio.',anvisa:'MS-7.3.39.001.1-0487'},
   gammanorm_165:{nome:'Gammanorm 16,5%',fab:'Octapharma',conc:'16,5%',via:'SC',frascos:'10, 20, 50 mL',conservacao:'2–8 °C. Não congelar.',ini:'10 mL/h/sítio; progredir até 20 mL/h/sítio',max:'20 mL/h/sítio',pre:'Não requer pré-medicação de rotina',obs:'Maltose. Vol. máx 15 mL/sítio.',anvisa:'MS-7.3.39.001.1-0390'}
 };
 
@@ -5423,31 +5403,6 @@ function vacRenderVacinas(filtro){
   if(!lista.length) box.innerHTML='<div class="vac-empty" style="color:var(--gray-500);font-size:12.5px;padding:4px 0">Nenhuma vacina encontrada.</div>';
 }
 
-// Privigen: o contador exige conferência médica, nunca presume tolerância pelas datas isoladas.
-function igAtualizarPrivigenManutencao(){
-  var produto=(document.getElementById('igProduto')||{}).value||'';
-  var box=document.getElementById('igPrivigenManutencaoBox');
-  if(box) box.style.display=produto==='privigen_10'?'block':'none';
-  if(produto!=='privigen_10') return false;
-  var num=parseInt((document.getElementById('igPrivigenSemReacao')||{}).value,10);
-  var confirmado=!!(document.getElementById('igPrivigenDocumentado')||{}).checked;
-  var primeira=(document.getElementById('igPrimeira')||{}).value;
-  var reacao=(document.getElementById('igReacao')||{}).value;
-  var via=(document.getElementById('igVia')||{}).value;
-  var ativa=(document.getElementById('igInfAtiva')||{}).value;
-  var anafOutro=(document.getElementById('igAnafOutro')||{}).value;
-  var riscos=document.querySelectorAll('#igRiscos .ig-chip.on:not([data-r="nenhum"])').length>0;
-  var adequado=Number.isInteger(num)&&num>=4&&num<=999&&confirmado&&primeira==='nao'&&
-    reacao==='nenhuma'&&via==='IV'&&ativa!=='sim'&&anafOutro!=='sim'&&!riscos;
-  var opt=document.getElementById('igPrivigenAcelerar');
-  if(opt){opt.disabled=!adequado;if(!adequado)opt.checked=false;}
-  var aviso=document.getElementById('igPrivigenAviso');
-  if(aviso) aviso.textContent=adequado
-    ? 'Elegível para avaliação do prescritor. Marque a autorização para utilizar o início de manutenção em 0,6 mL/kg/h.'
-    : 'A velocidade inicial padrão de 0,3 mL/kg/h será mantida. Exige 4 ou mais infusões consecutivas documentadas, ausência de reação e de fatores de risco, sem interrupção ou troca de produto.';
-  return adequado;
-}
-
 function igShowHub(){
   var hub=document.getElementById('ig-menu-hub');
   if(hub) hub.style.display='block';
@@ -5524,7 +5479,7 @@ function igRenderBulas(){
       +'<span style="color:var(--gray-300);font-size:16px">›</span></summary>'
       +'<div style="padding:0 14px 12px;border-top:1px solid var(--gray-100)">'
       +'<table style="width:100%;border-collapse:collapse;margin-top:6px">'
-      +row('Apresentações',b.frascos)
+      +row('Frasco considerado',b.frascos)
       +row('Vel. inicial',b.ini)
       +row('Vel. máxima',b.max)
       +row('Pré-med.',b.pre)
@@ -5579,15 +5534,8 @@ function igSelecionarPaciente(nome){
     set('igNome',p.nome); set('igIdade',p.idade); set('igIdadeUn',p.idUn);
     set('igPeso',p.peso); set('igDx',p.dx); set('igIgG',p.igG);
     set('igVia',p.via); set('igProduto',p.produto);
-    set('igPrimeira',p.primeira || ((p.infusoes&&p.infusoes.length)||p.privigenSemReacao?'nao':'sim'));
     set('igReacao',p.reacao || 'nenhuma');
-    set('igPrivigenSemReacao',Number.isInteger(p.privigenSemReacao)?p.privigenSemReacao:0);
-    var doc=document.getElementById('igPrivigenDocumentado');
-    if(doc) doc.checked=p.privigenDocumentado===true;
-    var autor=document.getElementById('igPrivigenAcelerar');
-    if(autor) autor.checked=p.privigenAcelerar===true;
     if(p.produto) renderIgPicker();
-    igAtualizarPrivigenManutencao();
     // Se paciente já tem infusões registradas, colapsar formulário e mostrar banner
     if(p.infusoes && p.infusoes.length > 0){
       var banner = document.getElementById('igPacResumoBanner');
@@ -5596,7 +5544,7 @@ function igSelecionarPaciente(nome){
       var infoEl = document.getElementById('igPacResumoInfo');
       var prod = (window.IG_PRODUTOS && p.produto && IG_PRODUTOS[p.produto]) ? IG_PRODUTOS[p.produto].nome : (p.produto||'');
       if(nomeEl) nomeEl.textContent = p.nome;
-      if(infoEl) infoEl.textContent = (p.dx||'') + (p.peso?' · '+p.peso+' kg':'') + (prod?' · '+prod:'') + ' · '+p.infusoes.length+'ª infusão';
+      if(infoEl) infoEl.textContent = (p.dx||'') + (p.peso?' · '+p.peso+' kg':'') + (prod?' · '+prod:'') + ' · '+p.infusoes.length+' infusões registradas';
       if(banner){ banner.style.display='block'; }
       if(form){ form.style.display='none'; }
     }
@@ -5702,16 +5650,8 @@ function selecionarIgProduto(k){
   var p = IG_PRODUTOS[k];
   if(via && p && p.via && inp.value) via.value = (p.via.indexOf('SC')===0) ? 'SC' : 'IV';
   renderIgPicker();
-  igAtualizarPrivigenManutencao();
 }
 document.addEventListener('DOMContentLoaded', renderIgPicker);
-document.addEventListener('DOMContentLoaded', function(){
-  ['igPrimeira','igReacao','igInfAtiva','igAnafOutro','igVia'].forEach(function(id){
-    var el=document.getElementById(id);
-    if(el) el.addEventListener('change',igAtualizarPrivigenManutencao);
-  });
-  igAtualizarPrivigenManutencao();
-});
 document.addEventListener('DOMContentLoaded', function(){
   var box = document.getElementById('igRiscos');
   if(!box) return;
@@ -5720,12 +5660,11 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!b) return;
     if(b.dataset.r === 'nenhum'){
       box.querySelectorAll('.ig-chip').forEach(function(c){ c.classList.remove('on'); });
-      b.classList.add('on'); igAtualizarPrivigenManutencao(); return;
+      b.classList.add('on'); return;
     }
     var nen = box.querySelector('.ig-chip[data-r="nenhum"]');
     if(nen) nen.classList.remove('on');
     b.classList.toggle('on');
-    igAtualizarPrivigenManutencao();
   });
 });
 
@@ -8882,7 +8821,6 @@ function gerarOrientacaoIg(){
   var igG    = parseFloat((document.getElementById('igIgG')||{}).value);
   var via    = (document.getElementById('igVia')||{}).value||'IV';
   var infRep = (document.getElementById('igInfRep')||{}).value||'';
-  var primeira = (document.getElementById('igPrimeira')||{}).value||'nao';
   var reacao   = (document.getElementById('igReacao')||{}).value||'nenhuma';
   var anafOutro = (document.getElementById('igAnafOutro')||{}).value||'';
   var infAtiva  = (document.getElementById('igInfAtiva')||{}).value||'nao';
@@ -8988,72 +8926,28 @@ function gerarOrientacaoIg(){
     return '<table class="ig-tbl"><thead><tr><th>Tempo</th><th>Vel. (mL/kg/h)</th><th>Vel. absoluta</th><th>Observação</th></tr></thead><tbody>'+rows.join('')+'</tbody></table>';
   }
 
-  // ivRate com velocidades específicas por 1ª vs 2ª+ infusão
-  // ini1 = velocidade inicial 1ª infusão; ini = velocidade inicial 2ª+; max = máxima
-  var ivRateEx = {
-    privigen_10:   {ini1:0.3, ini:0.3, max:4.8},
-    octagam_10:    {ini1:0.6, ini:1.2, max:7.2},
-    kiovig_10:     {ini1:0.5, ini:1.0, max:6.0},
-    flebogamma_10: {ini1:0.5, ini:1.0, max:6.0},
-    tegeline_5:    {ini1:0.6, ini:0.6, max:4.2},
-    endobulin_5:   {ini1:0.5, ini:0.5, max:4.0},
-    gammaked_10:   {ini1:0.5, ini:1.2, max:8.0},
-    gamunex_10:    {ini1:0.5, ini:1.2, max:8.0}
-  };
-  var rx = ivRateEx[prod_k] || (r ? {ini1:r.ini, ini:r.ini, max:r.max} : null);
-  var privigenPodeIndividualizar=(prod_k==='privigen_10')&&igAtualizarPrivigenManutencao();
-  var privigenAcelerado=privigenPodeIndividualizar&&
-    !!(document.getElementById('igPrivigenAcelerar')||{}).checked;
-  if(prod_k==='privigen_10'&&rx) rx.ini=privigenAcelerado?0.6:0.3;
-
+  // Velocidade habitual única por produto, sem separar o número da infusão.
   var stepsIV = [];
   if(via === 'IV'){
-    stepsIV.push({t:'Acesso venoso', d:'Acesso venoso periférico calibroso (≥ 20G). Confirmar permeabilidade antes de iniciar.'});
-    if(rx){
-      if(primeira === 'sim'){
-        // 1ª infusão: protocolo completo escalonado
-        var vIni1Abs = (rx.ini1 * peso).toFixed(0);
-        stepsIV.push({t:'1ª infusão — velocidade inicial',
-          d:'<b>'+rx.ini1+' mL/kg/h → '+vIni1Abs+' mL/h</b> para '+peso+' kg. '
-           +'Iniciar com velocidade conservadora. Manter por <b>30 min</b> com monitoramento rigoroso antes de escalonar.'});
-        stepsIV.push({t:'1ª infusão — escalonamento', d:gerarTabelaIV(peso, {ini:rx.ini1, max:rx.max})});
-        stepsIV.push({t:'Velocidade máxima', d:'<b>'+rx.max+' mL/kg/h → '+(rx.max*peso).toFixed(0)+' mL/h</b>. Só atingir se tolerado em todas as etapas anteriores.'});
-        stepsIV.push({t:'Monitorização',
-          d:'PA, FC e SpO₂ a cada <b>15 min nos primeiros 60 min</b>; a cada 30 min nas horas seguintes. Médico deve estar disponível durante toda a infusão.'});
-      } else {
-        // Infusões subsequentes: para Privigen, só personalizar mediante verificação e autorização.
-        var vIniSubseqAbs = (rx.ini * peso).toFixed(0);
-        var textoSubseq=prod_k==='privigen_10'
-          ? (privigenAcelerado
-            ? 'Manutenção individualizada de Privigen após mais de 3 infusões consecutivas sem reações, com histórico confirmado e autorização médica. '
-              +'Iniciar em <b>0,6 mL/kg/h → '+vIniSubseqAbs+' mL/h</b> por 30 minutos; aumentar gradualmente apenas se tolerado. '
-              +'Esquema institucional individualizado, diferente da velocidade inicial padrão da bula brasileira.'
-            : 'Privigen 10%: iniciar conforme a bula brasileira em <b>0,3 mL/kg/h → '+vIniSubseqAbs+' mL/h</b> por 30 minutos. '
-              +'Para início em 0,6 mL/kg/h, são necessários mais de 3 tratamentos consecutivos sem reações, registro e autorização do prescritor.')
-          : 'Iniciar em <b>'+rx.ini+' mL/kg/h → '+vIniSubseqAbs+' mL/h</b> por 30 minutos. '
-            +'Ajustar progressivamente conforme a bula específica, a prescrição e a tolerância.';
-        stepsIV.push({t:'Velocidade inicial — infusão subsequente',d:textoSubseq});
-        if(prod_k==='privigen_10'){
-          stepsIV.push({t:'Fundamentação e segurança',d:
-            'Bula brasileira: início padrão de 0,3 mL/kg/h. Monografia canadense de 25/07/2025, seção 4.4 (p. 7): '
-            +'permite individualizar após 3 ou mais infusões consecutivas, conforme velocidade anteriormente tolerada. '
-            +'Este protocolo utiliza ≥4 e exige confirmação médica. '
-            +'<a href="https://labeling.cslbehring.ca/PM/CA/Privigen/EN/Privigen-Product-Monograph.pdf#page=7" target="_blank" rel="noopener noreferrer">Consultar o parágrafo da monografia canadense</a>. '
-            +'<a href="https://consultaremedios.com.br/sandoglobulina-privigen/bula" target="_blank" rel="noopener noreferrer">Consultar bula brasileira</a>. '
-            +'Após troca de produto, intervalo superior a 8 semanas ou surgimento de risco, retornar à velocidade inicial conservadora.'});
-        }
-        stepsIV.push({t:'Escalonamento até velocidade máxima', d:gerarTabelaIV(peso, {ini:rx.ini, max:rx.max})});
-        stepsIV.push({t:'Velocidade máxima', d:'<b>'+rx.max+' mL/kg/h → '+(rx.max*peso).toFixed(0)+' mL/h</b>. Manter até o término se tolerado.'});
-        stepsIV.push({t:'Monitorização', d:'PA, FC e SpO₂ a cada <b>30 min</b> durante a infusão. Reduzir velocidade em 50% ao primeiro sinal de reação.'});
-      }
-    } else {
-      stepsIV.push({t:'Velocidade', d:'Consultar bula do produto. Iniciar na menor velocidade recomendada e escalonar a cada 30 min.'});
-      var monit = primeira === 'sim'
-        ? 'PA, FC e SpO₂ a cada 15 min nos primeiros 60 min; a cada 30 min nas horas seguintes.'
-        : 'PA, FC e SpO₂ a cada 30 min durante a infusão.';
-      stepsIV.push({t:'Monitorização', d:monit});
+    stepsIV.push({t:'Acesso venoso',d:'Confirmar permeabilidade do acesso antes de iniciar.'});
+    if(r){
+      stepsIV.push({t:'Velocidade inicial',
+        d:'<b>'+r.ini+' mL/kg/h → '+(r.ini*peso).toFixed(1)+' mL/h</b> por aproximadamente 30 minutos. '
+         +'Progredir gradualmente apenas se houver boa tolerabilidade.'});
+      stepsIV.push({t:'Escalonamento da velocidade',d:gerarTabelaIV(peso,r)});
+      stepsIV.push({t:'Velocidade máxima habitual',
+        d:'<b>'+r.max+' mL/kg/h → '+(r.max*peso).toFixed(1)+' mL/h</b>, somente se houver boa tolerância. '
+         +(prod_k==='privigen_10'
+           ? 'Em imunodeficiência primária com tolerabilidade comprovada, a bula brasileira admite progressão gradual até 7,2 mL/kg/h, conforme avaliação individual. '
+           : '')
+         +'<a href="'+(prod_k==='privigen_10'
+           ? 'https://labeling.cslbehring.com/pi/br/sandoglobulina-privigen/pt/sandoglobulina-privigen-bula-prof-saude.pdf#page=16'
+           : 'https://consultas.anvisa.gov.br/#/bulario/')+'" target="_blank" rel="noopener noreferrer">Consultar bula</a>.'});
+    }else{
+      stepsIV.push({t:'Velocidade de infusão',d:'Consultar a bula específica antes de prescrever a velocidade.'});
     }
-    stepsIV.push({t:'Encerramento', d:'Flush com SF 0,9% ao término. Observar mínimo 30 min após o fim.'});
+    stepsIV.push({t:'Monitorização',d:'Aferir sinais vitais antes e durante a infusão conforme protocolo institucional. Diante de reação, reduzir ou interromper a infusão e avaliar clinicamente.'});
+    stepsIV.push({t:'Encerramento',d:'Observar o paciente de acordo com a bula e o protocolo do serviço.'});
   }
 
   var stepsSC = [];
@@ -9114,10 +9008,14 @@ function gerarOrientacaoIg(){
   }
   var ampolasInfo = (prod && prod.mL) ? calcAmpolas(volML, prod.mL) : null;
   if(ampolasInfo && ampolasInfo.length){
-    var aStr = ampolasInfo.map(function(x){ return x.n+'× '+x.v+' mL'; }).join(' + ');
+    var aStr = ampolasInfo.map(function(x){return x.n+' × '+((prod_k==='privigen_10'||prod_k==='hyqvia_10')?'5 g (50 mL)':x.v+' mL');}).join(' + ');
     var aTotal = ampolasInfo.reduce(function(t,x){ return t+x.n*x.v; },0);
     var sobraStr = (aTotal > volML) ? ' (sobra '+(aTotal-volML)+' mL)' : '';
     h += kv('Frascos necessários', '<b>'+aStr+'</b> = '+aTotal+' mL'+sobraStr);
+    if(prod_k==='hyqvia_10'){
+      var kitsHyqvia=ampolasInfo.reduce(function(total,x){return total+x.n;},0);
+      h += kv('HyQvia — hialuronidase',kitsHyqvia+' frascos de 2,5 mL (total '+(kitsHyqvia*2.5)+' mL), um para cada kit de 5 g. Administrar previamente à IgG, sem misturar componentes.');
+    }
   }
   h += kv('Frequência', info.freq);
 
@@ -9158,15 +9056,15 @@ function gerarOrientacaoIg(){
       var igHist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
       var chave = nome.trim().toLowerCase();
       var anteriorPaciente=igHist[chave]||{};
-      var qtdPrivigen=parseInt((document.getElementById('igPrivigenSemReacao')||{}).value,10);
       igHist[chave] = Object.assign({},anteriorPaciente,{
         nome:nome.trim(), idade:isNaN(idade)?'':idade, idUn:idUn, peso:peso,
-        dx:dx, igG:isNaN(igG)?null:igG, via:via, primeira:primeira, reacao:reacao,
-        produto:prod_k, ultima:anteriorPaciente.ultima||'',
-        privigenSemReacao:prod_k==='privigen_10'&&Number.isInteger(qtdPrivigen)&&qtdPrivigen>=0?Math.min(qtdPrivigen,999):0,
-        privigenDocumentado:prod_k==='privigen_10'&&!!(document.getElementById('igPrivigenDocumentado')||{}).checked,
-        privigenAcelerar:prod_k==='privigen_10'&&privigenAcelerado
+        dx:dx, igG:isNaN(igG)?null:igG, via:via, reacao:reacao,
+        produto:prod_k, ultima:anteriorPaciente.ultima||''
       });
+      // Preservar histórico de aplicações e reações, removendo sinais de protocolo acelerado.
+      delete igHist[chave].primeira;
+      delete igHist[chave].privigenAcelerar;
+      delete igHist[chave].privigenDocumentado;
       localStorage.setItem('igPacientes', JSON.stringify(igHist));
     }catch(e){}
   }
