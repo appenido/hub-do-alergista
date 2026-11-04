@@ -186,8 +186,7 @@ as $$
  select min(r.paciente_nome),r.paciente_chave,count(*)::bigint,max(r.created_at),
   string_agg(distinct r.score,',')
  from public.score_registros r
- where (r.owner_id=private.score_owner(p_email)
-    or (r.owner_id is null and r.medico_email=lower(trim(p_email))))
+ where r.owner_id=private.score_owner(p_email)
  group by r.paciente_chave order by max(r.created_at) desc limit 300
 $$;
 create or replace function public.score_do_paciente(p_email text,p_paciente text)
@@ -198,8 +197,7 @@ as $$
  select r.id,r.paciente_nome,r.score,r.total,r.score_txt,r.rotulo,
   r.detalhes,r.data_ref,r.origem,r.created_at
  from public.score_registros r
- where (r.owner_id=private.score_owner(p_email)
-    or (r.owner_id is null and r.medico_email=lower(trim(p_email))))
+ where r.owner_id=private.score_owner(p_email)
  and r.paciente_chave=public.score_chave(p_paciente)
  order by r.created_at desc limit 500
 $$;
@@ -218,8 +216,7 @@ begin
  end if;
  v_chave:=public.score_chave(v_paciente);
  select r.paciente_nome into v_canon from public.score_registros r
- where (r.owner_id=v_owner or
- (r.owner_id is null and r.medico_email=lower(trim(p_email))))
+ where r.owner_id=v_owner
  and r.paciente_chave=v_chave order by r.created_at limit 1;
  insert into public.score_registros(owner_id,medico_email,paciente_nome,
    paciente_chave,score,total,score_txt,rotulo,detalhes,data_ref,origem)
@@ -243,8 +240,7 @@ begin
                      else public.score_chave(v_pac) end,
   data_ref=coalesce(p_data,r.data_ref),
   owner_id=coalesce(r.owner_id,v_owner)
- where r.id=p_id and (r.owner_id=v_owner or
-  (r.owner_id is null and r.medico_email=lower(trim(p_email))));
+ where r.id=p_id and r.owner_id=v_owner;
 end $$;
 create or replace function public.score_apagar(p_email text,p_id bigint)
 returns void language plpgsql security definer set search_path=''
@@ -253,8 +249,7 @@ declare v_owner uuid;
 begin
  v_owner:=private.score_owner(p_email);
  delete from public.score_registros r
- where r.id=p_id and (r.owner_id=v_owner or
-   (r.owner_id is null and r.medico_email=lower(trim(p_email))));
+ where r.id=p_id and r.owner_id=v_owner;
 end $$;
 revoke all on function public.score_pacientes(text) from public,anon,authenticated;
 revoke all on function public.score_do_paciente(text,text) from public,anon,authenticated;
