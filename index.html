@@ -1048,10 +1048,11 @@ _marcarGuiasPagas();
 (function(){
   // Acesso livre: a sessão serve só para personalizar o app, nunca para bloquear.
   var SESS_VER = 2;
+  try{ localStorage.removeItem('hub_session'); }catch(e){} // Expurga token legado persistente.
   try{
-    var s = JSON.parse(localStorage.getItem('hub_session')||'null');
+    var s = JSON.parse(sessionStorage.getItem('hub_session')||'null');
     if(!(s && s.exp && Date.now() < s.exp && s.v && s.v >= SESS_VER)){
-      localStorage.removeItem('hub_session');
+      sessionStorage.removeItem('hub_session');
     }
   }catch(e){}
 })();
@@ -4004,13 +4005,6 @@ function reenviarCodigo(){
   }).catch(function(){ err.textContent = 'Sem conexão para reenviar o código.'; });
 }
 
-function _hash(str){
-  // Hash simples (djb2) — não é criptografia de produção, apenas ofusca
-  var h = 5381;
-  for(var i=0;i<str.length;i++) h=((h<<5)+h)+str.charCodeAt(i);
-  return (h>>>0).toString(36);
-}
-
 var SB_URL = 'https://jpdtqtenlivxgjkyizcg.supabase.co';
 var SB_KEY = 'sb_publishable_CzAI8BUm2Po7CfobLlxv8A_NtuTil8j';
 
@@ -4020,12 +4014,13 @@ function _sbHeaders(token){
   return h;
 }
 function _sbToken(){
-  try{ return (JSON.parse(localStorage.getItem('hub_session')||'{}')).token || ''; }catch(e){ return ''; }
+  try{ return (JSON.parse(sessionStorage.getItem('hub_session')||'{}')).token || ''; }catch(e){ return ''; }
 }
 function _salvarLocal(email, dados){
   try{
     var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
     users[email] = Object.assign(users[email]||{}, dados);
+    delete users[email].hash; // Remove hash de senha criado por versão antiga.
     localStorage.setItem('hub_users', JSON.stringify(users));
   }catch(e){}
 }
@@ -4112,14 +4107,12 @@ function fazerCadastro(){
       _iniciarSessao(email, nome, res.j.access_token, res.j.refresh_token);
     }else{
       // Conta criada: falta confirmar com o código enviado por e-mail
-      _cadPendente = {email:email, senha:senha, nome:nome, meta:meta};
+      _cadPendente = {email:email, nome:nome, meta:meta};
       err.textContent = '';
       _mostrarCodigo(email);
     }
   }).catch(function(){
-    // Sem internet — cadastro local de emergência
-    _salvarLocal(email, Object.assign({hash:_hash(senha)}, meta));
-    _iniciarSessao(email, nome, '', '');
+    err.textContent = 'Sem conexão. A conta não foi criada. Tente novamente.';
   });
 }
 
@@ -4141,32 +4134,22 @@ function fazerLogin(){
       var m = (res.j && (res.j.msg || res.j.error_description || res.j.message)) || 'Erro ao entrar.';
       if(/invalid login/i.test(m)) m = 'E-mail ou senha incorretos.';
       if(/not confirmed/i.test(m)) m = 'Confirme seu e-mail pelo link que enviamos antes de entrar.';
-      // fallback local (contas antigas criadas só neste navegador)
-      try{
-        var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
-        var u = users[email];
-        if(u && u.hash && u.hash === _hash(senha)){ _iniciarSessao(email, u.nome, '', ''); return; }
-      }catch(e){}
       err.textContent = m; return;
     }
     var meta = _metaDoUsuario(res.j.user);
     _salvarLocal(email, meta);
     _iniciarSessao(email, meta.nome || email, res.j.access_token, res.j.refresh_token);
   }).catch(function(){
-    try{
-      var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
-      var u = users[email];
-      if(u && u.hash && u.hash === _hash(senha)){ _iniciarSessao(email, u.nome, '', ''); return; }
-    }catch(e){}
     err.textContent = 'Sem conexão. Tente novamente.';
   });
 }
 
 function _iniciarSessao(email, nome, token, refresh){
+  if(!token){ var err=document.getElementById('loginErr'); if(err) err.textContent='Login não autenticado. Conecte-se e tente novamente.'; return; }
   try{
     var sess = {email:email, nome:nome, token:token||'', refresh:refresh||'',
                 exp: Date.now() + 30*24*60*60*1000, v:2};
-    localStorage.setItem('hub_session', JSON.stringify(sess));
+    sessionStorage.setItem('hub_session', JSON.stringify(sess));
   }catch(e){}
   document.getElementById('authScreen').style.display = 'none';
   window._mostrarApp();
@@ -4176,7 +4159,7 @@ function _iniciarSessao(email, nome, token, refresh){
 }
 
 function fazerLogout(){
-  try{ localStorage.removeItem('hub_session'); }catch(e){}
+  try{ sessionStorage.removeItem('hub_session'); }catch(e){}
   document.getElementById('authScreen').style.display = 'none';
   ['loginEmail','loginSenha'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   ['cadNome','cadEspecialidade','cadEmail','cadSenha','cadSenha2'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
@@ -4210,8 +4193,8 @@ function fecharAuth(){
 
 function _atualizarBotoesConta(){
   try{
-    var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
-    var logado = !!sess.email;
+    var sess = JSON.parse(sessionStorage.getItem('hub_session')||'{}');
+    var logado = !!(sess.email && sess.token && Date.now() < sess.exp);
     document.querySelectorAll('[data-conta-btn]').forEach(function(b){
       b.textContent = logado ? b.getAttribute('data-sair') : b.getAttribute('data-entrar');
       b.onclick = logado ? fazerLogout : function(){ abrirAuth('login'); };
@@ -4225,7 +4208,7 @@ function _atualizarBotoesConta(){
 function _atualizarInfoUsuario(){
   _atualizarBotoesConta();
   try{
-    var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
+    var sess = JSON.parse(sessionStorage.getItem('hub_session')||'{}');
     var el = document.getElementById('authUserInfo');
     if(el && sess.nome) el.textContent = sess.nome + ' (' + (sess.email||'') + ')';
     var av = document.getElementById('btnPerfil');
@@ -4237,7 +4220,7 @@ function _atualizarInfoUsuario(){
 
 function preencherPerfil(){
   try{
-    var sess  = JSON.parse(localStorage.getItem('hub_session')||'{}');
+    var sess  = JSON.parse(sessionStorage.getItem('hub_session')||'{}');
     var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
     var u = users[sess.email] || {};
     function set(id,v){var el=document.getElementById(id); if(el) el.value = v||'';}
@@ -4265,7 +4248,7 @@ function salvarPerfil(){
   var msg = document.getElementById('perfMsg');
   function erro(t){ if(msg){msg.style.color='#e74c3c'; msg.textContent=t;} }
   try{
-    var sess  = JSON.parse(localStorage.getItem('hub_session')||'{}');
+    var sess  = JSON.parse(sessionStorage.getItem('hub_session')||'{}');
     var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
     var u = users[sess.email] || {};
     var nome = (document.getElementById('perfNome').value||'').trim();
@@ -4300,7 +4283,7 @@ function salvarPerfil(){
     u.interesses    = _perfInteressesSelecionados();
     _salvarLocal(sess.email, u);
     sess.nome = nome;
-    localStorage.setItem('hub_session', JSON.stringify(sess));
+    sessionStorage.setItem('hub_session', JSON.stringify(sess));
     _atualizarInfoUsuario();
     try{ atualizarHero(); }catch(e){}
     preencherPerfil();
@@ -6266,14 +6249,14 @@ function _interessesSelecionados(){
 }
 function _meusInteresses(){
   try{
-    var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
+    var sess = JSON.parse(sessionStorage.getItem('hub_session')||'{}');
     var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
     return (users[sess.email] && users[sess.email].interesses) || [];
   }catch(e){ return []; }
 }
 function atualizarHero(){
   try{
-    var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
+    var sess = JSON.parse(sessionStorage.getItem('hub_session')||'{}');
     var h = new Date().getHours();
     var saud = h < 12 ? 'Bom dia' : (h < 18 ? 'Boa tarde' : 'Boa noite');
     var primeiro = String(sess.nome||'').trim().split(' ')[0] || '';
@@ -6291,7 +6274,7 @@ document.addEventListener('DOMContentLoaded', atualizarHero);
 
 /* ── FOTO DO PERFIL / MENU ──────────────────── */
 function _fotoKey(){
-  try{ return 'hub_foto_' + (JSON.parse(localStorage.getItem('hub_session')||'{}').email||''); }catch(e){ return 'hub_foto_'; }
+  try{ return 'hub_foto_' + (JSON.parse(sessionStorage.getItem('hub_session')||'{}').email||''); }catch(e){ return 'hub_foto_'; }
 }
 function escolherFotoPerfil(){
   var inp = document.getElementById('perfFotoInput');
@@ -8347,7 +8330,7 @@ function _snot22LimparHistorico(){
 
 /* ═════ Lista de pacientes — registro dos scores no Supabase ═════ */
 function _scoreEmail(){
-  try{ return (JSON.parse(localStorage.getItem('hub_session')||'{}').email||'').toLowerCase(); }catch(e){ return ''; }
+  try{ var u=JSON.parse(sessionStorage.getItem('hub_session')||'{}'); return (u.token && Date.now()<u.exp) ? (u.email||'').toLowerCase() : ''; }catch(e){ return ''; }
 }
 
 function _scoreHoje(){
@@ -10002,7 +9985,7 @@ function carregarFeedHome(forcar){
   if(!box) return Promise.resolve();
   var temas = _homeTemasSelecionados();
   var email = '';
-  try{ email = JSON.parse(localStorage.getItem('hub_session')||'{}').email||''; }catch(e){}
+  try{ email = JSON.parse(sessionStorage.getItem('hub_session')||'{}').email||''; }catch(e){}
   var chave = JSON.stringify([email,temas.map(function(t){ return t.id; }),new Date().toLocaleDateString('pt-BR')]);
   if(!forcar && _homeFeedChave === chave) return _homeFeedPromise;
   _homeFeedChave = chave;
@@ -10663,7 +10646,7 @@ function _chatAdd(texto, quem){
 }
 function _chatNomeUsuario(){
   try{
-    var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
+    var sess = JSON.parse(sessionStorage.getItem('hub_session')||'{}');
     var n = String(sess.nome||'').trim().split(' ')[0];
     var c = String(sess.categoria||'').toLowerCase();
     var pre = (c.indexOf('méd')>-1 || c.indexOf('med')>-1) ? 'Dr(a). ' : '';
@@ -10756,7 +10739,7 @@ function chatToggle(){
    HUBFAV — favoritos universais e persistentes
    ========================================================= */
 (function(){
-  function _email(){ try{ return (JSON.parse(localStorage.getItem('hub_session')||'{}').email||'anon').toLowerCase(); }catch(e){ return 'anon'; } }
+  function _email(){ try{ return (JSON.parse(sessionStorage.getItem('hub_session')||'{}').email||'anon').toLowerCase(); }catch(e){ return 'anon'; } }
   function _key(){ return 'hub_favs_' + _email(); }
   function _load(){ try{ return JSON.parse(localStorage.getItem(_key())||'[]'); }catch(e){ return []; } }
   function _save(a){ try{ localStorage.setItem(_key(), JSON.stringify(a)); }catch(e){} }
