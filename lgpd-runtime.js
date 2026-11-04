@@ -263,6 +263,7 @@ window.redefinirSenhaHub=async function(){
 window.fazerCadastro=async function(){
   const get=id=>(document.getElementById(id)||{}).value||'';
   const aviso=document.getElementById('cadErr');
+  const botao=document.querySelector('#formCad button.auth-btn');
   const email=get('cadEmail').trim().toLowerCase(),senha=get('cadSenha');
   const cat=get('cadCategoria'),nome=get('cadNome').trim(),esp=get('cadEspecialidade').trim();
   aviso.textContent='';
@@ -273,21 +274,46 @@ window.fazerCadastro=async function(){
   const meta={app:'hub',nome,categoria:cat,
     especialidade:cat==='especialista'?esp:(typeof CATEGORIA_LABEL!=='undefined'?CATEGORIA_LABEL[cat]||cat:cat),
     endereco:'',crm:'',rqe:null,interesses:(typeof _interessesSelecionados==='function'?_interessesSelecionados():[])};
-  aviso.textContent='Criando conta…';
+  aviso.textContent='Solicitando cadastro…';
+  if(botao){botao.disabled=true;botao.textContent='Enviando…';}
   try{
     const r=await fetch(SB+'/auth/v1/signup',{method:'POST',
       headers:{apikey:KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({email,password:senha,data:meta})}),d=await r.json();
-    if(!r.ok)erro(d.msg||d.message||d.error_description||'Falha ao criar conta.');
+      body:JSON.stringify({email,password:senha,data:meta})});
+    const d=await r.json().catch(()=>({}));
+    if(!r.ok){
+      const code=String(d.error_code||d.code||d.error||'').toLowerCase();
+      const detalhe=String(d.msg||d.message||d.error_description||'');
+      if(r.status===429||code.includes('rate_limit'))
+        erro('O servidor atingiu o limite de solicitações de e-mail. Aguarde e tente novamente mais tarde.');
+      if(code.includes('email_address_not_authorized'))
+        erro('O serviço de e-mail ainda não está habilitado para este destinatário. O administrador precisa configurar SMTP próprio no Supabase.');
+      if(/sending.*email|email.*sending|smtp|mailer/i.test(detalhe))
+        erro('O servidor não conseguiu enviar a mensagem de confirmação. Avise o administrador do Hub.');
+      if(/already.registered|already.exists/i.test(code+' '+detalhe))
+        erro('Se já possui cadastro, use Entrar ou Esqueci minha senha, na tela inicial.');
+      erro('Não foi possível solicitar o cadastro ('+r.status+'). Tente novamente ou entre em contato com o administrador.');
+    }
     if(d.access_token&&d.refresh_token){
       if(typeof _salvarLocal==='function')_salvarLocal(email,meta);
       window._iniciarSessao(email,nome,d.access_token,d.refresh_token);
     }else{
-      window._cadPendente={email,senha,nome,meta};
+      // O Supabase pode devolver 200 para um e-mail já cadastrado sem enviar e-mail.
+      // Não presumir que a mensagem foi enviada; oferecer acesso à conta existente.
+      window._cadPendente={email,nome,meta};
       if(typeof window._mostrarCodigo==='function')window._mostrarCodigo(email);
+      const status=document.getElementById('cadEnvioStatus');
+      if(status)status.textContent='Solicitação recebida. Se esta for uma nova conta, procure o código ou link de confirmação no e-mail e no spam. Caso já possua cadastro, utilize Entrar ou Esqueci minha senha.';
     }
     aviso.textContent='';
-  }catch(e){aviso.textContent=e.message+' Não foi criada nenhuma conta local.';}
+  }catch(e){
+    const m=String(e&&e.message||'');
+    aviso.textContent=/failed to fetch|networkerror|load failed/i.test(m)
+      ?'Não foi possível conectar ao servidor de cadastro. Verifique a conexão e tente novamente.'
+      :m||'Falha ao solicitar cadastro.';
+  }finally{
+    if(botao){botao.disabled=false;botao.textContent='Criar conta →';}
+  }
 };
 const sairOriginal=window.fazerLogout;
 window.fazerLogout=function(){
@@ -473,6 +499,40 @@ async function validarSessaoNaAbertura(){
     if(aviso)aviso.textContent='Não foi possível validar sua sessão. Entre novamente para continuar.';
   }
 }
+async function confirmarRetornoCadastro(){
+  const hash=new URLSearchParams(location.hash.replace(/^#/,''));
+  const search=new URLSearchParams(location.search);
+  const tipo=hash.get('type')||search.get('type');
+  if(tipo!=='signup'&&tipo!=='email')return;
+  let access=hash.get('access_token'),refresh=hash.get('refresh_token');
+  const tokenHash=hash.get('token_hash')||search.get('token_hash');
+  if(history&&history.replaceState)history.replaceState(null,'',location.pathname);
+  try{
+    if(!access&&tokenHash){
+      const resp=await fetch(SB+'/auth/v1/verify',{
+        method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},
+        body:JSON.stringify({token_hash:tokenHash,type:tipo})
+      });
+      const dados=await resp.json().catch(()=>({}));
+      if(!resp.ok)erro('O link de confirmação é inválido ou expirou.');
+      access=dados.access_token;refresh=dados.refresh_token;
+    }
+    if(!access||!refresh)erro('Não foi possível concluir a confirmação. Entre com seu e-mail e senha.');
+    const resp=await fetch(SB+'/auth/v1/user',{
+      headers:{apikey:KEY,Authorization:'Bearer '+access},cache:'no-store'
+    });
+    if(!resp.ok)erro('Não foi possível validar o link de confirmação.');
+    const usuario=await resp.json();
+    if(!usuario||!usuario.id||!usuario.email)erro('Os dados da conta não foram confirmados.');
+    const meta=usuario.user_metadata||{};
+    if(typeof window._salvarLocal==='function')window._salvarLocal(usuario.email,meta);
+    window._iniciarSessao(usuario.email,meta.nome||usuario.email,access,refresh);
+  }catch(e){
+    const aviso=document.getElementById('loginErr');
+    if(aviso)aviso.textContent=e.message||'Não foi possível validar a confirmação de e-mail.';
+    if(typeof window.abrirAuth==='function')window.abrirAuth('login');
+  }
+}
 function inicializar(){
   limparChavesLegadas();
   try{
@@ -505,8 +565,11 @@ function inicializar(){
   const parametros=new URLSearchParams(location.hash.replace(/^#/,''));
   const parametrosBusca=new URLSearchParams(location.search);
   const recuperacao=(parametros.get('type')||parametrosBusca.get('type'))==='recovery';
+  const tipoRetorno=parametros.get('type')||parametrosBusca.get('type');
   if(recuperacao){
     recuperarRetorno().catch(()=>{});
+  }else if(tipoRetorno==='signup'||tipoRetorno==='email'){
+    confirmarRetornoCadastro().catch(()=>{});
   }else{
     validarSessaoNaAbertura().catch(()=>{
       if(typeof window._bloquearApp==='function')window._bloquearApp();
