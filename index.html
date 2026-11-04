@@ -552,6 +552,9 @@ document.addEventListener('DOMContentLoaded', _marcarGuiasPagas);
 _marcarGuiasPagas();
 
 /* ── ASSISTENTE ── */
+.ia-prov-btn{background:#fff;border:1.5px solid var(--gray-100);border-radius:9px;padding:7px 11px;font-family:'Manrope',sans-serif;font-size:11.5px;font-weight:700;color:var(--gray-500);cursor:pointer}
+.ia-prov-btn.sel{border-color:var(--teal-mid);color:var(--navy);background:#f0fafa}
+
 .assist-header{
   background:linear-gradient(135deg,var(--navy),var(--teal));
   padding:18px 16px;display:flex;flex-direction:column;gap:10px;
@@ -2053,12 +2056,24 @@ window._mostrarApp = function(){
     <div style="padding:14px 16px;background:#fff;border-bottom:1px solid var(--gray-100)">
       <div style="background:linear-gradient(135deg,#0d1f2d,#17697a);border-radius:13px;padding:14px;color:#fff">
         <div style="font-size:13.5px;font-weight:800">✨ IA do Hub — grátis</div>
-        <div style="font-size:11.5px;color:rgba(255,255,255,.8);margin-top:3px;line-height:1.45">Pergunte direto aqui. Não precisa de conta nem de chave.</div>
+        <div style="font-size:11.5px;color:rgba(255,255,255,.8);margin-top:3px;line-height:1.45">Pergunte direto aqui, sem conta nem chave — ou use sua própria chave do ChatGPT ou do Gemini.</div>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+        <button type="button" class="ia-prov-btn" data-prov="hub" onclick="iaSetProv('hub')">✨ IA do Hub</button>
+        <button type="button" class="ia-prov-btn" data-prov="gpt" onclick="iaSetProv('gpt')">🟢 ChatGPT</button>
+        <button type="button" class="ia-prov-btn" data-prov="gemini" onclick="iaSetProv('gemini')">🔵 Gemini</button>
+      </div>
+      <div id="iaProvKeyBox" style="display:none;margin-top:8px">
+        <div style="display:flex;gap:7px;align-items:center">
+          <input id="iaProvKey" type="password" placeholder="Cole sua chave de API" style="flex:1;box-sizing:border-box;padding:9px 11px;border:1.5px solid var(--gray-100);border-radius:10px;font-family:'Manrope',sans-serif;font-size:12.5px;color:var(--navy)">
+          <button type="button" onclick="iaSalvarChave()" style="background:var(--teal-mid);color:#fff;border:none;border-radius:10px;padding:9px 13px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif">Salvar</button>
+        </div>
+        <div id="iaProvHint" style="font-size:10px;color:var(--gray-500);margin-top:5px"></div>
       </div>
       <textarea id="iaHubPergunta" rows="3" placeholder="Ex: conduta na urticária crônica espontânea refratária ao anti-H1 em dose dobrada" style="width:100%;box-sizing:border-box;margin-top:10px;padding:11px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-family:'Manrope',sans-serif;font-size:13px;color:var(--navy);resize:vertical"></textarea>
       <button onclick="perguntarIaHub()" id="iaHubBtn" style="width:100%;margin-top:8px;background:var(--navy);border:none;color:#fff;border-radius:10px;padding:12px;font-family:'Manrope',sans-serif;font-size:13.5px;font-weight:800;cursor:pointer">Perguntar →</button>
       <div id="iaHubResposta" style="display:none;margin-top:12px;background:var(--gray-50);border:1px solid var(--gray-100);border-radius:11px;padding:13px;font-size:13px;color:var(--navy);line-height:1.6;white-space:pre-wrap"></div>
-      <div style="font-size:10px;color:var(--gray-500);margin-top:8px">Apoio clínico — não substitui avaliação médica. Limite de 20 perguntas por dia.</div>
+      <div style="font-size:10px;color:var(--gray-500);margin-top:8px">Apoio clínico — não substitui avaliação médica. Limite de 20 perguntas por dia na IA do Hub (sem limite com chave própria).</div>
     </div>
     <!-- Abas de IAs -->
     <div style="display:none" id="aiTabs">
@@ -5993,6 +6008,65 @@ function _iaHubUsoHoje(){
   if(d.dia !== hoje) d = {dia:hoje, n:0};
   return d;
 }
+var IA_PROVS = {
+  hub:    { label:'IA do Hub' },
+  gpt:    { label:'ChatGPT (OpenAI)', store:'hub_aikey_chatgpt', hint:'Chave da OpenAI (sk-...). Fica salva só neste dispositivo.' },
+  gemini: { label:'Gemini (Google)',  store:'hub_aikey_gemini',  hint:'Chave do Google AI Studio. Fica salva só neste dispositivo.' }
+};
+function _iaProvAtual(){
+  var p=''; try{ p=localStorage.getItem('hub_ia_prov')||'hub'; }catch(e){ p='hub'; }
+  return IA_PROVS[p] ? p : 'hub';
+}
+function iaSetProv(p){
+  if(!IA_PROVS[p]) p='hub';
+  try{ localStorage.setItem('hub_ia_prov', p); }catch(e){}
+  document.querySelectorAll('.ia-prov-btn').forEach(function(b){ b.classList.toggle('sel', b.getAttribute('data-prov')===p); });
+  var box=document.getElementById('iaProvKeyBox');
+  var inp=document.getElementById('iaProvKey');
+  var hint=document.getElementById('iaProvHint');
+  if(!box) return;
+  if(p==='hub'){ box.style.display='none'; return; }
+  box.style.display='block';
+  if(hint) hint.textContent = IA_PROVS[p].hint;
+  if(inp){ try{ inp.value = localStorage.getItem(IA_PROVS[p].store)||''; }catch(e){ inp.value=''; } }
+}
+function iaSalvarChave(){
+  var p=_iaProvAtual(); if(p==='hub') return;
+  var inp=document.getElementById('iaProvKey'); if(!inp) return;
+  try{ localStorage.setItem(IA_PROVS[p].store, (inp.value||'').trim()); }catch(e){}
+  try{ toast('✅','Chave salva neste dispositivo.'); }catch(e){}
+}
+document.addEventListener('DOMContentLoaded', function(){ try{ iaSetProv(_iaProvAtual()); }catch(e){} });
+
+var IA_SISTEMA_CLI = 'Você é um assistente clínico para médicos alergistas e imunologistas no Brasil. Responda em português do Brasil, de forma objetiva e estruturada, baseando-se em diretrizes atuais (ASBAI, GINA, ARIA, EAACI/GA2LEN, AAAAI). Inclua doses e condutas quando pertinente e sinalize evidência limitada. Não substitui avaliação médica.';
+
+function _iaPerguntarGpt(q, chave){
+  return fetch('https://api.openai.com/v1/chat/completions', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+chave},
+    body: JSON.stringify({ model:'gpt-4o-mini', temperature:0.3, max_tokens:1200,
+      messages:[{role:'system',content:IA_SISTEMA_CLI},{role:'user',content:q}] })
+  }).then(function(r){ return r.json(); }).then(function(d){
+    if(d && d.choices && d.choices[0]) return { resposta: d.choices[0].message.content };
+    return { erro: (d && d.error && d.error.message) || 'Sem resposta do ChatGPT.' };
+  });
+}
+function _iaPerguntarGemini(q, chave){
+  return fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key='+encodeURIComponent(chave), {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      system_instruction:{ parts:[{text:IA_SISTEMA_CLI}] },
+      contents:[{role:'user',parts:[{text:q}]}],
+      generationConfig:{ temperature:0.3, maxOutputTokens:1200 }
+    })
+  }).then(function(r){ return r.json(); }).then(function(d){
+    var partes = (((d.candidates||[])[0]||{}).content||{}).parts||[];
+    var texto = partes.map(function(p){ return p.text||''; }).join('').trim();
+    if(texto) return { resposta: texto };
+    return { erro: (d && d.error && d.error.message) || 'Sem resposta do Gemini.' };
+  });
+}
+
 function perguntarIaHub(){
   var ta  = document.getElementById('iaHubPergunta');
   var box = document.getElementById('iaHubResposta');
@@ -6001,19 +6075,35 @@ function perguntarIaHub(){
   var q = (ta.value||'').trim();
   if(!q){ ta.focus(); return; }
   var uso = _iaHubUsoHoje();
-  if(uso.n >= 20){
+  if(_iaProvAtual()==='hub' && uso.n >= 20){
     box.style.display='block';
     box.textContent = 'Você atingiu o limite de 20 perguntas hoje. Tente novamente amanhã.';
     return;
   }
   btn.disabled = true; btn.textContent = 'Consultando…';
   box.style.display = 'block'; box.textContent = 'Pensando…';
-  fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta:q})})
-    .then(function(r){ return r.json(); })
+  var prov = _iaProvAtual();
+  var pedido;
+  if(prov === 'hub'){
+    pedido = fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta:q})})
+      .then(function(r){ return r.json(); });
+  } else {
+    var chave = '';
+    try{ chave = localStorage.getItem(IA_PROVS[prov].store)||''; }catch(e){}
+    if(!chave){
+      box.textContent = 'Informe e salve sua chave de API para usar o '+IA_PROVS[prov].label+'.';
+      btn.disabled = false; btn.textContent = 'Perguntar →';
+      try{ iaSetProv(prov); }catch(e){}
+      return;
+    }
+    pedido = (prov==='gpt' ? _iaPerguntarGpt(q, chave) : _iaPerguntarGemini(q, chave))
+      .catch(function(){ return { erro:'Não foi possível falar com o '+IA_PROVS[prov].label+'.' }; });
+  }
+  pedido
     .then(function(d){
       if(d.resposta){ box.style.whiteSpace='normal'; box.innerHTML = _iaFormatar(d.resposta); }
       else { box.textContent = d.erro || 'Sem resposta.'; }
-      if(d.resposta){
+      if(d.resposta && _iaProvAtual()==='hub'){
         uso.n += 1;
         try{ localStorage.setItem('hub_ia_uso', JSON.stringify(uso)); }catch(e){}
       }
