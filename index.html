@@ -1123,7 +1123,7 @@ window._mostrarApp = function(){
         <div style="font-size:10.5px;color:var(--gray-500);margin-top:6px;line-height:1.4">Serve só para dar mais destaque na tela inicial às informações dessas áreas.</div>
       </div>
       <div class="auth-field"><label>E-mail *</label><input type="email" id="cadEmail" placeholder="seu@email.com" autocomplete="email"></div>
-      <div class="auth-field"><label>Senha (mín. 6 caracteres) *</label><input type="password" id="cadSenha" placeholder="••••••••" autocomplete="new-password"></div>
+      <div class="auth-field"><label>Senha (mín. 12 caracteres) *</label><input type="password" id="cadSenha" placeholder="••••••••" autocomplete="new-password"></div>
       <div class="auth-field"><label>Confirmar senha *</label><input type="password" id="cadSenha2" placeholder="••••••••" autocomplete="new-password"></div>
       <div style="font-size:11px;color:var(--gray-500);margin:-2px 0 12px;line-height:1.45">CRM, RQE e demais dados você completa depois em <strong>Meu perfil</strong>.</div>
       <button class="auth-btn" onclick="fazerCadastro()">Criar conta →</button>
@@ -4004,12 +4004,7 @@ function reenviarCodigo(){
   }).catch(function(){ err.textContent = 'Sem conexão para reenviar o código.'; });
 }
 
-function _hash(str){
-  // Hash simples (djb2) — não é criptografia de produção, apenas ofusca
-  var h = 5381;
-  for(var i=0;i<str.length;i++) h=((h<<5)+h)+str.charCodeAt(i);
-  return (h>>>0).toString(36);
-}
+/* Autenticação por hash local removida (insegura). */
 
 var SB_URL = 'https://jpdtqtenlivxgjkyizcg.supabase.co';
 var SB_KEY = 'sb_publishable_CzAI8BUm2Po7CfobLlxv8A_NtuTil8j';
@@ -4086,7 +4081,7 @@ function fazerCadastro(){
   if(!categoria) { err.textContent='Selecione sua categoria profissional.'; return; }
   if(categoria==='especialista' && !especialidade){ err.textContent='Informe sua especialidade.'; return; }
   if(!email||!email.includes('@')) { err.textContent='E-mail inválido.'; return; }
-  if(senha.length<6) { err.textContent='Senha deve ter mínimo 6 caracteres.'; return; }
+  if(senha.length<12) { err.textContent='Senha deve ter mínimo 12 caracteres.'; return; }
   if(senha!==senha2) { err.textContent='As senhas não coincidem.'; return; }
 
   var meta = {
@@ -4117,9 +4112,7 @@ function fazerCadastro(){
       _mostrarCodigo(email);
     }
   }).catch(function(){
-    // Sem internet — cadastro local de emergência
-    _salvarLocal(email, Object.assign({hash:_hash(senha)}, meta));
-    _iniciarSessao(email, nome, '', '');
+    err.textContent = 'Sem conexão. O cadastro requer autenticação segura.';
   });
 }
 
@@ -4141,39 +4134,15 @@ function fazerLogin(){
       var m = (res.j && (res.j.msg || res.j.error_description || res.j.message)) || 'Erro ao entrar.';
       if(/invalid login/i.test(m)) m = 'E-mail ou senha incorretos.';
       if(/not confirmed/i.test(m)) m = 'Confirme seu e-mail pelo link que enviamos antes de entrar.';
-      // fallback local (contas antigas criadas só neste navegador)
-      try{
-        var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
-        var u = users[email];
-        if(u && u.hash && u.hash === _hash(senha)){ _iniciarSessao(email, u.nome, '', ''); return; }
-      }catch(e){}
       err.textContent = m; return;
     }
     var meta = _metaDoUsuario(res.j.user);
     _salvarLocal(email, meta);
     _iniciarSessao(email, meta.nome || email, res.j.access_token, res.j.refresh_token);
-  }).catch(function(){
-    try{
-      var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
-      var u = users[email];
-      if(u && u.hash && u.hash === _hash(senha)){ _iniciarSessao(email, u.nome, '', ''); return; }
-    }catch(e){}
-    err.textContent = 'Sem conexão. Tente novamente.';
-  });
+  }).catch(function(){err.textContent='Sem conexão. Tente novamente.';});
 }
 
-function _iniciarSessao(email, nome, token, refresh){
-  try{
-    var sess = {email:email, nome:nome, token:token||'', refresh:refresh||'',
-                exp: Date.now() + 30*24*60*60*1000, v:2};
-    localStorage.setItem('hub_session', JSON.stringify(sess));
-  }catch(e){}
-  document.getElementById('authScreen').style.display = 'none';
-  window._mostrarApp();
-  _atualizarInfoUsuario();
-  try{ atualizarHero(); }catch(e){}
-  if(typeof toast==='function') toast('👋','Bem-vindo(a), '+String(nome||'').split(' ')[0]+'!');
-}
+function _iniciarSessao(){ throw new Error('Módulo de autenticação seguro indisponível.'); }
 
 function fazerLogout(){
   try{ localStorage.removeItem('hub_session'); }catch(e){}
@@ -5701,7 +5670,7 @@ function _uas7IniciarQR(){
 }
 
 function _uas7LinkPaciente(){
-  if(!_uas7SessaoId) _uas7SessaoId = 'uas7-' + Date.now();
+  if(!_uas7SessaoId) return '';
   return _uas7PatientUrl + '?s=' + _uas7SessaoId;
 }
 
@@ -6169,12 +6138,12 @@ function iaSetProv(p){
   if(p==='hub'){ box.style.display='none'; return; }
   box.style.display='block';
   if(hint) hint.textContent = IA_PROVS[p].hint;
-  if(inp){ try{ inp.value = localStorage.getItem(IA_PROVS[p].store)||''; }catch(e){ inp.value=''; } }
+  if(inp){ try{ inp.value = sessionStorage.getItem(IA_PROVS[p].store)||''; }catch(e){ inp.value=''; } }
 }
 function iaSalvarChave(){
   var p=_iaProvAtual(); if(p==='hub') return;
   var inp=document.getElementById('iaProvKey'); if(!inp) return;
-  try{ localStorage.setItem(IA_PROVS[p].store, (inp.value||'').trim()); }catch(e){}
+  try{ sessionStorage.setItem(IA_PROVS[p].store, (inp.value||'').trim()); }catch(e){}
   try{ toast('✅','Chave salva neste dispositivo.'); }catch(e){}
 }
 document.addEventListener('DOMContentLoaded', function(){ try{ iaSetProv(_iaProvAtual()); }catch(e){} });
@@ -6230,7 +6199,7 @@ function perguntarIaHub(){
       .then(function(r){ return r.json(); });
   } else {
     var chave = '';
-    try{ chave = localStorage.getItem(IA_PROVS[prov].store)||''; }catch(e){}
+    try{ chave = sessionStorage.getItem(IA_PROVS[prov].store)||''; }catch(e){}
     if(!chave){
       box.textContent = 'Informe e salve sua chave de API para usar o '+IA_PROVS[prov].label+'.';
       btn.disabled = false; btn.textContent = 'Perguntar →';
@@ -6399,7 +6368,7 @@ function selectAI(ai){
   // carregar chave salva
   var inp = document.getElementById('aiKeyInput');
   if(inp){
-    try{ inp.value = localStorage.getItem(cfg.keyStore)||''; }catch(e){ inp.value=''; }
+    try{ inp.value = sessionStorage.getItem(cfg.keyStore)||''; }catch(e){ inp.value=''; }
     inp.type = 'password';
   }
   // link direto
@@ -6419,7 +6388,7 @@ function saveAIKey(){
   if(!inp) return;
   var key = (inp.value||'').trim();
   var cfg = _aiConfig[_currentAI];
-  try{ localStorage.setItem(cfg.keyStore, key); }catch(e){}
+  try{ sessionStorage.setItem(cfg.keyStore, key); }catch(e){}
   toast('✅','Chave salva!');
 }
 
@@ -8026,7 +7995,7 @@ function _uctIniciarSessao(){
 }
 
 function _uctGerarQR(){
-  _uctSessaoId = 'uct-' + Date.now();
+  if(!_uctSessaoId) return;
   var url = _uctPatientUrl + '?s=' + _uctSessaoId;
   var wrap = document.getElementById('uct-qr-canvas');
   if(!wrap) return;
@@ -8118,7 +8087,7 @@ function _uctMostrarResultado(row){
 }
 
 function _uctGetHist(){
-  try { return JSON.parse(localStorage.getItem('hub_uct_hist')||'[]'); } catch(e){ return []; }
+  try { return JSON.parse(sessionStorage.getItem('hub_uct_hist')||'[]'); } catch(e){ return []; }
 }
 
 function _uctSalvarHistorico(row){
@@ -8126,7 +8095,7 @@ function _uctSalvarHistorico(row){
   var t = (row.total !== undefined && row.total !== null) ? row.total : (row.q1+row.q2+row.q3+row.q4);
   h.unshift({ d: new Date(row.created_at).toLocaleDateString('pt-BR'), t: t, nome: row.paciente_nome||'\u2014', q1:row.q1, q2:row.q2, q3:row.q3, q4:row.q4 });
   if(h.length > 50) h = h.slice(0,50);
-  try { localStorage.setItem('hub_uct_hist', JSON.stringify(h)); } catch(e){}
+  try { sessionStorage.setItem('hub_uct_hist', JSON.stringify(h)); } catch(e){}
 }
 
 function _uctRenderHistorico(){
@@ -8152,7 +8121,7 @@ function _uctRenderHistorico(){
 }
 
 function _uctLimparHistorico(){
-  try { localStorage.removeItem('hub_uct_hist'); } catch(e){}
+  try { sessionStorage.removeItem('hub_uct_hist'); } catch(e){}
   var w = document.getElementById('uct-historico-wrap');
   if(w) w.innerHTML = _uctRenderHistorico();
   toast('\ud83d\uddd1\ufe0f','Hist\u00f3rico do UCT apagado.');
@@ -8179,7 +8148,7 @@ function _snot22RenderQR(){
 }
 
 function _snot22LinkPaciente(){
-  if(!_snot22SessaoId) _snot22SessaoId='snot22-'+Date.now();
+  if(!_snot22SessaoId) return '';
   return _snot22PatientUrl+'?s='+_snot22SessaoId;
 }
 
@@ -8301,15 +8270,10 @@ function _snot22RegistrarManual(r){
   var w=document.getElementById('snot22-historico-wrap');
   if(w) w.innerHTML=_snot22RenderHistorico();
   _snot22PararPolling();
-  fetch(_SUPA_URL+'/rest/v1/rpc/snot22_registrar',{
-    method:'POST',
-    headers:{'apikey':_SUPA_KEY,'Authorization':'Bearer '+_SUPA_KEY,'Content-Type':'application/json'},
-    body:JSON.stringify({p_sessao:(_snot22SessaoId||('snot22-manual-'+Date.now())),p_respostas:resp,p_total:total,p_paciente:nome,p_data:(data||null),p_origem:'medico'})
-  }).catch(function(){});
   if(typeof toast==='function') toast('\ud83d\udcbe','SNOT-22 de '+nome.split(' ')[0]+' salvo no hist\u00f3rico.');
 }
 
-function _snot22GetHist(){ try{ return JSON.parse(localStorage.getItem('hub_snot22_hist')||'[]'); }catch(e){ return []; } }
+function _snot22GetHist(){ try{ return JSON.parse(sessionStorage.getItem('hub_snot22_hist')||'[]'); }catch(e){ return []; } }
 
 function _snot22SalvarHistorico(row){
   var h=_snot22GetHist();
@@ -8318,7 +8282,7 @@ function _snot22SalvarHistorico(row){
   var dt=row.data_ref?row.data_ref.split('-').reverse().join('/'):new Date(row.created_at).toLocaleDateString('pt-BR');
   h.unshift({d:dt,t:t,nome:row.paciente_nome||'\u2014'});
   if(h.length>50) h=h.slice(0,50);
-  try{ localStorage.setItem('hub_snot22_hist',JSON.stringify(h)); }catch(e){}
+  try{ sessionStorage.setItem('hub_snot22_hist',JSON.stringify(h)); }catch(e){}
 }
 
 function _snot22RenderHistorico(){
@@ -8339,7 +8303,7 @@ function _snot22RenderHistorico(){
 }
 
 function _snot22LimparHistorico(){
-  try{ localStorage.removeItem('hub_snot22_hist'); }catch(e){}
+  try{ sessionStorage.removeItem('hub_snot22_hist'); }catch(e){}
   var w=document.getElementById('snot22-historico-wrap');
   if(w) w.innerHTML=_snot22RenderHistorico();
   if(typeof toast==='function') toast('\ud83d\uddd1\ufe0f','Hist\u00f3rico do SNOT-22 apagado.');
@@ -8462,8 +8426,8 @@ function _pacRender(){
     var d=p.ultimo?new Date(p.ultimo).toLocaleDateString('pt-BR'):'';
     h+='<div class="guide-card" data-pac="1" style="cursor:pointer;margin-bottom:8px" onclick="_pacAbrir('+JSON.stringify(p.paciente_nome).replace(/"/g,'&quot;')+')">';
     h+='<div style="display:flex;align-items:center;gap:12px">';
-    h+='<div style="min-width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,var(--aqua),var(--teal-mid));color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900">'+ini+'</div>';
-    h+='<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:800;color:var(--navy)">'+p.paciente_nome+'</div>';
+    h+='<div style="min-width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,var(--aqua),var(--teal-mid));color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900">'+_escHtml(ini)+'</div>';
+    h+='<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:800;color:var(--navy)">'+_escHtml(p.paciente_nome)+'</div>';
     h+='<div style="font-size:11.5px;color:var(--gray-500)">'+(p.scores||'').split(',').join(' \u00b7 ')+'</div></div>';
     h+='<div style="text-align:right"><div style="font-size:11px;color:var(--gray-500)">'+d+'</div><div style="font-size:10.5px;color:var(--gray-300)">'+p.registros+' registro'+(p.registros>1?'s':'')+'</div></div>';
     h+='</div></div>';
@@ -9223,7 +9187,8 @@ function imprimirIgOrientacao(){
     '<div style="margin-left:auto;font-size:10px;color:#999">'+ new Date().toLocaleDateString('pt-BR')+'</div></div>'+
     card.innerHTML+
     '<div style="margin-top:18px;font-size:10px;color:#999;border-top:1px solid #e5e7eb;padding-top:8px">Hub do Alergista — ferramenta de apoio ao médico prescritor. Confirmar velocidades na bula do produto.</div>'+
-    '<script>window.onload=function(){setTimeout(function(){window.print();},400);}<\/script></body></html>');
+    '<script>window.onload=function(){setTimeout(function(){window.print();},400);}<\/script><script src="lgpd-runtime.js?v=20261104-1"></script>
+</body></html>');
   win.document.close();
 }
 
