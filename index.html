@@ -4470,9 +4470,9 @@ var VAC_CATALOGO=[
  {id:'hexa',sus:0,nome:'Hexavalente acelular (DTPa-VIP-HB-Hib)',prot:'Difteria, tétano, coqueluche, pólio, hepatite B e Hib',tipo:'Inativada',
   pop:'Lactentes a partir de 2 meses.',esq:'2, 4 e 6 meses + reforço aos 15 meses.',
   obs:'Preferível à DTPw em prematuros, cardiopatas, pneumopatas e doença neurológica (menor reatogenicidade).'},
- {id:'pnc15',sus:0,nome:'Pneumocócica conjugada 13, 15 e 20-valente',prot:'Doença pneumocócica invasiva',tipo:'Inativada conjugada',
+ {id:'pnc15',sus:0,nome:'Pneumocócica conjugada 13 e 20-valente',prot:'Doença pneumocócica invasiva',tipo:'Inativada conjugada',
   pop:'Crianças a partir de 6 semanas, adultos de risco e pessoas \u2265 60 anos.',
-  esq:'Conforme a idade; em grupos de risco, VPC seguida de VPP23 após \u2265 8 semanas (ou 6\u201312 meses em idosos).',
+  esq:'Conforme a idade; em adultos e grupos de risco, VPC20 em dose única, sem necessidade de VPP23 depois.',
   obs:'A SBIm prefere a conjugada de maior valência disponível.'},
  {id:'menb',sus:0,nome:'Meningocócica B (recombinante)',prot:'Meningococo B',tipo:'Inativada recombinante',
   pop:'A partir de 2 meses; adolescentes e grupos de risco.',
@@ -4564,7 +4564,7 @@ function vacCalcular(idadeMeses,sexo,situacao,comorb){
     if(idadeMeses<84) add('Pentavalente ou Hexavalente acelular','2, 4 e 6 meses + reforços 15 m e 4 anos','Difteria, tétano, coqueluche, hepatite B, Hib (+ pólio na hexa)');
     if(idadeMeses<60) add('Poliomielite inativada (VIP)','2, 4, 6 meses + reforços 15 m e 4 anos','Esquema integralmente inativado — VOP descontinuada');
     if(idadeMeses<=8) add('Rotavírus','1ª dose até 3 m 15 d; última até 7 m 29 d','Janela etária rígida');
-    if(A<6) add('Pneumocócica conjugada (maior valência disponível)','2 e 4 meses + reforço aos 12 meses','SBIm prefere VPC15/VPC20 quando disponível');
+    if(A<6) add('Pneumocócica conjugada (maior valência disponível)','2 e 4 meses + reforço aos 12 meses','SBIm prefere a VPC20 quando disponível');
     if(A<6) add('Meningocócica ACWY conjugada','3 e 5 meses + reforço 12 meses','SBIm prefere ACWY à meningo C isolada');
     if(A<6) add('Meningocócica B','3 e 5 meses + reforço aos 12 meses','Calendário SBIm da criança (rede privada)');
     if(idadeMeses>=6) add('Influenza (preferir quadrivalente)','Anual — 2 doses na primovacinação até 8 anos','Recomendação universal SBIm');
@@ -4599,7 +4599,7 @@ function vacCalcular(idadeMeses,sexo,situacao,comorb){
   if(A>=60){
     add('Influenza (preferir quadrivalente ou alta dose)','Dose anual','Calendário SBIm do idoso');
     add('COVID-19','Reforço conforme recomendação vigente','Grupo prioritário');
-    add('Pneumocócica: VPC (15 ou 20) seguida de VPP23','VPC → VPP23 após 6–12 meses; 2ª VPP23 5 anos depois','Esquema sequencial SBIm do idoso');
+    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','Esquema SBIm do idoso — VPC20 isolada, sem VPP23 subsequente');
     add('Herpes-zóster recombinante (RZV)','2 doses (0 e 2–6 meses)','SBIm — ≥ 50 anos, inclusive com história prévia de zóster');
     add('dTpa ou dT','Reforço a cada 10 anos','Manter proteção antitetânica');
     add('Hepatite B','3 doses se não vacinado','SBIm — idoso');
@@ -4629,41 +4629,41 @@ function vacCalcular(idadeMeses,sexo,situacao,comorb){
   /* ===== COMORBIDADES ===== */
   function has(k){ return comorb.indexOf(k)>=0; }
   if(has('asma')||has('dpoc')){
-    add('Pneumocócica: VPC + VPP23','VPC (15/20) → VPP23 após ≥ 8 semanas (≥ 2 anos)','Pneumopatia crônica','comorb');
+    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única (a partir de 2 anos conforme bula/SBIm)','Pneumopatia crônica','comorb');
     add('Influenza anual','Prioridade máxima','Pneumopatia crônica — risco de exacerbação','comorb');
     if(A>=18) add('Herpes-zóster recombinante','2 doses','Risco aumentado em DPOC e uso de corticoide','comorb');
   }
   if(has('cardio')||has('dm')||has('hepato')||has('obesidade')||has('tabagismo')){
-    add('Pneumocócica: VPC + VPP23','Esquema sequencial','Comorbidade crônica — risco de doença invasiva','comorb');
+    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','Comorbidade crônica — risco de doença invasiva','comorb');
     add('Influenza anual','Dose anual','Comorbidade crônica','comorb');
     if(has('hepato')) add('Hepatite A e B','Esquema completo e sorologia pós-vacinal','Hepatopatia — risco de hepatite fulminante','comorb');
   }
   if(has('renal')){
     add('Hepatite B — esquema reforçado','4 doses com o dobro da dose; anti-HBs 1–2 meses após','Doença renal crônica / diálise','comorb');
-    add('Pneumocócica: VPC + VPP23','Esquema sequencial completo','Alto risco de doença invasiva','comorb');
+    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','Alto risco de doença invasiva','comorb');
     add('Influenza anual','Dose anual','Grupo prioritário','comorb');
   }
   if(has('asplenia')||has('complemento')){
     add('Meningocócica ACWY','2 doses (0–2 meses) + reforço a cada 5 anos','Risco extremo de doença meningocócica','comorb');
     add('Meningocócica B','2 a 3 doses conforme idade + reforços','Risco extremo','comorb');
-    add('Pneumocócica: VPC + VPP23','Esquema sequencial completo','Asplenia é indicação formal','comorb');
+    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','Asplenia é indicação formal','comorb');
     add('Haemophilus influenzae b (Hib)','Dose em qualquer idade se não vacinado','Bactéria encapsulada','comorb');
     alertas.push('Esplenectomia eletiva: vacinar preferencialmente até 14 dias antes do procedimento (ou 14 dias após, se de urgência).');
   }
   if(has('fistula')){
-    add('Pneumocócica: VPC + VPP23','Esquema sequencial','Fístula liquórica / implante coclear','comorb');
+    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','Fístula liquórica / implante coclear','comorb');
     add('Haemophilus influenzae b (Hib)','Dose em qualquer idade','Indicação SBIm — grupos especiais','comorb');
     add('Meningocócica ACWY e B','Esquema completo','Risco de meningite','comorb');
   }
   if(has('hiv')){
-    add('Pneumocócica: VPC + VPP23','Esquema sequencial completo','HIV — indicação formal','comorb');
+    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','HIV — indicação formal','comorb');
     add('HPV nonavalente','3 doses (0-2-6), independentemente da idade, até 45 anos','HIV — 3 doses sempre','comorb');
     add('Meningocócica ACWY','2 doses + reforços','HIV é indicação formal','comorb');
     add('Hepatite A e B','Esquemas completos com sorologia pós-vacinal','Resposta subótima em HIV','comorb');
     alertas.push('HIV: vacinas atenuadas (SCR, varicela, febre amarela) só se CD4 ≥ 200 cél/mm³ em adultos (≥ 15% em crianças) e sem imunossupressão grave.');
   }
   if(has('idp')){
-    add('Pneumocócica: VPC + VPP23','Esquema sequencial completo','Imunodeficiência primária','comorb');
+    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','Imunodeficiência primária','comorb');
     add('Meningocócica ACWY e B','Esquema completo + reforços','IDP — indicação formal','comorb');
     add('Haemophilus influenzae b (Hib)','Dose em qualquer idade','IDP','comorb');
     add('Influenza anual','Dose anual — estender aos contactantes','Proteção do núcleo familiar','comorb');
@@ -4678,7 +4678,7 @@ function vacCalcular(idadeMeses,sexo,situacao,comorb){
   }
   if(has('onco')||has('imunossup')||has('autoimune')){
     add('Influenza anual','Dose anual','Imunossupressão','comorb');
-    add('Pneumocócica: VPC + VPP23','Esquema sequencial','Imunossupressão','comorb');
+    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','Imunossupressão','comorb');
     if(A>=18) add('Herpes-zóster recombinante (RZV)','2 doses (0 e 1–2 meses em imunodeprimidos)','Vacina inativada — indicada no imunossuprimido','comorb');
     alertas.push('Imunossupressão: vacinar preferencialmente 2–4 semanas antes de iniciar o imunossupressor, ou 3 meses após suspendê-lo. Atenuadas contraindicadas durante o tratamento.');
     alertas.push('Corticoide em dose imunossupressora: prednisona ≥ 2 mg/kg/dia ou ≥ 20 mg/dia por ≥ 14 dias.');
