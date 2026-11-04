@@ -1,6 +1,6 @@
 // Rede primeiro para arquivos estáticos; APIs e dados dinâmicos nunca entram no cache.
-const CACHE = 'hub-alergista-v1175-sem-pacientes';
-const ASSETS = ['./', 'index.html', 'lgpd-runtime.js?v=20261104-7', 'ige-clinica.js?v=20261104-2', 'calendarios-imunizacoes.js?v=20261104-2', 'privacidade.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
+const CACHE = 'hub-alergista-v1176-rollback';
+const ASSETS = ['./', 'index.html', 'lgpd-runtime.js?v=20261104-6', 'ige-clinica.js?v=20261104-2', 'calendarios-imunizacoes.js?v=20261104-1', 'privacidade.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
 const PATHS = new Set(['/', '/index.html', '/ige-clinica.js', '/calendarios-imunizacoes.js', '/lgpd-runtime.js', '/privacidade.html', '/manifest.json', '/icon-192.png', '/icon-512.png']);
 
 self.addEventListener('install', event => {
