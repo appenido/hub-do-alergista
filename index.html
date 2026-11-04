@@ -1047,7 +1047,7 @@ _marcarGuiasPagas();
 <script>
 (function(){
   // Acesso livre: a sessão serve só para personalizar o app, nunca para bloquear.
-  var SESS_VER = 2;
+  var SESS_VER = 3;
   try{ localStorage.removeItem('hub_session'); }catch(e){} // Expurga token legado persistente.
   try{
     var s = JSON.parse(sessionStorage.getItem('hub_session')||'null');
@@ -4148,7 +4148,7 @@ function _iniciarSessao(email, nome, token, refresh){
   if(!token){ var err=document.getElementById('loginErr'); if(err) err.textContent='Login não autenticado. Conecte-se e tente novamente.'; return; }
   try{
     var sess = {email:email, nome:nome, token:token||'', refresh:refresh||'',
-                exp: Date.now() + 30*24*60*60*1000, v:2};
+                exp: Date.now() + 55*60*1000, v:3};
     sessionStorage.setItem('hub_session', JSON.stringify(sess));
   }catch(e){}
   document.getElementById('authScreen').style.display = 'none';
@@ -5684,7 +5684,7 @@ function _uas7IniciarQR(){
 }
 
 function _uas7LinkPaciente(){
-  if(!_uas7SessaoId) _uas7SessaoId = 'uas7-' + Date.now();
+  if(!_uas7SessaoId) _uas7SessaoId = 'uas7-' + _hubTokenSeguro();
   return _uas7PatientUrl + '?s=' + _uas7SessaoId;
 }
 
