@@ -1054,20 +1054,31 @@ _marcarGuiasPagas();
   }catch(e){}
 })();
 </script>
+<style id="hubAccessGateCSS">
+/* Bloqueio visual imediato: o conteúdo interno nunca aparece antes da verificação da sessão. */
+html:not(.hub-auth-ok) body {overflow:hidden!important;}
+html:not(.hub-auth-ok) #authScreen {display:flex!important;}
+html:not(.hub-auth-ok) body > :not(#authScreen):not(script):not(style) {
+  visibility:hidden!important;pointer-events:none!important;
+}
+</style>
 </head>
 <body>
 
 <!-- ══ TELA DE LOGIN / CADASTRO ══ -->
 <script>
 window._mostrarApp = function(){
-  var g = document.getElementById('authGateStyle');
-  if(g) g.remove();
+  document.documentElement.classList.add('hub-auth-ok');
   var a = document.getElementById('authScreen');
   if(a) a.style.display = 'none';
 };
+window._bloquearApp = function(){
+  document.documentElement.classList.remove('hub-auth-ok');
+  var a = document.getElementById('authScreen');
+  if(a) a.style.display = 'flex';
+};
 </script>
 <div id="authScreen">
-  <button type="button" onclick="fecharAuth()" aria-label="Fechar" style="position:absolute;top:14px;right:16px;background:rgba(255,255,255,.14);border:none;color:#fff;font-size:20px;font-weight:700;width:34px;height:34px;border-radius:50%;cursor:pointer;line-height:1">×</button>
   <div class="auth-logo">
     <div class="auth-logo-icon">
       <svg viewBox="0 0 512 512" width="28" height="28" fill="none"><g stroke="#fff" stroke-width="70" stroke-linecap="round"><line x1="256" y1="286" x2="256" y2="432"/><line x1="256" y1="286" x2="162" y2="139"/><line x1="256" y1="286" x2="350" y2="139"/></g><circle cx="256" cy="432" r="50" fill="#fff"/><circle cx="162" cy="139" r="50" fill="#fff"/><circle cx="350" cy="139" r="50" fill="#fff"/><circle cx="256" cy="286" r="40" fill="#fff"/></svg>
@@ -4357,7 +4368,7 @@ function _iniciarSessao(){ throw new Error('Módulo de autenticação seguro ind
 
 function fazerLogout(){
   try{ localStorage.removeItem('hub_session'); }catch(e){}
-  document.getElementById('authScreen').style.display = 'none';
+  if(typeof window._bloquearApp==='function') window._bloquearApp();
   ['loginEmail','loginSenha'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   ['cadNome','cadEspecialidade','cadEmail','cadSenha','cadSenha2'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
   var cadCat=document.getElementById('cadCategoria');if(cadCat)cadCat.value='';
@@ -4374,7 +4385,7 @@ function _iniciais(nome){
   return (p[0][0]+(p.length>1?p[p.length-1][0]:'')).toUpperCase();
 }
 
-/* Acesso livre: a tela de login só aparece quando a pessoa pede */
+/* A autenticação é obrigatória para acessar as áreas internas. */
 function abrirAuth(modo){
   var a = document.getElementById('authScreen');
   if(!a) return;
@@ -4384,6 +4395,7 @@ function abrirAuth(modo){
 }
 
 function fecharAuth(){
+  if(!document.documentElement.classList.contains('hub-auth-ok')) return;
   var a = document.getElementById('authScreen');
   if(a) a.style.display = 'none';
 }
@@ -4391,7 +4403,7 @@ function fecharAuth(){
 function _atualizarBotoesConta(){
   try{
     var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
-    var logado = !!sess.email;
+    var logado = !!sess.email && document.documentElement.classList.contains('hub-auth-ok');
     document.querySelectorAll('[data-conta-btn]').forEach(function(b){
       b.textContent = logado ? b.getAttribute('data-sair') : b.getAttribute('data-entrar');
       b.onclick = logado ? fazerLogout : function(){ abrirAuth('login'); };
@@ -11144,7 +11156,7 @@ function chatToggle(){
     .observe(document.body,{childList:true,subtree:true});
 })();
 </script>
-<script src="lgpd-runtime.js?v=20261104-3"></script>
+<script src="lgpd-runtime.js?v=20261104-4"></script>
 </body>
 </html>
 
