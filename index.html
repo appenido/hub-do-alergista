@@ -7787,7 +7787,7 @@ document.addEventListener('click', function(e2) {
 
 /* ── ASSISTENTE ── */
 var RESPOSTAS={
-  plano:'<strong style="color:var(--teal-mid)">🫁 Plano de Ação — Asma</strong><br><br><strong>🟢 ZONA VERDE</strong> — Asma controlada<br>Sintomas controlados. Continue os medicamentos de manutenção diariamente.<br><br><strong>🟡 ZONA AMARELA</strong> — Atenção<br>Tosse/chiado aumentando. Use [BRONCODILATADOR] 2–4 jatos. Se não melhorar em 20 min, repita. Se persistir 1h, procure atendimento.<br><br><strong>🔴 ZONA VERMELHA</strong> — Emergência<br>Falta de ar grave, lábios azulados. Use broncodilatador IMEDIATAMENTE e chame SAMU — 192.',
+  plano:'<strong style="color:var(--teal-mid)">🫁 Plano de Ação — Asma (individualizar)</strong><br><br><strong>Zona verde:</strong> manter medicamento controlador prescrito.<br><br><strong>Zona amarela:</strong> prescrever explicitamente medicamento e dose de resgate conforme estratégia GINA 2026 (CI-formoterol ou SABA conforme tratamento), frequência máxima, conduta frente à piora e critérios para buscar assistência.<br><br><strong>Zona vermelha:</strong> dispneia intensa, dificuldade de falar, cianose ou sonolência exigem emergência/SAMU 192. Um modelo genérico não deve ser usado como prescrição.',
   imuno:'<strong style="color:var(--teal-mid)">💊 Relatório — Imunobiológico em Asma Grave</strong><br><br>Atesto que o(a) paciente <em>[NOME], [IDADE] anos</em>, tem diagnóstico de <strong>asma grave</strong> (CID J45.5):<br><br>• ACT: [VALOR] · Eosinófilos: [VALOR] céls/µL<br>• IgE: [VALOR] UI/mL · FeNO: [VALOR] ppb<br>• VEF₁: [VALOR]% · Exacerbações: [Nº]/ano<br>• Em uso de CSI/LABA + anti-leucotrieno sem controle<br><br>Solicito autorização para [MEDICAMENTO] conforme GINA 2026.',
   anafilaxia:'<strong style="color:var(--teal-mid)">🆘 Orientações Pós-Anafilaxia</strong><br><br>Reação alérgica grave requer plano de ação individualizado, treinamento no uso de adrenalina autoinjetável (quando disponível e indicada) e avaliação especializada.<br><br><strong>🚨 Em nova suspeita de anafilaxia:</strong> use imediatamente adrenalina intramuscular conforme orientação e acione SAMU 192. Não aguarde anti-histamínico ou corticoide; esses fármacos não substituem adrenalina. Informe o gatilho suspeito e procure avaliação de emergência.',
   def_resp:'<strong style="color:var(--teal-mid)">Resposta do Assistente</strong><br><br>Para personalizar o documento, informe:<br>• Diagnóstico e idade do paciente<br>• Scores aplicados (ACT, EASI, UAS7...)<br>• Medicações em uso<br>• Finalidade (plano de saúde, escola, judicialização)<br><br>O assistente irá estruturar o documento com base nas diretrizes vigentes.'
@@ -7908,12 +7908,12 @@ function _uas7RenderCampos(){
     html += '<div style="display:flex;gap:8px">';
     // pápulas
     html += '<div style="flex:1"><label style="font-size:10.5px;font-weight:700;color:var(--gray-500);display:block;margin-bottom:4px">Pápulas</label>';
-    html += '<select id="uasP' + d + '" style="width:100%">';
+    html += '<select id="uasP' + d + '" style="width:100%"><option value="" selected disabled>Selecione a intensidade do dia</option>';
     html += '<option value="0">0 — Nenhuma</option><option value="1">1 — &lt;20/dia</option><option value="2">2 — 20–50/dia</option><option value="3">3 — &gt;50/dia</option>';
     html += '</select></div>';
     // prurido
     html += '<div style="flex:1"><label style="font-size:10.5px;font-weight:700;color:var(--gray-500);display:block;margin-bottom:4px">Prurido</label>';
-    html += '<select id="uasI' + d + '" style="width:100%">';
+    html += '<select id="uasI' + d + '" style="width:100%"><option value="" selected disabled>Selecione a intensidade do dia</option>';
     html += '<option value="0">0 — Nenhum</option><option value="1">1 — Leve</option><option value="2">2 — Moderado</option><option value="3">3 — Grave</option>';
     html += '</select></div>';
     html += '</div></div>';
@@ -7929,9 +7929,9 @@ function _uas7ColetarDias(){
   for(var d=0; d<7; d++){
     var p = document.getElementById('uasP'+d);
     var i = document.getElementById('uasI'+d);
-    var pv = p ? parseInt(p.value)||0 : 0;
-    var iv = i ? parseInt(i.value)||0 : 0;
-    vals.push(pv + iv);   // soma do dia (0–6)
+    var pv = p && p.value!=='' ? parseInt(p.value,10) : null;
+    var iv = i && i.value!=='' ? parseInt(i.value,10) : null;
+    vals.push(pv===null||iv===null?null:pv+iv);   // soma do dia (0–6)
   }
   return vals;   // 7 dias → total 0–42
 }
@@ -8558,6 +8558,7 @@ function doCalc(){
   var vals;
   if(s.special==='uas7'){
     vals=_uas7ColetarDias();   // 7 valores (soma pápulas+prurido por dia)
+    if(vals.some(function(x){return x===null;})){toast('⚠️','Preencha pápulas e prurido dos 7 dias. Ausência de resposta não é zero.');return;}
   } else {
     vals=s.fields.map(function(f){
       var el=document.getElementById(f.id);
@@ -9105,7 +9106,7 @@ var _igChatKB = [
   {kw:['dose sc','dose subcut','subcut'],r:'Dose inicial SC convencional: dividir a dose mensal de referência em 4 aplicações semanais, com ajuste segundo bula e evolução clínica. Exemplo ilustrativo: 400 mg/kg/mês → 100 mg/kg/semana. A conversão entre marcas e entre IV e SC pode exigir fatores próprios; SC facilitada com hialuronidase tem esquema específico. Não assumir intercambialidade automática.'},
   {kw:['sc','subcutane','subcut','iv','intraveno','via','rota','quando usar'],r:'<b>IV vs SC:</b><ul><li><b>SC</b>: estilo de vida ativo, fobia de acesso venoso, IgG mais estável, domiciliar</li><li><b>IV</b>: imunomodulação (dose alta), impossibilidade de SC, primeira dose de avaliação</li><li>Imunomodulação (≥ 1g/kg) é exclusiva IV</li><li>HyQvia permite volumes maiores SC com hialuronidase</li></ul>'},
   {kw:['alvo','nivel','nível','meta','igg','serica','sérica'],r:'Em erros inatos da imunidade com reposição de IgG, AAAAI/ACAAI/CIS 2025 recomenda ajuste guiado por eficácia clínica e IgG >800 mg/dL. A concentração-alvo deve ser individualizada; não utilizar 500 mg/dL como garantia geral de proteção. Em deficiência secundária, ponderar indicação e metas conforme condição de base. IgG de vale IV é medida antes da próxima infusão.'},
-  {kw:['velocidade','escal','taxa','mL/h','infus','iniciar','ritmo'],r:'<b>Velocidades IV (exemplo Privigen 10%):</b><ul><li>Início: 0,3 mL/kg/h</li><li>Dobrar a cada 30 min se tolerado</li><li>Máximo: 4,8 mL/kg/h</li><li>1ª infusão: permanecer mais tempo em cada etapa</li><li>Cada produto tem protocolo próprio — confirmar na bula</li></ul>'},
+  {kw:['velocidade','escal','taxa','mL/h','infus','iniciar','ritmo'],r:'Taxas IV/SC e escalonamento devem ser confirmados na bula brasileira vigente de cada produto e apresentação, conforme indicação, peso, idade, tolerância e protocolo institucional. Este assistente não fornece taxas numéricas sem validação de bula.'},
   {kw:['pre-medica','premed','antecedente','antes','antecipar','profilax'],r:'Pré-medicação não é obrigatória universalmente na IgGRT. Em reações leves recorrentes, reavaliar velocidade, produto, hidratação e necessidade de medidas individualizadas. Anafilaxia prévia exige avaliação especializada; anti-H1 ou corticosteroides NÃO garantem prevenção de anafilaxia nem substituem adrenalina.'},
   {kw:['reação leve','reac leve','evento leve','calafrio','cefaleia','nausea','náusea'],r:'<b>Manejo de reação leve durante infusão:</b><ul><li>Reduzir velocidade para 50% da atual</li><li>Anti-H1 IV/IM (ex. difenidramina) + paracetamol IV</li><li>Aguardar resolução dos sintomas</li><li>Retomar em velocidade menor gradualmente</li><li>Se recorrente: considerar pré-medicação nas próximas infusões</li></ul>'},
   {kw:['anafilax','grave','choque','urticaria grave','broncoespasmo'],r:'Em suspeita de anafilaxia durante infusão: INTERROMPER imediatamente, acionar emergência, adrenalina IM 0,01 mg/kg (solução 1 mg/mL; máximo 0,5 mg no adulto) na face anterolateral da coxa, repetir em 5 minutos se necessário, posicionar adequadamente, oxigênio e cristaloide conforme estado hemodinâmico. Anti-H1/corticoide não substituem adrenalina e não previnem de modo confiável reação bifásica. Não reiniciar sem avaliação especializada.'},
