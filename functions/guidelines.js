@@ -4,8 +4,10 @@ const BASE = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
 async function ncbi(path, params) {
   const url = new URL(path, BASE);
   Object.entries({db:'pubmed',retmode:'json',tool:'HubDoAlergista',...params}).forEach(([k,v]) => url.searchParams.set(k,v));
+  const body = url.searchParams.toString();
+  url.search = '';
   for (let attempt=0; attempt<3; attempt++) {
-    const response = await fetch(url, {headers:{Accept:'application/json'},signal:AbortSignal.timeout(18000)});
+    const response = await fetch(url, {method:'POST',body,headers:{Accept:'application/json','Content-Type':'application/x-www-form-urlencoded'},signal:AbortSignal.timeout(18000)});
     if ([429,502,503,504].includes(response.status) && attempt<2) {
       const retryAfter=Number(response.headers.get('Retry-After'));
       await new Promise(resolve=>setTimeout(resolve,Math.min(3000,Math.max(1000*(attempt+1),(Number.isFinite(retryAfter)?retryAfter:0)*1000))));
@@ -51,8 +53,9 @@ export async function onRequestGet(context) {
     });
     if (cache) context.waitUntil(cache.put(cacheRequest,response.clone()));
     return response;
-  } catch {
+  } catch (error) {
+    console.warn('Consulta PubMed indisponível:', String(error?.message || error));
     // Falha de busca nunca é preenchida com referências ou URLs sem correspondência.
-    return new Response(JSON.stringify({schema:SCHEMA,source:'PubMed',topic,itens:[],erro:'Não foi possível consultar o PubMed agora.'}),{status:503,headers:{...headers,'Cache-Control':'no-store'}});
+    return new Response(JSON.stringify({schema:SCHEMA,source:'PubMed',topic,itens:[],erro:'Não foi possível consultar o PubMed agora.',diagnostico:String(error?.message||'Falha externa').slice(0,180)}),{status:503,headers:{...headers,'Cache-Control':'no-store'}});
   }
 }
