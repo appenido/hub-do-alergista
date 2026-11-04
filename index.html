@@ -5403,6 +5403,96 @@ function vacRenderVacinas(filtro){
   if(!lista.length) box.innerHTML='<div class="vac-empty" style="color:var(--gray-500);font-size:12.5px;padding:4px 0">Nenhuma vacina encontrada.</div>';
 }
 
+
+/* Cadastro e prescrições — imunoglobulinas */
+var igModoAtual='primeira';
+function igEscapeHtml(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function igPacientesSalvos(){
+  try{return Object.values(JSON.parse(localStorage.getItem('igPacientes')||'{}')).filter(function(p){return p&&typeof p.nome==='string';}).sort(function(a,b){return a.nome.localeCompare(b.nome,'pt-BR');});}
+  catch(e){return [];}
+}
+function igPrepararCadastro(){
+  var dx=document.getElementById('igCadDx'),src=document.getElementById('igDx');
+  if(dx&&src&&!dx.options.length)dx.innerHTML=src.innerHTML;
+  var prod=document.getElementById('igCadProduto');
+  if(prod&&!prod.options.length)prod.innerHTML='<option value="">Selecione...</option>'+Object.keys(IG_PRODUTOS).map(function(k){
+    return '<option value="'+igEscapeHtml(k)+'">'+igEscapeHtml(IG_PRODUTOS[k].nome)+'</option>';
+  }).join('');
+}
+function igAtualizarSeletor(){
+  var select=document.getElementById('igPrescPaciente');if(!select)return;
+  var current=select.value;
+  var patients=igPacientesSalvos();
+  select.innerHTML='<option value="">Selecione um paciente...</option>'+patients.map(function(p){
+    return '<option value="'+igEscapeHtml(p.nome)+'">'+igEscapeHtml(p.nome)+'</option>';
+  }).join('');
+  if(patients.some(function(p){return p.nome===current;}))select.value=current;
+}
+function igCadastrarPaciente(ev){
+  if(ev&&ev.preventDefault)ev.preventDefault();
+  var el=function(id){return document.getElementById(id);};
+  var nome=el('igCadNome').value.trim(), idade=Number(el('igCadIdade').value),peso=Number(el('igCadPeso').value);
+  var prod=el('igCadProduto').value,dx=el('igCadDx').value,via=el('igCadVia').value;
+  var prev=Number(el('igCadHistoricoNum').value||0),doc=el('igCadToleranciaDoc').checked;
+  if(!nome||!prod||!dx||!Number.isFinite(idade)||idade<0||idade>130||!Number.isFinite(peso)||peso<2||peso>250||!Number.isInteger(prev)||prev<0){
+    toast('⚠️','Revise os dados do cadastro.');return;
+  }
+  if((IG_PRODUTOS[prod].via.indexOf('SC')===0?'SC':'IV')!==via){toast('⚠️','Produto e via incompatíveis.');return;}
+  if(doc&&(!prev||el('igCadReacao').value!=='nenhuma'||!el('igCadUltima').value)){toast('⚠️','Para documentar boa tolerância, informe infusões prévias, ausência de reação e data da última infusão.');return;}
+  try{
+    var hist=JSON.parse(localStorage.getItem('igPacientes')||'{}'),ant=hist[nome.toLowerCase()]||{};
+    var changed=!!ant.produto&&ant.produto!==prod;
+    if(changed&&!confirm('Trocar produto? A tolerância com a marca anterior não será aceita para escalonamento automático.'))return;
+    hist[nome.toLowerCase()]=Object.assign({},ant,{
+      nome:nome,idade:idade,idUn:'anos',peso:peso,dx:dx,
+      igG:el('igCadIgG').value===''?null:Number(el('igCadIgG').value),
+      via:via,produto:prod,infRep:el('igCadInfRep').value,reacao:el('igCadReacao').value,
+      historicoInformado:prev,historicoProduto:prod,toleranciaDocumentada:!!doc,
+      ultimaHistorica:el('igCadUltima').value,infusoes:ant.infusoes||[]
+    });
+    localStorage.setItem('igPacientes',JSON.stringify(hist));
+    igAtualizarSeletor();toast('✅','Cadastro salvo no dispositivo.');igShowSub('pacientes');
+  }catch(e){toast('⚠️','Erro ao salvar o cadastro.');}
+}
+function igAbrirPrescricao(modo){
+  igModoAtual=modo==='rotina'?'rotina':'primeira';
+  igShowSub('infusao');
+  var t=document.getElementById('igTituloPrescricao');if(t)t.textContent=igModoAtual==='rotina'?'Prescrever infusão de rotina':'Prescrever primeira infusão';
+  var a=document.getElementById('igPrescModoAviso');
+  if(a)a.textContent=igModoAtual==='rotina'
+    ?'Infusão subsequente: a progressão depende de tolerabilidade documentada com a mesma marca, tempo desde a última aplicação e fatores de risco.'
+    :'Primeira aplicação: iniciar na velocidade de bula; aumentar de forma gradual somente se tolerado.';
+  var banner=document.getElementById('igPacResumoBanner'),form=document.getElementById('igFormBox'),out=document.getElementById('igSaida');
+  if(banner)banner.style.display='none';if(form)form.style.display='block';if(out)out.style.display='none';
+  igAtualizarSeletor();
+  var sl=document.getElementById('igPrescPaciente');if(sl)sl.value='';
+  var n=document.getElementById('igNome');if(n)n.value='';
+  var p=document.getElementById('igProduto');if(p)p.value='';
+  renderIgPicker();
+}
+function igInfusoesComprovadas(p,produto){
+  if(!p||p.produto!==produto||p.reacao&&p.reacao!=='nenhuma')return 0;
+  var n=p.historicoProduto===produto&&p.toleranciaDocumentada?Number(p.historicoInformado)||0:0;
+  var its=p.infusoes||[];
+  for(var i=its.length-1;i>=0;i--){if(its[i].produto!==produto||its[i].reacao!=='nenhuma')break;n++;}
+  return n;
+}
+function igUltimaInfusaoData(p){
+  var data=p.ultimaHistorica||'';
+  var its=p.infusoes||[];
+  if(its.length&&its[its.length-1].data){
+    var z=its[its.length-1].data.split('/');
+    if(z.length===3)data=z[2]+'-'+z[1]+'-'+z[0];
+  }
+  return data;
+}
+function igHistoricoSeguro(p,produto){
+  if(!p||igInfusoesComprovadas(p,produto)===0||p.reacao!=='nenhuma')return false;
+  var date=igUltimaInfusaoData(p);if(!date)return false;
+  var d=new Date(date+'T12:00:00');
+  return !isNaN(d.getTime())&&Date.now()>=d.getTime()&&(Date.now()-d.getTime())<=56*86400000;
+}
+
 function igShowHub(){
   var hub=document.getElementById('ig-menu-hub');
   if(hub) hub.style.display='block';
