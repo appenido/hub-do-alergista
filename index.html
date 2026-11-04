@@ -1054,110 +1054,17 @@ _marcarGuiasPagas();
   }catch(e){}
 })();
 </script>
-<style id="hubAccessGateCSS">
-/* Bloqueio visual imediato: o conteúdo interno nunca aparece antes da verificação da sessão. */
-html:not(.hub-auth-ok) body {overflow:hidden!important;}
-html:not(.hub-auth-ok) #authScreen {display:flex!important;}
-html:not(.hub-auth-ok) body > :not(#authScreen):not(script):not(style) {
-  visibility:hidden!important;pointer-events:none!important;
-}
+<style id="hubPublicModeCSS">
+#authScreen,[data-conta-btn]{display:none!important;}
 </style>
 </head>
 <body>
 
 <!-- ══ TELA DE LOGIN / CADASTRO ══ -->
 <script>
-window._mostrarApp = function(){
-  document.documentElement.classList.add('hub-auth-ok');
-  var a = document.getElementById('authScreen');
-  if(a) a.style.display = 'none';
-};
-window._bloquearApp = function(){
-  document.documentElement.classList.remove('hub-auth-ok');
-  var a = document.getElementById('authScreen');
-  if(a) a.style.display = 'flex';
-};
+window._mostrarApp=function(){document.documentElement.classList.add('hub-auth-ok');};
+window._bloquearApp=function(){};
 </script>
-<div id="authScreen">
-  <div class="auth-logo">
-    <div class="auth-logo-icon">
-      <svg viewBox="0 0 512 512" width="28" height="28" fill="none"><g stroke="#fff" stroke-width="70" stroke-linecap="round"><line x1="256" y1="286" x2="256" y2="432"/><line x1="256" y1="286" x2="162" y2="139"/><line x1="256" y1="286" x2="350" y2="139"/></g><circle cx="256" cy="432" r="50" fill="#fff"/><circle cx="162" cy="139" r="50" fill="#fff"/><circle cx="350" cy="139" r="50" fill="#fff"/><circle cx="256" cy="286" r="40" fill="#fff"/></svg>
-    </div>
-    <div class="auth-logo-name">Hub do Alergista</div>
-  </div>
-  <div class="auth-card">
-    <div class="auth-tabs">
-      <button class="auth-tab active" id="tabLogin" onclick="authModo('login')">Entrar</button>
-      <button class="auth-tab" id="tabCad" onclick="authModo('cadastro')">Cadastrar</button>
-    </div>
-    <!-- LOGIN -->
-    <div id="formLogin">
-      <div class="auth-field"><label>E-mail</label><input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email"></div>
-      <div class="auth-field"><label for="loginSenha">Senha</label><input type="password" id="loginSenha" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter'){event.preventDefault();fazerLogin();}"></div>
-      <button class="auth-btn" id="btnEntrarHub" type="button" onclick="fazerLogin()">Entrar</button>
-      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px">
-        <button type="button" id="btnRecuperarSenha" onclick="solicitarRecuperacaoSenha()" style="background:none;border:0;color:var(--teal-mid);font-family:inherit;font-size:11.5px;cursor:pointer;text-decoration:underline">Esqueci minha senha</button>
-        <button type="button" id="btnCadastroAntigo" hidden onclick="abrirCadastroExistente()" style="background:none;border:0;color:var(--teal-mid);font-family:inherit;font-size:11.5px;cursor:pointer;text-decoration:underline">Regularizar cadastro anterior</button>
-        <button type="button" id="btnReenviarConfirmacao" hidden onclick="reenviarConfirmacaoHub()" style="background:none;border:0;color:var(--teal-mid);font-family:inherit;font-size:11.5px;cursor:pointer;text-decoration:underline">Reenviar confirmação de e-mail</button>
-      </div>
-      <div class="auth-err" id="loginErr" role="status" aria-live="polite" style="font-size:11.5px;line-height:1.5;margin-top:10px"></div>
-    </div>
-    <!-- REDEFINIR SENHA (link de recuperação do Supabase Auth) -->
-    <div id="formRedefinirSenha" style="display:none">
-      <div style="font-size:14px;color:var(--navy);margin-bottom:8px">Redefinir senha</div>
-      <p style="font-size:11.5px;line-height:1.5;color:var(--gray-500)">Crie uma nova senha para acessar sua conta.</p>
-      <div class="auth-field"><label for="novaSenhaHub">Nova senha</label><input type="password" id="novaSenhaHub" minlength="12" autocomplete="new-password" placeholder="Pelo menos 12 caracteres"></div>
-      <div class="auth-field"><label for="novaSenhaConfirmacaoHub">Confirme a nova senha</label><input type="password" id="novaSenhaConfirmacaoHub" minlength="12" autocomplete="new-password" placeholder="Repita a nova senha"></div>
-      <button class="auth-btn" id="btnSalvarNovaSenhaHub" type="button" onclick="redefinirSenhaHub()">Salvar nova senha</button>
-      <div class="auth-err" id="novaSenhaErrHub" role="status" aria-live="polite" style="font-size:11.5px;line-height:1.5"></div>
-    </div>
-    <!-- CONFIRMAR CÓDIGO -->
-    <div id="formCodigo" style="display:none">
-      <div style="font-size:14px;font-weight:800;color:var(--navy);margin-bottom:6px">Confirme seu e-mail</div>
-      <p style="font-size:12.5px;color:var(--gray-500);line-height:1.55;margin:0 0 10px">Confirme seu cadastro pelo e-mail informado: <strong id="codEmailAlvo" style="color:var(--navy)"></strong>. Dependendo da configuração de envio, você receberá um código de 6 dígitos ou um link de confirmação.</p>
-      <p id="cadEnvioStatus" role="status" aria-live="polite" style="font-size:11.5px;color:var(--gray-500);line-height:1.5;margin:0 0 12px">Se o e-mail já estiver cadastrado, não será gerado novo código. Nesse caso, entre com sua senha ou use a recuperação de acesso.</p>
-      <div class="auth-field">
-        <label for="codInput">Código de 6 dígitos</label>
-        <input type="text" id="codInput" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" style="letter-spacing:.35em;text-align:center;font-weight:800;font-size:19px">
-      </div>
-      <button class="auth-btn" onclick="confirmarCodigo()">Confirmar e entrar →</button>
-      <div class="auth-err" id="codErr"></div>
-      <div style="text-align:center;margin-top:12px">
-        <button type="button" id="btnReenviarCodigo" onclick="reenviarCodigo()" style="background:none;border:none;color:var(--teal-mid);font-family:'Manrope',sans-serif;font-size:12px;font-weight:800;cursor:pointer;text-decoration:underline">Reenviar confirmação</button>
-        <button type="button" onclick="voltarLoginCadastro()" style="display:block;margin:9px auto 0;background:none;border:none;color:var(--navy);font-family:'Manrope',sans-serif;font-size:12px;font-weight:700;cursor:pointer;text-decoration:underline">Já tenho conta — entrar</button>
-      </div>
-    </div>
-
-    <!-- CADASTRO -->
-    <div id="formCad" style="display:none">
-      <div class="auth-field"><label>Nome completo *</label><input type="text" id="cadNome" placeholder="Seu nome" autocomplete="name"></div>
-      <div class="auth-field"><label>Você é *</label>
-        <select id="cadCategoria" onchange="_cadCatMudou()" style="width:100%;box-sizing:border-box;padding:11px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-family:'Manrope',sans-serif;font-size:13.5px;color:var(--navy);background:#fff">
-          <option value="">Selecione…</option>
-          <option value="academico">Acadêmico(a) de Medicina</option>
-          <option value="generalista">Médico(a) generalista</option>
-          <option value="residente">Médico(a) residente</option>
-          <option value="especialista">Médico(a) especialista</option>
-          <option value="alergista">Médico(a) alergista e imunologista</option>
-        </select>
-      </div>
-      <div class="auth-field" id="cadEspBox" style="display:none"><label>Qual especialidade? *</label><input type="text" id="cadEspecialidade" placeholder="Ex: Pneumologia"></div>
-      <div class="auth-field">
-        <label>Maiores interesses (até 3)</label>
-        <div id="cadInteresses" style="display:flex;flex-wrap:wrap;gap:6px"><button type="button" class="int-chip" data-int="Asma" onclick="_toggleInteresse(this)">Asma</button><button type="button" class="int-chip" data-int="Urticária" onclick="_toggleInteresse(this)">Urticária</button><button type="button" class="int-chip" data-int="Dermatite atópica" onclick="_toggleInteresse(this)">Dermatite atópica</button><button type="button" class="int-chip" data-int="Rinite" onclick="_toggleInteresse(this)">Rinite</button><button type="button" class="int-chip" data-int="Alergia alimentar" onclick="_toggleInteresse(this)">Alergia alimentar</button><button type="button" class="int-chip" data-int="Anafilaxia" onclick="_toggleInteresse(this)">Anafilaxia</button><button type="button" class="int-chip" data-int="Esofagite eosinofílica" onclick="_toggleInteresse(this)">Esofagite eosinofílica</button><button type="button" class="int-chip" data-int="Imunodeficiências" onclick="_toggleInteresse(this)">Imunodeficiências</button><button type="button" class="int-chip" data-int="Alergia a medicamentos" onclick="_toggleInteresse(this)">Alergia a medicamentos</button><button type="button" class="int-chip" data-int="Mastocitose" onclick="_toggleInteresse(this)">Mastocitose</button><button type="button" class="int-chip" data-int="Alergia a himenópteros" onclick="_toggleInteresse(this)">Alergia a himenópteros</button><button type="button" class="int-chip" data-int="Dermatite de contato" onclick="_toggleInteresse(this)">Dermatite de contato</button></div>
-        <div style="font-size:10.5px;color:var(--gray-500);margin-top:6px;line-height:1.4">Serve só para dar mais destaque na tela inicial às informações dessas áreas.</div>
-      </div>
-      <div class="auth-field"><label>E-mail *</label><input type="email" id="cadEmail" placeholder="seu@email.com" autocomplete="email"></div>
-      <div class="auth-field"><label>Senha (mín. 12 caracteres) *</label><input type="password" id="cadSenha" placeholder="••••••••" autocomplete="new-password"></div>
-      <div class="auth-field"><label>Confirmar senha *</label><input type="password" id="cadSenha2" placeholder="••••••••" autocomplete="new-password"></div>
-      <div style="font-size:11px;color:var(--gray-500);margin:-2px 0 12px;line-height:1.45">CRM, RQE e demais dados você completa depois em <strong>Meu perfil</strong>.</div>
-      <button class="auth-btn" onclick="fazerCadastro()">Criar conta →</button>
-      <div class="auth-err" id="cadErr"></div>
-    </div>
-  </div>
-  <div class="auth-footer">Acesso exclusivo para profissionais de saúde cadastrados.<br>A conta utiliza autenticação segura. Consulte a Política de Privacidade.</div>
-</div>
-
 <!-- TOPBAR -->
 <header class="topbar">
   <button class="tb-back" id="tbBack">‹</button>
@@ -1170,7 +1077,7 @@ window._bloquearApp = function(){
     <input id="searchInput" type="text" placeholder="Buscar...">
   </div>
   <div class="tb-bell" id="btnNotif">🔔<div class="tb-dot"></div></div>
-  <div class="tb-user" id="btnPerfil" title="Meu perfil" onclick="navTo('perfil')">--</div>
+  <div class="tb-user" id="btnPerfil" title="Preferências" aria-label="Preferências" onclick="navTo('perfil')">⚙</div>
 </header>
 
 <!-- SCROLL AREA -->
@@ -3966,11 +3873,8 @@ window._bloquearApp = function(){
       <div class="guide-card" data-nav="interacao" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">⚕️</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Interação Medicamentosa</div><div style="font-size:11.5px;color:var(--gray-500)">Verificador clínico · Medscape integrado</div></div></div></div>
       <div class="guide-card" data-nav="favoritos" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🔖</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Favoritos</div><div style="font-size:11.5px;color:var(--gray-500)">Artigos, scores e prompts salvos</div></div></div></div>
     </div>
-    <!-- Usuário logado + logout -->
     <div style="margin:16px 16px 0;background:#f8fafc;border:1px solid var(--gray-100);border-radius:13px;padding:14px 16px">
-      <div style="font-size:11px;font-weight:700;color:var(--gray-500);margin-bottom:4px">Conta</div>
-      <div id="authUserInfo" style="font-size:13px;color:var(--navy);font-weight:600;margin-bottom:12px">—</div>
-      <button data-conta-btn data-sair="Sair da conta →" data-entrar="Entrar ou criar conta →" onclick="fazerLogout()" style="width:100%;background:#fff;border:1.5px solid #e74c3c;color:#e74c3c;border-radius:10px;padding:10px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Sair da conta →</button>
+      <div style="font-size:12px;color:var(--gray-500);line-height:1.5">Acesso livre, sem login. Preferências salvas neste dispositivo.</div>
     </div>
     <div style="height:80px"></div>
   </div>
@@ -4005,65 +3909,14 @@ window._bloquearApp = function(){
     <div style="padding:16px 16px 8px">
       <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px">
         <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
-        Meu perfil
+        Preferências
       </div>
     </div>
     <div style="margin:8px 16px 0;background:#fff;border:1px solid var(--gray-100);border-radius:13px;padding:16px">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-        <div id="perfAvatar" onclick="escolherFotoPerfil()" style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--aqua),var(--teal-mid));display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:800;background-size:cover;background-position:center;cursor:pointer">--</div>
-        <input type="file" id="perfFotoInput" accept="image/*" style="display:none" onchange="_perfFotoSelecionada(event)">
-        <div>
-          <div id="perfNomeTop" style="font-size:14px;font-weight:800;color:var(--navy)">—</div>
-          <div id="perfEmailTop" style="font-size:11.5px;color:var(--gray-500)">—</div>
-        </div>
-      </div>
-      <div id="perfMenu">
-        <button onclick="escolherFotoPerfil()" class="perf-menu-btn">📷 Mudar foto do perfil</button>
-        <button onclick="abrirDadosCadastrais()" class="perf-menu-btn">📝 Editar dados cadastrais</button>
-        <button data-conta-btn data-sair="↪ Sair" data-entrar="↪ Entrar" onclick="fazerLogout()" class="perf-menu-btn perf-menu-sair">↪ Sair</button>
-      </div>
-      <div id="perfForm" style="display:none">
-      <div class="perf-field"><label>Nome completo</label><input id="perfNome" type="text"></div>
-      <div class="perf-field"><label>Você é</label>
-        <select id="perfCategoria" onchange="_perfCatMudou()" style="width:100%;box-sizing:border-box;padding:11px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-family:'Manrope',sans-serif;font-size:13.5px;color:var(--navy);background:#fff">
-          <option value="">Selecione…</option>
-          <option value="academico">Acadêmico(a) de Medicina</option>
-          <option value="generalista">Médico(a) generalista</option>
-          <option value="residente">Médico(a) residente</option>
-          <option value="especialista">Médico(a) especialista</option>
-          <option value="alergista">Médico(a) alergista e imunologista</option>
-        </select>
-      </div>
-      <div class="perf-field" id="perfEspBox" style="display:none"><label>Qual especialidade?</label><input id="perfEspecialidade" type="text" placeholder="Ex: Pneumologia"></div>
-      <div class="perf-field"><label id="perfCrmLabel">CRM (opcional)</label><input id="perfCrm" type="text" placeholder="00000"></div>
-      <div class="perf-field"><label id="perfUfLabel">Estado do CRM (opcional)</label>
-        <select id="perfUf" style="width:100%;box-sizing:border-box;padding:11px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-family:'Manrope',sans-serif;font-size:13.5px;color:var(--navy);background:#fff">
-          <option value="">Selecione…</option><option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option><option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option><option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option><option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option><option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option><option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option><option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option><option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option><option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option>
-        </select>
-      </div>
-      <div class="perf-field"><label id="perfRqeLabel">Número do RQE (opcional)</label><input id="perfRqe" type="text"></div>
-      <div class="perf-field"><label>CEP *</label><input id="perfCep" type="text" inputmode="numeric" maxlength="9" placeholder="00000-000" oninput="_cepMascara(this)"></div>
-      <div class="perf-field"><label>Rua / Avenida *</label><input id="perfRua" type="text"></div>
-      <div style="display:flex;gap:10px">
-        <div class="perf-field" style="flex:1"><label>Número *</label><input id="perfNumero" type="text" inputmode="numeric"></div>
-        <div class="perf-field" style="flex:1.4"><label>Complemento</label><input id="perfCompl" type="text" placeholder="Sala, andar..."></div>
-      </div>
-      <div class="perf-field"><label>Bairro *</label><input id="perfBairro" type="text"></div>
-      <div style="display:flex;gap:10px">
-        <div class="perf-field" style="flex:2"><label>Cidade *</label><input id="perfCidade" type="text"></div>
-        <div class="perf-field" style="flex:1"><label>UF *</label>
-          <select id="perfEndUf" style="width:100%;box-sizing:border-box;padding:11px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-family:'Manrope',sans-serif;font-size:13.5px;color:var(--navy);background:#fff"><option value="">—</option><option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option><option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option><option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option><option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option><option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option><option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option><option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option><option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option><option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option></select>
-        </div>
-      </div>
-      <div class="perf-field"><label>Áreas de interesse (até 3)</label>
-        <div id="perfInteresses" style="display:flex;flex-wrap:wrap;gap:6px"></div>
-        <div style="font-size:10.5px;color:var(--gray-500);margin-top:6px;line-height:1.4">Usado para destacar na tela inicial o último artigo de cada área.</div>
-      </div>
-      <div class="perf-field"><label>E-mail (não editável)</label><input id="perfEmail" type="text" disabled></div>
-      <div id="perfMsg" style="font-size:12px;font-weight:700;margin-bottom:10px;min-height:16px"></div>
-      <button onclick="salvarPerfil()" style="width:100%;background:var(--navy);border:none;color:#fff;border-radius:10px;padding:12px;font-family:'Manrope',sans-serif;font-size:13.5px;font-weight:800;cursor:pointer">Salvar alterações</button>
-      <button onclick="fecharDadosCadastrais()" style="width:100%;margin-top:10px;background:#fff;border:1.5px solid var(--gray-100);color:var(--navy);border-radius:10px;padding:10px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Cancelar</button>
-      </div>
+      <p style="font-size:12px;color:var(--gray-500);line-height:1.55;margin:0 0 12px">Escolha até três áreas de interesse para personalizar os artigos recentes. Não é necessário criar uma conta.</p>
+      <div id="perfInteresses" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+      <div id="perfMsg" role="status" aria-live="polite" style="font-size:11.5px;color:var(--teal-mid);margin:10px 0;min-height:14px"></div>
+      <button type="button" onclick="salvarPerfil()" style="width:100%;background:var(--navy);border:none;color:#fff;border-radius:10px;padding:12px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Salvar preferências neste dispositivo</button>
     </div>
     <div style="height:80px"></div>
   </div>
@@ -4428,121 +4281,25 @@ function fecharAuth(){
   if(a) a.style.display = 'none';
 }
 
-function _atualizarBotoesConta(){
-  try{
-    var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
-    var logado = !!sess.email && document.documentElement.classList.contains('hub-auth-ok');
-    document.querySelectorAll('[data-conta-btn]').forEach(function(b){
-      b.textContent = logado ? b.getAttribute('data-sair') : b.getAttribute('data-entrar');
-      b.onclick = logado ? fazerLogout : function(){ abrirAuth('login'); };
-      if(b.classList.contains('perf-menu-sair')) return;
-      b.style.borderColor = logado ? '#e74c3c' : 'var(--teal-mid)';
-      b.style.color       = logado ? '#e74c3c' : 'var(--teal-mid)';
-    });
-  }catch(e){}
-}
-
+function _atualizarBotoesConta(){}
 function _atualizarInfoUsuario(){
-  _atualizarBotoesConta();
-  try{
-    var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
-    var el = document.getElementById('authUserInfo');
-    if(el && sess.nome) el.textContent = sess.nome + ' (' + (sess.email||'') + ')';
-    var av = document.getElementById('btnPerfil');
-    if(av) av.textContent = _iniciais(sess.nome);
-    try{ _aplicarFotoPerfil(); }catch(e){}
-  }catch(e){}
-  try{ filtrarHomeArtigos(); }catch(e){}
+  var av=document.getElementById('btnPerfil');if(av)av.textContent='⚙';
+  try{filtrarHomeArtigos();}catch(e){}
 }
-
 function preencherPerfil(){
-  try{
-    var sess  = JSON.parse(localStorage.getItem('hub_session')||'{}');
-    var users = JSON.parse(sessionStorage.getItem('hub_users')||'{}');
-    var u = users[sess.email] || {};
-    function set(id,v){var el=document.getElementById(id); if(el) el.value = v||'';}
-    set('perfNome', u.nome||sess.nome);
-    var cat = document.getElementById('perfCategoria');
-    if(cat) cat.value = u.categoria||'';
-    _perfCatMudou();
-    set('perfEspecialidade', (u.categoria==='especialista') ? u.especialidade : '');
-    _enderecoPreencher(u);
-    set('perfCrm', u.crm);
-    set('perfRqe', u.rqe);
-    var ufEl = document.getElementById('perfUf'); if(ufEl) ufEl.value = u.uf||'';
-    _renderPerfInteresses();
-    set('perfEmail', sess.email);
-    var msg=document.getElementById('perfMsg'); if(msg) msg.textContent='';
-    var av=document.getElementById('perfAvatar'); if(av) av.textContent=_iniciais(u.nome||sess.nome);
-    fecharDadosCadastrais();
-    _aplicarFotoPerfil();
-    var nt=document.getElementById('perfNomeTop'); if(nt) nt.textContent=u.nome||sess.nome||'—';
-    var et=document.getElementById('perfEmailTop'); if(et) et.textContent=sess.email||'—';
-  }catch(e){}
+  try{_renderPerfInteresses();}catch(e){}
+  var msg=document.getElementById('perfMsg');if(msg)msg.textContent='';
 }
-
 function salvarPerfil(){
-  var msg = document.getElementById('perfMsg');
-  function erro(t){ if(msg){msg.style.color='#e74c3c'; msg.textContent=t;} }
-  try{
-    var sess  = JSON.parse(localStorage.getItem('hub_session')||'{}');
-    var users = JSON.parse(sessionStorage.getItem('hub_users')||'{}');
-    var u = users[sess.email] || {};
-    var nome = (document.getElementById('perfNome').value||'').trim();
-    if(!nome){ erro('Informe seu nome completo.'); return; }
-    u.nome = nome;
-    var catEl = document.getElementById('perfCategoria');
-    var cat   = catEl ? catEl.value : (u.categoria||'');
-    var espIn = (document.getElementById('perfEspecialidade').value||'').trim();
-    if(cat==='especialista' && !espIn){ erro('Informe sua especialidade.'); return; }
-    var crmIn = (document.getElementById('perfCrm').value||'').trim();
-    var ufEl2 = document.getElementById('perfUf');
-    var ufIn  = ufEl2 ? (ufEl2.value||'') : '';
-    var rqeIn = (document.getElementById('perfRqe').value||'').trim();
-    var endObj = _enderecoLer();
-    if(_crmObrigatorio(cat) && !crmIn){ erro('Informe seu CRM (obrigatório para médicos).'); return; }
-    if(_crmObrigatorio(cat) && !ufIn){ erro('Selecione o estado do CRM.'); return; }
-    if(_rqeObrigatorio(cat) && !rqeIn){ erro('Informe seu RQE (obrigatório para especialistas).'); return; }
-    if(endObj.cep.replace(/\D/g,'').length !== 8){ erro('Informe o CEP completo (8 números).'); return; }
-    if(!endObj.rua){ erro('Informe a rua ou avenida.'); return; }
-    if(!endObj.numero){ erro('Informe o número do endereço.'); return; }
-    if(!endObj.bairro){ erro('Informe o bairro.'); return; }
-    if(!endObj.cidade){ erro('Informe a cidade.'); return; }
-    if(!endObj.uf){ erro('Selecione o estado (UF) do endereço.'); return; }
-    var endIn = _enderecoTexto(endObj);
-    u.categoria     = cat;
-    u.especialidade = (cat==='especialista') ? espIn : (CATEGORIA_LABEL[cat]||'');
-    u.endereco      = endIn;
-    u.end           = endObj;
-    u.crm           = crmIn;
-    u.uf            = ufIn;
-    u.rqe           = rqeIn || null;
-    u.interesses    = _perfInteressesSelecionados();
-    _salvarLocal(sess.email, u);
-    sess.nome = nome;
-    localStorage.setItem('hub_session', JSON.stringify(sess));
-    _atualizarInfoUsuario();
-    try{ atualizarHero(); }catch(e){}
-    preencherPerfil();
-    if(msg){ msg.style.color='#16a34a'; msg.textContent='Dados salvos.'; }
-    if(typeof toast==='function') toast('✅','Perfil atualizado');
-
-    // Sincroniza na nuvem
-    var token = sess.token;
-    if(token){
-      var body = {data:{nome:u.nome, categoria:u.categoria, especialidade:u.especialidade,
-                        endereco:u.endereco, end:u.end, crm:u.crm, uf:u.uf, rqe:u.rqe, interesses:u.interesses}};
-      fetch(SB_URL + '/auth/v1/user', {method:'PUT', headers:_sbHeaders(token), body:JSON.stringify(body)})
-        .then(function(r){ if(!r.ok && msg){ msg.style.color='#e67e22'; msg.textContent='Salvo neste aparelho, mas não sincronizou na nuvem.'; } })
-        .catch(function(){ if(msg){ msg.style.color='#e67e22'; msg.textContent='Salvo neste aparelho (sem conexão).'; } });
-    }
-  }catch(e){ erro('Erro ao salvar. Tente novamente.'); }
+  var ints=typeof _perfInteressesSelecionados==='function'?_perfInteressesSelecionados():[];
+  var msg=document.getElementById('perfMsg');
+  try{localStorage.setItem('hub_public_interesses',JSON.stringify(ints));}
+  catch(e){if(msg)msg.textContent='Não foi possível salvar neste navegador.';return;}
+  try{atualizarHero();}catch(e){}
+  try{carregarFeedHome(true);}catch(e){}
+  if(msg)msg.textContent='Preferências salvas neste dispositivo.';
+  if(typeof toast==='function')toast('✓','Preferências atualizadas');
 }
-
-
-
-
-
 var INTERESSE_TOPICO = {
   'Asma':'asma', 'Urticária':'urticaria', 'Dermatite atópica':'da', 'Rinite':'rinite',
   'Alergia alimentar':'aa', 'Anafilaxia':'anafilaxia', 'Esofagite eosinofílica':'eoe',
@@ -6367,27 +6124,14 @@ function _interessesSelecionados(){
   return out.slice(0,3);
 }
 function _meusInteresses(){
-  try{
-    var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
-    var users = JSON.parse(sessionStorage.getItem('hub_users')||'{}');
-    return (users[sess.email] && users[sess.email].interesses) || [];
-  }catch(e){ return []; }
+  try{var ints=JSON.parse(localStorage.getItem('hub_public_interesses')||'[]');return Array.isArray(ints)?ints.slice(0,3):[];}
+  catch(e){return [];}
 }
 function atualizarHero(){
-  try{
-    var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
-    var h = new Date().getHours();
-    var saud = h < 12 ? 'Bom dia' : (h < 18 ? 'Boa tarde' : 'Boa noite');
-    var primeiro = String(sess.nome||'').trim().split(' ')[0] || '';
-    var el = document.getElementById('heroSaudacao');
-    if(el) el.textContent = saud + (primeiro ? ', ' + primeiro : '') + '!';
-
-    var ints = _meusInteresses();
-    var p = document.getElementById('heroPendencias');
-    if(p) p.textContent = ints.length ? 'Acompanhando: ' + ints.join(' · ')
-                                      : 'Escolha suas áreas de interesse em Meu perfil.';
-
-  }catch(e){}
+  var h=new Date().getHours(),saud=h<12?'Bom dia':(h<18?'Boa tarde':'Boa noite');
+  var el=document.getElementById('heroSaudacao');if(el)el.textContent=saud+'!';
+  var ints=_meusInteresses(),p=document.getElementById('heroPendencias');
+  if(p)p.textContent=ints.length?'Acompanhando: '+ints.join(' · '):'Escolha suas áreas de interesse em Preferências.';
 }
 document.addEventListener('DOMContentLoaded', atualizarHero);
 
@@ -7250,7 +6994,7 @@ function labInit(){
   igeRenderChips(); igeRender(); pedRender();
 }
 
-var PAGE_TITLES={laboratorio:'Laboratório',eaaci:'Protocolos EAACI',dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',imunizacoes:'Imunizações',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',scores:'Scores',pacientes:'Pacientes',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Meu perfil',alergonews:'Alergo News',jornal:'Alergia News',mais:'Mais'};
+var PAGE_TITLES={laboratorio:'Laboratório',eaaci:'Protocolos EAACI',dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',imunizacoes:'Imunizações',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',scores:'Scores',pacientes:'Pacientes',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Preferências',alergonews:'Alergo News',jornal:'Alergia News',mais:'Mais'};
 
 var _navHistory = ['dashboard'];
 
@@ -10093,16 +9837,12 @@ function carregarFeedHome(forcar){
   var box = document.getElementById('homeArtigos');
   if(!box) return Promise.resolve();
   var temas = _homeTemasSelecionados();
-  var email = '';
-  try{ email = JSON.parse(localStorage.getItem('hub_session')||'{}').email||''; }catch(e){}
-  var chave = JSON.stringify([email,temas.map(function(t){ return t.id; }),new Date().toLocaleDateString('pt-BR')]);
+  var chave = JSON.stringify([temas.map(function(t){ return t.id; }),new Date().toLocaleDateString('pt-BR')]);
   if(!forcar && _homeFeedChave === chave) return _homeFeedPromise;
   _homeFeedChave = chave;
   var versao = ++_homeFeedVersao;
   if(!temas.length){
-    box.innerHTML = '<div style="font-size:12px;color:var(--gray-500);line-height:1.6;padding:10px 0">' +
-      (email ? 'Escolha seus temas de interesse em Meu perfil para personalizar os artigos da Home. <button type="button" class="link-btn" onclick="navTo(\'perfil\')">Escolher temas</button>' :
-      'Entre ou cadastre-se para ver os 3 artigos mais recentes de cada tema de seu interesse. <button type="button" class="link-btn" onclick="abrirAuth(\'login\')">Entrar / cadastrar</button>') + '</div>';
+    box.innerHTML = '<div style="font-size:12px;color:var(--gray-500);line-height:1.6;padding:10px 0">Selecione até três áreas de interesse em Preferências para visualizar os artigos mais recentes. <button type="button" class="link-btn" onclick="navTo(\'perfil\')">Escolher temas</button></div>';
     return Promise.resolve();
   }
   var grupos = temas.map(function(t){
@@ -11184,7 +10924,7 @@ function chatToggle(){
     .observe(document.body,{childList:true,subtree:true});
 })();
 </script>
-<script src="lgpd-runtime.js?v=20261104-5"></script>
+<script src="lgpd-runtime.js?v=20261104-6"></script>
 </body>
 </html>
 
