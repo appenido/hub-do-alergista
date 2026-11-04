@@ -71,7 +71,9 @@ window.fazerLogin=async function(){
   const senha=campo('loginSenha')?.value||'';
   const aviso=campo('loginErr'),botao=campo('btnEntrarHub');
   const legado=campo('btnCadastroAntigo');
+  const reenviar=campo('btnReenviarConfirmacao');
   if(legado)legado.hidden=true;
+  if(reenviar)reenviar.hidden=true;
   aviso.textContent='';
   if(!email||!email.includes('@')||!senha){
     aviso.textContent='Informe um e-mail válido e sua senha.';return;
@@ -87,19 +89,24 @@ window.fazerLogin=async function(){
     if(!resp.ok||!dados.access_token||!dados.refresh_token){
       const detalhe=String(dados.error_code||dados.error||dados.msg||dados.message||'').toLowerCase();
       if(resp.status===429){erro('Muitas tentativas de acesso. Tente novamente mais tarde.');}
-      if(/not.confirmed|email.not.confirmed/.test(detalhe))
-        erro('Seu e-mail ainda não foi confirmado. Verifique a mensagem enviada no cadastro.');
+      if(/not.confirmed|email.not.confirmed/.test(detalhe)){
+        if(reenviar)reenviar.hidden=false;
+        erro('O e-mail ainda não foi confirmado. Confira a mensagem do cadastro ou solicite outro código.');
+      }
       if(/invalid|credentials|login|password/.test(detalhe)||resp.status===400)
         erro('E-mail ou senha incorretos. Você pode recuperar a senha abaixo.');
       erro('Não foi possível autenticar sua conta. Tente novamente.');
     }
     const meta=(dados.user&&dados.user.user_metadata)||{};
-    window._iniciarSessao(email,meta.nome||email,dados.access_token,dados.refresh_token);
     if(typeof window._salvarLocal==='function')window._salvarLocal(email,meta);
+    window._iniciarSessao(email,meta.nome||email,dados.access_token,dados.refresh_token);
     aviso.textContent='';
     campo('loginSenha').value='';
   }catch(e){
-    aviso.textContent=e.message||'Não foi possível entrar. Verifique sua conexão.';
+    const m=String(e&&e.message||'');
+    aviso.textContent=/failed to fetch|networkerror|network request failed|load failed/i.test(m)
+      ?'Não foi possível conectar ao servidor. Verifique a conexão e tente novamente.'
+      :m||'Não foi possível entrar. Tente novamente.';
     // Contas antigas podiam existir apenas neste navegador, sem autenticação na nuvem.
     try{
       const antigos=JSON.parse(sessionStorage.getItem('hub_users')||'{}');
@@ -108,6 +115,24 @@ window.fazerLogin=async function(){
   }finally{
     if(botao){botao.disabled=false;botao.textContent='Entrar';}
   }
+};
+window.reenviarConfirmacaoHub=async function(){
+  const campo=document.getElementById('loginEmail');
+  const aviso=document.getElementById('loginErr');
+  const email=(campo?.value||'').trim().toLowerCase();
+  if(!email||!email.includes('@')){aviso.textContent='Informe seu e-mail para reenviar a confirmação.';return;}
+  const btn=document.getElementById('btnReenviarConfirmacao');
+  if(btn)btn.disabled=true;
+  try{
+    const r=await fetch(SB+'/auth/v1/resend',{
+      method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({type:'signup',email})
+    });
+    if(r.status===429)erro('Muitas solicitações. Tente novamente mais tarde.');
+    if(!r.ok)erro('Não foi possível reenviar a confirmação. Tente novamente.');
+    aviso.textContent='Se houver um cadastro pendente, enviaremos uma nova mensagem de confirmação. Confira também a pasta de spam.';
+  }catch(e){aviso.textContent=e.message||'Falha de conexão. Tente novamente.';}
+  finally{if(btn)btn.disabled=false;}
 };
 window.solicitarRecuperacaoSenha=async function(){
   const campo=document.getElementById('loginEmail');
