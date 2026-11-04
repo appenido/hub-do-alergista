@@ -6837,7 +6837,7 @@ var IGE_CAT = [
 // Revisão de correspondência entre nomes e códigos ImmunoCAP e ampliação de misturas.
 // Leite total/ovo total são sinônimos de busca para extratos completos, não IgE sérica total.
 (function(){
-  var corrigir=[["f293|Grão-de-bico","f309","Grão-de-bico"],["f299|Noz-pecã","f201","Noz-pecã"],["f294|Mamão","f293","Mamão"],["f402|Maracujá","f294","Maracujá"],["f301|Figo","f328","Figo"],["f289|Caqui","f301","Caqui"],["f291|Melancia","f329","Melancia"],["f360|Macadâmia","f345","Macadâmia"],["f300|Leite de cabra","f409","Leite de cabra"],["f403|Gelatina bovina","c74","Gelatina bovina"],["c74|Quimopapaína","c209","Quimopapaína"],["f338|Tilápia","f414","Tilápia"],["f206|Anchova","f313","Anchova"],["f312|Pescada","f307","Pescada"],["f303|Linguado","f337","Linguado"],["f58|Polvo","f59","Polvo"],["f59|Lula","f58","Lula"],["f2|Leite de vaca","f2","Leite de vaca (extrato completo)","leite total leite integral leite de vaca total extrato completo"],["f245|Ovo inteiro","f245","Ovo inteiro (clara e gema)","ovo total ovo completo ovo integral clara gema"],["f1|Clara de ovo","f1","Clara de ovo (extrato completo)","clara total ovo clara completa"]];
+  var corrigir=[["f293|Grão-de-bico","f309","Grão-de-bico"],["f299|Noz-pecã","f201","Noz-pecã"],["f294|Mamão","f293","Mamão"],["f402|Maracujá","f294","Maracujá"],["f301|Figo","f328","Figo"],["f289|Caqui","f301","Caqui"],["f291|Melancia","f329","Melancia"],["f360|Macadâmia","f345","Macadâmia"],["f300|Leite de cabra","f409","Leite de cabra"],["f403|Gelatina bovina","c74","Gelatina bovina"],["c74|Quimopapaína","c209","Quimopapaína"],["f338|Tilápia","f414","Tilápia"],["f206|Anchova","f313","Anchova"],["f312|Pescada","f307","Pescada"],["f303|Linguado","f337","Linguado"],["f58|Polvo","f59","Polvo"],["f59|Lula","f58","Lula"],["f2|Leite de vaca","f2","Leite de vaca (extrato completo)","leite total leite integral leite de vaca total extrato completo"],["f245|Ovo inteiro","f245","Ovo inteiro (clara e gema)","ovo total ovo completo ovo integral clara gema"],["f1|Clara de ovo","f1","Clara de ovo (extrato completo)","clara do ovo extrato da clara completa"]];
   var renomear={"fx2|Painel de frutos do mar (camarão, lagosta, mexilhão, atum, salmão)":"Mistura de peixe, camarão, mexilhão, atum e salmão","fx5|Painel alimentar pediátrico (ovo, leite, peixe, trigo, amendoim, soja)":"Mistura de clara de ovo, leite, peixe, trigo, amendoim e soja","f207|Vieira/ostra":"Amêijoa (vôngole)"};
   IGE_CAT=IGE_CAT.filter(function(i){return !(i.c==='c209'&&i.n==='Cefalosporina');}).map(function(i){
     var origem=i.c+'|'+i.n, item=corrigir.find(function(r){return r[0]===origem;});
@@ -6860,6 +6860,15 @@ function labTab(t){
  document.querySelectorAll('.lab-pane').forEach(function(p){p.classList.toggle('active',p.id==='labpane-'+t);});
 }
 function _norm(s){return (s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+var IGE_SINONIMOS={
+ 'f76':'leite proteinas do leite', 'f77':'leite proteinas do leite', 'f78':'leite caseina',
+ 'rBos d 4':'leite alfa lactoalbumina','rBos d 5':'leite beta lactoglobulina',
+ 'nBos d 8':'leite caseina','nBos d lactoferrin':'leite lactoferrina',
+ 'nBos d 6':'leite carne bovina',
+ 'f232':'ovo ovalbumina','f233':'ovo ovomucoide',
+ 'nGal d 1':'ovo ovomucoide','nGal d 2':'ovo ovalbumina',
+ 'nGal d 3':'ovo conalbumina','nGal d 4':'ovo lisozima'
+};
 function igeBuscar(){igeRender();}
 function igeRender(){
  var inp=document.getElementById('igeBusca');if(!inp)return;
@@ -6871,7 +6880,8 @@ function igeRender(){
  var lista=IGE_CAT.filter(function(i){
   var p=typeof igeInfo==='function'?igeInfo(i):{};
   var extra=(/^f\d+/i.test(i.c)&&['f76','f77','f78','f232','f233'].indexOf(i.c)<0?'extrato completo alérgeno inteiro ':'')+(/^fx\d+/i.test(i.c)?'mix mistura painel combinado de alérgenos':'');
-  var hay=_norm([i.c,i.n,i.busca||'',extra].join(' '));
+  var grupoBusca=i.g==='Alimentos · Leite e ovo'?'alimentos':i.g;
+  var hay=_norm([i.c,i.n,i.busca||'',IGE_SINONIMOS[i.c]||'',grupoBusca,extra].join(' '));
   return tokens.every(function(term){return hay.indexOf(term)>=0;});
  });
  lista.sort(function(a,b){
