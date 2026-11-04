@@ -4,11 +4,23 @@ const BASE = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
 async function ncbi(path, params) {
   const url = new URL(path, BASE);
   Object.entries({db:'pubmed',retmode:'json',tool:'HubDoAlergista',...params}).forEach(([k,v]) => url.searchParams.set(k,v));
-  const response = await fetch(url, {headers:{Accept:'application/json'},signal:AbortSignal.timeout(18000)});
-  if (!response.ok) throw new Error('PubMed indisponível');
-  const json = await response.json();
-  if (json.error) throw new Error('Resposta PubMed inválida');
-  return json;
+  for (let attempt=0; attempt<3; attempt++) {
+    const response = await fetch(url, {headers:{Accept:'application/json'},signal:AbortSignal.timeout(18000)});
+    if ([429,502,503,504].includes(response.status) && attempt<2) {
+      const retryAfter=Number(response.headers.get('Retry-After'));
+      await new Promise(resolve=>setTimeout(resolve,Math.min(3000,Math.max(1000*(attempt+1),(Number.isFinite(retryAfter)?retryAfter:0)*1000))));
+      continue;
+    }
+    if (!response.ok) throw new Error('PubMed HTTP '+response.status);
+    const json = await response.json();
+    if (json.error && /rate limit/i.test(String(json.error)) && attempt<2) {
+      await new Promise(resolve=>setTimeout(resolve,1000*(attempt+1)));
+      continue;
+    }
+    if (json.error) throw new Error('Resposta PubMed inválida');
+    return json;
+  }
+  throw new Error('PubMed indisponível');
 }
 const headers = {'Content-Type':'application/json; charset=utf-8','X-Content-Type-Options':'nosniff'};
 export async function onRequestGet(context) {
