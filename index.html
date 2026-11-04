@@ -3314,6 +3314,14 @@ window._bloquearApp=function(){};
       <div class="ig-f-row"><label>Infecções de repetição documentadas?</label>
         <select id="igInfRep"><option value="sim">Sim — infecções bacterianas recorrentes/graves</option><option value="nao">Não / não documentadas</option></select></div>
 
+      <div class="ig-f-row" style="border:1px solid #dcecf0;border-radius:10px;padding:10px;background:#f7fafb">
+        <label>Histórico com a mesma marca (sem armazenamento)</label>
+        <div class="ig-f-2" style="margin-top:8px">
+          <div class="ig-f-row"><label>Número de infusões anteriores</label><input type="number" id="igHistoricoNum" min="0" max="999" value="0"></div>
+          <div class="ig-f-row"><label>Data da última infusão</label><input type="date" id="igUltimaAplicacao"></div>
+        </div>
+        <label style="display:flex;gap:6px;font-size:11px;align-items:flex-start"><input type="checkbox" id="igToleranciaDoc" style="width:auto;flex-shrink:0;margin-top:2px">Boa tolerância documentada no prontuário externo, sem reação prévia</label>
+      </div>
       <div class="ig-f-row"><label>Reação infusional prévia à imunoglobulina</label>
         <select id="igReacao">
           <option value="nenhuma">Nenhuma</option>
@@ -5181,54 +5189,7 @@ function vacRenderVacinas(filtro){
 /* Cadastro e prescrições — imunoglobulinas */
 var igModoAtual='primeira';
 function igEscapeHtml(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-function igPacientesSalvos(){
-  try{return Object.values(JSON.parse(localStorage.getItem('igPacientes')||'{}')).filter(function(p){return p&&typeof p.nome==='string';}).sort(function(a,b){return a.nome.localeCompare(b.nome,'pt-BR');});}
-  catch(e){return [];}
-}
-function igPrepararCadastro(){
-  var dx=document.getElementById('igCadDx'),src=document.getElementById('igDx');
-  if(dx&&src&&!dx.options.length)dx.innerHTML=src.innerHTML;
-  var prod=document.getElementById('igCadProduto');
-  if(prod&&!prod.options.length)prod.innerHTML='<option value="">Selecione...</option>'+Object.keys(IG_PRODUTOS).map(function(k){
-    return '<option value="'+igEscapeHtml(k)+'">'+igEscapeHtml(IG_PRODUTOS[k].nome)+'</option>';
-  }).join('');
-}
-function igCadastroViaDoProduto(k){var p=IG_PRODUTOS[k],v=document.getElementById('igCadVia');if(p&&v)v.value=p.via.indexOf('SC')===0?'SC':'IV';}
-function igAtualizarSeletor(){
-  var select=document.getElementById('igPrescPaciente');if(!select)return;
-  var current=select.value;
-  var patients=igPacientesSalvos();
-  select.innerHTML='<option value="">Selecione um paciente...</option>'+patients.map(function(p){
-    return '<option value="'+igEscapeHtml(p.nome)+'">'+igEscapeHtml(p.nome)+'</option>';
-  }).join('');
-  if(patients.some(function(p){return p.nome===current;}))select.value=current;
-}
-function igCadastrarPaciente(ev){
-  if(ev&&ev.preventDefault)ev.preventDefault();
-  var el=function(id){return document.getElementById(id);};
-  var nome=el('igCadNome').value.trim(), idade=Number(el('igCadIdade').value),peso=Number(el('igCadPeso').value);
-  var prod=el('igCadProduto').value,dx=el('igCadDx').value,via=el('igCadVia').value;
-  var prev=Number(el('igCadHistoricoNum').value||0),doc=el('igCadToleranciaDoc').checked;
-  if(!nome||!prod||!dx||!Number.isFinite(idade)||idade<0||idade>130||!Number.isFinite(peso)||peso<2||peso>250||!Number.isInteger(prev)||prev<0){
-    toast('⚠️','Revise os dados do cadastro.');return;
-  }
-  if((IG_PRODUTOS[prod].via.indexOf('SC')===0?'SC':'IV')!==via){toast('⚠️','Produto e via incompatíveis.');return;}
-  if(doc&&(!prev||el('igCadReacao').value!=='nenhuma'||!el('igCadUltima').value)){toast('⚠️','Para documentar boa tolerância, informe infusões prévias, ausência de reação e data da última infusão.');return;}
-  try{
-    var hist=JSON.parse(localStorage.getItem('igPacientes')||'{}'),ant=hist[nome.toLowerCase()]||{};
-    var changed=!!ant.produto&&ant.produto!==prod;
-    if(changed&&!confirm('Trocar produto? A tolerância com a marca anterior não será aceita para escalonamento automático.'))return;
-    hist[nome.toLowerCase()]=Object.assign({},ant,{
-      nome:nome,idade:idade,idUn:'anos',peso:peso,dx:dx,
-      igG:el('igCadIgG').value===''?null:Number(el('igCadIgG').value),
-      via:via,produto:prod,infRep:el('igCadInfRep').value,reacao:el('igCadReacao').value,
-      historicoInformado:prev,historicoProduto:prod,toleranciaDocumentada:!!doc,
-      ultimaHistorica:el('igCadUltima').value,infusoes:ant.infusoes||[]
-    });
-    localStorage.setItem('igPacientes',JSON.stringify(hist));
-    igAtualizarSeletor();toast('✅','Cadastro salvo no dispositivo.');igShowSub('pacientes');
-  }catch(e){toast('⚠️','Erro ao salvar o cadastro.');}
-}
+function igAtualizarSeletor(){ /* Sem cadastro de pacientes. */ }
 function igAbrirPrescricao(modo){
   igModoAtual=modo==='rotina'?'rotina':'primeira';
   igShowSub('infusao');
@@ -5273,7 +5234,7 @@ function igHistoricoSeguro(p,produto){
 function igShowHub(){
   var hub=document.getElementById('ig-menu-hub');
   if(hub) hub.style.display='block';
-  ['cadastro','pacientes','infusao','bulas'].forEach(function(k){
+  ['infusao','bulas'].forEach(function(k){
     var el=document.getElementById('ig-sub-'+k); if(el) el.style.display='none';
   });
   var fab=document.getElementById('igChatFab'); if(fab) fab.style.display='none';
@@ -5281,48 +5242,13 @@ function igShowHub(){
 function igShowSub(sub){
   var hub=document.getElementById('ig-menu-hub');
   if(hub) hub.style.display='none';
-  ['cadastro','pacientes','infusao','bulas'].forEach(function(k){
+  ['infusao','bulas'].forEach(function(k){
     var el=document.getElementById('ig-sub-'+k);
     if(el) el.style.display=(k===sub)?'block':'none';
   });
-  if(sub==='pacientes') igRenderPacientes('');
-  if(sub==='cadastro') igPrepararCadastro();
   if(sub==='bulas') igRenderBulas();
   var fab=document.getElementById('igChatFab');
   if(fab) fab.style.display=(sub==='infusao')?'flex':'none';
-}
-function igRenderPacientes(filtro){
-  var box=document.getElementById('igListaPacientes'); if(!box) return;
-  try{
-    var hist=JSON.parse(localStorage.getItem('igPacientes')||'{}');
-    var lista=Object.values(hist).filter(function(p){
-      return !filtro || p.nome.toLowerCase().indexOf(filtro.toLowerCase())>=0;
-    }).sort(function(a,b){ return (b.ultima||'').localeCompare(a.ultima||''); });
-    box.innerHTML='';
-    if(!lista.length){ box.innerHTML='<div style="color:var(--gray-500);font-size:13px;padding:8px 0">Nenhum paciente salvo ainda.</div>'; return; }
-    lista.forEach(function(p){
-      var nInf=(p.infusoes&&p.infusoes.length)||0; var nAnt=Number(p.historicoInformado)||0;
-      var prod=(window.IG_PRODUTOS&&p.produto&&IG_PRODUTOS[p.produto])?IG_PRODUTOS[p.produto].nome:(p.produto||'');
-      var div=document.createElement('div');
-      div.style.cssText='background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px';
-      div.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between">'
-        +'<b style="font-size:13.5px;color:var(--navy)">'+igEscapeHtml(p.nome)+'</b>'
-        +'<span style="font-size:11px;color:var(--gray-500)">'+nInf+' registradas · '+nAnt+' informadas</span></div>'
-        +'<div style="font-size:11.5px;color:var(--gray-500)">'+igEscapeHtml(p.dx||'')+(p.peso?' · '+p.peso+' kg':'')+(p.ultima?' · última: '+p.ultima:'')+'</div>'
-        +(prod?'<div style="font-size:11px;color:var(--teal-mid);font-weight:700">'+igEscapeHtml(prod)+'</div>':'')
-        +'<div style="display:flex;gap:6px;margin-top:6px">'
-        +'<button class="bni" style="flex:1;background:var(--teal-mid);color:#fff;border:none;border-radius:8px;padding:6px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:Manrope,sans-serif">💉 Nova infusão</button>'
-        +'<button class="bri" style="background:#e6f4f7;color:var(--teal-mid);border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer">📅 Registrar</button>'
-        +'<button class="bdi" style="background:#fff0f0;color:#e53e3e;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer">🗑</button>'
-        +'</div>';
-      (function(pn){
-        div.querySelector('.bni').onclick=function(){ igAbrirPrescricao((nInf+nAnt)?'rotina':'primeira'); igSelecionarPaciente(pn); };
-        div.querySelector('.bri').onclick=function(){ igRegistrarInfusao(pn); setTimeout(function(){ igRenderPacientes(filtro||''); },300); };
-        div.querySelector('.bdi').onclick=function(){ igDeletarPaciente(pn); igRenderPacientes(filtro||''); };
-      })(p.nome);
-      box.appendChild(div);
-    });
-  }catch(e){ box.innerHTML='<div style="color:#e53e3e;font-size:12px">Erro ao carregar histórico.</div>'; }
 }
 function igRenderBulas(){
   var iv=document.getElementById('ig-bulas-iv');
@@ -5357,140 +5283,6 @@ function igRenderBulas(){
       +'</table></div>';
     (b.via==='IV'?iv:sc).appendChild(det);
   });
-}
-
-function igNomeAutoComplete(val){
-  var box = document.getElementById('igNomeSugs');
-  if(!box) return;
-  if(!val || val.length < 2){ box.style.display='none'; return; }
-  try{
-    var hist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
-    var matches = Object.values(hist).filter(function(p){
-      return p.nome.toLowerCase().indexOf(val.toLowerCase())>=0;
-    });
-    if(!matches.length){ box.style.display='none'; return; }
-    box.innerHTML = '';
-    matches.forEach(function(p){
-      var div = document.createElement('div');
-      div.style.cssText = 'padding:8px 12px;cursor:pointer;border-bottom:1px solid var(--gray-100);font-size:13px';
-      var infoSpan = '<span style="color:var(--gray-500);font-size:11px;margin-left:8px">'
-        +igEscapeHtml(p.dx||'')+(p.peso?' · '+p.peso+' kg':'')+(p.ultima?' · '+p.ultima:'')+'</span>';
-      var btns = '<span style="float:right;display:flex;gap:4px">'
-        +'<button type="button" title="Registrar infusão hoje" style="background:var(--teal-mid);color:#fff;border:none;border-radius:5px;padding:1px 6px;font-size:10px;cursor:pointer">&#128197; Registrar</button>'
-        +'<button type="button" title="Deletar paciente" style="background:#e53e3e;color:#fff;border:none;border-radius:5px;padding:1px 6px;font-size:10px;cursor:pointer">&#128465; Deletar</button>'
-        +'</span>';
-      div.innerHTML = '<b>'+igEscapeHtml(p.nome)+'</b>'+infoSpan+btns;
-      div.style.display = 'flex'; div.style.alignItems = 'center'; div.style.justifyContent = 'space-between';
-      (function(pn){
-        div.onclick = function(){ igSelecionarPaciente(pn); };
-        div.querySelector('button:first-child').onclick = function(e){ e.stopPropagation(); igRegistrarInfusao(pn); };
-        div.querySelector('button:last-child').onclick = function(e){ e.stopPropagation(); igDeletarPaciente(pn); };
-      })(p.nome);
-      box.appendChild(div);
-    });
-    box.style.display = 'block';
-  }catch(e){ box.style.display='none'; }
-}
-function igSelecionarPaciente(nome){
-  var box = document.getElementById('igNomeSugs');
-  if(box) box.style.display='none';
-  try{
-    var hist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
-    var p = hist[nome.toLowerCase()];
-    if(!p) return;
-    var set = function(id,v){ var el=document.getElementById(id); if(el) el.value=(v==null?'':v); };
-    set('igNome',p.nome); set('igIdade',p.idade); set('igIdadeUn',p.idUn);
-    set('igPeso',p.peso); set('igDx',p.dx); set('igIgG',p.igG);
-    set('igVia',p.via); set('igProduto',p.produto);
-    set('igReacao',p.reacao || 'nenhuma'); set('igInfRep',p.infRep || 'sim'); var sl=document.getElementById('igPrescPaciente');if(sl)sl.value=p.nome;
-    if(p.produto) renderIgPicker();
-    var formulario=document.getElementById('igFormBox');if(formulario)formulario.style.display='block';
-    // Se paciente já tem infusões registradas, colapsar formulário e mostrar banner
-    if((p.infusoes && p.infusoes.length > 0)||p.historicoInformado>0){
-      var banner = document.getElementById('igPacResumoBanner');
-      var form = document.getElementById('igFormBox');
-      var nomeEl = document.getElementById('igPacResumoNome');
-      var infoEl = document.getElementById('igPacResumoInfo');
-      var prod = (window.IG_PRODUTOS && p.produto && IG_PRODUTOS[p.produto]) ? IG_PRODUTOS[p.produto].nome : (p.produto||'');
-      if(nomeEl) nomeEl.textContent = p.nome;
-      if(infoEl) infoEl.textContent = (p.dx||'') + (p.peso?' · '+p.peso+' kg':'') + (prod?' · '+prod:'') + ' · '+((p.infusoes||[]).length)+' registradas, '+(p.historicoInformado||0)+' anteriores informadas';
-      if(banner){ banner.style.display='block'; }
-      if(form){ form.style.display='block'; }
-    }
-    if(!((p.infusoes||[]).length||p.historicoInformado)){var ba=document.getElementById('igPacResumoBanner');if(ba)ba.style.display='none';}
-    toast('👤','Paciente carregado');
-  }catch(e){}
-}
-function igExpandirFormulario(){
-  var banner = document.getElementById('igPacResumoBanner');
-  var form = document.getElementById('igFormBox');
-  if(banner) banner.style.display='none';
-  if(form) form.style.display='block';
-}
-function igRegistrarInfusao(nome){
-  var box = document.getElementById('igNomeSugs');
-  if(box) box.style.display='none';
-  try{
-    var hist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
-    var p = hist[nome.toLowerCase()];
-    if(!p) return;
-    if(!p.infusoes) p.infusoes = [];
-    // Nunca contar uma aplicação sem um desfecho de tolerabilidade registrado.
-    var resposta=prompt('Resultado da infusão de '+(p.produto==='privigen_10'?'Privigen':'imunoglobulina')+':\n1 — Concluída, sem reações imediatas ou tardias conhecidas\n2 — Houve reação\n3 — Tolerabilidade não documentada\nDigite 1, 2 ou 3:');
-    if(resposta===null) return;
-    resposta=resposta.trim();
-    if(!['1','2','3'].includes(resposta)){ toast('⚠️','Informe 1, 2 ou 3. Infusão não registrada.'); return; }
-    var hoje = new Date().toLocaleDateString('pt-BR');
-    var n = p.infusoes.length + 1;
-    var desfecho=resposta==='1'?'nenhuma':resposta==='2'?'reacao':'nao_documentada';
-    var anterior=p.infusoes.length?p.infusoes[p.infusoes.length-1]:null;
-    var intervaloLongo=false;
-    if(anterior&&anterior.data){
-      var partes=anterior.data.split('/');
-      if(partes.length===3){
-        var dataAnterior=new Date(+partes[2],+partes[1]-1,+partes[0]);
-        intervaloLongo=(new Date()-dataAnterior)/(86400000)>56;
-      }
-    }
-    p.infusoes.push({data:hoje, n:n, produto:p.produto, reacao:desfecho});
-    if(p.produto==='privigen_10'){
-      if(desfecho!=='nenhuma'||intervaloLongo){
-        p.privigenSemReacao=desfecho==='nenhuma'?1:0;
-        p.privigenDocumentado=false;
-        p.privigenAcelerar=false;
-      }else if(anterior && anterior.produto==='privigen_10' && anterior.reacao==='nenhuma'){
-        p.privigenSemReacao=Math.max(1,Number(p.privigenSemReacao)||0)+1;
-      }else{
-        // Sem registro comparável, não inferir que as aplicações antigas foram toleradas.
-        p.privigenSemReacao=desfecho==='nenhuma'?1:0;
-        p.privigenDocumentado=false;
-        p.privigenAcelerar=false;
-      }
-    }else{
-      p.privigenSemReacao=0;
-      p.privigenDocumentado=false;
-      p.privigenAcelerar=false;
-    }
-    p.ultima = hoje;
-    hist[nome.toLowerCase()] = p;
-    localStorage.setItem('igPacientes', JSON.stringify(hist));
-    toast('📅','Infusão nº'+n+' registrada ('+hoje+')');
-  }catch(e){ toast('⚠️','Erro ao registrar'); }
-}
-function igDeletarPaciente(nome){
-  if(!confirm('Deletar '+nome+' do histórico?')) return;
-  var box = document.getElementById('igNomeSugs');
-  if(box) box.style.display='none';
-  try{
-    var hist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
-    delete hist[nome.toLowerCase()];
-    localStorage.setItem('igPacientes', JSON.stringify(hist));
-    toast('🗑️','Paciente removido');
-  }catch(e){}
-}
-function igCarregarPaciente(){
-  var nome = (document.getElementById('igNome')||{}).value||'';
-  igSelecionarPaciente(nome.trim());
 }
 
 function renderIgPicker(){
@@ -8683,7 +8475,7 @@ if(_tbLogo) _tbLogo.addEventListener('click', function(){ navTo('dashboard'); })
 function gerarOrientacaoIg(){
   var prod_k = (document.getElementById('igProduto')||{}).value||'';
   var prod   = prod_k ? IG_PRODUTOS[prod_k] : null;
-  var nome   = (document.getElementById('igNome')||{}).value||'(não informado)';
+  var nome   = 'Simulação anônima';
   var idade  = parseFloat((document.getElementById('igIdade')||{}).value);
   var idUn   = (document.getElementById('igIdadeUn')||{}).value||'anos';
   var peso   = parseFloat((document.getElementById('igPeso')||{}).value);
@@ -8698,14 +8490,15 @@ function gerarOrientacaoIg(){
   var riscos = [];
   riscosEl.forEach(function(c){ if(c.dataset.r !== 'nenhum') riscos.push(c.dataset.r); });
 
-  // Paciente previamente cadastrado é obrigatório em ambos os fluxos.
-  var selecionado=(document.getElementById('igPrescPaciente')||{}).value||'';
-  var pacienteCadastro=null;
-  try{pacienteCadastro=JSON.parse(localStorage.getItem('igPacientes')||'{}')[selecionado.toLowerCase()]||null;}catch(e){}
-  if(!selecionado||!pacienteCadastro){toast('⚠️','Selecione um paciente cadastrado antes de prescrever.');return;}
-  if(nome.trim()!==pacienteCadastro.nome||peso!==Number(pacienteCadastro.peso)||prod_k!==pacienteCadastro.produto){toast('⚠️','Dados divergentes do cadastro. Carregue novamente o paciente ou atualize o cadastro.');return;}
-  var nToleradas=igInfusoesComprovadas(pacienteCadastro,prod_k);
-  var historicoOk=igModoAtual==='rotina'&&igHistoricoSeguro(pacienteCadastro,prod_k);
+  // Informações de tolerabilidade são usadas apenas na simulação local.
+  var nPrev = Number((document.getElementById('igHistoricoNum')||{}).value||0);
+  var docTol = !!(document.getElementById('igToleranciaDoc')||{}).checked;
+  var ultima = (document.getElementById('igUltimaAplicacao')||{}).value||'';
+  var ultimaDt = ultima ? new Date(ultima+'T12:00:00') : null;
+  var recente = ultimaDt && Number.isFinite(ultimaDt.getTime()) &&
+    Date.now() >= ultimaDt.getTime() && Date.now()-ultimaDt.getTime()<=56*86400000;
+  var nToleradas = igModoAtual==='rotina' && docTol && reacao==='nenhuma' && Number.isInteger(nPrev) && nPrev>0 && recente ? nPrev : 0;
+  var historicoOk = igModoAtual==='rotina' && nToleradas>0;
   // --- VALIDAÇÕES ---
   if(!prod_k || !prod){ toast('⚠️','Selecione o produto acima'); return; }
   if(!dx){ toast('⚠️','Selecione a indicação clínica'); return; }
@@ -8846,7 +8639,7 @@ function gerarOrientacaoIg(){
   h += '<div style="display:flex;align-items:center">'+logoHtml+'<span style="font-size:1.05rem;font-weight:800;color:var(--navy)">Orientação de Infusão</span></div>';
   h += '<button onclick="imprimirIgOrientacao()" style="display:flex;align-items:center;gap:6px;background:var(--navy);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:Manrope,sans-serif"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>Imprimir PDF</button>';
   h += '</div>';
-  h += kv('Paciente', igEscapeHtml(nome));
+  h += kv('Identificação', 'Simulação anônima — não armazenada');
   h += kv('Produto', prod.nome+(prod.conc?' · '+prod.conc:''));
   h += kv('Indicação', info.label);
   h += kv('Via', via==='IV'?'Intravenosa (IV)':'Subcutânea (SC)');
@@ -8909,24 +8702,7 @@ function gerarOrientacaoIg(){
 
   var out = document.getElementById('igSaida');
   if(out){ out.innerHTML = h; out.style.display = 'block'; out.scrollIntoView({behavior:'smooth',block:'start'}); }
-  // Salvar histórico do paciente
-  if(nome && nome !== '(não informado)'){
-    try{
-      var igHist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
-      var chave = nome.trim().toLowerCase();
-      var anteriorPaciente=igHist[chave]||{};
-      igHist[chave] = Object.assign({},anteriorPaciente,{
-        nome:nome.trim(), idade:isNaN(idade)?'':idade, idUn:idUn, peso:peso,
-        dx:dx, igG:isNaN(igG)?null:igG, via:via, reacao:reacao,
-        produto:prod_k, ultima:anteriorPaciente.ultima||''
-      });
-      // Preservar histórico de aplicações e reações, removendo sinais de protocolo acelerado.
-      delete igHist[chave].primeira;
-      delete igHist[chave].privigenAcelerar;
-      delete igHist[chave].privigenDocumentado;
-      localStorage.setItem('igPacientes', JSON.stringify(igHist));
-    }catch(e){}
-  }
+  // Sem persistência de dados clínicos. O resultado fica apenas na tela.
   toast('✅','Orientações geradas');
 }
 
