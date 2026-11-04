@@ -1,0 +1,48 @@
+name: Atualizar novidades UpToDate
+
+on:
+  schedule:
+    # 06:00 em Brasília (UTC-3), diariamente.
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: novidades-uptodate
+  cancel-in-progress: false
+
+jobs:
+  verificar:
+    name: Verificar índice público de Alergia e Imunologia
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Obter código
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Testar extrator
+        run: python scripts/atualizar_uptodate.py --self-test
+
+      - name: Consultar novidades públicas e conferir integridade
+        run: python scripts/atualizar_uptodate.py
+
+      - name: Publicar dados e acionar deploy do Cloudflare Pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet -- data/uptodate.json; then
+            git add data/uptodate.json
+            git commit -m "Radar UpToDate: verificação diária [skip ci]"
+            git push origin HEAD:main
+          else
+            echo "Nenhuma alteração no índice."
+          fi
