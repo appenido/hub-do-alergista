@@ -8920,6 +8920,14 @@ function gerarOrientacaoIg(){
   var riscos = [];
   riscosEl.forEach(function(c){ if(c.dataset.r !== 'nenhum') riscos.push(c.dataset.r); });
 
+  // Paciente previamente cadastrado é obrigatório em ambos os fluxos.
+  var selecionado=(document.getElementById('igPrescPaciente')||{}).value||'';
+  var pacienteCadastro=null;
+  try{pacienteCadastro=JSON.parse(localStorage.getItem('igPacientes')||'{}')[selecionado.toLowerCase()]||null;}catch(e){}
+  if(!selecionado||!pacienteCadastro){toast('⚠️','Selecione um paciente cadastrado antes de prescrever.');return;}
+  if(nome.trim()!==pacienteCadastro.nome||peso!==Number(pacienteCadastro.peso)||prod_k!==pacienteCadastro.produto){toast('⚠️','Dados divergentes do cadastro. Carregue novamente o paciente ou atualize o cadastro.');return;}
+  var nToleradas=igInfusoesComprovadas(pacienteCadastro,prod_k);
+  var historicoOk=igModoAtual==='rotina'&&igHistoricoSeguro(pacienteCadastro,prod_k);
   // --- VALIDAÇÕES ---
   if(!prod_k || !prod){ toast('⚠️','Selecione o produto acima'); return; }
   if(!dx){ toast('⚠️','Selecione a indicação clínica'); return; }
@@ -8955,12 +8963,12 @@ function gerarOrientacaoIg(){
   };
   var info = dxMap[dx] || {label:dx, doseIV:400, doseSC:null, freq:'3–4 sem'};
 
-  // Imunomodulação apenas IV
-  if(dx === 'imunomod' && via === 'SC'){
-    toast('⛔','Imunomodulação em dose alta é exclusiva via IV.'); return;
-  }
+  // Imunomodulação não permite dose única genérica para PTI, Kawasaki, GBS e PIDC.
+  if(dx==='imunomod'){toast('⛔','Escolha um protocolo específico da doença: dose imunomoduladora não é intercambiável entre indicações.');return;}
+  if(dx==='iga'){toast('⛔','Deficiência isolada de IgA não estabelece por si só indicação de reposição de IgG. Reavaliar diagnóstico.');return;}
 
-  var mgkg  = (via === 'SC' && info.doseSC) ? info.doseSC : info.doseIV;
+  // SC convencional recebe frações semanais; HyQvia mantém dose mensal após titulação.
+  var mgkg=(via==='SC'&&prod_k!=='hyqvia_10')?Math.round(info.doseIV/4):info.doseIV;
   var doseG = +(peso * mgkg / 1000).toFixed(1);
 
   // Concentração e volume
@@ -8970,9 +8978,8 @@ function gerarOrientacaoIg(){
   var volML     = concMgmL ? +(doseG * 1000 / concMgmL).toFixed(0) : null;
 
   // Nível-alvo IgG
-  var igAlvo = (dx === 'idcv_bq') ? 800 : 500; // EAACI: ≥800 em bronquiectasias, ≥500 padrão
-  var igOk   = (!isNaN(igG) && igG >= igAlvo);
-  var igBaixo= (!isNaN(igG) && igG < igAlvo);
+  // IgG-alvo é individualizado segundo a resposta clínica; AAAAI 2026, recomendações 8.3 e 8.4.
+  var igAlvo=null, igOk=false, igBaixo=false;
 
   // --- PRÉ-MEDICAÇÃO (não universal — apenas condicional) ---
   var premedItems = [];
@@ -8986,76 +8993,66 @@ function gerarOrientacaoIg(){
     premedItems.push('Considerar pré-medicação IV: hidrocortisona + anti-H1 IV + anti-H2 IV');
   }
 
-  // --- PROTOCOLO DE INFUSÃO IV ---
-  // Velocidades por produto (mL/kg/h) conforme bulas ANVISA
-  var ivRate = {
-    privigen_10:   {ini:0.3, max:4.8},
-    octagam_10:    {ini:0.6, max:7.2},
-    kiovig_10:     {ini:0.5, max:6.0},
-    flebogamma_10: {ini:0.5, max:6.0},
-    tegeline_5:    {ini:0.6, max:4.2},
-    endobulin_5:   {ini:0.5, max:4.0},
-    gammaked_10:   {ini:0.5, max:8.0},
-    gamunex_10:    {ini:0.5, max:8.0}
+
+  // --- VELOCIDADE POR PRODUTO, FASE E TOLERÂNCIA ---
+  // As fontes específicas têm precedência sobre qualquer esquema genérico.
+  var IG_REFERENCIAS_INFUSAO={
+    privigen_10:{url:'https://labeling.cslbehring.com/pi/br/sandoglobulina-privigen/pt/sandoglobulina-privigen-bula-prof-saude.pdf#page=17',titulo:'Bula brasileira Privigen — item 8, Modo de usar, p. 16'},
+    hizentra_20:{url:'https://labeling.cslbehring.com/pi/br/hizentra/pt/hizentra-bula-prof-saude.pdf#page=14',titulo:'Bula brasileira Hizentra — Modo de administração, p. 13'},
+    hyqvia_10:{url:'https://assets-dam.takeda.com/image/upload/v1682582584/legacy-dotcom/siteassets/pt-br/home/what-we-do/produtos/HyQvia_Bula_Profissional.pdf#page=8',titulo:'Bula brasileira HyQvia — tabela de velocidades por local'},
+    kiovig_10:{url:'https://assets-dam.takeda.com/raw/upload/v1662726834/legacy-dotcom/siteassets/de-at/home/presse/fachpresse/geschuetzt/kiovig/FI-Kiovig.pdf',titulo:'KIOVIG — ficha técnica austríaca, seção 4.2 (confirmar bula brasileira antes de aplicar)'}
   };
-  var r = ivRate[prod_k];
-  var vIniAbs = r ? +(r.ini * peso).toFixed(1) : null;
-  var vMaxAbs = r ? +(r.max * peso).toFixed(1) : null;
-
-  function gerarTabelaIV(peso, r){
-    var steps = [r.ini];
-    var v = r.ini;
-    while(v < r.max - 0.01){
-      v = +(v*2).toFixed(2);
-      if(v > r.max) v = r.max;
-      steps.push(v);
-    }
-    var rows = steps.map(function(vel, i){
-      var abs = +(vel*peso).toFixed(1);
-      var obs = i===0?'Observar sinais de intolerância':i===steps.length-1?'Manter se bem tolerado':'Avaliar tolerância antes de progredir';
-      return '<tr><td>'+(i===0?'0–30':'30 min por etapa')+'</td><td>'+vel+' mL/kg/h</td><td><b>'+abs+' mL/h</b></td><td>'+obs+'</td></tr>';
-    });
-    return '<table class="ig-tbl"><thead><tr><th>Tempo</th><th>Vel. (mL/kg/h)</th><th>Vel. absoluta</th><th>Observação</th></tr></thead><tbody>'+rows.join('')+'</tbody></table>';
+  var ref=IG_REFERENCIAS_INFUSAO[prod_k];
+  var refBula=ref?'<a href="'+ref.url+'" target="_blank" rel="noopener noreferrer">'+ref.titulo+' ↗</a>':
+    '<a href="https://consultas.anvisa.gov.br/#/bulario/" target="_blank" rel="noopener noreferrer">Bulário eletrônico Anvisa — conferir apresentação e item Posologia ↗</a>';
+  var refAcademica='<a href="https://www.aaaai.org/Aaaai/media/Media-Library-PDFs/Allergist%20Resources/Statements%20and%20Practice%20Parameters/2025-Inborn-errors-of-immunity-pp.pdf#page=33" target="_blank" rel="noopener noreferrer">AAAAI/ACAAI/CIS — Practice Parameter publicado em 2026, seção 8, p. 458 ↗</a>';
+  var stepsIV=[], stepsSC=[];
+  function tabelaInfusao(rows){
+    return '<table class="ig-tbl"><thead><tr><th>Período</th><th>Bomba de infusão</th><th>Referência</th></tr></thead><tbody>'+
+      rows.map(function(x){return '<tr><td>'+x.t+'</td><td>'+x.v+'</td><td>'+x.n+'</td></tr>';}).join('')+'</tbody></table>';
   }
-
-  // Velocidade habitual única por produto, sem separar o número da infusão.
-  var stepsIV = [];
-  if(via === 'IV'){
-    stepsIV.push({t:'Acesso venoso',d:'Confirmar permeabilidade do acesso antes de iniciar.'});
-    if(r){
-      stepsIV.push({t:'Velocidade inicial',
-        d:'<b>'+r.ini+' mL/kg/h → '+(r.ini*peso).toFixed(1)+' mL/h</b> por aproximadamente 30 minutos. '
-         +'Progredir gradualmente apenas se houver boa tolerabilidade.'});
-      stepsIV.push({t:'Escalonamento da velocidade',d:gerarTabelaIV(peso,r)});
-      stepsIV.push({t:'Velocidade máxima habitual',
-        d:'<b>'+r.max+' mL/kg/h → '+(r.max*peso).toFixed(1)+' mL/h</b>, somente se houver boa tolerância. '
-         +(prod_k==='privigen_10'
-           ? 'Em imunodeficiência primária com tolerabilidade comprovada, a bula brasileira admite progressão gradual até 7,2 mL/kg/h, conforme avaliação individual. '
-           : '')
-         +'<a href="'+(prod_k==='privigen_10'
-           ? 'https://labeling.cslbehring.com/pi/br/sandoglobulina-privigen/pt/sandoglobulina-privigen-bula-prof-saude.pdf#page=16'
-           : 'https://consultas.anvisa.gov.br/#/bulario/')+'" target="_blank" rel="noopener noreferrer">Consultar bula</a>.'});
+  if(via==='IV'){
+    stepsIV.push({t:'Verificação pré-infusão',d:'Checar identificação, indicação, dose, hidratação, acesso venoso, fabricante, lote, eventos prévios e riscos renais/trombóticos.'});
+    if(prod_k==='privigen_10'){
+      var pode72=historicoOk&&nToleradas>=3&&!riscos.length&&infAtiva!=='sim'&&
+        ['agama','idcv','idcv_bq','scid','dea','subclasse'].indexOf(dx)>=0;
+      var taxas=[0.3,0.6,1.2,2.4,4.8];if(pode72)taxas.push(7.2);
+      var linhas=taxas.map(function(v,i){
+        return {t:i===0?'0–30 min':(i===taxas.length-1?'A partir de '+(i*30)+' min':(i*30)+'–'+((i+1)*30)+' min'),
+          v:'<b>'+(v*peso).toFixed(1)+' mL/h</b> ('+v+' mL/kg/h)',
+          n:i===0?'Inicial conforme bula':i===taxas.length-1?'Somente se tolerada':'Reavaliar antes de aumentar'};
+      });
+      stepsIV.push({t:'Progressão proposta de bomba de infusão — Privigen',d:tabelaInfusao(linhas)+
+        '<div style="font-size:11px">Após os primeiros ~30 min, os incrementos a cada 30 min constituem sugestão operacional conservadora; a bula exige aumento gradual, mas não fixa estes degraus. '+refBula+'.</div>'});
+      stepsIV.push({t:'Limite para esta simulação',d:'<b>'+(pode72?'7,2':'4,8')+' mL/kg/h</b> (até <b>'+((pode72?7.2:4.8)*peso).toFixed(1)+' mL/h</b>). '+
+        (pode72?'7,2 mL/kg/h só é admitido pela bula em imunodeficiência primária previamente tolerante; manter decisão individual do prescritor.':
+        'Na primeira aplicação ou sem comprovação adequada de tolerância, não usar o teto excepcional de 7,2 mL/kg/h.')});
+    }else if(prod_k==='kiovig_10'){
+      stepsIV.push({t:'Kiovig — referência internacional não substitui bula brasileira',d:'Ficha técnica europeia: início 0,5 mL/kg/h nos primeiros 30 min; aumento gradual até 6 mL/kg/h se tolerado. <b>Não gerar programação de bomba sem verificar a versão brasileira e o protocolo local.</b> '+refBula+'.'});
     }else{
-      stepsIV.push({t:'Velocidade de infusão',d:'Consultar a bula específica antes de prescrever a velocidade.'});
+      stepsIV.push({t:'Validação obrigatória da velocidade por marca',d:'A bula brasileira atual desta apresentação ainda não foi auditada para este cálculo. <b>Nenhuma velocidade numérica foi extrapolada de outro produto.</b> Consulte a seção Posologia e modo de usar. '+refBula+'.'});
     }
-    stepsIV.push({t:'Monitorização',d:'Aferir sinais vitais antes e durante a infusão conforme protocolo institucional. Diante de reação, reduzir ou interromper a infusão e avaliar clinicamente.'});
-    stepsIV.push({t:'Encerramento',d:'Observar o paciente de acordo com a bula e o protocolo do serviço.'});
+    if(igModoAtual==='rotina'&&!historicoOk)stepsIV.push({t:'Rotina sem comprovação suficiente',d:'O cadastro não confirma boa tolerância recente com esta marca. Manter progressão inicial cautelosa; revisar o histórico antes de considerar incrementos mais rápidos.'});
+    stepsIV.push({t:'Monitorização',d:'Aferir sinais vitais e sintomas conforme risco e protocolo do serviço. Em reação, interromper ou reduzir a velocidade e reavaliar clinicamente. '+refAcademica+'.'});
   }
-
-  var stepsSC = [];
-  if(via === 'SC'){
-    var scRate = {hizentra_20:{ini:15,max:25},cuvitru_20:{ini:15,max:25},hyqvia_10:{ini:10,max:300},gammanorm_165:{ini:10,max:20}};
-    var rs = scRate[prod_k]||{ini:15,max:20};
-    var duracaoEst = volML ? +(volML/rs.ini).toFixed(1) : '?';
-    stepsSC = [
-      {t:'Sítio de aplicação', d:'Abdome (evitar periumbilical), coxa anterior ou braço. Rodízio a cada infusão.'},
-      {t:'Volume por sítio', d:'Adultos: até 20–30 mL/sítio. Crianças (< 20 kg): até 10–15 mL/sítio. Usar múltiplos sítios simultâneos se necessário.'},
-      {t:'Velocidade inicial', d:'<b>'+rs.ini+' mL/h/sítio</b>. Progredir até '+rs.max+' mL/h/sítio nas infusões seguintes conforme tolerância.'+(prod_k==='hyqvia_10'?' HyQvia: fase hialuronidase 10 min antes da fase IgG — ver protocolo específico.':'')},
-      {t:'Duração estimada', d:volML+' mL ÷ '+rs.ini+' mL/h ≈ <b>'+duracaoEst+' h</b> com 1 sítio. Reduzir com múltiplos sítios simultâneos.'},
-      {t:'Observação', d:'Reações locais (edema, eritema, prurido) são comuns e autolimitadas. Observar 30 min após término.'}
-    ];
+  if(via==='SC'){
+    if(prod_k==='hizentra_20'){
+      var sub=historicoOk&&igModoAtual==='rotina',vel=sub?25:15,maxS=sub?25:15;
+      stepsSC.push({t:'Hizentra — velocidade por local',d:'<b>Até '+vel+' mL/h por local de infusão</b>. '+(sub?'Após documentação de tolerância em infusões anteriores com Hizentra.':'Limite da primeira infusão ou quando a tolerância prévia não está comprovada.')+' '+refBula+'.'});
+      stepsSC.push({t:'Hizentra — volume e locais',d:'<b>Até '+maxS+' mL por local</b> na reposição de IgG, se tolerado. Para '+volML+' mL calculados, planejar no mínimo '+Math.ceil(volML/maxS)+' local(is) ou dividir em sessões; respeitar até 8 locais simultâneos conforme bula.'});
+    }else if(prod_k==='hyqvia_10'){
+      var comprovadas=historicoOk&&igModoAtual==='rotina'&&nToleradas>=2;
+      var maior=peso>=40,serie=maior?(comprovadas?[10,30,120,240,300]:[10,30,60,120,240]):
+                                  (comprovadas?[10,20,40,80,160]:[5,10,20,40,80]);
+      stepsSC.push({t:'HyQvia — bomba, mL/h por local',d:tabelaInfusao(serie.map(function(v,i){
+        return {t:i===4?'Restante':(i*10)+'–'+((i+1)*10)+' min',v:'<b>'+v+' mL/h/local</b>',n:i===0?'Início de IgG 10%':'Se tolerado'};
+      }))+'<div style="font-size:11px">Tabela '+(comprovadas?'subsequente após as duas primeiras infusões com boa tolerância':'das duas primeiras infusões ou sem tolerância recente comprovada')+', para '+(maior?'≥40':'<40')+' kg. '+refBula+'.</div>'});
+      stepsSC.push({t:'HyQvia — procedimento específico',d:'Administrar primeiro hialuronidase recombinante pela mesma agulha; iniciar IgG 10% dentro do intervalo previsto em bula. <b>Não misturar os componentes.</b> Confirmar titulação gradual da dose nas aplicações iniciais, independentemente do escalonamento da velocidade. '+refBula+'.'});
+    }else{
+      stepsSC.push({t:'Velocidade SC depende da marca',d:'Sem tabela validada da bula atual deste produto. Não extrapolar limites de Hizentra/HyQvia. Verificar volume e taxa máximos por local na bula antes de prescrever. '+refBula+'.'});
+    }
+    stepsSC.push({t:'Monitorização',d:'Selecionar e alternar locais, inspecionar durante infusão e documentar reações locais/sistêmicas. '+refAcademica+'.'});
   }
-
   // --- RENDER ---
   function tag(cls,txt){ return '<div class="ig-alert '+cls+'">'+txt+'</div>'; }
   function kv(k,v){ return '<div class="ig-kv"><b>'+k+'</b><span>'+v+'</span></div>'; }
@@ -9075,6 +9072,8 @@ function gerarOrientacaoIg(){
   h += kv('Indicação', info.label);
   h += kv('Via', via==='IV'?'Intravenosa (IV)':'Subcutânea (SC)');
   h += kv('Peso', peso+' kg');
+  h += kv('Tipo de prescrição',igModoAtual==='primeira'?'Primeira infusão':'Infusão subsequente / rotina');
+  h += kv('Infusões toleradas comprovadas',String(nToleradas)+' com o mesmo produto');
 
   h += '<hr style="border:none;border-top:1px solid var(--gray-100);margin:12px 0">';
   h += '<div class="ig-big" style="font-size:1rem;margin-bottom:6px">Dose calculada</div>';
@@ -9109,14 +9108,11 @@ function gerarOrientacaoIg(){
       h += kv('HyQvia — hialuronidase',kitsHyqvia+' frascos de 2,5 mL (total '+(kitsHyqvia*2.5)+' mL), um para cada kit de 5 g. Administrar previamente à IgG, sem misturar componentes.');
     }
   }
-  h += kv('Frequência', info.freq);
+  h += kv('Frequência',via==='SC'?(prod_k==='hyqvia_10'?'A cada 3–4 semanas, após titulação':'Dose semanal aproximada; definir esquema conforme bula'):info.freq);
+  if(via==='SC'&&prod_k!=='hyqvia_10')h += tag('warn','⚠️ Conversão semanal aproximada (dose mensal dividida por 4). A dose efetiva requer ajuste pelo produto, níveis de IgG, resposta clínica e esquema prévio; não é substituição automática de IVIG por SCIG.');
 
-  if(!isNaN(igG)){
-    if(igBaixo) h += tag('warn','⚠️ IgG atual ('+igG+' mg/dL) abaixo do alvo ≥ '+igAlvo+' mg/dL. A decisão deve considerar o quadro clínico global.');
-    else if(igOk) h += tag('ok','✅ IgG atual ('+igG+' mg/dL) dentro do alvo ≥ '+igAlvo+' mg/dL. Manter posologia.');
-  } else {
-    h += tag('warn','ℹ️ IgG não informada. Decisão baseada no quadro clínico e histórico de infecções.');
-  }
+  if(!isNaN(igG))h += tag('warn','IgG atual: '+igG+' mg/dL. A meta deve ser individualizada com avaliação de infecções, nível de vale/steady-state e resposta clínica. Não concluir adequação de dose por ponto de corte isolado. '+refAcademica+'.');
+  else h += tag('warn','IgG não informada. Avaliar quadro clínico, resposta e monitorização laboratorial. '+refAcademica+'.');
   if(avisoInf) h += tag('warn','⚠️ Infecção ativa. Avalie custo-benefício antes de iniciar.');
   if(riscos.length){
     var rMap={renal:'Insuf. renal',trombose:'Risco tromboembólico',cardio:'Cardiopatia',iga:'Def. IgA',desidrat:'Desidratação',gest:'Gestação/lactação',troca:'Troca de produto'};
@@ -9137,7 +9133,8 @@ function gerarOrientacaoIg(){
   stepsArr.forEach(function(st,i){ h += step(i+1, st.t, st.d); });
 
   h += '<hr style="border:none;border-top:1px solid var(--gray-100);margin:12px 0">';
-  h += tag('warn','⚠️ Ferramenta de apoio. Decisão clínica e responsabilidade são do médico prescritor. Confirmar velocidades na bula do produto.');
+  h += '<div style="font-size:12px;padding:10px 0"><span style="font-weight:800">Fonte da velocidade e parágrafo de referência:</span><div>'+refBula+'</div><div style="margin-top:7px">'+refAcademica+'</div><div style="margin-top:7px">Links PDF com página indicada; consulte o trecho original antes de assinar a prescrição.</div></div>';
+  h += tag('warn','⚠️ Ferramenta de apoio. Exige conferência de indicação, dose, marca, tolerância e prescrição individual por médico habilitado.');
   h += '</div>';
 
   var out = document.getElementById('igSaida');
