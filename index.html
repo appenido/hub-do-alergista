@@ -1011,7 +1011,12 @@ _marcarGuiasPagas();
 .ige-hint{font-size:12px;color:var(--gray-500);line-height:1.6;margin:8px 0 0}
 .ige-workspace{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding:0 16px 26px;align-items:start}
 .ige-workspace.note-open{grid-template-columns:minmax(0,1fr) minmax(270px,330px)}
-.ige-results{min-width:0}
+.ige-results{min-width:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,210px),1fr));gap:10px;align-items:start}
+.ige-results .ige-card{min-width:0;margin:0;width:100%;height:100%}
+.ige-results .ige-card .ige-hit{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;min-height:88px;padding:11px 12px}
+.ige-results .ige-card .ige-title{flex:1 1 90px;min-width:0}
+.ige-results .ige-card .ige-add{flex-basis:100%;margin-left:0;text-align:right}
+.ige-results .ped-vazio{grid-column:1/-1}
 .ige-hit{width:100%;text-align:left;cursor:pointer!important;font-family:'Manrope',sans-serif}
 .ige-hit:hover{background:var(--aqua-pale)!important}
 .ige-hit:focus-visible{outline:2px solid var(--teal-mid);outline-offset:-2px}
