@@ -6867,7 +6867,7 @@ function igeRender(){
  var tokens=q.split(/\s+/).filter(Boolean);
  var lista=IGE_CAT.filter(function(i){
   var p=typeof igeInfo==='function'?igeInfo(i):{};
-  var extra=i.g.indexOf('Alimentos ·')===0?'IgE específica alérgeno completo extrato alimentar':'';
+  var extra=(i.g.indexOf('Alimentos ·')===0?'IgE específica alérgeno completo extrato alimentar ':'')+(/^fx\d+/i.test(i.c)?'mix mistura painel combinado de alérgenos':'');
   var hay=_norm([i.c,i.n,i.g,i.busca||'',extra,p.tipo,p.avalia,p.quando,p.aplicacao,p.limites].join(' '));
   return tokens.every(function(term){return hay.indexOf(term)>=0;});
  });
