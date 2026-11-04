@@ -1,0 +1,22 @@
+name: Auditoria estática de privacidade
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '15 12 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  privacidade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar integridade do app e controles LGPD
+        run: node scripts/lgpd-check.mjs
