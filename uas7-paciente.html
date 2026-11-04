@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1a2e4a">
 <title>Diário da Urticária — UAS7</title>
@@ -182,7 +183,7 @@
   var inicio = null;
   var diaAtual = null, resp = {p:null, i:null};
 
-  try { $('nome').value = localStorage.getItem(kNome) || ''; } catch(e){}
+  try { $('nome').value = sessionStorage.getItem(kNome) || ''; } catch(e){}
 
   function rpc(fn, body){
     return fetch(SUPA_URL + '/rest/v1/rpc/' + fn, {
@@ -316,7 +317,7 @@
       $('nomeCard').scrollIntoView({behavior:'smooth'}); $('nome').focus();
       return;
     }
-    try { localStorage.setItem(kNome, nome); localStorage.setItem(kIni, inicio); } catch(e){}
+    try { sessionStorage.setItem(kNome, nome); localStorage.setItem(kIni, inicio); } catch(e){}
     var btn = $('btnEnviar'); btn.disabled = true; btn.textContent = 'Salvando…';
     var d = diaAtual, data = somaDias(inicio, d-1);
     rpc('uas7_registrar', {p_sessao:sessao, p_dia:d, p_data:data, p_papulas:resp.p, p_prurido:resp.i, p_paciente:nome})
@@ -363,5 +364,8 @@
   carregar();
 })();
 </script>
+<aside role="note" style="max-width:620px;margin:20px auto;padding:12px 16px;border:1px solid #dae6eb;background:#f5f9fb;border-radius:10px;color:#355;font:12px/1.5 Arial,sans-serif">
+ Responda apenas ao questionário enviado pelo profissional responsável. O link é temporário e individual; não o compartilhe. Respostas clínicas são dados sensíveis. Consulte a <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>.
+ </aside>
 </body>
 </html>

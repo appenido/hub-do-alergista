@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="referrer" content="no-referrer">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#1a2e4a">
 <title>Controle da Urticária — UCT</title>
@@ -141,10 +142,10 @@
     var total=resp.reduce(function(a,b){return a+b;},0);
     var btn=$('btnEnviar'); btn.disabled=true; btn.textContent='Enviando…';
     $('msgBox').innerHTML='';
-    fetch(SUPA_URL+'/rest/v1/uct_results',{
+    fetch(SUPA_URL+'/rest/v1/rpc/uct_registrar',{
       method:'POST',
       headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
-      body:JSON.stringify({sessao_id:sessao,paciente_nome:nome,q1:resp[0],q2:resp[1],q3:resp[2],q4:resp[3]})
+      body:JSON.stringify({p_sessao:sessao,p_paciente:nome,p_q1:resp[0],p_q2:resp[1],p_q3:resp[2],p_q4:resp[3]})
     }).then(function(r){
       if(!r.ok) return r.text().then(function(t){ throw new Error('HTTP '+r.status+(t?' — '+t.slice(0,180):'')); });
       $('cardIntro').classList.add('hidden');
@@ -162,5 +163,8 @@
   };
 })();
 </script>
+<aside role="note" style="max-width:620px;margin:20px auto;padding:12px 16px;border:1px solid #dae6eb;background:#f5f9fb;border-radius:10px;color:#355;font:12px/1.5 Arial,sans-serif">
+ Responda apenas ao questionário enviado pelo profissional responsável. O link é temporário e individual; não o compartilhe. Respostas clínicas são dados sensíveis. Consulte a <a href="privacidade.html" target="_blank" rel="noopener noreferrer">Política de Privacidade</a>.
+ </aside>
 </body>
 </html>
