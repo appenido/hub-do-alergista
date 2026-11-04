@@ -1,0 +1,84 @@
+{
+  "source": "https://ff.uptodate.com/contents/whats-new-in-allergy-and-immunology",
+  "sourceUpdatedAt": "2026-10-06",
+  "checkedAt": "2026-11-04",
+  "items": [
+    {
+      "title": "Increased intake of allergenic foods during pregnancy and lactation does not protect against infant food allergy",
+      "titlePt": "Maior ingestão de alimentos alergênicos na gestação e lactação não preveniu alergia alimentar infantil",
+      "month": "2026-10",
+      "topic": "Alergia alimentar",
+      "summary": "Ensaio clínico publicado em 2026 não demonstrou redução da alergia alimentar infantil com maior consumo materno de ovo e amendoim durante a gestação e a amamentação. O achado não sustenta recomendar o aumento desses alimentos como estratégia preventiva específica."
+    },
+    {
+      "title": "Macrolide therapy for severe asthma",
+      "titlePt": "Macrolídeos na asma grave: benefício modesto em exacerbações",
+      "month": "2026-09",
+      "topic": "Asma",
+      "summary": "Metanálise de seis ensaios com menor risco de viés (879 participantes) encontrou redução modesta das exacerbações graves com macrolídeos (RR 0,75). A avaliação deve considerar resistência antimicrobiana, efeitos adversos e alternativas biológicas."
+    },
+    {
+      "title": "Cold urticaria with negative cold stimulation testing",
+      "titlePt": "Teste de provocação ao frio negativo não exclui urticária ao frio",
+      "month": "2026-09",
+      "topic": "Urticária",
+      "summary": "Em uma análise de 364 pacientes, 33% tiveram teste padrão de estímulo ao frio negativo. O diagnóstico deve integrar história clínica e contexto, sem depender exclusivamente do teste."
+    },
+    {
+      "title": "FPIES oral food challenge protocol",
+      "titlePt": "FPIES: proposta de protocolo com dose reduzida para provocação oral",
+      "month": "2026-09",
+      "topic": "Alergia alimentar",
+      "summary": "Foi proposto um protocolo com 25% da porção adequada para a idade sob supervisão e pelo menos quatro horas de observação, seguido de doses progressivas em dias subsequentes. Trata-se de proposta a ser individualizada em ambiente especializado."
+    },
+    {
+      "title": "Investigational rezpegaldesleukin for moderate to severe atopic dermatitis",
+      "titlePt": "Rezpegaldesleucina em investigação para dermatite atópica moderada a grave",
+      "month": "2026-09",
+      "topic": "Dermatite atópica",
+      "summary": "Em estudo de fase 2b com aproximadamente 400 adultos, houve melhora maior do EASI em comparação ao placebo. O agonista de receptor de IL-2 permanece investigacional; eficácia e segurança de longo prazo ainda exigem avaliação."
+    },
+    {
+      "title": "Serious allergic transfusion reactions in alpha-gal syndrome",
+      "titlePt": "Síndrome alfa-gal e reações alérgicas transfusionais graves",
+      "month": "2026-09",
+      "topic": "Anafilaxia",
+      "summary": "Novos dados associam sensibilização a alfa-gal a determinadas reações transfusionais, sobretudo em cenários específicos de transfusão. A associação ainda requer confirmação e avaliação especializada."
+    },
+    {
+      "title": "Updated inborn errors of immunity practice parameter",
+      "titlePt": "Novo parâmetro de prática para erros inatos da imunidade",
+      "month": "2026-07",
+      "topic": "Imunodeficiências",
+      "summary": "A atualização conjunta AAAAI/ACAAI/CIS aborda investigação diagnóstica, triagem neonatal, prevenção de infecções, monitorização e terapias definitivas dos erros inatos da imunidade."
+    },
+    {
+      "title": "Switching to depemokimab from other IL-5/5R biologics",
+      "titlePt": "Troca para depemoquimabe após mepolizumabe ou benralizumabe",
+      "month": "2026-07",
+      "topic": "Asma",
+      "summary": "No estudo NIMBLE, a manutenção do controle foi semelhante após troca de mepolizumabe; no grupo previamente tratado com benralizumabe houve aumento discreto das exacerbações. A conveniência da dose semestral deve ser ponderada caso a caso."
+    },
+    {
+      "title": "Investigational gene editing therapy for hereditary angioedema",
+      "titlePt": "Edição gênica experimental no angioedema hereditário",
+      "month": "2026-07",
+      "topic": "Angioedema",
+      "summary": "Terapia investigacional com CRISPR voltada à calicreína plasmática reduziu crises em estudo inicial. Os resultados são promissores, mas os efeitos de longo prazo exigem acompanhamento."
+    },
+    {
+      "title": "Inhaled beta-agonist for abdominal pain triggered by food allergy",
+      "titlePt": "Salbutamol inalatório para dor abdominal durante reação alimentar: evidência preliminar",
+      "month": "2026-07",
+      "topic": "Alergia alimentar",
+      "summary": "Ensaio pequeno com 24 participantes observou alívio mais rápido da dor abdominal com salbutamol inalatório do que com placebo. A amostra não permite incorporá-lo rotineiramente ao manejo; adrenalina permanece prioritária quando indicada na anafilaxia."
+    },
+    {
+      "title": "New guidance on hypersensitivity to drug excipients",
+      "titlePt": "Documento EAACI sobre hipersensibilidade a excipientes de medicamentos",
+      "month": "2026-04",
+      "topic": "Alergia a medicamentos",
+      "summary": "Um position paper da EAACI organiza a avaliação de suspeita de alergia a excipientes, incluindo polietilenoglicol, gelatinas e povidona, especialmente em reações a fármacos com princípios ativos distintos."
+    }
+  ]
+}
