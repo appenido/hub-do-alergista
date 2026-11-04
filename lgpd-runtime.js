@@ -32,7 +32,7 @@ function armazenarAuth(email,nome,access,refresh){
 async function token(){
   const a=lerAuth();
   if(a.access && a.exp>Date.now()+60000)return a.access;
-  if(!a.refresh){limparCredenciais();erro('Entre na sua conta para acessar registros clínicos.');}
+  if(!a.refresh){limparCredenciais();erro('Registros clínicos não estão disponíveis na versão pública sem autenticação.');}
   if(!refreshPending){
     refreshPending=fetch(SB+'/auth/v1/token?grant_type=refresh_token',{
       method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},
@@ -446,18 +446,21 @@ function telaPrivacidade(){
   const wrap=document.createElement('section');wrap.id='hub-privacidade';
   wrap.style.cssText='margin:14px 12px;padding:13px;border:1px solid #dbe5eb;border-radius:12px;background:white;';
   const h=document.createElement('h3');h.textContent='Privacidade e segurança';h.style.cssText='font-size:14px;line-height:1.4;font-weight:650;margin:0 0 7px;color:#0d1f2d';wrap.appendChild(h);
-  const p=document.createElement('p');p.textContent='Consulte e exporte seus dados ou solicite acesso, correção e exclusão, conforme a legislação aplicável.';p.style.cssText='font-size:11px;line-height:1.45;color:#495866;margin:0 0 7px;';wrap.appendChild(p);
+  const p=document.createElement('p');p.textContent='O acesso aos conteúdos é livre. Preferências são armazenadas neste navegador; registros clínicos protegidos no servidor não são disponibilizados sem autenticação.';p.style.cssText='font-size:11px;line-height:1.45;color:#495866;margin:0 0 7px;';wrap.appendChild(p);
   function add(label,fn){
     const b=document.createElement('button');b.type='button';b.textContent=label;
     b.style.cssText='display:block;width:100%;text-align:left;padding:8px 10px;margin-top:5px;border:1px solid #dbe5eb;border-radius:8px;background:#f5f9fa;color:#0d1f2d;font-family:inherit;font-size:11.5px;line-height:1.4;font-weight:500;cursor:pointer;';
     b.addEventListener('click',fn);wrap.appendChild(b);
   }
   add('Política de privacidade',()=>location.assign('privacidade.html'));
-  add('Exportar meus dados',exportarDados);
-  add('Solicitar acesso ou correção',()=>solicitar('acesso_correcao'));
-  add('Solicitar a exclusão dos meus dados ou da conta',()=>solicitar('exclusao'));
-  add('Acompanhar solicitações',consultarPedidos);
   add('Limpar histórico dos questionários e chaves de IA',limparDadosLocais);
+  add('Limpar preferências deste dispositivo',()=>{
+    if(!confirm('Apagar as áreas de interesse selecionadas neste dispositivo?'))return;
+    localStorage.removeItem('hub_public_interesses');
+    if(typeof window.preencherPerfil==='function')window.preencherPerfil();
+    if(typeof window.atualizarHero==='function')window.atualizarHero();
+    if(typeof window.carregarFeedHome==='function')window.carregarFeedHome(true);
+  });
   add('Privacidade no uso da inteligência artificial',()=>location.assign('privacidade.html#ia'));
   destino.appendChild(wrap);
 }
@@ -535,46 +538,21 @@ async function confirmarRetornoCadastro(){
 }
 function inicializar(){
   limparChavesLegadas();
+  // Migrar somente as preferências não sensíveis antes de descartar as sessões anteriores.
   try{
-    const antiga=JSON.parse(localStorage.getItem('hub_session')||'{}');
-    const atual=lerAuth();
-    if(!atual.access && antiga.token && antiga.refresh && validoJwt(antiga.token)>Date.now()){
-      armazenarAuth(antiga.email,antiga.nome,antiga.token,antiga.refresh);
-    }else if(!atual.access){localStorage.removeItem('hub_session');}
-    else if(antiga.token||antiga.refresh){manterIdentidade(antiga.email,antiga.nome);}
-    const perfisLegados=localStorage.getItem('hub_users');
-    if(perfisLegados&&!sessionStorage.getItem('hub_users'))sessionStorage.setItem('hub_users',perfisLegados);
-    localStorage.removeItem('hub_users');
-    const usuarios=JSON.parse(sessionStorage.getItem('hub_users')||'{}');
-    for(const u of Object.values(usuarios)){if(u&&typeof u==='object')delete u.hash;}
-    sessionStorage.setItem('hub_users',JSON.stringify(usuarios));
+    if(!localStorage.getItem('hub_public_interesses')){
+      const sessao=JSON.parse(localStorage.getItem('hub_session')||'{}');
+      const usuarios=JSON.parse(sessionStorage.getItem('hub_users')||localStorage.getItem('hub_users')||'{}');
+      const ints=(usuarios[sessao.email]||{}).interesses;
+      if(Array.isArray(ints))localStorage.setItem('hub_public_interesses',JSON.stringify(ints.slice(0,3)));
+    }
   }catch(_){}
-  const campo=document.getElementById('cadSenha');if(campo)campo.minLength=12;
-  const label=document.querySelector('label[for="cadSenha"]');
-  if(label)label.textContent='Senha (mín. 12 caracteres)';
-  const form=document.getElementById('formCad');
-  if(form&&!form.querySelector('.hub-link-lgpd')){
-    const aviso=document.createElement('p');aviso.className='hub-link-lgpd';
-    aviso.style.cssText='font-size:11px;line-height:1.5;color:#64748b;';
-    aviso.textContent='Antes de criar a conta, consulte a ';
-    const a=document.createElement('a');a.href='privacidade.html';a.textContent='Política de Privacidade';aviso.appendChild(a);
-    const btn=form.querySelector('button.auth-btn');if(btn)form.insertBefore(aviso,btn);
-  }
+  limparCredenciais();
+  try{localStorage.removeItem('hub_users');}catch(_){}
   telaPrivacidade();
-  // Links de redefinição mantêm a tela de autenticação aberta.
-  const parametros=new URLSearchParams(location.hash.replace(/^#/,''));
-  const parametrosBusca=new URLSearchParams(location.search);
-  const recuperacao=(parametros.get('type')||parametrosBusca.get('type'))==='recovery';
-  const tipoRetorno=parametros.get('type')||parametrosBusca.get('type');
-  if(recuperacao){
-    recuperarRetorno().catch(()=>{});
-  }else if(tipoRetorno==='signup'||tipoRetorno==='email'){
-    confirmarRetornoCadastro().catch(()=>{});
-  }else{
-    validarSessaoNaAbertura().catch(()=>{
-      if(typeof window._bloquearApp==='function')window._bloquearApp();
-    });
-  }
+  if(typeof window._mostrarApp==='function')window._mostrarApp();
+  if(typeof window.atualizarHero==='function')window.atualizarHero();
+  if(typeof window.filtrarHomeArtigos==='function')window.filtrarHomeArtigos();
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',inicializar);else inicializar();
 })();
