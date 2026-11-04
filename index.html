@@ -3028,6 +3028,15 @@ window._mostrarApp = function(){
     <input type="hidden" id="igProduto" value="">
 
     <!-- 2. CASO -->
+    <div id="igPacResumoBanner" style="display:none;background:#e6f4f7;border-radius:12px;padding:10px 14px;margin-bottom:10px;display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div id="igPacResumoNome" style="font-size:13.5px;font-weight:800;color:var(--navy)"></div>
+          <div id="igPacResumoInfo" style="font-size:11.5px;color:var(--gray-500);margin-top:2px"></div>
+        </div>
+        <button onclick="igExpandirFormulario()" style="background:var(--navy);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:Manrope,sans-serif">✏️ Editar dados</button>
+      </div>
+    </div>
     <div class="ig-form" id="igFormBox">
       <div class="ig-form-tit">Dados do paciente</div>
 
@@ -5393,8 +5402,26 @@ function igSelecionarPaciente(nome){
     set('igPeso',p.peso); set('igDx',p.dx); set('igIgG',p.igG);
     set('igVia',p.via); set('igProduto',p.produto);
     if(p.produto) renderIgPicker();
+    // Se paciente já tem infusões registradas, colapsar formulário e mostrar banner
+    if(p.infusoes && p.infusoes.length > 0){
+      var banner = document.getElementById('igPacResumoBanner');
+      var form = document.getElementById('igFormBox');
+      var nomeEl = document.getElementById('igPacResumoNome');
+      var infoEl = document.getElementById('igPacResumoInfo');
+      var prod = (window.IG_PRODUTOS && p.produto && IG_PRODUTOS[p.produto]) ? IG_PRODUTOS[p.produto].nome : (p.produto||'');
+      if(nomeEl) nomeEl.textContent = p.nome;
+      if(infoEl) infoEl.textContent = (p.dx||'') + (p.peso?' · '+p.peso+' kg':'') + (prod?' · '+prod:'') + ' · '+p.infusoes.length+'ª infusão';
+      if(banner){ banner.style.display='block'; }
+      if(form){ form.style.display='none'; }
+    }
     toast('👤','Paciente carregado');
   }catch(e){}
+}
+function igExpandirFormulario(){
+  var banner = document.getElementById('igPacResumoBanner');
+  var form = document.getElementById('igFormBox');
+  if(banner) banner.style.display='none';
+  if(form) form.style.display='block';
 }
 function igRegistrarInfusao(nome){
   var box = document.getElementById('igNomeSugs');
@@ -8339,30 +8366,31 @@ function gerarOrientacaoIg(){
     stepsIV.push({t:'Acesso venoso', d:'Acesso venoso periférico calibroso (≥ 20G). Confirmar permeabilidade antes de iniciar.'});
     if(rx){
       if(primeira === 'sim'){
+        // 1ª infusão: protocolo completo escalonado
         var vIni1Abs = (rx.ini1 * peso).toFixed(0);
         stepsIV.push({t:'1ª infusão — velocidade inicial',
-          d:'<b>'+rx.ini1+' mL/kg/h → '+vIni1Abs+' mL/h</b> para '+peso+' kg.<br>'
-           +'Iniciar mais lentamente que nas infusões subsequentes. Manter por <b>30 min</b> com monitoramento rigoroso.'});
+          d:'<b>'+rx.ini1+' mL/kg/h → '+vIni1Abs+' mL/h</b> para '+peso+' kg. '
+           +'Iniciar com velocidade conservadora. Manter por <b>30 min</b> com monitoramento rigoroso antes de escalonar.'});
         stepsIV.push({t:'1ª infusão — escalonamento', d:gerarTabelaIV(peso, {ini:rx.ini1, max:rx.max})});
-        stepsIV.push({t:'Velocidade máxima', d:'<b>'+rx.max+' mL/kg/h → '+(rx.max*peso).toFixed(0)+' mL/h</b>. Só atingir se tolerado em todas as etapas.'});
-        stepsIV.push({t:'Monitorização (1ª infusão)',
-          d:'PA, FC e SpO₂ a cada <b>15 min nos primeiros 60 min</b>; a cada 30 min nas horas seguintes. Permanecer no local durante toda a infusão.'});
+        stepsIV.push({t:'Velocidade máxima', d:'<b>'+rx.max+' mL/kg/h → '+(rx.max*peso).toFixed(0)+' mL/h</b>. Só atingir se tolerado em todas as etapas anteriores.'});
+        stepsIV.push({t:'Monitorização',
+          d:'PA, FC e SpO₂ a cada <b>15 min nos primeiros 60 min</b>; a cada 30 min nas horas seguintes. Médico deve estar disponível durante toda a infusão.'});
       } else {
+        // 2ª+ infusão: pode iniciar diretamente na velocidade recomendada
         var vIniSubseqAbs = (rx.ini * peso).toFixed(0);
-        stepsIV.push({t:'2ª infusão em diante — velocidade inicial',
-          d:'<b>'+rx.ini+' mL/kg/h → '+vIniSubseqAbs+' mL/h</b> para '+peso+' kg.<br>'
-           +'Pode iniciar na velocidade já tolerada nas infusões anteriores, se documentada. Manter por 30 min antes de escalonar.'});
-        stepsIV.push({t:'Escalonamento progressivo', d:gerarTabelaIV(peso, {ini:rx.ini, max:rx.max})});
-        stepsIV.push({t:'Velocidade máxima', d:'<b>'+rx.max+' mL/kg/h → '+(rx.max*peso).toFixed(0)+' mL/h</b>. Atingir somente se tolerado.'});
-        stepsIV.push({t:'Monitorização', d:'PA, FC e SpO₂ a cada 30 min durante a infusão.'});
+        stepsIV.push({t:'Velocidade de infusão (2ª infusão em diante)',
+          d:'Conforme guidelines, após tolerância documentada na 1ª infusão, iniciar diretamente em <b>'+rx.ini+' mL/kg/h → '+vIniSubseqAbs+' mL/h</b> para '+peso+' kg. '
+           +'Se a última infusão foi bem tolerada, pode-se iniciar na velocidade máxima já atingida anteriormente.'});
+        stepsIV.push({t:'Escalonamento até velocidade máxima', d:gerarTabelaIV(peso, {ini:rx.ini, max:rx.max})});
+        stepsIV.push({t:'Velocidade máxima', d:'<b>'+rx.max+' mL/kg/h → '+(rx.max*peso).toFixed(0)+' mL/h</b>. Manter até o término se tolerado.'});
+        stepsIV.push({t:'Monitorização', d:'PA, FC e SpO₂ a cada <b>30 min</b> durante a infusão. Reduzir velocidade em 50% ao primeiro sinal de reação.'});
       }
     } else {
-      stepsIV.push({t:'Velocidade', d:'Consultar bula do produto. Iniciar na menor velocidade e escalonar a cada 30 min.'});
-      if(primeira === 'sim'){
-        stepsIV.push({t:'Monitorização (1ª infusão)', d:'PA, FC e SpO₂ a cada 15 min nos primeiros 60 min; a cada 30 min nas horas seguintes.'});
-      } else {
-        stepsIV.push({t:'Monitorização', d:'PA, FC e SpO₂ a cada 30 min durante a infusão.'});
-      }
+      stepsIV.push({t:'Velocidade', d:'Consultar bula do produto. Iniciar na menor velocidade recomendada e escalonar a cada 30 min.'});
+      var monit = primeira === 'sim'
+        ? 'PA, FC e SpO₂ a cada 15 min nos primeiros 60 min; a cada 30 min nas horas seguintes.'
+        : 'PA, FC e SpO₂ a cada 30 min durante a infusão.';
+      stepsIV.push({t:'Monitorização', d:monit});
     }
     stepsIV.push({t:'Encerramento', d:'Flush com SF 0,9% ao término. Observar mínimo 30 min após o fim.'});
   }
