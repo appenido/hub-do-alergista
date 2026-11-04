@@ -8240,7 +8240,7 @@ function _scoreRegistrar(key, r, nomeForcado, dataForcada, detalhes, origem){
     nome=el?el.value.trim():'';
   }
   if(!nome) return;
-  if(!email){ if(typeof toast==='function') toast('\ud83d\udd12','Entre na sua conta para salvar o score no hist\u00f3rico do paciente.'); return; }
+  if(!email){ if(typeof toast==='function') toast('\ud83d\udd12','Registros clínicos não podem ser gravados na versão pública sem autenticação.'); return; }
   var data=dataForcada;
   if(data===undefined || data===null){
     var dEl=document.getElementById('pac_data');
@@ -8270,7 +8270,7 @@ function _pacCarregar(){
   var box=document.getElementById('pacLista');
   var email=_scoreEmail();
   if(!email){
-    if(box) box.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px;line-height:1.6">\ud83d\udd12 Entre na sua conta para ver e guardar os scores dos seus pacientes.</div>';
+    if(box) box.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px;line-height:1.6">\ud83d\udd12 Os registros clínicos de pacientes permanecem indisponíveis na versão pública, sem autenticação.</div>';
     return;
   }
   if(box) box.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">Carregando\u2026</div>';
