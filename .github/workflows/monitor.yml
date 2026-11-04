@@ -1,0 +1,26 @@
+name: Monitoramento do Hub publicado
+on:
+  schedule:
+    - cron: '20 11 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'functions/**'
+      - 'index.html'
+      - 'sw.js'
+      - 'jornal/radar.json'
+      - 'scripts/smoke.mjs'
+permissions:
+  contents: read
+jobs:
+  healthcheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Verificar rotas públicas e integridade da resposta
+        run: node scripts/smoke.mjs
