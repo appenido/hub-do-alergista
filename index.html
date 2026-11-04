@@ -3335,6 +3335,23 @@ window._bloquearApp=function(){};
           <option value="anafilaxia">Anafilaxia / reação sistêmica grave</option>
         </select></div>
 
+      <div class="ig-f-row" id="igPrivigenManutencaoBox" style="display:none;background:#f4f9fa;border:1px solid #d6e9ec;border-radius:12px;padding:12px">
+        <label style="font-size:13px">Privigen 10% — histórico de tolerância para manutenção</label>
+        <div style="font-size:11.5px;color:var(--gray-500);margin:5px 0 10px">Opção exclusiva para pacientes com mais de 3 infusões consecutivas de Privigen comprovadamente bem toleradas. Não se aplica automaticamente a outros produtos.</div>
+        <label for="igPrivigenSemReacao">Número de infusões consecutivas de Privigen sem reação, verificadas no prontuário</label>
+        <input type="number" id="igPrivigenSemReacao" min="0" max="999" step="1" value="0" inputmode="numeric" onchange="igAtualizarPrivigenManutencao()" oninput="igAtualizarPrivigenManutencao()">
+        <label style="display:flex;align-items:flex-start;gap:8px;margin:10px 0;line-height:1.5;font-size:11.5px">
+          <input id="igPrivigenDocumentado" type="checkbox" onchange="igAtualizarPrivigenManutencao()" style="width:auto;margin-top:3px;flex-shrink:0">
+          <span>Confirmo no prontuário: ausência de reações imediatas e tardias, mesmo produto, intervalo desde a última infusão de até 8 semanas e ausência de mudança clínica relevante.</span>
+        </label>
+        <label style="display:flex;align-items:flex-start;gap:8px;line-height:1.5;font-size:11.5px">
+          <input id="igPrivigenAcelerar" type="checkbox" onchange="igAtualizarPrivigenManutencao()" style="width:auto;margin-top:3px;flex-shrink:0">
+          <span>Prescritor autoriza iniciar esta infusão em 0,6 mL/kg/h por 30 minutos, seguida de escalonamento gradual conforme tolerância.</span>
+        </label>
+        <div id="igPrivigenAviso" aria-live="polite" style="font-size:11px;color:var(--gray-500);margin-top:8px"></div>
+        <div style="font-size:10.5px;color:var(--gray-500);margin-top:8px">A bula brasileira orienta início em 0,3 mL/kg/h. A individualização após ≥3 infusões consta da monografia canadense de 2025, seção 4.4. O critério operacional deste Hub é mais conservador (≥4).</div>
+      </div>
+
       <div class="ig-f-row"><label>Anafilaxia a outro medicamento</label>
         <select id="igAnafOutro"><option value="nao">Não</option><option value="sim">Sim</option></select></div>
 
@@ -5406,6 +5423,31 @@ function vacRenderVacinas(filtro){
   if(!lista.length) box.innerHTML='<div class="vac-empty" style="color:var(--gray-500);font-size:12.5px;padding:4px 0">Nenhuma vacina encontrada.</div>';
 }
 
+// Privigen: o contador exige conferência médica, nunca presume tolerância pelas datas isoladas.
+function igAtualizarPrivigenManutencao(){
+  var produto=(document.getElementById('igProduto')||{}).value||'';
+  var box=document.getElementById('igPrivigenManutencaoBox');
+  if(box) box.style.display=produto==='privigen_10'?'block':'none';
+  if(produto!=='privigen_10') return false;
+  var num=parseInt((document.getElementById('igPrivigenSemReacao')||{}).value,10);
+  var confirmado=!!(document.getElementById('igPrivigenDocumentado')||{}).checked;
+  var primeira=(document.getElementById('igPrimeira')||{}).value;
+  var reacao=(document.getElementById('igReacao')||{}).value;
+  var via=(document.getElementById('igVia')||{}).value;
+  var ativa=(document.getElementById('igInfAtiva')||{}).value;
+  var anafOutro=(document.getElementById('igAnafOutro')||{}).value;
+  var riscos=document.querySelectorAll('#igRiscos .ig-chip.on:not([data-r="nenhum"])').length>0;
+  var adequado=Number.isInteger(num)&&num>=4&&num<=999&&confirmado&&primeira==='nao'&&
+    reacao==='nenhuma'&&via==='IV'&&ativa!=='sim'&&anafOutro!=='sim'&&!riscos;
+  var opt=document.getElementById('igPrivigenAcelerar');
+  if(opt){opt.disabled=!adequado;if(!adequado)opt.checked=false;}
+  var aviso=document.getElementById('igPrivigenAviso');
+  if(aviso) aviso.textContent=adequado
+    ? 'Elegível para avaliação do prescritor. Marque a autorização para utilizar o início de manutenção em 0,6 mL/kg/h.'
+    : 'A velocidade inicial padrão de 0,3 mL/kg/h será mantida. Exige 4 ou mais infusões consecutivas documentadas, ausência de reação e de fatores de risco, sem interrupção ou troca de produto.';
+  return adequado;
+}
+
 function igShowHub(){
   var hub=document.getElementById('ig-menu-hub');
   if(hub) hub.style.display='block';
@@ -5537,7 +5579,15 @@ function igSelecionarPaciente(nome){
     set('igNome',p.nome); set('igIdade',p.idade); set('igIdadeUn',p.idUn);
     set('igPeso',p.peso); set('igDx',p.dx); set('igIgG',p.igG);
     set('igVia',p.via); set('igProduto',p.produto);
+    set('igPrimeira',p.primeira || ((p.infusoes&&p.infusoes.length)||p.privigenSemReacao?'nao':'sim'));
+    set('igReacao',p.reacao || 'nenhuma');
+    set('igPrivigenSemReacao',Number.isInteger(p.privigenSemReacao)?p.privigenSemReacao:0);
+    var doc=document.getElementById('igPrivigenDocumentado');
+    if(doc) doc.checked=p.privigenDocumentado===true;
+    var autor=document.getElementById('igPrivigenAcelerar');
+    if(autor) autor.checked=p.privigenAcelerar===true;
     if(p.produto) renderIgPicker();
+    igAtualizarPrivigenManutencao();
     // Se paciente já tem infusões registradas, colapsar formulário e mostrar banner
     if(p.infusoes && p.infusoes.length > 0){
       var banner = document.getElementById('igPacResumoBanner');
@@ -5567,9 +5617,42 @@ function igRegistrarInfusao(nome){
     var p = hist[nome.toLowerCase()];
     if(!p) return;
     if(!p.infusoes) p.infusoes = [];
+    // Nunca contar uma aplicação sem um desfecho de tolerabilidade registrado.
+    var resposta=prompt('Resultado da infusão de '+(p.produto==='privigen_10'?'Privigen':'imunoglobulina')+':\n1 — Concluída, sem reações imediatas ou tardias conhecidas\n2 — Houve reação\n3 — Tolerabilidade não documentada\nDigite 1, 2 ou 3:');
+    if(resposta===null) return;
+    resposta=resposta.trim();
+    if(!['1','2','3'].includes(resposta)){ toast('⚠️','Informe 1, 2 ou 3. Infusão não registrada.'); return; }
     var hoje = new Date().toLocaleDateString('pt-BR');
     var n = p.infusoes.length + 1;
-    p.infusoes.push({data:hoje, n:n, produto:p.produto});
+    var desfecho=resposta==='1'?'nenhuma':resposta==='2'?'reacao':'nao_documentada';
+    var anterior=p.infusoes.length?p.infusoes[p.infusoes.length-1]:null;
+    var intervaloLongo=false;
+    if(anterior&&anterior.data){
+      var partes=anterior.data.split('/');
+      if(partes.length===3){
+        var dataAnterior=new Date(+partes[2],+partes[1]-1,+partes[0]);
+        intervaloLongo=(new Date()-dataAnterior)/(86400000)>56;
+      }
+    }
+    p.infusoes.push({data:hoje, n:n, produto:p.produto, reacao:desfecho});
+    if(p.produto==='privigen_10'){
+      if(desfecho!=='nenhuma'||intervaloLongo){
+        p.privigenSemReacao=desfecho==='nenhuma'?1:0;
+        p.privigenDocumentado=false;
+        p.privigenAcelerar=false;
+      }else if(anterior && anterior.produto==='privigen_10' && anterior.reacao==='nenhuma'){
+        p.privigenSemReacao=Math.max(1,Number(p.privigenSemReacao)||0)+1;
+      }else{
+        // Sem registro comparável, não inferir que as aplicações antigas foram toleradas.
+        p.privigenSemReacao=desfecho==='nenhuma'?1:0;
+        p.privigenDocumentado=false;
+        p.privigenAcelerar=false;
+      }
+    }else{
+      p.privigenSemReacao=0;
+      p.privigenDocumentado=false;
+      p.privigenAcelerar=false;
+    }
     p.ultima = hoje;
     hist[nome.toLowerCase()] = p;
     localStorage.setItem('igPacientes', JSON.stringify(hist));
@@ -5619,8 +5702,16 @@ function selecionarIgProduto(k){
   var p = IG_PRODUTOS[k];
   if(via && p && p.via && inp.value) via.value = (p.via.indexOf('SC')===0) ? 'SC' : 'IV';
   renderIgPicker();
+  igAtualizarPrivigenManutencao();
 }
 document.addEventListener('DOMContentLoaded', renderIgPicker);
+document.addEventListener('DOMContentLoaded', function(){
+  ['igPrimeira','igReacao','igInfAtiva','igAnafOutro','igVia'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.addEventListener('change',igAtualizarPrivigenManutencao);
+  });
+  igAtualizarPrivigenManutencao();
+});
 document.addEventListener('DOMContentLoaded', function(){
   var box = document.getElementById('igRiscos');
   if(!box) return;
@@ -5629,11 +5720,12 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!b) return;
     if(b.dataset.r === 'nenhum'){
       box.querySelectorAll('.ig-chip').forEach(function(c){ c.classList.remove('on'); });
-      b.classList.add('on'); return;
+      b.classList.add('on'); igAtualizarPrivigenManutencao(); return;
     }
     var nen = box.querySelector('.ig-chip[data-r="nenhum"]');
     if(nen) nen.classList.remove('on');
     b.classList.toggle('on');
+    igAtualizarPrivigenManutencao();
   });
 });
 
@@ -8899,7 +8991,7 @@ function gerarOrientacaoIg(){
   // ivRate com velocidades específicas por 1ª vs 2ª+ infusão
   // ini1 = velocidade inicial 1ª infusão; ini = velocidade inicial 2ª+; max = máxima
   var ivRateEx = {
-    privigen_10:   {ini1:0.3, ini:0.5, max:4.8},
+    privigen_10:   {ini1:0.3, ini:0.3, max:4.8},
     octagam_10:    {ini1:0.6, ini:1.2, max:7.2},
     kiovig_10:     {ini1:0.5, ini:1.0, max:6.0},
     flebogamma_10: {ini1:0.5, ini:1.0, max:6.0},
@@ -8909,6 +9001,10 @@ function gerarOrientacaoIg(){
     gamunex_10:    {ini1:0.5, ini:1.2, max:8.0}
   };
   var rx = ivRateEx[prod_k] || (r ? {ini1:r.ini, ini:r.ini, max:r.max} : null);
+  var privigenPodeIndividualizar=(prod_k==='privigen_10')&&igAtualizarPrivigenManutencao();
+  var privigenAcelerado=privigenPodeIndividualizar&&
+    !!(document.getElementById('igPrivigenAcelerar')||{}).checked;
+  if(prod_k==='privigen_10'&&rx) rx.ini=privigenAcelerado?0.6:0.3;
 
   var stepsIV = [];
   if(via === 'IV'){
@@ -8925,11 +9021,27 @@ function gerarOrientacaoIg(){
         stepsIV.push({t:'Monitorização',
           d:'PA, FC e SpO₂ a cada <b>15 min nos primeiros 60 min</b>; a cada 30 min nas horas seguintes. Médico deve estar disponível durante toda a infusão.'});
       } else {
-        // 2ª+ infusão: pode iniciar diretamente na velocidade recomendada
+        // Infusões subsequentes: para Privigen, só personalizar mediante verificação e autorização.
         var vIniSubseqAbs = (rx.ini * peso).toFixed(0);
-        stepsIV.push({t:'Velocidade de infusão (2ª infusão em diante)',
-          d:'Conforme guidelines, após tolerância documentada na 1ª infusão, iniciar diretamente em <b>'+rx.ini+' mL/kg/h → '+vIniSubseqAbs+' mL/h</b> para '+peso+' kg. '
-           +'Se a última infusão foi bem tolerada, pode-se iniciar na velocidade máxima já atingida anteriormente.'});
+        var textoSubseq=prod_k==='privigen_10'
+          ? (privigenAcelerado
+            ? 'Manutenção individualizada de Privigen após mais de 3 infusões consecutivas sem reações, com histórico confirmado e autorização médica. '
+              +'Iniciar em <b>0,6 mL/kg/h → '+vIniSubseqAbs+' mL/h</b> por 30 minutos; aumentar gradualmente apenas se tolerado. '
+              +'Esquema institucional individualizado, diferente da velocidade inicial padrão da bula brasileira.'
+            : 'Privigen 10%: iniciar conforme a bula brasileira em <b>0,3 mL/kg/h → '+vIniSubseqAbs+' mL/h</b> por 30 minutos. '
+              +'Para início em 0,6 mL/kg/h, são necessários mais de 3 tratamentos consecutivos sem reações, registro e autorização do prescritor.')
+          : 'Iniciar em <b>'+rx.ini+' mL/kg/h → '+vIniSubseqAbs+' mL/h</b> por 30 minutos. '
+            +'Ajustar progressivamente conforme a bula específica, a prescrição e a tolerância.';
+        stepsIV.push({t:'Velocidade inicial — infusão subsequente',d:textoSubseq});
+        if(prod_k==='privigen_10'){
+          stepsIV.push({t:'Fundamentação e segurança',d:
+            'Bula brasileira: início padrão de 0,3 mL/kg/h. Monografia canadense de 25/07/2025, seção 4.4 (p. 7): '
+            +'permite individualizar após 3 ou mais infusões consecutivas, conforme velocidade anteriormente tolerada. '
+            +'Este protocolo utiliza ≥4 e exige confirmação médica. '
+            +'<a href="https://labeling.cslbehring.ca/PM/CA/Privigen/EN/Privigen-Product-Monograph.pdf#page=7" target="_blank" rel="noopener noreferrer">Consultar o parágrafo da monografia canadense</a>. '
+            +'<a href="https://consultaremedios.com.br/sandoglobulina-privigen/bula" target="_blank" rel="noopener noreferrer">Consultar bula brasileira</a>. '
+            +'Após troca de produto, intervalo superior a 8 semanas ou surgimento de risco, retornar à velocidade inicial conservadora.'});
+        }
         stepsIV.push({t:'Escalonamento até velocidade máxima', d:gerarTabelaIV(peso, {ini:rx.ini, max:rx.max})});
         stepsIV.push({t:'Velocidade máxima', d:'<b>'+rx.max+' mL/kg/h → '+(rx.max*peso).toFixed(0)+' mL/h</b>. Manter até o término se tolerado.'});
         stepsIV.push({t:'Monitorização', d:'PA, FC e SpO₂ a cada <b>30 min</b> durante a infusão. Reduzir velocidade em 50% ao primeiro sinal de reação.'});
@@ -9045,11 +9157,16 @@ function gerarOrientacaoIg(){
     try{
       var igHist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
       var chave = nome.trim().toLowerCase();
-      igHist[chave] = {
+      var anteriorPaciente=igHist[chave]||{};
+      var qtdPrivigen=parseInt((document.getElementById('igPrivigenSemReacao')||{}).value,10);
+      igHist[chave] = Object.assign({},anteriorPaciente,{
         nome:nome.trim(), idade:isNaN(idade)?'':idade, idUn:idUn, peso:peso,
-        dx:dx, igG:isNaN(igG)?null:igG, via:via,
-        produto:prod_k, ultima:new Date().toLocaleDateString('pt-BR')
-      };
+        dx:dx, igG:isNaN(igG)?null:igG, via:via, primeira:primeira, reacao:reacao,
+        produto:prod_k, ultima:anteriorPaciente.ultima||'',
+        privigenSemReacao:prod_k==='privigen_10'&&Number.isInteger(qtdPrivigen)&&qtdPrivigen>=0?Math.min(qtdPrivigen,999):0,
+        privigenDocumentado:prod_k==='privigen_10'&&!!(document.getElementById('igPrivigenDocumentado')||{}).checked,
+        privigenAcelerar:prod_k==='privigen_10'&&privigenAcelerado
+      });
       localStorage.setItem('igPacientes', JSON.stringify(igHist));
     }catch(e){}
   }
