@@ -3406,8 +3406,18 @@ window._bloquearApp=function(){};
         <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
         Imunizações
       </div>
-      <div style="font-size:12px;color:var(--gray-500);margin-bottom:16px">Calendário vacinal por idade e comorbidades — referência exclusiva SBIm</div>
+      <div style="font-size:12px;color:var(--gray-500);margin-bottom:16px">Calendários oficiais SBIm 2026/2027 e PNI 2026 — recomendações e oferta pelo SUS</div>
       <div style="display:flex;flex-direction:column;gap:10px">
+        <button type="button" onclick="vacAbrirCalendarios('sbim')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+          <span style="font-size:26px">📗</span>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Calendários SBIm 2026/2027</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Todas as idades, gestantes e grupos especiais</div></div>
+          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
+        </button>
+        <button type="button" onclick="vacAbrirCalendarios('pni')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+          <span style="font-size:26px">🇧🇷</span>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">PNI — Calendário Nacional 2026</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Vacinas do SUS, faixas etárias e normativa</div></div>
+          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
+        </button>
         <button onclick="vacShowSub('pacientes')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
           <span style="font-size:26px">👥</span>
           <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Pacientes cadastrados</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Calendários já gerados e salvos</div></div>
@@ -3430,9 +3440,44 @@ window._bloquearApp=function(){};
         </button>
       </div>
       <div style="margin-top:14px;background:#f7fafb;border:1px solid var(--gray-100);border-radius:12px;padding:11px 13px;font-size:11.5px;color:var(--gray-500);line-height:1.55">
-        Todas as recomendações desta seção seguem exclusivamente os Calendários de Vacinação e Guias da <b>Sociedade Brasileira de Imunizações (SBIm)</b>. Ferramenta de apoio — não substitui a avaliação clínica.
+        Fontes separadas: <b>SBIm 2026/2027</b> para recomendações científicas e <b>PNI/Ministério da Saúde 2026</b> para a oferta e os critérios da rede pública. Consulte as notas e contraindicações de cada documento. Ferramenta de apoio à decisão clínica.
       </div>
     </div>
+
+    <!-- SUB: CATÁLOGO OFICIAL DE CALENDÁRIOS (SBIm 2026/27 e PNI 2026) -->
+    <section id="vac-sub-calendarios" style="display:none;padding-bottom:24px" aria-label="Calendários de vacinação oficiais">
+      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 10px">
+        <button type="button" onclick="vacFecharCalendario();vacShowHub()" aria-label="Voltar para Imunizações" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
+        <div style="font-size:14px;font-weight:800;color:var(--navy)">Calendários de vacinação</div>
+      </div>
+      <div class="vac-cal-tabs" role="tablist" aria-label="Selecionar fonte do calendário">
+        <button type="button" role="tab" id="vacCalTabSBIm" onclick="vacSelecionarFonteCalendarios('sbim')">SBIm 2026/2027</button>
+        <button type="button" role="tab" id="vacCalTabPNI" onclick="vacSelecionarFonteCalendarios('pni')">PNI 2026 (SUS)</button>
+      </div>
+      <p id="vacCalLegenda" class="vac-cal-nota"></p>
+      <div style="padding:0 16px 8px">
+        <label for="vacCalBusca" style="display:block;font-size:11px;color:var(--gray-500);margin-bottom:5px">Buscar por faixa etária ou grupo</label>
+        <input id="vacCalBusca" type="search" placeholder="Ex.: idosos, prematuro, gestante..." oninput="vacFiltrarCalendarios()" autocomplete="off" style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font:12px Manrope,sans-serif" />
+      </div>
+      <div id="vacCalendariosLista" style="padding:0 16px"></div>
+      <div id="vacCalPreview" class="vac-cal-visualizador" style="display:none;margin-left:16px;margin-right:16px" aria-live="polite">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px">
+          <div>
+            <div id="vacCalPreviewTitulo" style="font-size:13px;font-weight:800;color:var(--navy)"></div>
+            <div id="vacCalPreviewOrigem" style="font-size:10.5px;color:var(--gray-500);line-height:1.5;margin-top:3px"></div>
+          </div>
+          <button type="button" onclick="vacFecharCalendario()" aria-label="Fechar visualização" style="background:#f1f5f8;border:1px solid var(--gray-100);border-radius:8px;padding:5px 10px;cursor:pointer">✕</button>
+        </div>
+        <a id="vacCalPreviewLink" class="vac-cal-link" href="#" target="_blank" rel="noopener noreferrer">Abrir documento oficial</a>
+        <div id="vacCalPreviewAviso" style="font-size:10.5px;color:var(--gray-500);line-height:1.5;margin:9px 0"></div>
+        <iframe id="vacCalPreviewFrame" class="vac-cal-frame" loading="lazy" title="Calendário oficial" referrerpolicy="strict-origin-when-cross-origin" style="display:none"></iframe>
+      </div>
+      <div class="vac-cal-nota" style="margin-top:14px;padding:12px;border-radius:11px;background:#fff;border:1px solid var(--gray-100)">
+        Atenção: as recomendações SBIm podem incluir esquemas diferentes dos disponíveis no SUS, além de indicações fora de bula.
+        O PNI deve seguir a normativa vigente, histórico vacinal, condições clínicas e regras de acesso aos CRIE/RIE.
+        Os documentos são consultados diretamente nos sites das instituições responsáveis, sem armazenar cópias no Hub.
+      </div>
+    </section>
 
     <!-- SUB: PACIENTES -->
     <div id="vac-sub-pacientes" style="display:none">
@@ -4892,14 +4937,14 @@ var VAC_CATALOGO=[
 function vacShowHub(){
   var hub=document.getElementById('vac-menu-hub');
   if(hub) hub.style.display='block';
-  ['pacientes','novo','vacinas','atraso'].forEach(function(k){
+  ['pacientes','novo','vacinas','atraso','calendarios'].forEach(function(k){
     var el=document.getElementById('vac-sub-'+k); if(el) el.style.display='none';
   });
 }
 function vacShowSub(sub){
   var hub=document.getElementById('vac-menu-hub');
   if(hub) hub.style.display='none';
-  ['pacientes','novo','vacinas','atraso'].forEach(function(k){
+  ['pacientes','novo','vacinas','atraso','calendarios'].forEach(function(k){
     var el=document.getElementById('vac-sub-'+k);
     if(el) el.style.display=(k===sub)?'block':'none';
   });
@@ -11116,6 +11161,7 @@ function chatToggle(){
 })();
 </script>
 <script src="lgpd-runtime.js?v=20261104-6"></script>
+<script src="calendarios-imunizacoes.js?v=20261104-1"></script>
 </body>
 </html>
 
