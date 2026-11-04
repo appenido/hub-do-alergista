@@ -152,7 +152,7 @@
       $('cardQ').classList.add('hidden');
       btn.classList.add('hidden');
       $('fimN').textContent=total+'/16';
-      $('fimS').innerHTML='<strong>Obrigado, '+nome.split(' ')[0]+'!</strong><br>Suas respostas foram enviadas ao seu médico.<br>'+interpretar(total);
+      $('fimS').textContent='Obrigado, '+nome.split(' ')[0]+'! Suas respostas foram enviadas ao seu médico. '+interpretar(total);
       $('cardFim').classList.remove('hidden');
       window.scrollTo({top:0,behavior:'smooth'});
     }).catch(function(err){

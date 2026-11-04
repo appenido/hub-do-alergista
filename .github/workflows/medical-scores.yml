@@ -1,0 +1,24 @@
+name: Auditoria clinica - regressao matematica
+on:
+  push:
+    branches: [main, auditoria-clinica-2026-11-04, auditoria-clinica-integrada-2026-11-04]
+    paths:
+      - 'index.html'
+      - 'tests/medical-score-regression.cjs'
+      - '.github/workflows/medical-scores.yml'
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'tests/medical-score-regression.cjs'
+      - '.github/workflows/medical-scores.yml'
+permissions:
+  contents: read
+jobs:
+  medical-scores:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node tests/medical-score-regression.cjs
