@@ -1102,6 +1102,27 @@ _marcarGuiasPagas();
 <style id="hubPublicModeCSS">
 #authScreen,[data-conta-btn]{display:none!important;}
 </style>
+<style id="uptodate-panel-styles">
+.utd-panel{margin:4px 16px 20px;padding:16px;border:1px solid #cfe4e9;border-radius:16px;background:#fff;box-shadow:0 5px 18px rgba(13,31,45,.045)}
+.utd-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:13px}
+.utd-eyebrow{font-size:9px;letter-spacing:.12em;color:#2a7a90;font-weight:800}
+.utd-head h2{font-size:16px;color:var(--navy);line-height:1.35;margin:5px 0 3px}
+.utd-head p{font-size:11px;color:var(--gray-500);line-height:1.5}
+.utd-source{font-size:10px;font-weight:700;color:#13647a;text-decoration:none;border:1px solid #cfe4e9;border-radius:8px;padding:7px 9px;background:#eff9fb;white-space:nowrap}
+.utd-highlights{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:9px}
+.utd-item{border:1px solid #e4edf0;border-radius:11px;padding:12px;background:#f9fcfd;display:flex;flex-direction:column;gap:7px}
+.utd-item.utd-feature{grid-column:1/-1;border-color:#b9dce4;background:linear-gradient(125deg,#eef9fa,#fff)}
+.utd-meta{font-size:10px;color:#507287;font-weight:700}
+.utd-item h3{font-size:12.5px;line-height:1.5;color:var(--navy);font-weight:800;margin:0}
+.utd-item.utd-feature h3{font-size:14px}
+.utd-item p{font-size:11.5px;color:#445666;line-height:1.6;margin:0}
+.utd-item a{font-size:10.5px;color:#12677e;font-weight:750;text-decoration:none;margin-top:auto}
+.utd-loading{font-size:12px;color:var(--gray-500);padding:12px 0}
+.utd-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:13px;font-size:10px;color:#64748b}
+.utd-foot button{padding:7px 11px;border-radius:8px;border:1px solid #dbe5e9;background:#fff;color:#176c80;font:700 10px Manrope,sans-serif;cursor:pointer}
+.utd-note{font-size:10px;color:#71818a;line-height:1.55;margin-top:9px}
+@media(max-width:490px){.utd-panel{padding:13px}.utd-head{gap:8px}.utd-source{font-size:9px}}
+</style>
 </head>
 <body>
 
@@ -1178,6 +1199,17 @@ window._bloquearApp=function(){};
     </div>
 
     
+    <!-- Novidades editoriais do UpToDate: arquivo atualizado diariamente no GitHub Actions -->
+    <section id="utdPanel" class="utd-panel" aria-labelledby="utdPanelTitle">
+      <div class="utd-head">
+        <div><span class="utd-eyebrow">RADAR CIENTÍFICO · UPTODATE</span><h2 id="utdPanelTitle">Novidades em Alergia e Imunologia</h2><p>Atualizações editoriais verificadas diariamente na fonte oficial.</p></div>
+        <a class="utd-source" href="https://ff.uptodate.com/contents/whats-new-in-allergy-and-immunology" target="_blank" rel="noopener noreferrer">Fonte oficial ↗</a>
+      </div>
+      <div id="utdHighlights" class="utd-highlights" aria-live="polite"><p class="utd-loading">Carregando novidades do UpToDate…</p></div>
+      <div class="utd-foot"><span id="utdStatus">Aguardando verificação dos dados</span><button id="utdReload" type="button">Recarregar novidades</button></div>
+      <p class="utd-note">Resumos editoriais independentes. A inclusão de um estudo não implica recomendação de uso, aprovação pela Anvisa ou substituição da leitura crítica da fonte.</p>
+    </section>
+
     <!-- ÚLTIMAS PUBLICAÇÕES (PubMed ao vivo) -->
     <div style="margin:2px 16px 14px">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px">
@@ -1189,23 +1221,6 @@ window._bloquearApp=function(){};
       </div>
       <div id="feedChips" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch"></div>
       <div id="feedResults" style="margin-top:4px"></div>
-    </div>
-
-    <!-- Journals showcase -->
-    <!-- UpToDate discreet 2026 -->
-    <div style="margin:2px 16px 12px">
-      <div onclick="toggleUtdBox()" style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:#fff;border:1px solid var(--gray-100);border-radius:10px;cursor:pointer">
-        <div style="width:24px;height:24px;background:#0a4d68;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff;flex-shrink:0">UTD</div>
-        <div style="font-size:12px;font-weight:700;color:var(--navy)">Novidades UpToDate 2026</div>
-        <span id="utdBoxChevron" style="margin-left:auto;color:var(--gray-300);font-size:14px">›</span>
-      </div>
-      <div id="utdBox" style="display:none;margin-top:6px;background:#fff;border:1px solid var(--gray-100);border-radius:10px;overflow:hidden">
-        <div style="padding:11px 13px;border-bottom:1px solid var(--gray-50);font-size:11.5px;color:var(--gray-500);line-height:1.55"><strong style="color:var(--navy)">🫁 Asma (GINA 2026):</strong> depemokimabe (anti-IL-5 a cada 26 semanas) e anti-IgE biossimilar incorporados; nova árvore de decisão para escolha do biológico.</div>
-        <div style="padding:11px 13px;border-bottom:1px solid var(--gray-50);font-size:11.5px;color:var(--gray-500);line-height:1.55"><strong style="color:var(--navy)">🩹 Dermatite atópica (2026):</strong> lebrikizumabe incorporado como nova opção anti-IL-13 de manutenção mensal/bimensal.</div>
-        <div style="padding:11px 13px;border-bottom:1px solid var(--gray-50);font-size:11.5px;color:var(--gray-500);line-height:1.55"><strong style="color:var(--navy)">🔴 Urticária (2026):</strong> anti-KIT (barzolvolimabe) emergente para casos refratários ao omalizumabe.</div>
-        <div style="padding:11px 13px;font-size:11.5px;color:var(--gray-500);line-height:1.55"><strong style="color:var(--navy)">🫶 EoE (2026):</strong> dupilumabe reforçado como 1ª linha biológica após falha de IBP.</div>
-        <a href="https://www.uptodate.com" target="_blank" rel="noopener" style="display:block;text-align:center;padding:9px;font-size:10.5px;color:var(--gray-300);text-decoration:none;border-top:1px solid var(--gray-50)">Fonte: UpToDate® · requer assinatura</a>
-      </div>
     </div>
 
     <div class="filter-chips">
@@ -8208,7 +8223,8 @@ function imprimirIgOrientacao(){
     '<div style="margin-left:auto;font-size:10px;color:#999">'+ new Date().toLocaleDateString('pt-BR')+'</div></div>'+
     card.innerHTML+
     '<div style="margin-top:18px;font-size:10px;color:#999;border-top:1px solid #e5e7eb;padding-top:8px">Hub do Alergista — ferramenta de apoio ao médico prescritor. Confirmar velocidades na bula do produto.</div>'+
-    '<script>window.onload=function(){setTimeout(function(){window.print();},400);}<\/script></body></html>');
+    '<script>window.onload=function(){setTimeout(function(){window.print();},400);}<\/script><script src="uptodate-ui.js?v=20261104-1"></script>
+</body></html>');
   win.document.close();
 }
 
