@@ -4403,10 +4403,14 @@ var VAC_CATALOGO=[
   pop:'Crianças até 23 meses e 29 dias, respeitados os limites por dose.',
   esq:'2 doses aos 2 e 4 meses (intervalo de 60 dias; mínimo 30). 1\u00aa dose entre 1 mês e 15 dias e 11 meses e 29 dias; 2\u00aa dose até 23 meses e 29 dias.',
   obs:'Limites de idade rígidos \u2014 não iniciar nem completar fora da janela.'},
- {id:'pnc10',sus:1,nome:'Pneumocócica 10-valente (VPC10)',prot:'Doença pneumocócica invasiva',tipo:'Inativada conjugada',
+ {id:'pnc10',sus:1,nome:'Pneumocócica conjugada (VPC10 / VPC20) — criança',prot:'Doença pneumocócica invasiva',tipo:'Inativada conjugada',
   pop:'Crianças de 2 meses a 4 anos, 11 meses e 29 dias.',
-  esq:'2 doses aos 2 e 4 meses (intervalo de 60 dias; mínimo 30) + reforço aos 12 meses (60 dias após a 2\u00aa dose). Esquemas de atualização variam conforme a idade.',
-  obs:'Indicações clínicas especiais seguem o Manual do CRIE (2023).'},
+  esq:'Transição VPC20/VPC10 (esquema 2+1): 1\u00aa dose de VPC20 aos 2 meses, 2\u00aa dose de VPC10 aos 4 meses e reforço de VPC20 aos 12 meses. VPC10 é indicada de 4 a 11 meses e 29 dias; se faltar VPC10, completar com VPC20. Esquemas em atraso variam conforme idade e histórico.',
+  obs:'A VPC20 está em processo de incorporação no calendário e a VPC10 em substituição. Indicações clínicas especiais seguem o Manual do CRIE (2023) e a Nota Técnica nº 52/2026.'},
+ {id:'pnc20',sus:1,nome:'Pneumocócica 20-valente (VPC20) — idosos e indígenas',prot:'Doença pneumocócica invasiva',tipo:'Inativada conjugada',
+  pop:'Idosos de 60 a 84 anos, 11 meses e 29 dias acamados e/ou institucionalizados; toda a população a partir de 85 anos; povos indígenas a partir de 5 anos sem comprovação vacinal pneumocócica conjugada. Comorbidades de risco via CRIE.',
+  esq:'Dose única.',
+  obs:'Não é ofertada de rotina nas UBS para os demais idosos \u2014 a rede privada cobre essa lacuna.'},
  {id:'menc',sus:1,nome:'Meningocócica C conjugada',prot:'Meningococo C',tipo:'Inativada conjugada',
   pop:'Crianças de 3 meses a 11 meses e 29 dias.',
   esq:'2 doses aos 3 e 5 meses (intervalo de 60 dias; mínimo 30). Reforço com MenACWY aos 12 meses (até 4 anos, 11 meses e 29 dias).',obs:'\u2014'},
@@ -4470,10 +4474,10 @@ var VAC_CATALOGO=[
  {id:'hexa',sus:0,nome:'Hexavalente acelular (DTPa-VIP-HB-Hib)',prot:'Difteria, tétano, coqueluche, pólio, hepatite B e Hib',tipo:'Inativada',
   pop:'Lactentes a partir de 2 meses.',esq:'2, 4 e 6 meses + reforço aos 15 meses.',
   obs:'Preferível à DTPw em prematuros, cardiopatas, pneumopatas e doença neurológica (menor reatogenicidade).'},
- {id:'pnc15',sus:0,nome:'Pneumocócica conjugada 13 e 20-valente',prot:'Doença pneumocócica invasiva',tipo:'Inativada conjugada',
-  pop:'Crianças a partir de 6 semanas, adultos de risco e pessoas \u2265 60 anos.',
-  esq:'Conforme a idade; em adultos e grupos de risco, VPC20 em dose única, sem necessidade de VPP23 depois.',
-  obs:'A SBIm prefere a conjugada de maior valência disponível.'},
+ {id:'pnc15',sus:0,nome:'Pneumocócica conjugada (VPC13 / VPC15 / VPC20)',prot:'Doença pneumocócica invasiva',tipo:'Inativada conjugada',
+  pop:'Crianças a partir de 2 meses; adultos a partir de 50 anos; adultos de qualquer idade com comorbidades de risco; gestantes de risco.',
+  esq:'Adultos e idosos: VPC20 em dose única. Crianças: VPC20 ou VPC15 (intercambiáveis), esquema 3+1 se iniciado até 6 meses.',
+  obs:'Conforme calendários SBIm 2026/27. Quem já recebeu VPP23: aguardar 1 ano para a VPC20; após VPC13/VPC15, 2 meses.'},
  {id:'menb',sus:0,nome:'Meningocócica B (recombinante)',prot:'Meningococo B',tipo:'Inativada recombinante',
   pop:'A partir de 2 meses; adolescentes e grupos de risco.',
   esq:'3 e 5 meses + reforço aos 12 meses; adolescentes e adultos de risco: 2 doses.',
@@ -4564,7 +4568,7 @@ function vacCalcular(idadeMeses,sexo,situacao,comorb){
     if(idadeMeses<84) add('Pentavalente ou Hexavalente acelular','2, 4 e 6 meses + reforços 15 m e 4 anos','Difteria, tétano, coqueluche, hepatite B, Hib (+ pólio na hexa)');
     if(idadeMeses<60) add('Poliomielite inativada (VIP)','2, 4, 6 meses + reforços 15 m e 4 anos','Esquema integralmente inativado — VOP descontinuada');
     if(idadeMeses<=8) add('Rotavírus','1ª dose até 3 m 15 d; última até 7 m 29 d','Janela etária rígida');
-    if(A<6) add('Pneumocócica conjugada (maior valência disponível)','2 e 4 meses + reforço aos 12 meses','SBIm prefere a VPC20 quando disponível');
+    if(A<6) add('Pneumocócica conjugada (VPC20 ou VPC15)','Início aos 2 meses: esquema 3+1 se iniciado até 6 meses (SUS em transição: VPC20 aos 2 m, VPC10 aos 4 m, VPC20 aos 12 m)','SBIm 2026/27 — VPC20 e VPC15 intercambiáveis');
     if(A<6) add('Meningocócica ACWY conjugada','3 e 5 meses + reforço 12 meses','SBIm prefere ACWY à meningo C isolada');
     if(A<6) add('Meningocócica B','3 e 5 meses + reforço aos 12 meses','Calendário SBIm da criança (rede privada)');
     if(idadeMeses>=6) add('Influenza (preferir quadrivalente)','Anual — 2 doses na primovacinação até 8 anos','Recomendação universal SBIm');
@@ -4582,6 +4586,7 @@ function vacCalcular(idadeMeses,sexo,situacao,comorb){
 
   /* ===== ADULTOS (20–59) ===== */
   if(A>=20&&A<60){
+    if(A>=50) add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','SBIm 2026/27 — rotina a partir dos 50 anos');
     add('Influenza (preferir quadrivalente)','Dose anual','Recomendação SBIm para todos os adultos');
     add('COVID-19','Esquema primário + reforço conforme risco','Calendário SBIm do adulto');
     add('dTpa','Reforço a cada 10 anos (substituir 1 dose de dT)','Proteção contra coqueluche no adulto');
@@ -4599,7 +4604,7 @@ function vacCalcular(idadeMeses,sexo,situacao,comorb){
   if(A>=60){
     add('Influenza (preferir quadrivalente ou alta dose)','Dose anual','Calendário SBIm do idoso');
     add('COVID-19','Reforço conforme recomendação vigente','Grupo prioritário');
-    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','Esquema SBIm do idoso — VPC20 isolada, sem VPP23 subsequente');
+    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única. Se já recebeu VPP23: aguardar 1 ano; se VPC13/VPC15: 2 meses','SBIm 2026/27 — idoso');
     add('Herpes-zóster recombinante (RZV)','2 doses (0 e 2–6 meses)','SBIm — ≥ 50 anos, inclusive com história prévia de zóster');
     add('dTpa ou dT','Reforço a cada 10 anos','Manter proteção antitetânica');
     add('Hepatite B','3 doses se não vacinado','SBIm — idoso');
@@ -4611,6 +4616,7 @@ function vacCalcular(idadeMeses,sexo,situacao,comorb){
   /* ===== SITUAÇÕES ESPECIAIS ===== */
   if(situacao==='gestante'){
     add('dTpa','A cada gestação, a partir da 20ª semana','Proteção do lactente contra coqueluche','especial');
+    if(comorb.length) add('Pneumocócica conjugada 20-valente (VPC20)','Dose única, se risco de doença pneumocócica invasiva','SBIm 2026/27 — gestante de risco','especial');
     add('Influenza','Dose anual em qualquer idade gestacional','Gestante é grupo prioritário','especial');
     add('COVID-19','Em qualquer idade gestacional','Grupo prioritário SBIm','especial');
     add('Hepatite B','Se não vacinada — 3 doses','Segura na gestação','especial');
@@ -4629,7 +4635,7 @@ function vacCalcular(idadeMeses,sexo,situacao,comorb){
   /* ===== COMORBIDADES ===== */
   function has(k){ return comorb.indexOf(k)>=0; }
   if(has('asma')||has('dpoc')){
-    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única (a partir de 2 anos conforme bula/SBIm)','Pneumopatia crônica','comorb');
+    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única (adultos de qualquer idade; crianças conforme esquema por idade)','Pneumopatia crônica','comorb');
     add('Influenza anual','Prioridade máxima','Pneumopatia crônica — risco de exacerbação','comorb');
     if(A>=18) add('Herpes-zóster recombinante','2 doses','Risco aumentado em DPOC e uso de corticoide','comorb');
   }
