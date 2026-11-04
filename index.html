@@ -2264,7 +2264,7 @@ window._bloquearApp=function(){};
 
   <!-- ══ SCORES ══ -->
   <div class="page" id="page-scores">
-    <div class="sec-hdr"><h2>Scores e Calculadoras</h2><span class="see-all" style="font-size:11px;color:var(--gray-500)">Cálculo sem armazenamento</span></div>
+    <div class="sec-hdr"><h2>Scores e Calculadoras</h2><span class="see-all" data-nav="pacientes">Pacientes</span></div>
     <div class="gap-list">
       <div class="guide-card" data-score="act" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">ACT</div><div style="font-size:11px;color:var(--gray-500)">Asthma Control Test · 0–25</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="ACT" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🫁</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:75%;background:linear-gradient(90deg,var(--aqua),var(--teal-mid))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular ACT →</button></div>
       <div class="guide-card" data-score="easi" style="cursor:pointer"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:16px;font-weight:800;color:var(--navy)">EASI</div><div style="font-size:11px;color:var(--gray-500)">Eczema Area &amp; Severity Index · 0–72</div></div><div style="display:flex;align-items:center;gap:8px"><button class="btn btn-sm btn-fav-score" data-score-name="EASI" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)" title="Favoritar score">⭐</button><span style="font-size:22px">🩹</span></div></div><div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:50%;background:linear-gradient(90deg,#f0d98a,var(--gold))"></div></div><button class="sp-btn" style="margin-top:10px">Calcular EASI →</button></div>
@@ -2395,7 +2395,21 @@ window._bloquearApp=function(){};
       <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px"><span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>Biblioteca de Prompts Médicos</div>
       <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Copie, edite e use na prática clínica diária</div>
     </div>
-    <p style="margin:0 16px 12px;border:1px solid var(--gray-100);background:#fff;padding:10px 12px;border-radius:10px;font-size:11.5px;color:var(--gray-500)">A criação e o salvamento de textos personalizados foram suspensos para impedir armazenamento inadvertido de dados clínicos. Os prompts científicos predefinidos continuam disponíveis.</p>
+    <!-- Criar novo prompt -->
+    <div style="margin:0 16px 12px;background:#f0fafa;border:1px solid rgba(59,191,204,.25);border-radius:13px;padding:13px 14px">
+      <div style="font-size:11px;font-weight:700;color:var(--teal-mid);margin-bottom:8px">+ Criar prompt personalizado</div>
+      <input id="newPromptTitle" placeholder="Título do prompt..." style="width:100%;box-sizing:border-box;border:1px solid var(--gray-100);border-radius:9px;padding:8px 11px;font-family:'Manrope',sans-serif;font-size:12.5px;color:var(--navy);margin-bottom:7px;outline:none">
+      <textarea id="newPromptBody" rows="3" placeholder="Texto do prompt (use [CAMPOS] para preencher depois)..." style="width:100%;box-sizing:border-box;border:1px solid var(--gray-100);border-radius:9px;padding:8px 11px;font-family:'Manrope',sans-serif;font-size:12.5px;color:var(--navy);resize:none;outline:none;line-height:1.5"></textarea>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <input id="newPromptCat" placeholder="Categoria (ex: Relatório)" style="flex:1;border:1px solid var(--gray-100);border-radius:9px;padding:7px 10px;font-family:'Manrope',sans-serif;font-size:12px;color:var(--navy);outline:none">
+        <button onclick="salvarNovoPrompt()" style="background:var(--teal-mid);color:#fff;border:none;border-radius:9px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif">Salvar</button>
+      </div>
+    </div>
+    <!-- Prompts salvos pelo usuário -->
+    <div id="userPromptsSection" style="display:none;padding:0 16px;margin-bottom:8px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal-mid);padding:4px 0 8px">Meus Prompts</div>
+      <div id="userPromptsList" style="display:flex;flex-direction:column;gap:8px"></div>
+    </div>
     <div class="gap-list">
       <div style="padding:14px 16px 6px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-300)">Relatórios</div>
       <div class="prompt-card"><div class="pc-cat">Relatório — Imunobiológico</div><div class="pc-title">Asma grave — liberação de imunobiológico</div><div class="pc-body">Gere um relatório médico para solicitação de [MEDICAMENTO: tezepelumabe/dupilumabe/benralizumabe/mepolizumabe] em paciente com asma grave. Inclua: diagnóstico com CID (J45.5), tempo de doença, frequência de exacerbações graves ([Nº]/ano), hospitalizações ([Nº]), uso de corticoide oral (ciclos/ano), ACT: [VALOR], eosinófilos: [VALOR] céls/µL, IgE total: [VALOR] UI/mL, FeNO: [VALOR] ppb, VEF₁: [VALOR]%, medicações atuais (CSI/LABA + dose), falha terapêutica documentada, critérios GINA de asma grave e justificativa do biológico escolhido.</div><div class="pc-acts"><button class="btn btn-sm btn-use-prompt">🤖 Usar na IA</button><button class="btn btn-sm btn-copy-prompt">📋 Copiar</button><button class="btn btn-sm btn-fav">⭐ Favoritar</button></div></div>
@@ -3233,11 +3247,38 @@ window._bloquearApp=function(){};
         <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
         Imunoglobulinas
       </div>
-      <div style="font-size:12px;color:var(--gray-500);margin-bottom:16px">Reposição de IgG — simulação e referência, sem cadastro de pacientes</div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
-        <button type="button" onclick="igAbrirPrescricao('primeira')" style="display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:16px;text-align:left;cursor:pointer"><span style="font-size:26px">💧</span><span><span style="display:block;font-size:13.5px;font-weight:800;color:var(--navy)">Simular primeira infusão</span><span style="display:block;font-size:11.5px;color:var(--gray-500)">Cálculo sem dados identificáveis nem armazenamento</span></span></button>
-        <button type="button" onclick="igAbrirPrescricao('rotina')" style="display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:16px;text-align:left;cursor:pointer"><span style="font-size:26px">🔄</span><span><span style="display:block;font-size:13.5px;font-weight:800;color:var(--navy)">Simular infusão de rotina</span><span style="display:block;font-size:11.5px;color:var(--gray-500)">Tolerabilidade informada no momento</span></span></button>
-      </div></div>
+      <div style="font-size:12px;color:var(--gray-500);margin-bottom:16px">Reposição de IgG — pacientes, infusão e referência</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px"><button type="button" onclick="igShowSub('cadastro')" style="display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:16px;text-align:left;cursor:pointer"><span style="font-size:26px">👤</span><span><span style="display:block;font-size:13.5px;font-weight:800;color:var(--navy)">Cadastrar paciente</span><span style="display:block;font-size:11.5px;color:var(--gray-500)">Informações e histórico</span></span></button><button type="button" onclick="igAbrirPrescricao('primeira')" style="display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:16px;text-align:left;cursor:pointer"><span style="font-size:26px">💧</span><span><span style="display:block;font-size:13.5px;font-weight:800;color:var(--navy)">Prescrever primeira infusão</span><span style="display:block;font-size:11.5px;color:var(--gray-500)">Esquema inicial por produto</span></span></button><button type="button" onclick="igAbrirPrescricao('rotina')" style="display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:16px;text-align:left;cursor:pointer"><span style="font-size:26px">🔄</span><span><span style="display:block;font-size:13.5px;font-weight:800;color:var(--navy)">Prescrever infusão de rotina</span><span style="display:block;font-size:11.5px;color:var(--gray-500)">Esquema subsequente e tolerabilidade</span></span></button><button type="button" onclick="igShowSub('pacientes')" style="display:flex;align-items:center;gap:12px;width:100%;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:16px;text-align:left;cursor:pointer"><span style="font-size:26px">📋</span><span><span style="display:block;font-size:13.5px;font-weight:800;color:var(--navy)">Lista de pacientes</span><span style="display:block;font-size:11.5px;color:var(--gray-500)">Pesquisar, selecionar e registrar</span></span></button></div></div>
+
+    <!-- SUB: CADASTRO IG -->
+    <div id="ig-sub-cadastro" style="display:none;padding:14px 16px 24px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><button type="button" onclick="igShowHub()" style="border:0;background:none;color:var(--teal-mid);font-size:22px;cursor:pointer">←</button><span style="font-size:15px;font-weight:800;color:var(--navy)">Cadastrar paciente</span></div>
+      <div class="ig-alert warn" style="font-size:11.5px">Armazenamento local, sem autenticação ou sincronização: não cadastre dados identificáveis de pacientes reais até integrar uma solução segura e adequada à LGPD. Prefira identificador não nominativo.</div>
+      <form class="ig-form" id="igCadastroForm" onsubmit="igCadastrarPaciente(event)">
+        <div class="ig-f-row"><label>Código do paciente (preferencialmente sem identificação)</label><input id="igCadNome" type="text" required maxlength="120" placeholder="Código do paciente"></div>
+        <div class="ig-f-2"><div class="ig-f-row"><label>Idade (anos)</label><input id="igCadIdade" type="number" min="0" max="130" step="0.1" required></div><div class="ig-f-row"><label>Peso (kg)</label><input id="igCadPeso" type="number" min="2" max="250" step="0.1" required></div></div>
+        <div class="ig-f-row"><label>Diagnóstico / indicação</label><select id="igCadDx" required></select></div>
+        <div class="ig-f-2"><div class="ig-f-row"><label>IgG (mg/dL)</label><input id="igCadIgG" type="number" min="0" placeholder="Opcional"></div><div class="ig-f-row"><label>Via</label><select id="igCadVia"><option value="IV">Intravenosa</option><option value="SC">Subcutânea</option></select></div></div>
+        <div class="ig-f-row"><label>Produto (mesma marca usada anteriormente)</label><select id="igCadProduto" required onchange="igCadastroViaDoProduto(this.value)"></select></div>
+        <div class="ig-f-row"><label>Infecções recorrentes documentadas</label><select id="igCadInfRep"><option value="sim">Sim</option><option value="nao">Não</option></select></div>
+        <div class="ig-f-row"><label>Reações infusionais prévias</label><select id="igCadReacao"><option value="nenhuma">Nenhuma conhecida</option><option value="leve">Reação leve/moderada</option><option value="anafilaxia">Anafilaxia / reação grave</option></select></div>
+        <div class="ig-f-2"><div class="ig-f-row"><label>Nº de infusões anteriores do MESMO produto</label><input id="igCadHistoricoNum" type="number" min="0" max="999" value="0"></div><div class="ig-f-row"><label>Última infusão</label><input id="igCadUltima" type="date"></div></div>
+        <div class="ig-f-row"><label style="display:flex;gap:8px;align-items:flex-start"><input id="igCadToleranciaDoc" type="checkbox" style="width:auto;margin-top:3px;flex-shrink:0"> Boa tolerância comprovada em prontuário para este produto, sem reações documentadas</label></div>
+        <button type="submit" class="ig-btn">Salvar paciente</button>
+      </form>
+    </div>
+    <!-- SUB: MEUS PACIENTES -->
+    <div id="ig-sub-pacientes" style="display:none">
+      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px">
+        <button onclick="igShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
+        <div style="font-size:14px;font-weight:800;color:var(--navy)">Lista de pacientes</div>
+      </div>
+      <div style="padding:0 16px 8px">
+        <input type="text" id="igBuscaPac" placeholder="Buscar paciente..." oninput="igRenderPacientes(this.value)"
+          style="width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-size:13px;font-family:Manrope,sans-serif">
+      </div>
+      <div id="igListaPacientes" style="padding:0 16px 16px;display:flex;flex-direction:column;gap:8px"></div>
+    </div>
 
     <!-- SUB: REALIZAR INFUSAO -->
     <div id="ig-sub-infusao" style="display:none">
@@ -3246,7 +3287,7 @@ window._bloquearApp=function(){};
         <div style="font-size:14px;font-weight:800;color:var(--navy)" id="igTituloPrescricao">Prescrever primeira infusão</div>
       </div>
 
-    <div id="igPrescModoAviso" style="font-size:11.5px;color:var(--gray-500);line-height:1.6;margin:8px 16px 12px">Simulação sem nome nem gravação de dados. Não introduza dados identificáveis de pacientes.</div>
+    <div style="padding:12px 16px;background:#eef6f8;margin:8px 16px 12px;border-radius:12px"><label for="igPrescPaciente" style="display:block;font-size:12px;font-weight:800;margin-bottom:6px">Selecionar paciente cadastrado</label><select id="igPrescPaciente" onchange="igSelecionarPaciente(this.value)" style="padding:10px;width:100%;border:1px solid #b8d6dd;border-radius:8px"><option value="">Selecione um paciente...</option></select><div id="igPrescModoAviso" style="font-size:11.5px;margin-top:8px">As velocidades consideram o produto e a tolerabilidade documentada.</div></div>
     <input type="hidden" id="igProduto" value="">
 
     <!-- 2. CASO -->
@@ -3260,9 +3301,18 @@ window._bloquearApp=function(){};
       </div>
     </div>
     <div class="ig-form" id="igFormBox">
-      <div class="ig-form-tit">Dados clínicos não identificáveis — cálculo temporário</div>
+      <div class="ig-form-tit">Dados do paciente</div>
 
-      <input type="hidden" id="igNome" value="">
+      <div class="ig-f-row"><label>Nome do paciente</label>
+        <div style="display:flex;gap:6px;position:relative">
+          <input type="text" id="igNome" placeholder="Nome completo" autocomplete="off"
+            oninput="igNomeAutoComplete(this.value)" style="flex:1">
+          <button type="button" onclick="igCarregarPaciente()" title="Carregar dados salvos"
+            style="background:var(--teal-mid);color:#fff;border:none;border-radius:9px;padding:0 12px;font-size:18px;cursor:pointer;flex-shrink:0">⬇</button>
+        </div>
+        <div id="igNomeSugs" style="display:none;position:absolute;background:#fff;border:1.5px solid var(--teal-mid);border-radius:10px;z-index:500;width:100%;max-height:160px;overflow-y:auto;box-shadow:0 4px 16px rgba(0,0,0,.12)"></div>
+      </div>
+
       <div class="ig-f-2">
         <div class="ig-f-row"><label>Idade</label>
           <div style="display:flex;gap:6px">
@@ -3300,14 +3350,6 @@ window._bloquearApp=function(){};
       <div class="ig-f-row"><label>Infecções de repetição documentadas?</label>
         <select id="igInfRep"><option value="sim">Sim — infecções bacterianas recorrentes/graves</option><option value="nao">Não / não documentadas</option></select></div>
 
-      <div class="ig-f-row" style="border:1px solid #dcecf0;border-radius:10px;padding:10px;background:#f7fafb">
-        <label>Histórico com a mesma marca (sem armazenamento)</label>
-        <div class="ig-f-2" style="margin-top:8px">
-          <div class="ig-f-row"><label>Número de infusões anteriores</label><input type="number" id="igHistoricoNum" min="0" max="999" value="0"></div>
-          <div class="ig-f-row"><label>Data da última infusão</label><input type="date" id="igUltimaAplicacao"></div>
-        </div>
-        <label style="display:flex;gap:6px;font-size:11px;align-items:flex-start"><input type="checkbox" id="igToleranciaDoc" style="width:auto;flex-shrink:0;margin-top:2px">Boa tolerância documentada no prontuário externo, sem reação prévia</label>
-      </div>
       <div class="ig-f-row"><label>Reação infusional prévia à imunoglobulina</label>
         <select id="igReacao">
           <option value="nenhuma">Nenhuma</option>
@@ -3365,16 +3407,35 @@ window._bloquearApp=function(){};
         Imunizações
       </div>
       <div style="font-size:12px;color:var(--gray-500);margin-bottom:16px">Calendários oficiais SBIm 2026/2027 e PNI 2026 — recomendações e oferta pelo SUS</div>
-      
       <div style="display:flex;flex-direction:column;gap:10px">
-        <button type="button" onclick="vac26Abrir('sbim')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
-          <span style="font-size:26px">💉</span>
-          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Central de Vacinas</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">SBIm 2026/2027 e PNI 2026 · conteúdo integrado por faixa etária</div></div>
+        <button type="button" onclick="vacAbrirCalendarios('sbim')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+          <span style="font-size:26px">📗</span>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Calendários SBIm 2026/2027</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Todas as idades, gestantes e grupos especiais</div></div>
           <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
         </button>
-        <button type="button" onclick="vacShowSub('atraso')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+        <button type="button" onclick="vacAbrirCalendarios('pni')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+          <span style="font-size:26px">🇧🇷</span>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">PNI — Calendário Nacional 2026</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Vacinas do SUS, faixas etárias e normativa</div></div>
+          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
+        </button>
+        <button onclick="vacShowSub('pacientes')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+          <span style="font-size:26px">👥</span>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Pacientes cadastrados</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Calendários já gerados e salvos</div></div>
+          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
+        </button>
+        <button onclick="vacShowSub('novo')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+          <span style="font-size:26px">📝</span>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Cadastrar novo paciente</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Idade e comorbidades → calendário SBIm</div></div>
+          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
+        </button>
+        <button onclick="vacShowSub('vacinas')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
+          <span style="font-size:26px">💉</span>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Vacinas disponíveis no Brasil</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Produtos com registro ANVISA — SUS e rede privada</div></div>
+          <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
+        </button>
+        <button onclick="vacShowSub('atraso')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
           <span style="font-size:26px">⏱️</span>
-          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Recuperação de doses em atraso</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Intervalos mínimos e esquemas de resgate SBIm</div></div>
+          <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Recuperação de doses em atraso</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Idades e intervalos mínimos — Separata SBIm 25.09.2026</div></div>
           <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
         </button>
       </div>
@@ -3383,26 +3444,149 @@ window._bloquearApp=function(){};
       </div>
     </div>
 
+    <!-- SUB: CATÁLOGO OFICIAL DE CALENDÁRIOS (SBIm 2026/27 e PNI 2026) -->
+    <section id="vac-sub-calendarios" style="display:none;padding-bottom:24px" aria-label="Calendários de vacinação oficiais">
+      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 10px">
+        <button type="button" onclick="vacFecharCalendario();vacShowHub()" aria-label="Voltar para Imunizações" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
+        <div style="font-size:14px;font-weight:800;color:var(--navy)">Calendários de vacinação</div>
+      </div>
+      <div class="vac-cal-tabs" role="tablist" aria-label="Selecionar fonte do calendário">
+        <button type="button" role="tab" id="vacCalTabSBIm" onclick="vacSelecionarFonteCalendarios('sbim')">SBIm 2026/2027</button>
+        <button type="button" role="tab" id="vacCalTabPNI" onclick="vacSelecionarFonteCalendarios('pni')">PNI 2026 (SUS)</button>
+      </div>
+      <p id="vacCalLegenda" class="vac-cal-nota"></p>
+      <div style="padding:0 16px 8px">
+        <label for="vacCalBusca" style="display:block;font-size:11px;color:var(--gray-500);margin-bottom:5px">Buscar por faixa etária ou grupo</label>
+        <input id="vacCalBusca" type="search" placeholder="Ex.: idosos, prematuro, gestante..." oninput="vacFiltrarCalendarios()" autocomplete="off" style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font:12px Manrope,sans-serif" />
+      </div>
+      <div id="vacCalendariosLista" style="padding:0 16px"></div>
+      <div id="vacCalPreview" class="vac-cal-visualizador" style="display:none;margin-left:16px;margin-right:16px" aria-live="polite">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px">
+          <div>
+            <div id="vacCalPreviewTitulo" style="font-size:13px;font-weight:800;color:var(--navy)"></div>
+            <div id="vacCalPreviewOrigem" style="font-size:10.5px;color:var(--gray-500);line-height:1.5;margin-top:3px"></div>
+          </div>
+          <button type="button" onclick="vacFecharCalendario()" aria-label="Fechar visualização" style="background:#f1f5f8;border:1px solid var(--gray-100);border-radius:8px;padding:5px 10px;cursor:pointer">✕</button>
+        </div>
+        <a id="vacCalPreviewLink" class="vac-cal-link" href="#" target="_blank" rel="noopener noreferrer">Abrir documento oficial</a>
+        <div id="vacCalPreviewAviso" style="font-size:10.5px;color:var(--gray-500);line-height:1.5;margin:9px 0"></div>
+        <iframe id="vacCalPreviewFrame" class="vac-cal-frame" loading="lazy" title="Calendário oficial" referrerpolicy="strict-origin-when-cross-origin" style="display:none"></iframe>
+      </div>
+      <div class="vac-cal-nota" style="margin-top:14px;padding:12px;border-radius:11px;background:#fff;border:1px solid var(--gray-100)">
+        Atenção: as recomendações SBIm podem incluir esquemas diferentes dos disponíveis no SUS, além de indicações fora de bula.
+        O PNI deve seguir a normativa vigente, histórico vacinal, condições clínicas e regras de acesso aos CRIE/RIE.
+        Os documentos são consultados diretamente nos sites das instituições responsáveis, sem armazenar cópias no Hub.
+      </div>
+    </section>
+
+    <!-- SUB: PACIENTES -->
+    <div id="vac-sub-pacientes" style="display:none">
+      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px">
+        <button onclick="vacShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
+        <div style="font-size:14px;font-weight:800;color:var(--navy)">Pacientes cadastrados</div>
+      </div>
+      <div style="padding:0 16px 8px">
+        <input type="text" id="vacBuscaPac" placeholder="Buscar paciente..." oninput="vacRenderPacientes(this.value)"
+          style="width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-size:13px;font-family:Manrope,sans-serif">
+      </div>
+      <div id="vacListaPacientes" style="padding:0 16px 16px;display:flex;flex-direction:column;gap:8px"></div>
+    </div>
+
+    <!-- SUB: NOVO CADASTRO -->
+    <div id="vac-sub-novo" style="display:none">
+      <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 4px">
+        <button onclick="vacShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
+        <div style="font-size:14px;font-weight:800;color:var(--navy)">Cadastrar paciente</div>
+      </div>
+
+      <div style="margin:4px 16px 14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:16px;padding:14px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <span style="font-size:22px">📱</span>
+          <div><div style="font-size:13px;font-weight:800;color:var(--navy)">Meu SUS Digital — caderneta de vacinação</div>
+          <div style="font-size:11px;color:var(--gray-500);margin-top:1px">O paciente lê o QR code e abre no celular dele</div></div>
+        </div>
+        <div style="display:flex;justify-content:center;margin-bottom:10px">
+          <div style="width:190px;height:190px;border:1.5px solid var(--gray-100);border-radius:12px;padding:8px;box-sizing:border-box;background:#fff"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31 31" shape-rendering="crispEdges" style="width:100%;height:100%;display:block"><rect width="100%" height="100%" fill="#fff"/><path fill="#0f2a3d" d="M1 1h1v1h-1zM2 1h1v1h-1zM3 1h1v1h-1zM4 1h1v1h-1zM5 1h1v1h-1zM6 1h1v1h-1zM7 1h1v1h-1zM9 1h1v1h-1zM10 1h1v1h-1zM11 1h1v1h-1zM12 1h1v1h-1zM14 1h1v1h-1zM15 1h1v1h-1zM16 1h1v1h-1zM20 1h1v1h-1zM21 1h1v1h-1zM23 1h1v1h-1zM24 1h1v1h-1zM25 1h1v1h-1zM26 1h1v1h-1zM27 1h1v1h-1zM28 1h1v1h-1zM29 1h1v1h-1zM1 2h1v1h-1zM7 2h1v1h-1zM9 2h1v1h-1zM10 2h1v1h-1zM11 2h1v1h-1zM13 2h1v1h-1zM14 2h1v1h-1zM17 2h1v1h-1zM21 2h1v1h-1zM23 2h1v1h-1zM29 2h1v1h-1zM1 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM5 3h1v1h-1zM7 3h1v1h-1zM10 3h1v1h-1zM12 3h1v1h-1zM17 3h1v1h-1zM19 3h1v1h-1zM21 3h1v1h-1zM23 3h1v1h-1zM25 3h1v1h-1zM26 3h1v1h-1zM27 3h1v1h-1zM29 3h1v1h-1zM1 4h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM7 4h1v1h-1zM9 4h1v1h-1zM11 4h1v1h-1zM13 4h1v1h-1zM15 4h1v1h-1zM16 4h1v1h-1zM18 4h1v1h-1zM20 4h1v1h-1zM23 4h1v1h-1zM25 4h1v1h-1zM26 4h1v1h-1zM27 4h1v1h-1zM29 4h1v1h-1zM1 5h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM7 5h1v1h-1zM12 5h1v1h-1zM13 5h1v1h-1zM15 5h1v1h-1zM17 5h1v1h-1zM18 5h1v1h-1zM20 5h1v1h-1zM21 5h1v1h-1zM23 5h1v1h-1zM25 5h1v1h-1zM26 5h1v1h-1zM27 5h1v1h-1zM29 5h1v1h-1zM1 6h1v1h-1zM7 6h1v1h-1zM10 6h1v1h-1zM11 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM17 6h1v1h-1zM20 6h1v1h-1zM23 6h1v1h-1zM29 6h1v1h-1zM1 7h1v1h-1zM2 7h1v1h-1zM3 7h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM9 7h1v1h-1zM11 7h1v1h-1zM13 7h1v1h-1zM15 7h1v1h-1zM17 7h1v1h-1zM19 7h1v1h-1zM21 7h1v1h-1zM23 7h1v1h-1zM24 7h1v1h-1zM25 7h1v1h-1zM26 7h1v1h-1zM27 7h1v1h-1zM28 7h1v1h-1zM29 7h1v1h-1zM9 8h1v1h-1zM12 8h1v1h-1zM16 8h1v1h-1zM17 8h1v1h-1zM18 8h1v1h-1zM19 8h1v1h-1zM1 9h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM6 9h1v1h-1zM7 9h1v1h-1zM8 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1zM14 9h1v1h-1zM16 9h1v1h-1zM17 9h1v1h-1zM18 9h1v1h-1zM19 9h1v1h-1zM23 9h1v1h-1zM26 9h1v1h-1zM28 9h1v1h-1zM29 9h1v1h-1zM1 10h1v1h-1zM2 10h1v1h-1zM3 10h1v1h-1zM8 10h1v1h-1zM9 10h1v1h-1zM11 10h1v1h-1zM14 10h1v1h-1zM15 10h1v1h-1zM16 10h1v1h-1zM20 10h1v1h-1zM21 10h1v1h-1zM23 10h1v1h-1zM24 10h1v1h-1zM25 10h1v1h-1zM29 10h1v1h-1zM1 11h1v1h-1zM4 11h1v1h-1zM6 11h1v1h-1zM7 11h1v1h-1zM8 11h1v1h-1zM9 11h1v1h-1zM10 11h1v1h-1zM11 11h1v1h-1zM12 11h1v1h-1zM14 11h1v1h-1zM18 11h1v1h-1zM19 11h1v1h-1zM22 11h1v1h-1zM25 11h1v1h-1zM27 11h1v1h-1zM28 11h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM6 12h1v1h-1zM8 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1zM16 12h1v1h-1zM17 12h1v1h-1zM19 12h1v1h-1zM20 12h1v1h-1zM22 12h1v1h-1zM23 12h1v1h-1zM29 12h1v1h-1zM7 13h1v1h-1zM10 13h1v1h-1zM15 13h1v1h-1zM16 13h1v1h-1zM17 13h1v1h-1zM18 13h1v1h-1zM24 13h1v1h-1zM26 13h1v1h-1zM27 13h1v1h-1zM1 14h1v1h-1zM3 14h1v1h-1zM4 14h1v1h-1zM6 14h1v1h-1zM10 14h1v1h-1zM11 14h1v1h-1zM12 14h1v1h-1zM15 14h1v1h-1zM16 14h1v1h-1zM17 14h1v1h-1zM18 14h1v1h-1zM20 14h1v1h-1zM22 14h1v1h-1zM23 14h1v1h-1zM27 14h1v1h-1zM28 14h1v1h-1zM29 14h1v1h-1zM2 15h1v1h-1zM5 15h1v1h-1zM6 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM10 15h1v1h-1zM11 15h1v1h-1zM12 15h1v1h-1zM14 15h1v1h-1zM17 15h1v1h-1zM19 15h1v1h-1zM20 15h1v1h-1zM23 15h1v1h-1zM24 15h1v1h-1zM27 15h1v1h-1zM28 15h1v1h-1zM29 15h1v1h-1zM3 16h1v1h-1zM4 16h1v1h-1zM6 16h1v1h-1zM12 16h1v1h-1zM13 16h1v1h-1zM15 16h1v1h-1zM19 16h1v1h-1zM21 16h1v1h-1zM23 16h1v1h-1zM24 16h1v1h-1zM25 16h1v1h-1zM28 16h1v1h-1zM3 17h1v1h-1zM4 17h1v1h-1zM6 17h1v1h-1zM7 17h1v1h-1zM9 17h1v1h-1zM10 17h1v1h-1zM11 17h1v1h-1zM13 17h1v1h-1zM15 17h1v1h-1zM19 17h1v1h-1zM22 17h1v1h-1zM25 17h1v1h-1zM26 17h1v1h-1zM28 17h1v1h-1zM3 18h1v1h-1zM5 18h1v1h-1zM8 18h1v1h-1zM11 18h1v1h-1zM15 18h1v1h-1zM16 18h1v1h-1zM21 18h1v1h-1zM24 18h1v1h-1zM26 18h1v1h-1zM27 18h1v1h-1zM28 18h1v1h-1zM1 19h1v1h-1zM4 19h1v1h-1zM7 19h1v1h-1zM9 19h1v1h-1zM10 19h1v1h-1zM11 19h1v1h-1zM12 19h1v1h-1zM13 19h1v1h-1zM14 19h1v1h-1zM15 19h1v1h-1zM16 19h1v1h-1zM21 19h1v1h-1zM24 19h1v1h-1zM25 19h1v1h-1zM27 19h1v1h-1zM4 20h1v1h-1zM8 20h1v1h-1zM9 20h1v1h-1zM10 20h1v1h-1zM13 20h1v1h-1zM14 20h1v1h-1zM15 20h1v1h-1zM16 20h1v1h-1zM17 20h1v1h-1zM18 20h1v1h-1zM19 20h1v1h-1zM21 20h1v1h-1zM27 20h1v1h-1zM2 21h1v1h-1zM4 21h1v1h-1zM7 21h1v1h-1zM8 21h1v1h-1zM10 21h1v1h-1zM11 21h1v1h-1zM14 21h1v1h-1zM15 21h1v1h-1zM16 21h1v1h-1zM17 21h1v1h-1zM18 21h1v1h-1zM21 21h1v1h-1zM22 21h1v1h-1zM23 21h1v1h-1zM24 21h1v1h-1zM25 21h1v1h-1zM26 21h1v1h-1zM27 21h1v1h-1zM9 22h1v1h-1zM12 22h1v1h-1zM18 22h1v1h-1zM19 22h1v1h-1zM21 22h1v1h-1zM25 22h1v1h-1zM26 22h1v1h-1zM27 22h1v1h-1zM28 22h1v1h-1zM29 22h1v1h-1zM1 23h1v1h-1zM2 23h1v1h-1zM3 23h1v1h-1zM4 23h1v1h-1zM5 23h1v1h-1zM6 23h1v1h-1zM7 23h1v1h-1zM9 23h1v1h-1zM10 23h1v1h-1zM11 23h1v1h-1zM12 23h1v1h-1zM13 23h1v1h-1zM15 23h1v1h-1zM19 23h1v1h-1zM20 23h1v1h-1zM21 23h1v1h-1zM23 23h1v1h-1zM25 23h1v1h-1zM26 23h1v1h-1zM28 23h1v1h-1zM1 24h1v1h-1zM7 24h1v1h-1zM9 24h1v1h-1zM10 24h1v1h-1zM12 24h1v1h-1zM14 24h1v1h-1zM15 24h1v1h-1zM16 24h1v1h-1zM21 24h1v1h-1zM25 24h1v1h-1zM26 24h1v1h-1zM1 25h1v1h-1zM3 25h1v1h-1zM4 25h1v1h-1zM5 25h1v1h-1zM7 25h1v1h-1zM11 25h1v1h-1zM16 25h1v1h-1zM17 25h1v1h-1zM18 25h1v1h-1zM21 25h1v1h-1zM22 25h1v1h-1zM23 25h1v1h-1zM24 25h1v1h-1zM25 25h1v1h-1zM27 25h1v1h-1zM28 25h1v1h-1zM1 26h1v1h-1zM3 26h1v1h-1zM4 26h1v1h-1zM5 26h1v1h-1zM7 26h1v1h-1zM9 26h1v1h-1zM10 26h1v1h-1zM13 26h1v1h-1zM14 26h1v1h-1zM16 26h1v1h-1zM17 26h1v1h-1zM18 26h1v1h-1zM20 26h1v1h-1zM22 26h1v1h-1zM24 26h1v1h-1zM25 26h1v1h-1zM26 26h1v1h-1zM29 26h1v1h-1zM1 27h1v1h-1zM3 27h1v1h-1zM4 27h1v1h-1zM5 27h1v1h-1zM7 27h1v1h-1zM9 27h1v1h-1zM11 27h1v1h-1zM13 27h1v1h-1zM18 27h1v1h-1zM19 27h1v1h-1zM24 27h1v1h-1zM27 27h1v1h-1zM29 27h1v1h-1zM1 28h1v1h-1zM7 28h1v1h-1zM11 28h1v1h-1zM12 28h1v1h-1zM13 28h1v1h-1zM15 28h1v1h-1zM17 28h1v1h-1zM21 28h1v1h-1zM22 28h1v1h-1zM23 28h1v1h-1zM24 28h1v1h-1zM25 28h1v1h-1zM26 28h1v1h-1zM28 28h1v1h-1zM1 29h1v1h-1zM2 29h1v1h-1zM3 29h1v1h-1zM4 29h1v1h-1zM5 29h1v1h-1zM6 29h1v1h-1zM7 29h1v1h-1zM9 29h1v1h-1zM12 29h1v1h-1zM14 29h1v1h-1zM16 29h1v1h-1zM19 29h1v1h-1zM20 29h1v1h-1zM21 29h1v1h-1zM22 29h1v1h-1zM25 29h1v1h-1zM28 29h1v1h-1z"/></svg></div>
+        </div>
+        <a href="https://meususdigital.saude.gov.br" target="_blank" rel="noopener noreferrer"
+           style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--navy);color:#fff;border-radius:11px;padding:12px;font-size:13px;font-weight:800;text-decoration:none">
+          🔗 Abrir Meu SUS Digital
+        </a>
+      </div>
+
+      <div class="ig-form">
+        <div class="ig-form-tit">Dados do paciente</div>
+
+        <div class="ig-f-row"><label>Nome do paciente</label>
+          <input type="text" id="vacNome" placeholder="Nome completo" autocomplete="off"></div>
+
+        <div class="ig-f-2">
+          <div class="ig-f-row"><label>Idade</label>
+            <div style="display:flex;gap:6px">
+              <input type="number" id="vacIdade" inputmode="numeric" placeholder="Ex: 34" style="flex:1">
+              <select id="vacIdadeUn" style="width:92px"><option value="anos">anos</option><option value="meses">meses</option></select>
+            </div></div>
+          <div class="ig-f-row"><label>Sexo</label>
+            <select id="vacSexo"><option value="f">Feminino</option><option value="m">Masculino</option></select></div>
+        </div>
+
+        <div class="ig-f-row"><label>Situação especial</label>
+          <select id="vacGest">
+            <option value="nao">Nenhuma</option>
+            <option value="gestante">Gestante</option>
+            <option value="puerpera">Puérpera (até 45 dias)</option>
+            <option value="prematuro">Prematuro (&lt; 37 semanas)</option>
+          </select></div>
+
+        <div class="ig-f-row"><label>Comorbidades / condições (marque as que se aplicam)</label>
+          <div class="ig-chips" id="vacComorb">
+            <button type="button" class="ig-chip" data-c="asma">Asma</button>
+            <button type="button" class="ig-chip" data-c="dpoc">DPOC / pneumopatia crônica</button>
+            <button type="button" class="ig-chip" data-c="cardio">Cardiopatia crônica</button>
+            <button type="button" class="ig-chip" data-c="dm">Diabetes mellitus</button>
+            <button type="button" class="ig-chip" data-c="renal">Doença renal crônica / diálise</button>
+            <button type="button" class="ig-chip" data-c="hepato">Hepatopatia crônica</button>
+            <button type="button" class="ig-chip" data-c="asplenia">Asplenia / disfunção esplênica</button>
+            <button type="button" class="ig-chip" data-c="complemento">Deficiência de complemento</button>
+            <button type="button" class="ig-chip" data-c="idp">Imunodeficiência primária (IDP)</button>
+            <button type="button" class="ig-chip" data-c="hiv">HIV / aids</button>
+            <button type="button" class="ig-chip" data-c="transplante">Transplante (TOS ou TCTH)</button>
+            <button type="button" class="ig-chip" data-c="onco">Neoplasia / quimioterapia</button>
+            <button type="button" class="ig-chip" data-c="imunossup">Imunossupressor / biológico / corticoide alta dose</button>
+            <button type="button" class="ig-chip" data-c="autoimune">Doença autoimune</button>
+            <button type="button" class="ig-chip" data-c="fistula">Fístula liquórica / implante coclear</button>
+            <button type="button" class="ig-chip" data-c="obesidade">Obesidade</button>
+            <button type="button" class="ig-chip" data-c="tabagismo">Tabagismo</button>
+            <button type="button" class="ig-chip" data-c="prof_saude">Profissional de saúde</button>
+            <button type="button" class="ig-chip" data-c="viajante">Viajante internacional</button>
+            <button type="button" class="ig-chip" data-c="nenhuma">Nenhuma</button>
+          </div></div>
+
+        <button class="ig-btn" onclick="vacGerarCalendario()">Gerar calendário vacinal</button>
+      </div>
+
+      <div id="vacSaida" style="display:none;padding:0 16px 20px"></div>
+    </div>
+
     <!-- SUB: VACINAS ANVISA -->
     <div id="vac-sub-vacinas" style="display:none;padding-bottom:24px">
       <div style="display:flex;align-items:center;gap:8px;padding:14px 16px 8px">
         <button onclick="vacShowHub()" style="background:none;border:none;cursor:pointer;color:var(--teal-mid);font-size:20px;padding:0 4px 0 0">←</button>
         <div style="font-size:14px;font-weight:800;color:var(--navy)">Vacinas disponíveis no Brasil</div>
       </div>
-      <div style="padding:0 16px 8px;font-size:11.5px;color:var(--gray-500);line-height:1.5">Calendários SBIm 2026/2027 e PNI 2026 integrados à Central. Selecione o grupo para consultar doses e observações; abaixo, consulte o catálogo detalhado por vacina.</div>
+      <div style="padding:0 16px 8px;font-size:11.5px;color:var(--gray-500);line-height:1.5">Imunizantes com registro ativo na ANVISA, separados por rede. Toque em cada vacina para ver a população liberada.</div>
       <div style="padding:0 16px 10px">
         <input type="text" id="vacBuscaVac" placeholder="Buscar vacina..." oninput="vacRenderVacinas(this.value)"
           style="width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-size:13px;font-family:Manrope,sans-serif">
       </div>
 
-      <div id="vac26Integra" aria-label="Calendários integrados por idade e situação especial"></div>
-      <div style="padding:0 16px 8px;font-size:12px;font-weight:800;color:var(--navy)">Catálogo de vacinas e detalhes por produto</div>
       <div id="vacListaAll" class="bio-grid vac-grid"></div>
       <div id="vacListaSUS" style="display:none"></div>
       <div id="vacListaPriv" style="display:none"></div>
 
       <div style="margin:14px 16px 0;background:#f7fafb;border:1px solid var(--gray-100);border-radius:12px;padding:11px 13px;font-size:11px;color:var(--gray-500);line-height:1.55">
-        Informações clínicas sintetizadas com base no <b>PNI/Ministério da Saúde 2026</b> e nos <b>Calendários SBIm 2026/2027</b>. As recomendações SBIm e a disponibilidade no SUS não são equivalentes. O aplicativo não oferece cadastro nem armazenamento de dados de pacientes.
+        Populações e esquemas do bloco SUS conforme a <b>Instrução Normativa do Calendário Nacional de Vacinação 2026</b> (PNI/Ministério da Saúde). Grupos especiais seguem o <b>Manual dos CRIE (2023)</b>. Recomendações clínicas das demais seções seguem a <b>SBIm</b>.
+        <div style="margin-top:6px">Selos de disponibilidade por rede: <a href="https://sbim.org.br/images/livreto-Calend-SBIm-2026-27-260619a.pdf_2026-06-19.pdf" target="_blank" rel="noopener noreferrer" style="color:var(--teal-mid)">SBIm 2026/2027</a>. Apresentações combinadas estão identificadas nos cartões.</div>
       </div>
     </div>
 
@@ -3716,6 +3900,16 @@ window._bloquearApp=function(){};
 
 
   <!-- ══ MAIS ══ -->
+  <!-- ══ PACIENTES ══ -->
+  <div class="page" id="page-pacientes">
+    <div class="sec-hdr"><h2>Pacientes</h2><span class="see-all" onclick="_pacCarregar()">atualizar</span></div>
+    <div style="padding:0 0 10px">
+      <input type="text" id="pacBusca" placeholder="Buscar paciente\u2026" oninput="_pacRender()" style="width:100%;box-sizing:border-box;border:1px solid var(--gray-100);border-radius:10px;padding:11px 13px;font-family:Manrope,sans-serif;font-size:14px;color:var(--navy);background:var(--gray-50);outline:none">
+    </div>
+    <div id="pacLista"><div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">Carregando\u2026</div></div>
+  </div>
+
+
   <!-- ══ LABORATÓRIO ══ -->
   <div class="page" id="page-laboratorio">
     <div style="padding:16px 16px 8px">
@@ -3792,6 +3986,7 @@ window._bloquearApp=function(){};
       </div>
     </div>
     <div class="gap-list">
+      <div class="guide-card" data-nav="pacientes" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">👥</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Pacientes</div><div style="font-size:11.5px;color:var(--gray-500)">Scores salvos por paciente</div></div></div></div>
       <div class="guide-card" data-nav="casos" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💬</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Fórum de Discussão</div><div style="font-size:11.5px;color:var(--gray-500)">Discussões por especialidade · área médica restrita</div></div></div></div>
       <div class="guide-card" data-nav="educacao" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🎓</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Educação Continuada</div><div style="font-size:11.5px;color:var(--gray-500)">ASBAI · EAACI Nexus · UCARE LevelUp</div></div></div></div>
       <div class="guide-card" data-nav="imuno" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💉</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Imunobiológicos</div><div style="font-size:11.5px;color:var(--gray-500)">Rol ANS · DUT SUS · Relatórios · 9 biológicos</div></div></div></div>
@@ -3850,6 +4045,18 @@ window._bloquearApp=function(){};
 
 <!-- bottom nav removed -->
 
+<div class="ai-sheet" id="pacSheet">
+  <div class="ai-sheet-inner">
+    <div class="ai-sheet-handle"></div>
+    <div class="ai-sheet-hdr">
+      <button id="pacSheetClose" class="btn-back" aria-label="Voltar">‹</button>
+      <div class="ai-sheet-title" id="pacSheetTitle">Paciente</div>
+      <div style="width:38px"></div>
+    </div>
+    <div class="ai-sheet-body" id="pacSheetBody"></div>
+  </div>
+</div>
+
 <!-- MODAL SCORES -->
 <div class="overlay" id="overlay">
   <div class="modal">
@@ -3867,7 +4074,7 @@ window._bloquearApp=function(){};
       <div class="res-lbl" id="mResLbl">—</div>
       <div class="res-desc" id="mResDesc">—</div>
     </div>
-    <p class="modal-disc">⚠️ Calculadora temporária. Não armazena resultados, não permite cadastro e não substitui avaliação médica individualizada. Não insira dados identificáveis.</p>
+    <p class="modal-disc">⚠️ Instrumento de apoio clínico. Não substitui avaliação médica individualizada.</p>
   </div>
 </div>
 
@@ -4509,35 +4716,35 @@ var VAC_CATALOGO=[
  {id:'rota',sus:1,particular:0,nome:'Rotavírus humano (oral)',comercial:'Rotarix (GSK)',fabricante:'GSK',
   prot:'Gastroenterite por rotavírus',tipo:'Atenuada oral',
   pop:'Crianças até 23 meses e 29 dias.',
-  esq:'2 doses: aos 2 e 4 meses. Para atrasos no PNI 2026: D1 de 1m15d até 11m29d; D2 de 3m15d até 23m29d, respeitando intervalo mínimo de 30 dias.',
-  obs:'Os limites de resgate PNI 2026 não devem ser confundidos com as idades descritas nas bulas de cada apresentação; conferir norma MS e orientações do serviço.',
+  esq:'2 doses: 1ª aos 2 m (máx. 3 m 15 d); 2ª aos 4 m (máx. 7 m 29 d).',
+  obs:'Não iniciar após 3 m 15 d. Não completar após 7 m 29 d.',
   ea:'Diarreia leve e irritabilidade (comuns). Raro: invaginação intestinal (risco muito baixo, primeiros 7 dias após 1ª dose). Muito raros: transmissão do vírus vacinal a contactantes imunocomprometidos.',
   sbim:'https://sbim.org.br/calendario-sbim/criancas-0-menores-6-anos'},
  {id:'pnc10',sus:1,particular:0,nome:'Pneumocócica 10-valente (VPC10)',comercial:'Synflorix (GSK)',fabricante:'GSK',
   prot:'Doença pneumocócica (10 sorotipos)',tipo:'Inativada (conjugada)',
   pop:'Crianças de 2 meses a 4 anos, 11 meses e 29 dias.',
-  esq:'Na rotina 2026, VPC10 / VPC20 em transição: doses aos 2 e 4 meses, com reforço aos 12 meses; confirmar o imunizante fornecido na unidade.',
+  esq:'3 doses (2, 4 e 6 m) + reforço aos 12–15 m.',
   obs:'PNI em transição para VPC20; verificar protocolo MS vigente.',
   ea:'Locais: dor, eritema, enduração (muito comuns). Sistêmicos: febre, irritabilidade (comuns). Raros: anafilaxia, convulsão febril.',
   sbim:'https://sbim.org.br/calendario-sbim/criancas-0-menores-6-anos'},
  {id:'pnc20_sus',sus:1,particular:1,nome:'Pneumocócica 20-valente (VPC20)',comercial:'Apexxnar / Prevnar 20 (Pfizer)',fabricante:'Pfizer',
   prot:'Doença pneumocócica (20 sorotipos)',tipo:'Inativada (conjugada)',
-  pop:'Crianças a partir dos 2 meses (rotina VPC20/VPC10 em transição); povos indígenas e grupos especiais; pessoas de 60–84 anos acamadas/institucionalizadas e todos a partir de 85 anos, conforme PNI 2026.',
-  esq:'Crianças: VPC20 aos 2 e 4 meses e reforço aos 12 meses na rotina; adultos elegíveis segundo indicação e histórico (frequentemente 1 dose).',
-  obs:'Disponibilização SUS não é universal em adultos; atenção às situações de imunodeficiência e esquemas CRIE/RIE.',
+  pop:'Adultos e idosos ≥18 anos — transição em curso no PNI/MS 2026.',
+  esq:'1 dose (substitui a sequência VPC13 + VPP23 em adultos).',
+  obs:'Cobertura mais ampla; dispensa VPP23 sequencial. Aguardar protocolo pediátrico MS.',
   ea:'Locais: dor, eritema, enduração (muito comuns). Sistêmicos: fadiga, cefaleia, mialgia (comuns). Raros: anafilaxia.',
   sbim:'https://sbim.org.br/calendarios-de-vacinacao'},
  {id:'menc',sus:1,particular:1,nome:'Meningocócica C conjugada (MenC)',comercial:'NeisVac-C (Pfizer) · Menjugate (GSK) · Meningitec (Pfizer)',fabricante:'Pfizer / GSK',
   prot:'Doença meningocócica sorogrupo C',tipo:'Inativada (conjugada)',
-  pop:'Lactentes aos 3 e 5 meses; na rotina PNI 2026 a dose de 12 meses é MenACWY, com MenACWY também aos 11–14 anos.',
-  esq:'MenC aos 3 e 5 meses; reforço aos 12 meses com MenACWY na rotina PNI 2026. Adolescentes: MenACWY aos 11–14 anos.',
+  pop:'Crianças de 2 meses a 4 anos, 11 meses e 29 dias. Adolescentes 11–14 anos (reforço).',
+  esq:'2 doses aos 3 e 5 m + reforço aos 12 m. Adolescentes: 1 dose.',
   obs:'Em grupos de risco (asplenia, complemento etc.), considerar MenACWY.',
   ea:'Locais: eritema, edema, dor (comuns). Sistêmicos: febre, irritabilidade (comuns em lactentes). Raros: anafilaxia.',
   sbim:'https://sbim.org.br/calendario-sbim/criancas-0-menores-6-anos'},
  {id:'menacwy',sus:1,particular:1,nome:'Meningocócica ACWY conjugada',comercial:'Menveo (GSK) · Nimenrix (Pfizer)',fabricante:'GSK / Pfizer',
   prot:'Doença meningocócica sorogrupos A, C, W e Y',tipo:'Inativada (conjugada)',
   pop:'Adolescentes 11–14 anos. Grupos especiais: asplenia, complemento, HIV, imunossuprimidos, viajantes para áreas endêmicas.',
-  esq:'PNI 2026: 1 dose entre 11 e 14 anos; SBIm e grupos especiais podem recomendar esquema e reforços adicionais conforme risco.',
+  esq:'Adolescentes: 1 dose aos 11–12 anos + reforço aos 13–14 anos. Adultos em risco: 1–2 doses (2 em asplenia/complemento).',
   obs:'Preferida sobre MenC em adolescentes por cobertura mais ampla.',
   ea:'Locais: dor, eritema (comuns). Sistêmicos: cefaleia, fadiga, febre (incomuns a comuns). Raros: anafilaxia.',
   sbim:'https://sbim.org.br/calendario-sbim/adolescentes'},
@@ -4730,19 +4937,23 @@ var VAC_CATALOGO=[
 function vacShowHub(){
   var hub=document.getElementById('vac-menu-hub');
   if(hub) hub.style.display='block';
-  ['vacinas','atraso'].forEach(function(k){
+  ['pacientes','novo','vacinas','atraso','calendarios'].forEach(function(k){
     var el=document.getElementById('vac-sub-'+k); if(el) el.style.display='none';
   });
 }
 function vacShowSub(sub){
   var hub=document.getElementById('vac-menu-hub');
   if(hub) hub.style.display='none';
-  ['vacinas','atraso'].forEach(function(k){
+  ['pacientes','novo','vacinas','atraso','calendarios'].forEach(function(k){
     var el=document.getElementById('vac-sub-'+k);
     if(el) el.style.display=(k===sub)?'block':'none';
   });
+  if(sub==='pacientes') vacRenderPacientes('');
   if(sub==='vacinas') vacRenderVacinas('');
   if(sub==='atraso') atrRender();
+  if(sub==='novo'){
+    var o=document.getElementById('vacSaida'); if(o){o.style.display='none';o.innerHTML='';}
+  }
 }
 
 
@@ -5102,6 +5313,134 @@ function vacCalcular(idadeMeses,sexo,situacao,comorb){
   return {rec:fin,alertas:alertas};
 }
 
+function vacGerarCalendario(){
+  var nome=(document.getElementById('vacNome').value||'').trim();
+  var idv=parseFloat(document.getElementById('vacIdade').value);
+  var un=document.getElementById('vacIdadeUn').value;
+  var sexo=document.getElementById('vacSexo').value;
+  var sit=document.getElementById('vacGest').value;
+  var comorb=vacComorbSel();
+  var out=document.getElementById('vacSaida');
+  if(!nome){ alert('Informe o nome do paciente.'); return; }
+  if(isNaN(idv)||idv<0){ alert('Informe a idade do paciente.'); return; }
+  var meses=(un==='meses')?idv:idv*12;
+  var r=vacCalcular(meses,sexo,sit,comorb);
+  var idadeTxt=idv+' '+un;
+
+  var h='<div class="ig-out"><h4>Calendário vacinal — SBIm</h4>'
+    +'<div class="ig-kv"><span>Paciente</span><span>'+nome+'</span></div>'
+    +'<div class="ig-kv"><span>Idade</span><span>'+idadeTxt+'</span></div>'
+    +'<div class="ig-kv"><span>Situação</span><span>'+({nao:'—',gestante:'Gestante',puerpera:'Puérpera',prematuro:'Prematuro'}[sit])+'</span></div>'
+    +'<div class="ig-kv"><span>Comorbidades</span><span>'+(comorb.length?comorb.length+' selecionada(s)':'Nenhuma')+'</span></div></div>';
+
+  function bloco(tit,arr,cor){
+    if(!arr.length) return '';
+    var x='<div class="ig-out"><h4>'+tit+'</h4>';
+    arr.forEach(function(v){
+      x+='<div style="border-left:3px solid '+cor+';padding:6px 0 6px 10px;margin-bottom:9px">'
+        +'<div style="font-size:13.5px;font-weight:800;color:var(--navy)">'+v.nome+'</div>'
+        +'<div style="font-size:12.5px;color:var(--navy);margin-top:2px">'+v.quando+'</div>'
+        +'<div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">'+v.motivo+'</div></div>';
+    });
+    return x+'</div>';
+  }
+  h+=bloco('Calendário de rotina para a idade',r.rec.filter(function(v){return v.tag==='rotina';}),'var(--teal-mid)');
+  h+=bloco('Situação especial',r.rec.filter(function(v){return v.tag==='especial';}),'#d69e2e');
+  h+=bloco('Indicações por comorbidade',r.rec.filter(function(v){return v.tag==='comorb';}),'var(--navy)');
+
+  if(r.alertas.length){
+    h+='<div class="ig-out"><h4>Alertas e contraindicações</h4>';
+    r.alertas.forEach(function(a){ h+='<div class="ig-alert" style="background:#fff8e6;border:1px solid #f0d9a0;color:#7a5c00">⚠️ '+a+'</div>'; });
+    h+='</div>';
+  }
+  h+='<div style="font-size:11px;color:var(--gray-500);line-height:1.5;padding:0 2px 10px">Fonte: Calendários de Vacinação e Guias de Grupos Especiais da Sociedade Brasileira de Imunizações (SBIm). Apoio à decisão — não substitui a avaliação clínica individual.</div>'
+    +'<div style="display:flex;gap:8px">'
+    +'<button class="ig-btn" style="flex:1;margin:0" onclick="vacSalvarPaciente()">💾 Salvar paciente</button>'
+    +'<button class="ig-btn" style="flex:1;margin:0;background:var(--teal-mid)" onclick="vacCopiar()">📋 Copiar</button></div>';
+
+  out.innerHTML=h; out.style.display='block';
+  window._vacAtual={nome:nome,idade:idv,un:un,sexo:sexo,situacao:sit,comorb:comorb,rec:r.rec,alertas:r.alertas};
+  out.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function vacTexto(p){
+  var t='CALENDÁRIO VACINAL — SBIm\n\nPaciente: '+p.nome+'\nIdade: '+p.idade+' '+p.un+'\n';
+  if(p.situacao!=='nao') t+='Situação: '+p.situacao+'\n';
+  if(p.comorb.length) t+='Comorbidades: '+p.comorb.join(', ')+'\n';
+  t+='\nVACINAS INDICADAS:\n';
+  p.rec.forEach(function(v){ t+='\n• '+v.nome+'\n  '+v.quando+'\n  ('+v.motivo+')\n'; });
+  if(p.alertas.length){ t+='\nALERTAS:\n'; p.alertas.forEach(function(a){ t+='– '+a+'\n'; }); }
+  t+='\nReferência: Sociedade Brasileira de Imunizações (SBIm).';
+  return t;
+}
+function vacCopiar(){
+  if(!window._vacAtual) return;
+  var t=vacTexto(window._vacAtual);
+  if(navigator.clipboard) navigator.clipboard.writeText(t).then(function(){ alert('Calendário copiado.'); });
+  else alert(t);
+}
+function vacSalvarPaciente(){
+  if(!window._vacAtual) return;
+  try{
+    var hist=JSON.parse(localStorage.getItem('vacPacientes')||'{}');
+    var p=window._vacAtual;
+    hist[p.nome]={nome:p.nome,idade:p.idade,un:p.un,sexo:p.sexo,situacao:p.situacao,comorb:p.comorb,rec:p.rec,alertas:p.alertas,atualizado:new Date().toISOString().slice(0,10)};
+    localStorage.setItem('vacPacientes',JSON.stringify(hist));
+    alert('Paciente salvo em "Pacientes cadastrados".');
+  }catch(e){ alert('Não foi possível salvar.'); }
+}
+function vacDeletarPaciente(nome){
+  if(!confirm('Excluir '+nome+'?')) return;
+  try{
+    var hist=JSON.parse(localStorage.getItem('vacPacientes')||'{}');
+    delete hist[nome]; localStorage.setItem('vacPacientes',JSON.stringify(hist));
+  }catch(e){}
+}
+function vacVerPaciente(nome){
+  try{
+    var hist=JSON.parse(localStorage.getItem('vacPacientes')||'{}');
+    var p=hist[nome]; if(!p) return;
+    window._vacAtual=p;
+    vacShowSub('novo');
+    document.getElementById('vacNome').value=p.nome;
+    document.getElementById('vacIdade').value=p.idade;
+    document.getElementById('vacIdadeUn').value=p.un;
+    document.getElementById('vacSexo').value=p.sexo;
+    document.getElementById('vacGest').value=p.situacao;
+    document.querySelectorAll('#vacComorb .ig-chip').forEach(function(c){
+      c.classList.toggle('on',(p.comorb||[]).indexOf(c.dataset.c)>=0);
+    });
+    vacGerarCalendario();
+  }catch(e){}
+}
+function vacRenderPacientes(filtro){
+  var box=document.getElementById('vacListaPacientes'); if(!box) return;
+  try{
+    var hist=JSON.parse(localStorage.getItem('vacPacientes')||'{}');
+    var lista=Object.values(hist).filter(function(p){
+      return !filtro || p.nome.toLowerCase().indexOf(filtro.toLowerCase())>=0;
+    }).sort(function(a,b){ return (b.atualizado||'').localeCompare(a.atualizado||''); });
+    box.innerHTML='';
+    if(!lista.length){ box.innerHTML='<div style="color:var(--gray-500);font-size:13px;padding:8px 0">Nenhum paciente cadastrado ainda.</div>'; return; }
+    lista.forEach(function(p){
+      var div=document.createElement('div');
+      div.style.cssText='background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px';
+      div.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between">'
+        +'<b style="font-size:13.5px;color:var(--navy)">'+p.nome+'</b>'
+        +'<span style="font-size:11px;color:var(--gray-500)">'+((p.rec&&p.rec.length)||0)+' vacinas</span></div>'
+        +'<div style="font-size:11.5px;color:var(--gray-500)">'+p.idade+' '+p.un+(p.comorb&&p.comorb.length?' · '+p.comorb.length+' comorbidade(s)':'')+(p.atualizado?' · '+p.atualizado:'')+'</div>'
+        +'<div style="display:flex;gap:6px;margin-top:6px">'
+        +'<button class="bvv" style="flex:1;background:var(--teal-mid);color:#fff;border:none;border-radius:8px;padding:6px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:Manrope,sans-serif">🛡️ Ver calendário</button>'
+        +'<button class="bvd" style="background:#fff0f0;color:#e53e3e;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer">🗑</button>'
+        +'</div>';
+      (function(pn){
+        div.querySelector('.bvv').onclick=function(){ vacVerPaciente(pn); };
+        div.querySelector('.bvd').onclick=function(){ vacDeletarPaciente(pn); vacRenderPacientes(filtro||''); };
+      })(p.nome);
+      box.appendChild(div);
+    });
+  }catch(e){ box.innerHTML='<div style="color:#e53e3e;font-size:12px">Erro ao carregar.</div>'; }
+}
 function vacRenderVacinas(filtro){
   var f=(filtro||'').toLowerCase().trim();
   var box=document.getElementById('vacListaAll');
@@ -5163,7 +5502,54 @@ function vacRenderVacinas(filtro){
 /* Cadastro e prescrições — imunoglobulinas */
 var igModoAtual='primeira';
 function igEscapeHtml(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-function igAtualizarSeletor(){ /* Sem cadastro de pacientes. */ }
+function igPacientesSalvos(){
+  try{return Object.values(JSON.parse(localStorage.getItem('igPacientes')||'{}')).filter(function(p){return p&&typeof p.nome==='string';}).sort(function(a,b){return a.nome.localeCompare(b.nome,'pt-BR');});}
+  catch(e){return [];}
+}
+function igPrepararCadastro(){
+  var dx=document.getElementById('igCadDx'),src=document.getElementById('igDx');
+  if(dx&&src&&!dx.options.length)dx.innerHTML=src.innerHTML;
+  var prod=document.getElementById('igCadProduto');
+  if(prod&&!prod.options.length)prod.innerHTML='<option value="">Selecione...</option>'+Object.keys(IG_PRODUTOS).map(function(k){
+    return '<option value="'+igEscapeHtml(k)+'">'+igEscapeHtml(IG_PRODUTOS[k].nome)+'</option>';
+  }).join('');
+}
+function igCadastroViaDoProduto(k){var p=IG_PRODUTOS[k],v=document.getElementById('igCadVia');if(p&&v)v.value=p.via.indexOf('SC')===0?'SC':'IV';}
+function igAtualizarSeletor(){
+  var select=document.getElementById('igPrescPaciente');if(!select)return;
+  var current=select.value;
+  var patients=igPacientesSalvos();
+  select.innerHTML='<option value="">Selecione um paciente...</option>'+patients.map(function(p){
+    return '<option value="'+igEscapeHtml(p.nome)+'">'+igEscapeHtml(p.nome)+'</option>';
+  }).join('');
+  if(patients.some(function(p){return p.nome===current;}))select.value=current;
+}
+function igCadastrarPaciente(ev){
+  if(ev&&ev.preventDefault)ev.preventDefault();
+  var el=function(id){return document.getElementById(id);};
+  var nome=el('igCadNome').value.trim(), idade=Number(el('igCadIdade').value),peso=Number(el('igCadPeso').value);
+  var prod=el('igCadProduto').value,dx=el('igCadDx').value,via=el('igCadVia').value;
+  var prev=Number(el('igCadHistoricoNum').value||0),doc=el('igCadToleranciaDoc').checked;
+  if(!nome||!prod||!dx||!Number.isFinite(idade)||idade<0||idade>130||!Number.isFinite(peso)||peso<2||peso>250||!Number.isInteger(prev)||prev<0){
+    toast('⚠️','Revise os dados do cadastro.');return;
+  }
+  if((IG_PRODUTOS[prod].via.indexOf('SC')===0?'SC':'IV')!==via){toast('⚠️','Produto e via incompatíveis.');return;}
+  if(doc&&(!prev||el('igCadReacao').value!=='nenhuma'||!el('igCadUltima').value)){toast('⚠️','Para documentar boa tolerância, informe infusões prévias, ausência de reação e data da última infusão.');return;}
+  try{
+    var hist=JSON.parse(localStorage.getItem('igPacientes')||'{}'),ant=hist[nome.toLowerCase()]||{};
+    var changed=!!ant.produto&&ant.produto!==prod;
+    if(changed&&!confirm('Trocar produto? A tolerância com a marca anterior não será aceita para escalonamento automático.'))return;
+    hist[nome.toLowerCase()]=Object.assign({},ant,{
+      nome:nome,idade:idade,idUn:'anos',peso:peso,dx:dx,
+      igG:el('igCadIgG').value===''?null:Number(el('igCadIgG').value),
+      via:via,produto:prod,infRep:el('igCadInfRep').value,reacao:el('igCadReacao').value,
+      historicoInformado:prev,historicoProduto:prod,toleranciaDocumentada:!!doc,
+      ultimaHistorica:el('igCadUltima').value,infusoes:ant.infusoes||[]
+    });
+    localStorage.setItem('igPacientes',JSON.stringify(hist));
+    igAtualizarSeletor();toast('✅','Cadastro salvo no dispositivo.');igShowSub('pacientes');
+  }catch(e){toast('⚠️','Erro ao salvar o cadastro.');}
+}
 function igAbrirPrescricao(modo){
   igModoAtual=modo==='rotina'?'rotina':'primeira';
   igShowSub('infusao');
@@ -5208,7 +5594,7 @@ function igHistoricoSeguro(p,produto){
 function igShowHub(){
   var hub=document.getElementById('ig-menu-hub');
   if(hub) hub.style.display='block';
-  ['infusao','bulas'].forEach(function(k){
+  ['cadastro','pacientes','infusao','bulas'].forEach(function(k){
     var el=document.getElementById('ig-sub-'+k); if(el) el.style.display='none';
   });
   var fab=document.getElementById('igChatFab'); if(fab) fab.style.display='none';
@@ -5216,13 +5602,48 @@ function igShowHub(){
 function igShowSub(sub){
   var hub=document.getElementById('ig-menu-hub');
   if(hub) hub.style.display='none';
-  ['infusao','bulas'].forEach(function(k){
+  ['cadastro','pacientes','infusao','bulas'].forEach(function(k){
     var el=document.getElementById('ig-sub-'+k);
     if(el) el.style.display=(k===sub)?'block':'none';
   });
+  if(sub==='pacientes') igRenderPacientes('');
+  if(sub==='cadastro') igPrepararCadastro();
   if(sub==='bulas') igRenderBulas();
   var fab=document.getElementById('igChatFab');
   if(fab) fab.style.display=(sub==='infusao')?'flex':'none';
+}
+function igRenderPacientes(filtro){
+  var box=document.getElementById('igListaPacientes'); if(!box) return;
+  try{
+    var hist=JSON.parse(localStorage.getItem('igPacientes')||'{}');
+    var lista=Object.values(hist).filter(function(p){
+      return !filtro || p.nome.toLowerCase().indexOf(filtro.toLowerCase())>=0;
+    }).sort(function(a,b){ return (b.ultima||'').localeCompare(a.ultima||''); });
+    box.innerHTML='';
+    if(!lista.length){ box.innerHTML='<div style="color:var(--gray-500);font-size:13px;padding:8px 0">Nenhum paciente salvo ainda.</div>'; return; }
+    lista.forEach(function(p){
+      var nInf=(p.infusoes&&p.infusoes.length)||0; var nAnt=Number(p.historicoInformado)||0;
+      var prod=(window.IG_PRODUTOS&&p.produto&&IG_PRODUTOS[p.produto])?IG_PRODUTOS[p.produto].nome:(p.produto||'');
+      var div=document.createElement('div');
+      div.style.cssText='background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px';
+      div.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between">'
+        +'<b style="font-size:13.5px;color:var(--navy)">'+igEscapeHtml(p.nome)+'</b>'
+        +'<span style="font-size:11px;color:var(--gray-500)">'+nInf+' registradas · '+nAnt+' informadas</span></div>'
+        +'<div style="font-size:11.5px;color:var(--gray-500)">'+igEscapeHtml(p.dx||'')+(p.peso?' · '+p.peso+' kg':'')+(p.ultima?' · última: '+p.ultima:'')+'</div>'
+        +(prod?'<div style="font-size:11px;color:var(--teal-mid);font-weight:700">'+igEscapeHtml(prod)+'</div>':'')
+        +'<div style="display:flex;gap:6px;margin-top:6px">'
+        +'<button class="bni" style="flex:1;background:var(--teal-mid);color:#fff;border:none;border-radius:8px;padding:6px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:Manrope,sans-serif">💉 Nova infusão</button>'
+        +'<button class="bri" style="background:#e6f4f7;color:var(--teal-mid);border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer">📅 Registrar</button>'
+        +'<button class="bdi" style="background:#fff0f0;color:#e53e3e;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer">🗑</button>'
+        +'</div>';
+      (function(pn){
+        div.querySelector('.bni').onclick=function(){ igAbrirPrescricao((nInf+nAnt)?'rotina':'primeira'); igSelecionarPaciente(pn); };
+        div.querySelector('.bri').onclick=function(){ igRegistrarInfusao(pn); setTimeout(function(){ igRenderPacientes(filtro||''); },300); };
+        div.querySelector('.bdi').onclick=function(){ igDeletarPaciente(pn); igRenderPacientes(filtro||''); };
+      })(p.nome);
+      box.appendChild(div);
+    });
+  }catch(e){ box.innerHTML='<div style="color:#e53e3e;font-size:12px">Erro ao carregar histórico.</div>'; }
 }
 function igRenderBulas(){
   var iv=document.getElementById('ig-bulas-iv');
@@ -5257,6 +5678,140 @@ function igRenderBulas(){
       +'</table></div>';
     (b.via==='IV'?iv:sc).appendChild(det);
   });
+}
+
+function igNomeAutoComplete(val){
+  var box = document.getElementById('igNomeSugs');
+  if(!box) return;
+  if(!val || val.length < 2){ box.style.display='none'; return; }
+  try{
+    var hist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
+    var matches = Object.values(hist).filter(function(p){
+      return p.nome.toLowerCase().indexOf(val.toLowerCase())>=0;
+    });
+    if(!matches.length){ box.style.display='none'; return; }
+    box.innerHTML = '';
+    matches.forEach(function(p){
+      var div = document.createElement('div');
+      div.style.cssText = 'padding:8px 12px;cursor:pointer;border-bottom:1px solid var(--gray-100);font-size:13px';
+      var infoSpan = '<span style="color:var(--gray-500);font-size:11px;margin-left:8px">'
+        +igEscapeHtml(p.dx||'')+(p.peso?' · '+p.peso+' kg':'')+(p.ultima?' · '+p.ultima:'')+'</span>';
+      var btns = '<span style="float:right;display:flex;gap:4px">'
+        +'<button type="button" title="Registrar infusão hoje" style="background:var(--teal-mid);color:#fff;border:none;border-radius:5px;padding:1px 6px;font-size:10px;cursor:pointer">&#128197; Registrar</button>'
+        +'<button type="button" title="Deletar paciente" style="background:#e53e3e;color:#fff;border:none;border-radius:5px;padding:1px 6px;font-size:10px;cursor:pointer">&#128465; Deletar</button>'
+        +'</span>';
+      div.innerHTML = '<b>'+igEscapeHtml(p.nome)+'</b>'+infoSpan+btns;
+      div.style.display = 'flex'; div.style.alignItems = 'center'; div.style.justifyContent = 'space-between';
+      (function(pn){
+        div.onclick = function(){ igSelecionarPaciente(pn); };
+        div.querySelector('button:first-child').onclick = function(e){ e.stopPropagation(); igRegistrarInfusao(pn); };
+        div.querySelector('button:last-child').onclick = function(e){ e.stopPropagation(); igDeletarPaciente(pn); };
+      })(p.nome);
+      box.appendChild(div);
+    });
+    box.style.display = 'block';
+  }catch(e){ box.style.display='none'; }
+}
+function igSelecionarPaciente(nome){
+  var box = document.getElementById('igNomeSugs');
+  if(box) box.style.display='none';
+  try{
+    var hist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
+    var p = hist[nome.toLowerCase()];
+    if(!p) return;
+    var set = function(id,v){ var el=document.getElementById(id); if(el) el.value=(v==null?'':v); };
+    set('igNome',p.nome); set('igIdade',p.idade); set('igIdadeUn',p.idUn);
+    set('igPeso',p.peso); set('igDx',p.dx); set('igIgG',p.igG);
+    set('igVia',p.via); set('igProduto',p.produto);
+    set('igReacao',p.reacao || 'nenhuma'); set('igInfRep',p.infRep || 'sim'); var sl=document.getElementById('igPrescPaciente');if(sl)sl.value=p.nome;
+    if(p.produto) renderIgPicker();
+    var formulario=document.getElementById('igFormBox');if(formulario)formulario.style.display='block';
+    // Se paciente já tem infusões registradas, colapsar formulário e mostrar banner
+    if((p.infusoes && p.infusoes.length > 0)||p.historicoInformado>0){
+      var banner = document.getElementById('igPacResumoBanner');
+      var form = document.getElementById('igFormBox');
+      var nomeEl = document.getElementById('igPacResumoNome');
+      var infoEl = document.getElementById('igPacResumoInfo');
+      var prod = (window.IG_PRODUTOS && p.produto && IG_PRODUTOS[p.produto]) ? IG_PRODUTOS[p.produto].nome : (p.produto||'');
+      if(nomeEl) nomeEl.textContent = p.nome;
+      if(infoEl) infoEl.textContent = (p.dx||'') + (p.peso?' · '+p.peso+' kg':'') + (prod?' · '+prod:'') + ' · '+((p.infusoes||[]).length)+' registradas, '+(p.historicoInformado||0)+' anteriores informadas';
+      if(banner){ banner.style.display='block'; }
+      if(form){ form.style.display='block'; }
+    }
+    if(!((p.infusoes||[]).length||p.historicoInformado)){var ba=document.getElementById('igPacResumoBanner');if(ba)ba.style.display='none';}
+    toast('👤','Paciente carregado');
+  }catch(e){}
+}
+function igExpandirFormulario(){
+  var banner = document.getElementById('igPacResumoBanner');
+  var form = document.getElementById('igFormBox');
+  if(banner) banner.style.display='none';
+  if(form) form.style.display='block';
+}
+function igRegistrarInfusao(nome){
+  var box = document.getElementById('igNomeSugs');
+  if(box) box.style.display='none';
+  try{
+    var hist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
+    var p = hist[nome.toLowerCase()];
+    if(!p) return;
+    if(!p.infusoes) p.infusoes = [];
+    // Nunca contar uma aplicação sem um desfecho de tolerabilidade registrado.
+    var resposta=prompt('Resultado da infusão de '+(p.produto==='privigen_10'?'Privigen':'imunoglobulina')+':\n1 — Concluída, sem reações imediatas ou tardias conhecidas\n2 — Houve reação\n3 — Tolerabilidade não documentada\nDigite 1, 2 ou 3:');
+    if(resposta===null) return;
+    resposta=resposta.trim();
+    if(!['1','2','3'].includes(resposta)){ toast('⚠️','Informe 1, 2 ou 3. Infusão não registrada.'); return; }
+    var hoje = new Date().toLocaleDateString('pt-BR');
+    var n = p.infusoes.length + 1;
+    var desfecho=resposta==='1'?'nenhuma':resposta==='2'?'reacao':'nao_documentada';
+    var anterior=p.infusoes.length?p.infusoes[p.infusoes.length-1]:null;
+    var intervaloLongo=false;
+    if(anterior&&anterior.data){
+      var partes=anterior.data.split('/');
+      if(partes.length===3){
+        var dataAnterior=new Date(+partes[2],+partes[1]-1,+partes[0]);
+        intervaloLongo=(new Date()-dataAnterior)/(86400000)>56;
+      }
+    }
+    p.infusoes.push({data:hoje, n:n, produto:p.produto, reacao:desfecho});
+    if(p.produto==='privigen_10'){
+      if(desfecho!=='nenhuma'||intervaloLongo){
+        p.privigenSemReacao=desfecho==='nenhuma'?1:0;
+        p.privigenDocumentado=false;
+        p.privigenAcelerar=false;
+      }else if(anterior && anterior.produto==='privigen_10' && anterior.reacao==='nenhuma'){
+        p.privigenSemReacao=Math.max(1,Number(p.privigenSemReacao)||0)+1;
+      }else{
+        // Sem registro comparável, não inferir que as aplicações antigas foram toleradas.
+        p.privigenSemReacao=desfecho==='nenhuma'?1:0;
+        p.privigenDocumentado=false;
+        p.privigenAcelerar=false;
+      }
+    }else{
+      p.privigenSemReacao=0;
+      p.privigenDocumentado=false;
+      p.privigenAcelerar=false;
+    }
+    p.ultima = hoje;
+    hist[nome.toLowerCase()] = p;
+    localStorage.setItem('igPacientes', JSON.stringify(hist));
+    toast('📅','Infusão nº'+n+' registrada ('+hoje+')');
+  }catch(e){ toast('⚠️','Erro ao registrar'); }
+}
+function igDeletarPaciente(nome){
+  if(!confirm('Deletar '+nome+' do histórico?')) return;
+  var box = document.getElementById('igNomeSugs');
+  if(box) box.style.display='none';
+  try{
+    var hist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
+    delete hist[nome.toLowerCase()];
+    localStorage.setItem('igPacientes', JSON.stringify(hist));
+    toast('🗑️','Paciente removido');
+  }catch(e){}
+}
+function igCarregarPaciente(){
+  var nome = (document.getElementById('igNome')||{}).value||'';
+  igSelecionarPaciente(nome.trim());
 }
 
 function renderIgPicker(){
@@ -6040,9 +6595,69 @@ function renderSavedPromptsAssist(){
 }
 
 /* ── PROMPTS (página) ── */
-function _carregarPrompts(){return [];}
-function renderUserPrompts(){ /* Salvamento de prompts personalizados desativado. */ }
-function salvarNovoPrompt(){if(typeof toast==='function')toast('⚠️','O salvamento de textos personalizados está desativado.');}
+function _carregarPrompts(){
+  try{ return JSON.parse(localStorage.getItem('hub_custom_prompts')||'[]'); }catch(e){ return []; }
+}
+
+function _salvarPromptStorage(p){
+  var arr = _carregarPrompts();
+  arr.unshift(p);
+  try{ localStorage.setItem('hub_custom_prompts', JSON.stringify(arr)); }catch(e){}
+}
+
+function salvarNovoPrompt(){
+  var titulo = (document.getElementById('newPromptTitle')||{}).value||'';
+  var corpo  = (document.getElementById('newPromptBody')||{}).value||'';
+  var cat    = (document.getElementById('newPromptCat')||{}).value||'Geral';
+  titulo = titulo.trim(); corpo = corpo.trim();
+  if(!titulo){ toast('⚠️','Informe um título!'); return; }
+  if(!corpo) { toast('⚠️','Escreva o prompt!'); return; }
+  _salvarPromptStorage({titulo:titulo, corpo:corpo, categoria:cat, data:new Date().toLocaleDateString('pt-BR'), origem:'usuario'});
+  // limpar campos
+  ['newPromptTitle','newPromptBody'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});
+  renderUserPrompts();
+  toast('💾','Prompt salvo!');
+}
+
+function renderUserPrompts(){
+  var sec  = document.getElementById('userPromptsSection');
+  var list = document.getElementById('userPromptsList');
+  if(!list) return;
+  var arr = _carregarPrompts().filter(function(p){ return p.origem==='usuario'; });
+  if(sec) sec.style.display = arr.length ? '' : 'none';
+  list.innerHTML = arr.map(function(p,i){
+    return '<div style="background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;padding:12px 14px;margin-bottom:10px">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'
+      +'<span style="background:var(--teal-light);color:var(--teal-mid);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px">'+_escHtml(p.categoria||'Geral')+'</span>'
+      +'<span style="font-size:10px;color:var(--gray-400)">'+_escHtml(p.data||'')+'</span>'
+      +'<button onclick="_deletarPrompt('+i+')" style="margin-left:auto;background:none;border:none;color:#e74c3c;font-size:16px;cursor:pointer;padding:0 4px" title="Remover">×</button>'
+      +'</div>'
+      +'<div style="font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:4px">'+_escHtml(p.titulo)+'</div>'
+      +'<div style="font-size:12.5px;color:var(--gray-500);line-height:1.5;white-space:pre-wrap">'+_escHtml((p.corpo||'').substring(0,200))+(p.corpo&&p.corpo.length>200?'…':'')+'</div>'
+      +'<div style="display:flex;gap:8px;margin-top:10px">'
+      +'<button onclick="usarPromptNoAssistente('+_escHtml(JSON.stringify(p.corpo))+')" style="flex:1;background:var(--teal-mid);color:#fff;border:none;border-radius:9px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Manrope\',sans-serif">Usar no Assistente ↗</button>'
+      +'</div></div>';
+  }).join('');
+}
+
+function _deletarPrompt(idx){
+  var arr = _carregarPrompts().filter(function(p){ return p.origem==='usuario'; });
+  var all = _carregarPrompts();
+  // remover pelo índice dentro dos user prompts
+  var userOnly = all.filter(function(p){ return p.origem==='usuario'; });
+  var target = userOnly[idx];
+  if(!target) return;
+  var newAll = all.filter(function(p){ return p!==target; });
+  // encontrar no all pelo título+corpo para remover
+  var removed = false;
+  newAll = all.filter(function(p){
+    if(!removed && p.origem==='usuario' && p.titulo===target.titulo && p.corpo===target.corpo){ removed=true; return false; }
+    return true;
+  });
+  try{ localStorage.setItem('hub_custom_prompts', JSON.stringify(newAll)); }catch(e){}
+  renderUserPrompts();
+  toast('🗑️','Prompt removido.');
+}
 
 /* ── NAVIGATION ── */
 window.crmInit = crmInit;
@@ -7321,12 +7936,16 @@ function openScore(key){
   document.getElementById('mDesc').textContent=s.desc;
   // UAS7 tem interface própria (7 dias + histórico semanal)
   if(s.special==='uas7'){
-    document.getElementById('mFields').innerHTML=_uas7RenderCampos();
+    document.getElementById('mFields').innerHTML=_uas7RenderQR() + _scoreBlocoPaciente() + _uas7RenderCampos();
+    _uas7IniciarQR();
+    _scoreSugestoes();
     document.getElementById('mResult').className='score-result';
     document.getElementById('overlay').classList.add('open');
     return;
   }
   var html='';
+  if(s.special==='snot22'){ html += _snot22RenderQR(); }
+  html += _scoreBlocoPaciente();
   s.fields.forEach(function(f){
     html+='<div class="sf"><label>'+f.lbl+'</label>';
     if(f.type==='num'){
@@ -7348,6 +7967,8 @@ function openScore(key){
   document.getElementById('mFields').innerHTML=html;
   document.getElementById('mResult').className='score-result';
   document.getElementById('overlay').classList.add('open');
+  if(s.special==='snot22'){ _snot22IniciarSessao(); }
+  _scoreSugestoes();
 }
 
 
@@ -7381,7 +8002,7 @@ function _uas7RenderCampos(){
   }
 
   // histórico (se houver)
-  html += '<div style="font-size:11px;color:var(--gray-500);margin-top:10px">A avaliação é temporária; resultados e identificação não são gravados.</div>';
+  html += _uas7RenderHistorico();
   return html;
 }
 
@@ -7397,8 +8018,618 @@ function _uas7ColetarDias(){
   return vals;   // 7 dias → total 0–42
 }
 
-/* Fluxos de QR, armazenamento de scores, lista de pacientes e sincronização
- * clínica com Supabase desativados nesta versão; os cálculos locais permanecem. */
+function _uas7GetHist(){
+  try { return JSON.parse(localStorage.getItem('hub_uas7_hist') || '[]'); } catch(e){ return []; }
+}
+
+function _uas7ProxSemana(){
+  var hist = _uas7GetHist();
+  return hist.length + 1;   // 1ª, 2ª, 3ª...
+}
+
+function _uas7Salvar(r){
+  try {
+    var hist = _uas7GetHist();
+    var total = parseInt(String(r.score).split('/')[0]) || 0;
+    hist.push({ semana: hist.length + 1, total: total, lbl: r.lbl, data: _relDataHoje() });
+    localStorage.setItem('hub_uas7_hist', JSON.stringify(hist));
+    // re-renderiza o histórico dentro do modal (sem fechar)
+    var box = document.getElementById('uas7HistBox');
+    if(box){ box.outerHTML = _uas7RenderHistorico(); }
+    toast('💾', _uas7Ordinal(hist.length) + ' registrada no histórico.');
+    _scoreRegistrar('uas', r, undefined, undefined, {semana:hist.length});
+  } catch(e){}
+}
+
+function _uas7RenderHistorico(){
+  var hist = _uas7GetHist();
+  var html = '<div id="uas7HistBox" style="margin-top:16px">';
+  if(hist.length){
+    html += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">';
+    html += '<div style="font-size:11px;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em">Histórico — evolução</div>';
+    html += '<span onclick="_uas7Limpar()" style="font-size:11px;color:var(--gray-300);cursor:pointer;text-decoration:underline">limpar</span></div>';
+    for(var k=hist.length-1; k>=0; k--){
+      var e = hist[k];
+      var pct = Math.round((e.total/42)*100);
+      html += '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray-50)">';
+      html += '<span style="font-size:11px;font-weight:800;color:var(--teal-mid);min-width:64px">' + _uas7Ordinal(e.semana) + '</span>';
+      html += '<div style="flex:1"><div style="height:7px;background:var(--gray-100);border-radius:4px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:var(--teal-mid)"></div></div></div>';
+      html += '<span style="font-size:12px;font-weight:800;color:var(--navy);min-width:44px;text-align:right">' + e.total + '/42</span>';
+      html += '</div>';
+    }
+  }
+  html += '</div>';
+  return html;
+}
+
+function _uas7Limpar(){
+  try {
+    localStorage.removeItem('hub_uas7_hist');
+    var box = document.getElementById('uas7HistBox');
+    if(box){ box.outerHTML = _uas7RenderHistorico(); }
+    // também atualiza o rótulo da "próxima semana" no topo — reabre os campos
+    if(currentScore==='uas'){ document.getElementById('mFields').innerHTML = _uas7RenderCampos(); }
+    toast('🗑️', 'Histórico do UAS7 apagado.');
+  } catch(e){}
+}
+
+function _uas7Ordinal(n){
+  return n + '\u00aa semana';
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 UCT \u2014 QR Code para paciente + polling Supabase + hist\u00f3rico \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+var _uctSessaoId = null;
+var _uctPollTimer = null;
+var _uctPatientUrl = new URL('uct-paciente.html', location.href).href;
+var _SUPA_URL = 'https://jpdtqtenlivxgjkyizcg.supabase.co';
+var _SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwZHRxdGVubGl2eGdqa3lpemNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA5MTg3NTMsImV4cCI6MjEwNjQ5NDc1M30.OCSGTv1HD6CLCbPVAgZwplkFMLGS0JuiT1XMRESYkWI';
+
+function _uctRenderModal(){
+  var html = '';
+  html += '<div style="background:rgba(59,191,204,.10);border:1px solid rgba(59,191,204,.35);border-radius:10px;padding:11px 13px;margin-bottom:14px;display:flex;gap:9px;align-items:flex-start">';
+  html += '<span style="font-size:17px;line-height:1">\ud83d\udcf1</span>';
+  html += '<div style="font-size:12px;color:var(--navy);line-height:1.5"><strong>Pe\u00e7a ao paciente que escaneie o QR Code</strong> com a c\u00e2mera do celular. Ele preencher\u00e1 o UCT e o resultado chegar\u00e1 aqui automaticamente.</div></div>';
+  html += '<div id="uct-qr-wrap" style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:16px">';
+  html += '<div id="uct-qr-canvas" style="background:#fff;border-radius:12px;padding:10px;width:180px;height:180px;display:flex;align-items:center;justify-content:center"><span style="color:#aaa;font-size:12px">Gerando\u2026</span></div>';
+  html += '<div id="uct-sessao-txt" style="display:none"></div>';
+  html += '</div>';
+  html += '<div id="uct-aguardando" style="text-align:center;padding:12px;background:var(--gray-50);border-radius:10px;margin-bottom:14px;font-size:13px;color:var(--gray-500)">';
+  html += '\u23f3 Aguardando o paciente preencher o formul\u00e1rio\u2026</div>';
+  html += '<div id="uct-resultado" style="display:none;border-radius:12px;padding:14px;margin-bottom:14px;text-align:center"></div>';
+  html += '<div id="uct-historico-wrap">' + _uctRenderHistorico() + '</div>';
+  return html;
+}
+
+function _uctIniciarSessao(){
+  if(!window.QRCode){
+    var sc = document.createElement('script');
+    sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+    sc.onload = function(){ _uctGerarQR(); };
+    document.head.appendChild(sc);
+  } else {
+    _uctGerarQR();
+  }
+}
+
+function _uctGerarQR(){
+  if(!_uctSessaoId) return;
+  var url = _uctPatientUrl + '?s=' + _uctSessaoId;
+  var wrap = document.getElementById('uct-qr-canvas');
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  try {
+    new QRCode(wrap, { text: url, width: 160, height: 160, colorDark: '#0d1f2d', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M });
+  } catch(e) {
+    wrap.innerHTML = '<span style="font-size:10px;word-break:break-all;color:#333">' + url + '</span>';
+  }
+  var txt = document.getElementById('uct-sessao-txt');
+  if(txt) txt.textContent = 'Sess\u00e3o: ' + _uctSessaoId;
+  _uctIniciarPolling();
+}
+
+function _uctIniciarPolling(){
+  _uctPararPolling();
+  _uctPollTimer = setInterval(_uctChecar, 3000);
+}
+
+function _uctPararPolling(){
+  if(_uctPollTimer){ clearInterval(_uctPollTimer); _uctPollTimer = null; }
+}
+
+function _uctChecar(){
+  if(!_uctSessaoId) return;
+  fetch(_SUPA_URL + '/rest/v1/uct_results?sessao_id=eq.' + encodeURIComponent(_uctSessaoId) + '&order=created_at.desc&limit=1', {
+    headers: { 'apikey': _SUPA_KEY, 'Authorization': 'Bearer ' + _SUPA_KEY }
+  }).then(function(r){ return r.json(); }).then(function(rows){
+    if(!rows || !rows.length) return;
+    _uctPararPolling();
+    _uctMostrarResultado(rows[0]);
+    _uctSalvarHistorico(rows[0]);
+    var hist = document.getElementById('uct-historico-wrap');
+    if(hist) hist.innerHTML = _uctRenderHistorico();
+  }).catch(function(){});
+}
+
+function _uctMostrarResultado(row){
+  var aw = document.getElementById('uct-aguardando');
+  if(aw) aw.style.display = 'none';
+  var res = document.getElementById('uct-resultado');
+  if(!res) return;
+  var t = (row.total !== undefined && row.total !== null) ? row.total : (row.q1+row.q2+row.q3+row.q4);
+  var lbl, cor;
+  if(t >= 12){ lbl = '\u2705 Bem controlada'; cor = '#16a085'; }
+  else if(t >= 7){ lbl = '\u26a0\ufe0f Controle insuficiente'; cor = '#d4a017'; }
+  else { lbl = '\ud83d\udd34 N\u00e3o controlada'; cor = '#c0392b'; }
+  var nome = row.paciente_nome ? row.paciente_nome : 'Paciente';
+  res.style.display = 'block';
+  res.style.background = '#fff';
+  res.style.border = '1.5px solid ' + cor;
+  res.style.textAlign = 'left';
+  res.style.padding = '0';
+  res.style.overflow = 'hidden';
+  var pct = Math.round((t/16)*100);
+  var itens = [
+    ['Sintomas f\u00edsicos', row.q1],
+    ['Qualidade de vida', row.q2],
+    ['Insufici\u00eancia do tratamento', row.q3],
+    ['Controle global', row.q4]
+  ];
+  var conduta = (t >= 12)
+    ? 'Urtic\u00e1ria bem controlada \u2014 manter o tratamento atual e reavaliar em 4 semanas.'
+    : (t >= 7
+      ? 'Controle insuficiente \u2014 considerar otimizar a dose do anti-H1 (at\u00e9 4x) e reavaliar ades\u00e3o e gatilhos.'
+      : 'Urtic\u00e1ria n\u00e3o controlada \u2014 avaliar escalonamento terap\u00eautico (anti-H1 em dose alta, omalizumabe) e revisar diagn\u00f3stico.');
+  var h = '';
+  h += '<div style="background:linear-gradient(135deg,#0d1f2d,' + cor + ');padding:16px;color:#fff">';
+  h +=   '<div style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.8;font-weight:700">Resultado do UCT</div>';
+  h +=   '<div style="display:flex;align-items:baseline;gap:8px;margin-top:4px"><div style="font-size:30px;font-weight:900;line-height:1">' + t + '</div><div style="font-size:14px;opacity:.85;font-weight:700">/ 16</div></div>';
+  h +=   '<div style="font-size:14px;font-weight:800;margin-top:2px">' + lbl + '</div>';
+  h +=   '<div style="height:7px;background:rgba(255,255,255,.25);border-radius:4px;margin-top:10px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:#fff;border-radius:4px"></div></div>';
+  h +=   '<div style="font-size:11px;opacity:.8;margin-top:8px">' + _escHtml(nome) + ' \u00b7 ' + new Date(row.created_at).toLocaleDateString('pt-BR') + '</div>';
+  h += '</div>';
+  h += '<div style="padding:14px 16px">';
+  h +=   '<div style="font-size:10.5px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Itens (0\u20134 cada)</div>';
+  itens.forEach(function(it){
+    var w = Math.round((it[1]/4)*100);
+    h += '<div style="margin-bottom:9px">';
+    h +=   '<div style="display:flex;justify-content:space-between;font-size:12px;color:var(--navy);font-weight:600"><span>' + it[0] + '</span><span style="font-weight:800">' + it[1] + '</span></div>';
+    h +=   '<div style="height:5px;background:var(--gray-50);border-radius:3px;margin-top:4px;overflow:hidden"><div style="height:100%;width:' + w + '%;background:' + cor + ';border-radius:3px"></div></div>';
+    h += '</div>';
+  });
+  h +=   '<div style="margin-top:12px;background:var(--gray-50);border-left:3px solid ' + cor + ';border-radius:8px;padding:10px 12px;font-size:12px;color:var(--navy);line-height:1.5"><strong>Interpreta\u00e7\u00e3o:</strong> ' + conduta + '</div>';
+  h +=   '<div style="font-size:10.5px;color:var(--gray-500);margin-top:8px">UCT \u2265 12 = bem controlada \u00b7 7\u201311 = insuficiente \u00b7 &lt; 7 = n\u00e3o controlada</div>';
+  h += '</div>';
+  res.innerHTML = h;
+  toast('\ud83c\udfaf', 'UCT recebido: ' + t + '/16 \u2014 ' + lbl.replace(/[\u2705\u26a0\ufe0f\ud83d\udd34] /,''));
+}
+
+function _uctGetHist(){
+  try { return JSON.parse(sessionStorage.getItem('hub_uct_hist')||'[]'); } catch(e){ return []; }
+}
+
+function _uctSalvarHistorico(row){
+  var h = _uctGetHist();
+  var t = (row.total !== undefined && row.total !== null) ? row.total : (row.q1+row.q2+row.q3+row.q4);
+  h.unshift({ d: new Date(row.created_at).toLocaleDateString('pt-BR'), t: t, nome: row.paciente_nome||'\u2014', q1:row.q1, q2:row.q2, q3:row.q3, q4:row.q4 });
+  if(h.length > 50) h = h.slice(0,50);
+  try { sessionStorage.setItem('hub_uct_hist', JSON.stringify(h)); } catch(e){}
+}
+
+function _uctRenderHistorico(){
+  var h = _uctGetHist();
+  if(!h.length) return '<div style="font-size:12px;color:var(--gray-500);text-align:center;padding:10px">Nenhum resultado ainda.</div>';
+  var html = '<div style="margin-top:6px">';
+  html += '<div style="font-size:12px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Hist\u00f3rico de UCTs</div>';
+  h.forEach(function(e){
+    var cor = e.t >= 12 ? '#16a085' : (e.t >= 7 ? '#d4a017' : '#c0392b');
+    var lbl = e.t >= 12 ? 'Bem controlada' : (e.t >= 7 ? 'Insuficiente' : 'N\u00e3o controlada');
+    html += '<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--gray-100);border-radius:9px;margin-bottom:6px;background:#fff">';
+    html += '<div style="min-width:36px;height:36px;border-radius:8px;background:' + cor + ';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff">' + e.t + '</div>';
+    html += '<div style="flex:1;min-width:0">';
+    html += '<div style="font-size:12px;font-weight:700;color:var(--navy)">' + _escHtml(e.nome||'\u2014') + '</div>';
+    html += '<div style="font-size:10.5px;color:var(--gray-500)">' + e.d + ' \u00b7 ' + lbl + '</div>';
+    html += '</div>';
+    html += '<div style="font-size:9.5px;color:var(--gray-500)">Q1:' + e.q1 + ' Q2:' + e.q2 + ' Q3:' + e.q3 + ' Q4:' + e.q4 + '</div>';
+    html += '</div>';
+  });
+  html += '<div style="text-align:right;margin-top:4px"><button onclick="_uctLimparHistorico()" style="font-size:10px;color:var(--gray-500);background:none;border:none;cursor:pointer;padding:0">\ud83d\uddd1\ufe0f Apagar hist\u00f3rico</button></div>';
+  html += '</div>';
+  return html;
+}
+
+function _uctLimparHistorico(){
+  try { sessionStorage.removeItem('hub_uct_hist'); } catch(e){}
+  var w = document.getElementById('uct-historico-wrap');
+  if(w) w.innerHTML = _uctRenderHistorico();
+  toast('\ud83d\uddd1\ufe0f','Hist\u00f3rico do UCT apagado.');
+}
+
+
+/* ═════ SNOT-22 — QR Code para o paciente + polling Supabase + histórico ═════ */
+var _snot22SessaoId=null, _snot22PollTimer=null;
+var _snot22PatientUrl=new URL('snot22-paciente.html',location.href).href;
+
+function _snot22RenderQR(){
+  var h='';
+  h+='<div style="background:rgba(59,191,204,.10);border:1px solid rgba(59,191,204,.35);border-radius:10px;padding:11px 13px;margin-bottom:12px;display:flex;gap:9px;align-items:flex-start">';
+  h+='<span style="font-size:17px;line-height:1">\ud83d\udcf1</span>';
+  h+='<div style="font-size:12px;color:var(--navy);line-height:1.5"><strong>Pe\u00e7a ao paciente que escaneie o QR Code</strong> com a c\u00e2mera do celular. Ele responde as 22 perguntas e o resultado chega aqui automaticamente.</div></div>';
+  h+='<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:12px">';
+  h+='<div id="snot22-qr-canvas" style="background:#fff;border-radius:12px;padding:10px;width:180px;height:180px;display:flex;align-items:center;justify-content:center"><span style="color:#aaa;font-size:12px">Gerando\u2026</span></div>';
+  h+='</div>';
+  h+='<div id="snot22-aguardando" style="text-align:center;padding:10px;background:var(--gray-50);border-radius:10px;margin-bottom:12px;font-size:12.5px;color:var(--gray-500)">\u23f3 Aguardando o paciente responder\u2026</div>';
+  h+='<div id="snot22-resultado" style="display:none;border-radius:12px;margin-bottom:14px;overflow:hidden"></div>';
+  h+='<div id="snot22-historico-wrap">'+_snot22RenderHistorico()+'</div>';
+  h+='<div style="font-size:11px;color:var(--gray-500);text-align:center;margin:12px 0 2px">Ou preencha voc\u00ea mesmo os 22 itens abaixo.</div>';
+  return h;
+}
+
+function _snot22LinkPaciente(){
+  if(!_snot22SessaoId) return '';
+  return _snot22PatientUrl+'?s='+_snot22SessaoId;
+}
+
+function _snot22IniciarSessao(){
+  if(!window.QRCode){
+    var sc=document.createElement('script');
+    sc.src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+    sc.onload=_snot22GerarQR;
+    document.head.appendChild(sc);
+  } else { _snot22GerarQR(); }
+}
+
+function _snot22GerarQR(){
+  var wrap=document.getElementById('snot22-qr-canvas');
+  if(!wrap) return;
+  var url=_snot22LinkPaciente();
+  wrap.innerHTML='';
+  try{
+    new QRCode(wrap,{text:url,width:160,height:160,colorDark:'#0d1f2d',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+  }catch(e){
+    wrap.innerHTML='<span style="font-size:10px;word-break:break-all;color:#333">'+url+'</span>';
+  }
+  _snot22IniciarPolling();
+}
+
+function _snot22CopiarLink(){
+  var url=_snot22LinkPaciente();
+  try{ navigator.clipboard.writeText(url); if(typeof toast==='function') toast('\ud83d\udd17','Link copiado para enviar ao paciente'); }
+  catch(e){ if(typeof toast==='function') toast('\ud83d\udd17',url); }
+}
+
+function _snot22IniciarPolling(){ _snot22PararPolling(); _snot22PollTimer=setInterval(_snot22Checar,3000); }
+function _snot22PararPolling(){ if(_snot22PollTimer){ clearInterval(_snot22PollTimer); _snot22PollTimer=null; } }
+
+function _snot22Checar(){
+  if(!_snot22SessaoId) return;
+  fetch(_SUPA_URL+'/rest/v1/rpc/snot22_da_sessao',{
+    method:'POST',
+    headers:{'apikey':_SUPA_KEY,'Authorization':'Bearer '+_SUPA_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({p_sessao:_snot22SessaoId})
+  }).then(function(r){return r.json();}).then(function(rows){
+    if(!rows||!rows.length) return;
+    _snot22PararPolling();
+    _snot22MostrarResultado(rows[0]);
+    _snot22SalvarHistorico(rows[0]);
+    var hist=document.getElementById('snot22-historico-wrap');
+    if(hist) hist.innerHTML=_snot22RenderHistorico();
+  }).catch(function(){});
+}
+
+function _snot22Faixa(t){
+  if(t<=20) return {lbl:'\u2705 Impacto leve',cor:'#16a085',txt:'Sintomas com pouco impacto na qualidade de vida \u2014 manter o tratamento e reavaliar periodicamente.'};
+  if(t<=50) return {lbl:'\u26a0\ufe0f Impacto moderado',cor:'#d4a017',txt:'Impacto moderado \u2014 otimizar corticoide nasal e lavagem salina, revisar ades\u00e3o e investigar RSCcPN/comorbidade al\u00e9rgica.'};
+  return {lbl:'\ud83d\udd34 Impacto grave',cor:'#c0392b',txt:'Impacto importante \u2014 em RSCcPN refrat\u00e1ria, SNOT-22 \u2265 40 comp\u00f5e os crit\u00e9rios habituais para biol\u00f3gico.'};
+}
+
+function _snot22Dominios(resp){
+  function soma(idx){var t=0;for(var i=0;i<idx.length;i++){t+=(resp[idx[i]]||0);}return t;}
+  return [
+    ['Nasal',soma([0,1,2,4,5,20,21]),35],
+    ['Otol\u00f3gico/facial',soma([3,6,7,8,9]),25],
+    ['Sono',soma([10,11,12,13,14]),25],
+    ['Fun\u00e7\u00e3o/emocional',soma([15,16,17,18,19]),25]
+  ];
+}
+
+function _snot22MostrarResultado(row){
+  var aw=document.getElementById('snot22-aguardando');
+  if(aw) aw.style.display='none';
+  var res=document.getElementById('snot22-resultado');
+  if(!res) return;
+  var resp=row.respostas||[];
+  var t=(row.total!==undefined&&row.total!==null)?row.total:resp.reduce(function(a,b){return a+(b||0);},0);
+  var f=_snot22Faixa(t);
+  var nome=row.paciente_nome?row.paciente_nome:'Paciente';
+  var pct=Math.round(t/110*100);
+  var h='';
+  h+='<div style="background:linear-gradient(135deg,#0d1f2d,'+f.cor+');padding:16px;color:#fff">';
+  h+='<div style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.8;font-weight:700">Resultado do SNOT-22</div>';
+  h+='<div style="display:flex;align-items:baseline;gap:8px;margin-top:4px"><div style="font-size:30px;font-weight:900;line-height:1">'+t+'</div><div style="font-size:14px;opacity:.85;font-weight:700">/ 110</div></div>';
+  h+='<div style="font-size:14px;font-weight:800;margin-top:2px">'+f.lbl+'</div>';
+  h+='<div style="height:7px;background:rgba(255,255,255,.25);border-radius:4px;margin-top:10px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:#fff;border-radius:4px"></div></div>';
+  h+='<div style="font-size:11px;opacity:.8;margin-top:8px">'+_escHtml(nome)+' \u00b7 '+new Date(row.created_at).toLocaleDateString('pt-BR')+'</div>';
+  h+='</div>';
+  h+='<div style="padding:14px 16px;background:#fff;border:1.5px solid '+f.cor+';border-top:none">';
+  h+='<div style="font-size:10.5px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Dom\u00ednios</div>';
+  _snot22Dominios(resp).forEach(function(d){
+    var w=Math.round(d[1]/d[2]*100);
+    h+='<div style="margin-bottom:9px">';
+    h+='<div style="display:flex;justify-content:space-between;font-size:12px;color:var(--navy);font-weight:600"><span>'+d[0]+'</span><span style="font-weight:800">'+d[1]+'/'+d[2]+'</span></div>';
+    h+='<div style="height:5px;background:var(--gray-50);border-radius:3px;margin-top:4px;overflow:hidden"><div style="height:100%;width:'+w+'%;background:'+f.cor+';border-radius:3px"></div></div>';
+    h+='</div>';
+  });
+  h+='<div style="margin-top:12px;background:var(--gray-50);border-left:3px solid '+f.cor+';border-radius:8px;padding:10px 12px;font-size:12px;color:var(--navy);line-height:1.5"><strong>Interpreta\u00e7\u00e3o:</strong> '+f.txt+'</div>';
+  h+='<div style="font-size:10.5px;color:var(--gray-500);margin-top:8px">\u2264 20 leve \u00b7 21\u201350 moderado \u00b7 &gt; 50 grave \u00b7 MCID \u2248 9 pontos</div>';
+  h+='</div>';
+  res.innerHTML=h;
+  res.style.display='block';
+  if(typeof toast==='function') toast('\ud83d\udc43','SNOT-22 recebido: '+t+'/110');
+  _scoreRegistrar('snot22', {score:t+'/110', lbl:f.lbl}, (row.paciente_nome||''), (row.data_ref||null), {respostas:resp}, 'paciente');
+}
+
+function _snot22Hoje(){
+  var d=new Date();
+  return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);
+}
+
+function _snot22RegistrarManual(r){
+  var nomeEl=document.getElementById('pac_nome'), dataEl=document.getElementById('pac_data');
+  var nome=nomeEl?nomeEl.value.trim():'';
+  var data=dataEl?dataEl.value:'';
+  if(!nome){ if(typeof toast==='function') toast('\u270f\ufe0f','Informe o nome do paciente para salvar no hist\u00f3rico.'); if(nomeEl) nomeEl.focus(); return; }
+  var total=parseInt(String(r.score).split('/')[0])||0;
+  var resp=[];
+  for(var i=1;i<=22;i++){ var el=document.getElementById('sn'+i); resp.push(el?(parseInt(el.value)||0):0); }
+  var iso=data?(data+'T12:00:00'):new Date().toISOString();
+  _snot22SalvarHistorico({created_at:iso,paciente_nome:nome,respostas:resp,total:total,data_ref:data||null});
+  _scoreRegistrar('snot22', {score:total+'/110', lbl:_snot22Faixa(total).lbl}, nome, data||null, {respostas:resp});
+  var w=document.getElementById('snot22-historico-wrap');
+  if(w) w.innerHTML=_snot22RenderHistorico();
+  _snot22PararPolling();
+  if(typeof toast==='function') toast('\ud83d\udcbe','SNOT-22 de '+nome.split(' ')[0]+' salvo no hist\u00f3rico.');
+}
+
+function _snot22GetHist(){ try{ return JSON.parse(sessionStorage.getItem('hub_snot22_hist')||'[]'); }catch(e){ return []; } }
+
+function _snot22SalvarHistorico(row){
+  var h=_snot22GetHist();
+  var resp=row.respostas||[];
+  var t=(row.total!==undefined&&row.total!==null)?row.total:resp.reduce(function(a,b){return a+(b||0);},0);
+  var dt=row.data_ref?row.data_ref.split('-').reverse().join('/'):new Date(row.created_at).toLocaleDateString('pt-BR');
+  h.unshift({d:dt,t:t,nome:row.paciente_nome||'\u2014'});
+  if(h.length>50) h=h.slice(0,50);
+  try{ sessionStorage.setItem('hub_snot22_hist',JSON.stringify(h)); }catch(e){}
+}
+
+function _snot22RenderHistorico(){
+  var h=_snot22GetHist();
+  if(!h.length) return '<div style="font-size:12px;color:var(--gray-500);text-align:center;padding:8px">Nenhum resultado recebido ainda.</div>';
+  var html='<div style="margin-top:6px">';
+  html+='<div style="font-size:12px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">Hist\u00f3rico de SNOT-22</div>';
+  h.forEach(function(e){
+    var f=_snot22Faixa(e.t);
+    html+='<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--gray-100);border-radius:9px;margin-bottom:6px;background:#fff">';
+    html+='<div style="min-width:40px;height:36px;border-radius:8px;background:'+f.cor+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff">'+e.t+'</div>';
+    html+='<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700;color:var(--navy)">'+_escHtml(e.nome||'\u2014')+'</div>';
+    html+='<div style="font-size:10.5px;color:var(--gray-500)">'+e.d+' \u00b7 '+f.lbl.replace(/^[^ ]+ /,'')+'</div></div></div>';
+  });
+  html+='<div style="text-align:right;margin-top:4px"><button type="button" onclick="_snot22LimparHistorico()" style="font-size:10px;color:var(--gray-500);background:none;border:none;cursor:pointer;padding:0">\ud83d\uddd1\ufe0f Apagar hist\u00f3rico</button></div>';
+  html+='</div>';
+  return html;
+}
+
+function _snot22LimparHistorico(){
+  try{ sessionStorage.removeItem('hub_snot22_hist'); }catch(e){}
+  var w=document.getElementById('snot22-historico-wrap');
+  if(w) w.innerHTML=_snot22RenderHistorico();
+  if(typeof toast==='function') toast('\ud83d\uddd1\ufe0f','Hist\u00f3rico do SNOT-22 apagado.');
+}
+
+/* ═════ Lista de pacientes — registro dos scores no Supabase ═════ */
+function _scoreEmail(){
+  try{ return (JSON.parse(localStorage.getItem('hub_session')||'{}').email||'').toLowerCase(); }catch(e){ return ''; }
+}
+
+function _scoreHoje(){
+  var d=new Date();
+  return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);
+}
+
+function _scoreRpc(fn, body){
+  return fetch(_SUPA_URL+'/rest/v1/rpc/'+fn,{
+    method:'POST',
+    headers:{'apikey':_SUPA_KEY,'Authorization':'Bearer '+_SUPA_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify(body)
+  }).then(function(r){ if(!r.ok) return r.text().then(function(t){ throw new Error('HTTP '+r.status+' '+t.slice(0,140)); }); return r.status===204?null:r.json(); });
+}
+
+function _scoreBlocoPaciente(){
+  var h='';
+  h+='<div style="border:1px solid var(--gray-100);border-radius:12px;padding:12px;margin-bottom:14px;background:var(--gray-50)">';
+  h+='<div style="font-size:10.5px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Paciente (para salvar no hist\u00f3rico)</div>';
+  h+='<div class="sf" style="margin-bottom:8px"><input type="text" id="pac_nome" list="pac_sugestoes" autocomplete="off" placeholder="Nome completo do paciente" style="border:1px solid var(--gray-100);border-radius:9px;padding:10px 12px;font-family:Manrope,sans-serif;font-size:14px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box"><datalist id="pac_sugestoes"></datalist></div>';
+  h+='<div class="sf" style="margin-bottom:0"><input type="date" id="pac_data" value="'+_scoreHoje()+'" style="border:1px solid var(--gray-100);border-radius:9px;padding:10px 12px;font-family:Manrope,sans-serif;font-size:14px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box"></div>';
+  h+='<div style="font-size:10.5px;color:var(--gray-500);margin-top:7px">Preenchendo o nome, o resultado fica salvo em <strong>Pacientes</strong>. Em branco, o score s\u00f3 \u00e9 calculado.</div>';
+  h+='</div>';
+  return h;
+}
+
+/* sugestões: pacientes que já têm score salvo — garante o agrupamento automático */
+function _scoreSugestoes(){
+  var email=_scoreEmail();
+  if(!email) return;
+  var aplicar=function(lista){
+    var dl=document.getElementById('pac_sugestoes');
+    if(!dl) return;
+    dl.innerHTML=(lista||[]).map(function(n){ return '<option value="'+_escHtml(String(n))+'"></option>'; }).join('');
+  };
+  if(_pacDados && _pacDados.length){ aplicar(_pacDados.map(function(p){return p.paciente_nome;})); return; }
+  _scoreRpc('score_pacientes',{p_email:email}).then(function(rows){
+    _pacDados=rows||[];
+    aplicar(_pacDados.map(function(p){return p.paciente_nome;}));
+  }).catch(function(){});
+}
+
+function _scoreNomeLegivel(key){
+  var m={act:'ACT',easi:'EASI',uas:'UAS7',uct:'UCT',scorad:'SCORAD',snot22:'SNOT-22',dlqi:'DLQI',icpeUce:'ICPE-UCE',cortico:'Corticoide'};
+  return m[key]||key;
+}
+
+/* salva um resultado na lista de pacientes; nome vazio = não salva */
+function _scoreRegistrar(key, r, nomeForcado, dataForcada, detalhes, origem){
+  var email=_scoreEmail();
+  var nome=nomeForcado;
+  if(nome===undefined || nome===null){
+    var el=document.getElementById('pac_nome');
+    nome=el?el.value.trim():'';
+  }
+  if(!nome) return;
+  if(!email){ if(typeof toast==='function') toast('\ud83d\udd12','Registros clínicos não podem ser gravados na versão pública sem autenticação.'); return; }
+  var data=dataForcada;
+  if(data===undefined || data===null){
+    var dEl=document.getElementById('pac_data');
+    data=dEl?dEl.value:'';
+  }
+  var txt=String(r.score||'');
+  var num=parseFloat(txt.replace(',','.'));
+  if(isNaN(num)) num=null;
+  _scoreRpc('score_salvar',{
+    p_email:email, p_paciente:nome, p_score:_scoreNomeLegivel(key),
+    p_total:num, p_score_txt:txt, p_rotulo:(r.lbl||''),
+    p_detalhes:(detalhes||null), p_data:(data||null), p_origem:(origem||'medico')
+  }).then(function(){
+    if(typeof toast==='function') toast('\ud83d\udc64','Salvo em Pacientes: '+nome.split(' ')[0]+' \u00b7 '+_scoreNomeLegivel(key)+' '+txt);
+  }).catch(function(e){
+    if(typeof toast==='function') toast('\u26a0\ufe0f','N\u00e3o consegui salvar no hist\u00f3rico. '+(e.message||''));
+  });
+}
+
+
+/* ═════ Aba Pacientes ═════ */
+var _pacDados = [];
+var _pacRegistros = [];
+var _pacAbertoNome = '';
+
+function _pacCarregar(){
+  var box=document.getElementById('pacLista');
+  var email=_scoreEmail();
+  if(!email){
+    if(box) box.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px;line-height:1.6">\ud83d\udd12 Os registros clínicos de pacientes permanecem indisponíveis na versão pública, sem autenticação.</div>';
+    return;
+  }
+  if(box) box.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">Carregando\u2026</div>';
+  _scoreRpc('score_pacientes',{p_email:email}).then(function(rows){
+    _pacDados = rows||[];
+    _pacRender();
+  }).catch(function(e){
+    if(box) box.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">N\u00e3o consegui carregar. '+(e.message||'')+'</div>';
+  });
+}
+
+function _pacRender(){
+  var box=document.getElementById('pacLista');
+  if(!box) return;
+  var q=(document.getElementById('pacBusca')||{}).value||'';
+  q=q.trim().toLowerCase();
+  var lista=_pacDados.filter(function(p){ return !q || (p.paciente_nome||'').toLowerCase().indexOf(q)>-1; });
+  if(!lista.length){
+    box.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px;line-height:1.6">'+(_pacDados.length?'Nenhum paciente com esse nome.':'Ainda n\u00e3o h\u00e1 scores salvos.<br><span style="font-size:11.5px">Abra um score, informe o nome do paciente e calcule \u2014 ele aparece aqui.</span>')+'</div>';
+    return;
+  }
+  var h='';
+  lista.forEach(function(p){
+    var ini=(p.paciente_nome||'?').trim().charAt(0).toUpperCase();
+    var d=p.ultimo?new Date(p.ultimo).toLocaleDateString('pt-BR'):'';
+    h+='<div class="guide-card" data-pac="1" style="cursor:pointer;margin-bottom:8px" onclick="_pacAbrir('+_escHtml(JSON.stringify(p.paciente_nome))+')">';
+    h+='<div style="display:flex;align-items:center;gap:12px">';
+    h+='<div style="min-width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,var(--aqua),var(--teal-mid));color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900">'+_escHtml(ini)+'</div>';
+    h+='<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:800;color:var(--navy)">'+_escHtml(p.paciente_nome)+'</div>';
+    h+='<div style="font-size:11.5px;color:var(--gray-500)">'+(p.scores||'').split(',').join(' \u00b7 ')+'</div></div>';
+    h+='<div style="text-align:right"><div style="font-size:11px;color:var(--gray-500)">'+d+'</div><div style="font-size:10.5px;color:var(--gray-300)">'+p.registros+' registro'+(p.registros>1?'s':'')+'</div></div>';
+    h+='</div></div>';
+  });
+  box.innerHTML=h;
+}
+
+function _pacAbrir(nome){
+  var sheet=document.getElementById('pacSheet');
+  var body=document.getElementById('pacSheetBody');
+  document.getElementById('pacSheetTitle').textContent=nome;
+  body.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">Carregando\u2026</div>';
+  sheet.classList.add('open');
+  _pacAbertoNome=nome;
+  _scoreRpc('score_do_paciente',{p_email:_scoreEmail(), p_paciente:nome}).then(function(rows){
+    rows=rows||[];
+    _pacRegistros=rows;
+    if(!rows.length){ body.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">Sem registros.</div>'; return; }
+    var porScore={};
+    rows.forEach(function(r){ (porScore[r.score]=porScore[r.score]||[]).push(r); });
+    var h='';
+    Object.keys(porScore).forEach(function(sc){
+      var itens=porScore[sc];
+      h+='<div style="margin-bottom:16px">';
+      h+='<div style="font-size:11px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">'+sc+' \u00b7 '+itens.length+'</div>';
+      itens.forEach(function(r){
+        var d=r.data_ref?r.data_ref.split('-').reverse().join('/'):new Date(r.created_at).toLocaleDateString('pt-BR');
+        h+='<div style="display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--gray-100);border-radius:10px;margin-bottom:6px;background:#fff">';
+        h+='<div style="font-size:14px;font-weight:900;color:var(--navy);min-width:56px">'+(r.score_txt||r.total||'\u2014')+'</div>';
+        h+='<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700;color:var(--navy)">'+(r.rotulo||'')+'</div>';
+        h+='<div style="font-size:10.5px;color:var(--gray-500)">'+d+(r.origem==='paciente'?' \u00b7 respondido pelo paciente':'')+'</div></div>';
+        h+='<button onclick="_pacEditar('+r.id+')" title="Editar" style="background:none;border:none;color:var(--gray-300);font-size:14px;cursor:pointer;padding:0 4px">\u270f\ufe0f</button>';
+        h+='<button onclick="_pacApagar('+r.id+')" title="Apagar" style="background:none;border:none;color:var(--gray-300);font-size:14px;cursor:pointer;padding:0 2px">\ud83d\uddd1\ufe0f</button>';
+        h+='</div>';
+      });
+      h+='</div>';
+    });
+    body.innerHTML=h;
+  }).catch(function(e){
+    body.innerHTML='<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">Erro ao carregar. '+(e.message||'')+'</div>';
+  });
+}
+
+function _pacApagar(id){
+  var r=_pacRegistros.filter(function(x){return x.id===id;})[0];
+  var desc=r?(r.score+' '+(r.score_txt||'')):'este registro';
+  if(!confirm('Apagar '+desc+'?')) return;
+  _scoreRpc('score_apagar',{p_email:_scoreEmail(), p_id:id}).then(function(){
+    if(typeof toast==='function') toast('\ud83d\uddd1\ufe0f','Registro apagado.');
+    _pacDados=[];
+    _pacAbrir(_pacAbertoNome); _pacCarregar();
+  }).catch(function(e){ if(typeof toast==='function') toast('\u26a0\ufe0f','N\u00e3o consegui apagar. '+(e.message||'')); });
+}
+
+function _pacEditar(id){
+  var r=_pacRegistros.filter(function(x){return x.id===id;})[0];
+  if(!r) return;
+  var nome=prompt('Nome do paciente neste registro:', r.paciente_nome||_pacAbertoNome);
+  if(nome===null) return;
+  nome=nome.trim();
+  if(!nome){ if(typeof toast==='function') toast('\u26a0\ufe0f','O nome n\u00e3o pode ficar em branco.'); return; }
+  var dAtual=r.data_ref||'';
+  var data=prompt('Data do registro (dd/mm/aaaa):', dAtual?dAtual.split('-').reverse().join('/'):'');
+  if(data===null) return;
+  data=data.trim();
+  var iso=null;
+  if(data){
+    var m=data.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    if(!m){ if(typeof toast==='function') toast('\u26a0\ufe0f','Data inv\u00e1lida. Use dd/mm/aaaa.'); return; }
+    iso=m[3]+'-'+('0'+m[2]).slice(-2)+'-'+('0'+m[1]).slice(-2);
+  }
+  _scoreRpc('score_editar',{p_email:_scoreEmail(), p_id:id, p_paciente:nome, p_data:iso}).then(function(){
+    if(typeof toast==='function') toast('\u270f\ufe0f','Registro atualizado.');
+    _pacDados=[];
+    _pacCarregar();
+    _pacAbrir(nome);
+  }).catch(function(e){ if(typeof toast==='function') toast('\u26a0\ufe0f','N\u00e3o consegui editar. '+(e.message||'')); });
+}
+
+(function(){
+  var b=document.getElementById('pacSheetClose');
+  if(b) b.addEventListener('click', function(){ document.getElementById('pacSheet').classList.remove('open'); });
+})();
+
+
 function doCalc(){
   var s=SCORES[currentScore];if(!s)return;
   var vals;
@@ -7419,15 +8650,12 @@ function doCalc(){
   document.getElementById('mResLbl').textContent=r.lbl;
   document.getElementById('mResDesc').textContent=r.desc;
   res.classList.add('show');
-  // O resultado permanece na tela, sem escrita no navegador ou no servidor.
+  if(s.special==='uas7'){ _uas7Salvar(r); }
+  if(s.special==='snot22'){ _snot22RegistrarManual(r); }
+  else { _scoreRegistrar(currentScore, r, undefined, undefined, {valores:vals}); }
 }
 
-function closeModal(){
-  document.getElementById('overlay').classList.remove('open');
-  var campos=document.getElementById('mFields'), resultado=document.getElementById('mResult');
-  if(campos)campos.replaceChildren();
-  if(resultado)resultado.classList.remove('show');
-}
+function closeModal(){document.getElementById('overlay').classList.remove('open');_uctPararPolling();_snot22PararPolling();}
 
 // Botão "Abrir em PDF": usa data-pdf do art-card, fallback Unpaywall
 document.addEventListener('click', function(e){
@@ -7776,7 +9004,7 @@ if(_tbLogo) _tbLogo.addEventListener('click', function(){ navTo('dashboard'); })
 function gerarOrientacaoIg(){
   var prod_k = (document.getElementById('igProduto')||{}).value||'';
   var prod   = prod_k ? IG_PRODUTOS[prod_k] : null;
-  var nome   = 'Simulação anônima';
+  var nome   = (document.getElementById('igNome')||{}).value||'(não informado)';
   var idade  = parseFloat((document.getElementById('igIdade')||{}).value);
   var idUn   = (document.getElementById('igIdadeUn')||{}).value||'anos';
   var peso   = parseFloat((document.getElementById('igPeso')||{}).value);
@@ -7791,15 +9019,14 @@ function gerarOrientacaoIg(){
   var riscos = [];
   riscosEl.forEach(function(c){ if(c.dataset.r !== 'nenhum') riscos.push(c.dataset.r); });
 
-  // Informações de tolerabilidade são usadas apenas na simulação local.
-  var nPrev = Number((document.getElementById('igHistoricoNum')||{}).value||0);
-  var docTol = !!(document.getElementById('igToleranciaDoc')||{}).checked;
-  var ultima = (document.getElementById('igUltimaAplicacao')||{}).value||'';
-  var ultimaDt = ultima ? new Date(ultima+'T12:00:00') : null;
-  var recente = ultimaDt && Number.isFinite(ultimaDt.getTime()) &&
-    Date.now() >= ultimaDt.getTime() && Date.now()-ultimaDt.getTime()<=56*86400000;
-  var nToleradas = igModoAtual==='rotina' && docTol && reacao==='nenhuma' && Number.isInteger(nPrev) && nPrev>0 && recente ? nPrev : 0;
-  var historicoOk = igModoAtual==='rotina' && nToleradas>0;
+  // Paciente previamente cadastrado é obrigatório em ambos os fluxos.
+  var selecionado=(document.getElementById('igPrescPaciente')||{}).value||'';
+  var pacienteCadastro=null;
+  try{pacienteCadastro=JSON.parse(localStorage.getItem('igPacientes')||'{}')[selecionado.toLowerCase()]||null;}catch(e){}
+  if(!selecionado||!pacienteCadastro){toast('⚠️','Selecione um paciente cadastrado antes de prescrever.');return;}
+  if(nome.trim()!==pacienteCadastro.nome||peso!==Number(pacienteCadastro.peso)||prod_k!==pacienteCadastro.produto){toast('⚠️','Dados divergentes do cadastro. Carregue novamente o paciente ou atualize o cadastro.');return;}
+  var nToleradas=igInfusoesComprovadas(pacienteCadastro,prod_k);
+  var historicoOk=igModoAtual==='rotina'&&igHistoricoSeguro(pacienteCadastro,prod_k);
   // --- VALIDAÇÕES ---
   if(!prod_k || !prod){ toast('⚠️','Selecione o produto acima'); return; }
   if(!dx){ toast('⚠️','Selecione a indicação clínica'); return; }
@@ -7940,7 +9167,7 @@ function gerarOrientacaoIg(){
   h += '<div style="display:flex;align-items:center">'+logoHtml+'<span style="font-size:1.05rem;font-weight:800;color:var(--navy)">Orientação de Infusão</span></div>';
   h += '<button onclick="imprimirIgOrientacao()" style="display:flex;align-items:center;gap:6px;background:var(--navy);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:Manrope,sans-serif"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>Imprimir PDF</button>';
   h += '</div>';
-  h += kv('Identificação', 'Simulação anônima — não armazenada');
+  h += kv('Paciente', igEscapeHtml(nome));
   h += kv('Produto', prod.nome+(prod.conc?' · '+prod.conc:''));
   h += kv('Indicação', info.label);
   h += kv('Via', via==='IV'?'Intravenosa (IV)':'Subcutânea (SC)');
@@ -8003,7 +9230,24 @@ function gerarOrientacaoIg(){
 
   var out = document.getElementById('igSaida');
   if(out){ out.innerHTML = h; out.style.display = 'block'; out.scrollIntoView({behavior:'smooth',block:'start'}); }
-  // Sem persistência de dados clínicos. O resultado fica apenas na tela.
+  // Salvar histórico do paciente
+  if(nome && nome !== '(não informado)'){
+    try{
+      var igHist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
+      var chave = nome.trim().toLowerCase();
+      var anteriorPaciente=igHist[chave]||{};
+      igHist[chave] = Object.assign({},anteriorPaciente,{
+        nome:nome.trim(), idade:isNaN(idade)?'':idade, idUn:idUn, peso:peso,
+        dx:dx, igG:isNaN(igG)?null:igG, via:via, reacao:reacao,
+        produto:prod_k, ultima:anteriorPaciente.ultima||''
+      });
+      // Preservar histórico de aplicações e reações, removendo sinais de protocolo acelerado.
+      delete igHist[chave].primeira;
+      delete igHist[chave].privigenAcelerar;
+      delete igHist[chave].privigenDocumentado;
+      localStorage.setItem('igPacientes', JSON.stringify(igHist));
+    }catch(e){}
+  }
   toast('✅','Orientações geradas');
 }
 
@@ -9916,8 +11160,8 @@ function chatToggle(){
     .observe(document.body,{childList:true,subtree:true});
 })();
 </script>
-<script src="lgpd-runtime.js?v=20261104-7"></script>
-<script src="calendarios-imunizacoes.js?v=20261104-2"></script>
+<script src="lgpd-runtime.js?v=20261104-6"></script>
+<script src="calendarios-imunizacoes.js?v=20261104-1"></script>
 </body>
 </html>
 
