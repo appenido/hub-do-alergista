@@ -5,7 +5,7 @@ const read=p=>readFileSync(new URL('../'+p,import.meta.url),'utf8');
 test('formularios clínicos não entram no cache offline',()=>{
  const sw=read('sw.js');
  assert.doesNotMatch(sw,/['"]\/?(?:uct|snot22|uas7)-paciente\.html['"]/);
- assert.match(sw,/v1160-privacidade/);
+ assert.match(sw,/const CACHE\s*=\s*['\"]hub-alergista-v\d+[-\w]*['\"]/);
 });
 test('proteção de identidade no backend de IA',()=>{
  const f=read('functions/ia.js');
