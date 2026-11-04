@@ -194,7 +194,7 @@ async function exportarDados(){
   try{
     await token();
     const perfil=JSON.parse(localStorage.getItem('hub_session')||'{}');
-    const users=JSON.parse(localStorage.getItem('hub_users')||'{}');
+    const users=JSON.parse(sessionStorage.getItem('hub_users')||'{}');
     const nomes=await rpc('score_pacientes',{p_email:perfil.email});
     const registros=[];
     for(const p of (nomes||[])){
@@ -215,6 +215,26 @@ async function solicitar(tipo){
   try{await rpc('privacy_submit_request',{p_kind:tipo},true);alert('Solicitação registrada. Acompanhe nesta área do aplicativo.');}
   catch(e){alert('Falha ao registrar: '+e.message);}
 }
+async function consultarPedidos(){
+  try{
+    const jwt=await token();
+    const resp=await fetch(SB+'/rest/v1/privacy_requests?select=kind,status,criado_em&order=criado_em.desc&limit=20',
+      {headers:{apikey:KEY,Authorization:'Bearer '+jwt}});
+    if(!resp.ok)erro('Consulta de pedidos indisponível.');
+    const rows=await resp.json();
+    const nomes={acesso_correcao:'Acesso/correção',exclusao:'Exclusão'};
+    alert(rows.length?rows.map(x=>(nomes[x.kind]||x.kind)+' — '+x.status+' — '+new Date(x.criado_em).toLocaleDateString('pt-BR')).join('\\n'):'Nenhuma solicitação registrada.');
+  }catch(e){alert(e.message);}
+}
+function limparDadosLocais(){
+  if(!confirm('Apagar históricos e credenciais armazenados neste dispositivo? Registros do servidor serão preservados.'))return;
+  try{
+    ['hub_snot22_hist','hub_uct_hist','hub_uas7_hist'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});
+    Object.keys(localStorage).filter(k=>k.indexOf('hub_aikey_')===0).forEach(k=>localStorage.removeItem(k));
+    Object.keys(sessionStorage).filter(k=>k.indexOf('hub_aikey_')===0).forEach(k=>sessionStorage.removeItem(k));
+  }catch(_){}
+  alert('Históricos e chaves locais apagados. Os dados do servidor não foram alterados.');
+}
 function telaPrivacidade(){
   const destino=document.getElementById('page-perfil');
   if(!destino||document.getElementById('hub-privacidade'))return;
@@ -231,6 +251,8 @@ function telaPrivacidade(){
   add('Exportar meus dados',exportarDados);
   add('Solicitar correção ou acesso',()=>solicitar('acesso_correcao'));
   add('Solicitar exclusão de dados e conta',()=>solicitar('exclusao'));
+  add('Consultar andamento das solicitações',consultarPedidos);
+  add('Limpar dados clínicos deste dispositivo',limparDadosLocais);
   add('Revisar preferências de IA',()=>location.assign('privacidade.html#ia'));
   destino.appendChild(wrap);
 }
@@ -243,10 +265,12 @@ function inicializar(){
       armazenarAuth(antiga.email,antiga.nome,antiga.token,antiga.refresh);
     }else if(!atual.access){localStorage.removeItem('hub_session');}
     else if(antiga.token||antiga.refresh){manterIdentidade(antiga.email,antiga.nome);}
-    const usuarios=JSON.parse(localStorage.getItem('hub_users')||'{}');
-    let alterado=false;
-    for(const u of Object.values(usuarios)){if(u&&typeof u==='object'&&'hash' in u){delete u.hash;alterado=true;}}
-    if(alterado)localStorage.setItem('hub_users',JSON.stringify(usuarios));
+    const perfisLegados=localStorage.getItem('hub_users');
+    if(perfisLegados&&!sessionStorage.getItem('hub_users'))sessionStorage.setItem('hub_users',perfisLegados);
+    localStorage.removeItem('hub_users');
+    const usuarios=JSON.parse(sessionStorage.getItem('hub_users')||'{}');
+    for(const u of Object.values(usuarios)){if(u&&typeof u==='object')delete u.hash;}
+    sessionStorage.setItem('hub_users',JSON.stringify(usuarios));
   }catch(_){}
   const campo=document.getElementById('cadSenha');if(campo)campo.minLength=12;
   const label=document.querySelector('label[for="cadSenha"]');
