@@ -3864,7 +3864,7 @@ window._bloquearApp=function(){};
 
 <!-- bottom nav removed -->
 
-<div class="ai-sheet" id="pacSheet">
+<div class="ai-sheet" id="pacSheet" style="display:none" aria-hidden="true">
   <div class="ai-sheet-inner">
     <div class="ai-sheet-handle"></div>
     <div class="ai-sheet-hdr">
@@ -4535,35 +4535,35 @@ var VAC_CATALOGO=[
  {id:'rota',sus:1,particular:0,nome:'Rotavírus humano (oral)',comercial:'Rotarix (GSK)',fabricante:'GSK',
   prot:'Gastroenterite por rotavírus',tipo:'Atenuada oral',
   pop:'Crianças até 23 meses e 29 dias.',
-  esq:'2 doses: 1ª aos 2 m (máx. 3 m 15 d); 2ª aos 4 m (máx. 7 m 29 d).',
-  obs:'Não iniciar após 3 m 15 d. Não completar após 7 m 29 d.',
+  esq:'2 doses: aos 2 e 4 meses. Para atrasos no PNI 2026: D1 de 1m15d até 11m29d; D2 de 3m15d até 23m29d, respeitando intervalo mínimo de 30 dias.',
+  obs:'Os limites de resgate PNI 2026 não devem ser confundidos com as idades descritas nas bulas de cada apresentação; conferir norma MS e orientações do serviço.',
   ea:'Diarreia leve e irritabilidade (comuns). Raro: invaginação intestinal (risco muito baixo, primeiros 7 dias após 1ª dose). Muito raros: transmissão do vírus vacinal a contactantes imunocomprometidos.',
   sbim:'https://sbim.org.br/calendario-sbim/criancas-0-menores-6-anos'},
  {id:'pnc10',sus:1,particular:0,nome:'Pneumocócica 10-valente (VPC10)',comercial:'Synflorix (GSK)',fabricante:'GSK',
   prot:'Doença pneumocócica (10 sorotipos)',tipo:'Inativada (conjugada)',
   pop:'Crianças de 2 meses a 4 anos, 11 meses e 29 dias.',
-  esq:'3 doses (2, 4 e 6 m) + reforço aos 12–15 m.',
+  esq:'Na rotina 2026, VPC10 / VPC20 em transição: doses aos 2 e 4 meses, com reforço aos 12 meses; confirmar o imunizante fornecido na unidade.',
   obs:'PNI em transição para VPC20; verificar protocolo MS vigente.',
   ea:'Locais: dor, eritema, enduração (muito comuns). Sistêmicos: febre, irritabilidade (comuns). Raros: anafilaxia, convulsão febril.',
   sbim:'https://sbim.org.br/calendario-sbim/criancas-0-menores-6-anos'},
  {id:'pnc20_sus',sus:1,particular:1,nome:'Pneumocócica 20-valente (VPC20)',comercial:'Apexxnar / Prevnar 20 (Pfizer)',fabricante:'Pfizer',
   prot:'Doença pneumocócica (20 sorotipos)',tipo:'Inativada (conjugada)',
-  pop:'Adultos e idosos ≥18 anos — transição em curso no PNI/MS 2026.',
-  esq:'1 dose (substitui a sequência VPC13 + VPP23 em adultos).',
-  obs:'Cobertura mais ampla; dispensa VPP23 sequencial. Aguardar protocolo pediátrico MS.',
+  pop:'Crianças a partir dos 2 meses (rotina VPC20/VPC10 em transição); povos indígenas e grupos especiais; pessoas de 60–84 anos acamadas/institucionalizadas e todos a partir de 85 anos, conforme PNI 2026.',
+  esq:'Crianças: VPC20 aos 2 e 4 meses e reforço aos 12 meses na rotina; adultos elegíveis segundo indicação e histórico (frequentemente 1 dose).',
+  obs:'Disponibilização SUS não é universal em adultos; atenção às situações de imunodeficiência e esquemas CRIE/RIE.',
   ea:'Locais: dor, eritema, enduração (muito comuns). Sistêmicos: fadiga, cefaleia, mialgia (comuns). Raros: anafilaxia.',
   sbim:'https://sbim.org.br/calendarios-de-vacinacao'},
  {id:'menc',sus:1,particular:1,nome:'Meningocócica C conjugada (MenC)',comercial:'NeisVac-C (Pfizer) · Menjugate (GSK) · Meningitec (Pfizer)',fabricante:'Pfizer / GSK',
   prot:'Doença meningocócica sorogrupo C',tipo:'Inativada (conjugada)',
-  pop:'Crianças de 2 meses a 4 anos, 11 meses e 29 dias. Adolescentes 11–14 anos (reforço).',
-  esq:'2 doses aos 3 e 5 m + reforço aos 12 m. Adolescentes: 1 dose.',
+  pop:'Lactentes aos 3 e 5 meses; na rotina PNI 2026 a dose de 12 meses é MenACWY, com MenACWY também aos 11–14 anos.',
+  esq:'MenC aos 3 e 5 meses; reforço aos 12 meses com MenACWY na rotina PNI 2026. Adolescentes: MenACWY aos 11–14 anos.',
   obs:'Em grupos de risco (asplenia, complemento etc.), considerar MenACWY.',
   ea:'Locais: eritema, edema, dor (comuns). Sistêmicos: febre, irritabilidade (comuns em lactentes). Raros: anafilaxia.',
   sbim:'https://sbim.org.br/calendario-sbim/criancas-0-menores-6-anos'},
  {id:'menacwy',sus:1,particular:1,nome:'Meningocócica ACWY conjugada',comercial:'Menveo (GSK) · Nimenrix (Pfizer)',fabricante:'GSK / Pfizer',
   prot:'Doença meningocócica sorogrupos A, C, W e Y',tipo:'Inativada (conjugada)',
   pop:'Adolescentes 11–14 anos. Grupos especiais: asplenia, complemento, HIV, imunossuprimidos, viajantes para áreas endêmicas.',
-  esq:'Adolescentes: 1 dose aos 11–12 anos + reforço aos 13–14 anos. Adultos em risco: 1–2 doses (2 em asplenia/complemento).',
+  esq:'PNI 2026: 1 dose entre 11 e 14 anos; SBIm e grupos especiais podem recomendar esquema e reforços adicionais conforme risco.',
   obs:'Preferida sobre MenC em adolescentes por cobertura mais ampla.',
   ea:'Locais: dor, eritema (comuns). Sistêmicos: cefaleia, fadiga, febre (incomuns a comuns). Raros: anafilaxia.',
   sbim:'https://sbim.org.br/calendario-sbim/adolescentes'},
@@ -9997,7 +9997,7 @@ function chatToggle(){
     .observe(document.body,{childList:true,subtree:true});
 })();
 </script>
-<script src="lgpd-runtime.js?v=20261104-6"></script>
+<script src="lgpd-runtime.js?v=20261104-7"></script>
 <script src="calendarios-imunizacoes.js?v=20261104-2"></script>
 </body>
 </html>
