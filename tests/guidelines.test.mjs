@@ -73,7 +73,8 @@ test('API devolve somente o registro que corresponde ao ID solicitado',async()=>
   }finally{globalThis.fetch=old;}
 });
 test('cache de tradução antigo não altera títulos nem links dos cards',async()=>{
-  const code=await readFile(new URL('../guidelines-client.js',import.meta.url),'utf8');
+  const page=await readFile(new URL('../index.html',import.meta.url),'utf8');
+  const code=page.slice(page.indexOf('/* ── DIRETRIZES E EVIDÊNCIAS:'),page.indexOf('/* ── CURSOS:'));
   const box={innerHTML:''};
   const sandbox={Date,Promise,AbortSignal,window:{},_jEsc:s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),
     document:{querySelector:()=>null,querySelectorAll:()=>[],getElementById:()=>null}};
