@@ -3234,7 +3234,7 @@ window._bloquearApp=function(){};
         <div class="ig-f-2"><div class="ig-f-row"><label>Idade (anos)</label><input id="igCadIdade" type="number" min="0" max="130" step="0.1" required></div><div class="ig-f-row"><label>Peso (kg)</label><input id="igCadPeso" type="number" min="2" max="250" step="0.1" required></div></div>
         <div class="ig-f-row"><label>Diagnóstico / indicação</label><select id="igCadDx" required></select></div>
         <div class="ig-f-2"><div class="ig-f-row"><label>IgG (mg/dL)</label><input id="igCadIgG" type="number" min="0" placeholder="Opcional"></div><div class="ig-f-row"><label>Via</label><select id="igCadVia"><option value="IV">Intravenosa</option><option value="SC">Subcutânea</option></select></div></div>
-        <div class="ig-f-row"><label>Produto (mesma marca usada anteriormente)</label><select id="igCadProduto" required></select></div>
+        <div class="ig-f-row"><label>Produto (mesma marca usada anteriormente)</label><select id="igCadProduto" required onchange="igCadastroViaDoProduto(this.value)"></select></div>
         <div class="ig-f-row"><label>Infecções recorrentes documentadas</label><select id="igCadInfRep"><option value="sim">Sim</option><option value="nao">Não</option></select></div>
         <div class="ig-f-row"><label>Reações infusionais prévias</label><select id="igCadReacao"><option value="nenhuma">Nenhuma conhecida</option><option value="leve">Reação leve/moderada</option><option value="anafilaxia">Anafilaxia / reação grave</option></select></div>
         <div class="ig-f-2"><div class="ig-f-row"><label>Nº de infusões anteriores do MESMO produto</label><input id="igCadHistoricoNum" type="number" min="0" max="999" value="0"></div><div class="ig-f-row"><label>Última infusão</label><input id="igCadUltima" type="date"></div></div>
@@ -4563,17 +4563,17 @@ var IG_FABRICANTE = {privigen_10:'CSL Behring',octagam_10:'Octapharma',kiovig_10
 // ── IG HUB ──
 var IG_BULAS = {
   privigen_10:{nome:'Privigen 10%',fab:'CSL Behring',conc:'10%',via:'IV',frascos:'5 g (50 mL) — apresentação usada no Hub',conservacao:'2–8 °C. Não congelar.',ini:'0,3 mL/kg/h por ~30 min; aumento gradual se tolerado (30 min por etapa é sugestão operacional)',max:'4,8 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Sem sacarose. Osmolalidade ~320 mOsm/kg.',anvisa:'MS-7.3.39.001.1-0476'},
-  octagam_10:{nome:'Octagam 10%',fab:'Octapharma',conc:'10%',via:'IV',frascos:'20, 50, 100, 200, 500 mL',conservacao:'2–8 °C; até 25 °C por 18 meses.',ini:'0,6 mL/kg/h por 30 min; dobrar a cada 30 min',max:'7,2 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Contém maltose — interferência em glicosímetros. Alertar equipe.',anvisa:'MS-7.3.39.001.1-0182'},
-  kiovig_10:{nome:'Kiovig 10%',fab:'Takeda',conc:'10%',via:'IV',frascos:'10, 25, 50, 100, 200, 400 mL',conservacao:'Até 25 °C. Não congelar.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'6,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Sem sacarose/maltose/glicose. pH 4,6–5,1. Baixa viscosidade.',anvisa:'MS-7.3.39.001.1-0425'},
-  flebogamma_10:{nome:'Flebogamma DIF 10%',fab:'Grifols',conc:'10%',via:'IV',frascos:'50, 100, 200, 400 mL',conservacao:'Até 30 °C. Não congelar.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'6,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Sorbitol. pH 5,0. Preferido em risco tromboembólico (baixa osmolalidade).',anvisa:'MS-7.3.39.001.1-0335'},
-  tegeline_5:{nome:'Tégéline 5%',fab:'LFB',conc:'5%',via:'IV',frascos:'50, 100, 200 mL',conservacao:'2–8 °C. Não congelar.',ini:'0,6 mL/kg/h; manter 15 min; dobrar a cada 15 min',max:'4,2 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Produto SUS/Farmácia Especial. Pode conter traços de IgA.',anvisa:'MS-7.3.39.001.1-0097'},
-  endobulin_5:{nome:'Endobulin S/D 5%',fab:'Baxter',conc:'5%',via:'IV',frascos:'50, 100, 200, 400 mL',conservacao:'2–8 °C. Não congelar.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'4,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Tratado com solvente/detergente. Estabilizador: glicose.',anvisa:'MS-7.3.39.001.1-0049'},
-  gammaked_10:{nome:'Gammaked 10%',fab:'Kedrion/Grifols',conc:'10%',via:'IV',frascos:'10, 25, 50, 100, 200 mL',conservacao:'2–8 °C. Não congelar.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'8,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Também indicado para PTI. Contém glicina.',anvisa:'MS-7.3.39.001.1-0388'},
-  gamunex_10:{nome:'Gamunex-C 10%',fab:'Grifols',conc:'10%',via:'IV',frascos:'10, 25, 50, 100, 200 mL',conservacao:'2–8 °C; até 25 °C por 6 meses.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'8,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Contém glicina. pH 4,0–4,5.',anvisa:'MS-7.3.39.001.1-0291'},
+  octagam_10:{nome:'Octagam 10%',fab:'Octapharma',conc:'10%',via:'IV',frascos:'20, 50, 100, 200, 500 mL',conservacao:'2–8 °C; até 25 °C por 18 meses.',ini:'Conferir bula brasileira da apresentação e fase terapêutica antes de programar a bomba',max:'Aguardando validação da velocidade por bula',pre:'Não requer pré-medicação de rotina',obs:'Contém maltose — interferência em glicosímetros. Alertar equipe.',anvisa:'MS-7.3.39.001.1-0182'},
+  kiovig_10:{nome:'Kiovig 10%',fab:'Takeda',conc:'10%',via:'IV',frascos:'10, 25, 50, 100, 200, 400 mL',conservacao:'Até 25 °C. Não congelar.',ini:'Conferir bula brasileira da apresentação e fase terapêutica antes de programar a bomba',max:'Aguardando validação da velocidade por bula',pre:'Não requer pré-medicação de rotina',obs:'Sem sacarose/maltose/glicose. pH 4,6–5,1. Baixa viscosidade.',anvisa:'MS-7.3.39.001.1-0425'},
+  flebogamma_10:{nome:'Flebogamma DIF 10%',fab:'Grifols',conc:'10%',via:'IV',frascos:'50, 100, 200, 400 mL',conservacao:'Até 30 °C. Não congelar.',ini:'Conferir bula brasileira da apresentação e fase terapêutica antes de programar a bomba',max:'Aguardando validação da velocidade por bula',pre:'Não requer pré-medicação de rotina',obs:'Sorbitol. pH 5,0. Preferido em risco tromboembólico (baixa osmolalidade).',anvisa:'MS-7.3.39.001.1-0335'},
+  tegeline_5:{nome:'Tégéline 5%',fab:'LFB',conc:'5%',via:'IV',frascos:'50, 100, 200 mL',conservacao:'2–8 °C. Não congelar.',ini:'Conferir bula brasileira da apresentação e fase terapêutica antes de programar a bomba',max:'Aguardando validação da velocidade por bula',pre:'Não requer pré-medicação de rotina',obs:'Produto SUS/Farmácia Especial. Pode conter traços de IgA.',anvisa:'MS-7.3.39.001.1-0097'},
+  endobulin_5:{nome:'Endobulin S/D 5%',fab:'Baxter',conc:'5%',via:'IV',frascos:'50, 100, 200, 400 mL',conservacao:'2–8 °C. Não congelar.',ini:'Conferir bula brasileira da apresentação e fase terapêutica antes de programar a bomba',max:'Aguardando validação da velocidade por bula',pre:'Não requer pré-medicação de rotina',obs:'Tratado com solvente/detergente. Estabilizador: glicose.',anvisa:'MS-7.3.39.001.1-0049'},
+  gammaked_10:{nome:'Gammaked 10%',fab:'Kedrion/Grifols',conc:'10%',via:'IV',frascos:'10, 25, 50, 100, 200 mL',conservacao:'2–8 °C. Não congelar.',ini:'Conferir bula brasileira da apresentação e fase terapêutica antes de programar a bomba',max:'Aguardando validação da velocidade por bula',pre:'Não requer pré-medicação de rotina',obs:'Também indicado para PTI. Contém glicina.',anvisa:'MS-7.3.39.001.1-0388'},
+  gamunex_10:{nome:'Gamunex-C 10%',fab:'Grifols',conc:'10%',via:'IV',frascos:'10, 25, 50, 100, 200 mL',conservacao:'2–8 °C; até 25 °C por 6 meses.',ini:'Conferir bula brasileira da apresentação e fase terapêutica antes de programar a bomba',max:'Aguardando validação da velocidade por bula',pre:'Não requer pré-medicação de rotina',obs:'Contém glicina. pH 4,0–4,5.',anvisa:'MS-7.3.39.001.1-0291'},
   hizentra_20:{nome:'Hizentra 20%',fab:'CSL Behring',conc:'20%',via:'SC',frascos:'5, 10, 20, 50 mL',conservacao:'Até 25 °C por 24 meses. Não congelar.',ini:'Primeira: até 15 mL/h/local; subsequentes toleradas: até 25 mL/h/local',max:'Até 25 mL/h/local nas subsequentes',pre:'Não requer pré-medicação de rotina',obs:'Reposição: até 15 mL/local na primeira e 25 mL/local nas subsequentes.',anvisa:'MS-7.3.39.001.1-0474'},
-  cuvitru_20:{nome:'Cuvitru 20%',fab:'Takeda',conc:'20%',via:'SC',frascos:'10, 20, 50 mL',conservacao:'Até 25 °C por 24 meses. Não congelar.',ini:'15 mL/h/sítio; progredir até 25 mL/h/sítio',max:'25 mL/h/sítio',pre:'Não requer pré-medicação de rotina',obs:'pH 4,4–4,9. Alta concentração — menor volume de infusão.',anvisa:'MS-7.3.39.001.1-0480'},
+  cuvitru_20:{nome:'Cuvitru 20%',fab:'Takeda',conc:'20%',via:'SC',frascos:'10, 20, 50 mL',conservacao:'Até 25 °C por 24 meses. Não congelar.',ini:'Conferir bula brasileira da apresentação e fase terapêutica antes de programar a bomba',max:'Aguardando validação da velocidade por bula',pre:'Não requer pré-medicação de rotina',obs:'pH 4,4–4,9. Alta concentração — menor volume de infusão.',anvisa:'MS-7.3.39.001.1-0480'},
   hyqvia_10:{nome:'HyQvia 10%',fab:'Takeda',conc:'10%',via:'SC',frascos:'5 g: IgG 10% 50 mL + hialuronidase 2,5 mL — kit usado no Hub',conservacao:'2–8 °C; até 25 °C por 3 meses. Não congelar.',ini:'Conforme peso e primeiras duas infusões ou subsequentes; verificar tabela da bula',max:'Até 300 mL/h/local, se tolerado e ≥40 kg nas subsequentes',pre:'Hialuronidase antes da IgG; verificar titulação inicial na bula',obs:'Única SC de alto volume. Permite dose mensal com 1 sítio.',anvisa:'MS-7.3.39.001.1-0487'},
-  gammanorm_165:{nome:'Gammanorm 16,5%',fab:'Octapharma',conc:'16,5%',via:'SC',frascos:'10, 20, 50 mL',conservacao:'2–8 °C. Não congelar.',ini:'10 mL/h/sítio; progredir até 20 mL/h/sítio',max:'20 mL/h/sítio',pre:'Não requer pré-medicação de rotina',obs:'Maltose. Vol. máx 15 mL/sítio.',anvisa:'MS-7.3.39.001.1-0390'}
+  gammanorm_165:{nome:'Gammanorm 16,5%',fab:'Octapharma',conc:'16,5%',via:'SC',frascos:'10, 20, 50 mL',conservacao:'2–8 °C. Não congelar.',ini:'Conferir bula brasileira da apresentação e fase terapêutica antes de programar a bomba',max:'Aguardando validação da velocidade por bula',pre:'Não requer pré-medicação de rotina',obs:'Maltose. Vol. máx 15 mL/sítio.',anvisa:'MS-7.3.39.001.1-0390'}
 };
 
 /* ═══ IMUNIZAÇÕES — SBIm ═══ */
@@ -5419,6 +5419,7 @@ function igPrepararCadastro(){
     return '<option value="'+igEscapeHtml(k)+'">'+igEscapeHtml(IG_PRODUTOS[k].nome)+'</option>';
   }).join('');
 }
+function igCadastroViaDoProduto(k){var p=IG_PRODUTOS[k],v=document.getElementById('igCadVia');if(p&&v)v.value=p.via.indexOf('SC')===0?'SC':'IV';}
 function igAtualizarSeletor(){
   var select=document.getElementById('igPrescPaciente');if(!select)return;
   var current=select.value;
@@ -5526,13 +5527,13 @@ function igRenderPacientes(filtro){
     box.innerHTML='';
     if(!lista.length){ box.innerHTML='<div style="color:var(--gray-500);font-size:13px;padding:8px 0">Nenhum paciente salvo ainda.</div>'; return; }
     lista.forEach(function(p){
-      var nInf=(p.infusoes&&p.infusoes.length)||0;
+      var nInf=(p.infusoes&&p.infusoes.length)||0; var nAnt=Number(p.historicoInformado)||0;
       var prod=(window.IG_PRODUTOS&&p.produto&&IG_PRODUTOS[p.produto])?IG_PRODUTOS[p.produto].nome:(p.produto||'');
       var div=document.createElement('div');
       div.style.cssText='background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px';
       div.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between">'
         +'<b style="font-size:13.5px;color:var(--navy)">'+igEscapeHtml(p.nome)+'</b>'
-        +'<span style="font-size:11px;color:var(--gray-500)">'+nInf+(nInf===1?' infusão':' infusões')+'</span></div>'
+        +'<span style="font-size:11px;color:var(--gray-500)">'+nInf+' registradas · '+nAnt+' informadas</span></div>'
         +'<div style="font-size:11.5px;color:var(--gray-500)">'+igEscapeHtml(p.dx||'')+(p.peso?' · '+p.peso+' kg':'')+(p.ultima?' · última: '+p.ultima:'')+'</div>'
         +(prod?'<div style="font-size:11px;color:var(--teal-mid);font-weight:700">'+igEscapeHtml(prod)+'</div>':'')
         +'<div style="display:flex;gap:6px;margin-top:6px">'
@@ -5541,7 +5542,7 @@ function igRenderPacientes(filtro){
         +'<button class="bdi" style="background:#fff0f0;color:#e53e3e;border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer">🗑</button>'
         +'</div>';
       (function(pn){
-        div.querySelector('.bni').onclick=function(){ igAbrirPrescricao(nInf?'rotina':'primeira'); igSelecionarPaciente(pn); };
+        div.querySelector('.bni').onclick=function(){ igAbrirPrescricao((nInf+nAnt)?'rotina':'primeira'); igSelecionarPaciente(pn); };
         div.querySelector('.bri').onclick=function(){ igRegistrarInfusao(pn); setTimeout(function(){ igRenderPacientes(filtro||''); },300); };
         div.querySelector('.bdi').onclick=function(){ igDeletarPaciente(pn); igRenderPacientes(filtro||''); };
       })(p.nome);
