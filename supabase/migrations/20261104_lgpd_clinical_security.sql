@@ -1,7 +1,5 @@
 -- Migração LGPD 2026-11-04: não elimina registros.
 -- Trocar chamadas do frontend por JWT de usuário autenticado antes de aplicar.
-begin;
-
 create table if not exists public.clinical_sessions (
   sessao_id text primary key,
   owner_id uuid not null references auth.users(id) on delete cascade,
@@ -105,9 +103,10 @@ begin
  if exists(select 1 from public.uct_results where sessao_id=p_sessao) then
    raise exception 'Questionario ja recebido';
  end if;
- insert into public.uct_results(sessao_id,paciente_nome,q1,q2,q3,q4,total)
+ insert into public.uct_results(sessao_id,paciente_nome,q1,q2,q3,q4,total,medico_id)
  values(p_sessao,left(nullif(trim(p_paciente),''),80),p_q1,p_q2,p_q3,p_q4,
-   (p_q1+p_q2+p_q3+p_q4));
+   (p_q1+p_q2+p_q3+p_q4),
+   (select owner_id::text from public.clinical_sessions where sessao_id=p_sessao));
 end $$;
 revoke all on function public.uct_registrar(text,text,integer,integer,integer,integer)
  from public,anon,authenticated;
@@ -175,7 +174,6 @@ begin
  end if;
  return v_id;
 end $$;
-revoke all on schema private from public,anon,authenticated;
 revoke all on function private.score_owner(text) from public,anon,authenticated;
 
 create or replace function public.score_pacientes(p_email text)
@@ -301,5 +299,3 @@ drop policy if exists read_anon on public.uct_results;
 drop policy if exists insert_public on public.uct_results;
 revoke all on public.snot22_results,public.uct_results,public.uas7_registros,
  public.score_registros from public,anon,authenticated;
-
-commit;
