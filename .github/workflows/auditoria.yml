@@ -14,4 +14,4 @@ jobs:
         with:
           node-version: '20'
       - name: Testes automatizados
-        run: node --test tests/estabilidade.test.mjs
+        run: node --test tests/*.test.mjs
