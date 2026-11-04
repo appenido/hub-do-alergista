@@ -8627,90 +8627,18 @@ function openArticle(card) {
 }
 
 
-/* ── MBE ANALYSIS ── */
-var MBE_ANALYSES = {
-  'tezepelumab': {
-    title: 'Tezepelumab · Asma Grave · JACI 2026',
-    verdict: '<h3>1. O Veredito Clínico</h3><p>Material com <strong>validade clínica moderada</strong>. Estudo real-world confirma eficácia sustentada do tezepelumabe em 36 meses, mas carece de comparador ativo e apresenta vieses inerentes ao design observacional. Clinicamente relevante, mas não suficiente para mudança isolada de guideline.</p>',
-    audit: '<h3>2. Auditoria de Viés (A Pegadinha)</h3><p><strong>Viés de indicação:</strong> pacientes selecionados para tezepelumabe já eram fenótipos de difícil controle — não comparável a população naive. <strong>Desfecho substituto:</strong> VEF₁ +310 mL é estatisticamente significante, mas <em>não é desfecho clínico duro</em> — correlação com hospitalização é fraca. <strong>Ausência de comparador:</strong> sem braço com dupilumabe ou benralizumabe, impossível posicionar hierarquicamente. <strong>Regressão à média:</strong> exacerbações pré-tratamento podem estar artificialmente infladas por seleção em pico de gravidade.</p>',
-    fisio: '<h3>3. Racional Fisiológico</h3><p>Tezepelumabe bloqueia <strong>TSLP</strong> (thymic stromal lymphopoietin) — alarmine epitelial upstream que ativa DCs, ILC2s e mastócitos, disparando <em>ambas</em> as vias T2 (IL-4/IL-13/IL-5) e não-T2. Isso explica a resposta em eosinofilia baixa: o bloqueio é anterior à bifurcação inflamatória. Diferentemente do benralizumabe (anti-IL-5Rα) que atua exclusivamente em eosinófilos, o tezepelumabe suprime o <em>trigger inicial</em> independente do fenótipo.</p>',
-    pratica: '<h3>4. O Pulo do Gato Clínico</h3><p>No Brasil: tezepelumabe está disponível via PCDT apenas para critérios estritos. <strong>Atenção:</strong> pacientes com eosinófilos < 150 céls/µL e IgE < 30 UI/mL podem ser candidatos — justamente o perfil "orfão" dos outros biológicos. Exija FeNO antes de iniciar: FeNO < 20 ppb + eosinófilos baixos = candidato ideal ao tezepelumabe, não ao dupilumabe.</p>',
-    roteiro: '<h3>5. Roteiro de Autoridade</h3><p><em>"Quando vemos uma redução de 72% em exacerbações, precisamos perguntar: em relação a quê? Este estudo não tem comparador ativo. O que realmente nos diz é que o tezepelumabe mantém eficácia além de 2 anos no mundo real — mas não que é superior aos demais biológicos. A decisão ainda precisa ser fenotípica: TSLP para o paciente sem marcador T2, IL-5 para o eosinofílico puro, dupilumabe para o atópico com comorbidades. O especialista que prescreve biológico sem fenotipar está fazendo empírico caro."</em></p>'
-  },
-  'jak': {
-    title: 'JAK Inhibitor vs Dupilumab · DA · NEJM 2026',
-    verdict: '<h3>1. O Veredito Clínico</h3><p>Material com <strong>validade clínica forte</strong> — primeiro RCT head-to-head real entre inibidor de JAK e dupilumabe. O resultado estatisticamente significante (67,3% vs 59,8%) é clinicamente modesto e deve ser contextualizado pelos perfis de segurança distintos. Não justifica substituição automática do dupilumabe.</p>',
-    audit: '<h3>2. Auditoria de Viés (A Pegadinha)</h3><p><strong>Diferença absoluta de 7,5%</strong> — NNT ≈ 13 para o desfecho EASI-75. A indústria destaca Redução Relativa. <strong>Tempo de seguimento:</strong> 52 semanas não captura eventos adversos tardios do JAKi (MACE, TEV, neoplasias) que emergem em uso prolongado. <strong>Critérios de exclusão:</strong> pacientes com tabagismo, DPOC, IAM prévio, imunossupressão foram excluídos — exatamente os mais comuns na vida real.</p>',
-    fisio: '<h3>3. Racional Fisiológico</h3><p>Dupilumabe bloqueia IL-4Rα — interrompendo sinalização de IL-4 e IL-13 extracelularmente (anticorpo monoclonal). JAK inibidores (abrocitinibe, upadacitinibe) bloqueiam JAK1 intracelularmente, suprimindo múltiplas citocinas simultaneamente: IL-4, IL-13, IL-31 (prurido), TSLP, IFN-γ. Isso explica a resposta mais rápida e mais intensa no prurido — mas também o maior risco imunossupressor sistêmico.</p>',
-    pratica: '<h3>4. O Pulo do Gato Clínico</h3><p><strong>Regra prática:</strong> dupilumabe = perfil imunossupressor mínimo, seguro em imunodeprimidos, grávidas, idosos, DPOC. JAKi = quando velocidade de resposta é crítica (DA com impacto grave no sono, exames próximos, casamento/evento). <strong>No Brasil:</strong> JAKi não tem cobertura PCDT ainda — custo out-of-pocket proibitivo. Avalie disponibilidade antes de discutir com o paciente.</p>',
-    roteiro: '<h3>5. Roteiro de Autoridade</h3><p><em>"Esse trial é um marco — mas precisamos ler os números com cuidado. A diferença absoluta de 7,5% em EASI-75 tem NNT de 13. Ou seja, para cada 13 pacientes que troco de dupilumabe para JAKi, apenas 1 vai ter resposta adicional. Mas esse 1 paciente vai ter risco maior de herpes zóster, e todos os 13 terão maior custo e menor acesso. A decisão clínica não é sobre qual funciona melhor no papel — é sobre para qual fenótipo de paciente, em qual momento da doença, com qual perfil de risco."</em></p>'
-  },
-  'urticaria': {
-    title: 'Anti-KIT (Barzolvolimabe) · USC · Allergy 2026',
-    verdict: '<h3>1. O Veredito Clínico</h3><p>Material com <strong>validade clínica moderada</strong> — Fase II com resultado promissor, mas insuficiente para mudança de prática. O anti-KIT representa uma nova classe mecanisticamente racional para USC refratária ao omalizumabe, porém dados de fase III e longo prazo são inexistentes.</p>',
-    audit: '<h3>2. Auditoria de Viés (A Pegadinha)</h3><p><strong>Fase II:</strong> n pequeno, poder estatístico limitado para eventos adversos. <strong>Desfecho:</strong> UCT ≥12 é validado, mas 12 semanas é período curto para doença crônica. <strong>Refratariedade ao omalizumabe:</strong> definição variável entre centros — alguns "refratários" podem ter tido dose inadequada ou tempo insuficiente.</p>',
-    fisio: '<h3>3. Racional Fisiológico</h3><p>O receptor KIT (CD117) é essencial para sobrevivência, proliferação e ativação de mastócitos. O barzolvolimabe é um anticorpo anti-KIT que bloqueia a ligação do SCF (stem cell factor) ao receptor, induzindo apoptose de mastócitos cutâneos. Mecanismo completamente distinto do omalizumabe (anti-IgE) — por isso funciona em refratários, independente dos níveis de IgE livre.</p>',
-    pratica: '<h3>4. O Pulo do Gato Clínico</h3><p>Antes de considerar terapia de terceira linha, revisite: o diagnóstico é USC mesmo? Urticária por pressão, colinérgica e solar respondem mal ao omalizumabe e precisam de abordagem diferente. Dose de omalizumabe foi otimizada (300 mg/mês por ≥6 meses)? Angioedema isolado pode ser angioedema hereditário — C1-inibidor está normal?</p>',
-    roteiro: '<h3>5. Roteiro de Autoridade</h3><p><em>"O barzolvolimabe não é mais um anti-IgE — é uma virada de paradigma mecanístico. Enquanto o omalizumabe seca o gatilho (IgE), o anti-KIT elimina o executor (mastócito). Em um paciente com USC refratária ao omalizumabe, com IgE baixa e triptase normal, este seria o próximo passo lógico. Mas ainda é fase II — uso off-label e experimental. Meu serviço segue a diretriz EAACI: omalizumabe otimizado antes de qualquer outra opção."</em></p>'
-  },
-  'anafilaxia': {
-    title: 'Anafilaxia Perioperatória · JACI in Practice 2026',
-    verdict: '<h3>1. O Veredito Clínico</h3><p>Material com <strong>validade clínica forte</strong>. Algoritmo baseado em coorte robusta (n=2.300) com consenso multidisciplinar. Relevante para o alergista que recebe encaminhamentos pós-reação perioperatória — cenário crescente e subestimado.</p>',
-    audit: '<h3>2. Auditoria de Viés (A Pegadinha)</h3><p><strong>Viés de referência:</strong> casos de coortes europeia — perfil de agentes causais difere do Brasil (menor acesso a látex-free no SUS, maior uso de cefalosporinas no perioperatório). <strong>Timing de triptase:</strong> a coleta em 1h, 4h e 24h é ideal, mas raramente executada fora de centros de referência em emergências do SUS.</p>',
-    fisio: '<h3>3. Racional Fisiológico</h3><p>Anafilaxia perioperatória envolve desgranulação mastocitária/basofílica via IgE-mediada ou mecanismo direto (ex: vancomicina, morfina). A triptase sérica pico em 1-2h pós-reação confirma ativação mastocitária — mas nível basal é indispensável para interpretar: triptase basal elevada (≥11,4 ng/mL) sugere mastocitose subjacente, que amplia o risco de reações futuras.</p>',
-    pratica: '<h3>4. O Pulo do Gato Clínico</h3><p><strong>Pergunte sempre:</strong> paciente fez cirurgia antes? Reagiu? Usa PEG em medicamentos (laxantes, vacinas mRNA, certos injetáveis)? Anti-PEG IgE cresceu 20× após pandemia. <strong>No Brasil:</strong> solicite IgE específica para os 3 principais agentes antes da investigação cutânea. Protocolo de dessensibilização a relaxantes musculares existe e é factível em centros especializados.</p>',
-    roteiro: '<h3>5. Roteiro de Autoridade</h3><p><em>"Anafilaxia perioperatória é o iceberg da alergia hospitalar — o que o anestesista vê é a crise, mas o que o alergista precisa investigar é o repertório completo. Triptase colhida 4h após a reação e comparada ao basal pode revelar mastocitose subjacente em 5-8% dos casos — paciente que vai reanestesiar sem profilaxia e vai ter reação ainda mais grave. O algoritmo novo nos dá a sequência correta; o erro é não seguir."</em></p>'
-  },
-  'idcv': {
-    title: 'Diagnóstico Precoce IDCV · ML · Clin. Immunology 2026',
-    verdict: '<h3>1. O Veredito Clínico</h3><p>Material com <strong>validade clínica moderada-alta</strong>. O modelo de ML com sensibilidade 91% e especificidade 87% é promissor para rastreamento, mas depende de integração ao prontuário eletrônico — inviável na maioria dos serviços brasileiros no curto prazo.</p>',
-    audit: '<h3>2. Auditoria de Viés (A Pegadinha)</h3><p><strong>Coorte retrospectiva:</strong> modelo treinado em dados históricos de centros de referência — não reflete a atenção básica onde o diagnóstico tardio ocorre. <strong>Overfitting:</strong> AUC 0,94 em dados de teste pode não se reproduzir em populações diversas. <strong>Desfecho:</strong> redução de 7 para 2,3 anos no diagnóstico é impactante, mas não foi demonstrado em prospectivo.</p>',
-    fisio: '<h3>3. Racional Fisiológico</h3><p>IDCV = falha na diferenciação de células B naive em plasmócitos produtores de imunoglobulinas, por defeitos em ICOS, TACI, BAFF-R ou variantes em PIK3CD/PIK3R1. O resultado é hipogamaglobulinemia pan-isotípica com resposta vacinal abolida. O modelo de ML aprende o padrão: IgG < 500 + IgA < 70 + IgM < 40 + infecções sinopulmonares recorrentes + ausência de causas secundárias = IDCV até prova em contrário.</p>',
-    pratica: '<h3>4. O Pulo do Gato Clínico</h3><p><strong>Regra dos 3 "Is":</strong> Infecções de repetição + Imunoglobulinas baixas + Investigação de causa secundária negativa = encaminhar para imunologista. <strong>Antes de IGIV:</strong> vacinar com pneumococo e influenza (mesmo com resposta pobre — valor basal) e documentar. <strong>No SUS:</strong> IGIV está no PCDT para IDCV — relatório bem estruturado aprova em 90% dos casos.</p>',
-    roteiro: '<h3>5. Roteiro de Autoridade</h3><p><em>"O diagnóstico tardio de 7 anos na IDCV não é falha do paciente — é falha sistêmica de rastreamento. Um adulto com 3 pneumonias antes dos 40 anos, sem causa identificada, tem IDCV até prova em contrário. A dosagem de imunoglobulinas custa menos de R$150 e está disponível no SUS. O modelo de ML é elegante, mas a ferramenta mais poderosa continua sendo o alergista-imunologista treinado para reconhecer o padrão clínico."</em></p>'
-  },
-  'feno': {
-    title: 'FeNO como Preditor de Biológico · Front. Immunology 2025',
-    verdict: '<h3>1. O Veredito Clínico</h3><p>Material com <strong>validade clínica moderada</strong>. FeNO como ferramenta de seleção de biológico é biologicamente plausível, mas os dados são de coorte retrospectiva e não devem ser usados isoladamente para decisão terapêutica.</p>',
-    audit: '<h3>2. Auditoria de Viés (A Pegadinha)</h3><p><strong>Confundimento não controlado:</strong> pacientes com FeNO alto tendem a ter mais atopia, uso de corticoide inalado irregular e comorbidades que independentemente favorecem o dupilumabe. <strong>Definição de resposta:</strong> "ACT ≥20 + redução ≥50% nas exacerbações" é composta — cada componente isolado pode não ser significante. <strong>Design retrospectivo:</strong> seleção do biológico não foi randomizada.</p>',
-    fisio: '<h3>3. Racional Fisiológico</h3><p>FeNO reflete atividade da óxido nítrico sintase indutível (iNOS) no epitélio brônquico, estimulada principalmente por IL-13 e IL-4. FeNO alto (≥25 ppb) = inflamação T2 ativa com predomínio IL-13. Dupilumabe bloqueia IL-4Rα = antagoniza IL-4 e IL-13. Coerência fisiológica: FeNO alto prediz resposta ao dupilumabe. Tezepelumabe (anti-TSLP) bloqueia upstream — responde independente de FeNO.</p>',
-    pratica: '<h3>4. O Pulo do Gato Clínico</h3><p><strong>Algoritmo prático de seleção:</strong> FeNO ≥25 + eosinófilos ≥300 = dupilumabe ou benralizumabe. FeNO < 25 + eosinófilos < 150 = tezepelumabe. FeNO ≥25 + eosinófilos < 150 = dupilumabe (IL-13 dominante sem eosinofilia). <strong>Limitação brasileira:</strong> FeNO não está disponível na maioria dos serviços públicos — custo do aparelho inviabiliza uso rotineiro no SUS.</p>',
-    roteiro: '<h3>5. Roteiro de Autoridade</h3><p><em>"FeNO é a janela para o epitélio inflamado — mas é uma janela, não uma porta. Ele nos diz que a IL-13 está ativa; não nos diz que o dupilumabe vai funcionar melhor que o tezepelumabe naquele paciente específico. O que este estudo nos oferece é uma hipótese fisiologicamente coerente para refinar a seleção. Meu critério de prioridade segue sendo: fenotipar com eosinófilos, IgE, FeNO e histórico de atopia em conjunto — nunca um marcador isolado."</em></p>'
-  }
-};
-
-function getMbeKey(card) {
-  var title = card.dataset.aiTitle || card.querySelector('.art-title').textContent;
-  title = title.toLowerCase();
-  if(title.indexOf('tezepelumab') > -1) return 'tezepelumab';
-  if(title.indexOf('jak') > -1 || title.indexOf('dupilumab') > -1) return 'jak';
-  if(title.indexOf('kit') > -1 || title.indexOf('urticaria') > -1 || title.indexOf('csu') > -1) return 'urticaria';
-  if(title.indexOf('anaphylaxis') > -1 || title.indexOf('anafilax') > -1) return 'anafilaxia';
-  if(title.indexOf('cvid') > -1 || title.indexOf('immunodeficiency') > -1) return 'idcv';
-  if(title.indexOf('feno') > -1 || title.indexOf('nitric') > -1) return 'feno';
-  return null;
-}
-
-function openMbeSheet(card) {
-  var key = getMbeKey(card);
-  var data = key ? MBE_ANALYSES[key] : null;
-  var sheet = document.getElementById('mbeSheet');
-  var metaEl = document.getElementById('mbeSheetMeta');
-  var bodyEl = document.getElementById('mbeSheetBody');
-  var titleEl = sheet.querySelector('.ai-sheet-title');
-
-  titleEl.textContent = data ? data.title : '🔬 Análise MBE';
-  metaEl.innerHTML = '<span style="font-size:11px;color:var(--gray-300)">Médico Auditor Sênior · MBE · Alergia e Imunologia</span>';
-  bodyEl.innerHTML = '<div class="ai-sheet-loading">⏳ Realizando auditoria científica...</div>';
+/* ── MBE: não atribuir resultados de um estudo a outro por semelhança temática ── */
+function openMbeSheet(card){
+  var sheet=document.getElementById('mbeSheet'),metaEl=document.getElementById('mbeSheetMeta'),
+      bodyEl=document.getElementById('mbeSheetBody'),titleEl=sheet.querySelector('.ai-sheet-title');
+  var title=card.dataset.aiTitle||((card.querySelector('.art-title')||{}).textContent)||'Artigo';
+  var doi=String(card.dataset.doi||'').trim(),url=card.dataset.pub||card.dataset.pdf||'';
+  titleEl.textContent='Leitura crítica — '+title;
+  metaEl.textContent='Revisão científica individual ainda não validada';
+  bodyEl.innerHTML='<p>Não foi realizada auditoria metodológica individual deste artigo mediante leitura do texto integral. O sistema não atribuirá resultados, tamanho de amostra, valores de eficácia ou qualidade metodológica de outros estudos com títulos semelhantes.</p><p>Checklist MBE: conferir PICO, delineamento, critérios de inclusão, registro do protocolo, randomização e cegamento, perdas, estimativa absoluta de efeito e IC 95%, segurança, financiamento e aplicabilidade.</p>';
+  var link=doi&&/^10\.\d{4,9}\/[-._;()/:A-Za-z0-9]+$/.test(doi)?'https://doi.org/'+doi:(/^https:\/\//.test(url)?url:'');
+  if(link){var a=document.createElement('a');a.href=link;a.target='_blank';a.rel='noopener noreferrer';a.textContent='Abrir publicação original';bodyEl.appendChild(a);}
   sheet.classList.add('open');
-
-  setTimeout(function() {
-    if(data) {
-      bodyEl.innerHTML = data.verdict + data.audit + data.fisio + data.pratica + data.roteiro;
-    } else {
-      bodyEl.innerHTML = '<p style="color:var(--gray-500)">Análise MBE não disponível para este artigo.</p>';
-    }
-  }, 800);
 }
 
 var _mbsc=document.getElementById('mbeSheetClose');if(_mbsc)_mbsc.addEventListener('click',function(){var s=document.getElementById('mbeSheet');if(s)s.classList.remove('open');});
