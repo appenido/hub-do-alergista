@@ -29,11 +29,13 @@ export function topicsFor(title) {
 }
 export function documentKind(title, types = []) {
   const t = String(title).toLowerCase();
-  if (/practice parameters?/.test(t)) return 'Parâmetro de prática';
-  if (/position (paper|statement)|statement on/.test(t)) return 'Posicionamento';
-  if (/consensus/.test(t) || types.includes('Consensus Statement')) return 'Consenso';
-  if (/guidelines?/.test(t) || types.some(x => /^(Practice )?Guideline$/i.test(x))) return 'Diretriz';
+  // Revisar diretrizes não transforma uma revisão em diretriz.
   if (/systematic review|meta.analysis/.test(t) || types.includes('Meta-Analysis')) return 'Revisão sistemática / metanálise';
+  if (/consensus/.test(t) || types.includes('Consensus Statement')) return 'Consenso';
+  if (/statement|position paper/.test(t)) return 'Posicionamento';
+  if (/practice parameters?/.test(t) && types.includes('Review') && !types.includes('Practice Guideline')) return 'Revisão do parâmetro de prática';
+  if (/practice parameters?/.test(t)) return 'Parâmetro de prática';
+  if (/guidelines?/.test(t) || types.some(x => /^(Practice )?Guideline$/i.test(x))) return 'Diretriz';
   if (/algorithm/.test(t)) return 'Algoritmo clínico';
   if (/task force|work group/.test(t)) return 'Relatório de grupo de trabalho';
   if (/recommendations?/.test(t)) return 'Recomendações';

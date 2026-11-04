@@ -36,6 +36,8 @@ test('sinônimos de guideline e revisões são aceitos sem alterar o tipo real',
   assert.equal(documentKind('Drug allergy: A practice parameter update'),'Parâmetro de prática');
   assert.equal(documentKind('EAACI position paper on drug provocation'),'Posicionamento');
   assert.equal(documentKind('Biologics to treat atopic dermatitis',['Review']),'Revisão');
+  assert.equal(documentKind('Quality of allergy guidelines: A Systematic Review',['Review']),'Revisão sistemática / metanálise');
+  assert.equal(documentKind('Drug hypersensitivity: A WAO Statement',['Review']),'Posicionamento');
   const query=searchQuery('all');
   for(const term of ['consensus[ti]','recommendation*[ti]','algorithm*[ti]','review[pt]','"J Allergy Clin Immunol"[jour]'])assert.ok(query.includes(term),term);
 });
