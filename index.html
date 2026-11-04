@@ -1656,18 +1656,6 @@ window._mostrarApp = function(){
         <button type="button" class="qcard eaaci-q" data-ego="eaaci-14" data-etopic="diag" aria-controls="eaaci-14" aria-expanded="false"><div class="qi qi-navy">🧬</div><div class="ql">Alergia molecular</div></button>
         <button type="button" class="qcard eaaci-q" data-ego="eaaci-15" data-etopic="eoe" aria-controls="eaaci-15" aria-expanded="false"><div class="qi qi-green">🫶</div><div class="ql">Esofagite eosinofílica</div></button>
       </div>
-      <div class="filter-chips" id="eaaci-chips">
-        <div class="fchip on" data-efilter="all">🔔 Todos</div>
-        <div class="fchip" data-efilter="anafilaxia">🆘 Anafilaxia</div>
-        <div class="fchip" data-efilter="urticaria">🔴 Urticária/AEH</div>
-        <div class="fchip" data-efilter="it">💉 Imunoterapia</div>
-        <div class="fchip" data-efilter="aa">🍽️ Alergia Alimentar</div>
-        <div class="fchip" data-efilter="da">🩹 Dermatite Atópica</div>
-        <div class="fchip" data-efilter="asma">🫁 Asma/Biológicos</div>
-        <div class="fchip" data-efilter="medicam">💊 Medicamentos</div>
-        <div class="fchip" data-efilter="diag">🧪 Diagnóstico</div>
-        <div class="fchip" data-efilter="eoe">🫶 Esofagite Eosinofílica</div>
-      </div>
     </div>
     <div id="eaaci-empty" style="padding:4px 16px 20px;font-size:11.5px;color:var(--gray-500);line-height:1.5;display:flex;align-items:center;gap:8px"><span style="font-size:15px">👆</span><span>Toque em um protocolo acima para abrir a conduta completa.</span></div>
     <div class="gap-list" id="eaaci-list">
@@ -10503,7 +10491,6 @@ if ('serviceWorker' in navigator) {
 #eaaci-list .eaaci-card.sel>summary .gc-soc{color:var(--teal-mid)}
 .eaaci-close{margin-top:12px;width:100%;border:1px solid var(--gray-300);background:#fff;color:var(--navy);font-family:inherit;font-size:11.5px;font-weight:700;padding:9px;border-radius:10px;cursor:pointer}
 .eaaci-close:hover{border-color:var(--teal-mid);color:var(--teal-mid)}
-.eaaci-grid .qcard.hidden-e{display:none}
 
 .eaaci-ref{margin-top:14px;padding:11px 12px;border-radius:11px;background:rgba(59,191,204,.07);border:1px solid rgba(59,191,204,.3)}
 .eaaci-ref-lb{font-size:9px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--teal-mid);margin-bottom:4px}
@@ -10697,15 +10684,6 @@ function chatToggle(){
 
     if(t.closest('[data-eclose]')){ clearSel(); document.getElementById('eaaci-btnrow').scrollIntoView({behavior:'smooth',block:'center'}); return; }
 
-    var chip=t.closest('#eaaci-chips .fchip');
-    if(chip){
-      var f=chip.getAttribute('data-efilter');
-      document.querySelectorAll('#eaaci-chips .fchip').forEach(function(c){ c.classList.toggle('on', c===chip); });
-      clearSel();
-      document.querySelectorAll('#eaaci-btnrow .eaaci-q').forEach(function(x){
-        x.classList.toggle('hidden-e', !(f==='all' || x.getAttribute('data-etopic')===f));
-      });
-    }
   });
 })();
 </script>
