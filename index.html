@@ -3867,7 +3867,7 @@ window._bloquearApp=function(){};
       <div class="res-lbl" id="mResLbl">—</div>
       <div class="res-desc" id="mResDesc">—</div>
     </div>
-    <p class="modal-disc">⚠️ Instrumento de apoio clínico. Não substitui avaliação médica individualizada.</p>
+    <p class="modal-disc">⚠️ Calculadora temporária. Não armazena resultados, não permite cadastro e não substitui avaliação médica individualizada. Não insira dados identificáveis.</p>
   </div>
 </div>
 
@@ -7422,7 +7422,12 @@ function doCalc(){
   // O resultado permanece na tela, sem escrita no navegador ou no servidor.
 }
 
-function closeModal(){document.getElementById('overlay').classList.remove('open');}
+function closeModal(){
+  document.getElementById('overlay').classList.remove('open');
+  var campos=document.getElementById('mFields'), resultado=document.getElementById('mResult');
+  if(campos)campos.replaceChildren();
+  if(resultado)resultado.classList.remove('show');
+}
 
 // Botão "Abrir em PDF": usa data-pdf do art-card, fallback Unpaywall
 document.addEventListener('click', function(e){
