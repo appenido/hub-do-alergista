@@ -1006,12 +1006,10 @@ _marcarGuiasPagas();
 .ige-intro p+p{margin-top:8px}
 .ige-intro details{margin-top:8px}.ige-intro summary{cursor:pointer;color:var(--teal-mid)}
 /* Painel de pedido */
-#pedFab{position:fixed;right:14px;bottom:calc(var(--bottomnav-h) + 14px);z-index:1300;background:var(--navy);color:#fff;border:none;border-radius:999px;padding:13px 18px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.25);display:none;align-items:center;gap:8px}
-#pedFab .pf-n{background:var(--aqua,#7fd4cd);color:var(--navy);border-radius:999px;min-width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
-#pedDrawer{position:fixed;top:0;right:0;bottom:0;width:360px;max-width:88vw;background:#fff;z-index:1400;box-shadow:-6px 0 24px rgba(0,0,0,.18);transform:translateX(102%);transition:transform .22s ease;display:flex;flex-direction:column}
-#pedDrawer.open{transform:translateX(0)}
-#pedBackdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:1390;opacity:0;pointer-events:none;transition:opacity .2s}
-#pedBackdrop.open{opacity:1;pointer-events:auto}
+#pedOpenInline{display:inline-flex;align-items:center;gap:8px;margin-top:10px;background:var(--navy);color:#fff;border:0;border-radius:10px;padding:10px 14px;font-family:'Manrope',sans-serif;font-size:12.5px;font-weight:800;cursor:pointer}
+#pedOpenInline .pf-n{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:999px;background:var(--aqua,#7fd4cd);color:var(--navy);font-size:11px}
+#pedDrawer{position:static;width:100%;max-width:100%;background:#fff;border:1px solid var(--gray-100);border-radius:12px;overflow:hidden;display:none;flex-direction:column;margin-top:10px}
+#pedDrawer.open{display:flex}
 .ped-hdr{background:var(--navy);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px}
 .ped-hdr b{font-size:14px;font-weight:800;flex:1}
 .ped-x{background:transparent;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1}
@@ -3910,14 +3908,10 @@ window._mostrarApp = function(){
         </div>
         <div class="lab-chips" id="igeChips"></div>
         <div style="font-size:11px;color:var(--gray-500);margin-top:8px" id="igeContagem" aria-live="polite"></div>
+        <button type="button" id="pedOpenInline" onclick="pedAbrir()" aria-expanded="false" aria-controls="pedDrawer">🧪 Ver pedido <span class="pf-n">0</span></button>
       </div>
-      <div id="igeLista" style="padding:0 16px 90px"></div>
-    </div>
-  </div>
-
-<!-- Painel lateral do pedido de IgE -->
-<div id="pedBackdrop" onclick="pedFechar()"></div>
-<aside id="pedDrawer">
+      <div style="padding:0 16px 12px">
+        <aside id="pedDrawer">
   <div class="ped-hdr"><span style="font-size:17px">🧪</span><b>Pedido de exames · IgE</b><button class="ped-x" onclick="pedFechar()">×</button></div>
   <div class="ped-body" id="pedBody"></div>
   <div class="ped-foot">
@@ -3926,7 +3920,10 @@ window._mostrarApp = function(){
     <button class="ped-btn s" onclick="pedLimpar()">🗑️ Limpar pedido</button>
   </div>
 </aside>
-<button id="pedFab" onclick="pedAbrir()">🧪 Pedido <span class="pf-n">0</span></button>
+      </div>
+      <div id="igeLista" style="padding:0 16px 24px"></div>
+    </div>
+  </div>
 
   <div class="page" id="page-mais">
     <div style="padding:16px 16px 8px">
@@ -7093,14 +7090,24 @@ function pedAdd(cod){
   if(it.bloqueado) return;
   if(_ped.some(function(p){return p.c===cod;})){ pedAbrir(); return; }
   _ped.push({c:it.c,n:it.n});
-  igeRender(); pedRender(); pedAbrir();
+  igeRender(); pedRender();
   try{ toast('🧪','Adicionado: '+it.c); }catch(e){}
 }
 function pedRemove(cod){ _ped=_ped.filter(function(p){return p.c!==cod;}); igeRender(); pedRender(); }
 function pedLimpar(){ if(!_ped.length) return; if(!confirm('Limpar todo o pedido?')) return; _ped=[]; igeRender(); pedRender(); }
 
-function pedAbrir(){ document.getElementById('pedDrawer').classList.add('open'); document.getElementById('pedBackdrop').classList.add('open'); }
-function pedFechar(){ document.getElementById('pedDrawer').classList.remove('open'); document.getElementById('pedBackdrop').classList.remove('open'); }
+function pedAbrir(){
+  var d=document.getElementById('pedDrawer'), b=document.getElementById('pedOpenInline');
+  if(!d) return;
+  d.classList.add('open');
+  if(b) b.setAttribute('aria-expanded','true');
+  d.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function pedFechar(){
+  var d=document.getElementById('pedDrawer'), b=document.getElementById('pedOpenInline');
+  if(d) d.classList.remove('open');
+  if(b) b.setAttribute('aria-expanded','false');
+}
 
 function pedTexto(){
   if(!_ped.length) return '';
@@ -7188,8 +7195,8 @@ function pedRender(){
        '<button onclick="pnlExcluir('+i+')" style="color:#c0392b">Excluir</button></div></div>';
   });
   b.innerHTML=h;
-  var f=document.getElementById('pedFab');
-  if(f){ f.style.display = _ped.length ? 'inline-flex' : 'none'; var n=f.querySelector('.pf-n'); if(n) n.textContent=_ped.length; }
+  var f=document.getElementById('pedOpenInline');
+  if(f){ var n=f.querySelector('.pf-n'); if(n) n.textContent=_ped.length; }
 }
 
 function labInit(){
