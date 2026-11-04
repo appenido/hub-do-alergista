@@ -1,7 +1,7 @@
 // Rede primeiro para arquivos estáticos; APIs e dados dinâmicos nunca entram no cache.
-const CACHE = 'hub-alergista-v1159-estabilidade';
-const ASSETS = ['./', 'index.html', 'ige-clinica.js?v=20261103-1', 'uas7-paciente.html', 'snot22-paciente.html', 'uct-paciente.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
-const PATHS = new Set(['/', '/index.html', '/ige-clinica.js', '/uas7-paciente.html', '/snot22-paciente.html', '/uct-paciente.html', '/manifest.json', '/icon-192.png', '/icon-512.png']);
+const CACHE = 'hub-alergista-v1160-privacidade';
+const ASSETS = ['./', 'index.html', 'ige-clinica.js?v=20261103-1', 'manifest.json', 'icon-192.png', 'icon-512.png'];
+const PATHS = new Set(['/', '/index.html', '/ige-clinica.js', '/manifest.json', '/icon-192.png', '/icon-512.png']);
 
 self.addEventListener('install', event => {
   self.skipWaiting();
