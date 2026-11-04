@@ -365,7 +365,8 @@ async function consultarPedidos(){
 // Limpa apenas registros clínicos remanescentes de versões anteriores do Hub.
 function limparDadosClinicosRemanescentes(){
   var exatos=['vacPacientes','igPacientes','hub_uas7_hist','hub_uct_hist',
-    'hub_snot22_hist','hub_score_hist','hub_pacientes','hub_clinical_sessions'];
+    'hub_snot22_hist','hub_score_hist','hub_pacientes','hub_clinical_sessions',
+    'hub_custom_prompts'];
   function limpar(storage){
     try{
       exatos.forEach(k=>storage.removeItem(k));
