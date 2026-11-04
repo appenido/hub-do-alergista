@@ -6,11 +6,19 @@ const pagina=fs.readFileSync('index.html','utf8');
 const privacidade=fs.readFileSync('privacidade.html','utf8');
 const worker=fs.readFileSync('sw.js','utf8');
 
-assert(pagina.includes('id="btnEntrarHub"'));
-assert(pagina.includes('id="btnRecuperarSenha"'));
-assert(pagina.includes('id="btnReenviarConfirmacao"'));
-assert(pagina.includes('id="btnCadastroAntigo"'));
-assert(pagina.includes('id="formRedefinirSenha"'));
+// O Hub pode funcionar sem tela de login; nesse modo não deve restar um bloqueio de autenticação.
+// Mantemos os testes da rotina de login quando disponível, para evitar regressões de privacidade.
+const loginNaInterface = pagina.includes('id="btnEntrarHub"');
+if (loginNaInterface) {
+  assert(pagina.includes('id="btnRecuperarSenha"'));
+  assert(pagina.includes('id="btnReenviarConfirmacao"'));
+  assert(pagina.includes('id="btnCadastroAntigo"'));
+  assert(pagina.includes('id="formRedefinirSenha"'));
+} else {
+  assert(!pagina.includes('id="loginSenha"'));
+  assert(!pagina.includes('id="authScreen"'));
+  assert(pagina.includes('id="page-dashboard"'));
+}
 assert(runtime.includes("window.redefinirSenhaHub"));
 assert(runtime.includes("window.reenviarConfirmacaoHub"));
 assert(runtime.includes("font-size:11.5px;line-height:1.4"));
