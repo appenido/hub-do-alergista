@@ -3251,17 +3251,9 @@ window._mostrarApp = function(){
           style="width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-size:13px;font-family:Manrope,sans-serif">
       </div>
 
-      <div style="padding:6px 16px 6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <span style="font-size:11px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:.06em">Rede privada</span>
-        <span style="font-size:10.5px;color:var(--gray-500)">Registro ANVISA — recomendação SBIm</span>
-      </div>
-      <div id="vacListaPriv" class="bio-grid" style="padding-top:2px"></div>
-
-      <div style="padding:18px 16px 6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-        <span style="font-size:11px;font-weight:800;color:#1e7a46;text-transform:uppercase;letter-spacing:.06em">Disponíveis no SUS</span>
-        <span style="font-size:10.5px;color:var(--gray-500)">Calendário Nacional de Vacinação 2026 — PNI/MS</span>
-      </div>
-      <div id="vacListaSUS" class="bio-grid" style="padding-top:2px"></div>
+      <div id="vacListaAll" style="padding:0 16px;display:flex;flex-direction:column;gap:8px"></div>
+      <div id="vacListaSUS" style="display:none"></div>
+      <div id="vacListaPriv" style="display:none"></div>
 
       <div style="margin:14px 16px 0;background:#f7fafb;border:1px solid var(--gray-100);border-radius:12px;padding:11px 13px;font-size:11px;color:var(--gray-500);line-height:1.55">
         Populações e esquemas do bloco SUS conforme a <b>Instrução Normativa do Calendário Nacional de Vacinação 2026</b> (PNI/Ministério da Saúde). Grupos especiais seguem o <b>Manual dos CRIE (2023)</b>. Recomendações clínicas das demais seções seguem a <b>SBIm</b>.
@@ -5206,22 +5198,24 @@ function vacRenderPacientes(filtro){
 }
 function vacRenderVacinas(filtro){
   var f=(filtro||'').toLowerCase().trim();
-  var sus=document.getElementById('vacListaSUS');
-  var priv=document.getElementById('vacListaPriv');
-  if(!sus||!priv) return;
-  sus.innerHTML=''; priv.innerHTML='';
+  var box=document.getElementById('vacListaAll');
+  if(!box) return;
+  box.innerHTML='';
   function linha(l,v){
     return '<tr><td style="padding:5px 8px 5px 0;color:var(--gray-500);font-weight:700;font-size:11.5px;white-space:nowrap;vertical-align:top">'+l+'</td>'
       +'<td style="padding:5px 0;color:var(--navy);font-size:12px;line-height:1.5">'+v+'</td></tr>';
   }
-  VAC_CATALOGO.filter(function(v){
+  var lista=VAC_CATALOGO.filter(function(v){
     return !f || (v.nome+' '+v.prot+' '+(v.comercial||'')+' '+(v.fabricante||'')).toLowerCase().indexOf(f)>=0;
-  }).forEach(function(v){
+  }).slice().sort(function(a,b){ return a.nome.localeCompare(b.nome,'pt-BR'); });
+  lista.forEach(function(v){
     var det=document.createElement('details');
     det.style.cssText='background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;overflow:hidden';
     var badge=v.sus
-      ? '<span style="font-size:9.5px;font-weight:800;background:#e6f7ed;color:#1e7a46;border-radius:6px;padding:2px 6px;letter-spacing:.04em">SUS</span>'
-      : '<span style="font-size:9.5px;font-weight:800;background:#eef2f7;color:var(--navy);border-radius:6px;padding:2px 6px;letter-spacing:.04em">PRIVADA</span>';
+      ? '<span style="display:inline-flex;align-items:center;gap:3px;font-size:9.5px;font-weight:800;background:#1e7a46;color:#fff;border-radius:7px;padding:2px 7px 2px 5px;letter-spacing:.03em">'
+        +'<svg width="11" height="11" viewBox="0 0 20 20" fill="none" style="flex-shrink:0"><circle cx="10" cy="10" r="9" stroke="#fff" stroke-width="2"/><path d="M10 5v10M5 10h10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>'
+        +' SUS</span>'
+      : '<span style="font-size:9.5px;font-weight:800;background:#1a3a6b;color:#fff;border-radius:7px;padding:2px 8px;letter-spacing:.03em">Particular</span>';
     det.innerHTML='<summary style="padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;list-style:none">'
       +'<span style="font-size:20px">'+(v.tipo.indexOf('Atenuada')>=0?'🧬':v.tipo.indexOf('monoclonal')>=0?'💡':'💉')+'</span>'
       +'<div style="flex:1"><div style="font-size:13px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:5px;flex-wrap:wrap">'+v.nome+' '+badge+'</div>'
@@ -5247,10 +5241,9 @@ function vacRenderVacinas(filtro){
         :'<span style="font-size:10px;color:var(--gray-500)">📋 Reg. ANVISA — fora do Calend\xe1rio Nacional</span>')
       +(v.sbim?'<a href="'+v.sbim+'" target="_blank" rel="noopener noreferrer" style="font-size:10.5px;font-weight:800;color:#1a5276;background:#eaf2fb;border-radius:7px;padding:4px 9px;text-decoration:none;border:1px solid #aed6f1">📚 SBIm →</a>':'')
       +'</div></div>';
-    (v.sus?sus:priv).appendChild(det);
+    box.appendChild(det);
   });
-  if(!sus.children.length) sus.innerHTML='<div style="color:var(--gray-500);font-size:12.5px;padding:4px 0">Nenhuma vacina encontrada.</div>';
-  if(!priv.children.length) priv.innerHTML='<div style="color:var(--gray-500);font-size:12.5px;padding:4px 0">Nenhuma vacina encontrada.</div>';
+  if(!lista.length) box.innerHTML='<div style="color:var(--gray-500);font-size:12.5px;padding:4px 0">Nenhuma vacina encontrada.</div>';
 }
 
 function igShowHub(){
