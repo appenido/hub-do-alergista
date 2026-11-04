@@ -912,6 +912,51 @@ _marcarGuiasPagas();
 }
 .pg-back:active{background:var(--gray-100);transform:scale(.985);}
 .pg-back .pgb-ch{font-size:17px;line-height:1;color:var(--teal-mid);}
+/* ═══ LABORATÓRIO · IgE ═══ */
+.lab-tabs{display:flex;gap:8px;padding:4px 16px 12px;overflow-x:auto;}
+.lab-tab{flex-shrink:0;background:#fff;border:1.5px solid var(--gray-100);color:var(--navy);border-radius:999px;padding:8px 16px;font-family:'Manrope',sans-serif;font-size:12.5px;font-weight:800;cursor:pointer;}
+.lab-tab.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+.lab-pane{display:none}.lab-pane.active{display:block}
+.lab-search{display:flex;align-items:center;gap:8px;background:var(--gray-50);border:1.5px solid var(--gray-100);border-radius:12px;padding:10px 13px;}
+.lab-search input{flex:1;border:none;outline:none;background:transparent;font-family:'Manrope',sans-serif;font-size:14px;color:var(--navy);}
+.lab-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.lab-chip{background:#fff;border:1.5px solid var(--gray-100);color:var(--navy);border-radius:999px;padding:5px 11px;font-family:'Manrope',sans-serif;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap}
+.lab-chip.active{background:var(--teal,#1a4a5c);color:#fff;border-color:var(--teal,#1a4a5c)}
+.ige-grp{font-size:11px;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.4px;margin:16px 0 7px}
+.ige-item{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid var(--gray-100);border-radius:11px;padding:10px 12px;margin-bottom:7px;cursor:pointer;transition:border-color .15s,background .15s}
+.ige-item:active{background:#f0fafa}
+.ige-item.inped{border-color:var(--teal-mid,#2e8b9e);background:#f0fafa}
+.ige-cod{flex-shrink:0;background:var(--navy);color:#fff;border-radius:7px;padding:5px 9px;font-size:11.5px;font-weight:800;min-width:46px;text-align:center}
+.ige-item.inped .ige-cod{background:var(--teal-mid,#2e8b9e)}
+.ige-nome{font-size:13px;font-weight:700;color:var(--navy);line-height:1.35}
+.ige-add{margin-left:auto;font-size:17px;color:var(--teal-mid,#2e8b9e);font-weight:800}
+/* Painel de pedido */
+#pedFab{position:fixed;right:14px;bottom:calc(var(--bottomnav-h) + 14px);z-index:1300;background:var(--navy);color:#fff;border:none;border-radius:999px;padding:13px 18px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.25);display:none;align-items:center;gap:8px}
+#pedFab .pf-n{background:var(--aqua,#7fd4cd);color:var(--navy);border-radius:999px;min-width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
+#pedDrawer{position:fixed;top:0;right:0;bottom:0;width:360px;max-width:88vw;background:#fff;z-index:1400;box-shadow:-6px 0 24px rgba(0,0,0,.18);transform:translateX(102%);transition:transform .22s ease;display:flex;flex-direction:column}
+#pedDrawer.open{transform:translateX(0)}
+#pedBackdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:1390;opacity:0;pointer-events:none;transition:opacity .2s}
+#pedBackdrop.open{opacity:1;pointer-events:auto}
+.ped-hdr{background:var(--navy);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px}
+.ped-hdr b{font-size:14px;font-weight:800;flex:1}
+.ped-x{background:transparent;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1}
+.ped-body{flex:1;overflow-y:auto;padding:14px 16px}
+.ped-row{display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--gray-100);padding:9px 0}
+.ped-row .ige-cod{background:var(--teal-mid,#2e8b9e)}
+.ped-row .pr-n{font-size:12.5px;font-weight:700;color:var(--navy);line-height:1.3;flex:1}
+.ped-del{background:transparent;border:none;color:#c0392b;font-size:16px;cursor:pointer}
+.ped-foot{border-top:1px solid var(--gray-100);padding:12px 16px;display:flex;flex-direction:column;gap:8px}
+.ped-btn{width:100%;border:none;border-radius:11px;padding:12px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:800;cursor:pointer}
+.ped-btn.p{background:var(--navy);color:#fff}
+.ped-btn.s{background:#fff;border:1.5px solid var(--gray-100);color:var(--navy)}
+.ped-vazio{text-align:center;color:var(--gray-500);font-size:12.5px;padding:30px 10px;line-height:1.6}
+.pnl-card{border:1.5px solid var(--gray-100);border-radius:11px;padding:10px 12px;margin-bottom:8px}
+.pnl-nome{font-size:13px;font-weight:800;color:var(--navy)}
+.pnl-meta{font-size:11px;color:var(--gray-500);margin-top:2px}
+.pnl-acts{display:flex;gap:6px;margin-top:8px}
+.pnl-acts button{flex:1;border:1.5px solid var(--gray-100);background:#fff;color:var(--navy);border-radius:8px;padding:7px;font-family:'Manrope',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer}
+@media(max-width:520px){#pedDrawer{width:100%;max-width:100%}}
+
 </style>
 <script>
 /* Endereço canônico — os espelhos antigos redirecionam para cá */
@@ -1053,6 +1098,7 @@ window._mostrarApp = function(){
       <div class="qcard" data-nav="imunoglobulinas"><div class="qi qi-navy">💧</div><div class="ql">Imunoglobulinas</div></div>
       <div class="qcard" data-nav="imunizacoes"><div class="qi qi-green">🛡️</div><div class="ql">Imunizações</div></div>
       <a class="qcard" href="https://portal.cfm.org.br/busca-medicos" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit"><div class="qi qi-green">🏥</div><div class="ql">Consultar CRM</div></a>
+      <div class="qcard" data-nav="laboratorio"><div class="qi qi-teal">🧪</div><div class="ql">Laboratório</div></div>
       <div class="qcard" data-nav="favoritos"><div class="qi qi-navy">⭐</div><div class="ql">Favoritos</div></div>
     </div>
 
@@ -3602,6 +3648,48 @@ window._mostrarApp = function(){
     </div>
     <div id="pacLista"><div style="font-size:13px;color:var(--gray-500);text-align:center;padding:18px">Carregando\u2026</div></div>
   </div>
+
+
+  <!-- ══ LABORATÓRIO ══ -->
+  <div class="page" id="page-laboratorio">
+    <div style="padding:16px 16px 8px">
+      <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px">
+        <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
+        Laboratório
+      </div>
+      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Catálogo de exames e montagem de pedidos</div>
+    </div>
+
+    <div class="lab-tabs">
+      <button class="lab-tab active" data-labtab="ige" onclick="labTab('ige')">IgE específica</button>
+    </div>
+
+    <div class="lab-pane active" id="labpane-ige">
+      <div style="padding:0 16px 10px">
+        <div class="lab-search">
+          <span style="color:var(--gray-500);font-size:14px">🔍</span>
+          <input id="igeBusca" type="text" placeholder="Buscar alérgeno, código ou nome científico…" oninput="igeRender()" autocomplete="off">
+          <button id="igeClear" onclick="document.getElementById('igeBusca').value='';igeRender();" style="display:none;border:none;background:transparent;font-size:16px;color:var(--gray-500);cursor:pointer">×</button>
+        </div>
+        <div class="lab-chips" id="igeChips"></div>
+        <div style="font-size:11px;color:var(--gray-500);margin-top:8px" id="igeContagem"></div>
+      </div>
+      <div id="igeLista" style="padding:0 16px 90px"></div>
+    </div>
+  </div>
+
+<!-- Painel lateral do pedido de IgE -->
+<div id="pedBackdrop" onclick="pedFechar()"></div>
+<aside id="pedDrawer">
+  <div class="ped-hdr"><span style="font-size:17px">🧪</span><b>Pedido de exames · IgE</b><button class="ped-x" onclick="pedFechar()">×</button></div>
+  <div class="ped-body" id="pedBody"></div>
+  <div class="ped-foot">
+    <button class="ped-btn p" onclick="pedCopiar()">📋 Copiar pedido</button>
+    <button class="ped-btn s" onclick="pedSalvarPainel()">💾 Salvar painel</button>
+    <button class="ped-btn s" onclick="pedLimpar()">🗑️ Limpar pedido</button>
+  </div>
+</aside>
+<button id="pedFab" onclick="pedAbrir()">🧪 Pedido <span class="pf-n">0</span></button>
 
   <div class="page" id="page-mais">
     <div style="padding:16px 16px 8px">
@@ -6458,7 +6546,557 @@ function _deletarPrompt(idx){
 
 /* ── NAVIGATION ── */
 window.crmInit = crmInit;
-var PAGE_TITLES={eaaci:'Protocolos EAACI',dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',imunizacoes:'Imunizações',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',scores:'Scores',pacientes:'Pacientes',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Meu perfil',alergonews:'Alergo News',jornal:'Alergia News',mais:'Mais'};
+/* ═══════════ LABORATÓRIO · IgE específica (catálogo ImmunoCAP / Phadia) ═══════════ */
+var IGE_CAT = [
+/* Ácaros */
+{c:'d1',n:'Dermatophagoides pteronyssinus',g:'Ácaros'},
+{c:'d2',n:'Dermatophagoides farinae',g:'Ácaros'},
+{c:'d70',n:'Acarus siro',g:'Ácaros'},
+{c:'d71',n:'Lepidoglyphus destructor',g:'Ácaros'},
+{c:'d72',n:'Tyrophagus putrescentiae',g:'Ácaros'},
+{c:'d73',n:'Glycyphagus domesticus',g:'Ácaros'},
+{c:'d74',n:'Euroglyphus maynei',g:'Ácaros'},
+{c:'d201',n:'Blomia tropicalis',g:'Ácaros'},
+{c:'h1',n:'Poeira doméstica (Greer)',g:'Ácaros'},
+{c:'h2',n:'Poeira doméstica (Hollister-Stier)',g:'Ácaros'},
+/* Epitélios e animais */
+{c:'e1',n:'Epitélio de gato',g:'Epitélios/Animais'},
+{c:'e2',n:'Epitélio de cão',g:'Epitélios/Animais'},
+{c:'e3',n:'Caspa de cavalo',g:'Epitélios/Animais'},
+{c:'e4',n:'Caspa de bovino',g:'Epitélios/Animais'},
+{c:'e5',n:'Caspa de cão',g:'Epitélios/Animais'},
+{c:'e6',n:'Epitélio de porquinho-da-índia',g:'Epitélios/Animais'},
+{c:'e7',n:'Excremento de pombo',g:'Epitélios/Animais'},
+{c:'e70',n:'Penas de ganso',g:'Epitélios/Animais'},
+{c:'e78',n:'Penas de periquito/calopsita',g:'Epitélios/Animais'},
+{c:'e81',n:'Epitélio de ovelha',g:'Epitélios/Animais'},
+{c:'e82',n:'Epitélio de coelho',g:'Epitélios/Animais'},
+{c:'e83',n:'Epitélio de porco',g:'Epitélios/Animais'},
+{c:'e84',n:'Epitélio de hamster',g:'Epitélios/Animais'},
+{c:'e85',n:'Penas de galinha',g:'Epitélios/Animais'},
+{c:'e86',n:'Penas de pato',g:'Epitélios/Animais'},
+{c:'e87',n:'Epitélio de rato (Rattus)',g:'Epitélios/Animais'},
+{c:'e88',n:'Epitélio de camundongo',g:'Epitélios/Animais'},
+{c:'e89',n:'Penas de peru',g:'Epitélios/Animais'},
+{c:'e91',n:'Penas de canário',g:'Epitélios/Animais'},
+{c:'e201',n:'Penas de canário (soro)',g:'Epitélios/Animais'},
+/* Pólens – gramíneas */
+{c:'g1',n:'Capim-dos-pomares (Anthoxanthum odoratum)',g:'Pólens · Gramíneas'},
+{c:'g2',n:'Capim-das-bermudas (Cynodon dactylon)',g:'Pólens · Gramíneas'},
+{c:'g3',n:'Capim-dos-prados (Dactylis glomerata)',g:'Pólens · Gramíneas'},
+{c:'g4',n:'Festuca (Festuca elatior)',g:'Pólens · Gramíneas'},
+{c:'g5',n:'Azevém (Lolium perenne)',g:'Pólens · Gramíneas'},
+{c:'g6',n:'Rabo-de-gato (Phleum pratense)',g:'Pólens · Gramíneas'},
+{c:'g7',n:'Caniço (Phragmites communis)',g:'Pólens · Gramíneas'},
+{c:'g8',n:'Capim-dos-campos (Poa pratensis)',g:'Pólens · Gramíneas'},
+{c:'g9',n:'Capim-rabo-de-raposa (Holcus lanatus)',g:'Pólens · Gramíneas'},
+{c:'g10',n:'Sorgo (Sorghum halepense)',g:'Pólens · Gramíneas'},
+{c:'g11',n:'Bromus inermis',g:'Pólens · Gramíneas'},
+{c:'g12',n:'Centeio cultivado (Secale cereale)',g:'Pólens · Gramíneas'},
+{c:'g13',n:'Agrostis (Agrostis stolonifera)',g:'Pólens · Gramíneas'},
+{c:'g14',n:'Aveia cultivada (Avena sativa)',g:'Pólens · Gramíneas'},
+{c:'g15',n:'Trigo cultivado (Triticum sativum)',g:'Pólens · Gramíneas'},
+{c:'g16',n:'Capim-cevadinha (Lolium multiflorum)',g:'Pólens · Gramíneas'},
+{c:'g17',n:'Capim-bahia (Paspalum notatum)',g:'Pólens · Gramíneas'},
+{c:'g70',n:'Capim-de-rhodes (Chloris gayana)',g:'Pólens · Gramíneas'},
+{c:'g202',n:'Cana-de-açúcar (Saccharum officinarum)',g:'Pólens · Gramíneas'},
+/* Pólens – ervas */
+{c:'w1',n:'Ambrósia (Ambrosia elatior)',g:'Pólens · Ervas'},
+{c:'w2',n:'Ambrosia psilostachya',g:'Pólens · Ervas'},
+{c:'w3',n:'Ambrosia trifida',g:'Pólens · Ervas'},
+{c:'w4',n:'Xanthium commune',g:'Pólens · Ervas'},
+{c:'w5',n:'Artemisia absinthium',g:'Pólens · Ervas'},
+{c:'w6',n:'Artemisia vulgaris (losna)',g:'Pólens · Ervas'},
+{c:'w7',n:'Margarida (Leucanthemum vulgare)',g:'Pólens · Ervas'},
+{c:'w8',n:'Dente-de-leão (Taraxacum vulgare)',g:'Pólens · Ervas'},
+{c:'w9',n:'Tanchagem (Plantago lanceolata)',g:'Pólens · Ervas'},
+{c:'w10',n:'Erva-de-santiago (Chenopodium album)',g:'Pólens · Ervas'},
+{c:'w11',n:'Salsola kali',g:'Pólens · Ervas'},
+{c:'w12',n:'Vara-de-ouro (Solidago virgaurea)',g:'Pólens · Ervas'},
+{c:'w13',n:'Xanthium strumarium',g:'Pólens · Ervas'},
+{c:'w14',n:'Caruru (Amaranthus retroflexus)',g:'Pólens · Ervas'},
+{c:'w15',n:'Atriplex lentiformis',g:'Pólens · Ervas'},
+{c:'w18',n:'Azeda (Rumex acetosella)',g:'Pólens · Ervas'},
+{c:'w19',n:'Parietaria officinalis',g:'Pólens · Ervas'},
+{c:'w20',n:'Urtiga (Urtica dioica)',g:'Pólens · Ervas'},
+{c:'w21',n:'Parietaria judaica',g:'Pólens · Ervas'},
+{c:'w22',n:'Mercurialis annua',g:'Pólens · Ervas'},
+{c:'w23',n:'Girassol (Helianthus annuus)',g:'Pólens · Ervas'},
+{c:'w204',n:'Ricinus communis (mamona)',g:'Pólens · Ervas'},
+/* Pólens – árvores */
+{c:'t1',n:'Bordo/ácer (Acer negundo)',g:'Pólens · Árvores'},
+{c:'t2',n:'Amieiro (Alnus incana)',g:'Pólens · Árvores'},
+{c:'t3',n:'Bétula (Betula verrucosa)',g:'Pólens · Árvores'},
+{c:'t4',n:'Aveleira (Corylus avellana)',g:'Pólens · Árvores'},
+{c:'t5',n:'Faia (Fagus grandifolia)',g:'Pólens · Árvores'},
+{c:'t6',n:'Cedro-da-montanha (Juniperus sabinoides)',g:'Pólens · Árvores'},
+{c:'t7',n:'Carvalho (Quercus alba)',g:'Pólens · Árvores'},
+{c:'t8',n:'Olmo (Ulmus americana)',g:'Pólens · Árvores'},
+{c:'t9',n:'Oliveira (Olea europaea)',g:'Pólens · Árvores'},
+{c:'t10',n:'Nogueira (Juglans californica)',g:'Pólens · Árvores'},
+{c:'t11',n:'Plátano (Platanus acerifolia)',g:'Pólens · Árvores'},
+{c:'t12',n:'Salgueiro (Salix caprea)',g:'Pólens · Árvores'},
+{c:'t14',n:'Álamo (Populus deltoides)',g:'Pólens · Árvores'},
+{c:'t15',n:'Freixo (Fraxinus americana)',g:'Pólens · Árvores'},
+{c:'t16',n:'Pinheiro (Pinus strobus)',g:'Pólens · Árvores'},
+{c:'t17',n:'Cryptomeria japonica',g:'Pólens · Árvores'},
+{c:'t18',n:'Eucalipto (Eucalyptus spp.)',g:'Pólens · Árvores'},
+{c:'t19',n:'Acácia (Acacia longifolia)',g:'Pólens · Árvores'},
+{c:'t21',n:'Melaleuca (Melaleuca leucadendron)',g:'Pólens · Árvores'},
+{c:'t23',n:'Cipreste (Cupressus sempervirens)',g:'Pólens · Árvores'},
+{c:'t70',n:'Amoreira (Morus alba)',g:'Pólens · Árvores'},
+{c:'t71',n:'Tamarix articulata',g:'Pólens · Árvores'},
+{c:'t73',n:'Casuarina equisetifolia',g:'Pólens · Árvores'},
+{c:'t203',n:'Palmeira-real (Roystonea regia)',g:'Pólens · Árvores'},
+/* Fungos */
+{c:'m1',n:'Penicillium chrysogenum (notatum)',g:'Fungos'},
+{c:'m2',n:'Cladosporium herbarum',g:'Fungos'},
+{c:'m3',n:'Aspergillus fumigatus',g:'Fungos'},
+{c:'m4',n:'Mucor racemosus',g:'Fungos'},
+{c:'m5',n:'Candida albicans',g:'Fungos'},
+{c:'m6',n:'Alternaria alternata',g:'Fungos'},
+{c:'m7',n:'Botrytis cinerea',g:'Fungos'},
+{c:'m8',n:'Fusarium moniliforme',g:'Fungos'},
+{c:'m9',n:'Trichophyton rubrum',g:'Fungos'},
+{c:'m11',n:'Rhizopus nigricans',g:'Fungos'},
+{c:'m12',n:'Aureobasidium pullulans',g:'Fungos'},
+{c:'m14',n:'Epicoccum purpurascens',g:'Fungos'},
+{c:'m16',n:'Stemphylium herbarum',g:'Fungos'},
+{c:'m70',n:'Malassezia spp.',g:'Fungos'},
+{c:'m207',n:'Aspergillus niger',g:'Fungos'},
+{c:'m227',n:'Aspergillus flavus',g:'Fungos'},
+/* Alimentos – leite e ovo */
+{c:'f1',n:'Clara de ovo',g:'Alimentos · Leite e ovo'},
+{c:'f2',n:'Leite de vaca',g:'Alimentos · Leite e ovo'},
+{c:'f75',n:'Gema de ovo',g:'Alimentos · Leite e ovo'},
+{c:'f76',n:'Alfa-lactoalbumina',g:'Alimentos · Leite e ovo'},
+{c:'f77',n:'Beta-lactoglobulina',g:'Alimentos · Leite e ovo'},
+{c:'f78',n:'Caseína',g:'Alimentos · Leite e ovo'},
+{c:'f231',n:'Leite fervido',g:'Alimentos · Leite e ovo'},
+{c:'f232',n:'Ovalbumina',g:'Alimentos · Leite e ovo'},
+{c:'f233',n:'Ovomucoide',g:'Alimentos · Leite e ovo'},
+{c:'f245',n:'Ovo inteiro',g:'Alimentos · Leite e ovo'},
+{c:'f300',n:'Leite de cabra',g:'Alimentos · Leite e ovo'},
+{c:'f325',n:'Leite de ovelha',g:'Alimentos · Leite e ovo'},
+/* Alimentos – cereais */
+{c:'f4',n:'Trigo',g:'Alimentos · Cereais'},
+{c:'f5',n:'Centeio',g:'Alimentos · Cereais'},
+{c:'f6',n:'Cevada',g:'Alimentos · Cereais'},
+{c:'f7',n:'Aveia',g:'Alimentos · Cereais'},
+{c:'f8',n:'Milho',g:'Alimentos · Cereais'},
+{c:'f9',n:'Arroz',g:'Alimentos · Cereais'},
+{c:'f10',n:'Gergelim',g:'Alimentos · Cereais'},
+{c:'f11',n:'Trigo-sarraceno',g:'Alimentos · Cereais'},
+{c:'f55',n:'Painço',g:'Alimentos · Cereais'},
+{c:'f79',n:'Glúten (gliadina)',g:'Alimentos · Cereais'},
+{c:'f224',n:'Papoula (semente)',g:'Alimentos · Cereais'},
+{c:'f335',n:'Quinoa',g:'Alimentos · Cereais'},
+/* Alimentos – leguminosas e oleaginosas */
+{c:'f12',n:'Ervilha',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f13',n:'Amendoim',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f14',n:'Soja',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f15',n:'Feijão branco',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f17',n:'Avelã',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f18',n:'Castanha-do-pará',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f20',n:'Amêndoa',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f36',n:'Coco',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f202',n:'Castanha-de-caju',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f203',n:'Pistache',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f235',n:'Lentilha',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f256',n:'Noz (Juglans)',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f287',n:'Feijão vermelho',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f293',n:'Grão-de-bico',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f299',n:'Noz-pecã',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f315',n:'Feijão verde',g:'Alimentos · Leguminosas e oleaginosas'},
+{c:'f360',n:'Macadâmia',g:'Alimentos · Leguminosas e oleaginosas'},
+/* Alimentos – peixes e frutos do mar */
+{c:'f3',n:'Bacalhau',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f23',n:'Caranguejo',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f24',n:'Camarão',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f37',n:'Mexilhão azul',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f40',n:'Atum',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f41',n:'Salmão',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f50',n:'Cavala',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f58',n:'Polvo',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f59',n:'Lula',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f61',n:'Sardinha',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f80',n:'Lagosta',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f204',n:'Truta',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f206',n:'Anchova',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f207',n:'Vieira/ostra',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f290',n:'Ostra',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f303',n:'Linguado',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f312',n:'Pescada',g:'Alimentos · Peixes e frutos do mar'},
+{c:'f338',n:'Tilápia',g:'Alimentos · Peixes e frutos do mar'},
+/* Alimentos – carnes */
+{c:'f26',n:'Carne de porco',g:'Alimentos · Carnes'},
+{c:'f27',n:'Carne bovina',g:'Alimentos · Carnes'},
+{c:'f83',n:'Carne de frango',g:'Alimentos · Carnes'},
+{c:'f88',n:'Carne de carneiro',g:'Alimentos · Carnes'},
+{c:'f213',n:'Carne de coelho',g:'Alimentos · Carnes'},
+{c:'f284',n:'Carne de peru',g:'Alimentos · Carnes'},
+{c:'f321',n:'Carne de pato',g:'Alimentos · Carnes'},
+/* Alimentos – frutas */
+{c:'f25',n:'Tomate',g:'Alimentos · Frutas'},
+{c:'f31',n:'Cenoura',g:'Alimentos · Vegetais'},
+{c:'f33',n:'Laranja',g:'Alimentos · Frutas'},
+{c:'f44',n:'Morango',g:'Alimentos · Frutas'},
+{c:'f49',n:'Maçã',g:'Alimentos · Frutas'},
+{c:'f84',n:'Kiwi',g:'Alimentos · Frutas'},
+{c:'f87',n:'Melão',g:'Alimentos · Frutas'},
+{c:'f91',n:'Manga',g:'Alimentos · Frutas'},
+{c:'f92',n:'Banana',g:'Alimentos · Frutas'},
+{c:'f93',n:'Cacau',g:'Alimentos · Frutas'},
+{c:'f94',n:'Pera',g:'Alimentos · Frutas'},
+{c:'f95',n:'Pêssego',g:'Alimentos · Frutas'},
+{c:'f96',n:'Abacate',g:'Alimentos · Frutas'},
+{c:'f208',n:'Limão',g:'Alimentos · Frutas'},
+{c:'f209',n:'Toranja',g:'Alimentos · Frutas'},
+{c:'f210',n:'Abacaxi',g:'Alimentos · Frutas'},
+{c:'f237',n:'Damasco',g:'Alimentos · Frutas'},
+{c:'f242',n:'Cereja',g:'Alimentos · Frutas'},
+{c:'f255',n:'Ameixa',g:'Alimentos · Frutas'},
+{c:'f259',n:'Uva',g:'Alimentos · Frutas'},
+{c:'f289',n:'Caqui',g:'Alimentos · Frutas'},
+{c:'f291',n:'Melancia',g:'Alimentos · Frutas'},
+{c:'f294',n:'Mamão',g:'Alimentos · Frutas'},
+{c:'f301',n:'Figo',g:'Alimentos · Frutas'},
+{c:'f343',n:'Framboesa',g:'Alimentos · Frutas'},
+{c:'f402',n:'Maracujá',g:'Alimentos · Frutas'},
+/* Alimentos – vegetais e temperos */
+{c:'f35',n:'Batata',g:'Alimentos · Vegetais'},
+{c:'f47',n:'Alho',g:'Alimentos · Vegetais'},
+{c:'f48',n:'Cebola',g:'Alimentos · Vegetais'},
+{c:'f85',n:'Aipo',g:'Alimentos · Vegetais'},
+{c:'f86',n:'Salsa',g:'Alimentos · Vegetais'},
+{c:'f89',n:'Mostarda',g:'Alimentos · Vegetais'},
+{c:'f216',n:'Repolho',g:'Alimentos · Vegetais'},
+{c:'f214',n:'Espinafre',g:'Alimentos · Vegetais'},
+{c:'f218',n:'Pimentão',g:'Alimentos · Vegetais'},
+{c:'f225',n:'Abóbora',g:'Alimentos · Vegetais'},
+{c:'f244',n:'Pepino',g:'Alimentos · Vegetais'},
+{c:'f260',n:'Brócolis',g:'Alimentos · Vegetais'},
+{c:'f261',n:'Aspargo',g:'Alimentos · Vegetais'},
+{c:'f262',n:'Berinjela',g:'Alimentos · Vegetais'},
+{c:'f265',n:'Cominho',g:'Alimentos · Vegetais'},
+{c:'f277',n:'Endro',g:'Alimentos · Vegetais'},
+{c:'f278',n:'Louro',g:'Alimentos · Vegetais'},
+{c:'f280',n:'Pimenta-preta',g:'Alimentos · Vegetais'},
+{c:'f281',n:'Curry',g:'Alimentos · Vegetais'},
+{c:'f317',n:'Coentro',g:'Alimentos · Vegetais'},
+{c:'f332',n:'Alface',g:'Alimentos · Vegetais'},
+/* Alimentos – outros */
+{c:'f45',n:'Levedura (Saccharomyces cerevisiae)',g:'Alimentos · Outros'},
+{c:'f82',n:'Queijo com mofo',g:'Alimentos · Outros'},
+{c:'f221',n:'Café',g:'Alimentos · Outros'},
+{c:'f222',n:'Chá',g:'Alimentos · Outros'},
+{c:'f247',n:'Mel',g:'Alimentos · Outros'},
+{c:'f403',n:'Gelatina bovina',g:'Alimentos · Outros'},
+/* Venenos e insetos */
+{c:'i1',n:'Veneno de abelha (Apis mellifera)',g:'Insetos e venenos'},
+{c:'i2',n:'Veneno de vespa comum (Dolichovespula)',g:'Insetos e venenos'},
+{c:'i3',n:'Veneno de vespa amarela (Vespula spp.)',g:'Insetos e venenos'},
+{c:'i4',n:'Veneno de Polistes spp.',g:'Insetos e venenos'},
+{c:'i5',n:'Veneno de Vespa crabro',g:'Insetos e venenos'},
+{c:'i6',n:'Barata (Blattella germanica)',g:'Insetos e venenos'},
+{c:'i8',n:'Mariposa (Bombyx mori)',g:'Insetos e venenos'},
+{c:'i70',n:'Formiga-lava-pé (Solenopsis invicta)',g:'Insetos e venenos'},
+{c:'i71',n:'Mosquito (Aedes communis)',g:'Insetos e venenos'},
+{c:'i73',n:'Larva de Chironomus',g:'Insetos e venenos'},
+{c:'i75',n:'Vespa-do-papel (Polistes dominulus)',g:'Insetos e venenos'},
+{c:'i204',n:'Tábano (Tabanus spp.)',g:'Insetos e venenos'},
+{c:'i206',n:'Barata (Periplaneta americana)',g:'Insetos e venenos'},
+/* Fármacos */
+{c:'c1',n:'Penicilloyl G',g:'Fármacos'},
+{c:'c2',n:'Penicilloyl V',g:'Fármacos'},
+{c:'c5',n:'Ampicilloyl',g:'Fármacos'},
+{c:'c6',n:'Amoxicilloyl',g:'Fármacos'},
+{c:'c7',n:'Cefaclor',g:'Fármacos'},
+{c:'c55',n:'Insulina humana',g:'Fármacos'},
+{c:'c70',n:'Insulina bovina',g:'Fármacos'},
+{c:'c71',n:'Insulina suína',g:'Fármacos'},
+{c:'c73',n:'Gelatina bovina (fármaco)',g:'Fármacos'},
+{c:'c74',n:'Quimopapaína',g:'Fármacos'},
+{c:'c82',n:'Succinilcolina',g:'Fármacos'},
+{c:'c204',n:'Morfina',g:'Fármacos'},
+{c:'c209',n:'Cefalosporina',g:'Fármacos'},
+/* Ocupacionais e diversos */
+{c:'k82',n:'Látex (Hevea brasiliensis)',g:'Ocupacionais e diversos'},
+{c:'k80',n:'Formaldeído / formalina',g:'Ocupacionais e diversos'},
+{c:'k81',n:'Alfa-amilase (Aspergillus oryzae)',g:'Ocupacionais e diversos'},
+{c:'k74',n:'Seda',g:'Ocupacionais e diversos'},
+{c:'k20',n:'Lã',g:'Ocupacionais e diversos'},
+{c:'k201',n:'Isocianato TDI',g:'Ocupacionais e diversos'},
+{c:'k202',n:'Isocianato MDI',g:'Ocupacionais e diversos'},
+{c:'k203',n:'Isocianato HDI',g:'Ocupacionais e diversos'},
+{c:'k71',n:'Algodão',g:'Ocupacionais e diversos'},
+{c:'k72',n:'Kapok',g:'Ocupacionais e diversos'},
+{c:'k84',n:'Semente de girassol',g:'Ocupacionais e diversos'},
+{c:'o1',n:'Algodão (fibra)',g:'Ocupacionais e diversos'},
+{c:'o72',n:'Ascaris lumbricoides',g:'Parasitas'},
+{c:'p1',n:'Ascaris lumbricoides (parasita)',g:'Parasitas'},
+{c:'p2',n:'Echinococcus granulosus',g:'Parasitas'},
+{c:'p4',n:'Anisakis simplex',g:'Parasitas'},
+/* Componentes moleculares */
+{c:'rBet v 1',n:'Bétula — PR-10 (marcador genuíno)',g:'Componentes · Pólens'},
+{c:'rBet v 2',n:'Bétula — profilina (reação cruzada)',g:'Componentes · Pólens'},
+{c:'rPhl p 1',n:'Phleum pratense — beta-expansina',g:'Componentes · Pólens'},
+{c:'rPhl p 5b',n:'Phleum pratense — marcador genuíno',g:'Componentes · Pólens'},
+{c:'rPhl p 7',n:'Phleum pratense — polcalcina',g:'Componentes · Pólens'},
+{c:'rPhl p 12',n:'Phleum pratense — profilina',g:'Componentes · Pólens'},
+{c:'nOle e 1',n:'Oliveira — marcador genuíno',g:'Componentes · Pólens'},
+{c:'nArt v 1',n:'Artemisia — defensina (marcador genuíno)',g:'Componentes · Pólens'},
+{c:'nArt v 3',n:'Artemisia — LTP',g:'Componentes · Pólens'},
+{c:'rFel d 1',n:'Gato — uteroglobina (marcador genuíno)',g:'Componentes · Animais'},
+{c:'rFel d 2',n:'Gato — albumina sérica',g:'Componentes · Animais'},
+{c:'rFel d 4',n:'Gato — lipocalina',g:'Componentes · Animais'},
+{c:'rCan f 1',n:'Cão — lipocalina',g:'Componentes · Animais'},
+{c:'rCan f 2',n:'Cão — lipocalina',g:'Componentes · Animais'},
+{c:'nCan f 3',n:'Cão — albumina sérica',g:'Componentes · Animais'},
+{c:'rCan f 5',n:'Cão — arginina esterase prostática',g:'Componentes · Animais'},
+{c:'rEqu c 1',n:'Cavalo — lipocalina',g:'Componentes · Animais'},
+{c:'rMus m 1',n:'Camundongo — lipocalina urinária',g:'Componentes · Animais'},
+{c:'rBos d 4',n:'Alfa-lactoalbumina',g:'Componentes · Alimentos'},
+{c:'rBos d 5',n:'Beta-lactoglobulina',g:'Componentes · Alimentos'},
+{c:'nBos d 8',n:'Caseína',g:'Componentes · Alimentos'},
+{c:'nBos d lactoferrin',n:'Lactoferrina bovina',g:'Componentes · Alimentos'},
+{c:'nGal d 1',n:'Ovomucoide (termoestável)',g:'Componentes · Alimentos'},
+{c:'nGal d 2',n:'Ovalbumina',g:'Componentes · Alimentos'},
+{c:'nGal d 3',n:'Conalbumina',g:'Componentes · Alimentos'},
+{c:'nGal d 4',n:'Lisozima',g:'Componentes · Alimentos'},
+{c:'rAra h 1',n:'Amendoim — vicilina (risco sistêmico)',g:'Componentes · Alimentos'},
+{c:'rAra h 2',n:'Amendoim — conglutina (melhor preditor)',g:'Componentes · Alimentos'},
+{c:'rAra h 3',n:'Amendoim — glicinina',g:'Componentes · Alimentos'},
+{c:'rAra h 6',n:'Amendoim — conglutina 2S',g:'Componentes · Alimentos'},
+{c:'rAra h 8',n:'Amendoim — PR-10 (reação leve/oral)',g:'Componentes · Alimentos'},
+{c:'rAra h 9',n:'Amendoim — LTP',g:'Componentes · Alimentos'},
+{c:'rCor a 1',n:'Avelã — PR-10',g:'Componentes · Alimentos'},
+{c:'rCor a 8',n:'Avelã — LTP',g:'Componentes · Alimentos'},
+{c:'rCor a 9',n:'Avelã — legumina (risco sistêmico)',g:'Componentes · Alimentos'},
+{c:'rCor a 14',n:'Avelã — albumina 2S (risco sistêmico)',g:'Componentes · Alimentos'},
+{c:'rAna o 3',n:'Castanha-de-caju — albumina 2S',g:'Componentes · Alimentos'},
+{c:'rJug r 1',n:'Noz — albumina 2S',g:'Componentes · Alimentos'},
+{c:'rBer e 1',n:'Castanha-do-pará — albumina 2S',g:'Componentes · Alimentos'},
+{c:'rPru p 1',n:'Pêssego — PR-10',g:'Componentes · Alimentos'},
+{c:'rPru p 3',n:'Pêssego — LTP (risco sistêmico)',g:'Componentes · Alimentos'},
+{c:'rPru p 4',n:'Pêssego — profilina',g:'Componentes · Alimentos'},
+{c:'rMal d 1',n:'Maçã — PR-10',g:'Componentes · Alimentos'},
+{c:'rMal d 3',n:'Maçã — LTP',g:'Componentes · Alimentos'},
+{c:'rGly m 4',n:'Soja — PR-10',g:'Componentes · Alimentos'},
+{c:'rGly m 5',n:'Soja — beta-conglicinina',g:'Componentes · Alimentos'},
+{c:'rGly m 6',n:'Soja — glicinina',g:'Componentes · Alimentos'},
+{c:'rTri a 19',n:'Trigo — ômega-5-gliadina (WDEIA)',g:'Componentes · Alimentos'},
+{c:'rTri a 14',n:'Trigo — LTP',g:'Componentes · Alimentos'},
+{c:'rSes i 1',n:'Gergelim — albumina 2S',g:'Componentes · Alimentos'},
+{c:'rPen a 1',n:'Camarão — tropomiosina',g:'Componentes · Alimentos'},
+{c:'rPen m 1',n:'Camarão — tropomiosina',g:'Componentes · Alimentos'},
+{c:'rPen m 2',n:'Camarão — arginina quinase',g:'Componentes · Alimentos'},
+{c:'rPen m 4',n:'Camarão — proteína ligadora de cálcio',g:'Componentes · Alimentos'},
+{c:'rGad c 1',n:'Bacalhau — parvalbumina',g:'Componentes · Alimentos'},
+{c:'rCyp c 1',n:'Carpa — parvalbumina',g:'Componentes · Alimentos'},
+{c:'nAct d 1',n:'Kiwi — actinidina',g:'Componentes · Alimentos'},
+{c:'alpha-Gal',n:'Galactose-alfa-1,3-galactose (síndrome alfa-gal)',g:'Componentes · Alimentos'},
+{c:'nBos d 6',n:'Albumina sérica bovina',g:'Componentes · Alimentos'},
+{c:'rApi m 1',n:'Abelha — fosfolipase A2 (marcador genuíno)',g:'Componentes · Venenos'},
+{c:'rApi m 10',n:'Abelha — icarapina',g:'Componentes · Venenos'},
+{c:'rVes v 1',n:'Vespula — fosfolipase A1',g:'Componentes · Venenos'},
+{c:'rVes v 5',n:'Vespula — antígeno 5 (marcador genuíno)',g:'Componentes · Venenos'},
+{c:'rPol d 5',n:'Polistes — antígeno 5',g:'Componentes · Venenos'},
+{c:'MUXF3',n:'CCD — determinante carboidrato de reação cruzada',g:'Componentes · Venenos'},
+{c:'rHev b 1',n:'Látex — fator de elongação',g:'Componentes · Látex'},
+{c:'rHev b 3',n:'Látex — proteína de partícula',g:'Componentes · Látex'},
+{c:'rHev b 5',n:'Látex — marcador de profissionais de saúde',g:'Componentes · Látex'},
+{c:'rHev b 6.01',n:'Látex — heveína (marcador genuíno)',g:'Componentes · Látex'},
+{c:'rHev b 8',n:'Látex — profilina (reação cruzada)',g:'Componentes · Látex'},
+{c:'rHev b 11',n:'Látex — quitinase classe I',g:'Componentes · Látex'},
+{c:'rAsp f 1',n:'Aspergillus fumigatus — marcador ABPA',g:'Componentes · Fungos'},
+{c:'rAsp f 2',n:'Aspergillus fumigatus',g:'Componentes · Fungos'},
+{c:'rAsp f 3',n:'Aspergillus fumigatus',g:'Componentes · Fungos'},
+{c:'rAsp f 4',n:'Aspergillus fumigatus — marcador ABPA',g:'Componentes · Fungos'},
+{c:'rAsp f 6',n:'Aspergillus fumigatus — MnSOD',g:'Componentes · Fungos'},
+{c:'rAlt a 1',n:'Alternaria alternata — marcador genuíno',g:'Componentes · Fungos'},
+{c:'rDer p 1',n:'D. pteronyssinus — cisteíno-protease',g:'Componentes · Ácaros'},
+{c:'rDer p 2',n:'D. pteronyssinus — NPC2',g:'Componentes · Ácaros'},
+{c:'rDer p 10',n:'D. pteronyssinus — tropomiosina',g:'Componentes · Ácaros'},
+{c:'rDer p 23',n:'D. pteronyssinus — peritrófico',g:'Componentes · Ácaros'},
+{c:'rDer f 1',n:'D. farinae — cisteíno-protease',g:'Componentes · Ácaros'},
+{c:'rDer f 2',n:'D. farinae — NPC2',g:'Componentes · Ácaros'},
+{c:'rBlo t 5',n:'Blomia tropicalis — marcador genuíno',g:'Componentes · Ácaros'},
+/* Painéis e testes de triagem */
+{c:'Phadiatop',n:'Triagem de atopia respiratória (inalantes)',g:'Painéis e triagem'},
+{c:'Phadiatop Infant',n:'Triagem de atopia em lactentes (inalantes + alimentos)',g:'Painéis e triagem'},
+{c:'fx5',n:'Painel alimentar pediátrico (ovo, leite, peixe, trigo, amendoim, soja)',g:'Painéis e triagem'},
+{c:'fx1',n:'Painel de oleaginosas (amendoim, avelã, castanha-do-pará, amêndoa, coco)',g:'Painéis e triagem'},
+{c:'fx2',n:'Painel de frutos do mar (camarão, lagosta, mexilhão, atum, salmão)',g:'Painéis e triagem'},
+{c:'fx3',n:'Painel de cereais (trigo, aveia, milho, gergelim, trigo-sarraceno)',g:'Painéis e triagem'},
+{c:'gx1',n:'Painel de gramíneas',g:'Painéis e triagem'},
+{c:'gx2',n:'Painel de gramíneas II',g:'Painéis e triagem'},
+{c:'wx1',n:'Painel de ervas daninhas',g:'Painéis e triagem'},
+{c:'tx5',n:'Painel de árvores',g:'Painéis e triagem'},
+{c:'mx1',n:'Painel de fungos',g:'Painéis e triagem'},
+{c:'mx2',n:'Painel de fungos II',g:'Painéis e triagem'},
+{c:'dx1',n:'Painel de ácaros',g:'Painéis e triagem'},
+{c:'ex1',n:'Painel de epitélios (gato, cão, cavalo, bovino)',g:'Painéis e triagem'},
+{c:'ex2',n:'Painel de penas',g:'Painéis e triagem'},
+{c:'ix1',n:'Painel de venenos de himenópteros',g:'Painéis e triagem'},
+{c:'IgE total',n:'IgE sérica total',g:'Painéis e triagem'},
+{c:'Triptase',n:'Triptase sérica basal',g:'Painéis e triagem'},
+{c:'ECP',n:'Proteína catiônica eosinofílica',g:'Painéis e triagem'},
+{c:'ISAC/ALEX',n:'Microarray multiplex de componentes moleculares',g:'Painéis e triagem'}
+];
+
+/* ═══════════ LABORATÓRIO · IgE específica ═══════════ */
+var _ped = [];           // pedido atual
+var _igeFiltroGrupo = '';
+var LAB_PNL_KEY = 'hub_ige_paineis';
+
+function labTab(t){
+  document.querySelectorAll('.lab-tab').forEach(function(b){b.classList.toggle('active', b.getAttribute('data-labtab')===t);});
+  document.querySelectorAll('.lab-pane').forEach(function(p){p.classList.toggle('active', p.id==='labpane-'+t);});
+}
+
+function _igeGrupos(){
+  var g=[],s={};
+  IGE_CAT.forEach(function(i){ if(!s[i.g]){s[i.g]=1;g.push(i.g);} });
+  return g;
+}
+function _norm(s){ return (s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
+
+function igeRenderChips(){
+  var el=document.getElementById('igeChips'); if(!el) return;
+  var h='<button class="lab-chip'+(_igeFiltroGrupo?'':' active')+'" onclick="igeGrupo(\'\')">Todos</button>';
+  _igeGrupos().forEach(function(g){
+    h+='<button class="lab-chip'+(_igeFiltroGrupo===g?' active':'')+'" onclick="igeGrupo(\''+g.replace(/'/g,"\\'")+'\')">'+g+'</button>';
+  });
+  el.innerHTML=h;
+}
+function igeGrupo(g){ _igeFiltroGrupo = (_igeFiltroGrupo===g?'':g); igeRenderChips(); igeRender(); }
+
+function igeRender(){
+  var inp=document.getElementById('igeBusca'); if(!inp) return;
+  var q=_norm(inp.value.trim());
+  var cl=document.getElementById('igeClear'); if(cl) cl.style.display = inp.value ? 'block':'none';
+  var lista=IGE_CAT.filter(function(i){
+    if(_igeFiltroGrupo && i.g!==_igeFiltroGrupo) return false;
+    if(!q) return true;
+    return _norm(i.c).indexOf(q)>=0 || _norm(i.n).indexOf(q)>=0 || _norm(i.g).indexOf(q)>=0;
+  });
+  var cont=document.getElementById('igeContagem');
+  if(cont) cont.textContent = lista.length+' exame'+(lista.length===1?'':'s')+' · toque no código para adicionar ao pedido';
+  var out='', grpAtual='';
+  if(!lista.length){
+    out='<div class="ped-vazio">Nenhum alérgeno encontrado.<br>Tente outro termo (ex.: <b>ácaro</b>, <b>f13</b>, <b>Ara h 2</b>, <b>camarão</b>).</div>';
+  } else {
+    lista.forEach(function(i){
+      if(i.g!==grpAtual){ grpAtual=i.g; out+='<div class="ige-grp">'+grpAtual+'</div>'; }
+      var inped=_ped.some(function(p){return p.c===i.c;});
+      out+='<div class="ige-item'+(inped?' inped':'')+'" onclick="pedAdd(\''+i.c.replace(/'/g,"\\'")+'\')">'+
+           '<span class="ige-cod">'+i.c+'</span><span class="ige-nome">'+i.n+'</span>'+
+           '<span class="ige-add">'+(inped?'✓':'+')+'</span></div>';
+    });
+  }
+  document.getElementById('igeLista').innerHTML=out;
+}
+
+function pedAdd(cod){
+  var it=IGE_CAT.filter(function(i){return i.c===cod;})[0]; if(!it) return;
+  if(_ped.some(function(p){return p.c===cod;})){ pedAbrir(); return; }
+  _ped.push({c:it.c,n:it.n});
+  igeRender(); pedRender(); pedAbrir();
+  try{ toast('🧪','Adicionado: '+it.c); }catch(e){}
+}
+function pedRemove(cod){ _ped=_ped.filter(function(p){return p.c!==cod;}); igeRender(); pedRender(); }
+function pedLimpar(){ if(!_ped.length) return; if(!confirm('Limpar todo o pedido?')) return; _ped=[]; igeRender(); pedRender(); }
+
+function pedAbrir(){ document.getElementById('pedDrawer').classList.add('open'); document.getElementById('pedBackdrop').classList.add('open'); }
+function pedFechar(){ document.getElementById('pedDrawer').classList.remove('open'); document.getElementById('pedBackdrop').classList.remove('open'); }
+
+function pedTexto(){
+  if(!_ped.length) return '';
+  var l=['Solicito dosagem de IgE específica:',''];
+  _ped.forEach(function(p){ l.push('• '+p.c+' — '+p.n); });
+  return l.join('\n');
+}
+function pedCopiar(){
+  var t=pedTexto();
+  if(!t){ alert('O pedido está vazio.'); return; }
+  var done=function(){ try{ toast('📋','Pedido copiado ('+_ped.length+' exames)'); }catch(e){ alert('Pedido copiado.'); } };
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(done).catch(function(){_pedCopiaFallback(t,done);}); }
+  else _pedCopiaFallback(t,done);
+}
+function _pedCopiaFallback(t,cb){
+  var ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); cb(); }catch(e){ alert(t); }
+  document.body.removeChild(ta);
+}
+
+function _pnlLer(){ try{ return JSON.parse(localStorage.getItem(LAB_PNL_KEY)||'[]'); }catch(e){ return []; } }
+function _pnlGravar(a){ try{ localStorage.setItem(LAB_PNL_KEY, JSON.stringify(a)); }catch(e){} }
+
+function pedSalvarPainel(){
+  if(!_ped.length){ alert('Adicione exames antes de salvar o painel.'); return; }
+  var nome=prompt('Nome do painel (ex.: Rinite perene, Alergia alimentar infantil):','');
+  if(!nome) return;
+  nome=nome.trim(); if(!nome) return;
+  var a=_pnlLer();
+  var idx=-1; a.forEach(function(p,i){ if(p.nome.toLowerCase()===nome.toLowerCase()) idx=i; });
+  var reg={nome:nome, itens:_ped.slice(), data:new Date().toLocaleDateString('pt-BR')};
+  if(idx>=0){ if(!confirm('Já existe um painel com esse nome. Substituir?')) return; a[idx]=reg; }
+  else a.unshift(reg);
+  _pnlGravar(a); pedRender();
+  try{ toast('💾','Painel salvo: '+nome); }catch(e){}
+}
+function pnlCarregar(i){
+  var a=_pnlLer(), p=a[i]; if(!p) return;
+  if(_ped.length && !confirm('Substituir o pedido atual pelo painel "'+p.nome+'"?')) return;
+  _ped=p.itens.slice(); igeRender(); pedRender(); pedAbrir();
+}
+function pnlAdicionar(i){
+  var a=_pnlLer(), p=a[i]; if(!p) return;
+  p.itens.forEach(function(it){ if(!_ped.some(function(x){return x.c===it.c;})) _ped.push({c:it.c,n:it.n}); });
+  igeRender(); pedRender();
+}
+function pnlExcluir(i){
+  var a=_pnlLer(); if(!a[i]) return;
+  if(!confirm('Excluir o painel "'+a[i].nome+'"?')) return;
+  a.splice(i,1); _pnlGravar(a); pedRender();
+}
+
+function pedRender(){
+  var b=document.getElementById('pedBody'); if(!b) return;
+  var h='';
+  if(!_ped.length){
+    h+='<div class="ped-vazio">Nenhum exame no pedido.<br>Toque em um código da lista para adicionar.</div>';
+  } else {
+    h+='<div style="font-size:11px;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px">Pedido atual · '+_ped.length+'</div>';
+    _ped.forEach(function(p){
+      h+='<div class="ped-row"><span class="ige-cod">'+p.c+'</span><span class="pr-n">'+p.n+'</span>'+
+         '<button class="ped-del" onclick="pedRemove(\''+p.c.replace(/'/g,"\\'")+'\')">✕</button></div>';
+    });
+  }
+  var a=_pnlLer();
+  h+='<div style="font-size:11px;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.4px;margin:20px 0 8px">Painéis salvos'+(a.length?' · '+a.length:'')+'</div>';
+  if(!a.length){ h+='<div style="font-size:12px;color:var(--gray-500);line-height:1.55">Nenhum painel salvo ainda. Monte um pedido e toque em <b>Salvar painel</b>.</div>'; }
+  else a.forEach(function(p,i){
+    h+='<div class="pnl-card"><div class="pnl-nome">'+p.nome+'</div>'+
+       '<div class="pnl-meta">'+p.itens.length+' exames · '+(p.data||'')+'</div>'+
+       '<div class="pnl-acts"><button onclick="pnlCarregar('+i+')">Abrir</button>'+
+       '<button onclick="pnlAdicionar('+i+')">Somar</button>'+
+       '<button onclick="pnlExcluir('+i+')" style="color:#c0392b">Excluir</button></div></div>';
+  });
+  b.innerHTML=h;
+  var f=document.getElementById('pedFab');
+  if(f){ f.style.display = _ped.length ? 'inline-flex' : 'none'; var n=f.querySelector('.pf-n'); if(n) n.textContent=_ped.length; }
+}
+
+function labInit(){
+  if(window._labPronto) { igeRender(); pedRender(); return; }
+  window._labPronto = true;
+  igeRenderChips(); igeRender(); pedRender();
+}
+
+var PAGE_TITLES={laboratorio:'Laboratório',eaaci:'Protocolos EAACI',dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',imunizacoes:'Imunizações',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',scores:'Scores',pacientes:'Pacientes',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Meu perfil',alergonews:'Alergo News',jornal:'Alergia News',mais:'Mais'};
 
 var _navHistory = ['dashboard'];
 
@@ -6512,6 +7150,8 @@ function navTo(page){
   if(page === 'assistente'){ try{ selectAI(window._currentAI||'claude'); }catch(e){} }
   if(page === 'prompts')   { try{ renderUserPrompts(); }catch(e){} }
   if(page === 'mais')      { try{ _atualizarInfoUsuario(); }catch(e){} }
+  if(page === 'laboratorio'){ try{ labInit(); }catch(e){} }
+  if(page !== 'laboratorio'){ try{ pedFechar(); }catch(e){} }
 }
 
 // Voltar (botão do app e botão físico/gesto do celular)
