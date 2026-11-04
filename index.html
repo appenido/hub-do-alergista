@@ -939,6 +939,16 @@ _marcarGuiasPagas();
 @media (prefers-reduced-motion:reduce){.fav-star.on{animation:none;}}
 .fav-star.inline{position:static;width:auto;height:auto;border-radius:9px;padding:5px 10px;box-shadow:none;background:var(--gray-50);}
 .fav-row{display:flex;align-items:center;gap:11px;padding:13px 16px;border-bottom:1px solid var(--gray-100);background:#fff;}
+.fav-open{display:flex;align-items:center;gap:11px;flex:1;min-width:0;padding:0;border:0;background:transparent;text-align:left;font:inherit;cursor:pointer;}
+.fav-open:focus-visible{outline:2px solid var(--teal-mid);outline-offset:5px;border-radius:4px;}
+.fav-open[aria-expanded="true"] .fav-title{color:var(--teal-mid);}
+.fav-detail{margin:0 16px 12px;padding:12px;border:1px solid var(--gray-100);border-radius:12px;background:var(--gray-50);min-width:0;}
+.fav-detail-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;font-size:12px;color:var(--teal-mid);}
+.fav-detail-close{border:1px solid var(--gray-100);border-radius:8px;background:#fff;padding:7px 10px;font:inherit;color:var(--navy);cursor:pointer;}
+.fav-detail-content{min-width:0;overflow-wrap:anywhere;}
+.fav-detail-content>.bio-card,.fav-detail-content>.art-card,.fav-detail-content>.prompt-card,.fav-detail-content>.guide-card,.fav-detail-content>.news-card{margin:0;width:100%;box-sizing:border-box;}
+.fav-detail-content .pc-body,.fav-detail-text{white-space:pre-wrap;line-height:1.65;font-size:13px;color:var(--navy);-webkit-line-clamp:unset;max-height:none;overflow:visible;}
+.fav-detail-content .fav-star{display:none;}
 .fav-icon{font-size:20px;width:26px;text-align:center;}
 .fav-type{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--teal-mid);}
 .fav-title{font-size:13px;font-weight:600;color:var(--navy);line-height:1.35;}
@@ -7213,7 +7223,7 @@ function _camadasAbertas(){
 /* fecha a camada aberta mais acima. true = fechou algo */
 function _fecharCamadaAberta(){
   var abertos = _camadasAbertas();
-  if(!abertos.length) return false;
+  if(!abertos.length) return typeof window.fecharFavorito === 'function' && window.fecharFavorito();
   var el = abertos[abertos.length-1];
   if(el.id === 'authScreen'){ el.style.display = 'none'; }
   else { el.classList.remove('open'); }
@@ -10753,6 +10763,13 @@ function chatToggle(){
   function _slug(t){ return (t||'').toLowerCase().replace(/\s+/g,' ').trim().slice(0,120); }
   function _txt(el,sel){ var n=el.querySelector(sel); return n? n.textContent.trim() : ''; }
 
+  function conteudoSalvo(card){
+    var copia=card.cloneNode(true);
+    copia.querySelectorAll('button,input,select,textarea,script,style,.fav-star').forEach(function(n){ n.remove(); });
+    copia.querySelectorAll('div,p,li,br,h2,h3,h4,tr').forEach(function(n){ n.appendChild(document.createTextNode('\n')); });
+    return (copia.textContent||'').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim().slice(0,60000);
+  }
+
   var HUBFAV = {
     list:_load,
     has:function(id){ return _load().some(function(f){ return f.id===id; }); },
@@ -10806,7 +10823,10 @@ function chatToggle(){
       pagina: card.dataset.favPagina || def.pagina || '',
       url: card.dataset.favUrl || (def.url? def.url(card):'') || '',
       acao: def.acao? def.acao(card) : '',
-      texto: def.texto? def.texto(card).slice(0,4000) : ''
+      texto: def.texto? def.texto(card) : '',
+      conteudo: conteudoSalvo(card),
+      origem: card.id || '',
+      score: card.dataset.score || ''
     };
   }
 
@@ -10859,6 +10879,104 @@ function chatToggle(){
   }
   window.favScan = function(r){ scan(r); repinta(); };
 
+  /* O conteúdo abre em Favoritos, sem alterar a página ou o histórico. */
+  var aberto=null;
+  function fecharFavorito(restaurar){
+    if(!aberto) return false;
+    var atual=aberto; aberto=null;
+    if(atual.card){
+      atual.card.style.display=atual.display;
+      atual.card.hidden=atual.hidden;
+      atual.card.classList.toggle('open',atual.open);
+      if(atual.card.tagName==='DETAILS') atual.card.open=atual.detailsOpen;
+      if(atual.marcador.isConnected) atual.marcador.replaceWith(atual.card);
+      else atual.card.remove();
+    }
+    atual.painel.remove();
+    atual.botao.setAttribute('aria-expanded','false');
+    if(restaurar!==false && document.querySelector('#page-favoritos.active')){
+      atual.botao.focus({preventScroll:true});
+      var sa=document.querySelector('.scroll-area');
+      if(sa) sa.scrollTop=atual.scroll;
+      window.scrollTo(0,atual.windowY);
+    }
+    return true;
+  }
+  window.fecharFavorito=fecharFavorito;
+
+  function encontrarOrigem(it){
+    var cards=document.querySelectorAll('[data-fav-id]');
+    for(var i=0;i<cards.length;i++){
+      if(cards[i].dataset.favId===it.id && !cards[i].closest('#page-favoritos')) return cards[i];
+    }
+    var card=it.origem && document.getElementById(it.origem);
+    return card && !card.closest('#page-favoritos') ? card : null;
+  }
+  function abrirFavorito(it,botao){
+    if(aberto && aberto.id===it.id){ fecharFavorito(); return; }
+    var posicao=botao.getBoundingClientRect().top;
+    fecharFavorito(false);
+    var sa=document.querySelector('.scroll-area');
+    if(sa) sa.scrollTop+=botao.getBoundingClientRect().top-posicao;
+    var card=encontrarOrigem(it);
+    var score=it.score || (card && card.dataset.score) || '';
+    // Compatibilidade com os scores salvos antes desta atualização, sem eval.
+    if(!score && it.tipo==='Score'){
+      var m=/^openScore\(("[^"\\]+")\)$/.exec(it.acao||'');
+      if(m) try{ score=JSON.parse(m[1]); }catch(e){}
+    }
+    if(score && typeof openScore==='function' && typeof SCORES!=='undefined' && SCORES[score]){
+      openScore(score);
+      return;
+    }
+    var painel=document.createElement('section');
+    painel.className='fav-detail'; painel.id='favDetalhe';
+    painel.setAttribute('role','region'); painel.setAttribute('aria-label',it.titulo);
+    var head=document.createElement('div'); head.className='fav-detail-head';
+    var label=document.createElement('span'); label.textContent='Favoritos · '+it.tipo;
+    var fechar=document.createElement('button'); fechar.type='button'; fechar.className='fav-detail-close';
+    fechar.textContent='Fechar'; fechar.setAttribute('aria-label','Fechar '+it.titulo);
+    fechar.addEventListener('click',function(){ fecharFavorito(); });
+    head.append(label,fechar); painel.appendChild(head);
+    var corpo=document.createElement('div'); corpo.className='fav-detail-content'; painel.appendChild(corpo);
+    aberto={id:it.id,painel:painel,botao:botao,scroll:sa?sa.scrollTop:0,windowY:window.scrollY};
+    if(card){
+      var marcador=document.createComment('favorito: origem');
+      Object.assign(aberto,{card:card,marcador:marcador,display:card.style.display,hidden:card.hidden,open:card.classList.contains('open'),detailsOpen:card.open});
+      card.before(marcador); corpo.appendChild(card);
+      card.style.display='block'; card.hidden=false;
+      if(card.classList.contains('bio-card')) card.classList.add('open');
+      if(card.tagName==='DETAILS') card.open=true;
+    } else {
+      var texto=document.createElement('div'); texto.className='fav-detail-text';
+      texto.textContent=it.conteudo || it.texto || it.sub || it.titulo;
+      corpo.appendChild(texto);
+      if(it.texto){
+        var prompt=document.createElement('div'); prompt.className='prompt-card';
+        texto.className='pc-body'; prompt.appendChild(texto);
+        var copiar=document.createElement('button'); copiar.type='button'; copiar.className='btn btn-sm btn-copy-prompt';
+        copiar.textContent='📋 Copiar'; prompt.appendChild(copiar); corpo.appendChild(prompt);
+      }
+      if(it.url){
+        try{
+          var url=new URL(it.url,location.href);
+          if(url.protocol==='https:' || url.protocol==='http:'){
+            var link=document.createElement('a'); link.className='link-btn'; link.href=url.href;
+            link.target='_blank'; link.rel='noopener noreferrer'; link.textContent='Abrir fonte ↗'; corpo.appendChild(link);
+          }
+        }catch(e){}
+      }
+    }
+    botao.setAttribute('aria-expanded','true');
+    botao.closest('.fav-row').after(painel);
+  }
+
+  document.addEventListener('keydown',function(ev){
+    if(ev.key==='Escape' && aberto && (typeof _camadasAbertas!=='function' || !_camadasAbertas().length)){
+      ev.preventDefault(); fecharFavorito();
+    }
+  });
+
   /* ---- clique ---- */
   document.addEventListener('click', function(ev){
     var btn = ev.target.closest('.fav-star');
@@ -10883,23 +11001,13 @@ function chatToggle(){
       renderFav();
       return;
     }
-    var row = ev.target.closest('.fav-row[data-fav-open]');
-    if(row){
-      var it = JSON.parse(row.dataset.favOpen);
-      if(it.url){ window.open(it.url,'_blank','noopener'); return; }
-      if(it.texto && navigator.clipboard){ navigator.clipboard.writeText(it.texto).catch(function(){});
-        if(typeof toast==='function') toast('📋','Prompt copiado!'); }
-      irPara(it.pagina);
-      if(it.acao){ setTimeout(function(){ try{ eval(it.acao); }catch(e){} }, 120); }
+    var abrir = ev.target.closest('.fav-open[data-fav-open]');
+    if(abrir){
+      ev.preventDefault(); ev.stopPropagation();
+      var it=HUBFAV.list().find(function(f){ return f.id===abrir.dataset.favOpen; });
+      if(it) abrirFavorito(it,abrir);
     }
   }, true);
-
-  function irPara(pg){
-    if(!pg) return;
-    if(typeof window.navTo==='function'){ try{ window.navTo(pg); return; }catch(e){} }
-    var alvo=document.querySelector('[data-nav="'+pg+'"]');
-    if(alvo) alvo.click();
-  }
 
   /* ---- página de favoritos ---- */
   function esc(t){ return (t||'').replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
@@ -10908,6 +11016,7 @@ function chatToggle(){
     if(!box) return;
     var sig = JSON.stringify(HUBFAV.list().map(function(f){ return f.id; }));
     if(box.dataset.sig === sig) return;
+    fecharFavorito(false);
     box.dataset.sig = sig;
     var vazio = document.getElementById('favVazio');
     var itens = HUBFAV.list();
@@ -10919,13 +11028,13 @@ function chatToggle(){
     Object.keys(grupos).forEach(function(t){
       html += '<div class="fav-grp">'+esc(t)+' · '+grupos[t].length+'</div>';
       grupos[t].forEach(function(f){
-        html += '<div class="fav-row" data-fav-open=\''+esc(JSON.stringify(f)).replace(/'/g,'&#39;')+'\' style="cursor:pointer">'
-             +  '<div class="fav-icon">'+ (f.icone||'⭐') +'</div>'
-             +  '<div style="flex:1;min-width:0"><div class="fav-type">'+esc(f.tipo)+'</div>'
-             +  '<div class="fav-title">'+esc(f.titulo)+'</div>'
-             +  (f.sub? '<div class="fav-sub">'+esc(f.sub)+'</div>':'')
-             +  '</div>'
-             +  '<button class="btn-remfav" data-fav-id="'+esc(f.id)+'" title="Remover">🗑</button></div>';
+        html += '<div class="fav-row"><button type="button" class="fav-open" data-fav-open="'+esc(f.id)+'" aria-expanded="false" aria-controls="favDetalhe">'
+             +  '<span class="fav-icon">'+esc(f.icone||'⭐')+'</span>'
+             +  '<span style="flex:1;min-width:0"><span class="fav-type" style="display:block">'+esc(f.tipo)+'</span>'
+             +  '<span class="fav-title" style="display:block">'+esc(f.titulo)+'</span>'
+             +  (f.sub? '<span class="fav-sub" style="display:block">'+esc(f.sub)+'</span>':'')
+             +  '</span></button>'
+             +  '<button type="button" class="btn-remfav" data-fav-id="'+esc(f.id)+'" title="Remover" aria-label="Remover '+esc(f.titulo)+' dos favoritos">🗑</button></div>';
       });
     });
     box.innerHTML = html;
@@ -10940,7 +11049,12 @@ function chatToggle(){
     tmr=setTimeout(function(){ lock=true; scan(); repinta(); renderFav(); lock=false; },250);
   });
 
-  function init(){ scan(); renderFav(); obs.observe(document.body,{childList:true,subtree:true}); }
+  function init(){
+    scan(); renderFav(); obs.observe(document.body,{childList:true,subtree:true});
+    var pg=document.getElementById('page-favoritos');
+    if(pg) new MutationObserver(function(){ if(!pg.classList.contains('active')) fecharFavorito(false); })
+      .observe(pg,{attributes:true,attributeFilter:['class']});
+  }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 })();
 </script>
@@ -10959,6 +11073,7 @@ function chatToggle(){
       b.innerHTML='<span class="pgb-ch">‹</span> Voltar';
       b.addEventListener('click', function(ev){
         ev.preventDefault(); ev.stopPropagation();
+        if(pg.id==='page-favoritos' && typeof window.fecharFavorito==='function' && window.fecharFavorito()) return;
         var tb = document.getElementById('tbBack');
         if(typeof window.voltarApp === 'function'){ window.voltarApp(ev); }
         else if(tb){ tb.click(); }
