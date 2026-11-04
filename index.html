@@ -3920,7 +3920,6 @@ window._mostrarApp = function(){
           <input id="igeBusca" type="text" aria-label="Buscar exames de IgE em todo o catálogo" placeholder="Buscar alérgeno, código ou aplicação clínica…" oninput="igeBuscar()" autocomplete="off">
           <button id="igeClear" aria-label="Limpar busca de IgE" onclick="document.getElementById('igeBusca').value='';igeBuscar();" style="display:none;border:none;background:transparent;font-size:16px;color:var(--gray-500);cursor:pointer">×</button>
         </div>
-        <div class="lab-chips" id="igeChips"></div>
         <div style="font-size:11px;color:var(--gray-500);margin-top:8px" id="igeContagem" aria-live="polite"></div>
         <button type="button" id="pedOpenInline" onclick="pedAbrir()" aria-expanded="false" aria-controls="pedDrawer">🧪 Ver pedido <span class="pf-n">0</span></button>
       </div>
@@ -7052,18 +7051,10 @@ function _igeGrupos(){
 }
 function _norm(s){ return (s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
 
-function igeRenderChips(){
-  var el=document.getElementById('igeChips'); if(!el) return;
-  var h='<button class="lab-chip'+(_igeFiltroGrupo?'':' active')+'" onclick="igeGrupo(\'\')">Todos</button>';
-  _igeGrupos().forEach(function(g){
-    h+='<button class="lab-chip'+(_igeFiltroGrupo===g?' active':'')+'" onclick="igeGrupo(\''+g.replace(/'/g,"\\'")+'\')">'+g+'</button>';
-  });
-  el.innerHTML=h;
-}
-function igeGrupo(g){ _igeFiltroGrupo = (_igeFiltroGrupo===g?'':g); igeRenderChips(); igeRender(); }
+function igeRenderChips(){}
+function igeGrupo(g){}
 
 function igeBuscar(){
-  if(_igeFiltroGrupo){ _igeFiltroGrupo=''; igeRenderChips(); }
   igeRender();
 }
 
