@@ -23,7 +23,7 @@ assert(runtime.includes("window.redefinirSenhaHub"));
 assert(runtime.includes("window.reenviarConfirmacaoHub"));
 assert(runtime.includes("font-size:11.5px;line-height:1.4"));
 assert(privacidade.includes('body{font-size:12.5px'));
-const versaoRuntime = pagina.match(/lgpd-runtime\\.js\\?v=([\\w-]+)/)?.[1];
+const versaoRuntime = pagina.match(/lgpd-runtime[.]js[?]v=([0-9-]+)/)?.[1];
 assert(versaoRuntime, 'Versão do runtime LGPD ausente no HTML');
 assert(worker.includes('lgpd-runtime.js?v='+versaoRuntime), 'Versão do runtime LGPD diferente entre HTML e service worker');
 new Function(runtime);
