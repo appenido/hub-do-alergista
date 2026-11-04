@@ -6474,7 +6474,7 @@ function renderSavedPromptsAssist(){
     return '<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--gray-100)">'
       +'<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:700;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+_escHtml(p.titulo)+'</div>'
       +'<div style="font-size:11px;color:var(--gray-400)">'+_escHtml((p.corpo||'').substring(0,50))+'…</div></div>'
-      +'<button onclick="setPromptText('+JSON.stringify(p.corpo)+')" style="flex-shrink:0;background:var(--teal-mid);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Manrope\',sans-serif">Usar</button>'
+      +'<button onclick="setPromptText('+_escHtml(JSON.stringify(p.corpo))+')" style="flex-shrink:0;background:var(--teal-mid);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Manrope\',sans-serif">Usar</button>'
       +'</div>';
   }).join('');
 }
@@ -6520,7 +6520,7 @@ function renderUserPrompts(){
       +'<div style="font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:4px">'+_escHtml(p.titulo)+'</div>'
       +'<div style="font-size:12.5px;color:var(--gray-500);line-height:1.5;white-space:pre-wrap">'+_escHtml((p.corpo||'').substring(0,200))+(p.corpo&&p.corpo.length>200?'…':'')+'</div>'
       +'<div style="display:flex;gap:8px;margin-top:10px">'
-      +'<button onclick="usarPromptNoAssistente('+JSON.stringify(p.corpo)+')" style="flex:1;background:var(--teal-mid);color:#fff;border:none;border-radius:9px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Manrope\',sans-serif">Usar no Assistente ↗</button>'
+      +'<button onclick="usarPromptNoAssistente('+_escHtml(JSON.stringify(p.corpo))+')" style="flex:1;background:var(--teal-mid);color:#fff;border:none;border-radius:9px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Manrope\',sans-serif">Usar no Assistente ↗</button>'
       +'</div></div>';
   }).join('');
 }
