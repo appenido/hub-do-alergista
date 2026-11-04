@@ -19,4 +19,6 @@ jobs:
         with:
           node-version: '22'
       - name: Verificar integridade do app e controles LGPD
-        run: node scripts/lgpd-check.mjs
+        run: |
+          node scripts/lgpd-check.mjs
+          node scripts/lgpd-login-check.mjs

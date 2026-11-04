@@ -1082,9 +1082,23 @@ window._mostrarApp = function(){
     <!-- LOGIN -->
     <div id="formLogin">
       <div class="auth-field"><label>E-mail</label><input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email"></div>
-      <div class="auth-field"><label>Senha</label><input type="password" id="loginSenha" placeholder="••••••••" autocomplete="current-password"></div>
-      <button class="auth-btn" onclick="fazerLogin()">Entrar →</button>
-      <div class="auth-err" id="loginErr"></div>
+      <div class="auth-field"><label for="loginSenha">Senha</label><input type="password" id="loginSenha" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter'){event.preventDefault();fazerLogin();}"></div>
+      <button class="auth-btn" id="btnEntrarHub" type="button" onclick="fazerLogin()">Entrar</button>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px">
+        <button type="button" id="btnRecuperarSenha" onclick="solicitarRecuperacaoSenha()" style="background:none;border:0;color:var(--teal-mid);font-family:inherit;font-size:11.5px;cursor:pointer;text-decoration:underline">Esqueci minha senha</button>
+        <button type="button" id="btnCadastroAntigo" hidden onclick="abrirCadastroExistente()" style="background:none;border:0;color:var(--teal-mid);font-family:inherit;font-size:11.5px;cursor:pointer;text-decoration:underline">Regularizar cadastro anterior</button>
+        <button type="button" id="btnReenviarConfirmacao" hidden onclick="reenviarConfirmacaoHub()" style="background:none;border:0;color:var(--teal-mid);font-family:inherit;font-size:11.5px;cursor:pointer;text-decoration:underline">Reenviar confirmação de e-mail</button>
+      </div>
+      <div class="auth-err" id="loginErr" role="status" aria-live="polite" style="font-size:11.5px;line-height:1.5;margin-top:10px"></div>
+    </div>
+    <!-- REDEFINIR SENHA (link de recuperação do Supabase Auth) -->
+    <div id="formRedefinirSenha" style="display:none">
+      <div style="font-size:14px;color:var(--navy);margin-bottom:8px">Redefinir senha</div>
+      <p style="font-size:11.5px;line-height:1.5;color:var(--gray-500)">Crie uma nova senha para acessar sua conta.</p>
+      <div class="auth-field"><label for="novaSenhaHub">Nova senha</label><input type="password" id="novaSenhaHub" minlength="12" autocomplete="new-password" placeholder="Pelo menos 12 caracteres"></div>
+      <div class="auth-field"><label for="novaSenhaConfirmacaoHub">Confirme a nova senha</label><input type="password" id="novaSenhaConfirmacaoHub" minlength="12" autocomplete="new-password" placeholder="Repita a nova senha"></div>
+      <button class="auth-btn" id="btnSalvarNovaSenhaHub" type="button" onclick="redefinirSenhaHub()">Salvar nova senha</button>
+      <div class="auth-err" id="novaSenhaErrHub" role="status" aria-live="polite" style="font-size:11.5px;line-height:1.5"></div>
     </div>
     <!-- CONFIRMAR CÓDIGO -->
     <div id="formCodigo" style="display:none">
@@ -11139,7 +11153,7 @@ function chatToggle(){
     .observe(document.body,{childList:true,subtree:true});
 })();
 </script>
-<script src="lgpd-runtime.js?v=20261104-1"></script>
+<script src="lgpd-runtime.js?v=20261104-3"></script>
 </body>
 </html>
 

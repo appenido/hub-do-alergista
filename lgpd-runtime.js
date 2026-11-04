@@ -6,6 +6,7 @@ const SB='https://jpdtqtenlivxgjkyizcg.supabase.co';
 const KEY='sb_publishable_CzAI8BUm2Po7CfobLlxv8A_NtuTil8j';
 const AUTH='hub_secure_auth';
 let refreshPending=null;
+let recuperacaoPendente=null;
 function lerAuth(){try{return JSON.parse(sessionStorage.getItem(AUTH)||'{}');}catch(_){return {};}}
 function erro(msg){throw new Error(msg);}
 function limparCredenciais(){
@@ -56,32 +57,203 @@ window._scoreRpc=function(fn,body){
   return rpc(fn,body,true);
 };
 window._iniciarSessao=function(email,nome,access,refresh){
-  try{armazenarAuth(email,nome,access,refresh);}
-  catch(e){alert(e.message);return;}
+  armazenarAuth(email,nome,access,refresh);
   var tela=document.getElementById('authScreen');if(tela)tela.style.display='none';
   if(typeof window._mostrarApp==='function')window._mostrarApp();
   if(typeof window._atualizarInfoUsuario==='function')window._atualizarInfoUsuario();
   try{if(typeof window.atualizarHero==='function')window.atualizarHero();}catch(_){}
-  if(typeof window.toast==='function')window.toast('✓','Sessão autenticada.');
+  if(typeof window.toast==='function')window.toast('✓','Você entrou na sua conta.');
+  return true;
 };
 window.fazerLogin=async function(){
-  const get=id=>(document.getElementById(id)||{}).value||'';
-  const email=get('loginEmail').trim().toLowerCase(),senha=get('loginSenha');
-  const aviso=document.getElementById('loginErr');
-  if(!email||!senha){aviso.textContent='Informe e-mail e senha.';return;}
-  aviso.textContent='Verificando credenciais…';
+  const campo=(id)=>document.getElementById(id);
+  const email=(campo('loginEmail')?.value||'').trim().toLowerCase();
+  const senha=campo('loginSenha')?.value||'';
+  const aviso=campo('loginErr'),botao=campo('btnEntrarHub');
+  const legado=campo('btnCadastroAntigo');
+  const reenviar=campo('btnReenviarConfirmacao');
+  if(legado)legado.hidden=true;
+  if(reenviar)reenviar.hidden=true;
+  aviso.textContent='';
+  if(!email||!email.includes('@')||!senha){
+    aviso.textContent='Informe um e-mail válido e sua senha.';return;
+  }
+  if(botao){botao.disabled=true;botao.textContent='Entrando…';}
+  aviso.textContent='Verificando seus dados…';
   try{
-    const r=await fetch(SB+'/auth/v1/token?grant_type=password',{
+    const resp=await fetch(SB+'/auth/v1/token?grant_type=password',{
       method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},
       body:JSON.stringify({email,password:senha})
-    }),d=await r.json();
-    if(!r.ok||!d.access_token||!d.refresh_token)erro('E-mail, senha ou confirmação da conta inválidos.');
-    const meta=(d.user&&d.user.user_metadata)||{};
+    });
+    const dados=await resp.json().catch(()=>({}));
+    if(!resp.ok||!dados.access_token||!dados.refresh_token){
+      const detalhe=String(dados.error_code||dados.error||dados.msg||dados.message||'').toLowerCase();
+      if(resp.status===429){erro('Muitas tentativas de acesso. Tente novamente mais tarde.');}
+      if(/not.confirmed|email.not.confirmed/.test(detalhe)){
+        if(reenviar)reenviar.hidden=false;
+        erro('O e-mail ainda não foi confirmado. Confira a mensagem do cadastro ou solicite outro código.');
+      }
+      if(/invalid|credentials|login|password/.test(detalhe)||resp.status===400)
+        erro('E-mail ou senha incorretos. Você pode recuperar a senha abaixo.');
+      erro('Não foi possível autenticar sua conta. Tente novamente.');
+    }
+    const meta=(dados.user&&dados.user.user_metadata)||{};
     if(typeof window._salvarLocal==='function')window._salvarLocal(email,meta);
-    window._iniciarSessao(email,meta.nome||email,d.access_token,d.refresh_token);
+    window._iniciarSessao(email,meta.nome||email,dados.access_token,dados.refresh_token);
     aviso.textContent='';
-    document.getElementById('loginSenha').value='';
-  }catch(e){aviso.textContent=e.message;}
+    campo('loginSenha').value='';
+  }catch(e){
+    const m=String(e&&e.message||'');
+    aviso.textContent=/failed to fetch|networkerror|network request failed|load failed/i.test(m)
+      ?'Não foi possível conectar ao servidor. Verifique a conexão e tente novamente.'
+      :m||'Não foi possível entrar. Tente novamente.';
+    // Contas antigas podiam existir apenas neste navegador, sem autenticação na nuvem.
+    try{
+      const antigos=JSON.parse(sessionStorage.getItem('hub_users')||'{}');
+      if(antigos[email]&&legado)legado.hidden=false;
+    }catch(_){}
+  }finally{
+    if(botao){botao.disabled=false;botao.textContent='Entrar';}
+  }
+};
+window.reenviarConfirmacaoHub=async function(){
+  const campo=document.getElementById('loginEmail');
+  const aviso=document.getElementById('loginErr');
+  const email=(campo?.value||'').trim().toLowerCase();
+  if(!email||!email.includes('@')){aviso.textContent='Informe seu e-mail para reenviar a confirmação.';return;}
+  const btn=document.getElementById('btnReenviarConfirmacao');
+  if(btn)btn.disabled=true;
+  try{
+    const r=await fetch(SB+'/auth/v1/resend',{
+      method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({type:'signup',email})
+    });
+    if(r.status===429)erro('Muitas solicitações. Tente novamente mais tarde.');
+    if(!r.ok)erro('Não foi possível reenviar a confirmação. Tente novamente.');
+    aviso.textContent='Se houver um cadastro pendente, enviaremos uma nova mensagem de confirmação. Confira também a pasta de spam.';
+  }catch(e){aviso.textContent=e.message||'Falha de conexão. Tente novamente.';}
+  finally{if(btn)btn.disabled=false;}
+};
+window.solicitarRecuperacaoSenha=async function(){
+  const campo=document.getElementById('loginEmail');
+  const aviso=document.getElementById('loginErr');
+  const botao=document.getElementById('btnRecuperarSenha');
+  const email=(campo&&campo.value||'').trim().toLowerCase();
+  if(!email||!email.includes('@')){
+    aviso.textContent='Digite seu e-mail no campo acima para recuperar a senha.';
+    if(campo)campo.focus();
+    return;
+  }
+  aviso.textContent='Enviando instruções de recuperação…';
+  if(botao)botao.disabled=true;
+  try{
+    const destino='https://hubdoalergista.pages.dev/';
+    const r=await fetch(SB+'/auth/v1/recover?redirect_to='+encodeURIComponent(destino),{
+      method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({email})
+    });
+    if(r.status===429)erro('Muitas solicitações. Tente novamente mais tarde.');
+    if(!r.ok)erro('Não foi possível enviar as instruções de recuperação. Tente novamente.');
+    aviso.textContent='Se houver uma conta com esse e-mail, você receberá as instruções para redefinir a senha. Confira também a pasta de spam.';
+  }catch(e){aviso.textContent=e.message||'Falha de conexão. Tente novamente.';}
+  finally{if(botao)botao.disabled=false;}
+};
+window.abrirCadastroExistente=function(){
+  const email=(document.getElementById('loginEmail')?.value||'').trim().toLowerCase();
+  if(typeof window.authModo==='function')window.authModo('cadastro');
+  const emailCampo=document.getElementById('cadEmail');
+  if(emailCampo)emailCampo.value=email;
+  try{
+    const u=JSON.parse(sessionStorage.getItem('hub_users')||'{}')[email]||{};
+    const nome=document.getElementById('cadNome');
+    const categoria=document.getElementById('cadCategoria');
+    if(nome&&u.nome)nome.value=u.nome;
+    if(categoria&&u.categoria)categoria.value=u.categoria;
+    if(typeof window._cadCatMudou==='function')window._cadCatMudou();
+    const especialidade=document.getElementById('cadEspecialidade');
+    if(especialidade&&u.especialidade)especialidade.value=u.especialidade;
+  }catch(_){}
+  const aviso=document.getElementById('cadErr');
+  if(aviso)aviso.textContent='Seu cadastro anterior pode estar salvo apenas neste navegador. Para voltar a entrar com segurança, crie uma conta com esse e-mail e confirme a mensagem que receber.';
+};
+function mostrarRecuperacaoSenha(){
+  const tela=document.getElementById('authScreen');
+  const form=document.getElementById('formRedefinirSenha');
+  if(!tela||!form)return;
+  tela.style.display='flex';
+  ['formLogin','formCad','formCodigo'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.style.display='none';
+  });
+  const tabs=document.querySelector('.auth-tabs');
+  if(tabs)tabs.style.display='none';
+  form.style.display='';
+  const senha=document.getElementById('novaSenhaHub');
+  if(senha)senha.focus();
+}
+async function recuperarRetorno(){
+  const hash=new URLSearchParams(location.hash.replace(/^#/,''));
+  const search=new URLSearchParams(location.search);
+  if((hash.get('type')||search.get('type'))!=='recovery')return;
+  // Evita manter tokens de recuperação no histórico, em capturas ou em links compartilhados.
+  if(typeof history!=='undefined'&&history.replaceState)
+    history.replaceState(null,'',location.pathname);
+  let access=hash.get('access_token'),refresh=hash.get('refresh_token');
+  try{
+    const tokenHash=hash.get('token_hash')||search.get('token_hash');
+    if(!access&&tokenHash){
+      const v=await fetch(SB+'/auth/v1/verify',{
+        method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},
+        body:JSON.stringify({token_hash:tokenHash,type:'recovery'})
+      });
+      const d=await v.json();
+      if(!v.ok)erro('Link de recuperação inválido ou expirado.');
+      access=d.access_token;refresh=d.refresh_token;
+    }
+    if(!access)erro('O link de recuperação está incompleto. Solicite um novo.');
+    const r=await fetch(SB+'/auth/v1/user',{
+      headers:{apikey:KEY,Authorization:'Bearer '+access}
+    });
+    if(!r.ok)erro('O link de recuperação expirou. Solicite um novo.');
+    const u=await r.json();
+    if(!u||!u.email)erro('Não foi possível validar o titular da conta.');
+    recuperacaoPendente={access,refresh,email:u.email,nome:u.user_metadata&&u.user_metadata.nome||u.email};
+    mostrarRecuperacaoSenha();
+  }catch(e){
+    const aviso=document.getElementById('loginErr');
+    if(aviso)aviso.textContent=e.message||'Não foi possível validar o link de recuperação.';
+    if(typeof window.abrirAuth==='function')window.abrirAuth('login');
+  }
+}
+window.redefinirSenhaHub=async function(){
+  const aviso=document.getElementById('novaSenhaErrHub');
+  const senha=document.getElementById('novaSenhaHub')?.value||'';
+  const repetida=document.getElementById('novaSenhaConfirmacaoHub')?.value||'';
+  const botao=document.getElementById('btnSalvarNovaSenhaHub');
+  if(!recuperacaoPendente){aviso.textContent='Solicite um novo link de recuperação.';return;}
+  if(senha.length<12){aviso.textContent='Crie uma senha com pelo menos 12 caracteres.';return;}
+  if(senha!==repetida){aviso.textContent='As senhas não coincidem.';return;}
+  if(botao)botao.disabled=true;
+  aviso.textContent='Atualizando sua senha…';
+  try{
+    const r=await fetch(SB+'/auth/v1/user',{
+      method:'PUT',headers:{apikey:KEY,Authorization:'Bearer '+recuperacaoPendente.access,'Content-Type':'application/json'},
+      body:JSON.stringify({password:senha})
+    });
+    if(!r.ok)erro('Não foi possível alterar a senha. Solicite um novo link.');
+    const email=recuperacaoPendente.email;
+    fetch(SB+'/auth/v1/logout',{
+      method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+recuperacaoPendente.access}
+    }).catch(()=>{});
+    recuperacaoPendente=null;
+    limparCredenciais();
+    const form=document.getElementById('formRedefinirSenha');
+    if(form)form.style.display='none';
+    if(typeof window.authModo==='function')window.authModo('login');
+    const campo=document.getElementById('loginEmail');
+    if(campo)campo.value=email;
+    document.getElementById('loginErr').textContent='Senha alterada. Entre com sua nova senha.';
+  }catch(e){aviso.textContent=e.message||'Erro ao atualizar a senha.';}
+  finally{if(botao)botao.disabled=false;}
 };
 window.fazerCadastro=async function(){
   const get=id=>(document.getElementById(id)||{}).value||'';
@@ -211,8 +383,9 @@ async function exportarDados(){
   }catch(e){alert('Não foi possível exportar: '+e.message);}
 }
 async function solicitar(tipo){
-  if(!confirm('Registrar solicitação de '+tipo+'? A análise poderá exigir verificação de identidade e observar obrigações legais de guarda.'))return;
-  try{await rpc('privacy_submit_request',{p_kind:tipo},true);alert('Solicitação registrada. Acompanhe nesta área do aplicativo.');}
+  const descricao=tipo==='exclusao'?'exclusão de dados ou da conta':'acesso ou correção de dados';
+  if(!confirm('Deseja registrar uma solicitação de '+descricao+'? O pedido será analisado conforme a legislação aplicável.'))return;
+  try{await rpc('privacy_submit_request',{p_kind:tipo},true);alert('Solicitação registrada. Nenhum dado foi alterado ou excluído neste momento. Acompanhe o andamento nesta seção.');}
   catch(e){alert('Falha ao registrar: '+e.message);}
 }
 async function consultarPedidos(){
@@ -223,37 +396,37 @@ async function consultarPedidos(){
     if(!resp.ok)erro('Consulta de pedidos indisponível.');
     const rows=await resp.json();
     const nomes={acesso_correcao:'Acesso/correção',exclusao:'Exclusão'};
-    alert(rows.length?rows.map(x=>(nomes[x.kind]||x.kind)+' — '+x.status+' — '+new Date(x.criado_em).toLocaleDateString('pt-BR')).join('\\n'):'Nenhuma solicitação registrada.');
+    alert(rows.length?rows.map(x=>(nomes[x.kind]||x.kind)+' — '+x.status+' — '+new Date(x.criado_em).toLocaleDateString('pt-BR')).join('\n'):'Nenhuma solicitação registrada.');
   }catch(e){alert(e.message);}
 }
 function limparDadosLocais(){
-  if(!confirm('Apagar históricos e credenciais armazenados neste dispositivo? Registros do servidor serão preservados.'))return;
+  if(!confirm('Apagar o histórico local dos questionários e as chaves de IA salvas nesta sessão? Os registros do servidor serão preservados.'))return;
   try{
     ['hub_snot22_hist','hub_uct_hist','hub_uas7_hist'].forEach(k=>{localStorage.removeItem(k);sessionStorage.removeItem(k);});
     Object.keys(localStorage).filter(k=>k.indexOf('hub_aikey_')===0).forEach(k=>localStorage.removeItem(k));
     Object.keys(sessionStorage).filter(k=>k.indexOf('hub_aikey_')===0).forEach(k=>sessionStorage.removeItem(k));
   }catch(_){}
-  alert('Históricos e chaves locais apagados. Os dados do servidor não foram alterados.');
+  alert('Histórico local dos questionários e chaves de IA apagados. Os dados armazenados no servidor não foram alterados.');
 }
 function telaPrivacidade(){
   const destino=document.getElementById('page-perfil');
   if(!destino||document.getElementById('hub-privacidade'))return;
   const wrap=document.createElement('section');wrap.id='hub-privacidade';
-  wrap.style.cssText='margin:20px 14px;padding:18px;border:1px solid #dbe5eb;border-radius:14px;background:white;';
-  const h=document.createElement('h3');h.textContent='Privacidade e segurança';h.style.cssText='font-size:17px;margin:0 0 10px;color:#0d1f2d';wrap.appendChild(h);
-  const p=document.createElement('p');p.textContent='Você pode consultar, exportar e solicitar revisão ou eliminação de dados, respeitados os prazos de conservação aplicáveis.';p.style.cssText='font-size:12px;line-height:1.5;color:#445;';wrap.appendChild(p);
+  wrap.style.cssText='margin:14px 12px;padding:13px;border:1px solid #dbe5eb;border-radius:12px;background:white;';
+  const h=document.createElement('h3');h.textContent='Privacidade e segurança';h.style.cssText='font-size:14px;line-height:1.4;font-weight:650;margin:0 0 7px;color:#0d1f2d';wrap.appendChild(h);
+  const p=document.createElement('p');p.textContent='Consulte e exporte seus dados ou solicite acesso, correção e exclusão, conforme a legislação aplicável.';p.style.cssText='font-size:11px;line-height:1.45;color:#495866;margin:0 0 7px;';wrap.appendChild(p);
   function add(label,fn){
     const b=document.createElement('button');b.type='button';b.textContent=label;
-    b.style.cssText='display:block;width:100%;text-align:left;padding:11px;margin-top:7px;border:1px solid #dbe5eb;border-radius:10px;background:#f5f9fa;color:#0d1f2d;font:inherit;font-size:13px;cursor:pointer;';
+    b.style.cssText='display:block;width:100%;text-align:left;padding:8px 10px;margin-top:5px;border:1px solid #dbe5eb;border-radius:8px;background:#f5f9fa;color:#0d1f2d;font-family:inherit;font-size:11.5px;line-height:1.4;font-weight:500;cursor:pointer;';
     b.addEventListener('click',fn);wrap.appendChild(b);
   }
   add('Política de privacidade',()=>location.assign('privacidade.html'));
   add('Exportar meus dados',exportarDados);
-  add('Solicitar correção ou acesso',()=>solicitar('acesso_correcao'));
-  add('Solicitar exclusão de dados e conta',()=>solicitar('exclusao'));
-  add('Consultar andamento das solicitações',consultarPedidos);
-  add('Limpar dados clínicos deste dispositivo',limparDadosLocais);
-  add('Revisar preferências de IA',()=>location.assign('privacidade.html#ia'));
+  add('Solicitar acesso ou correção',()=>solicitar('acesso_correcao'));
+  add('Solicitar a exclusão dos meus dados ou da conta',()=>solicitar('exclusao'));
+  add('Acompanhar solicitações',consultarPedidos);
+  add('Limpar histórico dos questionários e chaves de IA',limparDadosLocais);
+  add('Privacidade no uso da inteligência artificial',()=>location.assign('privacidade.html#ia'));
   destino.appendChild(wrap);
 }
 function inicializar(){
@@ -284,6 +457,7 @@ function inicializar(){
     const btn=form.querySelector('button.auth-btn');if(btn)form.insertBefore(aviso,btn);
   }
   telaPrivacidade();
+  recuperarRetorno().catch(()=>{});
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',inicializar);else inicializar();
 })();
