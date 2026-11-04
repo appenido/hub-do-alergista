@@ -10,7 +10,12 @@ let recuperacaoPendente=null;
 function lerAuth(){try{return JSON.parse(sessionStorage.getItem(AUTH)||'{}');}catch(_){return {};}}
 function erro(msg){throw new Error(msg);}
 function limparCredenciais(){
-  try{sessionStorage.removeItem(AUTH);localStorage.removeItem('hub_session');}catch(_){}
+  try{
+    sessionStorage.removeItem(AUTH);
+    sessionStorage.removeItem('hub_users');
+    localStorage.removeItem('hub_session');
+  }catch(_){}
+  if(typeof window._bloquearApp==='function')window._bloquearApp();
 }
 function validoJwt(token){
   try{const p=JSON.parse(atob(token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));return Number(p.exp||0)*1000;}catch(_){return 0;}
@@ -291,6 +296,7 @@ window.fazerLogout=function(){
   limparCredenciais();
   try{sessionStorage.removeItem('hub_snot22_hist');sessionStorage.removeItem('hub_uct_hist');}catch(_){}
   if(typeof sairOriginal==='function')sairOriginal();
+  if(typeof window._bloquearApp==='function')window._bloquearApp();
 };
 function mostrarErroQR(tipo,err){
   const el=document.getElementById(tipo+'-qr-canvas');
@@ -429,6 +435,44 @@ function telaPrivacidade(){
   add('Privacidade no uso da inteligência artificial',()=>location.assign('privacidade.html#ia'));
   destino.appendChild(wrap);
 }
+async function validarSessaoNaAbertura(){
+  const sessao=lerAuth();
+  if(!sessao.access && !sessao.refresh){
+    limparCredenciais();
+    return;
+  }
+  try{
+    const jwt=await token();
+    const resposta=await fetch(SB+'/auth/v1/user',{
+      method:'GET',
+      headers:{apikey:KEY,Authorization:'Bearer '+jwt},
+      cache:'no-store'
+    });
+    // Ignorar respostas de uma sessão anterior se houve novo login ou saída.
+    if(lerAuth().access!==jwt)return;
+    if(resposta.status===401||resposta.status===403){
+      limparCredenciais();
+      return;
+    }
+    if(!resposta.ok)erro('Não foi possível validar a sessão.');
+    const usuario=await resposta.json();
+    if(!usuario || !usuario.id || !usuario.email){
+      limparCredenciais();
+      return;
+    }
+    const meta=usuario.user_metadata||{};
+    manterIdentidade(usuario.email,meta.nome||usuario.email);
+    if(typeof window._salvarLocal==='function')window._salvarLocal(usuario.email,meta);
+    if(typeof window._mostrarApp==='function')window._mostrarApp();
+    if(typeof window._atualizarInfoUsuario==='function')window._atualizarInfoUsuario();
+    try{if(typeof window.atualizarHero==='function')window.atualizarHero();}catch(_){}
+  }catch(e){
+    // Falha na conexão não autoriza abrir o aplicativo sem validação.
+    if(typeof window._bloquearApp==='function')window._bloquearApp();
+    const aviso=document.getElementById('loginErr');
+    if(aviso)aviso.textContent='Não foi possível validar sua sessão. Entre novamente para continuar.';
+  }
+}
 function inicializar(){
   limparChavesLegadas();
   try{
@@ -457,7 +501,17 @@ function inicializar(){
     const btn=form.querySelector('button.auth-btn');if(btn)form.insertBefore(aviso,btn);
   }
   telaPrivacidade();
-  recuperarRetorno().catch(()=>{});
+  // Links de redefinição mantêm a tela de autenticação aberta.
+  const parametros=new URLSearchParams(location.hash.replace(/^#/,''));
+  const parametrosBusca=new URLSearchParams(location.search);
+  const recuperacao=(parametros.get('type')||parametrosBusca.get('type'))==='recovery';
+  if(recuperacao){
+    recuperarRetorno().catch(()=>{});
+  }else{
+    validarSessaoNaAbertura().catch(()=>{
+      if(typeof window._bloquearApp==='function')window._bloquearApp();
+    });
+  }
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',inicializar);else inicializar();
 })();
