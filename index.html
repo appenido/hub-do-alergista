@@ -5704,9 +5704,9 @@ function renderAlergoNews(){
   function cartao(n){
     var dt = '';
     try{ if(n.data) dt = new Date(n.data).toLocaleDateString('pt-BR'); }catch(e){}
-    return '<a href="' + (n.url||'#') + '" target="_blank" rel="noopener" style="display:block;text-decoration:none;background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:13px 14px;margin-bottom:9px">' +
-      '<div style="font-size:10px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.04em">' + (n.fonte||'Mídia') + (dt ? ' · ' + dt : '') + '</div>' +
-      '<div style="font-size:13px;font-weight:700;color:var(--navy);line-height:1.4;margin-top:4px">' + n.titulo + '</div>' +
+    return '<a href="' + _escHtml(/^https:\/\//i.test(n.url||'')?n.url:'#') + '" target="_blank" rel="noopener" style="display:block;text-decoration:none;background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:13px 14px;margin-bottom:9px">' +
+      '<div style="font-size:10px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.04em">' + _escHtml(n.fonte||'Mídia') + (dt ? ' · ' + dt : '') + '</div>' +
+      '<div style="font-size:13px;font-weight:700;color:var(--navy);line-height:1.4;margin-top:4px">' + _escHtml(n.titulo) + '</div>' +
       '<div style="font-size:11px;color:var(--gray-500);margin-top:6px">Ler a reportagem →</div></a>';
   }
   if(_noticiasMidia.length){
@@ -5733,26 +5733,27 @@ function _mostrarNoticiaMidia(){
   var n = _noticiasMidia[0];   // sempre a mais recente
   var dt = '';
   try{ if(n.data) dt = ' · ' + new Date(n.data).toLocaleDateString('pt-BR'); }catch(e){}
-  t.innerHTML = (n.fonte ? '<strong style="color:var(--gold)">' + n.fonte + dt + ':</strong> ' : '') + n.titulo;
+  t.textContent = (n.fonte ? n.fonte + dt + ': ' : '') + n.titulo;
   if(g) g.textContent = 'Jornal';
 }
 function _setAlertaNoticia(html){
+  var texto = String(html||'').replace(/<[^>]*>/g,'');
   var t = document.getElementById('alertaNoticiaTexto');
-  if(t) t.innerHTML = html;
-  try{ localStorage.setItem('hub_alerta_noticia', html); }catch(e){}
+  if(t) t.textContent = texto;
+  try{ localStorage.setItem('hub_alerta_noticia', texto); }catch(e){}
 }
 function carregarNoticiasMidia(){
   // 1) mostra na hora o que ficou guardado da última visita
   var cache = '';
   try{ cache = localStorage.getItem('hub_alerta_noticia') || ''; }catch(e){}
   var t0 = document.getElementById('alertaNoticiaTexto');
-  if(cache && t0) t0.innerHTML = cache;
+  if(cache && t0) t0.textContent = String(cache).replace(/<[^>]*>/g,'');
 
   // 2) manchete da edição local (rápida) enquanto o feed não chega
   var feedOk = false;
   if(!cache){
     fetch('jornal/edicao.json').then(function(r){ return r.json(); }).then(function(e){
-      if(!feedOk) _setAlertaNoticia('<strong style="color:var(--gold)">Alergia News:</strong> ' + e.manchete);
+      if(!feedOk) _setAlertaNoticia('<strong style="color:var(--gold)">Alergia News:</strong> ' + _escHtml(e.manchete));
     }).catch(function(){});
   }
 
@@ -5764,13 +5765,13 @@ function carregarNoticiasMidia(){
     var n = _noticiasMidia[0];
     var dt = '';
     try{ if(n.data) dt = ' · ' + new Date(n.data).toLocaleDateString('pt-BR'); }catch(e){}
-    _setAlertaNoticia((n.fonte ? '<strong style="color:var(--gold)">' + n.fonte + dt + ':</strong> ' : '') + n.titulo);
+    _setAlertaNoticia((n.fonte ? '<strong style="color:var(--gold)">' + _escHtml(n.fonte) + dt + ':</strong> ' : '') + _escHtml(n.titulo));
     var g = document.getElementById('alertaNoticiaTag');
     if(g) g.textContent = 'Jornal';
   }).catch(function(){
     if(cache || feedOk) return;
     fetch('jornal/edicao.json').then(function(r){ return r.json(); }).then(function(e){
-      _setAlertaNoticia('<strong style="color:var(--gold)">Alergia News:</strong> ' + e.manchete);
+      _setAlertaNoticia('<strong style="color:var(--gold)">Alergia News:</strong> ' + _escHtml(e.manchete));
     }).catch(function(){
       var t = document.getElementById('alertaNoticiaTexto');
       if(t) t.textContent = 'Abra o Alergia News desta semana.';
