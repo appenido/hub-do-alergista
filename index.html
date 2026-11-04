@@ -8109,7 +8109,7 @@ function _uctRenderHistorico(){
     html += '<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--gray-100);border-radius:9px;margin-bottom:6px;background:#fff">';
     html += '<div style="min-width:36px;height:36px;border-radius:8px;background:' + cor + ';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff">' + e.t + '</div>';
     html += '<div style="flex:1;min-width:0">';
-    html += '<div style="font-size:12px;font-weight:700;color:var(--navy)">' + (e.nome||'\u2014') + '</div>';
+    html += '<div style="font-size:12px;font-weight:700;color:var(--navy)">' + _escHtml(e.nome||'\u2014') + '</div>';
     html += '<div style="font-size:10.5px;color:var(--gray-500)">' + e.d + ' \u00b7 ' + lbl + '</div>';
     html += '</div>';
     html += '<div style="font-size:9.5px;color:var(--gray-500)">Q1:' + e.q1 + ' Q2:' + e.q2 + ' Q3:' + e.q3 + ' Q4:' + e.q4 + '</div>';
@@ -8294,7 +8294,7 @@ function _snot22RenderHistorico(){
     var f=_snot22Faixa(e.t);
     html+='<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--gray-100);border-radius:9px;margin-bottom:6px;background:#fff">';
     html+='<div style="min-width:40px;height:36px;border-radius:8px;background:'+f.cor+';display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff">'+e.t+'</div>';
-    html+='<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700;color:var(--navy)">'+(e.nome||'\u2014')+'</div>';
+    html+='<div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:700;color:var(--navy)">'+_escHtml(e.nome||'\u2014')+'</div>';
     html+='<div style="font-size:10.5px;color:var(--gray-500)">'+e.d+' \u00b7 '+f.lbl.replace(/^[^ ]+ /,'')+'</div></div></div>';
   });
   html+='<div style="text-align:right;margin-top:4px"><button type="button" onclick="_snot22LimparHistorico()" style="font-size:10px;color:var(--gray-500);background:none;border:none;cursor:pointer;padding:0">\ud83d\uddd1\ufe0f Apagar hist\u00f3rico</button></div>';
@@ -8345,7 +8345,7 @@ function _scoreSugestoes(){
   var aplicar=function(lista){
     var dl=document.getElementById('pac_sugestoes');
     if(!dl) return;
-    dl.innerHTML=(lista||[]).map(function(n){ return '<option value="'+String(n).replace(/"/g,'&quot;')+'"></option>'; }).join('');
+    dl.innerHTML=(lista||[]).map(function(n){ return '<option value="'+_escHtml(String(n))+'"></option>'; }).join('');
   };
   if(_pacDados && _pacDados.length){ aplicar(_pacDados.map(function(p){return p.paciente_nome;})); return; }
   _scoreRpc('score_pacientes',{p_email:email}).then(function(rows){
@@ -8424,7 +8424,7 @@ function _pacRender(){
   lista.forEach(function(p){
     var ini=(p.paciente_nome||'?').trim().charAt(0).toUpperCase();
     var d=p.ultimo?new Date(p.ultimo).toLocaleDateString('pt-BR'):'';
-    h+='<div class="guide-card" data-pac="1" style="cursor:pointer;margin-bottom:8px" onclick="_pacAbrir('+JSON.stringify(p.paciente_nome).replace(/"/g,'&quot;')+')">';
+    h+='<div class="guide-card" data-pac="1" style="cursor:pointer;margin-bottom:8px" onclick="_pacAbrir('+_escHtml(JSON.stringify(p.paciente_nome))+')">';
     h+='<div style="display:flex;align-items:center;gap:12px">';
     h+='<div style="min-width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,var(--aqua),var(--teal-mid));color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900">'+_escHtml(ini)+'</div>';
     h+='<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:800;color:var(--navy)">'+_escHtml(p.paciente_nome)+'</div>';
