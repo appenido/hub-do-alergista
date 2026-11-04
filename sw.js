@@ -1,6 +1,6 @@
 // Rede primeiro: sempre entrega a versão publicada mais nova; o cache só é usado offline.
-const CACHE = 'hub-alergista-v1158';
-const ASSETS = ['./', 'index.html', 'uas7-paciente.html', 'snot22-paciente.html', 'uct-paciente.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
+const CACHE = 'hub-alergista-v1158-ige-clinica-1';
+const ASSETS = ['./', 'index.html', 'ige-clinica.js?v=20261103-1', 'uas7-paciente.html', 'snot22-paciente.html', 'uct-paciente.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
 
 self.addEventListener('install', e => {
   self.skipWaiting();
@@ -26,3 +26,4 @@ self.addEventListener('fetch', e => {
       .catch(() => caches.match(req, { ignoreSearch: true }))
   );
 });
+

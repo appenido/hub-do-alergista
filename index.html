@@ -975,6 +975,26 @@ _marcarGuiasPagas();
 .ige-item.inped .ige-cod{background:var(--teal-mid,#2e8b9e)}
 .ige-nome{font-size:13px;font-weight:700;color:var(--navy);line-height:1.35}
 .ige-add{margin-left:auto;font-size:17px;color:var(--teal-mid,#2e8b9e);font-weight:800}
+.ige-card{background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;margin-bottom:10px;overflow:hidden}
+.ige-card.inped{border-color:var(--teal-mid);background:#f0fafa}
+.ige-card .ige-item{border:0;border-radius:0;background:transparent;cursor:default;margin:0;padding-bottom:8px;align-items:flex-start}
+.ige-title{flex:1;min-width:0;overflow-wrap:anywhere}
+.ige-kind{font-size:11px;color:var(--gray-500);margin-top:4px;line-height:1.45;font-weight:400}
+.ige-select{flex-shrink:0;display:flex;align-items:center;justify-content:center;min-width:40px;min-height:40px;border:1px solid var(--gray-100);border-radius:9px;background:var(--gray-50);color:var(--teal-mid);font:inherit;font-size:20px;cursor:pointer}
+.ige-select[aria-pressed=true]{background:var(--teal-mid);color:white}
+.ige-select:disabled{font-size:10px;max-width:82px;line-height:1.4;color:var(--gray-500);cursor:default}
+.ige-details{border-top:1px solid var(--gray-100);font-size:12px;font-weight:400;line-height:1.65}
+.ige-details>summary{padding:10px 12px;cursor:pointer;color:var(--teal-mid);font-weight:400}
+.ige-details>summary:focus-visible,.ige-select:focus-visible{outline:2px solid var(--teal-mid);outline-offset:-3px}
+.ige-details[open]>summary{background:var(--gray-50)}
+.ige-clinical{padding:0 12px 13px;color:var(--navy);font-weight:400}
+.ige-clinical dt{margin-top:12px;font-size:11px;color:var(--teal-mid);font-weight:400}
+.ige-clinical dd{margin:3px 0 0;font-size:12px;line-height:1.7;font-weight:400}
+.ige-sources{margin-top:14px;border-top:1px solid var(--gray-100);padding-top:10px;font-size:10.5px;color:var(--gray-500)}
+.ige-sources a{display:block;margin-top:5px;color:var(--teal-mid);overflow-wrap:anywhere}
+.ige-intro{margin:0 16px 12px;padding:12px 14px;background:var(--aqua-pale);border:1px solid var(--gray-100);border-radius:12px;font-size:12px;line-height:1.65;font-weight:400}
+.ige-intro p+p{margin-top:8px}
+.ige-intro details{margin-top:8px}.ige-intro summary{cursor:pointer;color:var(--teal-mid)}
 /* Painel de pedido */
 #pedFab{position:fixed;right:14px;bottom:calc(var(--bottomnav-h) + 14px);z-index:1300;background:var(--navy);color:#fff;border:none;border-radius:999px;padding:13px 18px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.25);display:none;align-items:center;gap:8px}
 #pedFab .pf-n{background:var(--aqua,#7fd4cd);color:var(--navy);border-radius:999px;min-width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px}
@@ -3662,14 +3682,23 @@ window._mostrarApp = function(){
     </div>
 
     <div class="lab-pane active" id="labpane-ige">
+      <div class="ige-intro">
+        <p>Consulte a finalidade e a aplicação clínica de cada exame antes de montar o pedido. IgE específica positiva indica sensibilização; o diagnóstico depende da história e da exposição.</p>
+        <details><summary>Como interpretar os exames</summary>
+          <p>Extratos avaliam uma mistura de proteínas da fonte; componentes avaliam moléculas específicas e podem esclarecer sensibilização primária ou reação cruzada. A concentração de IgE não prevê, isoladamente, a gravidade de uma futura reação.</p>
+          <p>Solicite exames dirigidos pela hipótese clínica. Painéis indiscriminados podem levar a diagnósticos e restrições desnecessários. Resultado negativo não exclui todas as formas de alergia. Não suspenda um alimento tolerado apenas por positividade laboratorial.</p>
+          <p>IgE total, triptase e ECP são exames distintos das IgEs específicas. Códigos, composição, validação e disponibilidade variam entre plataformas e laboratórios. As fichas moleculares não asseguram disponibilidade como ensaio isolado no Brasil.</p>
+          <p>Referências acadêmicas: ASBAI, EAACI e AAAAI/ACAAI. Fontes técnicas do fabricante complementam identidade e características do ensaio. Revisão do conteúdo: 03/11/2026.</p>
+        </details>
+      </div>
       <div style="padding:0 16px 10px">
         <div class="lab-search">
           <span style="color:var(--gray-500);font-size:14px">🔍</span>
-          <input id="igeBusca" type="text" placeholder="Buscar alérgeno, código ou nome científico…" oninput="_igeFiltroGrupo='';igeRenderChips();igeRender()" autocomplete="off">
-          <button id="igeClear" onclick="document.getElementById('igeBusca').value='';igeRender();" style="display:none;border:none;background:transparent;font-size:16px;color:var(--gray-500);cursor:pointer">×</button>
+          <input id="igeBusca" type="text" aria-label="Buscar exames de IgE em todo o catálogo" placeholder="Buscar alérgeno, código ou aplicação clínica…" oninput="igeBuscar()" autocomplete="off">
+          <button id="igeClear" aria-label="Limpar busca de IgE" onclick="document.getElementById('igeBusca').value='';igeBuscar();" style="display:none;border:none;background:transparent;font-size:16px;color:var(--gray-500);cursor:pointer">×</button>
         </div>
         <div class="lab-chips" id="igeChips"></div>
-        <div style="font-size:11px;color:var(--gray-500);margin-top:8px" id="igeContagem"></div>
+        <div style="font-size:11px;color:var(--gray-500);margin-top:8px" id="igeContagem" aria-live="polite"></div>
       </div>
       <div id="igeLista" style="padding:0 16px 90px"></div>
     </div>
@@ -3878,6 +3907,7 @@ window._mostrarApp = function(){
 <!-- TOAST -->
 <div class="toast" id="toast"><span id="toastIcon">✅</span><span id="toastMsg">Feito!</span></div>
 
+<script src="ige-clinica.js?v=20261103-1"></script>
 <script>
 /* ── ABRIR LINK: usa <a> real (evita bloqueio/confirmação de popup) ── */
 function abrirLink(url){
@@ -6930,6 +6960,7 @@ var IGE_CAT = [
 {c:'ECP',n:'Proteína catiônica eosinofílica',g:'Painéis e triagem'},
 {c:'ISAC/ALEX',n:'Microarray multiplex de componentes moleculares',g:'Painéis e triagem'}
 ];
+if(typeof igePrepararCatalogo==='function') IGE_CAT=igePrepararCatalogo(IGE_CAT);
 
 /* ═══════════ LABORATÓRIO · IgE específica ═══════════ */
 var _ped = [];           // pedido atual
@@ -6958,6 +6989,11 @@ function igeRenderChips(){
 }
 function igeGrupo(g){ _igeFiltroGrupo = (_igeFiltroGrupo===g?'':g); igeRenderChips(); igeRender(); }
 
+function igeBuscar(){
+  if(_igeFiltroGrupo){ _igeFiltroGrupo=''; igeRenderChips(); }
+  igeRender();
+}
+
 function igeRender(){
   var inp=document.getElementById('igeBusca'); if(!inp) return;
   var q=_norm(inp.value.trim());
@@ -6965,20 +7001,26 @@ function igeRender(){
   var lista=IGE_CAT.filter(function(i){
     if(_igeFiltroGrupo && i.g!==_igeFiltroGrupo) return false;
     if(!q) return true;
-    return _norm(i.c).indexOf(q)>=0 || _norm(i.n).indexOf(q)>=0 || _norm(i.g).indexOf(q)>=0;
+    var p=typeof igeInfo==='function'?igeInfo(i):{};
+    return _norm([i.c,i.n,i.g,p.tipo,p.avalia,p.quando,p.aplicacao,p.limites].join(' ')).indexOf(q)>=0;
   });
   var cont=document.getElementById('igeContagem');
-  if(cont) cont.textContent = lista.length+' exame'+(lista.length===1?'':'s')+' · toque no código para adicionar ao pedido';
+  if(cont) cont.textContent = lista.length+' exame'+(lista.length===1?'':'s')+' · '+(q&&!_igeFiltroGrupo?'busca em todo o catálogo · ':'')+'abra a explicação ou use + para adicionar ao pedido';
   var out='', grpAtual='';
   if(!lista.length){
-    out='<div class="ped-vazio">Nenhum alérgeno encontrado.<br>Tente outro termo (ex.: <b>ácaro</b>, <b>f13</b>, <b>Ara h 2</b>, <b>camarão</b>).</div>';
+    out='<div class="ped-vazio">Nenhum exame encontrado.<br>Tente outro termo (ex.: ácaro, f13, Ara h 2, camarão).</div>';
   } else {
     lista.forEach(function(i){
       if(i.g!==grpAtual){ grpAtual=i.g; out+='<div class="ige-grp">'+grpAtual+'</div>'; }
       var inped=_ped.some(function(p){return p.c===i.c;});
-      out+='<div class="ige-item'+(inped?' inped':'')+'" onclick="pedAdd(\''+i.c.replace(/'/g,"\\'")+'\')">'+
-           '<span class="ige-cod">'+i.c+'</span><span class="ige-nome">'+i.n+'</span>'+
-           '<span class="ige-add">'+(inped?'✓':'+')+'</span></div>';
+      var esc=typeof igeHtml==='function'?igeHtml:function(s){return s;};
+      var perfil=typeof igeInfo==='function'?igeInfo(i):null;
+      out+='<article class="ige-card'+(inped?' inped':'')+'"><div class="ige-item">'+
+           '<span class="ige-cod">'+esc(i.c)+'</span><div class="ige-title"><div class="ige-nome">'+esc(i.n)+'</div>'+
+           (perfil?'<div class="ige-kind">'+esc(perfil.tipo)+'</div>':'')+'</div>'+
+           '<button type="button" class="ige-select" aria-label="'+esc((inped?'Ver no pedido: ':'Adicionar ao pedido: ')+i.n)+'" aria-pressed="'+inped+'" '+
+           (i.bloqueado?'disabled>Definir exame':'onclick="pedAdd(\''+i.c.replace(/'/g,"\\'")+'\')">'+(inped?'✓':'+'))+'</button></div>'+
+           (typeof igeDetalhes==='function'?igeDetalhes(i):'')+'</article>';
     });
   }
   document.getElementById('igeLista').innerHTML=out;
@@ -6986,6 +7028,7 @@ function igeRender(){
 
 function pedAdd(cod){
   var it=IGE_CAT.filter(function(i){return i.c===cod;})[0]; if(!it) return;
+  if(it.bloqueado) return;
   if(_ped.some(function(p){return p.c===cod;})){ pedAbrir(); return; }
   _ped.push({c:it.c,n:it.n});
   igeRender(); pedRender(); pedAbrir();
@@ -6999,8 +7042,12 @@ function pedFechar(){ document.getElementById('pedDrawer').classList.remove('ope
 
 function pedTexto(){
   if(!_ped.length) return '';
-  var l=['Solicito dosagem de IgE específica:',''];
-  _ped.forEach(function(p){ l.push('• '+p.c+' — '+p.n); });
+  var l=['Solicito os seguintes exames:',''];
+  _ped.forEach(function(p){
+    if(p.bloqueado) return;
+    var outro=['IgE total','Triptase','ECP','ISAC/ALEX'].indexOf(p.c)>=0;
+    l.push('• '+(outro?'':'IgE específica — ')+p.c+' — '+p.n);
+  });
   return l.join('\n');
 }
 function pedCopiar(){
@@ -7017,7 +7064,14 @@ function _pedCopiaFallback(t,cb){
   document.body.removeChild(ta);
 }
 
-function _pnlLer(){ try{ return JSON.parse(localStorage.getItem(LAB_PNL_KEY)||'[]'); }catch(e){ return []; } }
+function _pnlLer(){ try{
+  var a=JSON.parse(localStorage.getItem(LAB_PNL_KEY)||'[]');
+  if(!Array.isArray(a)) return [];
+  return a.map(function(p){
+    if(typeof igeAtualizarExameSalvo!=='function'||!Array.isArray(p.itens)) return p;
+    return Object.assign({},p,{itens:p.itens.map(igeAtualizarExameSalvo).filter(function(i){return !i.bloqueado;})});
+  });
+}catch(e){ return []; } }
 function _pnlGravar(a){ try{ localStorage.setItem(LAB_PNL_KEY, JSON.stringify(a)); }catch(e){} }
 
 function pedSalvarPainel(){
@@ -10925,3 +10979,4 @@ function chatToggle(){
 </script>
 </body>
 </html>
+
