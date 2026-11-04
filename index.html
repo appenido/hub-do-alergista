@@ -6848,6 +6848,9 @@ var IGE_CAT = [
 })();
 
 if(typeof igePrepararCatalogo==='function') IGE_CAT=igePrepararCatalogo(IGE_CAT);
+// Cada código ImmunoCAP identifica um único ensaio; remove duplicações legadas.
+var _igeCodesJaVistos={};
+IGE_CAT=IGE_CAT.filter(function(i){if(_igeCodesJaVistos[i.c])return false;_igeCodesJaVistos[i.c]=true;return true;});
 
 /* ═══════════ LABORATÓRIO · IgE específica ═══════════ */
 var _ped = [];           // pedido atual
@@ -6867,8 +6870,8 @@ function igeRender(){
  var tokens=q.split(/\s+/).filter(Boolean);
  var lista=IGE_CAT.filter(function(i){
   var p=typeof igeInfo==='function'?igeInfo(i):{};
-  var extra=(i.g.indexOf('Alimentos ·')===0?'IgE específica alérgeno completo extrato alimentar ':'')+(/^fx\d+/i.test(i.c)?'mix mistura painel combinado de alérgenos':'');
-  var hay=_norm([i.c,i.n,i.g,i.busca||'',extra,p.tipo,p.avalia,p.quando,p.aplicacao,p.limites].join(' '));
+  var extra=(/^f\d+/i.test(i.c)&&['f76','f77','f78','f232','f233'].indexOf(i.c)<0?'extrato completo alérgeno inteiro ':'')+(/^fx\d+/i.test(i.c)?'mix mistura painel combinado de alérgenos':'');
+  var hay=_norm([i.c,i.n,i.busca||'',extra].join(' '));
   return tokens.every(function(term){return hay.indexOf(term)>=0;});
  });
  lista.sort(function(a,b){
