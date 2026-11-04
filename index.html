@@ -4231,7 +4231,7 @@ async function reenviarCodigo(){
   err.style.color=''; err.textContent='Solicitando novo envio...';
   if(btn) btn.disabled = true;
   try{
-    var r = await fetch(SB_URL + '/auth/v1/resend', {
+    var r = await fetch(SB_URL + '/auth/v1/resend?redirect_to=' + encodeURIComponent('https://hubdoalergista.pages.dev/'), {
       method:'POST', headers:_sbHeaders(),
       body: JSON.stringify({type:'signup', email:_cadPendente.email})
     });
