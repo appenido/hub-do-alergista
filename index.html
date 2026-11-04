@@ -4562,7 +4562,7 @@ var IG_FABRICANTE = {privigen_10:'CSL Behring',octagam_10:'Octapharma',kiovig_10
   hizentra_20:'CSL Behring',cuvitru_20:'Takeda',hyqvia_10:'Takeda · c/ hialuronidase',gammanorm_165:'Octapharma'};
 // ── IG HUB ──
 var IG_BULAS = {
-  privigen_10:{nome:'Privigen 10%',fab:'CSL Behring',conc:'10%',via:'IV',frascos:'5 g (50 mL) — apresentação usada no Hub',conservacao:'2–8 °C. Não congelar.',ini:'0,3 mL/kg/h por 30 min; dobrar a cada 30 min se tolerado',max:'4,8 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Sem sacarose. Osmolalidade ~320 mOsm/kg.',anvisa:'MS-7.3.39.001.1-0476'},
+  privigen_10:{nome:'Privigen 10%',fab:'CSL Behring',conc:'10%',via:'IV',frascos:'5 g (50 mL) — apresentação usada no Hub',conservacao:'2–8 °C. Não congelar.',ini:'0,3 mL/kg/h por ~30 min; aumento gradual se tolerado (30 min por etapa é sugestão operacional)',max:'4,8 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Sem sacarose. Osmolalidade ~320 mOsm/kg.',anvisa:'MS-7.3.39.001.1-0476'},
   octagam_10:{nome:'Octagam 10%',fab:'Octapharma',conc:'10%',via:'IV',frascos:'20, 50, 100, 200, 500 mL',conservacao:'2–8 °C; até 25 °C por 18 meses.',ini:'0,6 mL/kg/h por 30 min; dobrar a cada 30 min',max:'7,2 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Contém maltose — interferência em glicosímetros. Alertar equipe.',anvisa:'MS-7.3.39.001.1-0182'},
   kiovig_10:{nome:'Kiovig 10%',fab:'Takeda',conc:'10%',via:'IV',frascos:'10, 25, 50, 100, 200, 400 mL',conservacao:'Até 25 °C. Não congelar.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'6,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Sem sacarose/maltose/glicose. pH 4,6–5,1. Baixa viscosidade.',anvisa:'MS-7.3.39.001.1-0425'},
   flebogamma_10:{nome:'Flebogamma DIF 10%',fab:'Grifols',conc:'10%',via:'IV',frascos:'50, 100, 200, 400 mL',conservacao:'Até 30 °C. Não congelar.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'6,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Sorbitol. pH 5,0. Preferido em risco tromboembólico (baixa osmolalidade).',anvisa:'MS-7.3.39.001.1-0335'},
@@ -4570,9 +4570,9 @@ var IG_BULAS = {
   endobulin_5:{nome:'Endobulin S/D 5%',fab:'Baxter',conc:'5%',via:'IV',frascos:'50, 100, 200, 400 mL',conservacao:'2–8 °C. Não congelar.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'4,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Tratado com solvente/detergente. Estabilizador: glicose.',anvisa:'MS-7.3.39.001.1-0049'},
   gammaked_10:{nome:'Gammaked 10%',fab:'Kedrion/Grifols',conc:'10%',via:'IV',frascos:'10, 25, 50, 100, 200 mL',conservacao:'2–8 °C. Não congelar.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'8,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Também indicado para PTI. Contém glicina.',anvisa:'MS-7.3.39.001.1-0388'},
   gamunex_10:{nome:'Gamunex-C 10%',fab:'Grifols',conc:'10%',via:'IV',frascos:'10, 25, 50, 100, 200 mL',conservacao:'2–8 °C; até 25 °C por 6 meses.',ini:'0,5 mL/kg/h por 30 min; dobrar a cada 30 min',max:'8,0 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Contém glicina. pH 4,0–4,5.',anvisa:'MS-7.3.39.001.1-0291'},
-  hizentra_20:{nome:'Hizentra 20%',fab:'CSL Behring',conc:'20%',via:'SC',frascos:'5, 10, 20, 50 mL',conservacao:'Até 25 °C por 24 meses. Não congelar.',ini:'15 mL/h/sítio; progredir até 25 mL/h/sítio',max:'25 mL/h/sítio',pre:'Não requer pré-medicação de rotina',obs:'L-prolina. Vol. máx 25 mL/sítio.',anvisa:'MS-7.3.39.001.1-0474'},
+  hizentra_20:{nome:'Hizentra 20%',fab:'CSL Behring',conc:'20%',via:'SC',frascos:'5, 10, 20, 50 mL',conservacao:'Até 25 °C por 24 meses. Não congelar.',ini:'Primeira: até 15 mL/h/local; subsequentes toleradas: até 25 mL/h/local',max:'Até 25 mL/h/local nas subsequentes',pre:'Não requer pré-medicação de rotina',obs:'Reposição: até 15 mL/local na primeira e 25 mL/local nas subsequentes.',anvisa:'MS-7.3.39.001.1-0474'},
   cuvitru_20:{nome:'Cuvitru 20%',fab:'Takeda',conc:'20%',via:'SC',frascos:'10, 20, 50 mL',conservacao:'Até 25 °C por 24 meses. Não congelar.',ini:'15 mL/h/sítio; progredir até 25 mL/h/sítio',max:'25 mL/h/sítio',pre:'Não requer pré-medicação de rotina',obs:'pH 4,4–4,9. Alta concentração — menor volume de infusão.',anvisa:'MS-7.3.39.001.1-0480'},
-  hyqvia_10:{nome:'HyQvia 10%',fab:'Takeda',conc:'10%',via:'SC',frascos:'5 g: IgG 10% 50 mL + hialuronidase 2,5 mL — kit usado no Hub',conservacao:'2–8 °C; até 25 °C por 3 meses. Não congelar.',ini:'10 mL/h (fase IgG após 10 min de hialuronidase)',max:'Até 300 mL/h (1–3 sítios)',pre:'Hialuronidase pré-infusão obrigatória — protocolo de iniciação (8 primeiras infusões)',obs:'Única SC de alto volume. Permite dose mensal com 1 sítio.',anvisa:'MS-7.3.39.001.1-0487'},
+  hyqvia_10:{nome:'HyQvia 10%',fab:'Takeda',conc:'10%',via:'SC',frascos:'5 g: IgG 10% 50 mL + hialuronidase 2,5 mL — kit usado no Hub',conservacao:'2–8 °C; até 25 °C por 3 meses. Não congelar.',ini:'Conforme peso e primeiras duas infusões ou subsequentes; verificar tabela da bula',max:'Até 300 mL/h/local, se tolerado e ≥40 kg nas subsequentes',pre:'Hialuronidase antes da IgG; verificar titulação inicial na bula',obs:'Única SC de alto volume. Permite dose mensal com 1 sítio.',anvisa:'MS-7.3.39.001.1-0487'},
   gammanorm_165:{nome:'Gammanorm 16,5%',fab:'Octapharma',conc:'16,5%',via:'SC',frascos:'10, 20, 50 mL',conservacao:'2–8 °C. Não congelar.',ini:'10 mL/h/sítio; progredir até 20 mL/h/sítio',max:'20 mL/h/sítio',pre:'Não requer pré-medicação de rotina',obs:'Maltose. Vol. máx 15 mL/sítio.',anvisa:'MS-7.3.39.001.1-0390'}
 };
 
@@ -5474,6 +5474,7 @@ function igInfusoesComprovadas(p,produto){
   if(!p||p.produto!==produto||p.reacao&&p.reacao!=='nenhuma')return 0;
   var n=p.historicoProduto===produto&&p.toleranciaDocumentada?Number(p.historicoInformado)||0:0;
   var its=p.infusoes||[];
+  if(its.length&&(its[its.length-1].produto!==produto||its[its.length-1].reacao!=='nenhuma'))return 0;
   for(var i=its.length-1;i>=0;i--){if(its[i].produto!==produto||its[i].reacao!=='nenhuma')break;n++;}
   return n;
 }
@@ -5488,6 +5489,7 @@ function igUltimaInfusaoData(p){
 }
 function igHistoricoSeguro(p,produto){
   if(!p||igInfusoesComprovadas(p,produto)===0||p.reacao!=='nenhuma')return false;
+  if((p.infusoes||[]).length&&p.infusoes[p.infusoes.length-1].reacao!=='nenhuma')return false;
   var date=igUltimaInfusaoData(p);if(!date)return false;
   var d=new Date(date+'T12:00:00');
   return !isNaN(d.getTime())&&Date.now()>=d.getTime()&&(Date.now()-d.getTime())<=56*86400000;
@@ -5529,10 +5531,10 @@ function igRenderPacientes(filtro){
       var div=document.createElement('div');
       div.style.cssText='background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px';
       div.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between">'
-        +'<b style="font-size:13.5px;color:var(--navy)">'+p.nome+'</b>'
+        +'<b style="font-size:13.5px;color:var(--navy)">'+igEscapeHtml(p.nome)+'</b>'
         +'<span style="font-size:11px;color:var(--gray-500)">'+nInf+(nInf===1?' infusão':' infusões')+'</span></div>'
-        +'<div style="font-size:11.5px;color:var(--gray-500)">'+(p.dx||'')+(p.peso?' · '+p.peso+' kg':'')+(p.ultima?' · última: '+p.ultima:'')+'</div>'
-        +(prod?'<div style="font-size:11px;color:var(--teal-mid);font-weight:700">'+prod+'</div>':'')
+        +'<div style="font-size:11.5px;color:var(--gray-500)">'+igEscapeHtml(p.dx||'')+(p.peso?' · '+p.peso+' kg':'')+(p.ultima?' · última: '+p.ultima:'')+'</div>'
+        +(prod?'<div style="font-size:11px;color:var(--teal-mid);font-weight:700">'+igEscapeHtml(prod)+'</div>':'')
         +'<div style="display:flex;gap:6px;margin-top:6px">'
         +'<button class="bni" style="flex:1;background:var(--teal-mid);color:#fff;border:none;border-radius:8px;padding:6px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:Manrope,sans-serif">💉 Nova infusão</button>'
         +'<button class="bri" style="background:#e6f4f7;color:var(--teal-mid);border:none;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer">📅 Registrar</button>'
@@ -5597,12 +5599,12 @@ function igNomeAutoComplete(val){
       var div = document.createElement('div');
       div.style.cssText = 'padding:8px 12px;cursor:pointer;border-bottom:1px solid var(--gray-100);font-size:13px';
       var infoSpan = '<span style="color:var(--gray-500);font-size:11px;margin-left:8px">'
-        +(p.dx||'')+(p.peso?' · '+p.peso+' kg':'')+(p.ultima?' · '+p.ultima:'')+'</span>';
+        +igEscapeHtml(p.dx||'')+(p.peso?' · '+p.peso+' kg':'')+(p.ultima?' · '+p.ultima:'')+'</span>';
       var btns = '<span style="float:right;display:flex;gap:4px">'
         +'<button type="button" title="Registrar infusão hoje" style="background:var(--teal-mid);color:#fff;border:none;border-radius:5px;padding:1px 6px;font-size:10px;cursor:pointer">&#128197; Registrar</button>'
         +'<button type="button" title="Deletar paciente" style="background:#e53e3e;color:#fff;border:none;border-radius:5px;padding:1px 6px;font-size:10px;cursor:pointer">&#128465; Deletar</button>'
         +'</span>';
-      div.innerHTML = '<b>'+p.nome+'</b>'+infoSpan+btns;
+      div.innerHTML = '<b>'+igEscapeHtml(p.nome)+'</b>'+infoSpan+btns;
       div.style.display = 'flex'; div.style.alignItems = 'center'; div.style.justifyContent = 'space-between';
       (function(pn){
         div.onclick = function(){ igSelecionarPaciente(pn); };
@@ -5621,12 +5623,13 @@ function igSelecionarPaciente(nome){
     var hist = JSON.parse(localStorage.getItem('igPacientes')||'{}');
     var p = hist[nome.toLowerCase()];
     if(!p) return;
-    var set = function(id,v){ var el=document.getElementById(id); if(el&&v!=null) el.value=v; };
+    var set = function(id,v){ var el=document.getElementById(id); if(el) el.value=(v==null?'':v); };
     set('igNome',p.nome); set('igIdade',p.idade); set('igIdadeUn',p.idUn);
     set('igPeso',p.peso); set('igDx',p.dx); set('igIgG',p.igG);
     set('igVia',p.via); set('igProduto',p.produto);
     set('igReacao',p.reacao || 'nenhuma'); set('igInfRep',p.infRep || 'sim'); var sl=document.getElementById('igPrescPaciente');if(sl)sl.value=p.nome;
     if(p.produto) renderIgPicker();
+    var formulario=document.getElementById('igFormBox');if(formulario)formulario.style.display='block';
     // Se paciente já tem infusões registradas, colapsar formulário e mostrar banner
     if((p.infusoes && p.infusoes.length > 0)||p.historicoInformado>0){
       var banner = document.getElementById('igPacResumoBanner');
@@ -8934,6 +8937,7 @@ function gerarOrientacaoIg(){
   if(isNaN(peso) || peso <= 0){ toast('⚠️','Digite um peso válido'); return; }
   if(peso < 2 || peso > 250){ toast('⛔','Peso fora da faixa aceita (2–250 kg)'); return; }
   if(isNaN(idade) || idade < 0){ toast('⚠️','Digite a idade do paciente'); return; }
+  if(reacao==='anafilaxia'){ toast('⛔','Anafilaxia prévia à imunoglobulina: requer avaliação individual antes de protocolo automático.'); return; }
 
   // Compatibilidade via × produto
   var viaProd = (prod.via && prod.via.indexOf('SC') === 0) ? 'SC' : 'IV';
@@ -9067,7 +9071,7 @@ function gerarOrientacaoIg(){
   h += '<div style="display:flex;align-items:center">'+logoHtml+'<span style="font-size:1.05rem;font-weight:800;color:var(--navy)">Orientação de Infusão</span></div>';
   h += '<button onclick="imprimirIgOrientacao()" style="display:flex;align-items:center;gap:6px;background:var(--navy);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:Manrope,sans-serif"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>Imprimir PDF</button>';
   h += '</div>';
-  h += kv('Paciente', nome);
+  h += kv('Paciente', igEscapeHtml(nome));
   h += kv('Produto', prod.nome+(prod.conc?' · '+prod.conc:''));
   h += kv('Indicação', info.label);
   h += kv('Via', via==='IV'?'Intravenosa (IV)':'Subcutânea (SC)');
@@ -9081,21 +9085,12 @@ function gerarOrientacaoIg(){
   if(volML) h += kv('Volume', volML+' mL ('+prod.conc+')');
   // Cálculo de frascos
   function calcAmpolas(volTotal, disponiveis){
-    var sorted = disponiveis.slice().sort(function(a,b){return b-a;});
-    var best = null, bestWaste = Infinity;
-    function combo(rest, idx, acc){
-      if(rest <= 0){ var w=-rest; if(w<bestWaste){bestWaste=w;best=acc.slice();} return; }
-      if(idx>=sorted.length) return;
-      var maxN = Math.ceil(rest/sorted[idx]);
-      for(var n=maxN;n>=1;n--){
-        acc.push({v:sorted[idx],n:n});
-        combo(rest-n*sorted[idx], idx+1, acc);
-        acc.pop();
-      }
-      combo(rest, idx+1, acc);
-    }
-    combo(volTotal,0,[]);
-    return best;
+    if(!Number.isFinite(volTotal)||volTotal<=0||!disponiveis||!disponiveis.length)return null;
+    var doses=disponiveis.slice().filter(function(v){return v>0;}).sort(function(a,b){return b-a;});
+    if(!doses.length)return null;
+    var falta=volTotal,res=[];
+    doses.forEach(function(v,i){var n=i===doses.length-1?Math.ceil(Math.max(0,falta)/v):Math.floor(Math.max(0,falta)/v);if(n>0){res.push({v:v,n:n});falta-=v*n;}});
+    return res;
   }
   var ampolasInfo = (prod && prod.mL) ? calcAmpolas(volML, prod.mL) : null;
   if(ampolasInfo && ampolasInfo.length){
