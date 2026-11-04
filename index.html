@@ -1130,7 +1130,7 @@ window._mostrarApp = function(){
       <div class="auth-err" id="cadErr"></div>
     </div>
   </div>
-  <div class="auth-footer">Acesso exclusivo para profissionais de saúde cadastrados.<br>Dados armazenados localmente neste dispositivo.</div>
+  <div class="auth-footer">Acesso exclusivo para profissionais de saúde cadastrados.<br>A conta utiliza autenticação segura. Consulte a Política de Privacidade.</div>
 </div>
 
 <!-- TOPBAR -->
@@ -4019,9 +4019,9 @@ function _sbToken(){
 }
 function _salvarLocal(email, dados){
   try{
-    var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
+    var users = JSON.parse(sessionStorage.getItem('hub_users')||'{}');
     users[email] = Object.assign(users[email]||{}, dados);
-    localStorage.setItem('hub_users', JSON.stringify(users));
+    sessionStorage.setItem('hub_users', JSON.stringify(users));
   }catch(e){}
 }
 function _metaDoUsuario(user){
@@ -4207,7 +4207,7 @@ function _atualizarInfoUsuario(){
 function preencherPerfil(){
   try{
     var sess  = JSON.parse(localStorage.getItem('hub_session')||'{}');
-    var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
+    var users = JSON.parse(sessionStorage.getItem('hub_users')||'{}');
     var u = users[sess.email] || {};
     function set(id,v){var el=document.getElementById(id); if(el) el.value = v||'';}
     set('perfNome', u.nome||sess.nome);
@@ -4235,7 +4235,7 @@ function salvarPerfil(){
   function erro(t){ if(msg){msg.style.color='#e74c3c'; msg.textContent=t;} }
   try{
     var sess  = JSON.parse(localStorage.getItem('hub_session')||'{}');
-    var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
+    var users = JSON.parse(sessionStorage.getItem('hub_users')||'{}');
     var u = users[sess.email] || {};
     var nome = (document.getElementById('perfNome').value||'').trim();
     if(!nome){ erro('Informe seu nome completo.'); return; }
@@ -6236,7 +6236,7 @@ function _interessesSelecionados(){
 function _meusInteresses(){
   try{
     var sess = JSON.parse(localStorage.getItem('hub_session')||'{}');
-    var users = JSON.parse(localStorage.getItem('hub_users')||'{}');
+    var users = JSON.parse(sessionStorage.getItem('hub_users')||'{}');
     return (users[sess.email] && users[sess.email].interesses) || [];
   }catch(e){ return []; }
 }
