@@ -18,3 +18,11 @@ for(const i of catalog.itens){
 }
 assert.equal(errors,0,'Referências com metadados divergentes');
 console.log(ids.length+' referências: título, PMID, DOI e PMC conferem com o PubMed.');
+
+// Exercita a consulta ampliada real, além da conferência do catálogo fixo.
+const {onRequestGet}=await import('../functions/guidelines.js');
+const live=await onRequestGet({request:new Request('https://hubdoalergista.pages.dev/guidelines?tema=all'),waitUntil(){}});
+const liveData=await live.json();
+assert.equal(live.status,200,JSON.stringify(liveData));
+assert.ok(liveData.itens.length>0,'Busca ampliada sem publicações');
+console.log('Busca ampliada real: '+liveData.itens.length+' publicações com identidades vinculadas.');
