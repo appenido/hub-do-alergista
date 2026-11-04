@@ -1156,7 +1156,6 @@ window._mostrarApp = function(){
     </div>
 
     <div class="sec-hdr" style="margin-top:8px"><h2>Artigos Recentes</h2><span class="see-all" data-nav="artigos">Ver todos</span></div>
-    <p id="homeArtigosInfo" style="font-size:11.5px;color:var(--gray-500);line-height:1.5;margin:0 0 12px">Os 3 artigos mais recentes de cada tema escolhido no cadastro.</p>
     <div class="gap-list" id="homeArtigos" aria-live="polite"></div>
 
     <div class="comply"><span>🔒</span><div><strong>LGPD:</strong> Não insira dados identificáveis de pacientes. As ferramentas de IA são de apoio educacional — não substituem julgamento clínico nem responsabilidade médica.</div></div>
@@ -9940,11 +9939,8 @@ function _homeRenderGrupos(box, grupos){
     var n = g.dados ? Math.min(g.dados.result.uids.length,3) : 0;
     var aviso = g.erro ? (cards ? 'Mostrando a última atualização salva. Não foi possível atualizar agora.' : 'Não foi possível carregar os artigos deste tema agora.') :
       (g.carregando ? (cards ? 'Atualizando publicações…' : 'Carregando publicações…') : (n ? '' : 'Nenhum artigo encontrado para este tema.'));
-    return '<section class="home-artigos-tema" data-home-topic="' + _homeAttr(g.id) + '" aria-label="' + _homeAttr(g.nome) + '">' +
-      '<h3 style="font-size:13px;color:var(--teal-mid);margin:4px 0 10px">' + _feedEscape(g.nome) +
-      (!g.carregando && !g.erro ? ' · ' + n + (n===1 ? ' artigo' : ' artigos') : '') + '</h3>' +
-      cards + (aviso ? '<div role="status" style="font-size:11.5px;color:var(--gray-500);line-height:1.5;margin-bottom:10px">' + aviso +
-      (g.erro ? ' <button type="button" class="link-btn" onclick="carregarFeedHome(true)">Tentar novamente</button>' : '') + '</div>' : '') + '</section>';
+    return cards + (aviso ? '<div role="status" style="font-size:11.5px;color:var(--gray-500);line-height:1.5;margin-bottom:10px">' + aviso +
+      (g.erro ? ' <button type="button" class="link-btn" onclick="carregarFeedHome(true)">Tentar novamente</button>' : '') + '</div>' : '');
   }).join('');
   if(typeof favScan === 'function') favScan(box);
 }
@@ -9959,8 +9955,6 @@ function carregarFeedHome(forcar){
   if(!forcar && _homeFeedChave === chave) return _homeFeedPromise;
   _homeFeedChave = chave;
   var versao = ++_homeFeedVersao;
-  var info = document.getElementById('homeArtigosInfo');
-  if(info) info.textContent = 'Os 3 artigos mais recentes de cada tema escolhido no cadastro, do mais novo para o mais antigo.';
   if(!temas.length){
     box.innerHTML = '<div style="font-size:12px;color:var(--gray-500);line-height:1.6;padding:10px 0">' +
       (email ? 'Escolha seus temas de interesse em Meu perfil para personalizar os artigos da Home. <button type="button" class="link-btn" onclick="navTo(\'perfil\')">Escolher temas</button>' :
