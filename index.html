@@ -6152,12 +6152,12 @@ function iaSetProv(p){
   if(p==='hub'){ box.style.display='none'; return; }
   box.style.display='block';
   if(hint) hint.textContent = IA_PROVS[p].hint;
-  if(inp){ try{ inp.value = localStorage.getItem(IA_PROVS[p].store)||''; }catch(e){ inp.value=''; } }
+  if(inp){ try{ inp.value = sessionStorage.getItem(IA_PROVS[p].store)||''; }catch(e){ inp.value=''; } }
 }
 function iaSalvarChave(){
   var p=_iaProvAtual(); if(p==='hub') return;
   var inp=document.getElementById('iaProvKey'); if(!inp) return;
-  try{ localStorage.setItem(IA_PROVS[p].store, (inp.value||'').trim()); }catch(e){}
+  try{ sessionStorage.setItem(IA_PROVS[p].store, (inp.value||'').trim()); }catch(e){}
   try{ toast('✅','Chave salva neste dispositivo.'); }catch(e){}
 }
 document.addEventListener('DOMContentLoaded', function(){ try{ iaSetProv(_iaProvAtual()); }catch(e){} });
@@ -6213,7 +6213,7 @@ function perguntarIaHub(){
       .then(function(r){ return r.json(); });
   } else {
     var chave = '';
-    try{ chave = localStorage.getItem(IA_PROVS[prov].store)||''; }catch(e){}
+    try{ chave = sessionStorage.getItem(IA_PROVS[prov].store)||''; }catch(e){}
     if(!chave){
       box.textContent = 'Informe e salve sua chave de API para usar o '+IA_PROVS[prov].label+'.';
       btn.disabled = false; btn.textContent = 'Perguntar →';
@@ -6382,7 +6382,7 @@ function selectAI(ai){
   // carregar chave salva
   var inp = document.getElementById('aiKeyInput');
   if(inp){
-    try{ inp.value = localStorage.getItem(cfg.keyStore)||''; }catch(e){ inp.value=''; }
+    try{ inp.value = sessionStorage.getItem(cfg.keyStore)||''; }catch(e){ inp.value=''; }
     inp.type = 'password';
   }
   // link direto
@@ -6402,7 +6402,7 @@ function saveAIKey(){
   if(!inp) return;
   var key = (inp.value||'').trim();
   var cfg = _aiConfig[_currentAI];
-  try{ localStorage.setItem(cfg.keyStore, key); }catch(e){}
+  try{ sessionStorage.setItem(cfg.keyStore, key); }catch(e){}
   toast('✅','Chave salva!');
 }
 
@@ -8008,8 +8008,12 @@ function _uctIniciarSessao(){
   }
 }
 
+function _hubTokenSeguro(){
+  var bytes=new Uint8Array(24);crypto.getRandomValues(bytes);
+  return Array.from(bytes,function(b){return b.toString(16).padStart(2,'0');}).join('');
+}
 function _uctGerarQR(){
-  _uctSessaoId = 'uct-' + Date.now();
+  _uctSessaoId = 'uct-' + _hubTokenSeguro();
   var url = _uctPatientUrl + '?s=' + _uctSessaoId;
   var wrap = document.getElementById('uct-qr-canvas');
   if(!wrap) return;
@@ -8035,9 +8039,11 @@ function _uctPararPolling(){
 
 function _uctChecar(){
   if(!_uctSessaoId) return;
-  fetch(_SUPA_URL + '/rest/v1/uct_results?sessao_id=eq.' + encodeURIComponent(_uctSessaoId) + '&order=created_at.desc&limit=1', {
-    headers: { 'apikey': _SUPA_KEY, 'Authorization': 'Bearer ' + _SUPA_KEY }
-  }).then(function(r){ return r.json(); }).then(function(rows){
+  fetch(_SUPA_URL + '/rest/v1/rpc/uct_da_sessao', {
+    method:'POST',
+    headers:{'apikey':_SUPA_KEY,'Authorization':'Bearer '+_SUPA_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({p_sessao:_uctSessaoId})
+  }).then(function(r){ if(!r.ok) throw Error('Consulta indisponível'); return r.json(); }).then(function(rows){
     if(!rows || !rows.length) return;
     _uctPararPolling();
     _uctMostrarResultado(rows[0]);
@@ -8162,7 +8168,7 @@ function _snot22RenderQR(){
 }
 
 function _snot22LinkPaciente(){
-  if(!_snot22SessaoId) _snot22SessaoId='snot22-'+Date.now();
+  if(!_snot22SessaoId) _snot22SessaoId='snot22-'+_hubTokenSeguro();
   return _snot22PatientUrl+'?s='+_snot22SessaoId;
 }
 
@@ -8339,9 +8345,11 @@ function _scoreHoje(){
 }
 
 function _scoreRpc(fn, body){
+  var token=_sbToken();
+  if(!token) return Promise.reject(new Error('Entre na sua conta para acessar os dados.'));
   return fetch(_SUPA_URL+'/rest/v1/rpc/'+fn,{
     method:'POST',
-    headers:{'apikey':_SUPA_KEY,'Authorization':'Bearer '+_SUPA_KEY,'Content-Type':'application/json'},
+    headers:{'apikey':_SUPA_KEY,'Authorization':'Bearer '+token,'Content-Type':'application/json'},
     body:JSON.stringify(body)
   }).then(function(r){ if(!r.ok) return r.text().then(function(t){ throw new Error('HTTP '+r.status+' '+t.slice(0,140)); }); return r.status===204?null:r.json(); });
 }
@@ -9206,7 +9214,35 @@ function imprimirIgOrientacao(){
     '<div style="margin-left:auto;font-size:10px;color:#999">'+ new Date().toLocaleDateString('pt-BR')+'</div></div>'+
     card.innerHTML+
     '<div style="margin-top:18px;font-size:10px;color:#999;border-top:1px solid #e5e7eb;padding-top:8px">Hub do Alergista — ferramenta de apoio ao médico prescritor. Confirmar velocidades na bula do produto.</div>'+
-    '<script>window.onload=function(){setTimeout(function(){window.print();},400);}<\/script></body></html>');
+    '<script>window.onload=function(){setTimeout(function(){window.print();},400);}<\/script><footer style="padding:18px;text-align:center;background:#edf4f8;font:12px Manrope,Arial,sans-serif;line-height:2.1">
+<a href="/privacidade.html">Privacidade e LGPD</a> · <a href="/termos.html">Termos de uso</a> · <a href="/privacidade.html#cookies">Cookies e armazenamento</a> ·
+<button type="button" onclick="hubExportarDadosLocais()" style="border:0;background:none;color:#09657a;text-decoration:underline;cursor:pointer;font:inherit">Exportar meus dados locais</button> ·
+<button type="button" onclick="hubApagarDadosLocais()" style="border:0;background:none;color:#09657a;text-decoration:underline;cursor:pointer;font:inherit">Apagar dados locais</button>
+</footer>
+<script>
+(function(){
+  // Remove chaves de terceiros persistidas por versões antigas.
+  ['hub_aikey_chatgpt','hub_aikey_gemini'].forEach(function(k){try{localStorage.removeItem(k);}catch(e){}});
+  try{Object.keys(localStorage).filter(function(k){return /^(hub_.*(apikey|api_key|aikey)|.*_api_key)$/i.test(k);}).forEach(function(k){localStorage.removeItem(k);});}catch(e){}
+})();
+function hubExportarDadosLocais(){
+  var dados={exportadoEm:new Date().toISOString(),origem:'Hub do Alergista - dados deste navegador',local:{},temporarios:{}};
+  try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k && (/^hub_/.test(k)||k==='igPacientes'||k==='vacPacientes') && !/token|key|senha|aikey/i.test(k)) dados.local[k]=localStorage.getItem(k);}}catch(e){}
+  try{for(var j=0;j<sessionStorage.length;j++){var sk=sessionStorage.key(j);if(sk && (/^hub_/.test(sk)||sk==='igPacientes'||sk==='vacPacientes') && !/token|key|senha|session|sessao|aikey/i.test(sk)) dados.temporarios[sk]=sessionStorage.getItem(sk);}}catch(e){}
+  var blob=new Blob([JSON.stringify(dados,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob), a=document.createElement('a');
+  a.href=url;a.download='hub-dados-locais-'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},1500);
+  alert('Exportação concluída. O arquivo pode conter dados de saúde. Guarde-o de forma segura. Dados do servidor não estão incluídos.');
+}
+function hubApagarDadosLocais(){
+  if(!confirm('Apagar definitivamente os dados do Hub armazenados neste navegador? Isso NÃO exclui dados do servidor. Exporte antes para guardar o histórico.'))return;
+  try{Object.keys(localStorage).filter(function(k){return /^hub_/.test(k)||k==='igPacientes'||k==='vacPacientes';}).forEach(function(k){localStorage.removeItem(k);});}catch(e){}
+  try{Object.keys(sessionStorage).filter(function(k){return /^hub_/.test(k)||k==='igPacientes'||k==='vacPacientes';}).forEach(function(k){sessionStorage.removeItem(k);});}catch(e){}
+  alert('Dados locais excluídos neste navegador. Para dados do servidor, use o formulário da Central de Privacidade.');location.reload();
+}
+</script>
+</body></html>');
   win.document.close();
 }
 
@@ -11074,6 +11110,34 @@ function chatToggle(){
   new MutationObserver(function(){ clearTimeout(t); t=setTimeout(montar,400); })
     .observe(document.body,{childList:true,subtree:true});
 })();
+</script>
+<footer style="padding:18px;text-align:center;background:#edf4f8;font:12px Manrope,Arial,sans-serif;line-height:2.1">
+<a href="/privacidade.html">Privacidade e LGPD</a> · <a href="/termos.html">Termos de uso</a> · <a href="/privacidade.html#cookies">Cookies e armazenamento</a> ·
+<button type="button" onclick="hubExportarDadosLocais()" style="border:0;background:none;color:#09657a;text-decoration:underline;cursor:pointer;font:inherit">Exportar meus dados locais</button> ·
+<button type="button" onclick="hubApagarDadosLocais()" style="border:0;background:none;color:#09657a;text-decoration:underline;cursor:pointer;font:inherit">Apagar dados locais</button>
+</footer>
+<script>
+(function(){
+  // Remove chaves de terceiros persistidas por versões antigas.
+  ['hub_aikey_chatgpt','hub_aikey_gemini'].forEach(function(k){try{localStorage.removeItem(k);}catch(e){}});
+  try{Object.keys(localStorage).filter(function(k){return /^(hub_.*(apikey|api_key|aikey)|.*_api_key)$/i.test(k);}).forEach(function(k){localStorage.removeItem(k);});}catch(e){}
+})();
+function hubExportarDadosLocais(){
+  var dados={exportadoEm:new Date().toISOString(),origem:'Hub do Alergista - dados deste navegador',local:{},temporarios:{}};
+  try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k && (/^hub_/.test(k)||k==='igPacientes'||k==='vacPacientes') && !/token|key|senha|aikey/i.test(k)) dados.local[k]=localStorage.getItem(k);}}catch(e){}
+  try{for(var j=0;j<sessionStorage.length;j++){var sk=sessionStorage.key(j);if(sk && (/^hub_/.test(sk)||sk==='igPacientes'||sk==='vacPacientes') && !/token|key|senha|session|sessao|aikey/i.test(sk)) dados.temporarios[sk]=sessionStorage.getItem(sk);}}catch(e){}
+  var blob=new Blob([JSON.stringify(dados,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob), a=document.createElement('a');
+  a.href=url;a.download='hub-dados-locais-'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url);},1500);
+  alert('Exportação concluída. O arquivo pode conter dados de saúde. Guarde-o de forma segura. Dados do servidor não estão incluídos.');
+}
+function hubApagarDadosLocais(){
+  if(!confirm('Apagar definitivamente os dados do Hub armazenados neste navegador? Isso NÃO exclui dados do servidor. Exporte antes para guardar o histórico.'))return;
+  try{Object.keys(localStorage).filter(function(k){return /^hub_/.test(k)||k==='igPacientes'||k==='vacPacientes';}).forEach(function(k){localStorage.removeItem(k);});}catch(e){}
+  try{Object.keys(sessionStorage).filter(function(k){return /^hub_/.test(k)||k==='igPacientes'||k==='vacPacientes';}).forEach(function(k){sessionStorage.removeItem(k);});}catch(e){}
+  alert('Dados locais excluídos neste navegador. Para dados do servidor, use o formulário da Central de Privacidade.');location.reload();
+}
 </script>
 </body>
 </html>
