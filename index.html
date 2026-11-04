@@ -1030,6 +1030,8 @@ _marcarGuiasPagas();
 .pnl-acts button{flex:1;border:1.5px solid var(--gray-100);background:#fff;color:var(--navy);border-radius:8px;padding:7px;font-family:'Manrope',sans-serif;font-size:11.5px;font-weight:700;cursor:pointer}
 @media(max-width:520px){#pedDrawer{width:100%;max-width:100%}}
 
+.bio-grid .bio-header .bio-icon:has(.bio-target){width:auto;min-width:82px;max-width:100%;height:auto;min-height:40px;padding:8px 10px;}
+.bio-target{font-size:11px;font-weight:600;line-height:1.3;text-align:center;overflow-wrap:anywhere;}
 </style>
 <script>
 /* Endereço canônico — os espelhos antigos redirecionam para cá */
@@ -2685,7 +2687,7 @@ window._bloquearApp=function(){};
     <div class="bio-grid">
     <div class="bio-card" id="bio-dupilumabe">
       <div class="bio-header" onclick="toggleBio('dupilumabe')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#1a4a5c,#2d8fa8)">🩹</div>
+        <div class="bio-icon" style="background:linear-gradient(135deg,#1a4a5c,#2d8fa8)"><span class="bio-target" title="Bloqueia IL-4 e IL-13">Anti-IL-4Rα</span></div>
         <div>
           <div class="bio-name">Dupilumabe</div>
           <div class="bio-comercial">Dupixent® · Sanofi / Regeneron</div>
@@ -2693,7 +2695,7 @@ window._bloquearApp=function(){};
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal anti-IL-4Rα — bloqueia a sinalização de <strong>IL-4 e IL-13</strong> (via central da inflamação tipo 2).</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal que se liga à subunidade IL-4Rα, compartilhada pelos receptores de IL-4 e IL-13. Impede a sinalização de IL-4 pelo receptor tipo I e de IL-4/IL-13 pelo tipo II, reduzindo a inflamação tipo 2, a produção de IgE e a expressão de mediadores inflamatórios.</div></div>
         <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value">Seringa/caneta pré-preenchida SC: <strong>300 mg/2 mL</strong>, <strong>200 mg/1,14 mL</strong> e <strong>100 mg</strong> (pediátrico). Aplicar em coxa ou abdômen (evitar 5 cm ao redor do umbigo).</div></div>
         <div class="bio-section"><div class="bio-label">Posologia e dose por doença</div><div class="bio-value"><div style="display:flex;flex-direction:column;gap:10px">
           <div style="background:var(--gray-50);border-radius:9px;padding:10px 12px">
@@ -2761,7 +2763,7 @@ window._bloquearApp=function(){};
     </div>
     <div class="bio-card" id="bio-omalizumabe">
       <div class="bio-header" onclick="toggleBio('omalizumabe')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#5b3a8c,#8155b8)">💉</div>
+        <div class="bio-icon" style="background:linear-gradient(135deg,#5b3a8c,#8155b8)"><span class="bio-target" title="Bloqueia IgE livre">Anti-IgE</span></div>
         <div>
           <div class="bio-name">Omalizumabe</div>
           <div class="bio-comercial">Xolair® · Novartis · biossimilar Omlyclo® (Celltrion)</div>
@@ -2769,7 +2771,7 @@ window._bloquearApp=function(){};
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal <strong>anti-IgE</strong> — liga a IgE livre e reduz sua ligação ao receptor FcεRI em mastreitos e basófilos.</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal que se liga à IgE livre e impede sua ligação ao receptor de alta afinidade FcεRI. Com o tratamento, reduz também a expressão desse receptor em mastócitos e basófilos, diminuindo sua ativação e a liberação de mediadores, como a histamina.</div></div>
         <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value">SC: <strong>150 mg</strong> e <strong>75 mg</strong> (frasco/seringa). Não aplicar mais de 150 mg por sítio de injeção. <span class="bio-new">NOVO</span> Primeiro <strong>biossimilar</strong> registrado no Brasil: <strong>Omlyclo®</strong> (Celltrion, ~out/2025) — asma ≥ 6 anos, UCE ≥ 12 anos, RSCcPN ≥ 18 anos.</div></div>
         <div class="bio-section"><div class="bio-label">Posologia e dose por doença</div><div class="bio-value"><div style="display:flex;flex-direction:column;gap:10px">
       <div style="background:var(--gray-50);border-radius:9px;padding:10px 12px">
@@ -2809,7 +2811,7 @@ window._bloquearApp=function(){};
     </div>
     <div class="bio-card" id="bio-mepolizumabe">
       <div class="bio-header" onclick="toggleBio('mepolizumabe')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#1a6b4c,#2e9d6f)">🫁</div>
+        <div class="bio-icon" style="background:linear-gradient(135deg,#1a6b4c,#2e9d6f)"><span class="bio-target" title="Bloqueia IL-5">Anti-IL-5</span></div>
         <div>
           <div class="bio-name">Mepolizumabe</div>
           <div class="bio-comercial">Nucala® · GSK</div>
@@ -2817,7 +2819,7 @@ window._bloquearApp=function(){};
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal <strong>anti-IL-5</strong> — liga a IL-5 circulante e reduz a maturação/sobrevivência dos eosinófilos.</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal que neutraliza a IL-5 e impede sua ligação ao receptor nos eosinófilos. Reduz a produção, a maturação e a sobrevivência dessas células, diminuindo a inflamação eosinofílica.</div></div>
         <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value">SC: <strong>100 mg</strong> (caneta/seringa/pó) e <strong>40 mg</strong> (pediátrico).</div></div>
         <div class="bio-section"><div class="bio-label">Posologia e dose por doença</div><div class="bio-value"><div style="display:flex;flex-direction:column;gap:10px">
       <div style="background:var(--gray-50);border-radius:9px;padding:10px 12px">
@@ -2855,7 +2857,7 @@ window._bloquearApp=function(){};
     </div>
     <div class="bio-card" id="bio-benralizumabe">
       <div class="bio-header" onclick="toggleBio('benralizumabe')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#8a5a1a,#c9922e)">🫁</div>
+        <div class="bio-icon" style="background:linear-gradient(135deg,#8a5a1a,#c9922e)"><span class="bio-target" title="Bloqueia o receptor de IL-5">Anti-IL-5Rα</span></div>
         <div>
           <div class="bio-name">Benralizumabe</div>
           <div class="bio-comercial">Fasenra® · AstraZeneca</div>
@@ -2863,7 +2865,7 @@ window._bloquearApp=function(){};
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal <strong>anti-receptor de IL-5 (IL-5Rα)</strong> — promove depleção quase completa de eosinófilos por citotoxicidade (ADCC).</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal que se liga à subunidade IL-5Rα na superfície de eosinófilos e basófilos. Sua região Fc afucosilada recruta células NK e induz citotoxicidade celular dependente de anticorpos (ADCC), promovendo depleção intensa de eosinófilos.</div></div>
         <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value">SC: <strong>30 mg</strong> (caneta/seringa pré-preenchida).</div></div>
         <div class="bio-section"><div class="bio-label">Posologia e dose por doença</div><div class="bio-value"><div style="display:flex;flex-direction:column;gap:10px">
       <div style="background:var(--gray-50);border-radius:9px;padding:10px 12px">
@@ -2893,7 +2895,7 @@ window._bloquearApp=function(){};
     </div>
     <div class="bio-card" id="bio-tezepelumabe">
       <div class="bio-header" onclick="toggleBio('tezepelumabe')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#1a4a5c,#3b7a94)">🫁</div>
+        <div class="bio-icon" style="background:linear-gradient(135deg,#1a4a5c,#3b7a94)"><span class="bio-target" title="Bloqueia TSLP">Anti-TSLP</span></div>
         <div>
           <div class="bio-name">Tezepelumabe</div>
           <div class="bio-comercial">Tezspire® · AstraZeneca / Amgen</div>
@@ -2901,7 +2903,7 @@ window._bloquearApp=function(){};
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal <strong>anti-TSLP</strong> (linfopoietina estromal tímica) — age no topo da cascata inflamatória, atuando <strong>independentemente do fenótipo</strong>.</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal que neutraliza a TSLP, uma alarmina liberada pelo epitélio, impedindo sua ligação ao receptor. Atua em uma etapa inicial da resposta inflamatória e reduz a ativação de vias a jusante, incluindo IL-4, IL-5 e IL-13. O alvo é a TSLP, e não essas interleucinas diretamente.</div></div>
         <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value">SC: <strong>210 mg</strong> (caneta/seringa pré-preenchida).</div></div>
         <div class="bio-section"><div class="bio-label">Posologia e dose por doença</div><div class="bio-value"><div style="background:var(--gray-50);border-radius:9px;padding:10px 12px">
       <div style="font-weight:800;color:var(--navy);font-size:12.5px;margin-bottom:3px">Asma grave (≥ 12 anos)</div>
@@ -2930,7 +2932,7 @@ window._bloquearApp=function(){};
     </div>
     <div class="bio-card" id="bio-upadacitinibe">
       <div class="bio-header" onclick="toggleBio('upadacitinibe')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#7a1f4c,#b83b6f)">💊</div>
+        <div class="bio-icon" style="background:linear-gradient(135deg,#7a1f4c,#b83b6f)"><span class="bio-target" title="Inibição intracelular de JAK1">Inibe JAK1</span></div>
         <div>
           <div class="bio-name">Upadacitinibe</div>
           <div class="bio-comercial">Rinvoq® · AbbVie</div>
@@ -2938,7 +2940,7 @@ window._bloquearApp=function(){};
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Inibidor seletivo de <strong>JAK1</strong> (via oral, pequena molécula — não é anticorpo). Bloqueia a sinalização intracelular de múltiplas citocinas.</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Pequena molécula oral que inibe de forma preferencial e reversível a enzima JAK1 dentro da célula. Reduz a transmissão de sinais pela via JAK–STAT de múltiplas citocinas envolvidas na inflamação e no prurido. É uma terapia sintética; não é anticorpo monoclonal.</div></div>
         <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value">Comprimidos de liberação prolongada: <strong>15 mg, 30 mg e 45 mg</strong>.</div></div>
         <div class="bio-section"><div class="bio-label">Posologia e dose por doença</div><div class="bio-value"><div style="background:var(--gray-50);border-radius:9px;padding:10px 12px">
       <div style="font-weight:800;color:var(--navy);font-size:12.5px;margin-bottom:3px">Dermatite atópica (≥ 12 anos, ≥ 40 kg)</div>
@@ -2954,7 +2956,7 @@ window._bloquearApp=function(){};
     </div>
     <div class="bio-card" id="bio-abrocitinibe">
       <div class="bio-header" onclick="toggleBio('abrocitinibe')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#5a2a7a,#8b4bb8)">💊</div>
+        <div class="bio-icon" style="background:linear-gradient(135deg,#5a2a7a,#8b4bb8)"><span class="bio-target" title="Inibição intracelular de JAK1">Inibe JAK1</span></div>
         <div>
           <div class="bio-name">Abrocitinibe</div>
           <div class="bio-comercial">Cibinqo® · Pfizer</div>
@@ -2962,7 +2964,7 @@ window._bloquearApp=function(){};
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Inibidor seletivo de <strong>JAK1</strong> (via oral, pequena molécula).</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Pequena molécula oral que inibe seletiva e reversivelmente a enzima JAK1. Diminui a sinalização intracelular pela via JAK–STAT de citocinas relacionadas à dermatite atópica, incluindo IL-4, IL-13 e IL-31, reduzindo inflamação e prurido. Não é anticorpo monoclonal.</div></div>
         <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value">Comprimidos: <strong>50 mg, 100 mg e 200 mg</strong>.</div></div>
         <div class="bio-section"><div class="bio-label">Posologia e dose por doença</div><div class="bio-value"><div style="background:var(--gray-50);border-radius:9px;padding:10px 12px">
       <div style="font-weight:800;color:var(--navy);font-size:12.5px;margin-bottom:3px">Dermatite atópica (≥ 12 anos)</div>
@@ -2977,7 +2979,7 @@ window._bloquearApp=function(){};
     </div>
     <div class="bio-card" id="bio-tralokinumabe">
       <div class="bio-header" onclick="toggleBio('tralokinumabe')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#1a5c5c,#2e9d9d)">🩹</div>
+        <div class="bio-icon" style="background:linear-gradient(135deg,#1a5c5c,#2e9d9d)"><span class="bio-target" title="Bloqueia IL-13">Anti-IL-13</span></div>
         <div>
           <div class="bio-name">Tralokinumabe</div>
           <div class="bio-comercial">Adtralza® / Adbry® · LEO Pharma</div>
@@ -2985,7 +2987,7 @@ window._bloquearApp=function(){};
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal <strong>anti-IL-13</strong> — neutraliza especificamente a IL-13.</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal que se liga à IL-13 e impede sua interação com os receptores IL-13Rα1 e IL-13Rα2. Ao bloquear a sinalização inflamatória da IL-13, reduz alterações da barreira cutânea e a inflamação da dermatite atópica. Não bloqueia diretamente a IL-4.</div></div>
         <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value">SC: <strong>150 mg</strong> (seringa pré-preenchida).</div></div>
         <div class="bio-section"><div class="bio-label">Posologia e dose por doença</div><div class="bio-value"><div style="background:var(--gray-50);border-radius:9px;padding:10px 12px">
       <div style="font-weight:800;color:var(--navy);font-size:12.5px;margin-bottom:3px">Dermatite atópica (≥ 12 anos)</div>
@@ -3003,7 +3005,7 @@ window._bloquearApp=function(){};
     </div>
     <div class="bio-card" id="bio-lebrikizumabe">
       <div class="bio-header" onclick="toggleBio('lebrikizumabe')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#1a6b5c,#2eb894)">🩹</div>
+        <div class="bio-icon" style="background:linear-gradient(135deg,#1a6b5c,#2eb894)"><span class="bio-target" title="Bloqueia a sinalização de IL-13">Anti-IL-13</span></div>
         <div>
           <div class="bio-name">Lebriquizumabe <span class="bio-new">NO ROL</span></div>
           <div class="bio-comercial">Ebglyss® · Lilly / Almirall</div>
@@ -3011,7 +3013,7 @@ window._bloquearApp=function(){};
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal <strong>anti-IL-13</strong> de alta afinidade.</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal que se liga à IL-13 e impede a formação do complexo de sinalização IL-13Rα1/IL-4Rα. Reduz os efeitos inflamatórios da IL-13 na pele, preservando sua ligação ao receptor IL-13Rα2, envolvido na depuração da citocina. Não bloqueia diretamente a IL-4.</div></div>
         <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value">SC: <strong>250 mg</strong> (caneta/seringa pré-preenchida).</div></div>
         <div class="bio-section"><div class="bio-label">Posologia e dose por doença</div><div class="bio-value"><div style="background:var(--gray-50);border-radius:9px;padding:10px 12px">
       <div style="font-weight:800;color:var(--navy);font-size:12.5px;margin-bottom:3px">Dermatite atópica (≥ 12 anos, ≥ 40 kg)</div>
@@ -3028,7 +3030,7 @@ window._bloquearApp=function(){};
     </div>
     <div class="bio-card" id="bio-midostaurina">
       <div class="bio-header" onclick="toggleBio('midostaurina')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#5c3a1a,#9d6f2e)">🧬</div>
+        <div class="bio-icon" style="background:linear-gradient(135deg,#5c3a1a,#9d6f2e)"><span class="bio-target" title="Inibição de múltiplas quinases">Inibe KIT/FLT3</span></div>
         <div>
           <div class="bio-name">Midostaurina</div>
           <div class="bio-comercial">Rydapt® · Novartis</div>
@@ -3036,7 +3038,7 @@ window._bloquearApp=function(){};
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Inibidor multi-quinase (incluindo <strong>KIT D816V</strong>) — usado na <strong>mastocitose sistêmica avançada</strong>.</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Pequena molécula oral que inibe múltiplas quinases, incluindo KIT (também a variante D816V) e FLT3. Na mastocitose sistêmica avançada, a inibição de KIT reduz sinais de proliferação e sobrevivência dos mastócitos neoplásicos. Não é anticorpo monoclonal.</div></div>
         <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value">Cápsulas: <strong>25 mg</strong>.</div></div>
         <div class="bio-section"><div class="bio-label">Posologia e dose por doença</div><div class="bio-value"><div style="background:var(--gray-50);border-radius:9px;padding:10px 12px">
       <div style="font-weight:800;color:var(--navy);font-size:12.5px;margin-bottom:3px">Mastocitose sistêmica avançada (ASM, SM-AHN, MCL)</div>
@@ -3051,7 +3053,7 @@ window._bloquearApp=function(){};
     </div>
     <div class="bio-card" id="bio-depemoquimabe">
       <div class="bio-header" onclick="toggleBio('depemoquimabe')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#0f5a6b,#2fa3b5)">🫁</div>
+        <div class="bio-icon" style="background:linear-gradient(135deg,#0f5a6b,#2fa3b5)"><span class="bio-target" title="Bloqueia IL-5">Anti-IL-5</span></div>
         <div>
           <div class="bio-name">Depemoquimabe <span class="bio-new">NOVO</span></div>
           <div class="bio-comercial">Densurko® · GSK</div>
@@ -3059,7 +3061,7 @@ window._bloquearApp=function(){};
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal <strong>anti-IL-5 de ultralonga ação</strong> — mesmo alvo do mepolizumabe, com meia-vida estendida que permite aplicação semestral.</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal que neutraliza a IL-5, impedindo sua ligação ao receptor e reduzindo a produção e a sobrevivência de eosinófilos. Modificações na região Fc prolongam sua meia-vida, sustentando o bloqueio com intervalo de seis meses entre aplicações.</div></div>
         <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value">SC: <strong>100 mg</strong> (seringa pré-preenchida). Registrado na ANVISA em <strong>07/05/2026</strong> (nos EUA: Exdensur®, dez/2025).</div></div>
         <div class="bio-section"><div class="bio-label">Posologia e dose por doença</div><div class="bio-value"><div style="display:flex;flex-direction:column;gap:10px"><div style="background:var(--gray-50);border-radius:9px;padding:10px 12px"><div style="font-weight:800;color:var(--navy);font-size:12.5px;margin-bottom:3px">Asma eosinofílica grave (≥ 12 anos)</div><div style="font-size:12px;line-height:1.5"><strong>100 mg SC a cada 6 meses</strong>, como terapia adicional.</div></div><div style="background:var(--gray-50);border-radius:9px;padding:10px 12px"><div style="font-weight:800;color:var(--navy);font-size:12.5px;margin-bottom:3px">RSCcPN (adulto)</div><div style="font-size:12px;line-height:1.5"><strong>100 mg SC a cada 6 meses</strong>.</div></div></div><span class="bio-fonte">Fontes: ANVISA, bulas e comunicados dos fabricantes, FDA/EMA. Revisado em 02/10/2026.</span></div></div>
         <div class="bio-section"><div class="bio-label">🧪 Exames e critérios</div><div class="bio-value"><div style="font-size:12.5px;line-height:1.6"><strong>Asma eosinofílica:</strong> eosinófilos documentados, exacerbações no último ano, CI + LABA sem controle, espirometria, ACT. <strong>RSCcPN:</strong> escore de pólipos, TC de seios da face, SNOT-22, falha de corticoide nasal ± cirurgia.<br><span style="color:var(--gray-500);font-size:11.5px;font-style:italic">Vantagem prática: 2 aplicações por ano — útil quando a adesão é o problema.</span></div></div></div>
@@ -3070,7 +3072,7 @@ window._bloquearApp=function(){};
     </div>
     <div class="bio-card" id="bio-lanadelumabe">
       <div class="bio-header" onclick="toggleBio('lanadelumabe')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#4a2a7a,#7d55c0)">🧬</div>
+        <div class="bio-icon" style="background:linear-gradient(135deg,#4a2a7a,#7d55c0)"><span class="bio-target" title="Bloqueia calicreína plasmática">Anti-calicreína</span></div>
         <div>
           <div class="bio-name">Lanadelumabe</div>
           <div class="bio-comercial">Takhzyro® · Takeda</div>
@@ -3078,7 +3080,7 @@ window._bloquearApp=function(){};
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal <strong>anti-calicreína plasmática</strong> — reduz a geração de bradicinina. Profilaxia de longo prazo do <strong>angioedema hereditário (AEH)</strong>.</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal que inibe a calicreína plasmática ativa. Reduz a clivagem do cininogênio de alto peso molecular e a geração de bradicinina, diminuindo o aumento da permeabilidade vascular e prevenindo crises de angioedema hereditário.</div></div>
         <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value">SC: <strong>300 mg/2 mL</strong> e <strong>150 mg/1 mL</strong> (seringa pré-preenchida).</div></div>
         <div class="bio-section"><div class="bio-label">Posologia e dose por doença</div><div class="bio-value"><div style="display:flex;flex-direction:column;gap:10px"><div style="background:var(--gray-50);border-radius:9px;padding:10px 12px"><div style="font-weight:800;color:var(--navy);font-size:12.5px;margin-bottom:3px">AEH — adulto e ≥ 12 anos</div><div style="font-size:12px;line-height:1.5"><strong>300 mg SC a cada 2 semanas</strong>; se sem crises e estável por &gt; 6 meses, pode-se espaçar para a cada 4 semanas.</div></div><div style="background:var(--gray-50);border-radius:9px;padding:10px 12px"><div style="font-weight:800;color:var(--navy);font-size:12.5px;margin-bottom:3px">AEH — 6 a &lt; 12 anos</div><div style="font-size:12px;line-height:1.5"><strong>150 mg SC a cada 2 semanas</strong> (pode espaçar para a cada 4 semanas).</div></div><div style="background:var(--gray-50);border-radius:9px;padding:10px 12px"><div style="font-weight:800;color:var(--navy);font-size:12.5px;margin-bottom:3px">AEH — 2 a &lt; 6 anos</div><div style="font-size:12px;line-height:1.5"><strong>150 mg SC a cada 4 semanas</strong>.</div></div></div><span class="bio-fonte">Fontes: ANVISA, bulas e comunicados dos fabricantes, FDA/EMA. Revisado em 02/10/2026.</span></div></div>
         <div class="bio-section"><div class="bio-label">🧪 Exames e critérios</div><div class="bio-value"><div style="font-size:12.5px;line-height:1.6"><strong>Diagnóstico:</strong> C4, C1-INH quantitativo e funcional (AEH tipo I/II); documentar frequência e gravidade das crises, crises de vias aéreas e falha/contraindicação de androgênios atenuados (danazol).<br><span style="color:var(--gray-500);font-size:11.5px;font-style:italic">Manter tratamento de crise disponível (icatibanto ou C1-INH).</span></div></div></div>
@@ -3089,7 +3091,7 @@ window._bloquearApp=function(){};
     </div>
     <div class="bio-card" id="bio-garadacimabe">
       <div class="bio-header" onclick="toggleBio('garadacimabe')">
-        <div class="bio-icon" style="background:linear-gradient(135deg,#3a2a6a,#6a5ab0)">🧬</div>
+        <div class="bio-icon" style="background:linear-gradient(135deg,#3a2a6a,#6a5ab0)"><span class="bio-target" title="Bloqueia fator XII ativado">Anti-FXIIa</span></div>
         <div>
           <div class="bio-name">Garadacimabe <span class="bio-new">NOVO</span></div>
           <div class="bio-comercial">Andembry® · CSL Behring</div>
@@ -3097,7 +3099,7 @@ window._bloquearApp=function(){};
         <div class="bio-chevron">›</div>
       </div>
       <div class="bio-body">
-        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal <strong>anti-fator XIIa</strong> — bloqueia o início da cascata de contato. Profilaxia de longo prazo do <strong>AEH</strong>, com aplicação mensal.</div></div>
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal que se liga ao fator XII ativado (FXIIa) e inibe sua atividade enzimática. Reduz a ativação da pré-calicreína em calicreína e, consequentemente, a geração de bradicinina, prevenindo crises de angioedema hereditário.</div></div>
         <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value">SC: <strong>200 mg</strong> (caneta pré-preenchida). Registrado na ANVISA em <strong>mar/2026</strong>.</div></div>
         <div class="bio-section"><div class="bio-label">Posologia e dose por doença</div><div class="bio-value"><div style="display:flex;flex-direction:column;gap:10px"><div style="background:var(--gray-50);border-radius:9px;padding:10px 12px"><div style="font-weight:800;color:var(--navy);font-size:12.5px;margin-bottom:3px">AEH (≥ 12 anos)</div><div style="font-size:12px;line-height:1.5">Ataque <strong>400 mg SC</strong> (2 × 200 mg), depois <strong>200 mg SC uma vez por mês</strong>.</div></div></div><span class="bio-fonte">Fontes: ANVISA, bulas e comunicados dos fabricantes, FDA/EMA. Revisado em 02/10/2026.</span></div></div>
         <div class="bio-section"><div class="bio-label">🧪 Exames e critérios</div><div class="bio-value"><div style="font-size:12.5px;line-height:1.6">Mesma investigação diagnóstica do AEH (C4, C1-INH quantitativo e funcional); documentar crises e tratamentos prévios.</div></div></div>
