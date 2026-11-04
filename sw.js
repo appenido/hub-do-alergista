@@ -1,29 +1,33 @@
-// Rede primeiro: sempre entrega a versão publicada mais nova; o cache só é usado offline.
-const CACHE = 'hub-alergista-v1158-ige-clinica-1';
+// Rede primeiro para arquivos estáticos; APIs e dados dinâmicos nunca entram no cache.
+const CACHE = 'hub-alergista-v1159-estabilidade';
 const ASSETS = ['./', 'index.html', 'ige-clinica.js?v=20261103-1', 'uas7-paciente.html', 'snot22-paciente.html', 'uct-paciente.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
+const PATHS = new Set(['/', '/index.html', '/ige-clinica.js', '/uas7-paciente.html', '/snot22-paciente.html', '/uct-paciente.html', '/manifest.json', '/icon-192.png', '/icon-512.png']);
 
-self.addEventListener('install', e => {
+self.addEventListener('install', event => {
   self.skipWaiting();
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).catch(() => {}));
+  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).catch(() => {}));
 });
 
-self.addEventListener('activate', e => e.waitUntil(
+self.addEventListener('activate', event => event.waitUntil(
   caches.keys()
-    .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+    .then(keys => Promise.all(keys.filter(k => k.startsWith('hub-alergista-') && k !== CACHE).map(k => caches.delete(k))))
     .then(() => self.clients.claim())
 ));
 
-self.addEventListener('fetch', e => {
-  const req = e.request;
+self.addEventListener('fetch', event => {
+  const req = event.request;
   if (req.method !== 'GET') return;
-  if (new URL(req.url).origin !== self.location.origin) return; // Supabase, CDNs etc. vão direto
-  e.respondWith(
+  const url = new URL(req.url);
+  if (url.origin !== self.location.origin || !PATHS.has(url.pathname)) return;
+  event.respondWith(
     fetch(req)
       .then(res => {
-        if (res && res.ok) { const copia = res.clone(); caches.open(CACHE).then(c => c.put(req, copia)); }
+        if (res && res.ok) {
+          const copia = res.clone();
+          event.waitUntil(caches.open(CACHE).then(c => c.put(req, copia)).catch(() => {}));
+        }
         return res;
       })
       .catch(() => caches.match(req, { ignoreSearch: true }))
   );
 });
-
