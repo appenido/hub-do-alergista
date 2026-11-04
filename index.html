@@ -1087,6 +1087,7 @@ window._mostrarApp = function(){
       <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px">
         <button type="button" id="btnRecuperarSenha" onclick="solicitarRecuperacaoSenha()" style="background:none;border:0;color:var(--teal-mid);font-family:inherit;font-size:11.5px;cursor:pointer;text-decoration:underline">Esqueci minha senha</button>
         <button type="button" id="btnCadastroAntigo" hidden onclick="abrirCadastroExistente()" style="background:none;border:0;color:var(--teal-mid);font-family:inherit;font-size:11.5px;cursor:pointer;text-decoration:underline">Regularizar cadastro anterior</button>
+        <button type="button" id="btnReenviarConfirmacao" hidden onclick="reenviarConfirmacaoHub()" style="background:none;border:0;color:var(--teal-mid);font-family:inherit;font-size:11.5px;cursor:pointer;text-decoration:underline">Reenviar confirmação de e-mail</button>
       </div>
       <div class="auth-err" id="loginErr" role="status" aria-live="polite" style="font-size:11.5px;line-height:1.5;margin-top:10px"></div>
     </div>
@@ -11152,7 +11153,7 @@ function chatToggle(){
     .observe(document.body,{childList:true,subtree:true});
 })();
 </script>
-<script src="lgpd-runtime.js?v=20261104-2"></script>
+<script src="lgpd-runtime.js?v=20261104-3"></script>
 </body>
 </html>
 
