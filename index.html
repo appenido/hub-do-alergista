@@ -1006,10 +1006,20 @@ _marcarGuiasPagas();
 .ige-intro p+p{margin-top:8px}
 .ige-intro details{margin-top:8px}.ige-intro summary{cursor:pointer;color:var(--teal-mid)}
 /* Painel de pedido */
-#pedOpenInline{display:inline-flex;align-items:center;gap:8px;margin-top:10px;background:var(--navy);color:#fff;border:0;border-radius:10px;padding:10px 14px;font-family:'Manrope',sans-serif;font-size:12.5px;font-weight:800;cursor:pointer}
+#pedOpenInline{display:none;align-items:center;gap:8px;margin:8px 0;background:var(--navy);color:#fff;border:0;border-radius:10px;padding:10px 14px;font-family:'Manrope',sans-serif;font-size:12.5px;font-weight:700;cursor:pointer}
 #pedOpenInline .pf-n{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:999px;background:var(--aqua,#7fd4cd);color:var(--navy);font-size:11px}
-#pedDrawer{position:static;width:100%;max-width:100%;background:#fff;border:1px solid var(--gray-100);border-radius:12px;overflow:hidden;display:none;flex-direction:column;margin-top:10px}
+.ige-hint{font-size:12px;color:var(--gray-500);line-height:1.6;margin:8px 0 0}
+.ige-workspace{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding:0 16px 26px;align-items:start}
+.ige-workspace.note-open{grid-template-columns:minmax(0,1fr) minmax(270px,330px)}
+.ige-results{min-width:0}
+.ige-hit{width:100%;text-align:left;cursor:pointer!important;font-family:'Manrope',sans-serif}
+.ige-hit:hover{background:var(--aqua-pale)!important}
+.ige-hit:focus-visible{outline:2px solid var(--teal-mid);outline-offset:-2px}
+.ige-hit .ige-add{margin-left:auto;font-size:12px;white-space:nowrap;color:var(--teal-mid);font-weight:700}
+#pedDrawer{display:none;position:sticky;top:14px;min-width:0;width:100%;background:#fff;border:1px solid var(--gray-100);border-radius:12px;overflow:hidden;flex-direction:column;max-height:calc(100vh - 90px);box-shadow:0 3px 14px rgba(16,34,54,.07)}
 #pedDrawer.open{display:flex}
+#pedDrawer .ped-body{min-height:70px;overflow:auto}
+@media(max-width:760px){.ige-workspace.note-open{grid-template-columns:minmax(0,1fr)}#pedDrawer.open{position:static;grid-row:1;max-height:330px}.ige-workspace.note-open .ige-results{grid-row:2}}
 .ped-hdr{background:var(--navy);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:10px}
 .ped-hdr b{font-size:14px;font-weight:800;flex:1}
 .ped-x{background:transparent;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1}
@@ -3838,41 +3848,31 @@ window._bloquearApp=function(){};
       <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Catálogo de exames e montagem de pedidos</div>
     </div>
 
-    <div class="lab-tabs">
-      <button class="lab-tab active" data-labtab="ige" onclick="labTab('ige')">IgE específica</button>
-    </div>
-
     <div class="lab-pane active" id="labpane-ige">
-      <div class="ige-intro">
-        <p>Consulte a finalidade e a aplicação clínica de cada exame antes de montar o pedido. IgE específica positiva indica sensibilização; o diagnóstico depende da história e da exposição.</p>
-        <details><summary>Como interpretar os exames</summary>
-          <p>Extratos avaliam uma mistura de proteínas da fonte; componentes avaliam moléculas específicas e podem esclarecer sensibilização primária ou reação cruzada. A concentração de IgE não prevê, isoladamente, a gravidade de uma futura reação.</p>
-          <p>Solicite exames dirigidos pela hipótese clínica. Painéis indiscriminados podem levar a diagnósticos e restrições desnecessários. Resultado negativo não exclui todas as formas de alergia. Não suspenda um alimento tolerado apenas por positividade laboratorial.</p>
-          <p>IgE total, triptase e ECP são exames distintos das IgEs específicas. Códigos, composição, validação e disponibilidade variam entre plataformas e laboratórios. As fichas moleculares não asseguram disponibilidade como ensaio isolado no Brasil.</p>
-          <p>Referências acadêmicas: ASBAI, EAACI e AAAAI/ACAAI. Fontes técnicas do fabricante complementam identidade e características do ensaio. Revisão do conteúdo: 03/11/2026.</p>
-        </details>
-      </div>
-      <div style="padding:0 16px 10px">
-        <div class="lab-search">
-          <span style="color:var(--gray-500);font-size:14px">🔍</span>
-          <input id="igeBusca" type="text" aria-label="Buscar exames de IgE em todo o catálogo" placeholder="Buscar alérgeno, código ou aplicação clínica…" oninput="igeBuscar()" autocomplete="off">
-          <button id="igeClear" aria-label="Limpar busca de IgE" onclick="document.getElementById('igeBusca').value='';igeBuscar();" style="display:none;border:none;background:transparent;font-size:16px;color:var(--gray-500);cursor:pointer">×</button>
-        </div>
-        <div style="font-size:11px;color:var(--gray-500);margin-top:8px" id="igeContagem" aria-live="polite"></div>
-        <button type="button" id="pedOpenInline" onclick="pedAbrir()" aria-expanded="false" aria-controls="pedDrawer">🧪 Ver pedido <span class="pf-n">0</span></button>
-      </div>
       <div style="padding:0 16px 12px">
-        <aside id="pedDrawer">
-  <div class="ped-hdr"><span style="font-size:17px">🧪</span><b>Pedido de exames · IgE</b><button class="ped-x" onclick="pedFechar()">×</button></div>
-  <div class="ped-body" id="pedBody"></div>
-  <div class="ped-foot">
-    <button class="ped-btn p" onclick="pedCopiar()">📋 Copiar pedido</button>
-    <button class="ped-btn s" onclick="pedSalvarPainel()">💾 Salvar painel</button>
-    <button class="ped-btn s" onclick="pedLimpar()">🗑️ Limpar pedido</button>
-  </div>
-</aside>
+        <label for="igeBusca" style="display:block;font-size:13px;color:var(--navy);margin-bottom:8px">Buscar exame de IgE</label>
+        <div class="lab-search">
+          <span aria-hidden="true">🔍</span>
+          <input id="igeBusca" type="search" aria-label="Buscar IgEs por nome ou código" placeholder="Leite total, ovo total, f245, Ara h 2, mix…" oninput="igeBuscar()" autocomplete="off">
+          <button id="igeClear" type="button" aria-label="Limpar busca de IgE" onclick="document.getElementById('igeBusca').value='';igeBuscar();" style="display:none;border:none;background:transparent;font-size:16px;color:var(--gray-500);cursor:pointer">×</button>
+        </div>
+        <p class="ige-hint">Pesquise e clique na IgE desejada. Uma nota de exames será aberta ao lado e receberá cada novo exame selecionado.</p>
+        <p class="ige-hint">“Leite total” e “ovo total” são buscas por IgE específica do alérgeno completo, não pela IgE total sérica.</p>
+        <div id="igeContagem" class="ige-hint" aria-live="polite"></div>
+        <button type="button" id="pedOpenInline" onclick="pedAbrir()" aria-expanded="false" aria-controls="pedDrawer">📝 Ver nota <span class="pf-n">0</span></button>
       </div>
-      <div id="igeLista" style="padding:0 16px 24px"></div>
+      <div class="ige-workspace" id="igeWorkspace">
+        <section class="ige-results" id="igeLista" aria-label="Resultados da pesquisa de IgE" aria-live="polite"></section>
+        <aside id="pedDrawer" aria-label="Nota de exames selecionados">
+          <div class="ped-hdr"><span aria-hidden="true">📝</span><b>Nota de exames</b><button type="button" class="ped-x" onclick="pedFechar()" aria-label="Fechar nota">×</button></div>
+          <div class="ped-body" id="pedBody"></div>
+          <div class="ped-foot">
+            <button type="button" class="ped-btn p" onclick="pedCopiar()">Copiar nota</button>
+            <button type="button" class="ped-btn s" onclick="pedSalvarPainel()">Salvar seleção</button>
+            <button type="button" class="ped-btn s" onclick="pedLimpar()">Limpar nota</button>
+          </div>
+        </aside>
+      </div>
     </div>
   </div>
 
@@ -6838,84 +6838,60 @@ if(typeof igePrepararCatalogo==='function') IGE_CAT=igePrepararCatalogo(IGE_CAT)
 
 /* ═══════════ LABORATÓRIO · IgE específica ═══════════ */
 var _ped = [];           // pedido atual
-var _igeFiltroGrupo = '';
-var LAB_PNL_KEY = 'hub_ige_paineis';
-
+var LAB_PNL_KEY='hub_ige_paineis';
 function labTab(t){
-  document.querySelectorAll('.lab-tab').forEach(function(b){b.classList.toggle('active', b.getAttribute('data-labtab')===t);});
-  document.querySelectorAll('.lab-pane').forEach(function(p){p.classList.toggle('active', p.id==='labpane-'+t);});
+ document.querySelectorAll('.lab-tab').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-labtab')===t);});
+ document.querySelectorAll('.lab-pane').forEach(function(p){p.classList.toggle('active',p.id==='labpane-'+t);});
 }
-
-function _igeGrupos(){
-  var g=[],s={};
-  IGE_CAT.forEach(function(i){ if(!s[i.g]){s[i.g]=1;g.push(i.g);} });
-  return g;
-}
-function _norm(s){ return (s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''); }
-
-function igeRenderChips(){}
-function igeGrupo(g){}
-
-function igeBuscar(){
-  igeRender();
-}
-
+function _norm(s){return (s||'').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function igeBuscar(){igeRender();}
 function igeRender(){
-  var inp=document.getElementById('igeBusca'); if(!inp) return;
-  var q=_norm(inp.value.trim());
-  var cl=document.getElementById('igeClear'); if(cl) cl.style.display = inp.value ? 'block':'none';
-  var lista=IGE_CAT.filter(function(i){
-    if(_igeFiltroGrupo && i.g!==_igeFiltroGrupo) return false;
-    if(!q) return true;
-    var p=typeof igeInfo==='function'?igeInfo(i):{};
-    return _norm([i.c,i.n,i.g,p.tipo,p.avalia,p.quando,p.aplicacao,p.limites].join(' ')).indexOf(q)>=0;
-  });
-  var cont=document.getElementById('igeContagem');
-  if(cont) cont.textContent = lista.length+' exame'+(lista.length===1?'':'s')+' · '+(q&&!_igeFiltroGrupo?'busca em todo o catálogo · ':'')+'abra a explicação ou use + para adicionar ao pedido';
-  var out='', grpAtual='';
-  if(!lista.length){
-    out='<div class="ped-vazio">Nenhum exame encontrado.<br>Tente outro termo (ex.: ácaro, f13, Ara h 2, camarão).</div>';
-  } else {
-    lista.forEach(function(i){
-      if(i.g!==grpAtual){ grpAtual=i.g; out+='<div class="ige-grp">'+grpAtual+'</div>'; }
-      var inped=_ped.some(function(p){return p.c===i.c;});
-      var esc=typeof igeHtml==='function'?igeHtml:function(s){return s;};
-      var perfil=typeof igeInfo==='function'?igeInfo(i):null;
-      out+='<article class="ige-card'+(inped?' inped':'')+'"><div class="ige-item">'+
-           '<span class="ige-cod">'+esc(i.c)+'</span><div class="ige-title"><div class="ige-nome">'+esc(i.n)+'</div>'+
-           (perfil?'<div class="ige-kind">'+esc(perfil.tipo)+'</div>':'')+'</div>'+
-           '<button type="button" class="ige-select" aria-label="'+esc((inped?'Ver no pedido: ':'Adicionar ao pedido: ')+i.n)+'" aria-pressed="'+inped+'" '+
-           (i.bloqueado?'disabled>Definir exame':'onclick="pedAdd(\''+i.c.replace(/'/g,"\\'")+'\')">'+(inped?'✓':'+'))+'</button></div>'+
-           (typeof igeDetalhes==='function'?igeDetalhes(i):'')+'</article>';
-    });
-  }
-  document.getElementById('igeLista').innerHTML=out;
+ var inp=document.getElementById('igeBusca');if(!inp)return;
+ var q=_norm(inp.value.trim()),cont=document.getElementById('igeContagem'),target=document.getElementById('igeLista');
+ var cl=document.getElementById('igeClear');if(cl)cl.style.display=inp.value?'block':'none';
+ if(!target)return;
+ if(!q){target.innerHTML='';if(cont)cont.textContent='';return;}
+ var tokens=q.split(/\s+/).filter(Boolean);
+ var lista=IGE_CAT.filter(function(i){
+  var p=typeof igeInfo==='function'?igeInfo(i):{};
+  var extra=i.g.indexOf('Alimentos ·')===0?'IgE específica alérgeno completo extrato alimentar':'';
+  var hay=_norm([i.c,i.n,i.g,i.busca||'',extra,p.tipo,p.avalia,p.quando,p.aplicacao,p.limites].join(' '));
+  return tokens.every(function(term){return hay.indexOf(term)>=0;});
+ });
+ lista.sort(function(a,b){
+  function rank(i){var n=_norm(i.n),c=_norm(i.c);return c===q?0:n===q?1:n.indexOf(q)===0?2:_norm(i.busca||'').indexOf(q)===0?3:4;}
+  return rank(a)-rank(b)||a.n.localeCompare(b.n,'pt-BR');
+ });
+ if(cont)cont.textContent=lista.length+' resultado'+(lista.length===1?'':'s')+' · Clique no exame para adicioná-lo à nota.';
+ if(!lista.length){target.innerHTML='<div class="ped-vazio">Nenhum exame encontrado. Tente outro nome, sinônimo ou código.</div>';return;}
+ var h='',esc=typeof igeHtml==='function'?igeHtml:function(s){return String(s);};
+ lista.forEach(function(i){
+  var ok=_ped.some(function(p){return p.c===i.c;}),p=typeof igeInfo==='function'?igeInfo(i):null;
+  var tipo=i.g==='Painéis e triagem'&&/^fx\d+/i.test(i.c)?'Mistura de alérgenos':(p?p.tipo:'');
+  h+='<article class="ige-card'+(ok?' inped':'')+'"><button type="button" class="ige-item ige-hit'+(ok?' inped':'')+'" aria-pressed="'+ok+'" aria-label="'+esc((ok?'Já selecionado: ':'Adicionar à nota: ')+i.n)+'" '+
+    (i.bloqueado?'disabled':'onclick="pedAdd(\''+i.c.replace(/'/g,"\\'")+'\')"')+'>'+
+    '<span class="ige-cod">'+esc(i.c)+'</span><span class="ige-title"><span class="ige-nome">'+esc(i.n)+'</span>'+
+    (tipo?'<span class="ige-kind" style="display:block">'+esc(tipo)+'</span>':'')+'</span>'+
+    '<span class="ige-add">'+(ok?'✓ Na nota':(i.bloqueado?'Indisponível':'+ Adicionar'))+'</span></button>'+
+    (typeof igeDetalhes==='function'?igeDetalhes(i):'')+'</article>';
+ });
+ target.innerHTML=h;
 }
-
 function pedAdd(cod){
-  var it=IGE_CAT.filter(function(i){return i.c===cod;})[0]; if(!it) return;
-  if(it.bloqueado) return;
-  if(_ped.some(function(p){return p.c===cod;})){ pedAbrir(); return; }
-  _ped.push({c:it.c,n:it.n});
-  igeRender(); pedRender();
-  try{ toast('🧪','Adicionado: '+it.c); }catch(e){}
+ var it=IGE_CAT.find(function(i){return i.c===cod;});if(!it||it.bloqueado)return;
+ if(!_ped.some(function(p){return p.c===cod;}))_ped.push({c:it.c,n:it.n});
+ igeRender();pedRender();pedAbrir();
 }
-function pedRemove(cod){ _ped=_ped.filter(function(p){return p.c!==cod;}); igeRender(); pedRender(); }
-function pedLimpar(){ if(!_ped.length) return; if(!confirm('Limpar todo o pedido?')) return; _ped=[]; igeRender(); pedRender(); }
-
+function pedRemove(cod){_ped=_ped.filter(function(p){return p.c!==cod;});igeRender();pedRender();if(!_ped.length)pedFechar();}
+function pedLimpar(){if(!_ped.length)return;if(!confirm('Limpar toda a nota?'))return;_ped=[];igeRender();pedRender();pedFechar();}
 function pedAbrir(){
-  var d=document.getElementById('pedDrawer'), b=document.getElementById('pedOpenInline');
-  if(!d) return;
-  d.classList.add('open');
-  if(b) b.setAttribute('aria-expanded','true');
-  d.scrollIntoView({behavior:'smooth',block:'nearest'});
+ var d=document.getElementById('pedDrawer'),b=document.getElementById('pedOpenInline'),w=document.getElementById('igeWorkspace');
+ if(!d)return;d.classList.add('open');if(w)w.classList.add('note-open');if(b)b.setAttribute('aria-expanded','true');
 }
 function pedFechar(){
-  var d=document.getElementById('pedDrawer'), b=document.getElementById('pedOpenInline');
-  if(d) d.classList.remove('open');
-  if(b) b.setAttribute('aria-expanded','false');
+ var d=document.getElementById('pedDrawer'),b=document.getElementById('pedOpenInline'),w=document.getElementById('igeWorkspace');
+ if(d)d.classList.remove('open');if(w)w.classList.remove('note-open');if(b)b.setAttribute('aria-expanded','false');
 }
-
 function pedTexto(){
   if(!_ped.length) return '';
   var l=['Solicito os seguintes exames:',''];
@@ -6983,7 +6959,7 @@ function pedRender(){
   var b=document.getElementById('pedBody'); if(!b) return;
   var h='';
   if(!_ped.length){
-    h+='<div class="ped-vazio">Nenhum exame no pedido.<br>Toque em um código da lista para adicionar.</div>';
+    h+='<div class="ped-vazio">Nenhum exame na nota.<br>Pesquise e clique em um resultado para adicionar.</div>';
   } else {
     h+='<div style="font-size:11px;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px">Pedido atual · '+_ped.length+'</div>';
     _ped.forEach(function(p){
@@ -7003,13 +6979,13 @@ function pedRender(){
   });
   b.innerHTML=h;
   var f=document.getElementById('pedOpenInline');
-  if(f){ var n=f.querySelector('.pf-n'); if(n) n.textContent=_ped.length; }
+  if(f){f.style.display=_ped.length?'inline-flex':'none';var n=f.querySelector('.pf-n');if(n)n.textContent=_ped.length;}
 }
 
 function labInit(){
   if(window._labPronto) { igeRender(); pedRender(); return; }
   window._labPronto = true;
-  igeRenderChips(); igeRender(); pedRender();
+  igeRender(); pedRender();
 }
 
 var PAGE_TITLES={laboratorio:'Laboratório',eaaci:'Protocolos EAACI',dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',imunizacoes:'Imunizações',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',scores:'Scores',pacientes:'Pacientes',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Preferências',alergonews:'Alergo News',jornal:'Alergia News',mais:'Mais'};
