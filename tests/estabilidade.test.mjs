@@ -38,11 +38,11 @@ test('/news entrega apenas notícias verificadas, recentes, HTTPS, e em ordem de
     ({ titulo, fonte: 'G1', data: new Date(agora - dias * 86400000).toISOString(), status, verificado: verific, url });
   const itens = [
     noticia('antiga', 8),
-    noticia('segunda', 2),
+    noticia('segunda', 2, 'verificado', true, 'https://g1.globo.com/segunda'),
     noticia('não verificada', 1, 'pendente', false),
     noticia('futura', -2),
     noticia('insegura', 1, 'verificado', true, 'javascript:alert(1)'),
-    noticia('primeira', 1)
+    noticia('primeira', 1, 'verificado', true, 'https://g1.globo.com/primeira')
   ];
   const response = await onRequestGet({
     request: new Request('https://hubdoalergista.pages.dev/news'),
