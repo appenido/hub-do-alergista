@@ -207,7 +207,10 @@
         actions.appendChild(calc);
       }
       painel.appendChild(actions);
+      var grupoDestino=botao.closest('.igcat-group');
+      if(grupoDestino)grupoDestino.appendChild(painel);
       painel.hidden=false;
+      if(typeof painel.scrollIntoView==='function')painel.scrollIntoView({behavior:'smooth',block:'nearest'});
     }
     rotas.forEach(function(grupo){
       var section=e('section',null,'igcat-group');
