@@ -9,6 +9,7 @@ var REF={
   aaaai:{url:'https://www.aaaai.org/Aaaai/media/Media-Library-PDFs/Allergist%20Resources/Statements%20and%20Practice%20Parameters/2025-Inborn-errors-of-immunity-pp.pdf#page=3',title:'AAAAI/ACAAI/CIS — Inborn errors of immunity practice parameter (Ann Allergy Asthma Immunol, 2026), recomendações 8.1–8.4'},
   eaaci:{url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC13465973/',title:'EAACI / Allergy 2026 — Medical Algorithm: Personalized Immunoglobulin Replacement Therapy for Inborn Errors of Immunity'},
   ukpin:{url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC9585546/',title:'BSI/UKPIN — consenso de terapia de reposição de imunoglobulinas (2022), recomendação 10'},
+  brasil:{url:'https://www.scielo.br/j/eins/a/YkdwTg3JVVTjzHB49mNVWdC/?lang=pt',title:'II Consenso Brasileiro sobre o uso de imunoglobulina humana em imunodeficiências primárias (Einstein / especialistas brasileiros)'},
   anvisa:{url:'https://consultas.anvisa.gov.br/#/bulario/',title:'Anvisa — Bulário eletrônico, confirmar bula vigente da apresentação brasileira'}
 };
 var P={
@@ -198,6 +199,7 @@ function refs(parent,prod){
     [REF.aaaai.url,REF.aaaai.title],
     [REF.eaaci.url,REF.eaaci.title],
     [REF.ukpin.url,REF.ukpin.title],
+    [REF.brasil.url,REF.brasil.title],
     [REF.anvisa.url,REF.anvisa.title]
   ].forEach(function(pair){if(!pair[0])return;var li=el('li');li.appendChild(lnk(pair[0],pair[1]));ul.appendChild(li);});
   wrap.appendChild(ul);
