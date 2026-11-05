@@ -107,7 +107,6 @@ body{
 .page{display:none;}
  .page.active{display:block;}
 /* Listas legadas não devem aparecer durante a transição para feeds atuais. */
-#page-artigos #artigos-list{display:none!important;}
 #page-guidelines #guidelines-list{display:none;}
 #page-guidelines #guidelines-list.hub-fallback-visible{display:block;}
 
@@ -1116,25 +1115,34 @@ _marcarGuiasPagas();
 #authScreen,[data-conta-btn]{display:none!important;}
 </style>
 <style id="uptodate-panel-styles">
-.utd-panel{margin:4px 16px 20px;padding:16px;border:1px solid #cfe4e9;border-radius:16px;background:#fff;box-shadow:0 5px 18px rgba(13,31,45,.045)}
-.utd-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:13px}
-.utd-eyebrow{font-size:9px;letter-spacing:.12em;color:#2a7a90;font-weight:800}
-.utd-head h2{font-size:16px;color:var(--navy);line-height:1.35;margin:5px 0 3px}
-.utd-head p{font-size:11px;color:var(--gray-500);line-height:1.5}
-.utd-source{font-size:10px;font-weight:700;color:#13647a;text-decoration:none;border:1px solid #cfe4e9;border-radius:8px;padding:7px 9px;background:#eff9fb;white-space:nowrap}
-.utd-highlights{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:9px}
-.utd-item{border:1px solid #e4edf0;border-radius:11px;padding:12px;background:#f9fcfd;display:flex;flex-direction:column;gap:7px}
-.utd-item.utd-feature{grid-column:1/-1;border-color:#b9dce4;background:linear-gradient(125deg,#eef9fa,#fff)}
-.utd-meta{font-size:10px;color:#507287;font-weight:700}
-.utd-item h3{font-size:12.5px;line-height:1.5;color:var(--navy);font-weight:800;margin:0}
-.utd-item.utd-feature h3{font-size:14px}
-.utd-item p{font-size:11.5px;color:#445666;line-height:1.6;margin:0}
-.utd-item a{font-size:10.5px;color:#12677e;font-weight:750;text-decoration:none;margin-top:auto}
-.utd-loading{font-size:12px;color:var(--gray-500);padding:12px 0}
-.utd-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:13px;font-size:10px;color:#64748b}
-.utd-foot button{padding:7px 11px;border-radius:8px;border:1px solid #dbe5e9;background:#fff;color:#176c80;font:700 10px Manrope,sans-serif;cursor:pointer}
-.utd-note{font-size:10px;color:#71818a;line-height:1.55;margin-top:9px}
-@media(max-width:490px){.utd-panel{padding:13px}.utd-head{gap:8px}.utd-source{font-size:9px}}
+/* Radar editorial propositalmente compacto; artigos abaixo mantêm seu layout original. */
+.utd-panel{margin:4px 16px 12px;padding:11px 13px;border:1px solid #dce9ed;border-radius:12px;background:#fff;box-shadow:none}
+.utd-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.utd-eyebrow{font-size:8px;letter-spacing:.1em;color:#507d8a;font-weight:700}
+.utd-head h2{font-size:13px;color:var(--navy);line-height:1.3;margin:2px 0 0}
+.utd-head p{font-size:10px;color:var(--gray-500);line-height:1.4;margin-top:2px}
+.utd-source{font-size:9px;font-weight:700;color:#13647a;text-decoration:none;border:1px solid #dbe8eb;border-radius:7px;padding:4px 7px;background:#f7fbfc;white-space:nowrap}
+.utd-highlights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.utd-item{min-width:0;border:1px solid #e5ecef;border-radius:9px;padding:9px 10px;background:#fbfcfd;display:flex;flex-direction:column;gap:4px}
+.utd-item.utd-feature{grid-column:auto;border-color:#dce9ed;background:#f7fbfc}
+.utd-meta{font-size:9px;color:#607e8c;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.utd-item h3,.utd-item.utd-feature h3{font-size:11.5px;line-height:1.35;color:var(--navy);font-weight:750;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.utd-item p{font-size:10px;color:#566a78;line-height:1.4;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.utd-item a{font-size:9.5px;color:#12677e;font-weight:700;text-decoration:none;margin-top:auto;padding-top:2px}
+.utd-more{grid-column:1/-1;justify-self:start;border:0;background:transparent;color:#17677e;padding:3px 0;font:700 10px Manrope,sans-serif;cursor:pointer}
+.utd-loading{font-size:11px;color:var(--gray-500);padding:7px 0}
+.utd-foot{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;margin-top:7px;font-size:9px;color:#64748b}
+.utd-foot button{padding:4px 7px;border-radius:7px;border:1px solid #e1ebee;background:#fff;color:#176c80;font:700 9px Manrope,sans-serif;cursor:pointer}
+.utd-note{font-size:9px;color:#78868f;line-height:1.4;margin-top:6px}
+@media(max-width:690px){
+ .utd-panel{margin:3px 12px 10px;padding:10px 11px}
+ .utd-head{gap:5px;margin-bottom:7px}
+ .utd-head p{display:none}
+ .utd-highlights{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,74%);grid-template-columns:none;gap:7px;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;padding-bottom:3px;-webkit-overflow-scrolling:touch}
+ .utd-item{scroll-snap-align:start}
+ .utd-more{grid-column:auto;align-self:center;white-space:nowrap;padding:4px 8px}
+}
+@media(prefers-reduced-motion:reduce){.utd-highlights{scroll-behavior:auto}}
 </style>
 <style id="igcalc-v2-styles">
 #page-imunoglobulinas>.pg-back{display:none!important}
@@ -8755,9 +8763,8 @@ function carregarFeed(tema){
     return;
   }
 
-  // Evita mostrar resultados antigos enquanto um novo tema é consultado.
-  box.style.opacity = '1';
-  box.innerHTML = '<div role="status" style="padding:16px;font-size:12px;color:var(--gray-500)">Carregando publicações atualizadas…</div>';
+  // Mantém a lista de artigos já visível enquanto consulta o tema atualizado.
+  box.style.opacity = '.45';
 
   if(!window.fetch){
     box.style.opacity = '1';
@@ -10073,7 +10080,7 @@ function chatToggle(){
 </script>
 <script src="lgpd-runtime.js?v=20261104-8"></script>
 <script src="calendarios-imunizacoes.js?v=20261104-1"></script>
-<script src="uptodate-ui.js?v=20261104-1"></script>
+<script src="uptodate-ui.js?v=20261105-2"></script>
 <script src="imunoglobulinas-calculadora.js?v=20261105-4"></script>
 </body>
 </html>
