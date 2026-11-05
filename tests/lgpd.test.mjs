@@ -15,7 +15,12 @@ test('proteção de identidade no backend de IA',()=>{
 test('autenticação e sessões clínicas sem enumeração',()=>{
  const f=read('lgpd-runtime.js');
  assert.match(f,/sessionStorage\.setItem\(AUTH/);
- assert.match(f,/clinical_criar_sessao/);
+ assert.match(f,/Registro clínico de pacientes desativado no Hub/);
+ assert.match(f,/window\._scoreRpc=function\(\)\{return Promise\.reject/);
+ const sql=read('supabase/migrations/20261104_lgpd_clinical_security.sql');
+ assert.match(sql,/create or replace function public\.clinical_criar_sessao/);
+ assert.match(sql,/cs\.owner_id=auth\.uid\(\)/);
+ assert.match(sql,/cs\.expires_at>now\(\)/);
  assert.match(f,/privacy_submit_request/);
 });
 test('documentos públicos, cabeçalhos de segurança e políticas',()=>{
