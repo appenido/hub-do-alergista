@@ -1,287 +1,272 @@
-/* Calculadora educativa de imunoglobulinas — apenas peso, sem persistência.
-   Não calcula indicação, elegibilidade, dose individual definitiva ou tolerância prévia.
-   Referências: AAAAI/ACAAI/CIS (2026); bulas brasileiras Privigen e Hizentra;
-   bula HyQvia; EAACI/Allergy 2026.
-*/
-(function(){
-  'use strict';
-  var active='privigen';
-  var REF={
-    aaai:'https://www.aaaai.org/Aaaai/media/Media-Library-PDFs/Allergist%20Resources/Statements%20and%20Practice%20Parameters/2025-Inborn-errors-of-immunity-pp.pdf#page=4',
-    eaaci:'https://pmc.ncbi.nlm.nih.gov/articles/PMC13465973/',
-    privigen:'https://labeling.cslbehring.com/pi/br/sandoglobulina-privigen/pt/sandoglobulina-privigen-bula-prof-saude.pdf#page=17',
-    hizentra:'https://labeling.cslbehring.com/pi/br/hizentra/pt/hizentra-bula-prof-saude.pdf#page=14',
-    hyqvia:'https://assets-dam.takeda.com/image/upload/legacy-dotcom/siteassets/pt-br/home/what-we-do/produtos/HyQvia_Bula_Profissional.pdf#page=8'
-  };
-  function id(x){return document.getElementById(x);}
-  function e(tag, text, cls){
-    var n=document.createElement(tag);
-    if(cls)n.className=cls;
-    if(text!==undefined&&text!==null)n.textContent=String(text);
-    return n;
+/* Hub do Alergista — IG: produto + peso -> informações na própria home.
+ * Apenas informação orientativa para reposição de IgG. Sem identificação, contas ou storage.
+ * Fontes por produto são explícitas; protocolos sem equivalência validada não geram bomba.
+ */
+(function () {
+'use strict';
+var current=null;
+var REF={
+  aaaai:{url:'https://www.aaaai.org/Aaaai/media/Media-Library-PDFs/Allergist%20Resources/Statements%20and%20Practice%20Parameters/2025-Inborn-errors-of-immunity-pp.pdf#page=3',title:'AAAAI/ACAAI/CIS — Inborn errors of immunity practice parameter (Ann Allergy Asthma Immunol, 2026), recomendações 8.1–8.4'},
+  eaaci:{url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC13465973/',title:'EAACI / Allergy 2026 — Medical Algorithm: Personalized Immunoglobulin Replacement Therapy for Inborn Errors of Immunity'},
+  ukpin:{url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC9585546/',title:'BSI/UKPIN — consenso de terapia de reposição de imunoglobulinas (2022), recomendação 10'},
+  anvisa:{url:'https://consultas.anvisa.gov.br/#/bulario/',title:'Anvisa — Bulário eletrônico, confirmar bula vigente da apresentação brasileira'}
+};
+var P={
+  privigen_10:{
+    source:'Bula do fabricante CSL Behring, seção Modo de usar / velocidades, Brasil',
+    url:'https://labeling.cslbehring.com/pi/br/sandoglobulina-privigen/pt/sandoglobulina-privigen-bula-prof-saude.pdf#page=17',
+    kind:'IV',rates:[0.3,0.6,1.2,2.4,4.8],interval:30,initial:'0,3 mL/kg/h durante aproximadamente 30 minutos; aumento gradual se tolerado.',
+    limit:'Limite habitual de 4,8 mL/kg/h. O limite excepcional de 7,2 mL/kg/h somente pode ser considerado nas condições previstas em bula (IDP com boa tolerância prévia à taxa de 4,8 mL/kg/h).',
+    schedule:'Degraus intermediários de 30 minutos são um exemplo operacional conservador; a bula exige progressão gradual, mas não fixa esses degraus.',
+    status:'br'
+  },
+  octagam_10:{
+    source:'Octapharma — Octagam 10% (SmPC 2024; referência internacional, com confirmação brasileira obrigatória)',
+    url:'https://www.octagam.com/dosing-and-infusion',
+    kind:'IV',rates:[0.6,1.2,2.4,4.8,7.2],interval:30,
+    initial:'Início de 0,01 mL/kg/min = 0,6 mL/kg/h; a orientação brasileira histórica admite faixa inicial de 0,01–0,02 mL/kg/min.',
+    limit:'Máximo de 0,12 mL/kg/min (7,2 mL/kg/h), sujeito a tolerância, indicação e bula vigente. Dermatomiosite: limites próprios, não utilizar esta tabela.',
+    schedule:'Escalonamento intermediário ilustrativo; confirmar dose e teto pela bula atual e indicação. Em pacientes de risco renal ou trombótico podem ser necessários limites muito inferiores.',
+    status:'intl'
+  },
+  kiovig_10:{
+    source:'KIOVIG — informação oficial europeia (EMA) e protocolo do Hospital Sírio-Libanês, com conferência da bula brasileira',
+    url:'https://www.ema.europa.eu/pt/documents/product-information/kiovig-epar-product-information_pt.pdf',
+    complement:'https://guiafarmaceutico.hsl.org.br/imunoglobulina-humana',
+    kind:'IV',rates:[0.5,1,2,3,4,5,6],interval:30,
+    initial:'0,5 mL/kg/h durante 30 min; se tolerado, 1 mL/kg/h; incrementos de 1 mL/kg/h a cada 30 minutos no protocolo HSL.',
+    limit:'Máximo de referência de 6 mL/kg/h. Taxas excepcionais em pacientes IDP muito tolerantes não são habilitadas automaticamente.',
+    schedule:'Progressão do protocolo hospitalar HSL; usar somente após conferir a bula brasileira e condições clínicas.',
+    status:'intl'
+  },
+  flebogamma_10:{
+    source:'Bula brasileira Flebogamma 10% DIF, seção 6 (Grifols)',
+    url:'https://uploads.consultaremedios.com.br/drug_leaflet/Bula-Flebogamma-Paciente-Consulta-Remedios.pdf',
+    kind:'IV',rates:[0.6,1.2,2.4,3.6,4.8],interval:30,
+    initial:'0,01 mL/kg/min nos primeiros 30 min, depois 0,02; 0,04; 0,06; e no máximo 0,08 mL/kg/min.',
+    limit:'Máximo de 4,8 mL/kg/h. Em reações prévias, a bula prevê limites menores, frequentemente até 0,04 mL/kg/min (2,4 mL/kg/h).',
+    schedule:'Escalonamento de 30 minutos descrito na bula brasileira; não avançar se houver reação.',
+    status:'br'
+  },
+  tegeline_5:{
+    source:'Tégéline 5% — bula profissional brasileira histórica (LFB); validar edição atual',
+    url:'https://bula.gratis/lfb_hemoderivados_e_biotecnologia_ltda/1/tegeline/profissional',
+    kind:'IV',rates:[1,4],interval:30,
+    initial:'Primeiros 30 minutos: não ultrapassar 1 mL/kg/h.',
+    limit:'Após 30 minutos, aumentar gradualmente conforme tolerância até 4 mL/kg/h. A fonte não fixa os incrementos intermediários.',
+    schedule:'Somente taxa inicial e teto são apresentados; não presumir passagem imediata para o teto.',
+    status:'historical'
+  },
+  endobulin_5:{
+    source:'Registro e apresentação necessitam conciliação: fontes disponíveis identificam Endobulin KIOVIG 10%, não confirmam Endobulin S/D 5%',
+    url:'https://consultas.anvisa.gov.br/#/bulario/',
+    kind:'IV',rates:[],interval:30,
+    initial:'Não é seguro programar bomba para Endobulin S/D 5% a partir de dados de Endobulin KIOVIG 10%.',
+    limit:'Verifique o nome exato e a concentração no frasco e na bula atual; a diferença entre 5% e 10% altera volumes e velocidades.',
+    schedule:'Velocidade automática indisponível até validação da formulação. Não extrapolar outro medicamento.',
+    status:'unverified'
+  },
+  gammaked_10:{
+    source:'GAMMAKED 10% — bula profissional FDA/DailyMed, indicação de imunodeficiência primária; confirmar registro e bula brasileira',
+    url:'https://www.dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?audience=professional&setid=8c004331-7a91-8046-7510-9b9b7d33ced7',
+    kind:'IV',rates:[0.6,1.2,2.4,4.8],interval:30,
+    initial:'1 mg/kg/min = 0,01 mL/kg/min = 0,6 mL/kg/h no início, para reposição em imunodeficiência primária.',
+    limit:'Até 8 mg/kg/min = 0,08 mL/kg/min = 4,8 mL/kg/h, se bem tolerado.',
+    schedule:'Somente taxa inicial e teto são explicitamente definidos nesta referência; os degraus intermediários e intervalos de 30 minutos são ilustrativos, não uma prescrição de bula.',
+    status:'intl'
+  },
+  gamunex_10:{
+    source:'GAMUNEX-C 10% — bula fabricante Grifols e DailyMed, reposição de IgG; confirmar bula brasileira',
+    url:'https://www.gamunex-c.com/en/hcp/pidd/dosing-administration',
+    complement:'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=ade6b84a-e95b-0a49-3296-f56208fdf35b',
+    kind:'IV',rates:[0.6,1.2,2.4,4.8],interval:30,
+    initial:'1 mg/kg/min (0,01 mL/kg/min) = 0,6 mL/kg/h no início, para reposição em imunodeficiência primária.',
+    limit:'Até 8 mg/kg/min (0,08 mL/kg/min) = 4,8 mL/kg/h se bem tolerado.',
+    schedule:'Degraus intermediários de 30 minutos são ilustrativos; a fonte não impõe esses incrementos.',
+    status:'intl'
+  },
+  hizentra_20:{
+    source:'Bula profissional brasileira Hizentra 20% (CSL Behring), administração por bomba subcutânea, reposição de IgG',
+    url:'https://labeling.cslbehring.com/pi/br/hizentra/pt/hizentra-bula-prof-saude.pdf#page=14',
+    kind:'SC',ratesFirst:[15],ratesNext:[25],volFirst:15,volNext:25,
+    initial:'Primeira infusão: até 15 mL/h por local e até 15 mL por local.',
+    limit:'Infusões subsequentes bem toleradas: até 25 mL/h por local e até 25 mL por local; até 8 locais simultâneos, conforme bula para reposição.',
+    status:'br'
+  },
+  cuvitru_20:{
+    source:'Bula brasileira Cuvitru 20% (Takeda), seção Velocidade de infusão',
+    url:'https://assets-dam.takeda.com/raw/upload/v1662721748/legacy-dotcom/siteassets/pt-br/home/what-we-do/produtos/CUV_0421_0721_VP.pdf',
+    kind:'SC',ratesFirst:[10,20],ratesNext:[10,20],
+    initial:'Iniciar com 10 mL/h por local e aumentar, se tolerado e após intervalo mínimo de 10 minutos, até 20 mL/h por local nas duas primeiras infusões.',
+    limit:'Nas infusões posteriores, a taxa pode ser elevada conforme tolerância e bula; esta calculadora não define teto numérico adicional sem validação.',
+    status:'br'
+  },
+  hyqvia_10:{
+    source:'Bula profissional HyQvia (Takeda), tabela de velocidade por local e titulação de dose',
+    url:'https://www.fastmedicamentos.com.br/wp-content/uploads/2025/07/Bula-Hyqvia-Profissional.pdf',
+    kind:'fSC',ratesFirstLow:[5,10,20,40,80],ratesNextLow:[10,20,40,80,160],ratesFirstHigh:[10,30,60,120,240],ratesNextHigh:[10,30,120,240,300],
+    initial:'Hialuronidase recombinante antes da IgG 10%; velocidade por local e faixa de peso, diferenciando as duas primeiras das infusões subsequentes.',
+    limit:'Não misturar os dois componentes. Seguir titulação gradual da dose e intervalo entre aplicações; a velocidade máxima não autoriza iniciar na dose mensal completa sem titulação.',
+    status:'br'
+  },
+  gammanorm_165:{
+    source:'Gammanorm 165 mg/mL — Resumo das Características do Medicamento (Octapharma, Portugal), referência internacional',
+    url:'https://www.octapharma.pt/api/download/x/78db219a10/rcm-gammanorm.pdf',
+    kind:'SC',ratesFirst:[15],ratesNext:[25],volFirst:25,volNext:35,
+    initial:'Bomba subcutânea: 15 mL/h por local inicialmente, conforme RCM português.',
+    limit:'Se tolerado, aumentar 1–2 mL/h por local em aplicações subsequentes até 25 mL/h por local; 100 mL/h para todos os locais combinados. Volume por local até 25 mL antes da décima aplicação, até 35 mL após titulação.',
+    status:'intl'
   }
-  function link(url,title){
-    var a=e('a',title);
-    a.href=url; a.target='_blank'; a.rel='noopener noreferrer';
-    return a;
-  }
-  function fmt(v,d){
-    return Number(v).toLocaleString('pt-BR',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});
-  }
-  function bloco(titulo,textos){
-    var box=e('section',null,'igcalc-section');
-    box.appendChild(e('h4',titulo));
-    var ul=e('ul');
-    textos.forEach(function(t){ul.appendChild(e('li',t));});
-    box.appendChild(ul);
-    return box;
-  }
-  function table(head,rows){
-    var t=e('table',null,'igcalc-table');
-    var thead=e('thead'),tr=e('tr');
-    head.forEach(function(v){tr.appendChild(e('th',v));});
-    thead.appendChild(tr);t.appendChild(thead);
-    var body=e('tbody');
-    rows.forEach(function(row){
-      var r=e('tr');
-      row.forEach(function(v){r.appendChild(e('td',v));});
-      body.appendChild(r);
+};
+var ctx={
+  pre:[
+    'Confirmar indicação de reposição, dose individual, IgG, infecções, exames pertinentes, peso de cálculo e necessidade de ajuste. O peso isolado não estabelece elegibilidade.',
+    'Checar fabricante, concentração, via, validade, aspecto, lote, alergia ou reação anterior, intervalo desde a última infusão e disponibilidade de equipamento de emergência.',
+    'Avaliar risco renal, trombose, hiperviscosidade, desidratação e sobrecarga volêmica; garantir hidratação e monitorização adequadas, sem prescrever hidratação automática a todos.',
+    'Pré-medicação não é rotineira. Anti-H1 e antitérmico podem ser considerados conforme histórico de reação, mas não previnem anafilaxia.'
+  ],
+  during:[
+    'Verificar sinais vitais e sintomas antes e durante a administração, especialmente no início e em cada aumento de velocidade.',
+    'Avançar somente se o paciente estiver tolerando; reduzir ou interromper diante de reação e reavaliar antes de reiniciar.',
+    'Na suspeita de anafilaxia, interromper a imunoglobulina e seguir protocolo de emergência com adrenalina intramuscular quando indicada; não apenas desacelerar a bomba.'
+  ],
+  post:[
+    'Observar segundo via, marca, risco e histórico (a primeira infusão, troca de marca e intervalo prolongado exigem maior vigilância).',
+    'Orientar sinais de alerta tardios: cefaleia intensa e rigidez nucal, oligúria, dispneia, dor torácica, edema assimétrico, icterícia ou urina escura.',
+    'Registrar dose efetiva, lote, fabricante, duração, taxas, locais e eventos no prontuário do serviço. O Hub não cadastra nem armazena dados do paciente.',
+    'Reavaliar carga de infecções, função renal quando pertinente e IgG; ajustar dose e intervalo à resposta clínica. Em estabilidade, revisões laboratoriais podem ser feitas a cada 6–12 meses.'
+  ]
+};
+function get(id){return document.getElementById(id);}
+function el(tag,text,cls){var n=document.createElement(tag);if(cls)n.className=cls;if(text!==null&&text!==undefined)n.textContent=String(text);return n;}
+function ptxt(parent,text,cls){parent.appendChild(el('p',text,cls));}
+function lnk(url,text){var a=el('a',text);a.href=url;a.target='_blank';a.rel='noopener noreferrer';return a;}
+function num(v,d){return Number(v).toLocaleString('pt-BR',{minimumFractionDigits:d===undefined?1:d,maximumFractionDigits:d===undefined?1:d});}
+function showWeight(){var input=get('igcalcWeight');if(!input)return null;var raw=(input.value||'').replace(',','.').trim();if(!raw)return null;var value=Number(raw);return Number.isFinite(value)&&value>=2&&value<=250?value:NaN;}
+function table(parent,cols,rows){var wrap=el('div');wrap.style.cssText='overflow-x:auto;max-width:100%';var t=el('table',null,'igcalc-table'),thead=el('thead'),head=el('tr');cols.forEach(function(c){head.appendChild(el('th',c));});thead.appendChild(head);t.appendChild(thead);var body=el('tbody');rows.forEach(function(row){var tr=el('tr');row.forEach(function(v){tr.appendChild(el('td',v));});body.appendChild(tr);});t.appendChild(body);wrap.appendChild(t);parent.appendChild(wrap);}
+function sec(parent,title,texts){var section=el('section',null,'igcalc-section');section.appendChild(el('h4',title));var list=el('ul');texts.forEach(function(x){list.appendChild(el('li',x));});section.appendChild(list);parent.appendChild(section);}
+function info(parent,text){parent.appendChild(el('div',text,'igcalc-alert'));}
+function rates(parent,product,weight){
+  var box=el('section',null,'igcalc-summary');box.appendChild(el('h4','Velocidade de infusão · '+(product.kind==='IV'?'bomba intravenosa':'bomba subcutânea')));
+  if(product.status==='unverified'){info(box,'Programação automática indisponível. A apresentação cadastrada exige confirmação da concentração e bula atual. Nenhum valor de outra marca deve ser usado.');ptxt(box,product.initial);ptxt(box,product.limit);parent.appendChild(box);return;}
+  if(product.kind==='IV'){
+    if(!product.rates||!product.rates.length){info(box,'A bula específica não foi validada para programação numérica.');parent.appendChild(box);return;}
+    var rows=product.rates.map(function(rate,i){
+      var time=(product.rates.length===2)?(i===0?'0–30 min':'Após 30 min, se tolerado'):(i===product.rates.length-1?'A partir de '+i*product.interval+' min':(i*product.interval)+'–'+((i+1)*product.interval)+' min');
+      return [time,num(weight*rate,1)+' mL/h',num(rate,1)+' mL/kg/h'];
     });
-    t.appendChild(body);
-    return t;
-  }
-  function alert(container,txt){
-    container.appendChild(e('div',txt,'igcalc-alert'));
-  }
-  function montarRefs(parent,produto){
-    var r=e('div',null,'igcalc-refs');
-    r.appendChild(e('div','Referências para conferência da prescrição:'));
-    var ol=e('ul');ol.style.cssText='padding-left:17px;margin:7px 0';
-    [
-      [REF.aaai,'AAAAI/ACAAI/CIS — parâmetro de prática 2026, recomendação 8.2 (dose de reposição)'],
-      [REF.eaaci,'EAACI / Allergy (2026) — algoritmo individualizado para reposição de imunoglobulinas'],
-      [REF[produto],produto==='privigen'?'Bula brasileira Privigen — administração e velocidade (p. 16)':produto==='hizentra'?'Bula brasileira Hizentra — volume e velocidade SC (p. 14)':'Bula HyQvia — titulação, rHuPH20 e tabela de velocidade por local']
-    ].forEach(function(item){
-      var li=e('li');li.appendChild(link(item[0],item[1]));ol.appendChild(li);
-    });
-    r.appendChild(ol);
-    r.appendChild(e('p','Uso profissional. Os valores são referência para reposição de IgG nos erros inatos de imunidade, e não se aplicam automaticamente a indicações imunomoduladoras, imunodeficiências secundárias ou outras condições.'));
-    parent.appendChild(r);
-  }
-  function calcular(){
-    var out=id('igcalcOutput');
-    if(!out)return;
-    out.textContent='';
-    var campo=id('igcalcWeight');
-    var raw=(campo&&campo.value||'').replace(',','.');
-    var peso=Number(raw);
-    if(!raw.trim() || !Number.isFinite(peso) || peso<2 || peso>250){
-      out.appendChild(e('div','Informe um peso válido entre 2 e 250 kg.','igcalc-error'));
-      if(campo)campo.focus();
-      return;
+    if(product.rates.length===2)rows[1][0]='Aumentar gradualmente após 30 min';
+    table(box,['Intervalo orientativo','Velocidade da bomba','Taxa de referência'],rows);
+    ptxt(box,product.initial);
+    info(box,product.schedule);
+    info(box,product.limit);
+  }else if(product.kind==='fSC'){
+    var low=weight<40,first=low?product.ratesFirstLow:product.ratesFirstHigh,next=low?product.ratesNextLow:product.ratesNextHigh;
+    box.appendChild(el('p','Tabela por local para pacientes '+(low?'com menos de 40 kg':'com 40 kg ou mais')+'. A velocidade não é multiplicada pelo peso: o peso define qual tabela utilizar.'));
+    table(box,['Período','1ª e 2ª infusões','Infusões posteriores se toleradas'],first.map(function(x,i){return [i<4?(i*10)+'–'+((i+1)*10)+' min':'Restante',num(x,0)+' mL/h/local',num(next[i],0)+' mL/h/local'];}));
+    info(box,product.initial+' '+product.limit);
+  }else{
+    box.appendChild(el('p','A taxa é expressa por local de infusão e não deve ser multiplicada pelo peso corporal.'));
+    if(product.kind==='SC' && product===P.cuvitru_20){
+      table(box,['Etapa','Velocidade por local'],[['Início','10 mL/h/local'],['Após pelo menos 10 min, se tolerado','Até 20 mL/h/local']]);
+    }else if(product.ratesFirst&&product.ratesNext){
+      table(box,['Situação','Taxa máxima por local'],[['Primeira infusão',num(product.ratesFirst[0],0)+' mL/h/local'],['Subsequentes, se toleradas',num(product.ratesNext[0],0)+' mL/h/local']]);
     }
-    var nome=active==='privigen'?'Privigen 10%':active==='hizentra'?'Hizentra 20%':'HyQvia 10%';
-    var conc=active==='hizentra'?0.2:0.1; // gramas por mL
-    var semanal=active==='hizentra';
-    var doseMin=peso*(semanal?0.1:0.4);
-    var doseMax=peso*(semanal?0.15:0.6);
-    var mlMin=doseMin/conc,mlMax=doseMax/conc;
-    var summary=e('div',null,'igcalc-summary');
-    summary.appendChild(e('h4',nome+' — dose de referência'));
-    summary.appendChild(e('p','Peso informado: '+fmt(peso,1)+' kg.'));
-    summary.appendChild(e('p','Faixa usual de partida para reposição de IgG: '+fmt(doseMin,1)+' a '+fmt(doseMax,1)+' g'+(semanal?'/semana':' a cada 4 semanas')+' ('+(semanal?'100–150 mg/kg/semana':'400–600 mg/kg a cada 4 semanas')+').'));
-    summary.appendChild(e('p','Volume teórico na concentração '+(active==='hizentra'?'20%':'10%')+': '+fmt(mlMin,1)+' a '+fmt(mlMax,1)+' mL por aplicação correspondente.'));
-    summary.appendChild(e('p','O cálculo não arredonda a dose nem substitui a prescrição médica. A dose de manutenção e o intervalo dependem da indicação, resposta clínica, IgG e particularidades do produto.'));
-    if(active==='privigen'||active==='hyqvia'){
-      summary.appendChild(e('p','Apresentação de referência de 5 g: cada frasco de imunoglobulina a 10% contém 50 mL. Quantidade de frascos a separar deve ser definida a partir da dose prescrita; não arredondar automaticamente em múltiplos de 5 g.'));
-    }else{
-      summary.appendChild(e('p','Hizentra: não pressupor frascos de 5 g. Conferir apresentações comercializadas e volumes por local na bula vigente.'));
-    }
-    out.appendChild(summary);
-    alert(out,'Antes de liberar a prescrição, confirmar diagnóstico/indicação, dose individual, peso de cálculo apropriado (especialmente em obesidade), fabricante e apresentação, idade autorizada, riscos renais/trombóticos, hidratação, tolerância à marca, intervalo desde a última infusão e protocolos do serviço.');
-    var stages=e('div',null,'igcalc-sections');
-    var pre=[
-      'Conferir prescrição, dose, via, concentração, validade, lote, rastreabilidade e integridade do frasco. Não registrar dados identificáveis neste aplicativo.',
-      'Revisar reações anteriores, mudança de produto, anafilaxia, trombose, insuficiência renal, comorbidades e hidratação; avaliar sinais vitais e necessidade de acesso venoso para IV.',
-      'Pré-medicação não é obrigatória rotineiramente. Considerar medidas individualizadas em pacientes com reação infusional anterior; anti-histamínico ou antitérmico não previne anafilaxia.',
-      'Disponibilizar equipe treinada e material para atendimento de reações graves; higienizar as mãos e respeitar técnica asséptica.'
-    ];
-    var per=[
-      'Monitorar sintomas e sinais vitais durante a aplicação, com maior vigilância no início e a cada incremento. A frequência depende da via, do produto e do risco.',
-      'Reduzir ou suspender a infusão diante de cefaleia intensa, calafrios, desconforto, dispneia, hipotensão ou outros sintomas; avaliar e tratar conforme gravidade.',
-      'Em suspeita de anafilaxia, interromper imediatamente e seguir protocolo de emergência com adrenalina intramuscular quando indicada; não apenas desacelerar a bomba.'
-    ];
-    var post=[
-      'Registrar no prontuário institucional dose realmente administrada, lote, fabricante, via, horários, taxas e reações; o Hub não mantém dados dos pacientes.',
-      'Observar sinais tardios de cefaleia intensa, sinais de hemólise, oligúria, eventos tromboembólicos, febre persistente ou sintomas de meningite asséptica e orientar retorno imediato quando presentes.',
-      'Monitorar infecções, tolerância e IgG sérica; em pacientes estáveis, diretriz AAAAI sugere reavaliação laboratorial em 6–12 meses, com intervalos menores se necessário. Ajustar dose conforme resposta.'
-    ];
-    if(active==='privigen'){
-      pre.push('Privigen é pronto para uso IV. Se houver necessidade de diluição, a bula especifica glicose 5%; não misturar com soro fisiológico nem outros medicamentos na mesma linha.');
-      var taxas=[0.3,0.6,1.2,2.4,4.8];
-      var rows=taxas.map(function(t,i){
-        return [(i*30)+'–'+((i+1)*30)+' min',fmt(t*peso,1)+' mL/h',fmt(t,1)+' mL/kg/h'];
+    info(box,product.initial+' '+product.limit);
+  }
+  parent.appendChild(box);
+}
+function dose(parent,pr,key,weight){
+  var conc=Number(String(pr.conc||'').replace('%','').replace(',','.'))*10;
+  var sc=pr.via==='SC'&&key!=='hyqvia_10';
+  var mg=weight*(sc?100:400)/1000, max=weight*(sc?150:600)/1000;
+  var box=el('section',null,'igcalc-summary');
+  box.appendChild(el('h4','Referência de dose para reposição de IgG'));
+  ptxt(box,'Peso informado: '+num(weight,1)+' kg. Referência teórica: '+num(mg,1)+'–'+num(max,1)+' g '+(sc?'por semana (aproximação de 100–150 mg/kg/semana)':'por ciclo mensal (400–600 mg/kg/mês)')+'.');
+  if(Number.isFinite(conc)&&conc>0)ptxt(box,'Na concentração de '+pr.conc+': volume teórico de '+num(mg*1000/conc,1)+'–'+num(max*1000/conc,1)+' mL por '+(sc?'semana':'ciclo')+'.');
+  ptxt(box,'A faixa não é prescrição automática. Doses e intervalos são individualizados conforme indicação, IgG, infecções, peso ideal/ajustado quando aplicável e farmacocinética da apresentação.');
+  if(sc)ptxt(box,'Em conversões entre IVIG e SCIG, seguir a bula e o protocolo de conversão do produto; a divisão simples por quatro pode não reproduzir a exposição sistêmica.');
+  if(key==='hyqvia_10')ptxt(box,'HyQvia requer titulação inicial da dose e do intervalo; não administrar automaticamente a dose mensal integral na primeira aplicação.');
+  parent.appendChild(box);
+}
+function refs(parent,prod){
+  var wrap=el('div',null,'igcalc-refs');wrap.appendChild(el('h4','Referências e conferência de bula'));
+  var ul=el('ul');ul.style.cssText='padding-left:17px;margin:6px 0';
+  [
+    [prod.url,prod.source],
+    [prod.complement,'Referência complementar do fabricante ou protocolo hospitalar'],
+    [REF.aaaai.url,REF.aaaai.title],
+    [REF.eaaci.url,REF.eaaci.title],
+    [REF.ukpin.url,REF.ukpin.title],
+    [REF.anvisa.url,REF.anvisa.title]
+  ].forEach(function(pair){if(!pair[0])return;var li=el('li');li.appendChild(lnk(pair[0],pair[1]));ul.appendChild(li);});
+  wrap.appendChild(ul);
+  ptxt(wrap,'Nota: fontes internacionais ou históricas são indicadas como tais. Antes de colocar um valor na bomba, é indispensável conferir a bula brasileira vigente e a indicação específica.');
+  parent.appendChild(wrap);
+}
+function render(){
+  var output=get('igcalcDetail');if(!output)return;output.textContent='';
+  if(!current){ptxt(output,'Selecione um dos medicamentos acima para visualizar doses de referência, velocidades e monitorização.');return;}
+  var pr=typeof IG_PRODUTOS!=='undefined'?IG_PRODUTOS[current]:null;
+  var product=P[current];if(!pr||!product){ptxt(output,'Não foi encontrada ficha validada desta apresentação.');return;}
+  var header=el('div',null,'ig-main-head'),left=el('div');
+  left.appendChild(el('h3',pr.nome));
+  left.appendChild(el('span',(typeof IG_FABRICANTE!=='undefined'&&IG_FABRICANTE[current]||'')+' · '+pr.conc+' · '+(pr.via==='IV'?'Intravenosa':'Subcutânea')));
+  header.appendChild(left);output.appendChild(header);
+  var weight=showWeight();
+  if(weight===null){info(output,'Informe o peso na parte superior da página para calcular diretamente a velocidade em mL/h. As orientações e referências já estão disponíveis abaixo.');}
+  else if(Number.isNaN(weight)){output.appendChild(el('div','Informe um peso entre 2 e 250 kg.','igcalc-error'));}
+  else{
+    dose(output,pr,current,weight);
+    rates(output,product,weight);
+  }
+  if(product.status==='intl')info(output,'Fonte de velocidade internacional. Não equiparar automaticamente às condições de registro, bula ou indicação no Brasil.');
+  if(product.status==='historical')info(output,'Bula histórica: confirmar versão e limites atuais na Anvisa antes da prescrição.');
+  if(product.status==='unverified'&&weight!==null)info(output,'Não utilizar taxas de infusão de Endobulin KIOVIG 10% para Endobulin S/D 5%.');
+  var steps=el('div',null,'igcalc-sections');
+  sec(steps,'1. Antes da infusão',ctx.pre);
+  sec(steps,'2. Durante a infusão',ctx.during.concat(product.kind!=='IV'?['Na SC, escolher locais adequados, garantir técnica asséptica e distinguir mL/h por local de velocidade total da bomba.']:['Na IV, preparar acesso venoso adequado e programar o equipamento em mL/h, não confundir com mL/kg/h ou mL/kg/min.']));
+  sec(steps,'3. Após a infusão',ctx.post);
+  output.appendChild(steps);
+  refs(output,product);
+}
+function build(){
+  var box=get('igCatalogProducts');if(!box||typeof IG_PRODUTOS==='undefined')return;
+  box.textContent='';
+  ['IV','SC'].forEach(function(via){
+    var group=el('section',null,'igcat-group');
+    group.appendChild(el('h4',via==='IV'?'Intravenosas (IGIV)':'Subcutâneas (IGSC)'));
+    var grid=el('div',null,'igcat-grid');
+    Object.keys(IG_PRODUTOS).forEach(function(key){
+      var p=IG_PRODUTOS[key];if(!p||p.via!==via)return;
+      var btn=el('button',null,'igcat-card');btn.type='button';btn.dataset.igKey=key;btn.setAttribute('aria-pressed','false');btn.setAttribute('aria-label','Ver velocidade de infusão de '+p.nome);
+      var icon=el('span',null,'igcat-icon'),source=(typeof IG_LOGO!=='undefined'&&IG_LOGO[key]||''),src=(typeof IG_LOGO_IMG!=='undefined'&&IG_LOGO_IMG[source]||''),maker=(typeof IG_FABRICANTE!=='undefined'&&IG_FABRICANTE[key]||'');
+      if(src){
+        var im=el('img');im.src=src;im.alt='Logomarca '+maker;im.loading='lazy';im.decoding='async';
+        im.addEventListener('error',function(){icon.textContent='';icon.appendChild(el('span',maker,'igcat-fallback'));},{once:true});
+        icon.appendChild(im);
+      }else icon.appendChild(el('span',maker,'igcat-fallback'));
+      btn.appendChild(icon);
+      var txt=el('span',null,'igcat-copy');txt.appendChild(el('span',p.nome,'igcat-name'));txt.appendChild(el('span',maker,'igcat-maker'));txt.appendChild(el('span',(via==='IV'?'Intravenosa':'Subcutânea')+' · '+p.conc,'igcat-route'));btn.appendChild(txt);
+      btn.addEventListener('click',function(){
+        current=key;
+        box.querySelectorAll('button.igcat-card').forEach(function(b){b.setAttribute('aria-pressed',b===btn?'true':'false');});
+        render();
+        var panel=get('igcalcDetail');
+        if(panel&&typeof panel.scrollIntoView==='function')panel.scrollIntoView({behavior:'smooth',block:'start'});
       });
-      var infusion=e('section',null,'igcalc-section');
-      infusion.appendChild(e('h4','Durante — bomba de infusão Privigen'));
-      infusion.appendChild(e('p','Progressão ilustrativa em etapas de 30 minutos. A bula estabelece 0,3 mL/kg/h por aproximadamente 30 minutos e aumento gradual se bem tolerado, sem definir os degraus intermediários.'));
-      infusion.appendChild(table(['Período','Bomba','Taxa'],rows));
-      infusion.appendChild(e('p','Teto habitual da bula: 4,8 mL/kg/h ('+fmt(4.8*peso,1)+' mL/h). Até 7,2 mL/kg/h ('+fmt(7.2*peso,1)+' mL/h) só nos casos previstos em bula, como reposição em imunodeficiência primária previamente bem tolerada, mediante decisão documentada.'));
-      infusion.appendChild(e('p','A duração efetiva e a última etapa dependem do volume prescrito; a infusão pode terminar antes de atingir o degrau seguinte. Não avançar se houver reação.'));
-      stages.appendChild(bloco('Antes da infusão',pre));
-      stages.appendChild(infusion);
-      stages.appendChild(bloco('Após a infusão',post.concat(['Segundo a bula, observar por pelo menos 20 minutos após a aplicação; nas primeiras infusões, troca de produto ou longo intervalo, observar por 1 hora após a primeira infusão.'])));
-    }else if(active==='hizentra'){
-      pre.push('Hizentra é exclusivamente subcutâneo. Definir número de locais e distribuição do volume, mantendo distância apropriada entre locais.');
-      per.push('Na reposição, primeira infusão: até 15 mL por local e até 15 mL/h/local; nas subsequentes, se toleradas, até 25 mL por local e até 25 mL/h/local. Até 8 locais simultâneos, conforme bula.');
-      per.push('A quantidade semanal calculada é aproximação de 1/4 da dose mensal; na conversão de IV para SC e em manutenção, seguir esquema específico da bula e níveis séricos.');
-      stages.appendChild(bloco('Antes da infusão',pre));
-      stages.appendChild(bloco('Durante — infusão subcutânea Hizentra',per));
-      stages.appendChild(bloco('Após a infusão',post.concat(['Alternar locais de aplicação, avaliar edema, eritema e dor, e garantir treinamento adequado se houver aplicação domiciliar.'])));
-    }else{
-      pre.push('HyQvia inclui hialuronidase humana recombinante (rHuPH20) e IgG 10% em frascos separados. Verificar critérios de idade, titulação inicial e esquema de conversão.');
-      var menor=peso<40;
-      var taxasH=menor?[5,10,20,40,80]:[10,30,60,120,240];
-      var linhas=taxasH.map(function(t,i){return [i===4?'Restante':i*10+'–'+((i+1)*10)+' min',fmt(t)+' mL/h/local'];});
-      var infusionH=e('section',null,'igcalc-section');
-      infusionH.appendChild(e('h4','Durante — HyQvia, velocidade por local'));
-      infusionH.appendChild(e('p','Tabela da bula para as primeiras duas infusões, na faixa de peso '+(menor?'inferior a 40 kg':'a partir de 40 kg')+'. Velocidades de IgG 10% por local, com progressão se tolerada.'));
-      infusionH.appendChild(table(['Período','Velocidade por local'],linhas));
-      infusionH.appendChild(e('p','Aplicações subsequentes podem usar tabela distinta, desde que a tolerância esteja documentada. O peso sozinho não valida o escalonamento acelerado.'));
-      infusionH.appendChild(e('p','Administrar primeiro todo o conteúdo da hialuronidase correspondente ao frasco e iniciar a IgG 10% até 10 minutos depois, pela mesma agulha/local, respeitando a titulação da bula. Não misturar os componentes.'));
-      stages.appendChild(bloco('Antes da infusão',pre));
-      stages.appendChild(infusionH);
-      stages.appendChild(bloco('Após a infusão',post.concat(['Verificar reações locais e sistêmicas e as recomendações de observação específicas da administração subcutânea facilitada.'])));
-    }
-    out.appendChild(stages);
-    montarRefs(out,active);
-  }
-  /* Catálogo visual: reaproveita as marcas e logotipos já usados pelo Hub. */
-  function montarCatalogo(){
-    var container=id('igCatalogProducts'), painel=id('igCatalogDetail');
-    if(!container||!painel||typeof IG_PRODUTOS==='undefined')return;
-    container.textContent='';
-    var selecionado=null;
-    var rotas=[
-      {via:'IV',titulo:'Intravenosas (IGIV)'},
-      {via:'SC',titulo:'Subcutâneas (IGSC)'}
-    ];
-    function limparSelecao(){
-      if(selecionado)selecionado.setAttribute('aria-pressed','false');
-      selecionado=null;
-      painel.hidden=true;
-      painel.textContent='';
-    }
-    function detalhe(codigo,botao){
-      if(selecionado===botao && !painel.hidden){limparSelecao();return;}
-      if(selecionado)selecionado.setAttribute('aria-pressed','false');
-      selecionado=botao;botao.setAttribute('aria-pressed','true');
-      painel.textContent='';
-      var p=IG_PRODUTOS[codigo];
-      var maker=typeof IG_FABRICANTE!=='undefined'?IG_FABRICANTE[codigo]||'Fabricante não informado':'Fabricante não informado';
-      var cab=e('div',null,'igcat-detail-head');
-      cab.appendChild(e('h4',p.nome));
-      var fechar=e('button','Fechar','igcat-close');
-      fechar.type='button';
-      fechar.setAttribute('aria-label','Fechar informações sobre '+p.nome);
-      fechar.addEventListener('click',limparSelecao);
-      cab.appendChild(fechar);
-      painel.appendChild(cab);
-      painel.appendChild(e('p','Fabricante: '+maker+' · Concentração: '+p.conc+' · Via: '+(p.via==='IV'?'intravenosa':'subcutânea')+'.'));
-      painel.appendChild(e('p','Verifique na bula brasileira vigente as apresentações comercializadas, indicações aprovadas, conservação, diluição e velocidades específicas da marca.'));
-      var actions=e('div',null,'igcat-detail-actions');
-      var bula=e('a','Consultar bula na Anvisa ↗');
-      bula.href='https://consultas.anvisa.gov.br/#/bulario/';
-      bula.target='_blank';bula.rel='noopener noreferrer';
-      actions.appendChild(bula);
-      var disponivel={privigen_10:'privigen',hizentra_20:'hizentra',hyqvia_10:'hyqvia'};
-      if(disponivel[codigo]){
-        var calc=e('button','Calcular com '+p.nome);
-        calc.type='button';
-        calc.addEventListener('click',function(){
-          var choice=document.querySelector('[data-igcalc-prod="'+disponivel[codigo]+'"]');
-          if(choice)choice.click();
-          var abrir=id('igcalcOpen');
-          if(abrir&&!abrir.hidden)abrir.click();
-        });
-        actions.appendChild(calc);
-      }
-      painel.appendChild(actions);
-      var grupoDestino=botao.closest('.igcat-group');
-      if(grupoDestino)grupoDestino.appendChild(painel);
-      painel.hidden=false;
-      if(typeof painel.scrollIntoView==='function')painel.scrollIntoView({behavior:'smooth',block:'nearest'});
-    }
-    rotas.forEach(function(grupo){
-      var section=e('section',null,'igcat-group');
-      section.appendChild(e('h4',grupo.titulo));
-      var grid=e('div',null,'igcat-grid');
-      Object.keys(IG_PRODUTOS).forEach(function(codigo){
-        var p=IG_PRODUTOS[codigo];if(!p || p.via!==grupo.via)return;
-        var b=e('button',null,'igcat-card');
-        b.type='button';b.setAttribute('aria-pressed','false');
-        b.setAttribute('aria-label','Informações sobre '+p.nome);
-        var logoBox=e('span',null,'igcat-icon');
-        var sigla=(typeof IG_LOGO!=='undefined'&&IG_LOGO[codigo])||'';
-        var logo=(typeof IG_LOGO_IMG!=='undefined'&&IG_LOGO_IMG[sigla])||'';
-        var fabricante=(typeof IG_FABRICANTE!=='undefined'&&IG_FABRICANTE[codigo])||'';
-        function fallback(){
-          logoBox.textContent='';
-          logoBox.appendChild(e('span',fabricante.split(' · ')[0]||'IG','igcat-fallback'));
-        }
-        if(logo){
-          var img=e('img');img.src=logo;img.alt='Logomarca '+(sigla==='csl'?'CSL Behring':sigla==='octa'?'Octapharma':sigla==='lfb'?'LFB':sigla==='grifols'?'Grifols':sigla==='takeda'?'Takeda':sigla==='baxter'?'Baxter':'Kedrion');
-          img.loading='lazy';img.decoding='async';
-          img.addEventListener('error',fallback,{once:true});
-          logoBox.appendChild(img);
-        }else fallback();
-        b.appendChild(logoBox);
-        var copy=e('span',null,'igcat-copy');
-        copy.appendChild(e('span',p.nome,'igcat-name'));
-        copy.appendChild(e('span',fabricante,'igcat-maker'));
-        copy.appendChild(e('span',p.via==='IV'?'Intravenosa · '+p.conc:'Subcutânea · '+p.conc,'igcat-route'));
-        b.appendChild(copy);
-        b.addEventListener('click',function(){detalhe(codigo,b);});
-        grid.appendChild(b);
-      });
-      section.appendChild(grid);
-      container.appendChild(section);
+      grid.appendChild(btn);
     });
-  }
-  function onReady(){
-    var op=id('igcalcOpen'),close=id('igcalcClose'),body=id('igcalcBody'),input=id('igcalcWeight'),out=id('igcalcOutput');
-    if(!op||!close||!body||!input||!out)return;
-    op.addEventListener('click',function(){
-      var catalogo=id('igCatalog');if(catalogo)catalogo.hidden=true;
-      op.hidden=true;
-      body.hidden=false;
-      op.setAttribute('aria-expanded','true');
-      input.focus();
-    });
-    close.addEventListener('click',function(){
-      var catalogo=id('igCatalog');if(catalogo)catalogo.hidden=false;
-      body.hidden=true;
-      op.hidden=false;
-      op.setAttribute('aria-expanded','false');
-      out.textContent='';
-      input.value='';
-      op.focus();
-    });
-    montarCatalogo();
-    var b=id('igcalcCalculate');if(b)b.addEventListener('click',calcular);
-    input.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();calcular();}});
-    document.querySelectorAll('[data-igcalc-prod]').forEach(function(button){
-      button.addEventListener('click',function(){
-        active=button.getAttribute('data-igcalc-prod');
-        document.querySelectorAll('[data-igcalc-prod]').forEach(function(other){
-          var selected=other===button;other.classList.toggle('selected',selected);
-          other.setAttribute('aria-pressed',selected?'true':'false');
-        });
-        out.textContent='';
-        if(input.value.trim())calcular();
-      });
-    });
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',onReady);
-  else onReady();
+    group.appendChild(grid);box.appendChild(group);
+  });
+}
+function init(){
+  var input=get('igcalcWeight');
+  if(!input)return;
+  build();
+  input.addEventListener('input',render);
+  input.addEventListener('change',render);
+  render();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
