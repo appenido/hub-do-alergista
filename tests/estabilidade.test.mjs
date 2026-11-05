@@ -95,3 +95,26 @@ test('service worker não intercepta rotas dinâmicas; mantém arquivos estátic
   listeners.fetch(ev('https://hubdoalergista.pages.dev/index.html'));
   assert.equal(interceptou, true);
 });
+
+
+test('/news elimina URLs e manchetes duplicadas antes de limitar resultados', async () => {
+  const { onRequestGet } = await importarFuncaoCloudflare();
+  const agora = Date.now();
+  const noticia = (titulo, url, atraso) => ({
+    titulo, fonte: 'G1', url, data: new Date(agora - atraso * 1000).toISOString(),
+    status: 'verificado', verificado: true
+  });
+  const itens = [
+    noticia('Notícia A', 'https://g1.globo.com/a?utm_source=feed', 10),
+    noticia('Notícia A', 'https://g1.globo.com/a', 20),
+    noticia('Notícia B', 'https://g1.globo.com/b', 30),
+    noticia('Notícia B', 'https://g1.globo.com/outra', 40),
+    noticia('Notícia C', 'https://g1.globo.com/c', 50)
+  ];
+  const resposta = await onRequestGet({
+    request: new Request('https://hubdoalergista.pages.dev/news'),
+    env: { ASSETS: { fetch: async () => new Response(JSON.stringify({ itens })) } }
+  });
+  assert.equal(resposta.status, 200);
+  assert.deepEqual((await resposta.json()).itens.map(i => i.titulo), ['Notícia A', 'Notícia B', 'Notícia C']);
+});
