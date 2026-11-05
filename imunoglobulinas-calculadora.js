@@ -11,7 +11,7 @@
     eaaci:'https://pmc.ncbi.nlm.nih.gov/articles/PMC13465973/',
     privigen:'https://labeling.cslbehring.com/pi/br/sandoglobulina-privigen/pt/sandoglobulina-privigen-bula-prof-saude.pdf#page=17',
     hizentra:'https://labeling.cslbehring.com/pi/br/hizentra/pt/hizentra-bula-prof-saude.pdf#page=14',
-    hyqvia:'https://consultaremedios.com.br/hyqvia/bula'
+    hyqvia:'https://assets-dam.takeda.com/image/upload/legacy-dotcom/siteassets/pt-br/home/what-we-do/produtos/HyQvia_Bula_Profissional.pdf#page=8'
   };
   function id(x){return document.getElementById(x);}
   function e(tag, text, cls){
@@ -148,7 +148,7 @@
       infusionH.appendChild(e('p','Tabela da bula para as primeiras duas infusões, na faixa de peso '+(menor?'inferior a 40 kg':'a partir de 40 kg')+'. Velocidades de IgG 10% por local, com progressão se tolerada.'));
       infusionH.appendChild(table(['Período','Velocidade por local'],linhas));
       infusionH.appendChild(e('p','Aplicações subsequentes podem usar tabela distinta, desde que a tolerância esteja documentada. O peso sozinho não valida o escalonamento acelerado.'));
-      infusionH.appendChild(e('p','Administrar primeiro a hialuronidase e depois a IgG 10%, pela mesma via/local, respeitando sequência, intervalo e titulação da bula. Não misturar os componentes.'));
+      infusionH.appendChild(e('p','Administrar primeiro todo o conteúdo da hialuronidase correspondente ao frasco e iniciar a IgG 10% até 10 minutos depois, pela mesma agulha/local, respeitando a titulação da bula. Não misturar os componentes.'));
       stages.appendChild(bloco('Antes da infusão',pre));
       stages.appendChild(infusionH);
       stages.appendChild(bloco('Após a infusão',post.concat(['Verificar reações locais e sistêmicas e as recomendações de observação específicas da administração subcutânea facilitada.'])));
