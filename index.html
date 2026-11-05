@@ -1051,30 +1051,22 @@ _marcarGuiasPagas();
 .bio-rationale .bio-value p:last-child{margin-bottom:0;}
 .bio-rationale .bio-fonte a{color:var(--teal-mid);text-decoration:underline;overflow-wrap:anywhere;}
 
-/* ═══ IgE · Você sabia ═══ */
-.vsd-box{border:1.5px solid var(--gray-100);border-left:4px solid var(--gold,#c9a84c);border-radius:14px;background:linear-gradient(180deg,#fffdf6,#ffffff);padding:15px 15px 14px;margin-bottom:16px}
-.vsd-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.vsd-ico{font-size:17px}
-.vsd-box h3{margin:0;font-family:'DM Serif Display',serif;font-size:17px;color:var(--navy);font-weight:400}
-.vsd-lead{margin:0 0 12px;font-size:13px;line-height:1.6;color:var(--navy)}
-.vsd-par{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
-.vsd-card{border:1.5px solid var(--gray-100);border-radius:11px;background:#fff;padding:10px 11px}
-.vsd-card p{margin:6px 0 0;font-size:12px;line-height:1.6;color:var(--navy)}
-.vsd-tag{display:inline-block;border-radius:999px;padding:3px 9px;font-size:10px;font-weight:800;letter-spacing:.3px;text-transform:uppercase}
-.vsd-tag.a{background:rgba(13,31,45,.08);color:var(--navy)}
-.vsd-tag.b{background:rgba(127,212,205,.3);color:var(--teal,#1a4a5c)}
-.vsd-k{font-size:11px;color:var(--gray-500);margin-top:6px}
-.vsd-an{margin:0 0 13px;font-size:12.5px;line-height:1.65;color:var(--navy);background:#f4f8fb;border-radius:10px;padding:10px 12px}
-.vsd-h{margin:0 0 8px;font-size:11px;font-weight:800;color:var(--gray-500);text-transform:uppercase;letter-spacing:.5px}
-.vsd-list{list-style:none;margin:0 0 13px;padding:0;display:flex;flex-direction:column;gap:10px}
-.vsd-list li{position:relative;padding-left:16px;font-size:12.5px;line-height:1.65;color:var(--navy)}
-.vsd-dot{position:absolute;left:0;top:6px;width:8px;height:8px;border-radius:50%}
-.vsd-dot.r{background:#c0392b}.vsd-dot.g{background:#49a078}.vsd-dot.t{background:var(--teal-mid,#2e8b9e)}
-.vsd-ex{display:inline-block;margin-top:4px;font-size:11.5px;color:var(--gray-500);line-height:1.55}
-.vsd-foot{font-size:12.5px;line-height:1.65;color:var(--navy);border-top:1px solid var(--gray-100);padding-top:11px;display:flex;flex-direction:column;gap:9px}
-.vsd-alert{background:#fdf6e3;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.6}
-.vsd-src{display:block;margin-top:5px;font-size:10.5px;color:var(--gray-500);font-weight:700;text-transform:uppercase;letter-spacing:.3px}
-@media(max-width:520px){.vsd-par{grid-template-columns:1fr}}
+/* ═══ IgE · Você sabia (cartões didáticos compactos) ═══ */
+.vsd-box{max-width:980px;border:1px solid var(--gray-100);border-radius:11px;background:#fff;padding:11px 12px 10px;margin:0 0 11px}
+.vsd-top{display:flex;align-items:center;gap:7px;margin:0 0 9px;flex-wrap:wrap}
+.vsd-ico{font-size:15px}
+.vsd-box h3{margin:0;font-family:'Manrope',sans-serif;font-size:13px;color:var(--navy);font-weight:750}
+.vsd-sub{font-size:10.5px;color:var(--gray-500);margin-left:auto}
+.vsd-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:8px;align-items:stretch}
+.vsd-card{min-width:0;border:1px solid var(--gray-100);border-radius:9px;background:#fafcfd;padding:9px 10px}
+.vsd-card h4{font-size:11.5px;line-height:1.35;font-weight:750;color:var(--navy);margin:0 0 5px}
+.vsd-card p{font-size:11.2px;line-height:1.48;color:var(--navy);margin:0}
+.vsd-card .vsd-ex{display:block;font-size:10.4px;line-height:1.4;color:var(--gray-500);margin-top:5px}
+.vsd-bottom{font-size:11px;line-height:1.48;color:var(--navy);border-top:1px solid var(--gray-100);padding-top:8px;margin:9px 0 0}
+.vsd-refs{font-size:10.5px;color:var(--gray-500);margin-top:7px}
+.vsd-refs summary{cursor:pointer}
+.vsd-refs a{display:block;color:var(--teal-mid);margin-top:5px;overflow-wrap:anywhere}
+@media(max-width:480px){.vsd-box{padding:9px 10px}.vsd-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.vsd-card{padding:8px}.vsd-card h4{font-size:11px}.vsd-card p{font-size:10.6px;line-height:1.45}.vsd-card .vsd-ex{font-size:10px}.vsd-sub{margin-left:0}}
 </style>
 <script>
 /* Endereço canônico — os espelhos antigos redirecionam para cá */
@@ -3755,35 +3747,44 @@ window._bloquearApp=function(){};
     <div class="lab-pane active" id="labpane-ige">
       <div style="padding:0 16px 14px">
         <section class="vsd-box" aria-labelledby="vsdTit">
-          <div class="vsd-top"><span class="vsd-ico" aria-hidden="true">💡</span><h3 id="vsdTit">Você sabia?</h3></div>
-          <p class="vsd-lead">Existem <b>dois tipos</b> de exame de IgE — e eles respondem a perguntas diferentes.</p>
-
-          <div class="vsd-par">
-            <div class="vsd-card">
-              <div class="vsd-tag a">IgE por extrato</div>
-              <div class="vsd-k">Ex.: <b>f13</b> amendoim, <b>d1</b> ácaro</div>
-              <p>É o alérgeno <b>inteiro</b>, uma “sopa” com dezenas de proteínas misturadas. Responde apenas: <b>o paciente é sensibilizado a essa fonte?</b> Não diz a <i>qual</i> proteína.</p>
-            </div>
-            <div class="vsd-card">
-              <div class="vsd-tag b">IgE por componente</div>
-              <div class="vsd-k">Ex.: <b>Ara h 2</b>, <b>Der p 23</b></div>
-              <p>Mede <b>uma proteína isolada</b> de dentro daquela fonte. Responde: <b>a qual proteína exatamente?</b> — e é isso que muda a conduta.</p>
-            </div>
+          <div class="vsd-top"><span class="vsd-ico" aria-hidden="true">💡</span><h3 id="vsdTit">Você sabia?</h3><span class="vsd-sub">IgE por extrato e diagnóstico molecular</span></div>
+          <div class="vsd-grid">
+            <article class="vsd-card">
+              <h4>1. IgE para extrato</h4>
+              <p>Avalia a sensibilização a proteínas de uma fonte, como o amendoim. Não identifica qual proteína foi reconhecida.</p>
+              <span class="vsd-ex">Exemplo: f13 (amendoim)</span>
+            </article>
+            <article class="vsd-card">
+              <h4>2. IgE para componente</h4>
+              <p>Analisa uma proteína específica. Ajuda a esclarecer se a sensibilização é primária ou por reação cruzada.</p>
+              <span class="vsd-ex">Exemplo: Ara h 2 (amendoim)</span>
+            </article>
+            <article class="vsd-card">
+              <h4>3. Proteínas de armazenamento</h4>
+              <p>Podem aumentar a probabilidade de alergia alimentar verdadeira. A positividade não prevê, sozinha, a gravidade de uma reação.</p>
+              <span class="vsd-ex">Exemplos: Ara h 2 e Cor a 14</span>
+            </article>
+            <article class="vsd-card">
+              <h4>4. PR-10 e profilinas</h4>
+              <p>Podem indicar reação cruzada entre pólen e alimento, frequentemente com sintomas orais. Existem exceções.</p>
+              <span class="vsd-ex">Exemplos: Ara h 8 e Bet v 2</span>
+            </article>
+            <article class="vsd-card">
+              <h4>5. LTP</h4>
+              <p>Algumas LTP se associam a reações sistêmicas. Exercício e outros cofatores podem modificar o quadro clínico.</p>
+              <span class="vsd-ex">Exemplo: Pru p 3 (pêssego)</span>
+            </article>
+            <article class="vsd-card">
+              <h4>6. Seleção para imunoterapia</h4>
+              <p>Marcadores moleculares ajudam a distinguir sensibilização genuína de reação cruzada. A indicação depende dos sintomas e da exposição.</p>
+              <span class="vsd-ex">Exemplos: Der p 1/2/23</span>
+            </article>
           </div>
-
-          <p class="vsd-an">Pense num <b>time de futebol</b>: o extrato diz que o paciente reage ao time; o componente diz <b>qual jogador</b> é o responsável. E saber o jogador muda tudo, porque cada proteína se comporta de um jeito.</p>
-
-          <h4 class="vsd-h">Três famílias que você precisa reconhecer</h4>
-          <ul class="vsd-list">
-            <li><span class="vsd-dot r"></span><b>Proteínas de armazenamento e LTP — risco real.</b> Resistem ao calor e à digestão, então chegam intactas ao intestino. Positividade sugere risco de reação <b>sistêmica/anafilaxia</b>, e o alimento costuma manter o risco mesmo cozido.<br><span class="vsd-ex">Ara h 2 (amendoim) · Cor a 9/14 (avelã) · Jug r 1 (noz) · Pru p 3 (pêssego, LTP) · ω-5 gliadina (trigo, WDEIA)</span></li>
-            <li><span class="vsd-dot g"></span><b>PR-10 e profilinas — reatividade cruzada benigna.</b> São frágeis: o calor e o ácido do estômago as destroem. Costumam dar só <b>coceira na boca</b> (síndrome pólen-alimento), e a fruta cozida geralmente é tolerada.<br><span class="vsd-ex">Bet v 1 e Mal d 1 (PR-10) · Bet v 2 e Phl p 12 (profilinas) · CCD (MUXF3)</span></li>
-            <li><span class="vsd-dot t"></span><b>Marcadores genuínos — decidem a imunoterapia.</b> São exclusivos daquela fonte. Positivo = a sensibilização é <b>verdadeira àquele alérgeno</b>, não cruzada — é o que autoriza escolher o extrato certo.<br><span class="vsd-ex">Der p 1/2/23 (ácaro) · Phl p 1/5 (gramínea) · Bet v 1 (bétula) · Ole e 1 (oliveira) · Alt a 1 (Alternaria)</span></li>
-          </ul>
-
-          <div class="vsd-foot">
-            <div><b>Na prática:</b> dois pacientes com o mesmo <b>f13</b> positivo podem ser completamente diferentes — um com <b>Ara h 2</b> (risco de anafilaxia, evitar amendoim) e outro só com <b>Ara h 8</b> (PR-10, costuma tolerar amendoim torrado). O extrato não separa os dois; o componente sim.</div>
-            <div class="vsd-alert">⚠️ Componente não é rastreio populacional e não substitui a história clínica. Peça quando o resultado <b>mudar a conduta</b>: risco sistêmico, escolha de extrato para imunoterapia ou reatividade cruzada inexplicada. <span class="vsd-src">EAACI MAUG 2.0</span></div>
-          </div>
+          <p class="vsd-bottom">Na prática: o teste positivo identifica sensibilização, não necessariamente alergia. Relacione o resultado à história clínica antes de mudar condutas.</p>
+          <details class="vsd-refs"><summary>Referências científicas</summary>
+            <a href="https://eaaci.org/books/molecular-allergology-users-guide-2-0/" target="_blank" rel="noopener noreferrer">EAACI — Molecular Allergology User’s Guide 2.0</a>
+            <a href="https://www.aaaai.org/Aaaai/media/Media-Library-PDFs/Allergist%20Resources/Statements%20and%20Practice%20Parameters/PIIS0091674920311374.pdf" target="_blank" rel="noopener noreferrer">AAAAI / JACI — Peanut Allergy Diagnosis Practice Parameter</a>
+          </details>
         </section>
 
         <label for="igeBusca" style="display:block;font-size:13px;color:var(--navy);margin-bottom:8px">Buscar exame de IgE</label>
@@ -3792,7 +3793,6 @@ window._bloquearApp=function(){};
           <input id="igeBusca" type="search" aria-label="Buscar IgEs por nome ou código" placeholder="Leite total, ovo total, f245, Ara h 2, mix…" oninput="igeBuscar()" autocomplete="off">
           <button id="igeClear" type="button" aria-label="Limpar busca de IgE" onclick="document.getElementById('igeBusca').value='';igeBuscar();" style="display:none;border:none;background:transparent;font-size:16px;color:var(--gray-500);cursor:pointer">×</button>
         </div>
-        <p class="ige-hint">Pesquise e clique na IgE desejada. Uma nota de exames será aberta ao lado e receberá cada novo exame selecionado.</p>
         <button type="button" id="pedOpenInline" onclick="pedAbrir()" aria-expanded="false" aria-controls="pedDrawer">📝 Ver nota <span class="pf-n">0</span></button>
       </div>
       <div class="ige-workspace" id="igeWorkspace">
