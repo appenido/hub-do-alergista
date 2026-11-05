@@ -768,7 +768,7 @@ _marcarGuiasPagas();
 }
 .bio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 16px 16px;align-items:stretch;}
 .bio-grid .bio-card{margin:0;display:flex;flex-direction:column;}
-.bio-grid .bio-card.open{grid-column:1 / -1;}
+.bio-grid .bio-card.open{grid-column:auto;box-shadow:0 0 0 2px var(--teal-mid);}
 .bio-grid .bio-header{
   flex:1;flex-direction:column;align-items:center;justify-content:flex-start;
   text-align:center;gap:8px;padding:14px 10px 12px;min-width:0;
@@ -782,12 +782,12 @@ _marcarGuiasPagas();
 .bio-grid .bio-comercial{font-size:10px;line-height:1.3;margin-top:3px;overflow-wrap:anywhere;}
 .bio-grid .bio-chevron{display:none;}
 .bio-grid .bio-new,.bio-grid .bio-norol{display:inline-block;margin:4px 0 0;}
-.bio-grid .bio-card.open .bio-header{
-  flex-direction:row;align-items:center;text-align:left;gap:12px;padding:14px 16px;
+.bio-grid .bio-card.open .bio-header{background:rgba(59,191,204,.07);}
+.bio-grid-detail{
+  grid-column:1 / -1;min-width:0;background:#fff;
+  border:1px solid var(--gray-100);border-radius:14px;overflow:hidden;
 }
-.bio-grid .bio-card.open .bio-chevron{display:block;}
-.bio-grid .bio-card.open .bio-name{font-size:15px;}
-.bio-grid .bio-card.open .bio-comercial{font-size:11.5px;}
+.bio-grid-detail > .bio-body{display:block;border-top:0;}
 @media(min-width:560px){.bio-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
 @media(min-width:860px){.bio-grid{grid-template-columns:repeat(4,minmax(0,1fr));}}
 .bio-card:active{box-shadow:0 4px 16px rgba(13,31,45,.12);}
@@ -7033,9 +7033,8 @@ function _buscaIr(page, elId){
   setTimeout(function(){
     var alvo=document.getElementById(elId);
     if(!alvo) return;
-    if(alvo.classList.contains('bio-card') && !alvo.classList.contains('open')){
-      document.querySelectorAll('.bio-card.open').forEach(function(c){c.classList.remove('open');});
-      alvo.classList.add('open');
+    if(alvo.classList.contains('bio-card') && !alvo.classList.contains('open') && alvo.id.startsWith('bio-')){
+      toggleBio(alvo.id.slice(4));
     }
     alvo.style.display='';
     try{ alvo.scrollIntoView({behavior:'smooth', block:'center'}); }catch(e){ alvo.scrollIntoView(); }
@@ -7660,24 +7659,92 @@ document.addEventListener('click', function(e3) {
 
 
 
-/* ── IMUNOBIOLÓGICOS ── */
+/* ── IMUNOBIOLÓGICOS: card permanece na posição original ── */
+var _bioDetalheAtivo = null;
+
+function fecharBioDetalhe() {
+  if(!_bioDetalheAtivo) return;
+  var atual = _bioDetalheAtivo;
+  _bioDetalheAtivo = null;
+  if(atual.marcador.parentNode) atual.marcador.replaceWith(atual.body);
+  else atual.card.appendChild(atual.body);
+  atual.card.classList.remove('open');
+  if(atual.header){
+    atual.header.setAttribute('aria-expanded','false');
+    atual.header.removeAttribute('aria-controls');
+  }
+  atual.painel.remove();
+}
+
+function posicionarBioDetalhe() {
+  if(!_bioDetalheAtivo) return;
+  var atual = _bioDetalheAtivo;
+  var cards = Array.from(atual.grid.children).filter(function(el){ return el.classList.contains('bio-card'); });
+  var indice = cards.indexOf(atual.card);
+  if(indice < 0) return;
+  var colunas = getComputedStyle(atual.grid).gridTemplateColumns.trim().split(/\s+/).length || 1;
+  var ultimaColuna = Math.min(cards.length - 1, Math.ceil((indice + 1) / colunas) * colunas - 1);
+  cards[ultimaColuna].after(atual.painel);
+}
+
 function toggleBio(id) {
-  // Glossário DUT/PCDT usa bloco próprio (não .bio-card)
+  // Glossário DUT/PCDT usa bloco próprio (não .bio-card).
   if(id === 'glossario') {
-    var body = document.getElementById('bio-glossario');
+    var glossario = document.getElementById('bio-glossario');
     var chev = document.getElementById('chev-glossario');
-    if(!body) return;
-    var open = body.style.display === 'block';
-    body.style.display = open ? 'none' : 'block';
-    if(chev) chev.style.transform = open ? 'none' : 'rotate(90deg)';
+    if(!glossario) return;
+    var aberto = glossario.style.display === 'block';
+    glossario.style.display = aberto ? 'none' : 'block';
+    if(chev) chev.style.transform = aberto ? 'none' : 'rotate(90deg)';
     return;
   }
   var card = document.getElementById('bio-' + id);
   if(!card) return;
-  var isOpen = card.classList.contains('open');
-  document.querySelectorAll('.bio-card.open').forEach(function(c){ c.classList.remove('open'); });
-  if(!isOpen) card.classList.add('open');
+  if(_bioDetalheAtivo && _bioDetalheAtivo.card === card){
+    fecharBioDetalhe();
+    return;
+  }
+  fecharBioDetalhe();
+  var grid = card.closest('.bio-grid');
+  if(!grid) {
+    // Mantém a expansão convencional quando o card está dentro dos Favoritos.
+    card.classList.toggle('open');
+    var cabecalho = card.querySelector('.bio-header');
+    if(cabecalho) cabecalho.setAttribute('aria-expanded',card.classList.contains('open') ? 'true' : 'false');
+    return;
+  }
+  var body = card.querySelector(':scope > .bio-body');
+  var header = card.querySelector('.bio-header');
+  if(!body) return;
+  var marcador = document.createComment('posição original da ficha');
+  body.before(marcador);
+  var painel = document.createElement('section');
+  painel.className = 'bio-grid-detail';
+  painel.id = 'bio-detalhes-' + id;
+  painel.setAttribute('role','region');
+  painel.setAttribute('aria-label', (card.querySelector('.bio-name')?.textContent || 'Biológico') + ' — informações detalhadas');
+  painel.appendChild(body);
+  card.classList.add('open');
+  if(header){
+    header.setAttribute('aria-expanded','true');
+    header.setAttribute('aria-controls',painel.id);
+  }
+  _bioDetalheAtivo = { card:card, body:body, header:header, painel:painel, marcador:marcador, grid:grid };
+  posicionarBioDetalhe();
 }
+
+window.addEventListener('resize',posicionarBioDetalhe);
+document.querySelectorAll('#page-imuno .bio-grid .bio-header').forEach(function(header){
+  header.setAttribute('role','button');
+  header.setAttribute('tabindex','0');
+  header.setAttribute('aria-expanded','false');
+  header.addEventListener('keydown',function(event){
+    if(event.key==='Enter' || event.key===' '){
+      event.preventDefault();
+      header.click();
+    }
+  });
+});
 
 var _currentBiologic = '';
 var _currentRelatorio = '';
@@ -9813,6 +9880,8 @@ function chatToggle(){
     var sa=document.querySelector('.scroll-area');
     if(sa) sa.scrollTop+=botao.getBoundingClientRect().top-posicao;
     var card=encontrarOrigem(it);
+    // A ficha expandida volta ao card antes de movê-lo para Favoritos.
+    if(card && card.classList.contains('bio-card') && typeof fecharBioDetalhe==='function') fecharBioDetalhe();
     var score=it.score || (card && card.dataset.score) || '';
     // Compatibilidade com os scores salvos antes desta atualização, sem eval.
     if(!score && it.tipo==='Score'){
