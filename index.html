@@ -105,7 +105,11 @@ body{
   padding-bottom:24px;
 }
 .page{display:none;}
-.page.active{display:block;}
+ .page.active{display:block;}
+/* Listas legadas não devem aparecer durante a transição para feeds atuais. */
+#page-artigos #artigos-list{display:none!important;}
+#page-guidelines #guidelines-list{display:none;}
+#page-guidelines #guidelines-list.hub-fallback-visible{display:block;}
 
 
 /* ── PAGES ── */
@@ -5542,6 +5546,8 @@ function carregarGuidelinesLive(){
   var box=document.getElementById('guidelines-live');if(!box)return Promise.resolve();
   var tema=_glFiltroAtivo(),dia=_glHoje(),seq=++_glRequest;
   var status=document.getElementById('gl-live-status');
+  var listaLegada=document.getElementById('guidelines-list');
+  if(listaLegada)listaLegada.classList.remove('hub-fallback-visible');
   function mostrar(d){
     if(seq!==_glRequest||tema!==_glFiltroAtivo())return;
     _glPintar(box,d.itens);
@@ -5567,7 +5573,8 @@ function carregarGuidelinesLive(){
     }).catch(function(){
       if(seq!==_glRequest||tema!==_glFiltroAtivo())return;
       if(status)status.textContent='Consulta ao PubMed indisponível neste momento.';
-      box.innerHTML='<div style="font-size:12px;color:var(--gray-500);padding:6px 2px">Veja abaixo as referências conferidas, com links diretos para cada publicação.</div>';
+      if(listaLegada)listaLegada.classList.add('hub-fallback-visible');
+      box.innerHTML='<div style="font-size:12px;color:var(--gray-500);padding:6px 2px">Exibindo referências locais conferidas enquanto a consulta está indisponível.</div>';
     });
 }
 function ordenarGuidelinesEstaticos(){
@@ -8677,8 +8684,9 @@ function carregarFeed(tema){
     return;
   }
 
-  // nunca limpa a lista nem mostra tela de carregamento: só esmaece o que já está na tela
-  box.style.opacity = '.45';
+  // Evita mostrar resultados antigos enquanto um novo tema é consultado.
+  box.style.opacity = '1';
+  box.innerHTML = '<div role="status" style="padding:16px;font-size:12px;color:var(--gray-500)">Carregando publicações atualizadas…</div>';
 
   if(!window.fetch){
     box.style.opacity = '1';
