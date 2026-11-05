@@ -1,68 +1,107 @@
 {
- "ultimaTentativa": "2026-11-04T18:23:22.672Z",
- "atualizadoEm": "2026-11-04T18:23:22.672Z",
+ "ultimaTentativa": "2026-11-05T18:28:08.658Z",
+ "atualizadoEm": "2026-11-05T18:28:08.658Z",
  "status": "ok",
  "totalCandidatos": 60,
- "totalVerificados": 6,
- "totalPendentes": 1,
- "totalExcluidos": 53,
+ "totalVerificados": 10,
+ "totalPendentes": 2,
+ "totalExcluidos": 22,
  "falhasFonte": [],
  "itens": [
   {
    "status": "verificado",
-   "titulo": "Janaína Barbosa morreu após sofrer choque anafilático, diz amiga",
+   "titulo": "Família confirma que choque anafilático causou a morte de Janaína Barbosa",
+   "fonte": "VEJA SÃO PAULO",
+   "data": "2026-11-05T17:03:34.000Z",
+   "url": "https://vejasp.abril.com.br/cultura-lazer/familia-confirma-que-choque-anafilatico-causou-a-morte-de-janaina-barbosa/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Janaína Barbosa x choque anafilático: alergista alerta para reação fatal",
    "fonte": "Metrópoles",
-   "data": "2026-11-04T17:16:00.000Z",
-   "url": "https://www.metropoles.com/celebridades/janaina-barbosa-morreu-apos-sofrer-choque-anafilatico-diz-amiga",
+   "data": "2026-11-05T16:21:00.000Z",
+   "url": "https://www.metropoles.com/colunas/fabia-oliveira/janaina-barbosa-x-choque-anafilatico-alergista-alerta-para-reacao-fatal",
    "verificado": true
   },
   {
    "status": "verificado",
-   "titulo": "Criança tem reação alérgica a tinta de canetinha #shorts #falabrasil",
-   "fonte": "R7",
-   "data": "2026-11-04T15:34:56.000Z",
-   "url": "https://record.r7.com/fala-brasil/crianca-tem-reacao-alergica-a-tinta-de-canetinha-shorts-falabrasil-04112026/",
+   "titulo": "Morte de Janaína Barbosa: o que pode causar um choque anafilático e como acontece?",
+   "fonte": "Veja Saúde",
+   "data": "2026-11-05T13:31:19.000Z",
+   "url": "https://saude.abril.com.br/medicina/morte-de-janaina-barbosa-o-que-pode-causar-um-choque-anafilatico-e-como-acontece/",
    "verificado": true
   },
   {
    "status": "verificado",
-   "titulo": "O que é choque anafilático, que levou Janaína Barbosa à morte?",
+   "titulo": "Dermatite atópica impacta nas escolhas educacionais e de carreira",
    "fonte": "Terra",
-   "data": "2026-11-04T15:05:32.000Z",
-   "url": "https://www.terra.com.br/vida-e-estilo/o-que-e-choque-anafilatico-que-levou-janaina-barbosa-a-morte,fefc9a9f835f5445641f2d30a5fbda24987r6oud.html",
+   "data": "2026-11-05T12:38:11.000Z",
+   "url": "https://www.terra.com.br/vida-e-estilo/saude/dermatite-atopica-impacta-nas-escolhas-educacionais-e-de-carreira,290a717178a51d00171d3e57de3ac4bcnjhcc0ui.html",
    "verificado": true
   },
   {
    "status": "verificado",
-   "titulo": "Criança sofre reação alérgica grave após uso de canetinhas",
-   "fonte": "R7",
-   "data": "2026-11-04T14:16:41.000Z",
-   "url": "https://record.r7.com/fala-brasil/video/crianca-sofre-reacao-alergica-grave-apos-uso-de-canetinhas-04112026/",
+   "titulo": "O que é choque anafilático que causou a morte de Janaína Barbosa? Entenda",
+   "fonte": "Terra",
+   "data": "2026-11-05T12:11:03.000Z",
+   "url": "https://www.terra.com.br/vida-e-estilo/saude/o-que-e-choque-anafilatico-que-causou-a-morte-de-janaina-barbosa-entenda,25f9d65ba6ebfbc56d66903f6cbcb01byqakf65k.html",
    "verificado": true
   },
   {
    "status": "verificado",
-   "titulo": "Cerca de 30% dos brasileiros convivem com algum tipo de alergia",
+   "titulo": "Janaína Barbosa: o que é o choque anafilático que teria causado a morte da ex-apresentadora?",
+   "fonte": "Exame",
+   "data": "2026-11-05T10:52:11.000Z",
+   "url": "https://exame.com/ciencia/janaina-barbosa-o-que-e-o-choque-anafilatico-que-teria-causado-a-morte-da-ex-apresentadora/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "O que se sabe sobre a morte de Janaína Barbosa, ex-apresentadora que sofreu choque anafilático por medicação",
    "fonte": "G1",
-   "data": "2026-11-03T17:10:55.000Z",
-   "url": "https://g1.globo.com/sp/sao-jose-do-rio-preto-aracatuba/videos-tem-noticias-1-edicao/video/cerca-de-30-dos-brasileiros-convivem-com-algum-tipo-de-alergia-15155265.ghtml",
+   "data": "2026-11-05T03:00:00.998Z",
+   "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/05/o-que-se-sabe-sobre-a-morte-de-janaina-barbosa-ex-apresentadora-que-sofreu-choque-anafilatico-por-medicacao.ghtml",
    "verificado": true
   },
   {
    "status": "verificado",
-   "titulo": "Brasiliense que morreu após reação alérgica em Portugal é sepultada",
-   "fonte": "Correio Braziliense",
-   "data": "2026-11-03T16:44:27.000Z",
-   "url": "https://www.correiobraziliense.com.br/cidades-df/2026/11/7532513-brasiliense-que-morreu-apos-reacao-alergica-em-portugal-e-sepultada.html",
+   "titulo": "Quem era Janaína Barbosa, ex-apresentadora que morreu após choque anafilático",
+   "fonte": "Jovem Pan",
+   "data": "2026-11-04T21:54:05.000Z",
+   "url": "https://jovempan.com.br/entretenimento/famosos/quem-era-janaina-barbosa-ex-apresentadora-que-morreu-apos-choque-anafilatico/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Janaína Barbosa: anafilaxia pode evoluir para choque anafilático em minutos",
+   "fonte": "metropoles.com",
+   "data": "2026-11-04T21:45:00.000Z",
+   "url": "https://www.metropoles.com/saude/janaina-barbosa-anafilaxia-pode-evoluir-para-choque-anafilatico-em-minutos",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Janaína Barbosa morreu de choque anafilático, confirma assessoria; entenda o que é a reação",
+   "fonte": "Terra",
+   "data": "2026-11-04T19:19:21.000Z",
+   "url": "https://www.terra.com.br/vida-e-estilo/saude/janaina-barbosa-morreu-de-choque-anafilatico-confirma-assessoria-entenda-o-que-e-a-reacao,99121058157d7b93d9f53538fa217594xt19bn9c.html",
    "verificado": true
   }
  ],
  "pendentes": [
   {
    "status": "pendente",
-   "titulo": "O que é choque anafilático, causa da morte de Janaína Barbosa?",
-   "fonte": "Globo",
-   "url": "https://revistaquem.globo.com/saude/noticia/2026/11/o-que-e-choque-anafilatico-causa-da-morte-de-janaina-barbosa.ghtml",
+   "titulo": "Apresentadora Janaína Barbosa morreu após choque anafilático; entenda a reação alérgica",
+   "fonte": "O GLOBO",
+   "url": "https://oglobo.globo.com/saude/noticia/2026/11/05/apresentadora-janaina-barbosa-morreu-apos-choque-anafilatico-entenda-a-reacao-alergica.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+  },
+  {
+   "status": "pendente",
+   "titulo": "O que é choque anafilático, apontado como causa da morte de Janaína Barbosa",
+   "fonte": "Estadão",
+   "url": "https://www.estadao.com.br/em-alta/pulsa/medicina-e-estudos/o-que-e-choque-anafilatico-apontado-como-causa-da-morte-de-janaina-barbosa/",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   }
  ],
@@ -70,142 +109,142 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Choque anafilático: o que é a causa da morte de Janaína Barbosa?",
-   "fonte": "tmc.com.br",
-   "url": "https://tmc.com.br/lifestyle/janaina-barbosa-morte-o-que-e-choque-anafilatico/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Janaína Barbosa morreu após choque anafilático, afirma amiga - PAIPEE -",
-   "fonte": "PAIPEE -",
-   "url": "https://br.paipee.com/2026/11/04/janaina-barbosa-morreu-apos-choque-anafilatico-afirma-amiga/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Janaína Barbosa morreu após choque anafilático, afirma amiga",
-   "fonte": "BossaNews Brasil",
-   "url": "https://br.bossanews.com/janaina-barbosa-morreu-apos-choque-anafilatico-afirma-amiga/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Janaína Barbosa teria morrido após choque anafilático causado por medicamento, diz amiga",
-   "fonte": "ncnews.com.br",
-   "url": "https://ncnews.com.br/2026/11/04/janaina-barbosa-morte-choque-anafilatico/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Causa da morte de Janaína Barbosa é revelada; saiba o que é choque anafilático - iBahia",
-   "fonte": "iBahia",
-   "url": "https://www.ibahia.com/diversao/nem-te-conto/causa-da-morte-de-janaina-barbosa-e-revelada-saiba-o-que-e-choque-anafilatico-392910"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Cuidado com o aparelho: Médico alerta que aromatizadores elétricos podem causar tosse, falta de ar e piorar a asma",
+   "titulo": "Como a poluição, secas e microplásticos estão ligadas às suas alergias e à sua saúde",
    "fonte": "www.bra1.com.br",
-   "url": "https://www.bra1.com.br/geral/id-720329/cuidado_com_o_aparelho__medico_alerta_que_aromatizadores_eletricos_podem_causar_tosse__falta_de_ar_e_piorar_a_asma"
+   "url": "https://www.bra1.com.br/geral/id-721075/como_a_poluicao__secas_e_microplasticos_estao_ligadas_as_suas_alergias_e_a_sua_saude"
   },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Enfermeira que morreu após reação alérgica durante lua de mel em Portugal é velada",
+   "titulo": "Alergias podem aparecer na vida adulta e exigem cuidado no diagnóstico",
+   "fonte": "Cariri em Ação",
+   "url": "https://www.caririemacao.com/1/2026/11/05/alergias-podem-aparecer-na-vida-adulta-e-exigem-cuidado-no-diagnostico/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Alergias também podem surgir na vida adulta",
+   "fonte": "DOL",
+   "url": "https://dol.com.br/carajas/noticias/967466/alergias-tambem-podem-surgir-na-vida-adulta"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Enfermeira que morreu após reação alérgica é velada no DF",
    "fonte": "GP1",
-   "url": "https://www.gp1.com.br/distrito-federal/noticia/2026/11/4/enfermeira-que-morreu-apos-reacao-alergica-durante-lua-de-mel-em-portugal-e-velada-635482.html"
+   "url": "https://www.gp1.com.br/webstories/distrito-federal/enfermeira-que-morreu-apos-reacao-alergica-durante-lua-de-mel-em-portugal-e-velada-635482.html"
   },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Santa Casa do Rio integra formação em Imunologia e Alergia ao doutorado em Medicina",
-   "fonte": "Diário do Rio",
-   "url": "https://diariodorio.com/saude/2026/11/04/santa-casa-do-rio-integra-formacao-em-imunologia-e-alergia-ao-doutorado-em-medicina.html"
+   "titulo": "Hospital das Clínicas da Faculdade de Medicina de Ribeirão Preto abre concurso para médico I – alergia e imunologia",
+   "fonte": "Qconcursos Folha Dirigida",
+   "url": "https://folha.qconcursos.com/n/hospital-das-clinicas-da-faculdade-de-medicina-de-ribeirao-preto-abre-concurso-para-medico-i-alergia-e-imunologia"
   },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Anafilaxia: Entenda a alergia que matou brasileira em Portugal",
-   "fonte": "Surgiu",
-   "url": "https://surgiu.com.br/2026/11/04/caso-amanda-marinho-alergia-a-camarao-pode-provocar-reacao-grave-apos-consumo-de-lula/"
+   "titulo": "Menina de 11 anos salva motorista de ônibus escolar durante crise grave de asma",
+   "fonte": "Jornal Correio",
+   "url": "https://www.correio24horas.com.br/mundo/menina-de-11-anos-salva-motorista-de-onibus-escolar-durante-crise-grave-de-asma-1126"
   },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Farmacêutica explica quando a alergia exige avaliação",
-   "fonte": "Arena de Notícias",
-   "url": "https://arenadenoticias.com.br/noticia/184065/farmaceutica-explica-quando-a-alergia-exige-avaliacao"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Vacinação em pacientes com alergias alimentares será tema da programação do Congresso Brasileiro de Alergia e Imunologia",
-   "fonte": "niddedigital.com",
-   "url": "https://niddedigital.com/vacinacao-em-pacientes-com-alergias-alimentares-sera-tema-da-programacao-do-congresso-brasileiro-de-alergia-e-imunologia/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Enfermeira que morreu após reação alérgica em Portugal é velada 13 dias depois",
-   "fonte": "Surgiu",
-   "url": "https://surgiu.com.br/2026/11/03/enfermeira-que-morreu-apos-reacao-alergica-em-portugal-e-velada-13-dias-depois/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Vacinas podem ser dadas com segurança a quem tem alergia a ovo, gelatina e leite",
+   "titulo": "Saúde: Congresso busca transformar ciência em tratamento para pacientes com alergias",
    "fonte": "bra1.com.br",
-   "url": "https://www.bra1.com.br/geral/id-719711/vacinas_podem_ser_dadas_com_seguranca_a_quem_tem_alergia_a_ovo__gelatina_e_leite"
+   "url": "https://www.bra1.com.br/geral/id-720902/saude__congresso_busca_transformar_ciencia_em_tratamento_para_pacientes_com_alergias"
   },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Alergia e intolerância alimentar na infância: especialistas explicam os sinais que merecem atenção dos pais",
-   "fonte": "jornaltribuna.com.br",
-   "url": "https://www.jornaltribuna.com.br/2026/11/alergia-e-intolerancia-alimentar-na-infancia-especialistas-explicam-os-sinais-que-merecem-atencao-dos-pais"
-  },
-  {
-   "status": "excluido",
-   "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "Alergia a Camarão Pode Ser Fatal em Minutos: Entenda os Riscos e Como Agir",
-   "fonte": "Forbes Brasil",
-   "url": "https://forbes.com.br/forbes-saude/2026/10/alergia-a-camarao-pode-ser-fatal-em-minutos-entenda-os-riscos-e-como-agir/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "Morte em lua de mel por alergia a frutos do mar: por que é possível morrer comendo camarão e como se prevenir",
-   "fonte": "G1",
-   "url": "https://g1.globo.com/saude/noticia/2026/10/23/morte-em-lua-de-mel-por-alergia-a-frutos-do-mar-por-que-e-possivel-morrer-comendo-camarao-e-como-se-prevenir.ghtml"
+   "titulo": "Reação alérgica grave mata no Brasil e falta caneta de antídoto no SUS",
+   "fonte": "bra1.com.br",
+   "url": "https://www.bra1.com.br/geral/id-720892/reacao_alergica_grave_mata_no_brasil_e_falta_caneta_de_antidoto_no_sus"
   },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Tezepelumabe avança no tratamento da esofagite eosinofílica",
-   "fonte": "Afya | Home",
-   "url": "https://portal.afya.com.br/gastroenterologia/tezepelumabe-avanca-no-tratamento-da-esofagite-eosinofilica"
+   "titulo": "HCFMRP - USP abre concurso público para médico na área de alergia e imunologia",
+   "fonte": "PCI Concursos",
+   "url": "https://www.pciconcursos.com.br/noticias/hcfmrp-usp-abre-concurso-publico-para-medico-na-area-de-alergia-e-imunologia"
   },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Paciente vítima de choque anafilático em Montes Claros deve ser indenizado",
-   "fonte": "Portal TJMG",
-   "url": "https://www.tjmg.jus.br/portal-tjmg/noticias/paciente-vitima-de-choque-anafilatico-em-montes-claros-deve-ser-indenizado-8ACC82BBA13D254E01A1449CBDF25121-00.htm"
+   "titulo": "Choque anafilático: entenda a reação alérgica grave que levou apresentadora à morte",
+   "fonte": "Tribuna do Norte",
+   "url": "https://tribunadonorte.com.br/brasil/choque-anafilatico-entenda-a-reacao-alergica-grave-que-levou-apresentadora-a-morte/"
   },
   {
    "status": "excluido",
-   "motivo": "fonte institucional/científica, não jornalística",
-   "titulo": "Brasil firma acordo para ampliar produção de imunoglobulina, medicamento para doenças do sangue",
-   "fonte": "Governo Federal",
-   "url": "https://www.gov.br/saude/pt-br/assuntos/noticias/2026/outubro/brasil-firma-acordo-para-ampliar-producao-de-imunoglobulina-medicamento-para-doencas-do-sangue"
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Ex-apresentadora do TV Fama, Janaína Barbosa morre aos 48 anos após choque anafilático",
+   "fonte": "Tribuna do Norte",
+   "url": "https://tribunadonorte.com.br/brasil/ex-apresentadora-do-tv-fama-janaina-barbosa-morre-aos-48-anos-apos-choque-anafilatico-entenda/"
   },
   {
    "status": "excluido",
-   "motivo": "fonte institucional/científica, não jornalística",
-   "titulo": "SBPCast: \"Esofagite eosinofílica\"",
-   "fonte": "Sociedade Brasileira de Pediatria",
-   "url": "https://www.sbp.com.br/sbpcast-esofagite-eosinofilica/"
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "O que se sabe e o que ainda falta esclarecer sobre a morte de Janaína Barbosa, ex-TV Fama que sofreu choque anafilático por medicação",
+   "fonte": "Jornal Correio",
+   "url": "https://www.correio24horas.com.br/em-alta/o-que-se-sabe-e-o-que-ainda-falta-esclarecer-sobre-a-morte-de-janaina-barbosa-ex-tv-fama-que-sofreu-choque-anafilatico-por-medicacao-1126"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "O que é choque anafilático, causa da morte de Janaína Barbosa?",
+   "fonte": "98FM Curitiba",
+   "url": "https://www.98fmcuritiba.com.br/posts/o-que-e-choque-anafilatico-causa-da-morte-de-janaina-barbosa"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Morte de Janaína Barbosa: o que se sabe sobre a reação alérgica fatal",
+   "fonte": "Portal UAI",
+   "url": "https://www.uai.com.br/app/entretenimento/famosos/2026/11/05/not-famosos,394014/morte-de-janaina-barbosa-o-que-se-sabe-sobre-a-reacao-alergica-fatal.shtml"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Adeus a Janaína Barbosa, ex-apresentadora do 'TV Fama' aos 48 anos: após morte em decorrência de choque anafilático, família toma decisão sobre velório da jornalista. Saiba o que causa a reação alérgica grave",
+   "fonte": "Purepeople",
+   "url": "https://www.purepeople.com.br/noticia/janaina-barbosa-choque-anafilatico-apos-morte-da-ex-apresentadora-do-tv-fama-saiba-o-que-causa-reacao-alergica-grave-no-corpo-humano-e-como-agir_a426082/1"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "A rinossinusite aguda em crianças pode causar complicações orbitárias.",
+   "fonte": "Vietnam.vn",
+   "url": "https://www.vietnam.vn/pt/viem-mui-xoang-cap-o-tre-co-the-gay-bien-chung-o-mat"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Choque anafilático: médico explica reação alérgica que causou a morte de Janaína Barbosa",
+   "fonte": "Portal Leo Dias",
+   "url": "https://portalleodias.com/famosos/choque-anafilatico-medico-explica-reacao-alergica-que-causou-a-morte-de-janaina-barbosa"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Janaína Barbosa morre aos 48 anos vítima de choque anafilático",
+   "fonte": "Revista Oeste",
+   "url": "https://revistaoeste.com/imprensa/janaina-barbosa-morre-aos-48-anos-vitima-de-choque-anafilatico/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Morte de Janaína Barbosa: entenda o que é o choque anafilático e quais são os sintomas",
+   "fonte": "Jornal Correio",
+   "url": "https://www.correio24horas.com.br/saude/morte-de-janaina-barbosa-entenda-o-que-e-o-choque-anafilatico-e-quais-sao-os-sintomas-1126"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Choque anafilático tem cura? Morre ex-TV Fama após reação fatal",
+   "fonte": "ncnews.com.br",
+   "url": "https://ncnews.com.br/2026/11/04/choque-anafilatico-cura-morre-ex-tv-fama-apos-reacao-fatal/"
   }
  ]
 }
