@@ -156,16 +156,107 @@
     out.appendChild(stages);
     montarRefs(out,active);
   }
+  /* Catálogo visual: reaproveita as marcas e logotipos já usados pelo Hub. */
+  function montarCatalogo(){
+    var container=id('igCatalogProducts'), painel=id('igCatalogDetail');
+    if(!container||!painel||typeof IG_PRODUTOS==='undefined')return;
+    container.textContent='';
+    var selecionado=null;
+    var rotas=[
+      {via:'IV',titulo:'Intravenosas (IGIV)'},
+      {via:'SC',titulo:'Subcutâneas (IGSC)'}
+    ];
+    function limparSelecao(){
+      if(selecionado)selecionado.setAttribute('aria-pressed','false');
+      selecionado=null;
+      painel.hidden=true;
+      painel.textContent='';
+    }
+    function detalhe(codigo,botao){
+      if(selecionado===botao && !painel.hidden){limparSelecao();return;}
+      if(selecionado)selecionado.setAttribute('aria-pressed','false');
+      selecionado=botao;botao.setAttribute('aria-pressed','true');
+      painel.textContent='';
+      var p=IG_PRODUTOS[codigo];
+      var maker=typeof IG_FABRICANTE!=='undefined'?IG_FABRICANTE[codigo]||'Fabricante não informado':'Fabricante não informado';
+      var cab=e('div',null,'igcat-detail-head');
+      cab.appendChild(e('h4',p.nome));
+      var fechar=e('button','Fechar','igcat-close');
+      fechar.type='button';
+      fechar.setAttribute('aria-label','Fechar informações sobre '+p.nome);
+      fechar.addEventListener('click',limparSelecao);
+      cab.appendChild(fechar);
+      painel.appendChild(cab);
+      painel.appendChild(e('p','Fabricante: '+maker+' · Concentração: '+p.conc+' · Via: '+(p.via==='IV'?'intravenosa':'subcutânea')+'.'));
+      painel.appendChild(e('p','Verifique na bula brasileira vigente as apresentações comercializadas, indicações aprovadas, conservação, diluição e velocidades específicas da marca.'));
+      var actions=e('div',null,'igcat-detail-actions');
+      var bula=e('a','Consultar bula na Anvisa ↗');
+      bula.href='https://consultas.anvisa.gov.br/#/bulario/';
+      bula.target='_blank';bula.rel='noopener noreferrer';
+      actions.appendChild(bula);
+      var disponivel={privigen_10:'privigen',hizentra_20:'hizentra',hyqvia_10:'hyqvia'};
+      if(disponivel[codigo]){
+        var calc=e('button','Calcular com '+p.nome);
+        calc.type='button';
+        calc.addEventListener('click',function(){
+          var choice=document.querySelector('[data-igcalc-prod="'+disponivel[codigo]+'"]');
+          if(choice)choice.click();
+          var abrir=id('igcalcOpen');
+          if(abrir&&!abrir.hidden)abrir.click();
+        });
+        actions.appendChild(calc);
+      }
+      painel.appendChild(actions);
+      painel.hidden=false;
+    }
+    rotas.forEach(function(grupo){
+      var section=e('section',null,'igcat-group');
+      section.appendChild(e('h4',grupo.titulo));
+      var grid=e('div',null,'igcat-grid');
+      Object.keys(IG_PRODUTOS).forEach(function(codigo){
+        var p=IG_PRODUTOS[codigo];if(!p || p.via!==grupo.via)return;
+        var b=e('button',null,'igcat-card');
+        b.type='button';b.setAttribute('aria-pressed','false');
+        b.setAttribute('aria-label','Informações sobre '+p.nome);
+        var logoBox=e('span',null,'igcat-icon');
+        var sigla=(typeof IG_LOGO!=='undefined'&&IG_LOGO[codigo])||'';
+        var logo=(typeof IG_LOGO_IMG!=='undefined'&&IG_LOGO_IMG[sigla])||'';
+        var fabricante=(typeof IG_FABRICANTE!=='undefined'&&IG_FABRICANTE[codigo])||'';
+        function fallback(){
+          logoBox.textContent='';
+          logoBox.appendChild(e('span',fabricante.split(' · ')[0]||'IG','igcat-fallback'));
+        }
+        if(logo){
+          var img=e('img');img.src=logo;img.alt='Logomarca '+(sigla==='csl'?'CSL Behring':sigla==='octa'?'Octapharma':sigla==='lfb'?'LFB':sigla==='grifols'?'Grifols':sigla==='takeda'?'Takeda':sigla==='baxter'?'Baxter':'Kedrion');
+          img.loading='lazy';img.decoding='async';
+          img.addEventListener('error',fallback,{once:true});
+          logoBox.appendChild(img);
+        }else fallback();
+        b.appendChild(logoBox);
+        var copy=e('span',null,'igcat-copy');
+        copy.appendChild(e('span',p.nome,'igcat-name'));
+        copy.appendChild(e('span',fabricante,'igcat-maker'));
+        copy.appendChild(e('span',p.via==='IV'?'Intravenosa · '+p.conc:'Subcutânea · '+p.conc,'igcat-route'));
+        b.appendChild(copy);
+        b.addEventListener('click',function(){detalhe(codigo,b);});
+        grid.appendChild(b);
+      });
+      section.appendChild(grid);
+      container.appendChild(section);
+    });
+  }
   function onReady(){
     var op=id('igcalcOpen'),close=id('igcalcClose'),body=id('igcalcBody'),input=id('igcalcWeight'),out=id('igcalcOutput');
     if(!op||!close||!body||!input||!out)return;
     op.addEventListener('click',function(){
+      var catalogo=id('igCatalog');if(catalogo)catalogo.hidden=true;
       op.hidden=true;
       body.hidden=false;
       op.setAttribute('aria-expanded','true');
       input.focus();
     });
     close.addEventListener('click',function(){
+      var catalogo=id('igCatalog');if(catalogo)catalogo.hidden=false;
       body.hidden=true;
       op.hidden=false;
       op.setAttribute('aria-expanded','false');
@@ -173,6 +264,7 @@
       input.value='';
       op.focus();
     });
+    montarCatalogo();
     var b=id('igcalcCalculate');if(b)b.addEventListener('click',calcular);
     input.addEventListener('keydown',function(ev){if(ev.key==='Enter'){ev.preventDefault();calcular();}});
     document.querySelectorAll('[data-igcalc-prod]').forEach(function(button){
