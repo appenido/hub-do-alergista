@@ -106,7 +106,7 @@ var P={
     source:'Bula profissional HyQvia (Takeda), tabela de velocidade por local e titulação de dose',
     url:'https://www.fastmedicamentos.com.br/wp-content/uploads/2025/07/Bula-Hyqvia-Profissional.pdf',
     kind:'fSC',ratesFirstLow:[5,10,20,40,80],ratesNextLow:[10,20,40,80,160],ratesFirstHigh:[10,30,60,120,240],ratesNextHigh:[10,30,120,240,300],
-    initial:'Hialuronidase recombinante antes da IgG 10%; velocidade por local e faixa de peso, diferenciando as duas primeiras das infusões subsequentes.',
+    initial:'Administrar a hialuronidase recombinante primeiro e iniciar a IgG 10% pela mesma agulha/local no intervalo previsto em bula (até 10 minutos). A velocidade depende do peso e da tolerância, diferenciando as duas primeiras das infusões subsequentes.',
     limit:'Não misturar os dois componentes. Seguir titulação gradual da dose e intervalo entre aplicações; a velocidade máxima não autoriza iniciar na dose mensal completa sem titulação.',
     status:'br'
   },
@@ -128,6 +128,7 @@ var ctx={
   ],
   during:[
     'Verificar sinais vitais e sintomas antes e durante a administração, especialmente no início e em cada aumento de velocidade.',
+    'A tabela corresponde à apresentação selecionada; protocolos acadêmicos e institucionais podem estabelecer velocidades mais conservadoras. Nunca ultrapassar a bula brasileira vigente nem antecipar aumentos sem tolerabilidade.',
     'Avançar somente se o paciente estiver tolerando; reduzir ou interromper diante de reação e reavaliar antes de reiniciar.',
     'Na suspeita de anafilaxia, interromper a imunoglobulina e seguir protocolo de emergência com adrenalina intramuscular quando indicada; não apenas desacelerar a bomba.'
   ],
