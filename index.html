@@ -1197,6 +1197,28 @@ _marcarGuiasPagas();
 @media(max-width:750px){.igcat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:430px){.igcat-card{padding:10px 8px;gap:7px}.igcat-icon{min-width:45px;width:45px;min-height:42px;padding:4px}.igcat-name{font-size:11px}.igcat-maker{font-size:9px}}
 </style>
+<style id="igmain-v3-styles">
+.igmain-controls{background:#fff;border:1px solid #d9e6eb;padding:14px;border-radius:13px;margin:4px 0 16px;display:flex;align-items:flex-end;gap:15px;flex-wrap:wrap}
+.igmain-controls .igcalc-field{margin:0;flex:0 0 200px}
+.igmain-controls p{font-size:11px;color:var(--gray-500);line-height:1.6;margin:0;flex:1;min-width:210px}
+.igmain-detail{margin:12px 0 24px;border:1px solid #d3e3e7;background:#fff;border-radius:14px;padding:15px;scroll-margin-top:82px}
+.igmain-detail>p{font-size:12px;color:var(--gray-500)}
+.igmain-detail[hidden]{display:none!important}
+.igmain-detail h3{font-size:16px;font-weight:800;color:var(--navy);margin:0 0 6px}
+.igmain-detail h4{font-size:12.5px;font-weight:800;color:var(--navy);margin:10px 0 7px}
+.igmain-detail .ig-main-head{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+.ig-main-head span{font-size:10.5px;color:var(--gray-500)}
+.igmain-detail .igcalc-summary{margin:12px 0}
+.igmain-detail .igcalc-section p{font-size:11.5px;line-height:1.6;color:#425567}
+.igmain-detail .igcalc-table{table-layout:auto}
+.igmain-detail .igcalc-table td:first-child{white-space:nowrap}
+.igmain-detail .igcalc-refs{margin-top:18px}
+.igmain-detail .igcalc-refs li{margin:6px 0;line-height:1.55}
+.igmain-detail .ig-calculating{font-size:12px;line-height:1.6;padding:10px 0;color:#6a7681}
+.igmain-detail .igcalc-error{margin:10px 0}
+.igcat-card[aria-pressed="true"]{background:#e7f6f8;border-color:#16829a;box-shadow:0 0 0 1px #16829a}
+@media(max-width:520px){.igmain-controls .igcalc-field{flex:1 1 100%}.igmain-detail{padding:12px}.igmain-detail .igcalc-table th,.igmain-detail .igcalc-table td{padding:5px 4px;font-size:10px}}
+</style>
 </head>
 <body>
 
@@ -3211,45 +3233,30 @@ window._bloquearApp=function(){};
     </div>
   </div>
 
-  <!-- ══ IMUNOGLOBULINAS — CALCULADORA SEM CADASTRO ══ -->
+  <!-- ══ IMUNOGLOBULINAS — CALCULADORA INTEGRADA À PÁGINA ══ -->
   <div class="page" id="page-imunoglobulinas">
     <section class="igcalc-shell">
       <div class="igcalc-header">
         <h2>Imunoglobulinas</h2>
-        <p>Orientações para reposição de IgG, sem cadastro ou armazenamento de pacientes.</p>
+        <p>Selecione uma apresentação e informe o peso para consultar dose orientativa, bomba de infusão e cuidados clínicos. Sem cadastro de pacientes.</p>
       </div>
-      <button type="button" id="igcalcOpen" class="igcalc-entry" aria-controls="igcalcBody" aria-expanded="false">
-        <span class="igcalc-entry-icon" aria-hidden="true">🧮</span>
-        <span><span class="igcalc-entry-title">Como prescrever</span>
-        <span class="igcalc-entry-sub">Calculadora de dose e orientações antes, durante e após a infusão</span></span>
-        <span class="igcalc-entry-arrow" aria-hidden="true">›</span>
-      </button>
-      <section class="igcat" id="igCatalog" aria-labelledby="igcatTitle">
-        <div class="igcat-heading">
-          <h3 id="igcatTitle">Imunoglobulinas</h3>
-          <p>Produtos intravenosos e subcutâneos, com seus fabricantes.</p>
-        </div>
-        <div id="igCatalogProducts" class="igcat-products" aria-live="polite"></div>
-        <div id="igCatalogDetail" class="igcat-detail" hidden aria-live="polite"></div>
-      </section>
-      <div id="igcalcBody" class="igcalc-body" hidden>
-        <div class="igcalc-bodyhead">
-          <h3>Como prescrever imunoglobulina</h3>
-          <button type="button" id="igcalcClose" class="igcalc-close" aria-label="Voltar à página inicial de imunoglobulinas">Voltar</button>
-        </div>
-        <p class="igcalc-intro">Escolha a apresentação e informe apenas o peso. A calculadora apresenta parâmetros de referência para reposição de IgG — não determina indicação clínica ou autoriza infusão sem avaliação individual.</p>
+      <div class="igmain-controls">
         <div class="igcalc-field">
-          <label for="igcalcWeight">Peso (kg)</label>
+          <label for="igcalcWeight">Peso do paciente (kg)</label>
           <input id="igcalcWeight" type="number" min="2" max="250" step="0.1" inputmode="decimal" autocomplete="off" placeholder="Ex.: 70">
         </div>
-        <div class="igcalc-choices" role="group" aria-label="Imunoglobulina e via">
-          <button class="igcalc-choice selected" type="button" data-igcalc-prod="privigen" aria-pressed="true">Privigen 10% <small>Intravenosa</small></button>
-          <button class="igcalc-choice" type="button" data-igcalc-prod="hizentra" aria-pressed="false">Hizentra 20% <small>Subcutânea</small></button>
-          <button class="igcalc-choice" type="button" data-igcalc-prod="hyqvia" aria-pressed="false">HyQvia 10% <small>Subcutânea facilitada</small></button>
-        </div>
-        <button type="button" class="igcalc-action" id="igcalcCalculate">Calcular e orientar infusão</button>
-        <div id="igcalcOutput" class="igcalc-output" aria-live="polite"></div>
+        <p>Velocidades calculadas por peso quando a bula utiliza mL/kg/h. Para imunoglobulinas subcutâneas, a velocidade geralmente é expressa em mL/h por local. A tolerância e os riscos devem ser avaliados antes de iniciar ou aumentar a taxa.</p>
       </div>
+      <section class="igcat" id="igCatalog" aria-labelledby="igcatTitle">
+        <div class="igcat-heading">
+          <h3 id="igcatTitle">Escolha a imunoglobulina</h3>
+          <p>Logomarcas dos fabricantes · via intravenosa ou subcutânea</p>
+        </div>
+        <div id="igCatalogProducts" class="igcat-products" aria-live="polite"></div>
+      </section>
+      <section id="igcalcDetail" class="igmain-detail" aria-live="polite" aria-label="Cálculo e orientações da imunoglobulina selecionada">
+        <p>Escolha uma imunoglobulina para visualizar as orientações. O peso pode ser informado antes ou depois da seleção.</p>
+      </section>
     </section>
   </div><!-- /page-imunoglobulinas -->
 
@@ -10051,7 +10058,7 @@ function chatToggle(){
 <script src="lgpd-runtime.js?v=20261104-8"></script>
 <script src="calendarios-imunizacoes.js?v=20261104-1"></script>
 <script src="uptodate-ui.js?v=20261104-1"></script>
-<script src="imunoglobulinas-calculadora.js?v=20261105-2"></script>
+<script src="imunoglobulinas-calculadora.js?v=20261105-3"></script>
 </body>
 </html>
 
