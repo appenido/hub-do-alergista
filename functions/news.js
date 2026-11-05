@@ -27,6 +27,24 @@ function noticiasValidas(dados, agora) {
       try { return new URL(i.url).protocol === 'https:'; } catch (_) { return false; }
     })
     .sort((a, b) => Date.parse(b.data) - Date.parse(a.data))
+    // Evita manchetes repetidas, preservando a versão mais recente.
+    .filter((() => {
+      const urls = new Set();
+      const manchetes = new Set();
+      return item => {
+        const url = new URL(item.url);
+        url.hash = '';
+        for (const parametro of [...url.searchParams.keys()]) {
+          if (/^(utm_|fbclid$|gclid$)/i.test(parametro)) url.searchParams.delete(parametro);
+        }
+        const chaveUrl = url.toString().replace(/\/$/, '');
+        const chaveTitulo = item.titulo.normalize('NFKC').trim().replace(/\s+/g, ' ').toLocaleLowerCase('pt-BR');
+        if (urls.has(chaveUrl) || manchetes.has(chaveTitulo)) return false;
+        urls.add(chaveUrl);
+        manchetes.add(chaveTitulo);
+        return true;
+      };
+    })())
     .slice(0, LIMITE)
     .map(({ titulo, fonte, data, url }) => ({ titulo, fonte, data, url }));
 }
