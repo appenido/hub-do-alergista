@@ -5,7 +5,7 @@
 var IGE_FONTES = {
   eaaci:{n:'EAACI · Molecular Allergology User’s Guide 2.0 (2023)',u:'https://doi.org/10.1111/pai.13854'},
   alimentar:{n:'EAACI · Diagnóstico da alergia alimentar (2023)',u:'https://doi.org/10.1111/all.15902'},
-  asbai:{n:'ASBAI · Interpretação dos testes de alergia alimentar (2024)',u:'https://asbai.org.br/conheca-os-cinco-principais-obstaculos-enfrentados-pelos-pacientes-com-alergia-alimentar/'},
+  asbai:{n:'ASBAI · Cinco obstáculos em alergia alimentar (2024) — orientação pública, não diretriz de interpretação de IgE',u:'https://asbai.org.br/conheca-os-cinco-principais-obstaculos-enfrentados-pelos-pacientes-com-alergia-alimentar/'},
   aaaai:{n:'AAAAI · Algoritmo diagnóstico de alergia alimentar (2023)',u:'https://education.aaaai.org/sites/default/files/media/2023-11/Diagnostic%20Algorithm%20for%20Food%20Allergy.pdf'},
   farmacos:{n:'AAAAI/ACAAI · Drug Allergy Practice Parameter (2022)',u:'https://www.aaaai.org/Aaaai/media/Media-Library-PDFs/Allergist%20Resources/Statements%20and%20Practice%20Parameters/Drug-Allergy-2022.pdf'},
   anafilaxia:{n:'AAAAI/ACAAI · Anaphylaxis Practice Parameter (2023)',u:'https://www.aaaai.org/Aaaai/media/Media-Library-PDFs/Allergist%20Resources/Statements%20and%20Practice%20Parameters/Anaphylaxis-Practice-Paramaters-2023.pdf'},
