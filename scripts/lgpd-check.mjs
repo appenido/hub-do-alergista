@@ -29,7 +29,9 @@ for(const f of ['uct-paciente.html','snot22-paciente.html','uas7-paciente.html']
  assert(txt.includes('privacidade.html'),'Aviso clínico ausente: '+f);
  assert(txt.includes('no-referrer'),'Política de referer ausente: '+f);
 }
-assert(read('uct-paciente.html').includes('/rpc/uct_registrar'),'UCT precisa enviar por RPC');
+assert(read('uct-paciente.html').includes('Formulário clínico desativado'),'UCT público deve permanecer desativado');
+assert(read('snot22-paciente.html').includes('Formulário clínico desativado'),'SNOT-22 público deve permanecer desativado');
+assert(read('uas7-paciente.html').includes('Formulário clínico desativado'),'UAS7 público deve permanecer desativado');
 for(const [i,s] of [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].entries()){
  new vm.Script(s[1],{filename:'inline-script-'+i});
 }
