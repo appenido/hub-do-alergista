@@ -22,7 +22,7 @@ function mesBrasil(anoMes){
 }
 function montarItem(item,posicao){
   var card=el('article','utd-item'+(posicao===0?' utd-feature':''));
-  card.appendChild(el('div','utd-meta',(posicao===0?'NOVIDADE EM DESTAQUE · ':'')+(item.topic||'Alergia e Imunologia')+' · '+mesBrasil(item.month)));
+  card.appendChild(el('div','utd-meta',(item.topic||'Alergia e Imunologia')+' · '+mesBrasil(item.month)));
   var titulo=el('h3','',item.titlePt||item.title||'Atualização clínica');
   card.appendChild(titulo);
   if(item.summary)card.appendChild(el('p','',item.summary));
@@ -41,13 +41,12 @@ function render(dados){
   itens=dados.items.slice().filter(function(item){return item && (item.titlePt||item.title);});
   itens.sort(function(a,b){return String(b.month||'').localeCompare(String(a.month||''));});
   container.textContent='';
-  var n=mostrarTodos?itens.length:Math.min(6,itens.length);
+  var n=mostrarTodos?itens.length:Math.min(3,itens.length);
   for(var i=0;i<n;i++)container.appendChild(montarItem(itens[i],i));
-  if(itens.length>6){
+  if(itens.length>3){
     var more=el('button','','');
     more.type='button'; more.className='utd-more';
     more.textContent=mostrarTodos?'Mostrar menos':'Ver todas as '+itens.length+' novidades';
-    more.style.cssText='grid-column:1/-1;justify-self:start;border:1px solid #cfe4e9;border-radius:8px;background:#fff;color:#17677e;padding:8px 12px;font:700 11px Manrope,sans-serif;cursor:pointer';
     more.addEventListener('click',function(){mostrarTodos=!mostrarTodos;render(dados);});
     container.appendChild(more);
   }
