@@ -1168,6 +1168,35 @@ _marcarGuiasPagas();
 .igcalc-error{font-size:12px;color:#9c3030;padding:12px;border:1px solid #eed1d1;border-radius:9px;background:#fff6f6}
 @media(max-width:520px){.igcalc-body{padding:13px}.igcalc-entry{padding:13px}.igcalc-choice{flex:1;min-width:120px}}
 </style>
+<style id="ig-catalog-styles">
+.igcat{margin-top:19px}
+.igcat[hidden],.igcat-detail[hidden]{display:none!important}
+.igcat-heading{margin:0 0 11px}
+.igcat-heading h3{font-size:14px;font-weight:800;color:var(--navy);margin:0 0 3px}
+.igcat-heading p{font-size:11px;color:var(--gray-500);line-height:1.5}
+.igcat-group{margin:0 0 16px}
+.igcat-group h4{font-size:11px;font-weight:800;color:var(--teal-mid);margin:0 0 9px;letter-spacing:.02em}
+.igcat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.igcat-card{display:flex;align-items:center;gap:10px;min-width:0;width:100%;background:#fff;border:1px solid #dce5eb;border-radius:12px;padding:13px 12px;text-align:left;cursor:pointer;font-family:Manrope,sans-serif;transition:background .15s,border-color .15s,box-shadow .15s}
+.igcat-card:hover,.igcat-card:focus-visible,.igcat-card[aria-pressed="true"]{border-color:#2d8fa8;background:#f2fafb}
+.igcat-card[aria-pressed="true"]{box-shadow:0 0 0 1px #2d8fa8}
+.igcat-icon{width:62px;min-width:62px;display:flex;align-items:center;justify-content:center;border-radius:7px;background:#f6f9fb;padding:6px;min-height:48px}
+.igcat-icon img{width:100%;max-height:34px;object-fit:contain}
+.igcat-fallback{font-size:9px;font-weight:800;color:var(--teal);text-align:center;line-height:1.35}
+.igcat-copy{flex:1;min-width:0}
+.igcat-name{font-size:12px;font-weight:800;color:var(--navy);line-height:1.3}
+.igcat-maker{display:block;font-size:10px;color:var(--gray-500);line-height:1.35;margin:3px 0}
+.igcat-route{display:block;font-size:9.5px;color:var(--teal-mid);font-weight:700}
+.igcat-detail{margin:12px 0;border:1px solid #c9e2e7;border-radius:12px;padding:13px 14px;background:#f7fbfc}
+.igcat-detail-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.igcat-detail-head h4{font-size:13px;font-weight:800;margin:0;color:var(--navy)}
+.igcat-detail p{font-size:11px;color:#506475;line-height:1.6;margin:7px 0 0}
+.igcat-detail-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:10px}
+.igcat-detail-actions a,.igcat-detail-actions button{font:700 11px Manrope,sans-serif;border:1px solid #c6dce3;border-radius:8px;background:#fff;color:#17677d;padding:8px 11px;cursor:pointer;text-decoration:none}
+.igcat-close{font:700 11px Manrope,sans-serif;border:0;background:transparent;color:var(--teal-mid);cursor:pointer;padding:5px}
+@media(max-width:750px){.igcat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:430px){.igcat-card{padding:10px 8px;gap:7px}.igcat-icon{min-width:45px;width:45px;min-height:42px;padding:4px}.igcat-name{font-size:11px}.igcat-maker{font-size:9px}}
+</style>
 </head>
 <body>
 
@@ -3195,6 +3224,14 @@ window._bloquearApp=function(){};
         <span class="igcalc-entry-sub">Calculadora de dose e orientações antes, durante e após a infusão</span></span>
         <span class="igcalc-entry-arrow" aria-hidden="true">›</span>
       </button>
+      <section class="igcat" id="igCatalog" aria-labelledby="igcatTitle">
+        <div class="igcat-heading">
+          <h3 id="igcatTitle">Imunoglobulinas</h3>
+          <p>Produtos intravenosos e subcutâneos, com seus fabricantes.</p>
+        </div>
+        <div id="igCatalogProducts" class="igcat-products" aria-live="polite"></div>
+        <div id="igCatalogDetail" class="igcat-detail" hidden aria-live="polite"></div>
+      </section>
       <div id="igcalcBody" class="igcalc-body" hidden>
         <div class="igcalc-bodyhead">
           <h3>Como prescrever imunoglobulina</h3>
