@@ -1075,6 +1075,19 @@ _marcarGuiasPagas();
 #radarLista{max-height:400px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--gray-300) transparent}
 #radarLista:focus-visible{outline:2px solid var(--teal-mid);outline-offset:-2px}
 @media(max-width:600px){#radarLista{max-height:48vh}}
+/* Busca de IgE: elemento principal, antes dos resultados e da seção didática. */
+.ige-search-hero{margin:2px 16px 14px;padding:14px 15px 13px;background:linear-gradient(135deg,#f1f9fb 0%,#fff 84%);border:1.5px solid var(--teal-mid,#2e8b9e);border-radius:14px;box-shadow:0 3px 12px rgba(19,75,94,.075)}
+.ige-search-title{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:3px 12px;margin:0 0 10px;color:var(--navy)}
+.ige-search-heading{font-size:16px;line-height:1.4;font-weight:800}
+.ige-search-caption{font-size:11px;line-height:1.5;color:var(--gray-500);font-weight:500}
+.ige-search-hero .ige-search-field{background:#fff;border:2px solid var(--teal-mid,#2e8b9e);padding:12px 14px;border-radius:12px;min-height:52px;transition:border-color .15s,box-shadow .15s}
+.ige-search-hero .ige-search-field:focus-within{border-color:var(--navy);box-shadow:0 0 0 3px rgba(46,139,158,.16)}
+.ige-search-hero .ige-search-field input{font-size:15px;font-weight:600;min-width:0;width:100%}
+.ige-search-hero .ige-search-field input::placeholder{font-weight:400;color:var(--gray-500);opacity:1}
+.ige-search-hero #pedOpenInline{margin:10px 0 0}
+.ige-learning{padding:12px 16px 25px}
+.ige-learning .vsd-box{margin:0}
+@media(max-width:520px){.ige-search-hero{padding:12px;margin:2px 12px 12px}.ige-search-heading{font-size:15px}.ige-search-caption{font-size:10.5px}.ige-search-hero .ige-search-field{min-height:48px;padding:10px 12px}.ige-search-hero .ige-search-field input{font-size:14px}.ige-learning{padding:12px 12px 20px}}
 </style>
 <script>
 /* Endereço canônico — os espelhos antigos redirecionam para cá */
@@ -3753,7 +3766,30 @@ window._bloquearApp=function(){};
     </div>
 
     <div class="lab-pane active" id="labpane-ige">
-      <div style="padding:0 16px 14px">
+      <div class="ige-search-hero">
+        
+
+        <label for="igeBusca" class="ige-search-title"><span class="ige-search-heading">Pesquisar IgEs</span><span class="ige-search-caption">Por alérgeno, componente, código ou mistura</span></label>
+        <div class="lab-search ige-search-field">
+          <span aria-hidden="true">🔍</span>
+          <input id="igeBusca" type="search" aria-label="Buscar IgEs por nome ou código" placeholder="Leite total, ovo total, f245, Ara h 2, mix…" oninput="igeBuscar()" autocomplete="off">
+          <button id="igeClear" type="button" aria-label="Limpar busca de IgE" onclick="document.getElementById('igeBusca').value='';igeBuscar();" style="display:none;border:none;background:transparent;font-size:16px;color:var(--gray-500);cursor:pointer">×</button>
+        </div>
+        <button type="button" id="pedOpenInline" onclick="pedAbrir()" aria-expanded="false" aria-controls="pedDrawer">📝 Ver nota <span class="pf-n">0</span></button>
+      </div>
+      <div class="ige-workspace" id="igeWorkspace">
+        <section class="ige-results" id="igeLista" aria-label="Resultados da pesquisa de IgE" aria-live="polite"></section>
+        <aside id="pedDrawer" aria-label="Nota de exames selecionados">
+          <div class="ped-hdr"><span aria-hidden="true">📝</span><b>Nota de exames</b><button type="button" class="ped-x" onclick="pedFechar()" aria-label="Fechar nota">×</button></div>
+          <div class="ped-body" id="pedBody"></div>
+          <div class="ped-foot">
+            <button type="button" class="ped-btn p" onclick="pedCopiar()">Copiar nota</button>
+            <button type="button" class="ped-btn s" onclick="pedSalvarPainel()">Salvar seleção</button>
+            <button type="button" class="ped-btn s" onclick="pedLimpar()">Limpar nota</button>
+          </div>
+        </aside>
+      </div>
+      <div class="ige-learning">
         <section class="vsd-box" aria-labelledby="vsdTit">
           <div class="vsd-top"><span class="vsd-ico" aria-hidden="true">💡</span><h3 id="vsdTit">Você sabia?</h3><span class="vsd-sub">IgE por extrato e diagnóstico molecular</span></div>
           <div class="vsd-grid">
@@ -3794,26 +3830,6 @@ window._bloquearApp=function(){};
             <a href="https://www.aaaai.org/Aaaai/media/Media-Library-PDFs/Allergist%20Resources/Statements%20and%20Practice%20Parameters/PIIS0091674920311374.pdf" target="_blank" rel="noopener noreferrer">AAAAI / JACI — Peanut Allergy Diagnosis Practice Parameter</a>
           </details>
         </section>
-
-        <label for="igeBusca" style="display:block;font-size:13px;color:var(--navy);margin-bottom:8px">Buscar exame de IgE</label>
-        <div class="lab-search">
-          <span aria-hidden="true">🔍</span>
-          <input id="igeBusca" type="search" aria-label="Buscar IgEs por nome ou código" placeholder="Leite total, ovo total, f245, Ara h 2, mix…" oninput="igeBuscar()" autocomplete="off">
-          <button id="igeClear" type="button" aria-label="Limpar busca de IgE" onclick="document.getElementById('igeBusca').value='';igeBuscar();" style="display:none;border:none;background:transparent;font-size:16px;color:var(--gray-500);cursor:pointer">×</button>
-        </div>
-        <button type="button" id="pedOpenInline" onclick="pedAbrir()" aria-expanded="false" aria-controls="pedDrawer">📝 Ver nota <span class="pf-n">0</span></button>
-      </div>
-      <div class="ige-workspace" id="igeWorkspace">
-        <section class="ige-results" id="igeLista" aria-label="Resultados da pesquisa de IgE" aria-live="polite"></section>
-        <aside id="pedDrawer" aria-label="Nota de exames selecionados">
-          <div class="ped-hdr"><span aria-hidden="true">📝</span><b>Nota de exames</b><button type="button" class="ped-x" onclick="pedFechar()" aria-label="Fechar nota">×</button></div>
-          <div class="ped-body" id="pedBody"></div>
-          <div class="ped-foot">
-            <button type="button" class="ped-btn p" onclick="pedCopiar()">Copiar nota</button>
-            <button type="button" class="ped-btn s" onclick="pedSalvarPainel()">Salvar seleção</button>
-            <button type="button" class="ped-btn s" onclick="pedLimpar()">Limpar nota</button>
-          </div>
-        </aside>
       </div>
     </div>
   </div>
