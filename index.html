@@ -1242,16 +1242,11 @@ _marcarGuiasPagas();
 </style>
 
 <style id="hub-pwa-style">
-#hubInstall[hidden],#hubInstallHelp[hidden]{display:none!important}
-.hub-install{margin:12px 16px 0;padding:9px 12px;display:flex;gap:10px;align-items:center;justify-content:space-between;border:1px solid #dce7eb;border-radius:11px;background:#fff}
-.hub-install-copy{display:flex;gap:9px;align-items:center;min-width:0}
-.hub-install-icon{font-size:20px;line-height:1;flex-shrink:0}
-.hub-install-title{font-size:11.5px;font-weight:700;color:var(--navy)}
-.hub-install-sub{font-size:10px;color:var(--gray-500);line-height:1.4;margin-top:2px}
-.hub-install-btn{flex-shrink:0;border:1px solid var(--teal-mid);border-radius:8px;background:var(--teal-mid);color:white;padding:9px 11px;font:700 11px 'Manrope',sans-serif;cursor:pointer}
-.hub-install-btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-.hub-install-help{margin:6px 16px 0;border:1px solid #dce7eb;background:#f9fbfc;border-radius:10px;padding:11px 13px;color:#405262;font-size:11px;line-height:1.55}
-@media(max-width:380px){.hub-install{gap:7px;padding:9px}.hub-install-btn{padding:9px 8px;font-size:10px}}
+/* A instalação é o último atalho da Home; nunca aparece sobre outros conteúdos. */
+.hub-install-card{font-family:'Manrope',sans-serif;appearance:none;-webkit-appearance:none;color:inherit}
+.hub-install-card[hidden],#hubInstallHelp[hidden]{display:none!important}
+.hub-install-card:focus-visible{outline:2px solid var(--teal-mid);outline-offset:3px}
+.hub-install-help{margin:9px 16px 0;border:1px solid #dce7eb;background:#f9fbfc;border-radius:11px;padding:12px 14px;color:#405262;font-size:11.5px;line-height:1.65;white-space:pre-line}
 </style>
 </head>
 <body>
@@ -1287,16 +1282,6 @@ window._bloquearApp=function(){};
       <div class="alert-tag" id="alertaNoticiaTag">Jornal</div>
     </a>
 
-    <!-- Instalação do Hub: botão discreto oculto no modo PWA -->
-    <section id="hubInstall" class="hub-install" aria-label="Instalar Hub do Alergista" hidden>
-      <div class="hub-install-copy"><span class="hub-install-icon" aria-hidden="true">📲</span><div>
-        <div class="hub-install-title">Hub no seu celular</div>
-        <div class="hub-install-sub">Acesso direto pela tela inicial</div>
-      </div></div>
-      <button type="button" id="hubInstallBtn" class="hub-install-btn" aria-controls="hubInstallHelp" aria-expanded="false">Instalar aplicativo</button>
-    </section>
-    <div id="hubInstallHelp" class="hub-install-help" role="status" hidden></div>
-
     <div class="sec-hdr"><h2>Acesso Rápido</h2></div>
     <div class="quick-grid">
       <div class="qcard" data-nav="scores"><div class="qi qi-teal">🧮</div><div class="ql">Scores</div></div>
@@ -1312,7 +1297,11 @@ window._bloquearApp=function(){};
       <a class="qcard" href="https://portal.cfm.org.br/busca-medicos" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit"><div class="qi qi-green">🏥</div><div class="ql">Consultar CRM</div></a>
       <div class="qcard" data-nav="laboratorio"><div class="qi qi-teal">🧪</div><div class="ql">Laboratório</div></div>
       <div class="qcard" data-nav="favoritos"><div class="qi qi-navy">⭐</div><div class="ql">Favoritos</div></div>
+      <button type="button" id="hubInstallBtn" class="qcard hub-install-card" aria-label="Instalar Hub do Alergista no celular" aria-controls="hubInstallHelp" aria-expanded="false" hidden>
+        <span class="qi qi-gold" aria-hidden="true">📲</span><span class="ql">Instalar aplicativo</span>
+      </button>
     </div>
+    <div id="hubInstallHelp" class="hub-install-help" role="status" hidden></div>
 
     <div class="sec-hdr" style="margin-top:8px"><h2>Scores Rápidos</h2><span class="see-all" data-nav="scores">Ver todos</span></div>
     <div class="score-grid" style="padding-bottom:4px">
@@ -9512,8 +9501,10 @@ if ('serviceWorker' in navigator) {
   }
   function manual(){
     var ua=navigator.userAgent||'';
-    if(/iPhone|iPad|iPod/i.test(ua)) return 'No iPhone ou iPad, abra este site no Safari, toque em Compartilhar e escolha “Adicionar à Tela de Início”.';
-    if(/Android/i.test(ua)) return 'No Android, abra o site no Google Chrome, toque em ⋮ e escolha “Instalar app” ou “Adicionar à tela inicial”. Se estiver em um navegador interno de outro aplicativo, abra o link no Chrome.';
+    if(/iPhone|iPad|iPod/i.test(ua) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1)){
+      return 'Instalar no iPhone ou iPad (Apple):\n1. Abra o Hub pelo Safari.\n2. Toque em Compartilhar (quadrado com seta para cima).\n3. Escolha “Adicionar à Tela de Início”.\n4. Toque em “Adicionar”. O ícone aparecerá na tela inicial.\nNo iOS, a instalação é feita pelo menu Compartilhar, não por uma janela automática.';
+    }
+    if(/Android/i.test(ua)) return 'Instalar no Android:\n1. Abra o Hub no Google Chrome.\n2. Toque nos três pontos (⋮).\n3. Escolha “Instalar app” ou “Adicionar à tela inicial” e confirme.\nSe estiver em um navegador interno de outro aplicativo, abra o site no Chrome.';
     return 'No Chrome ou Edge, use o ícone de instalação na barra de endereços ou o menu ⋮ → Instalar aplicativo, se disponível.';
   }
   window.addEventListener('beforeinstallprompt',function(event){
@@ -9527,8 +9518,8 @@ if ('serviceWorker' in navigator) {
     if(help) help.hidden=true;
   });
   function init(){
-    row=document.getElementById('hubInstall');
     button=document.getElementById('hubInstallBtn');
+    row=button;
     help=document.getElementById('hubInstallHelp');
     if(!row||!button||!help)return;
     refresh();
