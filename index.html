@@ -7638,6 +7638,15 @@ function openScore(key){
       campoVAS.querySelector('#vasOlfatoAviso').textContent='';
       document.getElementById('mResult').classList.remove('show');
     });
+    // Permite confirmar o valor zero também por toque, mesmo sem deslocar o controle.
+    slider.addEventListener('pointerup',function(){
+      if(slider.dataset.touched!=='1')slider.dispatchEvent(new Event('input',{bubbles:true}));
+    });
+    slider.addEventListener('keydown',function(ev){
+      if((ev.key==='Enter'||ev.key===' ')&&slider.dataset.touched!=='1'){
+        ev.preventDefault();slider.dispatchEvent(new Event('input',{bubbles:true}));
+      }
+    });
     document.getElementById('mResult').className='score-result';
     document.getElementById('overlay').classList.add('open');
     return;
