@@ -7,6 +7,17 @@ import { fileURLToPath } from 'node:url';
 const root = new URL('../', import.meta.url);
 const html = readFileSync(new URL('index.html', root), 'utf8');
 
+test('favoritos ocupam o espaço dos Scores Rápidos na Home, antes dos artigos', () => {
+  const home = html.slice(html.indexOf('id="page-dashboard"'), html.indexOf('id="page-artigos"'));
+  const favoritos = home.indexOf('id="homeFavoritos"');
+  const artigos = home.indexOf('id="homeArtigos"');
+  assert.ok(favoritos >= 0 && artigos > favoritos, 'Favoritos devem preceder Artigos Recentes');
+  assert.match(home, /<h2>Favoritos<\/h2>/);
+  assert.doesNotMatch(home, /<h2>Scores Rápidos<\/h2>/);
+  assert.match(html, /function renderHomeFav\(\)/);
+  assert.match(html, /renderHomeFav\(\);\s*var box = document\.getElementById\('favList'\)/);
+});
+
 test('todos os destinos data-nav do menu existem como page-id', () => {
   const pages = new Set([...html.matchAll(/id=["']page-([^"']+)["']/g)].map(m => m[1]));
   const navs = new Set([...html.matchAll(/data-nav=["']([^"']+)["']/g)].map(m => m[1]));
