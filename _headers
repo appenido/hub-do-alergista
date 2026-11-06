@@ -20,3 +20,16 @@
 
 /privacidade.html
   Cache-Control: no-store
+
+# Evita que a instalação e o verificador de versões dependam de HTML desatualizado.
+/index.html
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/sw.js
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/instalar.html
+  Cache-Control: no-cache, max-age=0, must-revalidate
