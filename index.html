@@ -938,9 +938,6 @@ _marcarGuiasPagas();
 .fav-title{font-size:13px;font-weight:600;color:var(--navy);line-height:1.35;}
 .fav-sub{font-size:11px;color:var(--gray-500);margin-top:2px;}
 .fav-grp{padding:14px 16px 6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-500);}
-.home-fav-list{padding-bottom:6px;}
-.home-fav-list .fav-row{margin-bottom:8px;}
-.home-fav-empty{margin:0 16px 14px;padding:15px 13px;border:1px dashed var(--gray-100);border-radius:12px;background:#fff;color:var(--gray-500);font-size:12px;line-height:1.55;}
 .btn-remfav{background:transparent;border:none;font-size:15px;cursor:pointer;color:var(--gray-300);padding:6px;}
 
 /* ===== BOTÃO VOLTAR (rodapé de cada página) ===== */
@@ -1300,7 +1297,7 @@ window._bloquearApp=function(){};
 
     <div class="sec-hdr"><h2>Acesso Rápido</h2></div>
     <div class="quick-grid">
-      <div class="qcard" data-nav="favoritos" role="button" tabindex="0"><div class="qi qi-gold">⭐</div><div class="ql">Favoritos</div></div>
+      <div class="qcard" data-nav="scores"><div class="qi qi-teal">🧮</div><div class="ql">Scores</div></div>
       <div class="qcard" data-nav="artigos"><div class="qi qi-teal">📄</div><div class="ql">Artigos</div></div>
       <div class="qcard" data-nav="guidelines"><div class="qi qi-navy">📋</div><div class="ql">Guidelines</div></div>
       <div class="qcard" data-nav="eaaci"><div class="qi qi-teal">📋</div><div class="ql">Protocolos de bolso</div></div>
@@ -1315,11 +1312,15 @@ window._bloquearApp=function(){};
       <a id="hubInstallBtn" class="qcard hub-install-card" href="./instalar.html?v=20261106-2" aria-label="Abrir instruções de instalação do Hub no Android ou Apple nesta aba" hidden>
         <span class="qi qi-gold" aria-hidden="true">📲</span><span class="ql">Instalar aplicativo</span>
       </a>
+      <div class="qcard" data-nav="favoritos"><div class="qi qi-navy">⭐</div><div class="ql">Favoritos</div></div>
     </div>
 
-    <div class="sec-hdr" style="margin-top:8px"><h2>Favoritos</h2><span class="see-all" data-nav="favoritos">Ver todos</span></div>
-    <div class="gap-list home-fav-list" id="homeFavList" aria-live="polite">
-      <div class="home-fav-empty">Seus artigos, diretrizes, biológicos e ferramentas favoritos aparecem aqui.</div>
+    <div class="sec-hdr" style="margin-top:8px"><h2>Scores Rápidos</h2><span class="see-all" data-nav="scores">Ver todos</span></div>
+    <div class="score-grid" style="padding-bottom:4px">
+      <div class="score-pill" data-score="act"><div class="sp-top"><span class="sp-name">ACT</span><span class="sp-emoji">🫁</span></div><div class="sp-desc">Controle da asma — últimas 4 semanas</div><div class="bar-bg"><div class="bar-fill" style="width:75%;background:linear-gradient(90deg,var(--aqua),var(--teal-mid))"></div></div><button class="sp-btn">Calcular →</button></div>
+      <div class="score-pill" data-score="easi"><div class="sp-top"><span class="sp-name">EASI</span><span class="sp-emoji">🩹</span></div><div class="sp-desc">Gravidade da dermatite atópica</div><div class="bar-bg"><div class="bar-fill" style="width:50%;background:linear-gradient(90deg,#f0d98a,var(--gold))"></div></div><button class="sp-btn">Calcular →</button></div>
+      <div class="score-pill" data-score="uas"><div class="sp-top"><span class="sp-name">UAS7</span><span class="sp-emoji">🔴</span></div><div class="sp-desc">Atividade da urticária — 7 dias</div><div class="bar-bg"><div class="bar-fill" style="width:60%;background:linear-gradient(90deg,var(--aqua),#c0392b)"></div></div><button class="sp-btn">Calcular →</button></div>
+      <div class="score-pill" data-score="uct"><div class="sp-top"><span class="sp-name">UCT</span><span class="sp-emoji">🎯</span></div><div class="sp-desc">Controle da urticária crônica</div><div class="bar-bg"><div class="bar-fill" style="width:65%;background:linear-gradient(90deg,#c0392b,var(--aqua))"></div></div><button class="sp-btn">Calcular →</button></div>
     </div>
 
     <div class="sec-hdr" style="margin-top:8px"><h2>Artigos Recentes</h2><span class="see-all" data-nav="artigos">Ver todos</span></div>
@@ -10271,31 +10272,7 @@ function chatToggle(){
   /* ---- página de favoritos e prévia na home ---- */
   function esc(t){ return String(t||'').replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 
-  function renderHomeFav(){
-    var box=document.getElementById('homeFavList');
-    if(!box) return;
-    var itens=HUBFAV.list().slice(0,6);
-    var sig=JSON.stringify(itens.map(function(f){return f.id;}));
-    if(box.dataset.sig===sig) return;
-    if(aberto && aberto.botao && box.contains(aberto.botao)) fecharFavorito(false);
-    box.dataset.sig=sig;
-    if(!itens.length){
-      box.innerHTML='<div class="home-fav-empty">Nenhum favorito ainda. Toque na estrela de um artigo, diretriz, biológico ou ferramenta para vê-lo aqui.</div>';
-      return;
-    }
-    box.innerHTML=itens.map(function(f){
-      return '<div class="fav-row"><button type="button" class="fav-open" data-fav-open="'+esc(f.id)+'" aria-expanded="false" aria-controls="favDetalhe">'
-       + '<span class="fav-icon">'+esc(f.icone||'⭐')+'</span>'
-       + '<span style="flex:1;min-width:0"><span class="fav-type" style="display:block">'+esc(f.tipo)+'</span>'
-       + '<span class="fav-title" style="display:block">'+esc(f.titulo)+'</span>'
-       + (f.sub?'<span class="fav-sub" style="display:block">'+esc(f.sub)+'</span>':'')
-       + '</span></button>'
-       + '<button type="button" class="btn-remfav" data-fav-id="'+esc(f.id)+'" aria-label="Remover '+esc(f.titulo)+' dos favoritos">🗑</button></div>';
-    }).join('');
-  }
-
   function renderFav(){
-    renderHomeFav();
     var box = document.getElementById('favList');
     if(!box) return;
     var sig = JSON.stringify(HUBFAV.list().map(function(f){ return f.id; }));
@@ -10336,13 +10313,9 @@ function chatToggle(){
   function init(){
     scan(); renderFav(); obs.observe(document.body,{childList:true,subtree:true});
     var pg=document.getElementById('page-favoritos');
-    var home=document.getElementById('page-dashboard');
     if(pg) new MutationObserver(function(){
       if(aberto && aberto.botao && pg.contains(aberto.botao) && !pg.classList.contains('active')) fecharFavorito(false);
     }).observe(pg,{attributes:true,attributeFilter:['class']});
-    if(home) new MutationObserver(function(){
-      if(aberto && aberto.botao && home.contains(aberto.botao) && !home.classList.contains('active')) fecharFavorito(false);
-    }).observe(home,{attributes:true,attributeFilter:['class']});
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 })();
