@@ -18,6 +18,19 @@ test('favoritos ocupam o espaço dos Scores Rápidos na Home, antes dos artigos'
   assert.match(html, /renderHomeFav\(\);\s*var box = document\.getElementById\('favList'\)/);
 });
 
+test('VAS olfatória possui cartão, escala de 0 a 10 sem seleção prévia e fontes clínicas', () => {
+  assert.match(html, /data-score="vasolfato"/);
+  assert.match(html, /vasolfato:\s*\{/);
+  assert.match(html, /special:'vas-olfato'/);
+  assert.match(html, /id="vasOlfatoSlider"/);
+  assert.match(html, /min="0" max="10" step="0.1"/);
+  assert.match(html, /slider\.dataset\.touched='0'/);
+  assert.match(html, /elementoVAS\.dataset\.touched!=='1'/);
+  assert.match(html, /10\.18176\/jiaci\.0937/);
+  assert.match(html, /PMC10879704/);
+  assert.doesNotMatch(html, /localStorage\.setItem\(['"]vasOlfato/);
+});
+
 test('todos os destinos data-nav do menu existem como page-id', () => {
   const pages = new Set([...html.matchAll(/id=["']page-([^"']+)["']/g)].map(m => m[1]));
   const navs = new Set([...html.matchAll(/data-nav=["']([^"']+)["']/g)].map(m => m[1]));
