@@ -1310,7 +1310,7 @@ window._bloquearApp=function(){};
       <a class="qcard" href="https://portal.cfm.org.br/busca-medicos" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit"><div class="qi qi-green">🏥</div><div class="ql">Consultar CRM</div></a>
       <div class="qcard" data-nav="laboratorio"><div class="qi qi-teal">🧪</div><div class="ql">Laboratório</div></div>
       <div class="qcard" data-nav="favoritos"><div class="qi qi-navy">⭐</div><div class="ql">Favoritos</div></div>
-      <a id="hubInstallBtn" class="qcard hub-install-card" href="./instalar.html" target="_blank" rel="noopener noreferrer" aria-label="Abrir instruções para instalar o Hub no Android ou Apple em nova aba" hidden>
+      <a id="hubInstallBtn" class="qcard hub-install-card" href="./instalar.html?v=20261106-2" aria-label="Abrir instruções de instalação do Hub no Android ou Apple nesta aba" hidden>
         <span class="qi qi-gold" aria-hidden="true">📲</span><span class="ql">Instalar aplicativo</span>
       </a>
     </div>
@@ -9702,7 +9702,7 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 
 <script id="hub-pwa-install">
-/* O último atalho da Home abre uma página independente de instruções. */
+/* A instalação abre na mesma aba, sem iniciar uma janela do PWA antigo. */
 (function(){
   function apply(){
     var link=document.getElementById('hubInstallBtn');
