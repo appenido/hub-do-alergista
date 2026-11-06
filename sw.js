@@ -1,33 +1,106 @@
-// Rede primeiro para arquivos estáticos; APIs e dados dinâmicos nunca entram no cache.
-const CACHE = 'hub-alergista-v1179-novidades-compactas-artigos-restaurados';
-const ASSETS = ['./', 'index.html', 'lgpd-runtime.js?v=20261104-8', 'ige-clinica.js?v=20261104-2', 'calendarios-imunizacoes.js?v=20261104-1', 'privacidade.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
-const PATHS = new Set(['/', '/index.html', '/ige-clinica.js', '/calendarios-imunizacoes.js', '/lgpd-runtime.js', '/privacidade.html', '/manifest.json', '/icon-192.png', '/icon-512.png']);
+// Hub do Alergista — cache somente de arquivos públicos estáticos.
+// APIs e dados clínicos dinâmicos jamais são armazenados pelo service worker.
+const CACHE = 'hub-alergista-v1180-atualizacao-automatica';
+const ASSETS = ['./', 'index.html', 'instalar.html', 'lgpd-runtime.js?v=20261104-8', 'ige-clinica.js?v=20261104-2', 'calendarios-imunizacoes.js?v=20261104-1', 'privacidade.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
+const PATHS = new Set(['/', '/index.html', '/instalar.html', '/ige-clinica.js', '/calendarios-imunizacoes.js', '/lgpd-runtime.js', '/privacidade.html', '/manifest.json', '/icon-192.png', '/icon-512.png']);
+let checkInProgress = null;
 
 self.addEventListener('install', event => {
   self.skipWaiting();
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).catch(() => {}));
 });
 
-self.addEventListener('activate', event => event.waitUntil(
-  caches.keys()
-    .then(keys => Promise.all(keys.filter(k => k.startsWith('hub-alergista-') && k !== CACHE).map(k => caches.delete(k))))
-    .then(() => self.clients.claim())
-));
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(key => key.startsWith('hub-alergista-') && key !== CACHE).map(key => caches.delete(key))))
+      .then(() => self.clients.claim())
+  );
+});
+
+async function notifyVersionChanged(excludeClientId) {
+  const windows = await self.clients.matchAll({type:'window',includeUncontrolled:true});
+  for (const client of windows) {
+    if (!excludeClientId || client.id !== excludeClientId) {
+      client.postMessage({type:'HUB_VERSION_CHANGED'});
+    }
+  }
+}
+
+function isEntryPage(path) {
+  return path === '/' || path === '/index.html';
+}
+
+async function storeStaticResponse(request, response, pathname, excludeClientId) {
+  try {
+    const cache = await caches.open(CACHE);
+    if (!isEntryPage(pathname)) {
+      await cache.put(request,response);
+      return;
+    }
+    // Comparação do HTML completo: identifica também deploys que não mudam sw.js.
+    const previous = await cache.match('./') || await cache.match('index.html');
+    const oldHTML = previous ? await previous.text() : null;
+    const newHTML = await response.clone().text();
+    await Promise.all([
+      cache.put('./',response.clone()),
+      cache.put('index.html',response.clone())
+    ]);
+    if(oldHTML !== null && oldHTML !== newHTML) await notifyVersionChanged(excludeClientId);
+  } catch(error) {
+    // Falha na atualização do cache não pode impedir o acesso à versão online.
+  }
+}
+
+async function checkRemoteVersion() {
+  const cache = await caches.open(CACHE);
+  const previous = await cache.match('./') || await cache.match('index.html');
+  const url = new URL('index.html', self.registration.scope);
+  let response;
+  try {
+    response = await fetch(url.toString(), {cache:'no-store',credentials:'same-origin'});
+    if (!response.ok || !(response.headers.get('content-type')||'').includes('text/html')) return;
+    const freshHTML = await response.clone().text();
+    if(!previous) {
+      await cache.put('./',response.clone());
+      await cache.put('index.html',response.clone());
+      return;
+    }
+    const previousHTML = await previous.text();
+    if(previousHTML !== freshHTML) {
+      await cache.put('./',response.clone());
+      await cache.put('index.html',response.clone());
+      await notifyVersionChanged(null);
+    }
+  } catch(error) {
+    // Sem internet: mantém a versão instalada e tentará novamente.
+  }
+}
+
+self.addEventListener('message', event => {
+  if(!event.data || event.data.type !== 'HUB_CHECK_VERSION') return;
+  if(!checkInProgress) {
+    checkInProgress = checkRemoteVersion().finally(() => { checkInProgress=null; });
+  }
+  event.waitUntil(checkInProgress);
+});
 
 self.addEventListener('fetch', event => {
-  const req = event.request;
-  if (req.method !== 'GET') return;
-  const url = new URL(req.url);
-  if (url.origin !== self.location.origin || !PATHS.has(url.pathname)) return;
-  event.respondWith(
-    fetch(req)
-      .then(res => {
-        if (res && res.ok) {
-          const copia = res.clone();
-          event.waitUntil(caches.open(CACHE).then(c => c.put(req, copia)).catch(() => {}));
-        }
-        return res;
-      })
-      .catch(() => caches.match(req, { ignoreSearch: true }))
-  );
+  const request = event.request;
+  if(request.method !== 'GET')return;
+  const url = new URL(request.url);
+  if(url.origin !== self.location.origin || !PATHS.has(url.pathname))return;
+  event.respondWith((async () => {
+    try {
+      const response = await fetch(request);
+      if(response && response.ok) {
+        event.waitUntil(storeStaticResponse(request,response.clone(),url.pathname,event.clientId));
+      }
+      return response;
+    } catch(error) {
+      const cached = await caches.match(request,{ignoreSearch:true});
+      if(cached)return cached;
+      throw error;
+    }
+  })());
 });
