@@ -4973,7 +4973,7 @@ function atrRender(){
     h+='<tr><td class="atr-sticky" colspan="11" style="text-align:center;color:var(--gray-500)">Nenhuma vacina encontrada.</td></tr>';
   }
   dados.forEach(function(r){
-    h+='<tr><td class="atr-sticky"><b>'+r[0]+'</b> <sup class="atr-ref" onclick="atrAbreCom('+r[1]+')">'+r[1]+'</sup></td>';
+    h+='<tr><td class="atr-sticky"><b>'+r[0]+'</b> <button type="button" class="atr-ref atr-ref-btn" onclick="atrAbreCom('+r[1]+',this)" aria-label="Abrir comentário '+r[1]+' aqui" aria-expanded="false">'+r[1]+'</button></td>';
     r[2].forEach(function(v){
       h+='<td'+(v===NSA?' class="atr-nsa"':'')+'>'+v+'</td>';
     });
@@ -4997,11 +4997,42 @@ function atrRender(){
     n.innerHTML=hn;
   }
 }
-function atrAbreCom(n){
+function atrAbreCom(n, origem){
   var d=document.getElementById('atr-com-'+n);
   if(!d) return;
-  d.open=true;
-  d.scrollIntoView({behavior:'smooth',block:'center'});
+  var row=origem && origem.closest ? origem.closest('tr') : null;
+  if(!row){ d.open=!d.open; return; }
+  var antigo=document.querySelector('#atrTabela .atr-inline-row');
+  var jaAberto=antigo && antigo.dataset.comentario===String(n) && antigo.previousElementSibling===row;
+  if(antigo) antigo.remove();
+  document.querySelectorAll('#atrTabela .atr-ref-btn').forEach(function(btn){btn.setAttribute('aria-expanded','false');});
+  if(jaAberto) return;
+  var comentario=ATR_COM.find(function(x){return String(x[0])===String(n);});
+  if(!comentario) return;
+  var nova=document.createElement('tr');
+  nova.className='atr-inline-row';
+  nova.dataset.comentario=String(n);
+  var td=document.createElement('td');
+  td.colSpan=ATR_COLS.length+1;
+  td.style.cssText='padding:8px 6px;border-bottom:1px solid var(--gray-200);background:#fff';
+  var conteudo=document.createElement('div');
+  conteudo.className='atr-inline-panel';
+  var h=document.createElement('div');
+  h.className='atr-inline-head';
+  h.textContent='Comentário '+n+' · '+comentario[1];
+  var corpo=document.createElement('div');
+  corpo.className='atr-det-b';
+  corpo.innerHTML=comentario[2];
+  var fechar=document.createElement('button');
+  fechar.type='button';
+  fechar.className='atr-inline-close';
+  fechar.textContent='Fechar comentário';
+  fechar.addEventListener('click',function(){nova.remove();origem.setAttribute('aria-expanded','false');});
+  conteudo.append(h,corpo,fechar);
+  td.appendChild(conteudo);
+  nova.appendChild(td);
+  row.after(nova);
+  origem.setAttribute('aria-expanded','true');
 }
 
 (function(){
@@ -5221,7 +5252,7 @@ function vacGerarCalendario(){
 
   out.innerHTML=h; out.style.display='block';
   window._vacAtual={idade:idv,un:un,sexo:sexo,situacao:sit,comorb:comorb,rec:r.rec,alertas:r.alertas};
-  out.scrollIntoView({behavior:'smooth',block:'start'});
+  // Resultado gerado no local, sem rolagem automática.
 }
 
 function vacTexto(p){
@@ -6035,8 +6066,7 @@ function setPromptText(txt){
   if(old) old.value = txt;
   if(ta){
     ta.value = txt;
-    try{ ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }catch(e){}
-    ta.scrollIntoView({behavior:'smooth', block:'center'});
+    try{ ta.focus({preventScroll:true}); ta.setSelectionRange(ta.value.length, ta.value.length); }catch(e){}
   }
 }
 
@@ -8193,7 +8223,7 @@ function gerarOrientacaoIg(){
   h += '</div>';
 
   var out = document.getElementById('igSaida');
-  if(out){ out.innerHTML = h; out.style.display = 'block'; out.scrollIntoView({behavior:'smooth',block:'start'}); }
+  if(out){ out.innerHTML = h; out.style.display = 'block'; }
   // Nenhuma gravação de dados da simulação.
   toast('✅','Orientações geradas');
 }
@@ -9633,10 +9663,10 @@ document.addEventListener('DOMContentLoaded', function(){
 .eaaci-grid .qcard:focus-visible{outline:2px solid var(--teal-mid);outline-offset:2px}
 
 #eaaci-list .eaaci-card{display:none}
-#eaaci-list .eaaci-card.sel{display:block;border:1.5px solid var(--teal-mid);box-shadow:0 6px 22px rgba(13,31,45,.10);background:#fff}
-#eaaci-list .eaaci-card.sel>summary{pointer-events:none}
-#eaaci-list .eaaci-card.sel>summary::after{display:none}
-#eaaci-list .eaaci-card.sel>summary .gc-soc{color:var(--teal-mid)}
+#eaaci-btnrow>.eaaci-card.sel{grid-column:1/-1;min-width:0;width:100%;box-sizing:border-box;display:block;border:1.5px solid var(--teal-mid);border-radius:14px;box-shadow:0 6px 22px rgba(13,31,45,.10);background:#fff;padding:15px;margin:0 0 8px;cursor:default;scroll-margin-top:72px}
+#eaaci-btnrow>.eaaci-card.sel>summary{pointer-events:none}
+#eaaci-btnrow>.eaaci-card.sel>summary::after{display:none}
+#eaaci-btnrow>.eaaci-card.sel>summary .gc-soc{color:var(--teal-mid)}
 .eaaci-close{margin-top:12px;width:100%;border:1px solid var(--gray-300);background:#fff;color:var(--navy);font-family:inherit;font-size:11.5px;font-weight:700;padding:9px;border-radius:10px;cursor:pointer}
 .eaaci-close:hover{border-color:var(--teal-mid);color:var(--teal-mid)}
 
@@ -9651,7 +9681,14 @@ document.addEventListener('DOMContentLoaded', function(){
 .eaaci-ref a.eaaci-ref-ln:hover{background:var(--teal-mid)}
 
 #eaaci-list .eaaci-card{background:#fff;border-bottom:1px solid var(--gray-100);padding:14px 16px;display:none;flex-direction:column;gap:5px}
-#eaaci-list .eaaci-card.sel{display:flex}
+#eaaci-btnrow>.eaaci-card.sel{display:block}
+
+/* Textos expansíveis: leitura no local, sem salto de tela. */
+.atr-ref-btn{appearance:none;background:none;border:0;padding:0 3px;color:var(--teal-mid);font-size:10px;font-weight:700;font-family:inherit;vertical-align:super;cursor:pointer;text-decoration:underline}
+.atr-ref-btn:focus-visible,.atr-inline-close:focus-visible{outline:2px solid var(--teal-mid);outline-offset:2px}
+.atr-inline-panel{position:sticky;left:4px;max-width:min(560px,82vw);box-sizing:border-box;white-space:normal;padding:14px;border:1px solid var(--teal-mid);border-radius:12px;background:#fff;box-shadow:0 3px 12px rgba(13,31,45,.08);font-size:12px;line-height:1.55;color:var(--navy)}
+.atr-inline-head{font-weight:800;margin-bottom:7px}
+.atr-inline-close{margin-top:12px;padding:8px 12px;border-radius:9px;border:1px solid var(--gray-300);background:#fff;color:var(--navy);font:inherit;cursor:pointer}
 /* ═══ RECUPERAÇÃO DE DOSES EM ATRASO ═══ */
 .atr-tab{flex:1;background:#fff;border:1.5px solid var(--gray-100);border-radius:11px;padding:9px 8px;font-size:11.5px;font-weight:800;color:var(--gray-500);font-family:Manrope,sans-serif;cursor:pointer;line-height:1.3}
 .atr-tab-on{background:var(--navy);border-color:var(--navy);color:#fff}
@@ -9806,32 +9843,53 @@ function chatToggle(){
 </script>
 
 <script>
-/* -- PROTOCOLOS EAACI: grade horizontal responsiva + painel unico -- */
+/* -- PROTOCOLOS DE BOLSO: expansão junto ao cartão, sem rolagem automática -- */
 (function(){
+  var grid=document.getElementById('eaaci-btnrow');
+  var lista=document.getElementById('eaaci-list');
+  if(!grid || !lista) return;
+  var origens=new Map();
+  lista.querySelectorAll('.eaaci-card').forEach(function(card){
+    var marcador=document.createComment('origem do protocolo '+card.id);
+    lista.insertBefore(marcador,card);
+    origens.set(card.id,marcador);
+  });
   function clearSel(){
-    document.querySelectorAll('#eaaci-list .eaaci-card').forEach(function(c){ c.classList.remove('sel'); c.removeAttribute('open'); });
-    document.querySelectorAll('#eaaci-btnrow .eaaci-q').forEach(function(x){ x.classList.remove('on'); x.setAttribute('aria-expanded','false'); });
-    var e=document.getElementById('eaaci-empty'); if(e) e.style.display='flex';
+    document.querySelectorAll('#page-eaaci .eaaci-card.sel').forEach(function(card){
+      card.classList.remove('sel'); card.open=false;
+      var origem=origens.get(card.id);
+      if(origem && origem.parentNode) origem.parentNode.insertBefore(card,origem.nextSibling);
+      else lista.appendChild(card);
+    });
+    grid.querySelectorAll('.eaaci-q').forEach(function(btn){
+      btn.classList.remove('on'); btn.setAttribute('aria-expanded','false');
+    });
+    var vazio=document.getElementById('eaaci-empty');
+    if(vazio) vazio.style.display='none';
   }
-  document.addEventListener('click', function(ev){
-    var t=ev.target; if(!t.closest) return;
-
-    var q=t.closest('#eaaci-btnrow .eaaci-q');
+  document.addEventListener('click',function(ev){
+    var target=ev.target;
+    if(!target.closest) return;
+    var q=target.closest('#eaaci-btnrow .eaaci-q');
     if(q){
-      var card=document.getElementById(q.getAttribute('data-ego'));
-      var already=card && card.classList.contains('sel');
+      var card=document.getElementById(q.dataset.ego);
+      var aberto=card && card.classList.contains('sel');
       clearSel();
-      if(card && !already){
-        card.classList.add('sel'); card.setAttribute('open','');
-        q.classList.add('on'); q.setAttribute('aria-expanded','true');
-        document.getElementById('eaaci-empty').style.display='none';
-        setTimeout(function(){ card.scrollIntoView({behavior:'smooth',block:'center'}); },60);
-      }
+      if(!card || aberto) return;
+      // Coloca o conteúdo abaixo da linha do cartão selecionado.
+      var botoes=Array.from(grid.children).filter(function(el){return el.classList.contains('eaaci-q') && el.offsetParent!==null;});
+      var indice=botoes.indexOf(q);
+      var colunas=Math.max(1,getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/).length);
+      var ultima=Math.min(botoes.length-1,Math.ceil((indice+1)/colunas)*colunas-1);
+      var ancora=botoes[ultima] || q;
+      ancora.after(card);
+      card.classList.add('sel'); card.open=true;
+      q.classList.add('on'); q.setAttribute('aria-expanded','true');
       return;
     }
-
-    if(t.closest('[data-eclose]')){ clearSel(); document.getElementById('eaaci-btnrow').scrollIntoView({behavior:'smooth',block:'center'}); return; }
-
+    if(target.closest('#page-eaaci [data-eclose]')){
+      clearSel();
+    }
   });
 })();
 </script>
