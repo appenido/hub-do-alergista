@@ -4,7 +4,7 @@
   "description": "Ferramenta clínica para alergologistas",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#0a0f1e",
+  "background_color": "#f2f6f8",
   "theme_color": "#0d1f2d",
   "icons": [
     {
