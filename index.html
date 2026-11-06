@@ -1242,11 +1242,15 @@ _marcarGuiasPagas();
 </style>
 
 <style id="hub-pwa-style">
-/* A instalação é o último atalho da Home; nunca aparece sobre outros conteúdos. */
-.hub-install-card{font-family:'Manrope',sans-serif;appearance:none;-webkit-appearance:none;color:inherit}
-.hub-install-card[hidden],#hubInstallHelp[hidden]{display:none!important}
+#hubInstallBtn[hidden]{display:none!important}
+.hub-install-card{font-family:'Manrope',sans-serif;appearance:none;-webkit-appearance:none;text-decoration:none;color:inherit}
 .hub-install-card:focus-visible{outline:2px solid var(--teal-mid);outline-offset:3px}
-.hub-install-help{margin:9px 16px 0;border:1px solid #dce7eb;background:#f9fbfc;border-radius:11px;padding:12px 14px;color:#405262;font-size:11.5px;line-height:1.65;white-space:pre-line}
+.hub-update-bar{position:fixed;z-index:390;bottom:calc(var(--bottomnav-h) + 10px);left:12px;right:12px;max-width:520px;margin:auto;display:flex;align-items:center;gap:10px;border:1px solid #b8d8de;background:#fff;border-radius:11px;box-shadow:0 5px 22px rgba(13,31,45,.17);padding:10px 12px;font:600 11px/1.45 'Manrope',sans-serif;color:var(--navy)}
+.hub-update-bar[hidden]{display:none!important}
+.hub-update-bar span{flex:1}
+.hub-update-bar button{border:0;border-radius:7px;background:var(--teal-mid);color:#fff;font:700 11px 'Manrope',sans-serif;padding:8px 10px;cursor:pointer}
+.hub-update-bar button.hub-update-close{background:transparent;color:var(--gray-500);font-size:17px;padding:4px 6px}
+.hub-update-bar button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 </style>
 </head>
 <body>
@@ -1297,11 +1301,10 @@ window._bloquearApp=function(){};
       <a class="qcard" href="https://portal.cfm.org.br/busca-medicos" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit"><div class="qi qi-green">🏥</div><div class="ql">Consultar CRM</div></a>
       <div class="qcard" data-nav="laboratorio"><div class="qi qi-teal">🧪</div><div class="ql">Laboratório</div></div>
       <div class="qcard" data-nav="favoritos"><div class="qi qi-navy">⭐</div><div class="ql">Favoritos</div></div>
-      <button type="button" id="hubInstallBtn" class="qcard hub-install-card" aria-label="Instalar Hub do Alergista no celular" aria-controls="hubInstallHelp" aria-expanded="false" hidden>
+      <a id="hubInstallBtn" class="qcard hub-install-card" href="./instalar.html" target="_blank" rel="noopener noreferrer" aria-label="Abrir instruções para instalar o Hub no Android ou Apple em nova aba" hidden>
         <span class="qi qi-gold" aria-hidden="true">📲</span><span class="ql">Instalar aplicativo</span>
-      </button>
+      </a>
     </div>
-    <div id="hubInstallHelp" class="hub-install-help" role="status" hidden></div>
 
     <div class="sec-hdr" style="margin-top:8px"><h2>Scores Rápidos</h2><span class="see-all" data-nav="scores">Ver todos</span></div>
     <div class="score-grid" style="padding-bottom:4px">
@@ -9477,84 +9480,96 @@ document.addEventListener('DOMContentLoaded', function(){
   </div>
 </div>
 
-<script>
-/* registra o service worker (abre offline + instalável) */
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function () {
-    navigator.serviceWorker.register('sw.js').catch(function () {});
+<script id="hub-auto-updates">
+/* Atualizações automáticas do PWA, sem perder formulários em edição. */
+(function(){
+  'use strict';
+  if(!('serviceWorker' in navigator))return;
+  var registration=null, pending=false, userEdited=false, hadController=!!navigator.serviceWorker.controller;
+  var lastCheck=0, bar=null;
+  document.addEventListener('input',function(e){
+    if(e.target && e.target.closest && e.target.closest('input,textarea,select,[contenteditable="true"]'))userEdited=true;
+  },true);
+  document.addEventListener('change',function(e){
+    if(e.target && e.target.closest && e.target.closest('input,textarea,select,[contenteditable="true"]'))userEdited=true;
+  },true);
+  function notice(){
+    if(document.hidden||!document.body)return;
+    if(!bar){
+      bar=document.createElement('div');
+      bar.className='hub-update-bar';
+      bar.setAttribute('role','status');
+      bar.setAttribute('aria-live','polite');
+      var message=document.createElement('span');
+      message.textContent='Nova versão disponível do Hub.';
+      var update=document.createElement('button');
+      update.type='button';update.textContent='Atualizar agora';
+      update.addEventListener('click',function(){window.location.reload();});
+      var close=document.createElement('button');
+      close.type='button';close.textContent='×';close.className='hub-update-close';close.setAttribute('aria-label','Atualizar depois');
+      close.addEventListener('click',function(){bar.hidden=true;});
+      bar.appendChild(message);bar.appendChild(update);bar.appendChild(close);
+      document.body.appendChild(bar);
+    }
+    bar.hidden=false;
+  }
+  function newVersion(){
+    pending=true;
+    if(!document.hidden)notice();
+  }
+  function check(force){
+    if(document.hidden||!navigator.onLine)return;
+    var now=Date.now();
+    if(!force && now-lastCheck<60000)return;
+    lastCheck=now;
+    if(registration && registration.update)registration.update().catch(function(){});
+    var worker=navigator.serviceWorker.controller;
+    if(worker)worker.postMessage({type:'HUB_CHECK_VERSION'});
+  }
+  navigator.serviceWorker.addEventListener('message',function(e){
+    if(e.data&&e.data.type==='HUB_VERSION_CHANGED')newVersion();
   });
-}
+  navigator.serviceWorker.addEventListener('controllerchange',function(){
+    if(hadController)newVersion();
+    hadController=true;
+    check(true);
+  });
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(function(r){
+      registration=r;
+      check(true);
+    }).catch(function(){});
+  });
+  document.addEventListener('visibilitychange',function(){
+    if(!document.hidden){
+      if(pending && !userEdited){window.location.reload();return;}
+      if(pending)notice();
+      check(true);
+    }
+  });
+  window.addEventListener('focus',function(){check(false);});
+  window.addEventListener('online',function(){check(true);});
+  window.addEventListener('pageshow',function(){check(true);});
+  window.setInterval(function(){check(false);},15*60*1000);
+})();
 </script>
 
 <script id="hub-pwa-install">
-/* O navegador controla a disponibilidade do prompt de instalação nativo. */
+/* O último atalho da Home abre uma página independente de instruções. */
 (function(){
-  'use strict';
-  var installEvent=null, row, button, help;
-  function installed(){
-    return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || navigator.standalone===true;
+  function apply(){
+    var link=document.getElementById('hubInstallBtn');
+    if(!link)return;
+    var installed=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;
+    link.hidden=!!installed;
   }
-  function refresh(){
-    if(!row) return;
-    row.hidden=!!installed();
-    if(row.hidden && help) help.hidden=true;
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply);
+  else apply();
+  if(window.matchMedia){
+    var mode=window.matchMedia('(display-mode: standalone)');
+    if(mode.addEventListener)mode.addEventListener('change',apply);
+    else if(mode.addListener)mode.addListener(apply);
   }
-  function manual(){
-    var ua=navigator.userAgent||'';
-    if(/iPhone|iPad|iPod/i.test(ua) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1)){
-      return 'Instalar no iPhone ou iPad (Apple):\n1. Abra o Hub pelo Safari.\n2. Toque em Compartilhar (quadrado com seta para cima).\n3. Escolha “Adicionar à Tela de Início”.\n4. Toque em “Adicionar”. O ícone aparecerá na tela inicial.\nNo iOS, a instalação é feita pelo menu Compartilhar, não por uma janela automática.';
-    }
-    if(/Android/i.test(ua)) return 'Instalar no Android:\n1. Abra o Hub no Google Chrome.\n2. Toque nos três pontos (⋮).\n3. Escolha “Instalar app” ou “Adicionar à tela inicial” e confirme.\nSe estiver em um navegador interno de outro aplicativo, abra o site no Chrome.';
-    return 'No Chrome ou Edge, use o ícone de instalação na barra de endereços ou o menu ⋮ → Instalar aplicativo, se disponível.';
-  }
-  window.addEventListener('beforeinstallprompt',function(event){
-    event.preventDefault();
-    installEvent=event;
-    refresh();
-  });
-  window.addEventListener('appinstalled',function(){
-    installEvent=null;
-    if(row) row.hidden=true;
-    if(help) help.hidden=true;
-  });
-  function init(){
-    button=document.getElementById('hubInstallBtn');
-    row=button;
-    help=document.getElementById('hubInstallHelp');
-    if(!row||!button||!help)return;
-    refresh();
-    button.addEventListener('click',async function(){
-      if(installed()){refresh();return;}
-      if(installEvent){
-        var e=installEvent;
-        installEvent=null;
-        try{
-          await e.prompt();
-          var choice=await e.userChoice;
-          if(choice && choice.outcome==='accepted'){
-            help.hidden=true;
-            button.setAttribute('aria-expanded','false');
-            return;
-          }
-        }catch(error){/* Manual, quando o prompt não é suportado. */}
-      }
-      if(help.hidden){
-        help.textContent=manual();
-        help.hidden=false;
-        button.setAttribute('aria-expanded','true');
-      }else{
-        help.hidden=true;
-        button.setAttribute('aria-expanded','false');
-      }
-    });
-    if(window.matchMedia){
-      var mode=window.matchMedia('(display-mode: standalone)');
-      if(mode.addEventListener)mode.addEventListener('change',refresh);
-      else if(mode.addListener)mode.addListener(refresh);
-    }
-  }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
-  else init();
 })();
 </script>
 
