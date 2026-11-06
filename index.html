@@ -1087,6 +1087,34 @@ _marcarGuiasPagas();
 .ige-learning{padding:12px 16px 25px}
 .ige-learning .vsd-box{margin:0}
 @media(max-width:520px){.ige-search-hero{padding:12px;margin:2px 12px 12px}.ige-search-heading{font-size:15px}.ige-search-caption{font-size:10.5px}.ige-search-hero .ige-search-field{min-height:48px;padding:10px 12px}.ige-search-hero .ige-search-field input{font-size:14px}.ige-learning{padding:12px 12px 20px}}
+
+/* Você sabia: cartões compactos, explicações extensas abertas sob demanda. */
+.vsd-grid>.vsd-card{padding:0;overflow:hidden;min-width:0;align-self:start}
+.vsd-grid>.vsd-card[open]{grid-column:1/-1;border-color:var(--teal-mid,#2e8b9e);background:#fff}
+.vsd-summary{list-style:none;display:flex;flex-direction:column;gap:4px;min-height:100%;padding:10px 11px;cursor:pointer;user-select:none}
+.vsd-summary::-webkit-details-marker{display:none}
+.vsd-summary::marker{content:''}
+.vsd-summary:hover{background:#f2f8fa}
+.vsd-summary:focus-visible{outline:2px solid var(--teal-mid,#2e8b9e);outline-offset:-2px}
+.vsd-card-title{font-size:12.3px;color:var(--navy);font-weight:750;line-height:1.35}
+.vsd-card-short{font-size:11px;color:var(--navy);font-weight:400;line-height:1.46}
+.vsd-read{margin-top:5px;font-size:10.5px;color:var(--teal-mid,#2e8b9e);font-weight:700;line-height:1.3}
+.vsd-grid>.vsd-card[open] .vsd-read{color:var(--gray-500)}
+.vsd-deep{border-top:1px solid var(--gray-100);padding:16px 17px 18px;color:var(--navy);max-width:100%;font-size:12px;line-height:1.72}
+.vsd-deep h5{font-size:13.5px;font-weight:750;line-height:1.4;color:var(--teal-mid,#2e8b9e);margin:19px 0 7px}
+.vsd-deep h5:first-child{margin-top:2px}
+.vsd-deep p{font-size:12px;line-height:1.72;margin:0 0 10px}
+.vsd-deep ul,.vsd-deep ol{font-size:12px;line-height:1.7;margin:0 0 13px;padding-left:22px}
+.vsd-deep li{padding-left:3px;margin-bottom:5px}
+.vsd-deep .vsd-case{background:#f2f8fa;border-left:3px solid var(--teal-mid,#2e8b9e);padding:11px 13px;border-radius:6px;margin:10px 0 15px;font-size:12px;line-height:1.65}
+.vsd-deep .vsd-key{background:#fffaf0;border:1px solid #eadcb2;border-radius:8px;padding:11px 12px;margin-top:14px}
+.vsd-deep .vsd-source{border-top:1px solid var(--gray-100);padding-top:11px;font-size:11px;color:var(--gray-500)}
+.vsd-deep .vsd-source a{color:var(--teal-mid,#2e8b9e);text-decoration:underline;text-underline-offset:2px}
+.vsd-table{display:grid;grid-template-columns:minmax(100px,.85fr) minmax(75px,.95fr) minmax(200px,2.2fr);margin:10px 0 16px;border:1px solid var(--gray-100);border-radius:8px;overflow:auto}
+.vsd-table>div{padding:9px;border-bottom:1px solid var(--gray-100);font-size:11px;line-height:1.55;overflow-wrap:anywhere}
+.vsd-table>div:nth-child(-n+3){background:#f0f6f8;color:var(--navy);font-weight:750}
+.vsd-close-inline{border:1px solid var(--gray-100);background:#f4f8fb;color:var(--teal-mid,#2e8b9e);border-radius:8px;padding:9px 13px;font:600 11px Manrope,sans-serif;cursor:pointer;margin-top:4px}
+@media(max-width:520px){.vsd-summary{padding:9px;min-height:120px}.vsd-card-title{font-size:11.5px}.vsd-card-short{font-size:10.5px}.vsd-read{font-size:10px}.vsd-deep{padding:12px 10px}.vsd-table{grid-template-columns:minmax(78px,.75fr) minmax(76px,.85fr) minmax(165px,2fr)}}
 </style>
 <script>
 /* Endereço canônico — os espelhos antigos redirecionam para cá */
@@ -3814,39 +3842,147 @@ window._bloquearApp=function(){};
       </div>
       <div class="ige-learning">
         <section class="vsd-box" aria-labelledby="vsdTit">
-          <div class="vsd-top"><span class="vsd-ico" aria-hidden="true">💡</span><h3 id="vsdTit">Você sabia?</h3><span class="vsd-sub">IgE por extrato e diagnóstico molecular</span></div>
+          <div class="vsd-top"><span class="vsd-ico" aria-hidden="true">💡</span><h3 id="vsdTit">Você sabia?</h3><span class="vsd-sub">Toque em um quadro para abrir a explicação completa</span></div>
           <div class="vsd-grid">
-            <article class="vsd-card">
-              <h4>1. IgE para extrato</h4>
-              <p>Avalia a sensibilização a proteínas de uma fonte, como o amendoim. Não identifica qual proteína foi reconhecida.</p>
-              <span class="vsd-ex">Exemplo: f13 (amendoim)</span>
-            </article>
-            <article class="vsd-card">
-              <h4>2. IgE para componente</h4>
-              <p>Analisa uma proteína específica. Ajuda a esclarecer se a sensibilização é primária ou por reação cruzada.</p>
-              <span class="vsd-ex">Exemplo: Ara h 2 (amendoim)</span>
-            </article>
-            <article class="vsd-card">
-              <h4>3. Proteínas de armazenamento</h4>
-              <p>Podem aumentar a probabilidade de alergia alimentar verdadeira. A positividade não prevê, sozinha, a gravidade de uma reação.</p>
-              <span class="vsd-ex">Exemplos: Ara h 2 e Cor a 14</span>
-            </article>
-            <article class="vsd-card">
-              <h4>4. PR-10 e profilinas</h4>
-              <p>Podem indicar reação cruzada entre pólen e alimento, frequentemente com sintomas orais. Existem exceções.</p>
-              <span class="vsd-ex">Exemplos: Ara h 8 e Bet v 2</span>
-            </article>
-            <article class="vsd-card">
-              <h4>5. LTP</h4>
-              <p>Algumas LTP se associam a reações sistêmicas. Exercício e outros cofatores podem modificar o quadro clínico.</p>
-              <span class="vsd-ex">Exemplo: Pru p 3 (pêssego)</span>
-            </article>
-            <article class="vsd-card">
-              <h4>6. Seleção para imunoterapia</h4>
-              <p>Marcadores moleculares ajudam a distinguir sensibilização genuína de reação cruzada. A indicação depende dos sintomas e da exposição.</p>
-              <span class="vsd-ex">Exemplos: Der p 1/2/23</span>
-            </article>
-          </div>
+<details class="vsd-card" name="ige-voce-sabia" id="igeDica1">
+  <summary class="vsd-summary"><span class="vsd-card-title">1. IgE para extrato</span><span class="vsd-card-short">Avalia a sensibilização à fonte inteira, sem identificar todas as proteínas reconhecidas.</span><span class="vsd-ex">f13 (amendoim) · d1 (ácaro)</span><span class="vsd-read">Toque para ler a explicação completa <span aria-hidden="true">▾</span></span></summary>
+  <div class="vsd-deep">
+<h5>O que o exame realmente mede?</h5>
+<p>O extrato alergênico reúne várias proteínas obtidas de uma fonte, como leite, ovo, amendoim, pólen ou ácaros. Ao entrar em contato com o soro, o teste identifica IgE que se liga a proteínas dessa preparação. Um resultado positivo demonstra sensibilização imunológica à preparação testada. Ele não identifica necessariamente a proteína reconhecida e não equivale, sozinho, ao diagnóstico de alergia clínica.</p>
+<p>A composição do extrato pode variar entre fabricantes e metodologias. Moléculas muito instáveis, pouco abundantes ou não representadas adequadamente podem ser subdetectadas. Por isso, um teste de extrato negativo não encerra a investigação quando a história é fortemente sugestiva.</p>
+<h5>Códigos e exemplos</h5>
+<ul><li>f2: leite de vaca, extrato completo; f245: ovo inteiro; f1: clara de ovo.</li><li>f13: amendoim; f17: avelã; d1: Dermatophagoides pteronyssinus.</li><li>Esses exames são IgEs específicas. “IgE total sérica” é outro exame e não identifica um alérgeno.</li></ul>
+<h5>Como interpretar a concentração?</h5>
+<ol><li>Comece pela probabilidade clínica: houve exposição seguida de sintomas compatíveis? Em qual intervalo?</li><li>Veja se o alimento é consumido habitualmente sem sintomas. A tolerância documentada tem grande relevância.</li><li>Confirme qual ensaio e unidade o laboratório usou; em muitos métodos a IgE específica é expressa em kUA/L.</li><li>Interprete valores baixos ou altos como medidas de sensibilização, não como escala direta de gravidade.</li><li>Quando disponível, aplique pontos de corte preditivos apenas na população e plataforma em que foram validados.</li></ol>
+<p>O limite histórico de 0,35 kUA/L não é um limiar universal de alergia clínica. Valores mais altos podem aumentar a probabilidade diagnóstica para algumas fontes, mas não predizem de forma confiável a gravidade da próxima reação.</p>
+<h5>Exemplo clínico comentado</h5>
+<div class="vsd-case">Criança com dermatite atópica apresenta f2 positivo, mas bebe leite diariamente sem sintomas. Há sensibilização laboratorial, porém não se deve prescrever dieta de exclusão apenas com esse resultado. Já em paciente com urticária e vômitos repetidos logo após a ingestão, a mesma positividade tem significado diferente e deve ser integrada à investigação.</div>
+<h5>Quando pedir — e quando evitar</h5>
+<ul><li>Solicite extratos dirigidos por história de reação imediata alimentar, sintomas respiratórios ligados à exposição ou investigação especializada de venenos, látex e outros alérgenos.</li><li>Evite painéis indiscriminados de alimentos em pessoas assintomáticas: aumentam falso diagnóstico, ansiedade e exclusões alimentares desnecessárias.</li><li>Considere componentes, teste de ativação de basófilos e/ou provocação oral supervisionada em casos apropriados e ainda inconclusivos.</li></ul>
+<p class="vsd-key">Resumo: IgE positiva confirma sensibilização, não necessariamente doença. História clínica, exposição e tolerância sempre vêm primeiro.</p>
+<p class="vsd-source">Referências: <a href="https://pubmed.ncbi.nlm.nih.gov/37186333/" target="_blank" rel="noopener noreferrer">EAACI Molecular Allergology 2.0</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/37815205/" target="_blank" rel="noopener noreferrer">EAACI Food Allergy Diagnosis</a></p>
+   <button class="vsd-close-inline" type="button" onclick="this.closest('details').open=false;this.closest('details').querySelector('summary').focus()">Fechar explicação ↑</button>
+  </div>
+</details>
+<details class="vsd-card" name="ige-voce-sabia" id="igeDica2">
+  <summary class="vsd-summary"><span class="vsd-card-title">2. IgE para componente</span><span class="vsd-card-short">Identifica a proteína específica e esclarece perfis de sensibilização genuína ou cruzada.</span><span class="vsd-ex">Ara h 2 · Der p 23 · Gal d 1</span><span class="vsd-read">Toque para ler a explicação completa <span aria-hidden="true">▾</span></span></summary>
+  <div class="vsd-deep">
+<h5>O que é diagnóstico molecular?</h5>
+<p>Em vez de testar apenas um conjunto de proteínas, a IgE para componente mede reatividade contra uma molécula alergênica identificada. Isso se chama diagnóstico molecular ou component-resolved diagnostics (CRD). Uma fonte pode ter dezenas de componentes; portanto, um resultado negativo para uma molécula não exclui reatividade às demais.</p>
+<p>A nomenclatura combina a fonte e o componente: Ara h 2 é do amendoim; Der p 23 é do ácaro Dermatophagoides pteronyssinus; Gal d 1 é do ovo. Prefixos n e r podem designar moléculas naturais ou recombinantes no ensaio. A disponibilidade depende da plataforma e do laboratório.</p>
+<h5>Para que serve na prática?</h5>
+<ul><li>Identificar proteínas de armazenamento, PR-10, profilinas, LTPs ou outros grupos relevantes.</li><li>Distinguir, em parte dos casos, sensibilização primária de reação cruzada entre fontes.</li><li>Esclarecer polissensibilização com muitos extratos positivos.</li><li>Ajudar na avaliação diagnóstica de certos alimentos e na escolha de alérgenos para imunoterapia respiratória, quando indicado.</li></ul>
+<h5>Exemplos para comparação</h5>
+<div class="vsd-table"><div>Fonte</div><div>Extrato</div><div>Componentes e raciocínio</div>
+<div>Amendoim</div><div>f13</div><div>Ara h 2 e Ara h 6: armazenamento; Ara h 8: PR-10 e possível reação cruzada com pólen.</div>
+<div>Avelã</div><div>f17</div><div>Cor a 9 e Cor a 14: armazenamento; Cor a 1: PR-10.</div>
+<div>Leite</div><div>f2</div><div>Bos d 4: alfa-lactoalbumina; Bos d 5: beta-lactoglobulina; Bos d 8: caseínas.</div>
+<div>Ovo</div><div>f245</div><div>Gal d 1: ovomucoide; Gal d 2: ovalbumina. Processamento e matriz alteram alergenicidade.</div>
+<div>Ácaros</div><div>d1</div><div>Der p 1, 2 e 23 são importantes; Der p 10 é tropomiosina, com potencial de reatividade cruzada.</div></div>
+<h5>Sequência clínica recomendada</h5>
+<ol><li>Determine qual dúvida diagnóstica precisa ser resolvida.</li><li>Use história e testes para extrato ou teste cutâneo como etapas iniciais quando apropriado.</li><li>Peça apenas os componentes capazes de alterar a decisão clínica.</li><li>Interprete o perfil completo, não um componente isolado.</li><li>Se persistir dúvida sobre alergia alimentar, considere provocação oral supervisionada conforme indicação e risco.</li></ol>
+<h5>Comparação didática de dois pacientes</h5>
+<div class="vsd-case">Ambos têm IgE para amendoim positiva. Um apresenta reação imediata compatível e Ara h 2 positivo, reforçando a hipótese de alergia ao amendoim. O outro apresenta Ara h 8 predominante, rinite por pólen e tolerância ao alimento: o perfil sugere possibilidade de reação cruzada. Não há garantia de ausência ou presença de anafilaxia futura apenas pela molécula.</div>
+<h5>Limitações</h5>
+<p>Singleplex e multiplex usam metodologias e referências analíticas diferentes. Nem todos os componentes têm interpretação clínica consolidada ou disponibilidade comercial. O componente não é um teste universal para prever gravidade nem substitui a história ou a provocação oral.</p>
+<p class="vsd-key">Pergunta útil: se essa molécula vier positiva ou negativa, qual conduta realmente mudará?</p>
+<p class="vsd-source">Referências: <a href="https://pubmed.ncbi.nlm.nih.gov/37186333/" target="_blank" rel="noopener noreferrer">EAACI Molecular Allergology 2.0</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/37815205/" target="_blank" rel="noopener noreferrer">EAACI Food Allergy</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/32810515/" target="_blank" rel="noopener noreferrer">JACI/AAAAI Amendoim</a></p>
+   <button class="vsd-close-inline" type="button" onclick="this.closest('details').open=false;this.closest('details').querySelector('summary').focus()">Fechar explicação ↑</button>
+  </div>
+</details>
+<details class="vsd-card" name="ige-voce-sabia" id="igeDica3">
+  <summary class="vsd-summary"><span class="vsd-card-title">3. Proteínas de armazenamento</span><span class="vsd-card-short">Albuminas 2S e globulinas 7S/11S ajudam a avaliar alergia genuína a sementes e oleaginosas.</span><span class="vsd-ex">Ara h 2/6 · Cor a 9/14 · Ana o 3</span><span class="vsd-read">Toque para ler a explicação completa <span aria-hidden="true">▾</span></span></summary>
+  <div class="vsd-deep">
+<h5>Por que recebem esse nome?</h5>
+<p>Sementes possuem proteínas de reserva que fornecem nutrientes para germinação. Algumas atuam como alérgenos e pertencem às famílias albuminas 2S, vicilinas (globulinas 7S) e leguminas (globulinas 11S). Muitas são relativamente estáveis ao calor e à digestão. Por esse motivo, a IgE contra algumas delas pode ter maior especificidade diagnóstica para alergia alimentar genuína do que a IgE para extrato isolado.</p>
+<h5>Conheça as famílias moleculares</h5>
+<div class="vsd-table"><div>Família</div><div>Exemplos</div><div>Aplicação</div>
+<div>Albuminas 2S</div><div>Ara h 2/6, Cor a 14, Ana o 3, Jug r 1, Ber e 1</div><div>Avaliação de amendoim, avelã, caju, noz e castanha-do-pará.</div>
+<div>Vicilinas 7S</div><div>Ara h 1, Cor a 11</div><div>Informam reconhecimento de outras proteínas de reserva.</div>
+<div>Leguminas 11S</div><div>Ara h 3, Cor a 9</div><div>Podem complementar investigação de alergia alimentar primária.</div></div>
+<h5>Como interpretar sem superestimar o risco</h5>
+<ol><li>Uma molécula associada à alergia verdadeira aumenta a probabilidade diagnóstica apenas no contexto adequado.</li><li>Valores e pontos de corte devem ser interpretados de acordo com a população e o ensaio que os validou.</li><li>Positividade não é prova de que ocorrerá anafilaxia, nem define sua gravidade.</li><li>Perfis negativos não eliminam a possibilidade de alergia por outros componentes.</li><li>Não deduza que um alimento assado ou torrado seja automaticamente seguro ou perigoso apenas pelo componente.</li></ol>
+<h5>Exemplo clínico: caju</h5>
+<div class="vsd-case">Paciente apresenta urticária, vômitos e tosse pouco após ingerir castanha-de-caju. IgE para caju e Ana o 3 positivas reforçam a suspeita de alergia genuína, em coerência com a reação. Em contraste, uma criança que come caju frequentemente e sem sintomas não deve ser rotulada como alérgica apenas por um ensaio isolado.</div>
+<h5>Há alergia cruzada obrigatória entre todas as castanhas?</h5>
+<p>Não. Caju e pistache são botanicamente relacionados; noz e noz-pecã também. Pode haver co-sensibilização e reatividade cruzada, mas isso não significa alergia clínica universal. Determine a tolerância de cada alimento, evitando excluir desnecessariamente o que é consumido sem reação. Quando persistem dúvidas relevantes, considere investigação individualizada e provocação oral supervisionada.</p>
+<h5>Quando o perfil é útil?</h5>
+<ul><li>Extrato positivo com história ambígua.</li><li>Necessidade de distinguir sensibilização a pólen de sensibilização a proteínas de armazenamento, como Cor a 1 versus Cor a 9/14.</li><li>Reavaliação especializada da probabilidade de alergia e planejamento de testes adicionais.</li></ul>
+<p class="vsd-key">A proteína de reserva é um marcador de padrão de sensibilização; a decisão clínica depende da reação, da exposição e da tolerância demonstrada.</p>
+<p class="vsd-source">Referências: <a href="https://pubmed.ncbi.nlm.nih.gov/37186333/" target="_blank" rel="noopener noreferrer">EAACI Molecular Allergology 2.0</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/37815205/" target="_blank" rel="noopener noreferrer">EAACI Food Allergy</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/32810515/" target="_blank" rel="noopener noreferrer">JACI/AAAAI Amendoim</a></p>
+   <button class="vsd-close-inline" type="button" onclick="this.closest('details').open=false;this.closest('details').querySelector('summary').focus()">Fechar explicação ↑</button>
+  </div>
+</details>
+<details class="vsd-card" name="ige-voce-sabia" id="igeDica4">
+  <summary class="vsd-summary"><span class="vsd-card-title">4. PR-10 e profilinas</span><span class="vsd-card-short">Proteínas vegetais compartilhadas explicam muitos testes positivos sem alergia a todos os alimentos.</span><span class="vsd-ex">Ara h 8 · Cor a 1 · Bet v 2</span><span class="vsd-read">Toque para ler a explicação completa <span aria-hidden="true">▾</span></span></summary>
+  <div class="vsd-deep">
+<h5>O que é reação cruzada?</h5>
+<p>Proteínas de plantas diferentes podem apresentar estruturas semelhantes. Uma IgE originada após sensibilização a pólen pode reconhecer proteínas similares presentes em frutas, legumes e oleaginosas. O resultado é um conjunto de extratos positivos, mesmo quando vários alimentos são tolerados. Esse mecanismo ajuda a compreender a síndrome pólen-alimento, por vezes chamada de síndrome de alergia oral.</p>
+<h5>PR-10: família relacionada a Bet v 1</h5>
+<p>Bet v 1, da bétula, é um exemplo clássico. Moléculas relacionadas incluem Ara h 8 (amendoim), Cor a 1 (avelã) e Mal d 1 (maçã). Frequentemente, essas proteínas são sensíveis a calor e digestão. Na apresentação típica, o alimento cru provoca prurido labial, oral ou faríngeo em pessoa sensibilizada a pólen.</p>
+<p>O quadro não é universalmente benigno: manifestações sistêmicas podem ocorrer em alguns contextos. Portanto, qualquer história de dispneia, hipotensão, reação generalizada ou progressão dos sintomas exige investigação individual.</p>
+<h5>Profilinas: uma rede ampla de reação cruzada</h5>
+<p>As profilinas participam do funcionamento do citoesqueleto e são muito conservadas entre plantas. Bet v 2, Phl p 12 e Pru p 4 são exemplos. IgE para profilina pode gerar positividade em diversos pólens e alimentos. Identificar esse padrão pode evitar diagnósticos alimentares excessivos, principalmente se os alimentos continuam sendo tolerados.</p>
+<h5>Comparação prática</h5>
+<div class="vsd-table"><div>Família</div><div>Resultado típico</div><div>Pergunta clínica</div>
+<div>PR-10</div><div>Bet v 1, Ara h 8, Cor a 1</div><div>Há sintomas com alimento cru e rinite por pólen?</div>
+<div>Profilina</div><div>Bet v 2, Phl p 12, Pru p 4</div><div>Os diversos extratos positivos representam reação cruzada?</div>
+<div>Armazenamento</div><div>Ara h 2, Cor a 14</div><div>Há evidência de sensibilização primária alimentar mais específica?</div>
+<div>LTP</div><div>Pru p 3, Cor a 8</div><div>Existem manifestações sistêmicas ou influência de cofatores?</div></div>
+<h5>Exemplo comentado</h5>
+<div class="vsd-case">Paciente com rinite sazonal tem avelã positiva e prurido oral ao consumir avelã crua. A presença de Cor a 1 favorece hipótese de reação cruzada por PR-10; Cor a 9/14 pode modificar a interpretação. A escolha de testes depende da história, do consumo de avelã processada e da necessidade de esclarecer risco. Não se faz recomendação de consumo a partir apenas de Cor a 1 positivo.</div>
+<h5>Erros a evitar</h5>
+<ul><li>Afirmar que PR-10 e profilinas nunca causam sintomas sistêmicos.</li><li>Interpretar exames positivos para várias frutas como várias alergias verdadeiras, sem história.</li><li>Presumir que cozinhar sempre torna um alimento seguro.</li><li>Confundir PR-10 e profilinas com determinantes carboidrato de reação cruzada (CCD), que constituem outro mecanismo.</li></ul>
+<p class="vsd-key">A pergunta não é “quantos exames positivaram?”, mas “quais fontes realmente causam sintomas e quais estão sendo toleradas?”.</p>
+<p class="vsd-source">Referências: <a href="https://pubmed.ncbi.nlm.nih.gov/37186333/" target="_blank" rel="noopener noreferrer">EAACI Molecular Allergology 2.0</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/37815205/" target="_blank" rel="noopener noreferrer">EAACI Food Allergy</a></p>
+   <button class="vsd-close-inline" type="button" onclick="this.closest('details').open=false;this.closest('details').querySelector('summary').focus()">Fechar explicação ↑</button>
+  </div>
+</details>
+<details class="vsd-card" name="ige-voce-sabia" id="igeDica5">
+  <summary class="vsd-summary"><span class="vsd-card-title">5. LTP e cofatores</span><span class="vsd-card-short">Proteínas relativamente estáveis podem participar de alergia alimentar e reações dependentes de cofatores.</span><span class="vsd-ex">Pru p 3 (pêssego) · Tri a 14 (trigo)</span><span class="vsd-read">Toque para ler a explicação completa <span aria-hidden="true">▾</span></span></summary>
+  <div class="vsd-deep">
+<h5>O que são nsLTPs?</h5>
+<p>As proteínas inespecíficas de transferência de lipídios (nsLTPs) são proteínas vegetais com funções relacionadas à defesa e ao transporte de lipídios. Muitas resistem relativamente bem ao aquecimento e à digestão. O exemplo clássico é Pru p 3, do pêssego. Outros componentes incluem Cor a 8 (avelã), Ara h 9 (amendoim), Jug r 3 (noz) e Tri a 14 (trigo).</p>
+<p>A importância clínica varia conforme o alimento e o contexto geográfico. A epidemiologia mediterrânea não deve ser transferida automaticamente à população brasileira. IgE para LTP isolada também pode ocorrer sem alergia clínica.</p>
+<h5>Por que o paciente reage num dia e tolera em outro?</h5>
+<p>Há variabilidade individual no limiar de reação. Exercício físico em proximidade com a ingestão, uso de anti-inflamatórios não esteroidais, álcool e infecções são cofatores reconhecidos que, em determinados pacientes, podem facilitar ou intensificar sintomas. Isso não significa que todo episódio de anafilaxia alimentar associado a exercício seja causado por LTP.</p>
+<div class="vsd-case">Exemplo: paciente ingere pêssego sem sintomas em algumas ocasiões, mas apresenta urticária difusa e dispneia quando se exercita após comer. É necessário correlacionar alimento, quantidade, horário do exercício, medicamentos e testes; só depois considerar se LTP faz parte do mecanismo.</div>
+<h5>Como investigar em etapas</h5>
+<ol><li>Descreva o alimento exato, a quantidade, o preparo e a porção ingerida; confira se a casca foi consumida.</li><li>Registre horários de ingestão, início dos sintomas, exercício, AINEs, álcool e doença intercurrente.</li><li>Identifique alimentos relacionados já tolerados, evitando exclusão generalizada sem comprovação.</li><li>Selecione testes para extratos e componentes dirigidos. Pru p 3 pode ser útil, mas não identifica toda sensibilização a nsLTP.</li><li>Considere diagnóstico diferencial com PR-10, profilinas, proteínas de armazenamento e mecanismos não IgE-mediados.</li><li>Quando a história permanece inconclusiva, o planejamento de provocação com ou sem cofatores exige equipe especializada e cuidadosa avaliação de risco.</li></ol>
+<h5>Como conduzir após o diagnóstico</h5>
+<ul><li>Oriente prevenção personalizada do alimento desencadeante e dos cofatores confirmados.</li><li>Evite recomendar que “basta descascar” ou “basta cozinhar”, pois não há garantia de segurança.</li><li>Avalie a necessidade de plano de emergência e adrenalina conforme gravidade prévia, contexto e risco individual, não somente por IgE positiva.</li><li>Não presuma alergia a todas as frutas, oleaginosas ou vegetais por uma LTP positiva.</li></ul>
+<h5>Uma distinção importante: trigo</h5>
+<p>Tri a 14 é uma LTP do trigo; Tri a 19 é ômega-5-gliadina, proteína de outra família associada à anafilaxia dependente de trigo e exercício. Elas não são equivalentes e podem integrar investigações diferentes.</p>
+<p class="vsd-key">O raciocínio clínico começa com a pergunta: “O que mudou entre o dia em que houve tolerância e o dia em que ocorreu a reação?”</p>
+<p class="vsd-source">Referências: <a href="https://pubmed.ncbi.nlm.nih.gov/33655502/" target="_blank" rel="noopener noreferrer">Allergy — nsLTP: diagnóstico e manejo</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/37186333/" target="_blank" rel="noopener noreferrer">EAACI Molecular Allergology 2.0</a></p>
+   <button class="vsd-close-inline" type="button" onclick="this.closest('details').open=false;this.closest('details').querySelector('summary').focus()">Fechar explicação ↑</button>
+  </div>
+</details>
+<details class="vsd-card" name="ige-voce-sabia" id="igeDica6">
+  <summary class="vsd-summary"><span class="vsd-card-title">6. IgE molecular e imunoterapia</span><span class="vsd-card-short">Marcadores ajudam a esclarecer a fonte sensibilizante, mas não indicam imunoterapia isoladamente.</span><span class="vsd-ex">Der p 1/2/23 · Phl p 1/5 · Alt a 1</span><span class="vsd-read">Toque para ler a explicação completa <span aria-hidden="true">▾</span></span></summary>
+  <div class="vsd-deep">
+<h5>Qual é a utilidade clínica real?</h5>
+<p>A imunoterapia alergeno-específica (AIT) não deve ser escolhida apenas por um exame de IgE positivo. É necessário demonstrar doença respiratória alérgica clinicamente relevante, relação com exposição, impacto dos sintomas, resposta ao tratamento habitual, segurança e disponibilidade de uma formulação apropriada e respaldada por evidências.</p>
+<p>O diagnóstico molecular acrescenta informação principalmente quando há polissensibilização: um paciente pode reagir a muitos extratos porque reconhece uma única família de proteínas compartilhadas, como profilinas ou polcalcinas.</p>
+<h5>Marcadores que auxiliam na interpretação</h5>
+<div class="vsd-table"><div>Fonte</div><div>Componentes</div><div>Significado possível</div>
+<div>Ácaros</div><div>Der p 1, Der p 2, Der p 23</div><div>Importantes moléculas de D. pteronyssinus; correlacionar com sintomas perenes e exposição.</div>
+<div>Gramíneas</div><div>Phl p 1 e 5</div><div>Podem favorecer sensibilização genuína a gramíneas; Phl p 12 sugere profilina.</div>
+<div>Bétula</div><div>Bet v 1</div><div>Marcador de sensibilização à bétula, com possível cruzamento alimentar por PR-10.</div>
+<div>Oliveira / Oleaceae</div><div>Ole e 1</div><div>Auxilia identificação de sensibilização em contextos geográficos adequados.</div>
+<div>Alternaria</div><div>Alt a 1</div><div>Marcador molecular importante de Alternaria alternata.</div></div>
+<h5>Como chegar à decisão de imunoterapia</h5>
+<ol><li>Confirme o diagnóstico de rinite/rinoconjuntivite alérgica e, quando houver, a avaliação da asma.</li><li>Documente o padrão temporal, ambiente e exposição a fontes locais, evitando extrapolar a distribuição de pólens de outros países.</li><li>Use teste cutâneo e/ou IgE específica para fontes pertinentes ao caso.</li><li>Quando surgirem muitos resultados positivos, use moléculas selecionadas para distinguir possível sensibilização genuína de reação cruzada.</li><li>Determine qual exposição está associada aos sintomas e se há produto de AIT adequado, padronizado e com evidência de benefício.</li><li>Avalie contraindicações, controle da asma, risco, adesão, preferências e duração do tratamento.</li><li>Registre a justificativa e oriente monitorização durante o tratamento.</li></ol>
+<h5>Exemplo de decisão orientada</h5>
+<div class="vsd-case">Paciente com rinite sazonal e extratos de várias gramíneas positivos. Phl p 1/5 positivos podem reforçar sensibilização genuína, especialmente quando a exposição é coerente. Se predominar profilina, a reatividade cruzada pode explicar parte das positividades. Em ambos os cenários, a escolha de AIT depende da doença e da fonte clinicamente relevante, não de um marcador isolado.</div>
+<h5>Limites e segurança</h5>
+<ul><li>Marcadores moleculares não garantem resposta à imunoterapia.</li><li>Composição e potência do produto terapêutico diferem dos ensaios de laboratório.</li><li>Asma não controlada exige atenção especial devido ao risco da AIT; seguir critérios e contraindicações específicos.</li><li>Não misture múltiplos extratos apenas porque várias IgEs foram positivas.</li><li>Imunoterapia para alimentos, venenos e aeroalérgenos envolve recomendações e produtos distintos.</li></ul>
+<p class="vsd-key">O componente ajuda a esclarecer a sensibilização; a indicação de imunoterapia depende da doença, da exposição, do produto e do balanço de benefício e risco.</p>
+<p class="vsd-source">Referências: <a href="https://register.awmf.org/assets/guidelines/061_D_Ges_fuer_Allergologie_und_klinische_Immunologie/061-004eng_S2k_allergen-immunotherapy_in_IgE_mediated_allergic_diseases_2022-10.pdf" target="_blank" rel="noopener noreferrer">Diretriz S2k de imunoterapia</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/37186333/" target="_blank" rel="noopener noreferrer">EAACI Molecular Allergology 2.0</a></p>
+   <button class="vsd-close-inline" type="button" onclick="this.closest('details').open=false;this.closest('details').querySelector('summary').focus()">Fechar explicação ↑</button>
+  </div>
+</details>
+</div>
           <p class="vsd-bottom">Na prática: o teste positivo identifica sensibilização, não necessariamente alergia. Relacione o resultado à história clínica antes de mudar condutas.</p>
           <details class="vsd-refs"><summary>Referências científicas</summary>
             <a href="https://eaaci.org/books/molecular-allergology-users-guide-2-0/" target="_blank" rel="noopener noreferrer">EAACI — Molecular Allergology User’s Guide 2.0</a>
