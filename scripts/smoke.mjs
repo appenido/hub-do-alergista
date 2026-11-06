@@ -20,6 +20,17 @@ async function verificar() {
   const home = await (await get('/')).text();
   assert.match(home, /<title>Hub do Alergista<\/title>/i);
   assert.match(home, /id=["']page-guidelines["']/i);
+  // A instalação deve abrir diretamente na aba atual: evitar disparar a PWA já instalada
+  // (que pode exibir uma tela de abertura antiga armazenada no dispositivo).
+  const installLink = home.match(/<a[^>]+id=["']hubInstallBtn["'][^>]+>/i)?.[0];
+  assert.ok(installLink, 'Atalho de instalação ausente na Home');
+  assert.match(installLink, /href=["']\.\/instalar\.html\?v=/i);
+  assert.doesNotMatch(installLink, /target=["']_blank["']/i, 'Instalação não deve abrir nova aba');
+  const guide = await (await get('/instalar.html')).text();
+  assert.match(guide, /class=["']brand-icon brand-android["']/);
+  assert.match(guide, /class=["']brand-icon brand-apple["']/);
+  assert.doesNotMatch(guide, /Apple \(iPhone\/iPad\)/i);
+  assert.doesNotMatch(guide, /CEAI/i, 'A página de instalação não pode exibir marca CEAI');
   const manifest = await (await get('/manifest.json')).json();
   assert.ok(manifest.name || manifest.short_name, 'Manifesto do aplicativo inválido');
   const script = await (await get('/sw.js')).text();
