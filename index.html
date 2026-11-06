@@ -938,6 +938,19 @@ _marcarGuiasPagas();
 .fav-title{font-size:13px;font-weight:600;color:var(--navy);line-height:1.35;}
 .fav-sub{font-size:11px;color:var(--gray-500);margin-top:2px;}
 .fav-grp{padding:14px 16px 6px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-500);}
+/* Favoritos na Home: ocupam o lugar dos antigos Scores Rápidos. */
+.home-favs-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(8px,2.4vw,12px);padding:0 clamp(10px,4vw,24px) 4px;align-items:stretch}
+@media(min-width:560px){.home-favs-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.home-fav-card{position:relative;display:flex;align-items:stretch;min-width:0;min-height:132px;padding:13px;border:1px solid var(--gray-100);border-radius:13px;box-shadow:0 2px 8px rgba(13,31,45,.035);background:#fff}
+.home-fav-card .fav-open{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:6px;padding-right:18px}
+.home-fav-card .fav-icon{width:auto;font-size:23px;line-height:1.2}
+.home-fav-card .fav-type{display:block;font-size:10px}
+.home-fav-card .fav-title{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;font-size:13px;font-weight:750;line-height:1.35;overflow-wrap:anywhere}
+.home-fav-card .fav-sub{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-size:10.5px}
+.home-fav-card .btn-remfav{position:absolute;right:6px;top:5px;padding:6px;font-size:14px}
+.home-favs-grid .fav-detail{grid-column:1/-1;margin:0;padding:12px}
+.home-favs-empty{grid-column:1/-1;background:#fff;border:1px dashed var(--gray-300);border-radius:12px;padding:20px 16px;color:var(--gray-500);font-size:12.5px;line-height:1.5;text-align:center}
+
 .btn-remfav{background:transparent;border:none;font-size:15px;cursor:pointer;color:var(--gray-300);padding:6px;}
 
 /* ===== BOTÃO VOLTAR (rodapé de cada página) ===== */
@@ -1312,16 +1325,10 @@ window._bloquearApp=function(){};
       <a id="hubInstallBtn" class="qcard hub-install-card" href="./instalar.html?v=20261106-2" aria-label="Abrir instruções de instalação do Hub no Android ou Apple nesta aba" hidden>
         <span class="qi qi-gold" aria-hidden="true">📲</span><span class="ql">Instalar aplicativo</span>
       </a>
-      <div class="qcard" data-nav="favoritos"><div class="qi qi-navy">⭐</div><div class="ql">Favoritos</div></div>
     </div>
 
-    <div class="sec-hdr" style="margin-top:8px"><h2>Scores Rápidos</h2><span class="see-all" data-nav="scores">Ver todos</span></div>
-    <div class="score-grid" style="padding-bottom:4px">
-      <div class="score-pill" data-score="act"><div class="sp-top"><span class="sp-name">ACT</span><span class="sp-emoji">🫁</span></div><div class="sp-desc">Controle da asma — últimas 4 semanas</div><div class="bar-bg"><div class="bar-fill" style="width:75%;background:linear-gradient(90deg,var(--aqua),var(--teal-mid))"></div></div><button class="sp-btn">Calcular →</button></div>
-      <div class="score-pill" data-score="easi"><div class="sp-top"><span class="sp-name">EASI</span><span class="sp-emoji">🩹</span></div><div class="sp-desc">Gravidade da dermatite atópica</div><div class="bar-bg"><div class="bar-fill" style="width:50%;background:linear-gradient(90deg,#f0d98a,var(--gold))"></div></div><button class="sp-btn">Calcular →</button></div>
-      <div class="score-pill" data-score="uas"><div class="sp-top"><span class="sp-name">UAS7</span><span class="sp-emoji">🔴</span></div><div class="sp-desc">Atividade da urticária — 7 dias</div><div class="bar-bg"><div class="bar-fill" style="width:60%;background:linear-gradient(90deg,var(--aqua),#c0392b)"></div></div><button class="sp-btn">Calcular →</button></div>
-      <div class="score-pill" data-score="uct"><div class="sp-top"><span class="sp-name">UCT</span><span class="sp-emoji">🎯</span></div><div class="sp-desc">Controle da urticária crônica</div><div class="bar-bg"><div class="bar-fill" style="width:65%;background:linear-gradient(90deg,#c0392b,var(--aqua))"></div></div><button class="sp-btn">Calcular →</button></div>
-    </div>
+    <div class="sec-hdr" style="margin-top:8px"><h2>Favoritos</h2><span class="see-all" data-nav="favoritos">Ver todos</span></div>
+    <div class="home-favs-grid" id="homeFavoritos" aria-label="Favoritos salvos na página inicial" aria-live="polite"></div>
 
     <div class="sec-hdr" style="margin-top:8px"><h2>Artigos Recentes</h2><span class="see-all" data-nav="artigos">Ver todos</span></div>
     <div class="gap-list" id="homeArtigos" aria-live="polite"></div>
@@ -10272,7 +10279,34 @@ function chatToggle(){
   /* ---- página de favoritos e prévia na home ---- */
   function esc(t){ return String(t||'').replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
 
+  function renderHomeFav(){
+    var box=document.getElementById('homeFavoritos');
+    if(!box)return;
+    var itens=HUBFAV.list().slice(0,4);
+    var assinatura=JSON.stringify(itens.map(function(f){return [f.id,f.tipo,f.titulo,f.sub];}));
+    if(box.dataset.sig===assinatura)return;
+    // Restaura a ficha original antes de redesenhar o favorito expandido.
+    if(aberto && aberto.botao && box.contains(aberto.botao)) fecharFavorito(false);
+    box.dataset.sig=assinatura;
+    if(!itens.length){
+      box.innerHTML='<div class="home-favs-empty">Nenhum favorito salvo. Toque na estrela dos artigos, scores ou outros conteúdos para exibi-los aqui.</div>';
+      return;
+    }
+    box.innerHTML=itens.map(function(f){
+      return '<div class="fav-row home-fav-card">'
+        +'<button type="button" class="fav-open" data-fav-open="'+esc(f.id)+'" aria-expanded="false" aria-controls="favDetalhe" aria-label="Abrir favorito: '+esc(f.titulo)+'">'
+        +'<span class="fav-icon">'+esc(f.icone||'⭐')+'</span>'
+        +'<span class="fav-type">'+esc(f.tipo)+'</span>'
+        +'<span class="fav-title">'+esc(f.titulo)+'</span>'
+        +(f.sub?'<span class="fav-sub">'+esc(f.sub)+'</span>':'')
+        +'</button>'
+        +'<button type="button" class="btn-remfav" data-fav-id="'+esc(f.id)+'" aria-label="Remover '+esc(f.titulo)+' dos favoritos" title="Remover dos favoritos">×</button>'
+        +'</div>';
+    }).join('');
+  }
+
   function renderFav(){
+    renderHomeFav();
     var box = document.getElementById('favList');
     if(!box) return;
     var sig = JSON.stringify(HUBFAV.list().map(function(f){ return f.id; }));
