@@ -14,7 +14,7 @@ test('Scores permanecem primeiro botão e Favoritos último botão da Home, sem 
   assert.equal(buttons[0], 'scores', 'Scores deve ser o primeiro botão');
   assert.equal(buttons.at(-1), 'favoritos', 'Favoritos deve ser o último botão');
   assert.equal(buttons.filter(x => x === 'favoritos').length, 1, 'Favoritos não deve ser duplicado');
-  assert.match(home, /<h2>Scores Rápidos<\/h2>/);
+  assert.doesNotMatch(home, /<h2>Scores Rápidos<\/h2>/, 'Scores deve ser botão, não quadro na Home');
   assert.doesNotMatch(home, /<h2>Favoritos<\/h2>/);
   assert.doesNotMatch(home, /id="homeFav(?:oritos|List)"/);
   assert.match(html, /id="page-favoritos"/, 'Página de favoritos preservada');
