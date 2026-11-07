@@ -7,15 +7,19 @@ import { fileURLToPath } from 'node:url';
 const root = new URL('../', import.meta.url);
 const html = readFileSync(new URL('index.html', root), 'utf8');
 
-test('favoritos ocupam o espaço dos Scores Rápidos na Home, antes dos artigos', () => {
+test('Scores permanecem primeiro botão e Favoritos último botão da Home, sem quadro de Favoritos', () => {
   const home = html.slice(html.indexOf('id="page-dashboard"'), html.indexOf('id="page-artigos"'));
-  const favoritos = home.indexOf('id="homeFavoritos"');
-  const artigos = home.indexOf('id="homeArtigos"');
-  assert.ok(favoritos >= 0 && artigos > favoritos, 'Favoritos devem preceder Artigos Recentes');
-  assert.match(home, /<h2>Favoritos<\/h2>/);
-  assert.doesNotMatch(home, /<h2>Scores Rápidos<\/h2>/);
-  assert.match(html, /function renderHomeFav\(\)/);
-  assert.match(html, /renderHomeFav\(\);\s*var box = document\.getElementById\('favList'\)/);
+  const quick = home.match(/<div class="quick-grid">([\s\S]*?)<\/div>\s*<div class="sec-hdr"/)?.[1] || '';
+  const buttons = [...quick.matchAll(/<div class="qcard" data-nav="([^"]+)"/g)].map(m => m[1]);
+  assert.equal(buttons[0], 'scores', 'Scores deve ser o primeiro botão');
+  assert.equal(buttons.at(-1), 'favoritos', 'Favoritos deve ser o último botão');
+  assert.equal(buttons.filter(x => x === 'favoritos').length, 1, 'Favoritos não deve ser duplicado');
+  assert.match(home, /<h2>Scores Rápidos<\/h2>/);
+  assert.doesNotMatch(home, /<h2>Favoritos<\/h2>/);
+  assert.doesNotMatch(home, /id="homeFav(?:oritos|List)"/);
+  assert.match(html, /id="page-favoritos"/, 'Página de favoritos preservada');
+  assert.match(html, /id="favList"/, 'Lista de favoritos preservada');
+  assert.doesNotMatch(html, /data-score="icpeUce"/, 'ICPE-UCE permanece removido');
 });
 
 test('VAS olfatória possui cartão, escala de 0 a 10 sem seleção prévia e fontes clínicas', () => {
