@@ -1,11 +1,11 @@
 {
- "ultimaTentativa": "2026-11-07T16:42:55.701Z",
- "atualizadoEm": "2026-11-07T16:42:55.701Z",
+ "ultimaTentativa": "2026-11-08T16:53:41.810Z",
+ "atualizadoEm": "2026-11-08T16:53:41.810Z",
  "status": "ok",
  "totalCandidatos": 60,
  "totalVerificados": 10,
  "totalPendentes": 3,
- "totalExcluidos": 28,
+ "totalExcluidos": 10,
  "falhasFonte": [],
  "itens": [
   {
@@ -19,7 +19,7 @@
   {
    "status": "verificado",
    "titulo": "Por que o Brasil ainda não tem canetas de adrenalina para tratar choque anafilático?",
-   "fonte": "Veja Saúde",
+   "fonte": "Assine Abril",
    "data": "2026-11-06T19:49:29.000Z",
    "url": "https://saude.abril.com.br/medicina/por-que-o-brasil-ainda-nao-tem-canetas-de-adrenalina-para-tratar-choque-anafilatico/",
    "verificado": true
@@ -30,6 +30,14 @@
    "fonte": "Superinteressante",
    "data": "2026-11-06T10:00:40.000Z",
    "url": "https://super.abril.com.br/ciencia/um-terco-dos-bebes-diagnosticados-com-alergia-a-amendoim-pode-nao-ter-o-problema/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Caminhar 7.500 passos por dia ajuda a controlar os sintomas da asma",
+   "fonte": "Terra",
+   "data": "2026-11-06T08:43:08.000Z",
+   "url": "https://www.terra.com.br/vida-e-estilo/caminhar-7500-passos-por-dia-ajuda-a-controlar-os-sintomas-da-asma,c6790b6ac36bdce92d285a6f775c9f9fse06gvht.html",
    "verificado": true
   },
   {
@@ -58,10 +66,10 @@
   },
   {
    "status": "verificado",
-   "titulo": "Morte de Janaína Barbosa: o que pode causar um choque anafilático e como acontece?",
-   "fonte": "Assine Abril",
-   "data": "2026-11-05T13:31:19.000Z",
-   "url": "https://saude.abril.com.br/medicina/morte-de-janaina-barbosa-o-que-pode-causar-um-choque-anafilatico-e-como-acontece/",
+   "titulo": "Dermatite atópica impacta nas escolhas educacionais e de carreira",
+   "fonte": "Terra",
+   "data": "2026-11-05T12:38:11.000Z",
+   "url": "https://www.terra.com.br/vida-e-estilo/saude/dermatite-atopica-impacta-nas-escolhas-educacionais-e-de-carreira,290a717178a51d00171d3e57de3ac4bcnjhcc0ui.html",
    "verificado": true
   },
   {
@@ -79,17 +87,16 @@
    "data": "2026-11-05T10:52:11.000Z",
    "url": "https://exame.com/ciencia/janaina-barbosa-o-que-e-o-choque-anafilatico-que-teria-causado-a-morte-da-ex-apresentadora/",
    "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Janaína Barbosa morreu de choque anafilático, confirma assessoria; entenda o que é a reação",
-   "fonte": "Terra",
-   "data": "2026-11-04T19:19:21.000Z",
-   "url": "https://www.terra.com.br/vida-e-estilo/saude/janaina-barbosa-morreu-de-choque-anafilatico-confirma-assessoria-entenda-o-que-e-a-reacao,99121058157d7b93d9f53538fa217594xt19bn9c.html",
-   "verificado": true
   }
  ],
  "pendentes": [
+  {
+   "status": "pendente",
+   "titulo": "1 em cada 3 bebês diagnosticados com alergia a amendoim pode não ter a condição, aponta estudo",
+   "fonte": "Crescer",
+   "url": "https://revistacrescer.globo.com/saude/noticia/2026/11/1-em-cada-3-bebes-diagnosticados-com-alergia-a-amendoim-pode-nao-ter-a-condicao-aponta-estudo.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+  },
   {
    "status": "pendente",
    "titulo": "O que é choque anafilático, apontado como causa da morte de Janaína Barbosa",
@@ -103,29 +110,22 @@
    "fonte": "O GLOBO",
    "url": "https://oglobo.globo.com/saude/noticia/2026/11/06/estudo-aponta-que-um-em-cada-tres-bebes-diagnosticados-com-alergia-a-amendoim-nao-tem-a-condicao.ghtml",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Apresentadora Janaína Barbosa morreu após choque anafilático; entenda a reação alérgica",
-   "fonte": "O GLOBO",
-   "url": "https://oglobo.globo.com/saude/noticia/2026/11/05/apresentadora-janaina-barbosa-morreu-apos-choque-anafilatico-entenda-a-reacao-alergica.ghtml",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   }
  ],
  "excluidos": [
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Jovem de 17 anos é picado por cascavel e fica internado na UTI após reação alérgica ao soro",
-   "fonte": "ACidade ON",
-   "url": "https://www.acidadeon.com/ribeiraopreto/cotidiano/adolescente-de-17-anos-e-picado-por-cascavel-e-moradores-reclamam-de-terreno-com-mato-alto/"
+   "titulo": "Dia do Trigo: 7 mitos sobre glúten, alergias e digestão",
+   "fonte": "Portal Único",
+   "url": "https://portalunico.com/dia-do-trigo-7-mitos-sobre-gluten-alergias-e-digestao/"
   },
   {
    "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Durante a mudança de estações, fique atento à rinite alérgica.",
-   "fonte": "Vietnam.vn",
-   "url": "https://www.vietnam.vn/pt/thoi-tiet-giao-mua-canh-giac-viem-mui-di-ung"
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Jovem de 17 anos é picado por cascavel e fica internado na UTI após reação alérgica ao soro",
+   "fonte": "ACidade ON",
+   "url": "https://www.acidadeon.com/ribeiraopreto/cotidiano/adolescente-de-17-anos-e-picado-por-cascavel-e-moradores-reclamam-de-terreno-com-mato-alto/"
   },
   {
    "status": "excluido",
@@ -151,13 +151,6 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Caminhar 7.500 passos por dia ajuda a controlar os sintomas da asma",
-   "fonte": "Bons Fluidos",
-   "url": "https://www.bonsfluidos.com.br/movimente-se/caminhar-7-500-passos-por-dia-ajuda-a-controlar-os-sintomas-da-asma.phtml"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "O que é choque anafilático, causa da morte de Janaína Barbosa? Entenda",
    "fonte": "viva.com.br",
    "url": "https://viva.com.br/saude-e-bem-estar/o-que-e-choque-anafilatico-causa-da-morte-de-janaina-barbosa-entenda.html"
@@ -179,13 +172,6 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Como a poluição, secas e microplásticos estão ligadas às suas alergias e à sua saúde",
-   "fonte": "bra1.com.br",
-   "url": "https://www.bra1.com.br/geral/id-721075/como_a_poluicao__secas_e_microplasticos_estao_ligadas_as_suas_alergias_e_a_sua_saude"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Alergias também podem surgir na vida adulta",
    "fonte": "DOL",
    "url": "https://dol.com.br/carajas/noticias/967466/alergias-tambem-podem-surgir-na-vida-adulta"
@@ -193,65 +179,9 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Hospital das Clínicas da Faculdade de Medicina de Ribeirão Preto abre concurso para médico I – alergia e imunologia",
-   "fonte": "Qconcursos Folha Dirigida",
-   "url": "https://folha.qconcursos.com/n/hospital-das-clinicas-da-faculdade-de-medicina-de-ribeirao-preto-abre-concurso-para-medico-i-alergia-e-imunologia"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Menina de 11 anos salva motorista de ônibus escolar durante crise grave de asma",
    "fonte": "Jornal Correio",
    "url": "https://www.correio24horas.com.br/mundo/menina-de-11-anos-salva-motorista-de-onibus-escolar-durante-crise-grave-de-asma-1126"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "HCFMRP - USP abre concurso público para médico na área de alergia e imunologia",
-   "fonte": "PCI Concursos",
-   "url": "https://www.pciconcursos.com.br/noticias/hcfmrp-usp-abre-concurso-publico-para-medico-na-area-de-alergia-e-imunologia"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Choque anafilático: entenda a reação alérgica grave que levou apresentadora à morte",
-   "fonte": "Tribuna do Norte",
-   "url": "https://tribunadonorte.com.br/brasil/choque-anafilatico-entenda-a-reacao-alergica-grave-que-levou-apresentadora-a-morte/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Ex-apresentadora do TV Fama, Janaína Barbosa morre aos 48 anos após choque anafilático",
-   "fonte": "Tribuna do Norte",
-   "url": "https://tribunadonorte.com.br/brasil/ex-apresentadora-do-tv-fama-janaina-barbosa-morre-aos-48-anos-apos-choque-anafilatico-entenda/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "O que se sabe e o que ainda falta esclarecer sobre a morte de Janaína Barbosa, ex-TV Fama que sofreu choque anafilático por medicação",
-   "fonte": "Jornal Correio",
-   "url": "https://www.correio24horas.com.br/em-alta/o-que-se-sabe-e-o-que-ainda-falta-esclarecer-sobre-a-morte-de-janaina-barbosa-ex-tv-fama-que-sofreu-choque-anafilatico-por-medicacao-1126"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "O que é choque anafilático, causa da morte de Janaína Barbosa?",
-   "fonte": "98FM Curitiba",
-   "url": "https://www.98fmcuritiba.com.br/posts/o-que-e-choque-anafilatico-causa-da-morte-de-janaina-barbosa"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Adeus a Janaína Barbosa, ex-apresentadora do 'TV Fama' aos 48 anos: após morte em decorrência de choque anafilático, família toma decisão sobre velório da jornalista. Saiba o que causa a reação alérgica grave",
-   "fonte": "Purepeople",
-   "url": "https://www.purepeople.com.br/noticia/janaina-barbosa-choque-anafilatico-apos-morte-da-ex-apresentadora-do-tv-fama-saiba-o-que-causa-reacao-alergica-grave-no-corpo-humano-e-como-agir_a426082/1"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Morte de Janaína Barbosa: o que se sabe sobre a reação alérgica fatal",
-   "fonte": "Portal UAI",
-   "url": "https://www.uai.com.br/app/entretenimento/famosos/2026/11/05/not-famosos,394014/morte-de-janaina-barbosa-o-que-se-sabe-sobre-a-reacao-alergica-fatal.shtml"
   }
  ]
 }
