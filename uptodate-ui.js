@@ -27,9 +27,9 @@ function montarItem(item,posicao){
   card.appendChild(titulo);
   if(item.summary)card.appendChild(el('p','',item.summary));
   else card.appendChild(el('p','','Nova atualização identificada no índice oficial. Consulte o conteúdo na fonte antes de alterar condutas.'));
-  var a=el('a','', 'Ler atualização na fonte ↗');
+  var a=el('a','', 'Abrir índice geral de novidades do UpToDate ↗');
   a.href=ORIGEM; a.target='_blank'; a.rel='noopener noreferrer';
-  a.setAttribute('aria-label','Ler no UpToDate: '+(item.title||item.titlePt||'Atualização'));
+  a.setAttribute('aria-label','Abrir índice geral de novidades do UpToDate; não é um link direto para '+(item.title||item.titlePt||'esta atualização'));
   card.appendChild(a);
   return card;
 }
