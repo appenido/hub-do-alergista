@@ -1388,6 +1388,8 @@ _marcarGuiasPagas();
 <link rel="stylesheet" href="scores-desktop.css?v=20261109-2">
 <link rel="stylesheet" href="congresso-banner-destaque.css?v=20261109-8">
 <link rel="stylesheet" href="/quick-access-premium.css?v=20261109-1">
+<link rel="stylesheet" href="antihistaminicos.css?v=20261109-1">
+<script src="antihistaminicos.js?v=20261109-1" defer></script>
 </head>
 <body>
 
@@ -1465,6 +1467,7 @@ window._bloquearApp=function(){};
       <div class="qcard" data-nav="imuno"><div class="qi qi-gold">💉</div><div class="ql">Imunobiológicos</div></div>
       <div class="qcard" data-nav="interacao"><div class="qi qi-teal">⚕️</div><div class="ql">Interações medicamentosas</div></div>
       <div class="qcard" data-nav="imunoglobulinas"><div class="qi qi-navy">💧</div><div class="ql">Imunoglobulinas</div></div>
+      <div class="qcard" data-nav="antihistaminicos"><div class="qi qi-teal">💊</div><div class="ql">Anti-histamínicos</div></div>
       <div class="qcard" data-nav="imunizacoes"><div class="qi qi-green">🛡️</div><div class="ql">Imunizações</div></div>
       <a class="qcard" href="https://portal.cfm.org.br/busca-medicos" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit"><div class="qi qi-green">🏥</div><div class="ql">Consultar CRM</div></a>
       <div class="qcard" data-nav="laboratorio"><div class="qi qi-teal">🧪</div><div class="ql">Laboratório</div></div>
@@ -3524,6 +3527,9 @@ window._bloquearApp=function(){};
     </section>
   </div><!-- /page-imunoglobulinas -->
 
+  <!-- ══ ANTI-HISTAMÍNICOS — CATÁLOGO CLÍNICO ══ -->
+  <div class="page" id="page-antihistaminicos"><section id="ahApp"></section></div>
+
   <!-- ══ IMUNIZAÇÕES (SBIm) ══ -->
   <div class="page" id="page-imunizacoes">
   <style id="vac-menu-proportional">
@@ -4223,6 +4229,7 @@ window._bloquearApp=function(){};
       <div class="guide-card" data-nav="casos" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💬</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Fórum de Discussão</div><div style="font-size:11.5px;color:var(--gray-500)">Discussões por especialidade · área médica restrita</div></div></div></div>
       <div class="guide-card" data-nav="educacao" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🎓</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Educação Continuada</div><div style="font-size:11.5px;color:var(--gray-500)">ASBAI · EAACI Nexus · UCARE LevelUp</div></div></div></div>
       <div class="guide-card" data-nav="imuno" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💉</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Imunobiológicos</div><div style="font-size:11.5px;color:var(--gray-500)">Rol ANS · DUT SUS · Relatórios · 9 biológicos</div></div></div></div>
+      <div class="guide-card" data-nav="antihistaminicos" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💊</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Anti-histamínicos</div><div style="font-size:11.5px;color:var(--gray-500)">1ª e 2ª gerações · apresentações · calculadoras</div></div></div></div>
       <div class="guide-card" data-nav="interacao" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">⚕️</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Interação Medicamentosa</div><div style="font-size:11.5px;color:var(--gray-500)">Verificador clínico · Medscape integrado</div></div></div></div>
       <div class="guide-card" data-nav="favoritos" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🔖</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Favoritos</div><div style="font-size:11.5px;color:var(--gray-500)">Artigos, scores e prompts salvos</div></div></div></div>
     </div>
@@ -7158,7 +7165,7 @@ function labInit(){
   igeRender(); pedRender();
 }
 
-var PAGE_TITLES={laboratorio:'Laboratório',eaaci:'Protocolos de bolso',dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',imunizacoes:'Imunizações',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',scores:'Scores',pacientes:'Pacientes',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Preferências',alergonews:'Alergo News',jornal:'Alergo News',mais:'Mais'};
+var PAGE_TITLES={laboratorio:'Laboratório',eaaci:'Protocolos de bolso',dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',antihistaminicos:'Anti-histamínicos',imunizacoes:'Imunizações',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',scores:'Scores',pacientes:'Pacientes',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Preferências',alergonews:'Alergo News',jornal:'Alergo News',mais:'Mais'};
 
 var _navHistory = ['dashboard'];
 
@@ -7175,6 +7182,7 @@ function navTo(page){
   if(pg)pg.classList.add('active');
   if(page === 'crm' && typeof window.crmInit === 'function') window.crmInit();
   if(page === 'imunizacoes' && typeof window.vacShowHub === 'function') vacShowHub();
+  if(page === 'antihistaminicos' && typeof window.ahInit === 'function') window.ahInit();
   document.querySelectorAll('[data-nav="'+page+'"]').forEach(function(n){n.classList.add('active');});
   window.scrollTo(0,0);
   var sa=document.querySelector('.scroll-area');
@@ -7623,6 +7631,7 @@ var _BUSCA_PAGINAS = [
   ['dashboard','inicio home'],
   ['imuno','imunobiologicos biologicos biologico anti-ige anti-il5 anti-il4 omalizumabe xolair omlyclo dupilumabe dupixent mepolizumabe nucala benralizumabe fasenra tezepelumabe tezspire reslizumabe cinqair ligelizumabe remibrutinibe radar anvisa conitec ans rol dut pcdt bula'],
   ['imunoglobulinas','imunoglobulina gamaglobulina igg reposicao subcutanea endovenosa hizentra hyqvia octagam privigen tegeline flebogamma'],
+  ['antihistaminicos','anti histaminicos anti-h1 antialergico antialergicos primeira segunda geracao dexclorfeniramina polaramine histamin hidroxizina hixizine prometazina fenergan cetotifeno zaditen loratadina claritin desloratadina desalex cetirizina zyrtec levocetirizina zyxem fexofenadina allegra bilastina alektos ebastina ebastel rupatadina rupafin epinastina talerc'],
   ['interacao','interacoes medicamentosas interacao droga farmaco'],
   ['artigos','artigos pubmed publicacoes papers estudos literatura'],
   ['guidelines','guidelines diretrizes consensos gina aaaai eaaci asbai protocolo'],
