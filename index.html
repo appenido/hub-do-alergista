@@ -1201,8 +1201,9 @@ _marcarGuiasPagas();
  #hubShareHome .hub-congress-visual{height:84px;max-width:240px}
  #hubShareHome .hub-congress-brand{align-items:flex-start}
  #hubShareHome .hub-congress-source{text-align:left}
- #hubShareHome .hub-congress-assist-form{flex-direction:row}
- #hubShareHome .hub-congress-assist-form button{width:auto}
+ #hubShareHome .hub-congress-assist-form{flex-direction:column;gap:8px}
+ #hubShareHome .hub-congress-assist-form input{width:100%;min-width:0;min-height:46px;box-sizing:border-box}
+ #hubShareHome .hub-congress-assist-form button{width:100%;min-height:46px}
 }
 @media(max-width:365px){#hubShareHome .hub-congress-assist-form input{font-size:11px}#hubShareHome .hub-congress-assist-form button{padding:8px 9px}}
 </style>
@@ -1437,10 +1438,10 @@ window._bloquearApp=function(){};
       <div class="hub-share-copy">
         <span class="hub-share-eyebrow">53º CONGRESSO BRASILEIRO DE ALERGIA E IMUNOLOGIA · ASBAI 2026</span>
         <h2 id="hubShareHomeTitle">Assistente do Congresso</h2>
-        <p class="hub-congress-prompt">Digite o tema da aula ou o nome do palestrante para encontrar dia, horário e sala.</p>
+        <p class="hub-congress-prompt">Digite um tema ou o nome do palestrante para encontrar o dia, o horário e a sala.</p>
         <div id="hubCongressAssistPanel" class="hub-congress-assist-panel">
           <div class="hub-congress-assist-form">
-            <input id="hubCongressQuestion" name="pesquisa-congresso-tema-2026" type="search" enterkeyhint="search" autocomplete="one-time-code" autocapitalize="off" spellcheck="false" placeholder="Digite um tema ou palestrante" aria-label="Pesquisar programação por tema ou palestrante">
+            <input id="hubCongressQuestion" name="pesquisa-congresso-tema-2026" type="search" enterkeyhint="search" autocomplete="one-time-code" autocapitalize="off" spellcheck="false" placeholder="Digite um tema ou nome do palestrante" aria-label="Pesquisar a programação por tema ou nome do palestrante">
             <button type="button" onclick="hubCongressAsk()">Buscar</button>
           </div>
           <div id="hubCongressAssistStatus" class="hub-congress-assist-status" role="status" aria-live="polite"></div>
