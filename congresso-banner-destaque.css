@@ -1,0 +1,171 @@
+/* 53º Congresso ASBAI: destaque editorial na Home.
+   Banner oficial maior e posicionado no alto, à esquerda da busca. */
+#hubShareHome.hub-congress-assistant-home {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 41fr) minmax(0, 59fr);
+  align-items: start;
+  gap: clamp(18px, 2.5vw, 36px);
+  padding: clamp(17px, 1.7vw, 26px);
+  border-left: 6px solid var(--teal-mid);
+  background: linear-gradient(110deg, #edf8fb 0%, #f8fcfd 43%, #fff 100%);
+  box-shadow: 0 5px 20px rgba(13,31,45,.09);
+}
+#hubShareHome .hub-congress-brand {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  justify-self: stretch;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  align-items: stretch;
+  text-decoration: none;
+}
+#hubShareHome .hub-congress-visual {
+  width: 100%;
+  max-width: none !important;
+  height: auto !important;
+  min-height: 0;
+  aspect-ratio: 2.25 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  border: 2px solid #c8dce5;
+  background: #f9fcff;
+  box-shadow: 0 5px 17px rgba(13,31,45,.11);
+  overflow: hidden;
+}
+#hubShareHome .hub-congress-visual img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+}
+#hubShareHome .hub-congress-source {
+  display: block;
+  align-self: flex-start;
+  text-align: left !important;
+  color: #246782;
+  font: 700 12px/1.4 Manrope,sans-serif;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+#hubShareHome .hub-congress-brand:hover .hub-congress-visual,
+#hubShareHome .hub-congress-brand:focus-visible .hub-congress-visual {
+  border-color: var(--gold);
+  box-shadow: 0 7px 22px rgba(13,31,45,.17);
+}
+#hubShareHome .hub-congress-brand:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+#hubShareHome .hub-share-copy {
+  grid-column: 2;
+  grid-row: 1;
+  width: 100%;
+  min-width: 0;
+  align-self: start;
+  padding-top: 4px;
+}
+#hubShareHome .hub-share-eyebrow {
+  font-size: clamp(11px, .8vw, 14px);
+  line-height: 1.4;
+}
+#hubShareHome .hub-congress-prompt {
+  line-height: 1.55;
+}
+#hubShareHome .hub-congress-assist-form {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 9px;
+  width: 100%;
+  min-width: 0;
+}
+#hubShareHome .hub-congress-assist-form input {
+  flex: 1 1 0;
+  width: 100%;
+  min-width: 0;
+}
+#hubShareHome .hub-congress-assist-form button {
+  flex: 0 0 auto;
+  min-width: 90px;
+}
+#hubShareHome .hub-congress-text-fallback {
+  color: #fff;
+  background: #102045;
+  width: 100%;
+  height: 100%;
+  align-content: center;
+  font-size: clamp(15px, 1.45vw, 22px);
+  line-height: 1.4;
+}
+@media (min-width: 1440px) {
+  #hubShareHome.hub-congress-assistant-home {
+    grid-template-columns: minmax(0, 43fr) minmax(0, 57fr);
+  }
+  #hubShareHome .hub-congress-visual {
+    border-radius: 16px;
+  }
+}
+@media (max-width: 1023px) {
+  #hubShareHome.hub-congress-assistant-home {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+  #hubShareHome .hub-congress-brand {
+    grid-column: 1;
+    grid-row: 1;
+    width: min(100%, 630px);
+    justify-self: start;
+    align-items: stretch;
+  }
+  #hubShareHome .hub-congress-visual {
+    width: 100%;
+    max-width: none !important;
+    height: auto !important;
+    aspect-ratio: 2.25 / 1;
+    min-height: 0;
+  }
+  #hubShareHome .hub-share-copy {
+    grid-column: 1;
+    grid-row: 2;
+    padding-top: 0;
+  }
+}
+@media (max-width: 620px) {
+  #hubShareHome.hub-congress-assistant-home {
+    padding: 14px;
+    gap: 12px;
+  }
+  #hubShareHome .hub-congress-brand {
+    width: 100%;
+    max-width: none;
+  }
+  #hubShareHome .hub-congress-visual {
+    aspect-ratio: 2.25 / 1;
+    border-radius: 11px;
+  }
+  #hubShareHome .hub-congress-source {
+    font-size: 11px;
+  }
+  #hubShareHome .hub-congress-assist-form button {
+    min-width: 72px;
+  }
+}
+@media (max-width: 370px) {
+  #hubShareHome .hub-congress-assist-form {
+    gap: 6px;
+  }
+  #hubShareHome .hub-congress-assist-form button {
+    min-width: 66px;
+    padding: 8px 9px;
+  }
+}
