@@ -764,9 +764,15 @@ _marcarGuiasPagas();
 .bio-grid .bio-new,.bio-grid .bio-norol{display:inline-block;margin:4px 0 0;}
 .bio-grid .bio-card.open .bio-header{background:rgba(59,191,204,.07);}
 .bio-grid-detail{
-  grid-column:1 / -1;min-width:0;background:#fff;
+  grid-column:1 / -1;min-width:0;width:100%;box-sizing:border-box;background:#fff;
   border:1px solid var(--gray-100);border-radius:14px;overflow:hidden;
+  align-self:start;scroll-margin-top:72px;
 }
+/* Impede que a ancoragem automática do navegador desloque a tela ao
+   mover a ficha de um imunobiológico entre as linhas do painel. */
+#page-imuno .bio-grid{overflow-anchor:none;}
+#page-imuno .bio-grid .bio-card{overflow-anchor:none;}
+#page-imuno .bio-grid-detail{overflow-anchor:none;}
 .bio-grid-detail > .bio-body{display:block;border-top:0;}
 @media(min-width:560px){.bio-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
 @media(min-width:860px){.bio-grid{grid-template-columns:repeat(4,minmax(0,1fr));}}
@@ -8142,13 +8148,16 @@ function fecharBioDetalhe() {
   if(!_bioDetalheAtivo) return;
   var atual = _bioDetalheAtivo;
   _bioDetalheAtivo = null;
-  if(atual.marcador.parentNode) atual.marcador.replaceWith(atual.body);
-  else atual.card.appendChild(atual.body);
+  // Primeiro fechar o cartão. Antes, a ficha era recolocada enquanto o
+  // cartão ainda tinha a classe "open", expandindo-o temporariamente e
+  // podendo causar um salto vertical no navegador do celular.
   atual.card.classList.remove('open');
   if(atual.header){
     atual.header.setAttribute('aria-expanded','false');
     atual.header.removeAttribute('aria-controls');
   }
+  if(atual.marcador.parentNode) atual.marcador.replaceWith(atual.body);
+  else atual.card.appendChild(atual.body);
   atual.painel.remove();
 }
 
@@ -8161,6 +8170,32 @@ function posicionarBioDetalhe() {
   var colunas = getComputedStyle(atual.grid).gridTemplateColumns.trim().split(/\s+/).length || 1;
   var ultimaColuna = Math.min(cards.length - 1, Math.ceil((indice + 1) / colunas) * colunas - 1);
   cards[ultimaColuna].after(atual.painel);
+}
+
+function capturarPosicaoBio(card) {
+  var header=card.querySelector('.bio-header')||card;
+  var pai=card.parentElement,rolador=null;
+  while(pai && pai!==document.body && pai!==document.documentElement){
+    var estilo=getComputedStyle(pai);
+    if(/(auto|scroll)/.test(estilo.overflowY) && pai.scrollHeight>pai.clientHeight+2){
+      rolador=pai;break;
+    }
+    pai=pai.parentElement;
+  }
+  return {header:header,top:header.getBoundingClientRect().top,rolador:rolador};
+}
+function preservarPosicaoBio(posicao) {
+  if(!posicao||!posicao.header.isConnected)return;
+  var diferenca=posicao.header.getBoundingClientRect().top-posicao.top;
+  if(Math.abs(diferenca)<1)return;
+  if(posicao.rolador) posicao.rolador.scrollTop+=diferenca;
+  else window.scrollTo({top:Math.max(0,window.scrollY+diferenca),left:window.scrollX,behavior:'instant'});
+}
+function preservarBioAposLayout(posicao) {
+  // Reposicionar sem animação apenas o suficiente para manter o cartão
+  // clicado no mesmo lugar; nunca ir ao rodapé do aplicativo.
+  preservarPosicaoBio(posicao);
+  requestAnimationFrame(function(){preservarPosicaoBio(posicao);});
 }
 
 function toggleBio(id) {
@@ -8176,8 +8211,10 @@ function toggleBio(id) {
   }
   var card = document.getElementById('bio-' + id);
   if(!card) return;
+  var posicao=capturarPosicaoBio(card);
   if(_bioDetalheAtivo && _bioDetalheAtivo.card === card){
     fecharBioDetalhe();
+    preservarBioAposLayout(posicao);
     return;
   }
   fecharBioDetalhe();
@@ -8187,6 +8224,7 @@ function toggleBio(id) {
     card.classList.toggle('open');
     var cabecalho = card.querySelector('.bio-header');
     if(cabecalho) cabecalho.setAttribute('aria-expanded',card.classList.contains('open') ? 'true' : 'false');
+    preservarBioAposLayout(posicao);
     return;
   }
   var body = card.querySelector(':scope > .bio-body');
@@ -8207,6 +8245,7 @@ function toggleBio(id) {
   }
   _bioDetalheAtivo = { card:card, body:body, header:header, painel:painel, marcador:marcador, grid:grid };
   posicionarBioDetalhe();
+  preservarBioAposLayout(posicao);
 }
 
 window.addEventListener('resize',posicionarBioDetalhe);
