@@ -158,3 +158,139 @@ html {
     scroll-behavior: auto;
   }
 }
+
+
+/* Desktop confortável: Windows, macOS, notebooks e monitores.
+   Escala real de componentes, não apenas alteração do zoom do navegador. */
+@media (min-width: 1024px) {
+  :root { --topbar-h: 70px; }
+  body {
+    max-width: min(100%, 1760px);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  .topbar {
+    gap: 16px;
+    padding: 0 24px;
+  }
+  .tb-name { font-size: 20px; }
+  .tb-icon { width: 39px; height: 39px; }
+  .tb-back, .tb-bell, .tb-user {
+    width: 44px;
+    height: 44px;
+    font-size: 19px;
+  }
+  .tb-search {
+    min-height: 46px;
+    padding: 10px 15px;
+  }
+  .tb-search input { font-size: 16px; }
+  .scroll-area { padding-bottom: 48px; }
+  .sec-hdr { padding: 24px 24px 14px; }
+  .sec-hdr h2 { font-size: 20px; gap: 10px; }
+  .sec-hdr h2::before { height: 22px; width: 4px; }
+  .see-all { font-size: 15px; }
+  .padded { padding-left: 24px; padding-right: 24px; }
+  .nav-section-lbl { padding: 20px 24px 9px; font-size: 13px; }
+  .quick-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+    padding: 0 24px;
+  }
+  .qcard {
+    min-height: 150px;
+    padding: 18px 12px;
+    gap: 12px;
+    border-radius: 16px;
+  }
+  .qi {
+    width: 55px;
+    height: 55px;
+    border-radius: 14px;
+    font-size: 27px;
+  }
+  .ql {
+    font-size: 15.5px;
+    line-height: 1.4;
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+  }
+  .score-grid {
+    gap: 15px;
+    padding: 0 24px;
+  }
+  .score-grid .score-pill { padding: 18px 20px; gap: 11px; }
+  .score-grid .sp-name { font-size: 23px; }
+  .sp-desc { font-size: 14px; line-height: 1.5; }
+  .sp-btn { font-size: 14px; padding: 12px; }
+  .hscroll, .filter-chips { gap: 10px; padding-left: 24px; padding-right: 24px; }
+  .fchip { font-size: 14px; padding: 10px 17px; }
+  .art-card { padding: 22px 24px; gap: 12px; }
+  .art-title-pt { font-size: 17px; }
+  .art-title { font-size: 15px; }
+  .art-body, .art-why, .art-footer { font-size: 14px; line-height: 1.65; }
+  .bio-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 0 24px 24px;
+    gap: 16px;
+  }
+  .bio-grid .bio-header { gap: 12px; padding: 20px 16px; }
+  .bio-grid .bio-icon { width: 54px; height: 54px; font-size: 25px; }
+  .bio-grid .bio-name { font-size: 17px; line-height: 1.35; }
+  .bio-grid .bio-comercial { font-size: 13px; line-height: 1.4; }
+  .bio-section { padding: 16px 20px; }
+  .bio-label { font-size: 12px; }
+  .bio-value { font-size: 15px; line-height: 1.65; }
+  .bio-value ul li { font-size: 14px; }
+  .igcalc-shell { max-width: 1320px; padding: 26px 24px 36px; }
+  .igcalc-header h2 { font-size: 23px; }
+  .igcalc-header p { font-size: 15px; }
+  .igcat-grid { gap: 14px; }
+  .igcat-item > .igcat-card { min-height: 110px; }
+  .igcat-name { font-size: 17px; }
+  .igmain-controls { padding: 20px; gap: 18px; }
+  .igmain-controls p { font-size: 14px; }
+  .igcalc-section { padding: 19px; }
+  .igcalc-section li { font-size: 14px; }
+  .igcalc-table { font-size: 14px; }
+  .igcalc-table th, .igcalc-table td { padding: 10px 12px; }
+  .igcalc-refs { font-size: 13px; }
+  .hub-share-home { margin: 16px 24px 12px; padding: 18px 23px; }
+  #hubShareHome .hub-share-eyebrow { font-size: 12px; }
+  #hubShareHome h2 { font-size: 21px; }
+  #hubShareHome .hub-congress-prompt { font-size: 14px; }
+  #hubShareHome .hub-congress-assist-form input { font-size: 15px; min-height: 46px; }
+  #hubShareHome .hub-congress-assist-form button { font-size: 14px; min-height: 46px; padding: 10px 18px; }
+  #hubShareHome .hub-congress-assist-status,
+  #hubShareHome .hub-share-disclaimer { font-size: 12px; }
+  .alert-bar { margin-left: 24px; margin-right: 24px; padding: 17px 19px; }
+  .news-masthead { flex-basis: 145px; }
+  .news-brand { font-size: 21px; }
+  .alert-bar-text { font-size: 15px; }
+  .modal { width: min(100%, 920px); padding: 28px; }
+  .modal-hdr { font-size: 18px; }
+  input, select, textarea, button { line-height: normal; }
+}
+@media (min-width: 1440px) {
+  .quick-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .bio-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (min-width: 1740px) {
+  .quick-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+}
+/* Melhor leitura e campo de busca limpo no assistente do congresso. */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+#hubCongressAssistStatus:empty { display: none; }
+#hubShareHome .hub-congress-assist-form { align-items: stretch; gap: 9px; }
+#hubShareHome .hub-congress-assist-panel { padding-top: 7px; }
+#hubShareHome .hub-share-disclaimer { display: block; margin-top: 10px; }
