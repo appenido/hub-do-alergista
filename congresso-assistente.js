@@ -168,6 +168,7 @@ function relevance(x,tokens,phrase){
   if(mm.includes(term))w=Math.max(w,7);
   if(gg.includes(term))w=Math.max(w,4);
  } if(w){score+=w;hit++;}}
+ if(tokens.length>=3&&hit<Math.min(3,Math.ceil(tokens.length*0.6)))return 0;
  if(hit===tokens.length&&tokens.length>1)score+=15;
  if(phrase.length>3&&(tt.includes(phrase)||ss.includes(phrase)))score+=20;
  return hit?score:0;
