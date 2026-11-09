@@ -7013,7 +7013,7 @@ function _hubSubAberta(prefix, nomes){
 }
 function _hubTela(){
   var p=_paginaAtual();
-  var camadas=_camadasAbertas().map(function(el){return el.id;}).filter(Boolean);
+  var camadas=_camadasAbertas().map(function(el){return el.id;}).filter(function(id){return !!id && id!=='authScreen';});
   var fav = p==='favoritos' ? document.querySelector('#page-favoritos [data-fav-open][aria-expanded="true"]') : null;
   var protocolo = p==='eaaci' ? document.querySelector('#page-eaaci .eaaci-card.sel[id]') : null;
   var calendario = p==='imunizacoes' ? document.querySelector('#vacCalendariosLista [data-cal-id][aria-pressed="true"]') : null;
@@ -7108,6 +7108,7 @@ function _hubRestaurar(t){
       }
     }
     _camadasAbertas().forEach(function(el){
+      if(el.id==='authScreen')return; // Autenticação não é uma etapa de navegação clínica.
       if(t.camadas.indexOf(el.id)<0){
         if(el.id==='pedDrawer' && typeof pedFechar==='function')pedFechar();
         else if(el.id==='authScreen')el.style.display='none';
