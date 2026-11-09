@@ -4970,6 +4970,7 @@ function vacShowSub(sub){
   if(sub==='novo'){
     var o=document.getElementById('vacSaida'); if(o){o.style.display='none';o.innerHTML='';}
   }
+  if(typeof _hubRegistrar==='function')_hubRegistrar(true);
 }
 
 
@@ -5518,6 +5519,7 @@ function igShowSub(sub){
   if(sub==='bulas') igRenderBulas();
   var fab=document.getElementById('igChatFab');
   if(fab) fab.style.display=(sub==='infusao')?'flex':'none';
+  if(typeof _hubRegistrar==='function')_hubRegistrar(true);
 }
 function igRenderBulas(){
   var iv=document.getElementById('ig-bulas-iv');
@@ -6988,7 +6990,7 @@ function navTo(page){
   if(page === 'mais')      { try{ _atualizarInfoUsuario(); }catch(e){} }
   if(page === 'laboratorio'){ try{ labInit(); }catch(e){} }
   if(page !== 'laboratorio'){ try{ pedFechar(); }catch(e){} }
-  if(_paginaAntes !== page && typeof _hubAgendar==='function')_hubAgendar(true);
+  if(_paginaAntes !== page && typeof _hubRegistrar==='function')_hubRegistrar(true);
 }
 
 // Histórico de telas do Hub: o Voltar do Android/PWA e os botões internos
@@ -6999,6 +7001,11 @@ var _hubScreens = [];
 var _hubRestaurando = false;
 var _hubAgenda = null;
 var _hubForcarNovo = false;
+var _hubNavSession = String(Date.now()) + '-' + Math.random().toString(36).slice(2);
+var _hubNavId = 0;
+var _hubNavNextId = 0;
+var _hubNavNodes = Object.create(null);
+var _hubPendingBrowserBack = false;
 
 function _paginaAtual(){
   var at = document.querySelector('.page.active');
@@ -7057,20 +7064,36 @@ function _hubLembrarRolagem(){
   if(_hubRestaurando || !_hubScreens.length)return;
   _hubScreens[_hubScreens.length-1].rolagem=window.scrollY || 0;
 }
+function _hubRecriarPilha(id){
+  var caminho=[], visto=Object.create(null), atual=id;
+  while(_hubNavNodes[atual] && !visto[atual] && caminho.length<120){
+    visto[atual]=true;
+    caminho.push(_hubNavNodes[atual].tela);
+    atual=_hubNavNodes[atual].pai;
+  }
+  if(caminho.length)_hubScreens=caminho.reverse();
+}
 function _hubRegistrar(forcar){
-  if(_hubRestaurando)return;
+  if(_hubRestaurando || _hubPendingBrowserBack)return;
   var atual=_hubTela();
   if(!_hubScreens.length){_hubScreens.push(atual);return;}
   var ultima=_hubScreens[_hubScreens.length-1];
   if(_hubChave(ultima)===_hubChave(atual))return;
   var anterior=_hubScreens.length>1 ? _hubScreens[_hubScreens.length-2] : null;
-  // Ao fechar uma janela ou usar a seta interna, não cria uma etapa inversa.
-  if(!forcar && anterior && _hubChave(anterior)===_hubChave(atual)){
-    _hubScreens.pop();
-    return;
+  // Um fechamento explícito equivale a uma etapa de voltar.
+  if(!forcar && anterior && _hubChave(anterior)===_hubChave(atual) && _hubNavId>0){
+    _hubPendingBrowserBack=true;
+    try{history.back();return;}catch(e){_hubPendingBrowserBack=false;}
   }
   _hubScreens.push(atual);
   if(_hubScreens.length>120)_hubScreens.shift();
+  // Entrada real do histórico para botão/gesto físico do Android e PWA.
+  var id=++_hubNavNextId;
+  _hubNavNodes[id]={pai:_hubNavId,tela:atual};
+  try{
+    history.pushState({hubNav:{sessao:_hubNavSession,id:id}},'');
+    _hubNavId=id;
+  }catch(e){}
 }
 function _hubAgendar(forcar){
   if(_hubRestaurando)return;
@@ -7150,22 +7173,35 @@ function _hubRestaurar(t){
     if(typeof window._atualizarSetaCamada==='function')window._atualizarSetaCamada();
   },0);
 }
-function _hubVoltar(){
+function _hubEsvaziarAgenda(){
   if(_hubAgenda!==null){
     clearTimeout(_hubAgenda);_hubAgenda=null;
     var forcar=_hubForcarNovo;_hubForcarNovo=false;
     _hubRegistrar(forcar);
   } else _hubRegistrar(false);
+}
+function _hubVoltar(){
+  _hubEsvaziarAgenda();
+  if(_hubPendingBrowserBack)return true;
+  // Navegação física e seta do Hub utilizam a mesma entrada de histórico.
+  if(_hubNavId>0 && _hubScreens.length>1){
+    _hubPendingBrowserBack=true;
+    try{history.back();return true;}catch(e){_hubPendingBrowserBack=false;}
+  }
   if(_hubScreens.length>1){
     _hubScreens.pop();
     _hubRestaurar(_hubScreens[_hubScreens.length-1]);
     return true;
   }
-  if(_fecharCamadaAberta()){_hubAgendar(false);return true;}
-  return false;
-}
-function _pushSentinela(){
-  try{history.pushState({hubBack:1},'');}catch(e){}
+  if(_paginaAtual()!=='dashboard'){
+    var inicio=_hubNavNodes[0]&&_hubNavNodes[0].tela;
+    _hubRestaurar(inicio&&inicio.pagina==='dashboard'?inicio:{
+      pagina:'dashboard',sub:'',camadas:[],bio:[],protocolo:'',favorito:'',
+      calFonte:'sbim',calendario:'',rolagem:0
+    });
+    return true;
+  }
+  return _fecharCamadaAberta();
 }
 function voltarApp(ev){
   if(ev && ev.preventDefault)ev.preventDefault();
@@ -7175,9 +7211,17 @@ window.voltarApp=voltarApp;
 var _tbBack=document.getElementById('tbBack');
 if(_tbBack)_tbBack.addEventListener('click',voltarApp);
 
-// Captura alterações de tela feitas por módulos internos (sem alterar filtros,
-// resultados clínicos, dados digitados ou o armazenamento de pacientes).
-_hubScreens.push(_hubTela());
+// A entrada inicial representa a Home; cada tela seguinte possui histórico real.
+var _hubInicial=_hubTela();
+_hubScreens.push(_hubInicial);
+_hubNavNodes[0]={pai:null,tela:_hubInicial};
+try{
+  var _hubOldState=history.state&&typeof history.state==='object'?history.state:{};
+  history.replaceState(Object.assign({},_hubOldState,{
+    hubNav:{sessao:_hubNavSession,id:0}
+  }),'');
+}catch(e){}
+
 document.addEventListener('click',function(){_hubAgendar(false);},true);
 document.addEventListener('keydown',function(e){
   if(e.key==='Enter'||e.key===' ')_hubAgendar(false);
@@ -7185,10 +7229,24 @@ document.addEventListener('keydown',function(e){
 new MutationObserver(function(){_hubAgendar(false);})
   .observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','style','aria-expanded','open']});
 
-_pushSentinela();
-window.addEventListener('popstate',function(){
-  if(_hubVoltar())_pushSentinela();
-  // Sem telas anteriores: permite o comportamento normal de sair do app.
+window.addEventListener('popstate',function(event){
+  var destino=event.state&&event.state.hubNav;
+  _hubPendingBrowserBack=false;
+  if(destino && destino.sessao===_hubNavSession && _hubNavNodes[destino.id]){
+    _hubNavId=destino.id;
+    _hubRecriarPilha(destino.id);
+    _hubRestaurar(_hubNavNodes[destino.id].tela);
+    return;
+  }
+  // Fallback se o navegador retornar a estado externo enquanto houver tela interna.
+  if(_hubScreens.length>1){
+    _hubScreens.pop();
+    var anterior=_hubScreens[_hubScreens.length-1];
+    _hubRestaurar(anterior);
+    var id=++_hubNavNextId;
+    _hubNavNodes[id]={pai:0,tela:anterior};
+    try{history.pushState({hubNav:{sessao:_hubNavSession,id:id}},'');_hubNavId=id;}catch(e){}
+  }
 });
 
 /* ══ Seta ‹ flutuante para camadas que não têm botão próprio ══ */
