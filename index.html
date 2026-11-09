@@ -4801,7 +4801,7 @@ function _enderecoPreencher(u){
 }
 
 /* ── Seletor visual de imunoglobulina ───────────── */
-var IG_MARCA = {csl:['CSL','#b0181f'],octa:['OCTAPHARMA','#0b4f9e'],takeda:['TAKEDA','#b2122d'],grifols:['GRIFOLS','#0a6b5a'],lfb:['LFB','#1d3f8f'],baxter:['BAXTER','#1f5fa8'],kedrion:['KEDRION','#117a5b']};
+var IG_MARCA = {csl:['CSL','#b0181f'],octa:['OCTAPHARMA','#0b4f9e'],takeda:['TAKEDA','#b2122d'],grifols:['GRIFOLS','#0a6b5a'],lfb:['LFB','#1d3f8f'],baxter:['BAXTER','#1f5fa8'],kedrion:['KEDRION','#117a5b'],blau:['BLAU','#25608a']};
 var IG_PRODUTOS = {
   privigen_10:   {nome:'Privigen 10%',   conc:'10%',   via:'IV', mL:[50]},
   octagam_10:    {nome:'Octagam 10%',    conc:'10%',   via:'IV', mL:[20,50,100,200,500]},
@@ -4814,15 +4814,37 @@ var IG_PRODUTOS = {
   hizentra_20:   {nome:'Hizentra 20%',   conc:'20%',   via:'SC', mL:[5,10,20,50]},
   cuvitru_20:    {nome:'Cuvitru 20%',    conc:'20%',   via:'SC', mL:[10,20,50]},
   hyqvia_10:     {nome:'HyQvia 10%',     conc:'10%',   via:'SC', mL:[50]},
+  imunoglobulin_5:{nome:'Imunoglobulin 5%',conc:'5%',via:'IV',mL:[100]},
+  igvena_5:      {nome:'Ig Vena 5%',conc:'5%',via:'IV',mL:[100]},
   gammanorm_165: {nome:'Gammanorm 16,5%',conc:'16.5%', via:'SC', mL:[10,20,50]}
 };
 var IG_LOGO_IMG = {csl:'img/csl.png',takeda:'img/takeda.png',octa:'img/octa.png',grifols:'img/grifols.png',kedrion:'img/kedrion.png',baxter:'img/baxter.png',lfb:'img/lfb.png'};
-var IG_LOGO = {privigen_10:'csl',octagam_10:'octa',kiovig_10:'takeda',flebogamma_10:'grifols',tegeline_5:'lfb',endobulin_5:'baxter',gammaked_10:'grifols',gamunex_10:'grifols',hizentra_20:'csl',cuvitru_20:'takeda',hyqvia_10:'takeda',gammanorm_165:'octa'};
+var IG_LOGO = {privigen_10:'csl',octagam_10:'octa',kiovig_10:'takeda',flebogamma_10:'grifols',tegeline_5:'lfb',endobulin_5:'baxter',gammaked_10:'grifols',gamunex_10:'grifols',hizentra_20:'csl',cuvitru_20:'takeda',hyqvia_10:'takeda',gammanorm_165:'octa',imunoglobulin_5:'blau',igvena_5:'kedrion'};
 var IG_FABRICANTE = {privigen_10:'CSL Behring',octagam_10:'Octapharma',kiovig_10:'Takeda',flebogamma_10:'Grifols',
   tegeline_5:'LFB · SUS',endobulin_5:'Baxter',gammaked_10:'Grifols/Kedrion',gamunex_10:'Grifols',
-  hizentra_20:'CSL Behring',cuvitru_20:'Takeda',hyqvia_10:'Takeda · c/ hialuronidase',gammanorm_165:'Octapharma'};
+  hizentra_20:'CSL Behring',cuvitru_20:'Takeda',hyqvia_10:'Takeda · c/ hialuronidase',gammanorm_165:'Octapharma',imunoglobulin_5:'Blau Farmacêutica',igvena_5:'Kedrion Brasil'};
 // ── IG HUB ──
 var IG_BULAS = {
+  imunoglobulin_5:{
+    nome:'Imunoglobulin 5%',fab:'Blau Farmacêutica',conc:'5%',via:'IV',
+    frascos:'5 g/100 mL — apresentação considerada no Hub (50 mg/mL)',
+    conservacao:'Refrigerar entre 2 e 8 °C. Não congelar. Verificar aspecto antes de administrar.',
+    ini:'0,01 mL/kg/min (0,6 mL/kg/h); após 15–30 minutos, se tolerado: 0,02 mL/kg/min (1,2 mL/kg/h).',
+    max:'Aumento gradual geralmente tolerado para 0,03–0,06 mL/kg/min (1,8–3,6 mL/kg/h). Não constitui teto ou meta automática para todos.',
+    pre:'Sem pré-medicação universal obrigatória; considerar histórico de reação e protocolo assistencial.',
+    obs:'Maltose 100 mg/mL; IgA menor que 100 µg/mL. Atenção ao risco renal e à interferência da maltose em métodos de glicemia. Fonte: bula profissional da Blau, seção 8.',
+    anvisa:'1.1637.0044 — registro ativo em bases regulatórias 2026 (validade 09/2035); confirmar no portal Anvisa.'
+  },
+  igvena_5:{
+    nome:'Ig Vena 5%',fab:'Kedrion Brasil',conc:'5%',via:'IV',
+    frascos:'5 g/100 mL — apresentação considerada no Hub (50 mg/mL)',
+    conservacao:'Refrigerar entre 2 e 8 °C. Não congelar. Manter no cartucho.',
+    ini:'0,46–0,92 mL/kg/h por 20–30 minutos; aumentar gradualmente se tolerado.',
+    max:'Habitual: até 1,85 mL/kg/h. Exclusivamente em DIP bem tolerada, bula admite 2 → 4 → até 6 mL/kg/h, a cada 20–30 minutos. Em crianças e idosos, observar limite específico de 1,85 mL/kg/h.',
+    pre:'Sem pré-medicação universal obrigatória; avaliar reações prévias, riscos e tolerância.',
+    obs:'Maltose 100 mg/mL, sódio 3 mmol/L, IgA até 50 µg/mL; risco de resultados falsamente elevados de glicemia com métodos GDH-PQQ e relacionados por aproximadamente 15 horas. Fonte: bula profissional aprovada em 15/09/2023, seções 5, 6 e 8.',
+    anvisa:'1.7577.0002 — registro ativo em bases regulatórias 2026 (validade 08/2029); confirmar no portal Anvisa.'
+  },
   privigen_10:{nome:'Privigen 10%',fab:'CSL Behring',conc:'10%',via:'IV',frascos:'5 g (50 mL) — apresentação usada no Hub',conservacao:'2–8 °C. Não congelar.',ini:'0,3 mL/kg/h por ~30 min; aumento gradual se tolerado (30 min por etapa é sugestão operacional)',max:'4,8 mL/kg/h',pre:'Não requer pré-medicação de rotina',obs:'Sem sacarose. Osmolalidade ~320 mOsm/kg.',anvisa:'MS-7.3.39.001.1-0476'},
   octagam_10:{nome:'Octagam 10%',fab:'Octapharma',conc:'10%',via:'IV',frascos:'20, 50, 100, 200, 500 mL',conservacao:'2–8 °C; até 25 °C por 18 meses.',ini:'Conferir bula brasileira da apresentação e fase terapêutica antes de programar a bomba',max:'Aguardando validação da velocidade por bula',pre:'Não requer pré-medicação de rotina',obs:'Contém maltose — interferência em glicosímetros. Alertar equipe.',anvisa:'MS-7.3.39.001.1-0182'},
   kiovig_10:{nome:'Kiovig 10%',fab:'Takeda',conc:'10%',via:'IV',frascos:'10, 25, 50, 100, 200, 400 mL',conservacao:'Até 25 °C. Não congelar.',ini:'Conferir bula brasileira da apresentação e fase terapêutica antes de programar a bomba',max:'Aguardando validação da velocidade por bula',pre:'Não requer pré-medicação de rotina',obs:'Sem sacarose/maltose/glicose. pH 4,6–5,1. Baixa viscosidade.',anvisa:'MS-7.3.39.001.1-0425'},
@@ -10811,7 +10833,7 @@ function chatToggle(){
 <script src="lgpd-runtime.js?v=20261104-8"></script>
 <script src="calendarios-imunizacoes.js?v=20261109-8"></script>
 <script src="uptodate-ui.js?v=20261105-2"></script>
-<script src="imunoglobulinas-calculadora.js?v=20261109-1"></script>
+<script src="imunoglobulinas-calculadora.js?v=20261109-6"></script>
 <!-- Questionários QR: criptografia da sessão na função Edge, resposta temporária por Realtime -->
 <script src="/qrcode.min.js?v=20261108-1"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.91.0" referrerpolicy="no-referrer"></script>
