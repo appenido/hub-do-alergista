@@ -7041,17 +7041,17 @@ function _hubTela(){
   var camadas=_camadasAbertas().map(function(el){return el.id;}).filter(function(id){return !!id && id!=='authScreen';});
   var fav = p==='favoritos' ? document.querySelector('#page-favoritos [data-fav-open][aria-expanded="true"]') : null;
   var protocolo = p==='eaaci' ? document.querySelector('#page-eaaci .eaaci-card.sel[id]') : null;
-  var calendario = p==='imunizacoes' ? document.querySelector('#vacCalendariosLista [data-cal-id][aria-pressed="true"]') : null;
+  var calendario = p==='imunizacoes' ? document.querySelector('#vacCalendariosLista [data-native-id][aria-pressed="true"]') : null;
   return {
     pagina:p,
-    sub:p==='imunizacoes' ? _hubSubAberta('vac-sub-',['novo','vacinas','atraso','calendarios'])
+    sub:p==='imunizacoes' ? _hubSubAberta('vac-sub-',['calendarios','novo','vacinas','atraso'])
        :p==='imunoglobulinas' ? _hubSubAberta('ig-sub-',['infusao','bulas']) : '',
     camadas:camadas,
     bio:p==='imuno' ? Array.from(document.querySelectorAll('#page-imuno .bio-card.open[id]')).map(function(el){return el.id;}) : [],
     protocolo:protocolo ? protocolo.id : '',
     favorito:fav ? fav.getAttribute('data-fav-open') : '',
-    calFonte:p==='imunizacoes' && document.getElementById('vacCalTabPNI') && document.getElementById('vacCalTabPNI').classList.contains('ativo') ? 'pni' : 'sbim',
-    calendario:calendario ? calendario.getAttribute('data-cal-id') : '',
+    calFonte:p==='imunizacoes' && document.getElementById('vac-sub-calendarios') && document.getElementById('vac-sub-calendarios').dataset.fonte==='pni' ? 'pni' : 'sbim',
+    calendario:calendario ? calendario.getAttribute('data-native-id') : '',
     rolagem:window.scrollY || 0
   };
 }
@@ -7115,7 +7115,7 @@ function _hubRestaurar(t){
       else if(t.sub==='calendarios' && typeof window.vacAbrirCalendarios==='function'){
         window.vacAbrirCalendarios(t.calFonte);
         if(t.calendario){
-          var cal=Array.from(document.querySelectorAll('#vacCalendariosLista [data-cal-id]')).find(function(el){return el.getAttribute('data-cal-id')===t.calendario;});
+          var cal=Array.from(document.querySelectorAll('#vacCalendariosLista [data-native-id]')).find(function(el){return el.getAttribute('data-native-id')===t.calendario;});
           if(cal)cal.click();
         }
       } else vacShowSub(t.sub);
@@ -10681,7 +10681,7 @@ function chatToggle(){
 })();
 </script>
 <script src="lgpd-runtime.js?v=20261104-8"></script>
-<script src="calendarios-imunizacoes.js?v=20261109-6"></script>
+<script src="calendarios-imunizacoes.js?v=20261109-7"></script>
 <script src="uptodate-ui.js?v=20261105-2"></script>
 <script src="imunoglobulinas-calculadora.js?v=20261105-4"></script>
 <!-- Questionários QR: criptografia da sessão na função Edge, resposta temporária por Realtime -->
