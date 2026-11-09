@@ -14,12 +14,17 @@ function salvar(opcao){try{localStorage.setItem(CHOICE_KEY,opcao);}catch(_){}}
 function pagina(){const el=D.querySelector('.page.active');return (el?.id||'page-dashboard').replace(/^page-/,'').replace(/[^a-zA-Z0-9_.:-]/g,'').slice(0,64)||'dashboard';}
 function tela(){return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true?'PWA':'navegador';}
 function tamanho(){return innerWidth<640?'pequena':innerWidth<1100?'media':'grande';}
+function referencia(){
+  try{if(!document.referrer)return 'direto';const host=new URL(document.referrer).hostname.toLowerCase();
+    return host===location.hostname?'interno':host.replace(/[^a-z0-9.:-]/g,'').slice(0,100)||'direto';
+  }catch(_){return 'direto';}
+}
 function enviar(tipo,feat,acao,segundos,beacon){
   if(!enabled||sent++>1500)return;
   const payload=JSON.stringify({session_key:session,event_type:tipo,
     feature:(feat||'dashboard').slice(0,64),action:(acao||'-').slice(0,80),
     seconds_visible:Math.max(0,Math.min(3600,Math.floor(segundos||0))),
-    display_mode:tela(),viewport:tamanho()});
+    display_mode:tela(),viewport:tamanho(),referrer_host:referencia()});
   if(beacon&&navigator.sendBeacon){
     navigator.sendBeacon('/analytics',new Blob([payload],{type:'application/json'}));
     return;
