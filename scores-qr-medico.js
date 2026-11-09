@@ -56,7 +56,7 @@ async function createScoreSession(key,id){
   const site="https://hubdoalergista.pages.dev/score-paciente.html?t="+encodeURIComponent(data.token);
   if(client&&channel){try{await client.removeChannel(channel)}catch(_){}}channel=null;
   client=window.supabase.createClient(SB,KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
-  client.realtime.setAuth(jwt);
+  await client.realtime.setAuth(jwt);
   channel=client.channel(data.topic,{config:{private:true,broadcast:{self:false}}});
   const privateChannel=channel;
   privateChannel.on("broadcast",{event:"score-result"},m=>result(m.payload,id));
@@ -96,7 +96,7 @@ function appendPanel(key){
  +'<div style="display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:8px 0"><button type="button" id="score-qr-renovar" class="btn btn-sm">Gerar novo QR Code</button><button type="button" id="score-qr-copy" class="btn btn-sm" hidden>Copiar link</button></div>'
  +'<a id="score-qr-url" style="font-size:11.5px;color:#17697a;overflow-wrap:anywhere" target="_blank" rel="noopener noreferrer"></a>';
  fields.parentNode.insertBefore(panel,fields);
- d("score-qr-renovar").addEventListener("click",e=>{e.stopPropagation();if(active!==key)return;cleanupChannelOnly();createScoreSession(key,counter);});
+ d("score-qr-renovar").addEventListener("click",e=>{e.stopPropagation();if(active!==key)return;counter++;cleanupChannelOnly();createScoreSession(key,counter);});
 }
 function cleanupChannelOnly(){
  if(timer){clearTimeout(timer);timer=null;}
