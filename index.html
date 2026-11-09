@@ -763,10 +763,7 @@ _marcarGuiasPagas();
 .bio-grid .bio-chevron{display:none;}
 .bio-grid .bio-new,.bio-grid .bio-norol{display:inline-block;margin:4px 0 0;}
 .bio-grid .bio-card.open .bio-header{background:rgba(59,191,204,.07);}
-#page-imuno .bio-grid .bio-card.open > .bio-body{display:block!important;width:100%;min-width:0;max-width:100%;overflow-x:auto;overflow-wrap:anywhere;box-sizing:border-box;visibility:visible!important;opacity:1!important;}
-#page-imuno .bio-grid .bio-card:not(.open) > .bio-body{display:none!important;}
-#page-imuno .bio-grid .bio-header{touch-action:manipulation;-webkit-tap-highlight-color:transparent;}
-#page-imuno .bio-grid .bio-card.open{border-color:var(--teal-mid);}
+.bio-grid .bio-card.open > .bio-body{display:block;width:100%;min-width:0;max-width:100%;overflow-x:auto;overflow-wrap:anywhere;box-sizing:border-box;}
 .bio-grid .bio-card .bio-body table{max-width:100%;}
 .bio-grid .bio-card .bio-body .bio-section{min-width:0;overflow-wrap:anywhere;}
 .bio-grid-detail{
@@ -8147,83 +8144,75 @@ document.addEventListener('click', function(e3) {
 
 
 
-/* ── IMUNOBIOLÓGICOS: accordion dentro do mesmo cartão ── */
-var _bioDetalheAtivo=null;
-function fecharBioDetalhe(){
-  var anterior=_bioDetalheAtivo;
+/* ── IMUNOBIOLÓGICOS — FICHA DENTRO DO PRÓPRIO CARTÃO ──
+   Primeiro clique expande o .bio-body que já pertence ao medicamento.
+   Segundo clique no mesmo cartão recolhe. Ao trocar, fecha o anterior.
+   Não cria painéis externos e não altera a posição do cartão na grade. */
+var _bioDetalheAtivo = null;
+
+function fecharBioDetalhe() {
+  if(!_bioDetalheAtivo)return;
+  var atual=_bioDetalheAtivo;
   _bioDetalheAtivo=null;
-  if(!anterior)return;
-  anterior.card.classList.remove('open');
-  anterior.body.style.display='none';
-  if(anterior.header)anterior.header.setAttribute('aria-expanded','false');
+  atual.card.classList.remove('open');
+  if(atual.header)atual.header.setAttribute('aria-expanded','false');
 }
-function toggleBio(id){
+
+function toggleBio(id) {
   if(id==='glossario'){
     var glossario=document.getElementById('bio-glossario');
     var chev=document.getElementById('chev-glossario');
     if(!glossario)return;
-    var estavaAberto=glossario.style.display==='block';
-    glossario.style.display=estavaAberto?'none':'block';
-    if(chev)chev.style.transform=estavaAberto?'none':'rotate(90deg)';
+    var aberto=glossario.style.display==='block';
+    glossario.style.display=aberto?'none':'block';
+    if(chev)chev.style.transform=aberto?'none':'rotate(90deg)';
     return;
   }
   var card=document.getElementById('bio-'+id);
   if(!card)return;
-  var cabecalho=card.querySelector(':scope > .bio-header');
-  var ficha=card.querySelector(':scope > .bio-body');
-  if(!ficha)return;
-  var abrir=!card.classList.contains('open');
-  // Sempre limpar a abertura anterior antes de abrir outro medicamento.
-  if(_bioDetalheAtivo&&_bioDetalheAtivo.card!==card)fecharBioDetalhe();
-  if(!abrir){
-    card.classList.remove('open');
-    ficha.style.display='none';
-    if(cabecalho)cabecalho.setAttribute('aria-expanded','false');
-    if(_bioDetalheAtivo&&_bioDetalheAtivo.card===card)_bioDetalheAtivo=null;
+  var header=card.querySelector('.bio-header');
+  var body=card.querySelector(':scope > .bio-body');
+  if(!body)return;
+  // Card aberto: segundo toque recolhe sem deslocar a tela.
+  if(card.classList.contains('open')){
+    if(_bioDetalheAtivo&&_bioDetalheAtivo.card===card)fecharBioDetalhe();
+    else{
+      card.classList.remove('open');
+      if(header)header.setAttribute('aria-expanded','false');
+    }
     return;
   }
-  var principal=card.closest('#page-imuno .bio-grid');
-  if(principal){
-    principal.querySelectorAll('.bio-card.open').forEach(function(outro){
+  // Manter no máximo um imunobiológico aberto na grade principal.
+  if(card.closest('#page-imuno .bio-grid')){
+    fecharBioDetalhe();
+    document.querySelectorAll('#page-imuno .bio-grid .bio-card.open').forEach(function(outro){
       if(outro===card)return;
       outro.classList.remove('open');
-      var corpo=outro.querySelector(':scope > .bio-body');
-      if(corpo)corpo.style.display='none';
-      var cab=outro.querySelector(':scope > .bio-header');
+      var cab=outro.querySelector('.bio-header');
       if(cab)cab.setAttribute('aria-expanded','false');
     });
   }
-  if(!ficha.id)ficha.id='bio-ficha-'+id;
-  ficha.setAttribute('role','region');
-  ficha.setAttribute('aria-label',(card.querySelector('.bio-name')?.textContent||'Medicamento')+' — ficha completa');
+  if(!body.id)body.id='bio-conteudo-'+id;
+  body.setAttribute('role','region');
+  body.setAttribute('aria-label',(card.querySelector('.bio-name')?.textContent||'Biológico')+' — informações detalhadas');
   card.classList.add('open');
-  ficha.style.display='block'; // visibilidade explícita, independente do cache de estilos
-  if(cabecalho){
-    cabecalho.setAttribute('aria-expanded','true');
-    cabecalho.setAttribute('aria-controls',ficha.id);
+  if(header){
+    header.setAttribute('aria-expanded','true');
+    header.setAttribute('aria-controls',body.id);
   }
-  if(principal)_bioDetalheAtivo={card:card,body:ficha,header:cabecalho};
+  if(card.closest('#page-imuno .bio-grid')){
+    _bioDetalheAtivo={card:card,body:body,header:header};
+  }
 }
-// Substitui os handlers inline antigos pelo mesmo controlador em cada botão.
-// Elimina dupla execução e funciona para toque, clique e teclado.
-document.querySelectorAll('#page-imuno .bio-grid .bio-card').forEach(function(card){
-  var cabecalho=card.querySelector(':scope > .bio-header');
-  var ficha=card.querySelector(':scope > .bio-body');
-  if(!cabecalho||!ficha)return;
-  var id=card.id.replace(/^bio-/,'');
-  card.classList.remove('open');
-  ficha.style.display='none';
-  cabecalho.setAttribute('role','button');
-  cabecalho.setAttribute('tabindex','0');
-  cabecalho.setAttribute('aria-expanded','false');
-  cabecalho.onclick=function(event){
-    if(event&&event.target&&event.target.closest('.fav-star'))return;
-    toggleBio(id);
-  };
-  cabecalho.addEventListener('keydown',function(event){
+
+document.querySelectorAll('#page-imuno .bio-grid .bio-header').forEach(function(header){
+  header.setAttribute('role','button');
+  header.setAttribute('tabindex','0');
+  header.setAttribute('aria-expanded','false');
+  header.addEventListener('keydown',function(event){
     if(event.key==='Enter'||event.key===' '){
       event.preventDefault();
-      cabecalho.click();
+      header.click();
     }
   });
 });
@@ -9928,7 +9917,7 @@ document.addEventListener('DOMContentLoaded', function(){
 (function(){
   'use strict';
   if(!('serviceWorker' in navigator))return;
-  var registration=null, pending=false, userEdited=false, refreshing=false, hadController=!!navigator.serviceWorker.controller;
+  var registration=null, pending=false, userEdited=false, hadController=!!navigator.serviceWorker.controller;
   var lastCheck=0, bar=null;
   document.addEventListener('input',function(e){
     if(e.target && e.target.closest && e.target.closest('input,textarea,select,[contenteditable="true"]'))userEdited=true;
@@ -9958,16 +9947,7 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   function newVersion(){
     pending=true;
-    if(document.hidden)return;
-    // Atualização automática segura: não interromper formulário em edição.
-    var foco=document.activeElement;
-    var preenchendo=foco && foco.matches && foco.matches('input,textarea,select,[contenteditable="true"]');
-    if(!userEdited&&!preenchendo&&!refreshing){
-      refreshing=true;
-      window.location.reload();
-      return;
-    }
-    notice();
+    if(!document.hidden)notice();
   }
   function check(force){
     if(document.hidden||!navigator.onLine)return;
@@ -9994,7 +9974,7 @@ document.addEventListener('DOMContentLoaded', function(){
   });
   document.addEventListener('visibilitychange',function(){
     if(!document.hidden){
-      if(pending && !userEdited && !refreshing){refreshing=true;window.location.reload();return;}
+      if(pending && !userEdited){window.location.reload();return;}
       if(pending)notice();
       check(true);
     }
@@ -10696,7 +10676,7 @@ function chatToggle(){
 })();
 </script>
 <script src="lgpd-runtime.js?v=20261104-8"></script>
-<script src="calendarios-imunizacoes.js?v=20261109-7"></script>
+<script src="calendarios-imunizacoes.js?v=20261109-8"></script>
 <script src="uptodate-ui.js?v=20261105-2"></script>
 <script src="imunoglobulinas-calculadora.js?v=20261105-4"></script>
 <!-- Questionários QR: criptografia da sessão na função Edge, resposta temporária por Realtime -->
