@@ -92,8 +92,22 @@
     <p>Quando um incidente puder causar risco ou dano relevante aos titulares, sua avaliação e eventual comunicação deverão observar a LGPD e a Resolução CD/ANPD nº 15/2024, inclusive os prazos aplicáveis.</p>
   </section>
 
+  <section id="metricas">
+    <h2>9. Métricas de navegação e uso</h2>
+    <p>A Central do Hub utiliza um serviço próprio de medição de uso para identificar páginas, ferramentas e botões mais acessados, dispositivos, navegadores, localização aproximada por país e estado/região, domínio de origem e tempo estimado de exibição. A coleta ocorre apenas após a autorização expressa do visitante.</p>
+    <p>Não são transmitidos nomes, e-mails, termos digitados, respostas de questionários, dados clínicos, endereços IP completos, coordenadas GPS ou identificadores persistentes entre visitas. Um identificador aleatório é criado na memória do navegador por aba para contagem aproximada de sessões.</p>
+    <p>A escolha de aceitar ou recusar é conservada no armazenamento local deste navegador e pode ser alterada a qualquer momento. A revogação impede novas coletas; eventos anteriores, que não contêm a identidade do titular, integram métricas históricas e ficam sujeitos à política de retenção e descarte do controlador.</p>
+    <p><button id="revisarMetricas" type="button" style="background:#edf4fa;color:#154b7d;border:1px solid #c4d9eb;padding:10px 14px;border-radius:9px;cursor:pointer">Revisar minha escolha de métricas</button></p>
+    <p>Os relatórios são acessíveis exclusivamente à conta administradora, mediante autenticação e autorização no banco de dados. Os indicadores cobrem apenas os acessos autorizados e não permitem identificar pessoas únicas.</p>
+  </section>
+  <script>
+    document.getElementById('revisarMetricas').addEventListener('click',function(){
+      try{localStorage.removeItem('hub_analytics_choice_v1');}catch(_){}
+      alert('Preferência redefinida. Ao voltar ao Hub, você poderá aceitar ou recusar a coleta.');
+    });
+  </script>
   <section>
-    <h2>9. Contato e solicitações</h2>
+    <h2>10. Contato e solicitações</h2>
     <p>Consulte a seção “Privacidade e segurança” em Preferências para conhecer os controles locais. Titulares de dados de contas anteriores ou registros clínicos devem procurar o controlador responsável, cujo canal institucional público ainda precisa ser formalizado. Pacientes devem procurar o profissional ou serviço responsável pelo atendimento.</p>
     <p>Também é possível consultar os canais oficiais da <a href="https://www.gov.br/anpd/pt-br/" target="_blank" rel="noopener noreferrer">Autoridade Nacional de Proteção de Dados (ANPD)</a>.</p>
   </section>
