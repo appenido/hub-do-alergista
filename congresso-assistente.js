@@ -1,7 +1,7 @@
 /* Busca pública, local e sem login na programação do Congresso ASBAI 2026 */
 (function(){
 'use strict';
-const URL='https://congressoalergiaasbai2026.com.br/evento/alergia2026/pt/programacao/gradeatividades/todas';
+const URL='https://congressoalergiaasbai2026.com.br/evento/alergia2026/pt/programacao/gradeatividades';
 const verificados=[
 ['12/11/2026','08:30 - 08:50','Sala 1A','Imunoterapia oral: quem, quando e até onde ir?','José Luís Magalhães Rios','Alergia Alimentar I'],
 ['12/11/2026','08:50 - 09:10','Sala 1A','Biológicos na alergia alimentar: substitutos ou aliados da imunoterapia?','Ariana Campos Yang','Alergia Alimentar I'],
@@ -17,8 +17,65 @@ const verificados=[
 ['12/11/2026','16:00 - 16:30','Sala 1A','Adrenalina: via de administração, dose e alternativas nos casos refratários','Marisa Rosimeire Ribeiro','Anafilaxia'],
 ['13/11/2026','08:30 - 09:00','Sala 1A + 1B','Contemporary management of atopic dermatitis: from basic skincare to targeted systemic therapies','Peter Schmid-Grendelmeier','Plenária 2'],
 ['13/11/2026','09:00 - 09:30','Sala 1A + 1B','Fatores de risco e protetores nas alergias: o que sabemos?','Luis Vicente Garcia-Marcos Alvarez','Plenária 2'],
-['13/11/2026','09:30 - 10:00','Sala 1A + 1B','Biológicos na imunoterapia oral','Marylin Valentin Rostan','Plenária 2']
-].map(x=>({dia:x[0],hora:x[1],sala:x[2],titulo:x[3],palestrante:x[4],mesa:x[5]}));
+['13/11/2026','09:30 - 10:00','Sala 1A + 1B','Biológicos na imunoterapia oral','Marylin Valentin Rostan','Plenária 2'],
+['12/11/2026','13:30 - 13:50','','Da lesão de barreira ao processo inflamatório: o que há de novo?','Márcia Carvalho Mallozi','Dermatite atópica I'],
+['12/11/2026','13:50 - 14:10','','Prurido na DA: mecanismos e desafios terapêuticos','Dayanne Bruscky','Dermatite atópica I'],
+['12/11/2026','14:10 - 14:30','','Dermatite atópica no idoso','Nelson Cordeiro','Dermatite atópica I'],
+['12/11/2026','13:30 - 13:50','','Caracterização de endótipos na rinossinusite crônica: aplicações clínicas','Sergio D. Dortas Junior','Biológicos I'],
+['12/11/2026','13:50 - 14:10','','Novos biológicos para o tratamento da asma grave','Marcelo Vivolo Aun','Biológicos I'],
+['12/11/2026','14:10 - 14:30','','Perspectivas das pequenas moléculas nas doenças T2','Martti Antila','Biológicos I'],
+['12/11/2026','15:00 - 15:30','','Hesitação vacinal na era da desinformação: como o alergista pode liderar a reconstrução da confiança','Renato Kfouri','Imunizações'],
+['12/11/2026','15:30 - 16:00','','Programação imunológica precoce e alergias: microbiota, ambiente e prevenção','Bruno Acatauassu Paes Barreto','Infância'],
+['12/11/2026','16:30 - 16:50','','Novas terapêuticas e perspectiva de tratamento personalizado','Luis Felipe Chiaverini Ensina','Urticária I - UCE','Régis de Albuquerque Campos; Rosana Camara Agondi'],
+['12/11/2026','16:50 - 17:10','','Como prever recidiva após remissão?','Eduardo Magalhães de Souza Lima','Urticária I - UCE','Régis de Albuquerque Campos; Rosana Camara Agondi'],
+['12/11/2026','17:10 - 17:30','','Autoimunidade: o que há de novo?','Solange Oliveira Rodrigues Valle','Urticária I - UCE','Régis de Albuquerque Campos; Rosana Camara Agondi'],
+['12/11/2026','16:30 - 16:50','','Reexposição após anafilaxia: como decidir com segurança','Albertina Varandas Capelo','Anafilaxia I'],
+['12/11/2026','16:50 - 17:10','','Anafilaxia perioperatória em pacientes com cofatores e comorbidades complexa','Alex Eustaquio de Lacerda','Anafilaxia I'],
+['12/11/2026','17:10 - 17:30','','Identificação precoce de fenótipos de gravidade','Luana Melquíades de Medeiros Castro','Anafilaxia I'],
+['12/11/2026','16:30 - 16:50','','Padronização dos extratos: papel na efetividade no tratamento','Ernesto Akio Taketomi','Imunoterapia I'],
+['12/11/2026','16:50 - 17:10','','Imunoterapia sublingual: o que avançamos','Fernando Monteiro Aarestrup','Imunoterapia I'],
+['12/11/2026','17:10 - 17:30','','IT & Imunobiológicos: alternativas ou associação?','Clóvis Eduardo Santos Galvão','Imunoterapia I'],
+['13/11/2026','10:30 - 10:50','','Fenótipos complexos: quem foge do padrão?','Ana Paula Moschione Castro','Alergia Alimentar II'],
+['13/11/2026','10:50 - 11:10','','Cofatores e variabilidade da reação: o que muda no risco?','Germana Pimentel Stefani','Alergia Alimentar II'],
+['13/11/2026','11:10 - 11:30','','Vida real: adesão, qualidade de vida e risco social','Renata Rodrigues Cocco','Alergia Alimentar II'],
+['13/11/2026','10:30 - 10:50','','Fenótipos de reações a AINES: da teoria à prática','Luiz Alexandre Ribeiro da Rocha','Fármacos II'],
+['13/11/2026','10:50 - 11:10','','Reações imediatas a beta-lactâmicos','Maria Fernanda Malaman','Fármacos II'],
+['13/11/2026','11:10 - 11:30','','Reações de hipersensibilidade a outros antibióticos','Tânia Maria Gonçalves de Souza Gomes','Fármacos II'],
+['13/11/2026','15:30 - 16:00','','Medicina de Precisão nos Erros Inatos da Imunidade','Ekaterini Simões Goudouris','EII'],
+['13/11/2026','16:30 - 16:50','','Infecção pelo S. aureus: como evitar?','Danielle Kiertsman Harari','Dermatite atópica II'],
+['13/11/2026','16:50 - 17:10','','Imunoterapia com aeroalérgenos: qual papel na DA?','Evandro Alves do Prado','Dermatite atópica II'],
+['13/11/2026','17:10 - 17:30','','Biológicos e pequenas moléculas na DA grave','Claudia Soido Falcao do Amaral','Dermatite atópica II'],
+['13/11/2026','16:30 - 16:50','','Imunoterapia oral para alergia alimentar: já é realidade na prática clínica?','Antonio Carlos Pastorino','Luso-Brasileiro'],
+['13/11/2026','16:50 - 17:10','','Anafilaxia oral por ácaros (síndrome da panqueca)','Rodrigo Rodrigues Alves','Luso-Brasileiro'],
+['13/11/2026','17:10 - 17:30','','Diagnóstico molecular na alergia alimentar: quando solicitar?','José Carlison de Oliveira','Luso-Brasileiro'],
+['13/11/2026','16:30 - 16:50','','Asma grave em adultos: o que fazer antes dos imunobiológicos?','Gustavo Farias','Cono Sur'],
+['13/11/2026','16:50 - 17:10','','Asma no pré-escolar: a GINA acabou com o lactente sibilante?','Patricia Monge Ortega','Cono Sur'],
+['13/11/2026','17:10 - 17:30','','Management of IgE-Mediated Food Allergy in Latin America: Challenges and Opportunities','Silvana Monsell','Cono Sur'],
+['13/11/2026','16:30 - 16:50','','Expossoma e microbioma na regulação imunológica','Raquel Prudente de Carvalho Baldacara','Meio ambiente'],
+['13/11/2026','16:50 - 17:10','','Qualidade do ar interior: fontes ocultas, controladas e não controladas','Celso Taques Saldanha','Meio ambiente'],
+['13/11/2026','17:10 - 17:30','','Microplásticos e mudanças extremas do clima','Luciana Rizzo','Meio ambiente'],
+['14/11/2026','08:30 - 09:00','Sala 1A + 1B','Normativa para certificação de cursos práticos em alergia e imunologia','Dirceu Solé','Plenária 3'],
+['14/11/2026','09:00 - 09:30','Sala 1A + 1B','A formação oficial do especialista x cursos extraoficiais','Celso Taques Saldanha','Plenária 3'],
+['14/11/2026','09:30 - 10:00','Sala 1A + 1B','Critérios para credenciamento dos centros formadores em alergia e imunologia','Herberto José Chong Neto','Plenária 3'],
+['14/11/2026','10:30 - 10:50','','Imunoterapia nos extremos de idade','Marcos Reis Gonçalves','Imunoterapia II'],
+['14/11/2026','10:50 - 11:10','','Imunoterapia nas doenças crônicas','Georgia Veras de Araujo Gueiros Lira','Imunoterapia II'],
+['14/11/2026','11:10 - 11:30','','Imunoterapia nos polissensibilizados','Gil Bardini Alves','Imunoterapia II'],
+['14/11/2026','10:30 - 10:50','','Urticária Crônica Induzida: desafios clínicos e avanços terapêuticos','Rosana Camara Agondi','Urticária II','Luis Felipe Chiaverini Ensina'],
+['14/11/2026','10:50 - 11:10','','Urticária no idoso: o que tem de diferente?','Paula Natassya Barbosa Argolo de Freitas','Urticária II','Luis Felipe Chiaverini Ensina'],
+['14/11/2026','11:10 - 11:30','','As múltiplas faces da urticária em pediatria','Larissa Silva Brandão','Urticária II','Luis Felipe Chiaverini Ensina'],
+['14/11/2026','10:30 - 10:50','','Vacina VSR materna e anticorpos monoclonais - como estamos no Brasil?','Lorena de Castro Diniz','Imunizações II'],
+['14/11/2026','10:50 - 11:10','','Diagnóstico de Deficiência de Anticorpo Específico na era das novas vacinas pneumocócicas?','Ana Karolina Barreto Berselli Marinho','Imunizações II'],
+['14/11/2026','11:10 - 11:30','','Vacinação em pacientes submetidos a TCTH e terapia gênica: recomendações atuais e lacunas','Claudia França Cavalcante Valente','Imunizações II'],
+['14/11/2026','10:30 - 10:50','','Quase HLH: isso existe?','Irma Cecilia Douglas Paes Barreto','Hot Topics em EII'],
+['14/11/2026','10:50 - 11:10','','Desordens imunometabólicas: o que é isto?','Adriana Azoubel Antunes','Hot Topics em EII'],
+['14/11/2026','11:10 - 11:30','','GLILD: guideline de prática clínica','Mayra de Barros Dorna','Hot Topics em EII'],
+['14/11/2026','13:30 - 13:50','','WAO Hereditary Angioedema (HAE) Position Paper','Daniel Vazquez','WAO'],
+['14/11/2026','13:50 - 14:10','','WAO Initiatives on Mastocytosis','Pedro Francisco Giavina Bianchi Jr','WAO'],
+['14/11/2026','14:10 - 14:30','','WAO SLIT Position Paper','Veridiana Aun Rufino Pereira','WAO'],
+['14/11/2026','15:00 - 15:30','','Consensos na urticária crônica: quais as novidades','Régis de Albuquerque Campos','Urticária','Solange Oliveira Rodrigues Valle'],
+['14/11/2026','15:00 - 15:30','','Avaliação multidimensional da asma grave: imagem, função pulmonar, sintomas e biomarcadores inflamatórios','Alvaro Augusto Souza da Cruz Filho','Asma'],
+['14/11/2026','15:00 - 15:30','','Clinical practice recommendations for managing children and adults with 22q11.2 deletion syndrome','Kate Sullivan','Imuno'],
+].map(x=>({dia:x[0],hora:x[1],sala:x[2],titulo:x[3],palestrante:x[4],mesa:x[5],moderadores:x[6]||''}));
 let dados=verificados, live=false, started=false, loadPromise=null;
 const el=id=>document.getElementById(id);
 const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
@@ -67,21 +124,23 @@ function load(){
    try{
      const r=await fetch('/programacao-congresso',{cache:'no-store'});
      if(!r.ok)throw Error('sem fonte');
-     const d=await r.json();const parsed=extract(d.html||'');
+     const d=await r.json();if(!d.ok)throw Error('sem fonte');
+     const parsed=extract(d.html||'');
      if(parsed.length<15)throw Error('grade incompleta');
      dados=merge(parsed,verificados);live=true;
    }catch(e){dados=verificados;live=false;}
    const st=el('hubCongressAssistStatus');
-   if(st)st.textContent=live?'Consulta realizada na grade oficial; horários sujeitos a alterações.':'A fonte oficial não respondeu. Busca limitada a aulas verificadas; confira a grade completa no site oficial.';
+   if(st)st.textContent=live?'Consulta realizada na grade oficial; horários sujeitos a alterações.':'Busca na seleção conferida da programação oficial; a atualização automática está indisponível.';
  })();return loadPromise;
 }
 function add(parent,tag,cls,txt){const x=document.createElement(tag);x.className=cls;if(txt!==undefined)x.textContent=txt;parent.appendChild(x);return x;}
 function relevance(x,tokens,phrase){
  let score=0, hit=0;
- const tt=norm(x.titulo),ss=norm(x.palestrante),gg=norm(x.mesa);
+ const tt=norm(x.titulo),ss=norm(x.palestrante),gg=norm(x.mesa),mm=norm(x.moderadores);
  for(const t of tokens){let w=0;for(const term of [t,...(sin[t]||[])]) {
   if(tt.includes(term))w=Math.max(w,9);
   if(ss.includes(term))w=Math.max(w,11);
+  if(mm.includes(term))w=Math.max(w,7);
   if(gg.includes(term))w=Math.max(w,4);
  } if(w){score+=w;hit++;}}
  if(hit===tokens.length&&tokens.length>1)score+=15;
@@ -95,18 +154,20 @@ async function ask(){
  add(box,'p','hub-congress-empty','Consultando a programação…');await load();box.replaceChildren();
  const t=[...new Set(norm(query).split(' ').filter(w=>w.length>1&&!stops.has(w)))].slice(0,15);
  if(!t.length){add(box,'p','hub-congress-empty','Digite um tema ou nome mais específico.');return;}
- const matches=dados.map(x=>({x,v:relevance(x,t,norm(query))})).filter(a=>a.v>0).sort((a,b)=>b.v-a.v).slice(0,12);
+ const matches=dados.map(x=>({x,v:relevance(x,t,norm(query))})).filter(a=>a.v>0).sort((a,b)=>b.v-a.v || a.x.dia.localeCompare(b.x.dia) || a.x.hora.localeCompare(b.x.hora)).slice(0,40);
  if(!matches.length)add(box,'p','hub-congress-empty',live?'Não encontrei esse termo na programação consultada. Tente outro nome ou palavra-chave.':'Não encontrei esse termo na seleção disponível. Consulte a programação completa.');
  else{
   add(box,'p','hub-congress-found',matches.length+' resultado(s) correspondente(s):');
   for(const {x} of matches){const c=add(box,'article','hub-congress-answer');
     add(c,'div','hub-congress-answer-title',x.titulo);
     if(x.palestrante)add(c,'div','hub-congress-answer-speaker',x.palestrante);
-    add(c,'div','hub-congress-answer-detail',x.dia+' · '+x.hora+' · '+x.sala);
+    add(c,'div','hub-congress-answer-detail',x.dia+' · '+x.hora+(x.sala?' · '+x.sala:' · Sala: consultar grade oficial'));
     if(x.mesa)add(c,'div','hub-congress-answer-session',x.mesa);
+    if(x.moderadores)add(c,'div','hub-congress-answer-session','Moderação: '+x.moderadores);
   }
  }
- if(!live)add(box,'p','hub-congress-caveat','Resultados parciais: a consulta ao site oficial está indisponível.');
+ if(!live)add(box,'p','hub-congress-caveat','Seleção parcial conferida na grade oficial. Para confirmar salas e eventuais alterações, consulte a programação completa.');
+ const source=add(box,'a','hub-congress-source','Conferir programação oficial');source.href=URL;source.target='_blank';source.rel='noopener noreferrer';
 
 }
 window.hubCongressToggle=function(){
