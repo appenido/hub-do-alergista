@@ -1378,7 +1378,7 @@ _marcarGuiasPagas();
 .hub-update-bar button.hub-update-close{background:transparent;color:var(--gray-500);font-size:17px;padding:4px 6px}
 .hub-update-bar button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 </style>
-<link rel="stylesheet" href="responsive-adapt.css?v=20261109-1">
+<link rel="stylesheet" href="responsive-adapt.css?v=20261109-2">
 </head>
 <body>
 
@@ -1427,11 +1427,10 @@ window._bloquearApp=function(){};
         <p class="hub-congress-prompt">Digite o tema da aula ou o nome do palestrante para encontrar dia, horário e sala.</p>
         <div id="hubCongressAssistPanel" class="hub-congress-assist-panel">
           <div class="hub-congress-assist-form">
-            <label class="sr-only" for="hubCongressQuestion">Tema da aula ou nome do palestrante</label>
-            <input id="hubCongressQuestion" type="search" enterkeyhint="search" autocomplete="off" placeholder="Tema ou palestrante..." aria-label="Pesquisar por tema ou nome do palestrante">
+            <input id="hubCongressQuestion" name="pesquisa-congresso-tema-2026" type="search" enterkeyhint="search" autocomplete="one-time-code" autocapitalize="off" spellcheck="false" placeholder="Digite um tema ou palestrante" aria-label="Pesquisar programação por tema ou palestrante">
             <button type="button" onclick="hubCongressAsk()">Buscar</button>
           </div>
-          <div id="hubCongressAssistStatus" class="hub-congress-assist-status">Sem cadastro ou login. Consulte a programação do congresso.</div>
+          <div id="hubCongressAssistStatus" class="hub-congress-assist-status" role="status" aria-live="polite"></div>
           <div id="hubCongressAssistResult" aria-live="polite"></div>
         </div>
         <span class="hub-share-disclaimer">Consulta independente à programação publicada. Horários e salas podem mudar.</span>
