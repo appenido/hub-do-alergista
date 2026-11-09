@@ -73,7 +73,7 @@
   border-radius:19px;
   background:radial-gradient(circle at 29% 14%,#ffffff 0%,#eef8fa 45%,#dfedf2 100%);
   box-shadow:0 4px 9px rgba(19,56,76,.06),inset 0 1.5px 1px rgba(255,255,255,.98),inset 0 -2px 4px rgba(25,81,101,.055);
-  font-size:0;
+  font-size:28px; /* emoji como fallback acessível se a ilustração ainda não carregar */
   line-height:1;
   overflow:hidden;
 }
