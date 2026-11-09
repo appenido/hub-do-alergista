@@ -107,7 +107,7 @@ async function ask(){
   }
  }
  if(!live)add(box,'p','hub-congress-caveat','Resultados parciais: a consulta ao site oficial está indisponível.');
- const a=add(box,'a','hub-congress-answer-link','Consultar a grade oficial ↗');a.href=URL;a.target='_blank';a.rel='noopener noreferrer';
+
 }
 window.hubCongressToggle=function(){
  const panel=el('hubCongressAssistPanel'),b=el('hubCongressAssistToggle');if(!panel||!b)return;
