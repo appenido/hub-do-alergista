@@ -3,7 +3,7 @@ export const SCHEMA = 3;
 export const JOURNALS = [
   'J Allergy Clin Immunol', 'J Allergy Clin Immunol Pract', 'Allergy',
   'Clin Exp Allergy', 'Pediatr Allergy Immunol', 'Ann Allergy Asthma Immunol',
-  'World Allergy Organ J', 'J Clin Immunol', 'J Allergy Clin Immunol Glob',
+  'World Allergy Organ J', 'Allergy Asthma Clin Immunol', 'J Clin Immunol', 'J Allergy Clin Immunol Glob',
   'Allergy Asthma Proc', 'Am J Respir Crit Care Med', 'Eur Respir J',
   'Am J Gastroenterol', 'Braz J Otorhinolaryngol', 'J Hum Immun', 'Am J Hematol'
 ];
