@@ -242,18 +242,43 @@
     items.push(["Buscar estudos específicos deste par no PubMed (pesquisa externa, ainda não revisada)","https://pubmed.ncbi.nlm.nih.gov/?term="+encodeURIComponent(search)]);
     return items.map(function(v){return '<a href="'+esc(v[1])+'" target="_blank" rel="noopener noreferrer">'+esc(v[0])+'</a>';}).join(" · ");
   }
-  function componentHTML(f) {
-    var body='';
-    if(!f.components.length) return '<p>Nenhum componente molecular com indicação clínica rotineira selecionado neste catálogo para este alimento. Considerar história, IgE ao extrato e/ou teste cutâneo dirigidos. Não interpretar ausência de marcador como ausência de alergia.</p>';
-    f.components.forEach(function(m){
-      var fam=FAMILY[m.family]||[m.family,"Mecanismo molecular descrito na literatura.","Utilidade clínica depende da fonte e da validação do ensaio."];
-      var p=catEntry(m.name);
-      var priority=m.tier==="prioritário"?"Maior utilidade em cenário específico":m.tier==="contextual"?"Selecionar conforme fenótipo":m.tier==="referência"?"Literatura / disponibilidade limitada":"Complementar";
-      body+='<div class="fx-molecule"><div class="fx-molecule-head"><div><span class="fx-molecule-name">'+esc(m.name)+'</span><span class="fx-molecule-meta"> · '+esc(fam[0])+' · '+esc(priority)+'</span></div>'+
-        (p?'<button class="fx-add" type="button" data-fx-add="'+esc(p.c)+'">Adicionar à nota ('+esc(p.c)+')</button>':'<span class="fx-rare">Confirmar disponibilidade do ensaio</span>')+'</div>'+
-        '<p>Por que considerar: '+esc(fam[1])+'</p><p>Aplicação clínica: '+esc(special[m.name]||fam[2])+'</p></div>';
-    });
-    return body;
+
+  // Apenas as proteínas pertencentes às famílias relevantes para o par.
+  // Não repetir os catálogos moleculares completos dos dois alimentos.
+  function markerHTML(food,family) {
+    var items=food.components.filter(function(m){return m.family===family;});
+    if(!items.length){
+      return '<p class="fx-marker-unknown">Componente individual não cadastrado para este alimento. Considerar extrato conforme a história clínica.</p>';
+    }
+    return items.map(function(m){
+      var entry=catEntry(m.name);
+      return '<div class="fx-protein"><span class="fx-protein-name">'+esc(m.name)+'</span>'+
+        (entry?'<button class="fx-add" type="button" data-fx-add="'+esc(entry.c)+'" aria-label="Adicionar '+esc(m.name)+' à nota">Adicionar à nota</button>':'')+
+        '</div>';
+    }).join("");
+  }
+  function sharedFamilyHTML(a,b,family) {
+    var details=FAMILY[family]||[family,"A identificação da família não comprova reatividade clínica.",""];
+    return '<article class="fx-cross-family">'+
+      '<div class="fx-family-head"><span class="fx-family-eyebrow">Família molecular relacionada</span><h5>'+esc(details[0])+'</h5></div>'+
+      '<div class="fx-cross-pair">'+
+        '<div class="fx-food-side"><div class="fx-food-name">'+esc(a.label)+'</div>'+markerHTML(a,family)+'</div>'+
+        '<div class="fx-pair-arrow" aria-hidden="true">↔</div>'+
+        '<div class="fx-food-side"><div class="fx-food-name">'+esc(b.label)+'</div>'+markerHTML(b,family)+'</div>'+
+      '</div>'+
+      '<p class="fx-family-explain">'+esc(details[1])+'</p>'+
+    '</article>';
+  }
+  function comparisonFamilies(a,b,common,fish,marine,mammals){
+    if(common.length)return common;
+    // Alguns pares possuem homologia descrita, porém um dos alimentos
+    // não tem um marcador molecular individual listado nesta base.
+    if(fish)return ["parvalbumina"];
+    if(marine)return ["tropomiosina"];
+    if(mammals)return ["alfagal"];
+    if(a.type==="leite"&&b.type==="leite")return ["caseina"];
+    if(pairKey(a.id,b.id)===pairKey("ovo","ovo_codorna"))return ["ovomucoide","ovalbumina"];
+    return [];
   }
   // Consulta bibliográfica aberta, apenas com nomes de alimentos; nenhum dado de paciente é transmitido.
   // Resultados automáticos são referências para leitura e NÃO são convertidos em conclusão clínica.
@@ -307,18 +332,32 @@
     if(!explicit&&bothCereals)explicit={level:"Homologia entre cereais; clínica variável",reason:"Trigo, centeio e cevada compartilham prolaminas e outras proteínas; reatividade clínica entre eles não é obrigatória. Alergia IgE-mediada não é doença celíaca.",focus:"Extratos dirigidos; Tri a 19 apenas para suspeita de anafilaxia ao trigo dependente de cofatores."};
     if(!explicit&&common.length)explicit={level:"Semelhança molecular identificada; impacto clínico incerto",reason:"As duas fontes contêm famílias proteicas relacionadas. Isso explica eventual co-sensibilização, mas não estabelece probabilidade individual de reação ao segundo alimento.",focus:"Escolha componentes conforme fenótipo e histórico de tolerância, não por rastreamento indiscriminado."};
     if(!explicit)explicit={level:"Evidência específica ainda não cadastrada — associação não excluída",reason:"Esta base é curada e incompleta: ausência de par ou família não comprova ausência de reatividade molecular ou clínica. Consulte as referências e a pesquisa bibliográfica específica disponíveis abaixo.",focus:"Investigar cada alimento conforme a história, considerar componentes não cadastrados e conferir estudos específicos antes de concluir."};
-    var html='<div class="fx-status"><strong>'+esc(explicit.level)+'</strong><p>'+esc(explicit.reason)+'</p>'+(explicit.focus?'<p>Foco da avaliação: '+esc(explicit.focus)+'</p>':'')+'</div>';
-    if(tol)html+='<div class="fx-note" style="margin-top:10px">Tolerância informada: o segundo alimento já é ingerido na apresentação usual sem sintomas. A tolerância habitual é evidência clínica importante contra alergia atual nessa forma de consumo; não solicitar IgEs nem restringi-lo apenas por homologia molecular.</div>';
-    html+='<h4>Famílias moleculares relacionadas</h4>';
-    html+=common.length?'<div class="fx-match">'+common.map(function(f){return '<span class="fx-tag">'+esc((FAMILY[f]||[f])[0])+'</span>';}).join("")+'</div>':
-      '<p>Nenhuma família compartilhada cadastrada. Alguns pares têm associação clínica por outras vias ou componentes ainda não representados.</p>';
-    html+='<p>As famílias abaixo incluem opções publicadas para cada alimento, não uma solicitação de painel completo. “Prioritário” só indica relevância em um cenário apropriado, não pedido obrigatório. O botão de pedido aparece exclusivamente quando o componente consta no catálogo local.</p>';
-    html+='<div class="fx-group"><h5>'+esc(a.label)+' · opções moleculares</h5>'+componentHTML(a)+'</div>';
-    html+='<div class="fx-group"><h5>'+esc(b.label)+' · opções moleculares</h5>'+componentHTML(b)+'</div>';
-    html+='<h4>Como aplicar ao paciente</h4><p>1. Descrever alimento implicado, tempo após ingestão, preparo, quantidade, reprodutibilidade, cofatores e alimentos já tolerados. 2. Quando houver suspeita IgE-mediada, iniciar com teste cutâneo e/ou IgE ao extrato, escolhidos pela história. 3. Usar componentes que possam esclarecer sensibilização primária, reatividade cruzada ou fenótipo clínico. 4. Se persistir incerteza, avaliar BAT (quando indicado/disponível) e teste de provocação oral supervisionado.</p>';
-    html+='<p>Não prescrever exclusão alimentar generalizada, não interpretar IgE como probabilidade de anafilaxia e não inferir segurança com base apenas em proteína termolábil. Não se aplica para diagnosticar alergias não IgE-mediadas.</p>';
-    html+='<div class="fx-group"><h5>Pesquisa bibliográfica complementar (Europe PMC)</h5><p id="fxLiveLiteratureBody">Consultando publicações indexadas para este par. Apenas os nomes dos alimentos são enviados.</p></div>';
-    html+='<div class="fx-sources"><span>Referências para esta comparação (estudos específicos revisados quando disponíveis, além das diretrizes metodológicas):</span> '+links(a,b,common)+'. Revisão da base: 09/11/2026. A pesquisa no PubMed não substitui revisão crítica dos artigos.</div>';
+
+    var families=comparisonFamilies(a,b,common,bothFish,marine,twoMammals);
+    var html='<section class="fx-report" role="region" aria-label="Resultado da comparação molecular">'+
+      '<header class="fx-report-header"><div class="fx-report-kicker">RESULTADO DA COMPARAÇÃO</div>'+
+      '<h3>'+esc(a.label)+' <span aria-label="comparado com">×</span> '+esc(b.label)+'</h3>'+
+      '<p>Análise específica deste par de alimentos</p></header>'+
+      '<div class="fx-assessment"><div class="fx-assessment-label">INTERPRETAÇÃO CLÍNICA</div>'+
+      '<h4>'+esc(explicit.level)+'</h4><p>'+esc(explicit.reason)+'</p></div>';
+    if(tol){
+      html+='<div class="fx-tolerance"><span>Tolerância informada</span><p>O segundo alimento já é consumido sem sintomas na apresentação habitual. Não restringir ou solicitar IgEs apenas pela homologia molecular.</p></div>';
+    }
+    html+='<section class="fx-molecular-section" aria-labelledby="fxMolecularHeading">'+
+      '<div class="fx-molecular-intro"><h4 id="fxMolecularHeading">Proteínas relacionadas à possível reação cruzada</h4>'+
+      '<p>Somente as famílias pertinentes à comparação selecionada. A homologia não confirma alergia clínica nem justifica solicitar todos os marcadores.</p></div>';
+    if(families.length){
+      html+='<div class="fx-shared-families">'+families.map(function(family){return sharedFamilyHTML(a,b,family);}).join("")+'</div>';
+    }else{
+      html+='<div class="fx-no-families"><p>Nenhuma proteína específica de reação cruzada cadastrada para este par. Isso não significa ausência de associação clínica ou molecular: a base de componentes é incompleta.</p></div>';
+    }
+    html+='</section>'+
+      '<div class="fx-clinical-next"><h4>Aplicação clínica</h4><p>Priorize história, sintomas, exposição e tolerância. Se necessário, solicite IgE específica ao extrato e somente os componentes que possam mudar a interpretação ou a conduta. Testes moleculares isolados não definem risco individual ou indicação de exclusão alimentar; TPO supervisionado pode ser necessário quando houver incerteza clínica.</p></div>'+
+      '<details class="fx-evidence"><summary>Referências científicas e pesquisa bibliográfica complementar</summary>'+
+      '<div class="fx-evidence-body"><p>Pesquisa Europe PMC para o par: apenas os nomes dos alimentos são enviados; os artigos encontrados automaticamente não são revisados criticamente nesta consulta.</p>'+
+      '<div id="fxLiveLiteratureBody">Consultando publicações indexadas para este par.</div>'+
+      '<div class="fx-sources">Diretrizes e estudos para este par: '+links(a,b,common)+'. Revisão da base: 09/11/2026.</div></div></details>'+
+      '</section>';
     out.innerHTML=html;
     loadLiterature(a,b);
   }
