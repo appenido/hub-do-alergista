@@ -1138,6 +1138,12 @@ _marcarGuiasPagas();
 .hub-congress-source{font:600 9px/1.35 Manrope,sans-serif;color:var(--teal-mid);text-align:center}
 @media(max-width:620px){.hub-share-home{grid-template-columns:minmax(0,1fr);margin:10px 12px 8px;padding:14px;gap:12px}.hub-share-home h2{font-size:16px}.hub-share-home p{font-size:11px}.hub-share-action{width:100%;min-height:44px}.hub-congress-brand{align-items:stretch}.hub-congress-visual{width:100%;max-width:none;height:132px}.hub-congress-source{text-align:right}}
 
+
+.hub-share-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin-top:3px}
+.hub-share-actions .hub-share-action,.hub-share-actions .hub-schedule-action{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:11px 14px;border-radius:10px;text-align:center;font:800 11.5px/1.35 Manrope,sans-serif;text-decoration:none}
+.hub-share-actions .hub-schedule-action{background:#fff;border:1.5px solid var(--teal-mid);color:var(--teal-mid)}
+.hub-share-actions .hub-schedule-action:hover,.hub-share-actions .hub-schedule-action:focus-visible{background:var(--aqua-pale);outline:2px solid var(--aqua);outline-offset:2px}
+@media(max-width:620px){.hub-share-actions{flex-direction:column}.hub-share-actions .hub-share-action,.hub-share-actions .hub-schedule-action{width:100%}}
 </style>
 <script>
 /* Endereço canônico — os espelhos antigos redirecionam para cá */
@@ -1352,7 +1358,10 @@ window._bloquearApp=function(){};
         <h2 id="hubShareHomeTitle">Vamos compartilhar o Hub com outros alergistas?</h2>
         <p>53º Congresso Brasileiro de Alergia e Imunologia · 12–14/11/2026 · Foz do Iguaçu</p>
         <p class="hub-share-description">Apresente o Hub do Alergista aos colegas durante o congresso. O acesso é gratuito.</p>
+        <div class="hub-share-actions">
         <a class="hub-share-action" href="https://wa.me/?text=Durante%20o%2053%C2%BA%20Congresso%20Brasileiro%20de%20Alergia%20e%20Imunologia%20(12%20a%2014%2F11%2F2026%2C%20Foz%20do%20Igua%C3%A7u)%2C%20compartilho%20uma%20ferramenta%20gratuita%20para%20nossos%20colegas%3A%20o%20Hub%20do%20Alergista.%20Protocolos%20de%20bolso%2C%20artigos%2C%20imuniza%C3%A7%C3%B5es%2C%20imunobiol%C3%B3gicos%2C%20escores%20e%20ferramentas%20cl%C3%ADnicas%20reunidos%20em%20um%20s%C3%B3%20lugar.%20Acesse%3A%20https%3A%2F%2Fhubdoalergista.pages.dev%2F%3Futm_source%3Dindicacao%26utm_medium%3Dwhatsapp%26utm_campaign%3Dcongresso_asbai_2026" target="_blank" rel="noopener noreferrer" aria-label="Compartilhar o Hub do Alergista por WhatsApp durante o 53º Congresso Brasileiro de Alergia e Imunologia">Compartilhar pelo WhatsApp <span aria-hidden="true">↗</span></a>
+        <a class="hub-schedule-action" href="https://congressoalergiaasbai2026.com.br/evento/alergia2026/pt/programacao/gradeatividades/todas" target="_blank" rel="noopener noreferrer" aria-label="Visualizar grade horária oficial do 53º Congresso Brasileiro de Alergia e Imunologia">Ver grade horária <span aria-hidden="true">↗</span></a>
+      </div>
         <span class="hub-share-disclaimer">Divulgação independente. O Hub não é o aplicativo oficial do congresso.</span>
       </div>
       <a class="hub-congress-brand" href="https://congressoalergiaasbai2026.com.br/" target="_blank" rel="noopener noreferrer" aria-label="Conhecer o 53º Congresso Brasileiro de Alergia e Imunologia no site oficial">
