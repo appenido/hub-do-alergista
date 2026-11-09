@@ -53,7 +53,7 @@
   add("ameixa","Ameixa","plum","Pru d 3~LTP~contextual;Pru d 1~PR10~referência");
   add("morango","Morango","strawberry","Fra a 1~PR10~contextual");
   add("kiwi","Kiwi","kiwifruit","Act d 1~actinidina~contextual;Act d 8~PR10~contextual;Act d 9~profilina~referência;Act d 10~LTP~referência");
-  add("banana","Banana","bananas","Mus a 2~quitinase~contextual;Mus a 1~profilina~contextual;Mus a 3~LTP~referência");
+  add("banana","Banana","bananas","Mus a 1~profilina~contextual;Mus a 2~quitinase~contextual;Mus a 3~LTP~referência;Mus a 4~taumatina~referência;Mus a 5~glucanase~referência;Mus a 6~peroxidase~referência");
   add("abacate","Abacate","avocado","Pers a 1~quitinase~contextual");
   add("manga","Manga","mango","", "vegetal");
   add("melao","Melão","melon","Cuc m 2~profilina~contextual");
@@ -63,7 +63,7 @@
   add("aipo","Aipo","salsao,celery","Api g 1~PR10~contextual;Api g 2~LTP~referência;Api g 4~profilina~referência");
   add("uva","Uva","grape","Vit v 1~LTP~contextual");
   add("laranja","Laranja","orange","Cit s 3~LTP~contextual;Cit s 2~profilina~referência");
-  add("abacaxi","Abacaxi","pineapple","Ana c 2~bromelina~referência");
+  add("abacaxi","Abacaxi","pineapple","Ana c 1~profilina~contextual;Ana c 2~bromelina~referência");
   add("coco","Coco","coconut","", "vegetal");
   add("camarao","Camarão","shrimp,prawn","Pen a 1~tropomiosina~prioritário;Pen m 1~tropomiosina~contextual;Pen m 2~argininaquinase~referência;Pen m 4~sarcoplasmica~referência","crustaceo");
   add("caranguejo","Caranguejo","crab,siri","Cha f 1~tropomiosina~contextual","crustaceo");
@@ -113,7 +113,10 @@
     "omega5":["Ômega-5-gliadina (Tri a 19)","Marcador importante de anafilaxia ao trigo dependente de exercício/cofatores.","Investigar WDEIA, sem inferir automaticamente alergia a outros cereais."],
     "glutenina":["Glutenina de alto peso molecular","Marcador adicional em fenótipos selecionados de alergia ao trigo dependente de cofatores.","Usar apenas se ampliar a investigação clínica; não confundir com doença celíaca."],
     "actinidina":["Actinidina (Act d 1)","Protease do kiwi relacionada à sensibilização primária em parte dos pacientes.","Apoiar diferenciação de alergia primária ao kiwi versus perfil pólen-alimento."],
-    "bromelina":["Bromelina","Enzima vegetal; IgE pode refletir CCD e ter relevância clínica limitada.","Interpretar com cautela, evitando inferir alergia clínica apenas pela positividade."]
+    "bromelina":["Bromelina","Protease do abacaxi (Ana c 2); a ligação de IgE frequentemente pode refletir determinantes carboidratos de reação cruzada (CCDs). Não é o mecanismo principal documentado para banana–abacaxi.","Usar apenas no contexto de suspeita específica. IgE para bromelina pode atuar como marcador de CCD; positividade isolada não comprova alergia ao abacaxi."],
+    "taumatina":["Proteínas semelhantes à taumatina (PR-5)","Mus a 4 foi descrito na banana; homologia molecular não estabelece, por si só, reatividade clínica cruzada com outra fruta.","Componente de literatura; não solicitar rotineiramente sem indicação e disponibilidade comprovadas."],
+    "glucanase":["Beta-1,3-glucanase (PR-2)","Mus a 5 é componente descrito da banana, com potencial de homologia com proteínas vegetais.","Aplicação clínica limitada; não utilizar isoladamente para decidir restrição alimentar."],
+    "peroxidase":["Ascorbato peroxidase","Mus a 6 é componente descrito da banana, ainda com utilidade diagnóstica rotineira pouco estabelecida.","Componente de referência; avaliar disponibilidade e interpretação clínica antes de solicitar."]
   };
   var special={
     "Ara h 2":"Principal componente adicional recomendado para apoiar diagnóstico de amendoim; correlacionar com história, extrato e eventual TPO.",
@@ -129,7 +132,9 @@
     "Gal d 1":"Ovomucoide: componente termoestável, não dispensa eventual TPO para definir tolerância ao ovo preparado.",
     "Pen a 1":"Tropomiosina pode refletir sensibilização cruzada com ácaros; história de ingestão e sintomas é indispensável.",
     "Gad c 1":"Parvalbumina é marcador de sensibilização a peixes; não prevê reação universal a todas as espécies.",
-    "alfa-gal":"Solicitar IgE para α-Gal em suspeita de anafilaxia/urticária tardia após alimentos de mamíferos."
+    "alfa-gal":"Solicitar IgE para α-Gal em suspeita de anafilaxia/urticária tardia após alimentos de mamíferos.",
+    "Mus a 1":"Profilina da banana; considerar diante de síndrome pólen-alimento e múltiplas frutas com IgEs positivas. Interpretar com história clínica; nem sempre há ensaio comercial específico.",
+    "Ana c 1":"Profilina do abacaxi. Homologia e inibição de IgE documentadas com profilinas vegetais, incluindo a da banana. Quando o ensaio específico não estiver disponível, avaliar marcadores de profilina (p.ex. Bet v 2 / Phl p 12, se disponíveis), sem substituir a investigação do alimento."
   };
 
   function pairKey(a,b) {return [a,b].sort().join(":");}
@@ -142,6 +147,7 @@
   pair("caju","manga","Par botânico; reatividade clínica incerta","Apesar de pertencerem à família Anacardiaceae, a alergia ao caju não comprova alergia à polpa de manga. Não há indicação de painel molecular automático apenas por parentesco.","Avaliar polpa versus casca, exposição e testes convencionais dirigidos, se indicados.");
   pair("ovo","frango","Síndrome ave–ovo em cenário selecionado","Albumina sérica aviária (Gal d 5) pode relacionar ovo, carne de frango e exposição a aves; não é regra para alergia primária à clara.","Gal d 5, se disponível; interpretação orientada por história.");
   pair("leitevaca","carnebovina","Possível associação por albumina","Bos d 6 está presente em leite e carne bovina. A maioria das crianças com alergia ao leite tolera carne bovina; não excluir carne automaticamente.","Bos d 6 / albumina sérica bovina.");
+  pair("banana","abacaxi","Reatividade cruzada molecular documentada; risco clínico variável","Banana e abacaxi compartilham profilinas homólogas: Mus a 1 e Ana c 1. Estudo experimental demonstrou ligação e inibição cruzada de IgE; um estudo observacional relatou reações clínicas ao abacaxi em 9/110 pacientes com alergia à banana que haviam ingerido a fruta (8,2%). Esse resultado não é estimativa de risco individual nem prova, em todos os casos, mecanismo por profilina.","Mus a 1 ↔ Ana c 1 (profilinas). Considerar IgE aos extratos e/ou prick-to-prick segundo a história; marcadores de profilina como Bet v 2/Phl p 12 quando disponíveis e clinicamente úteis. Ana c 2 (bromelina) pode refletir CCD e não confirma reação cruzada clínica.");
   pair("banana","abacate","Possibilidade por quitinases (látex–frutas)","Quitinases de classe I podem compartilhar epítopos com látex; banana e abacate podem coexistir em síndrome látex–fruta, mas não há coalergia obrigatória.","Mus a 2 e Pers a 1; investigar látex apenas se a história justificar.");
   pair("kiwi","banana","Associação possível, mecanismos distintos","Alguns pacientes compartilham sensibilização a panalérgenos ou látex, mas reação a kiwi não implica reação clínica à banana.","Act d 8/9, Mus a 1 e contexto látex; Act d 1 avalia kiwi primário.");
   pair("pessego","maca","Homologia molecular relevante","Frutas rosáceas podem compartilhar PR-10, nsLTP e profilinas; o risco clínico depende do componente e da forma crua/cozida.","Pru p 1 ↔ Mal d 1; Pru p 3 ↔ Mal d 3; profilinas.");
@@ -155,12 +161,20 @@
   pair("leitecabra","leiteovelha","Associação clínica bem documentada","Leites de ruminantes podem apresentar reatividade cruzada, sobretudo por caseínas.","Avaliar IgE a extratos e caseínas quando disponível.");
   pair("ovo","ovo_codorna","Possível homologia","Proteínas de ovos de aves diferentes podem compartilhar epítopos; não inferir segurança de ovo de codorna em alergia ao ovo de galinha.","Gal d 1/2 e extrato de ovo de codorna, se disponível; TPO supervisionado quando apropriado.");
 
+  // Referências gerais válidas para a metodologia; estudos específicos devem acompanhar cada par quando disponíveis.
   var SRC=[
-    ["ASBAI/SBP — Atualização em Alergia Alimentar 2025","https://doi.org/10.5935/2526-5393.20250003"],
+    ["ASBAI/SBP 2025 — Atualização em Alergia Alimentar","https://doi.org/10.5935/2526-5393.20250003"],
+    ["EAACI 2023 — Diagnóstico de alergia alimentar IgE-mediada","https://doi.org/10.1111/all.15902"],
     ["EAACI — Molecular Allergology User's Guide 2.0","https://doi.org/10.1111/pai.13854"],
-    ["EAACI — Diagnóstico de alergia alimentar IgE-mediada","https://doi.org/10.1111/all.15902"],
-    ["Revisão de alergia a oleaginosas e sementes (2025)","https://pmc.ncbi.nlm.nih.gov/articles/PMC12683745/"],
-    ["WHO/IUIS — Nomenclatura de alérgenos","https://www.allergen.org/"]
+    ["WHO/IUIS — Nomenclatura oficial de alérgenos","https://www.allergen.org/"]
+  ];
+  // Referências específicas: pares não listados não devem ser classificados como comprovadamente negativos.
+  var PAIR_SRC={};
+  PAIR_SRC[pairKey("banana","abacaxi")]=[
+    ["Reindl et al., 2002 — profilinas de banana e abacaxi; ensaios de inibição de IgE (PMID 12065910)","https://doi.org/10.1159/000059400"],
+    ["Estudo clínico em alérgicos à banana, 2023 — 9/110 com reação ao abacaxi após ingestão (PMID 37444194)","https://doi.org/10.3390/foods12132456"],
+    ["WHO/IUIS — Ana c 1, profilina do abacaxi","https://www.allergen.org/viewallergen.php?aid=43"],
+    ["WHO/IUIS — catálogo de componentes reconhecidos","https://www.allergen.org/"]
   ];
   function esc(t) {return String(t==null?"":t).replace(/[&<>"']/g,function(ch){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch];});}
   function clean(v){return String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"");}
@@ -219,7 +233,15 @@
       }
     });
   }
-  function links(){return SRC.map(function(v){return '<a href="'+esc(v[1])+'" target="_blank" rel="noopener noreferrer">'+esc(v[0])+'</a>';}).join(" · ");}
+  function links(a,b,common){
+    var refs=(PAIR_SRC[pairKey(a.id,b.id)]||[]).concat(SRC);
+    var seen={};
+    var items=refs.filter(function(v){if(seen[v[1]])return false;seen[v[1]]=true;return true;});
+    var enA=(a.synonyms||a.label).split(",")[0].trim(), enB=(b.synonyms||b.label).split(",")[0].trim();
+    var search=[enA,enB,"(allergy OR cross-reactivity OR cross-reactive)"].join(" ");
+    items.push(["Buscar estudos específicos deste par no PubMed (pesquisa externa, ainda não revisada)","https://pubmed.ncbi.nlm.nih.gov/?term="+encodeURIComponent(search)]);
+    return items.map(function(v){return '<a href="'+esc(v[1])+'" target="_blank" rel="noopener noreferrer">'+esc(v[0])+'</a>';}).join(" · ");
+  }
   function componentHTML(f) {
     var body='';
     if(!f.components.length) return '<p>Nenhum componente molecular com indicação clínica rotineira selecionado neste catálogo para este alimento. Considerar história, IgE ao extrato e/ou teste cutâneo dirigidos. Não interpretar ausência de marcador como ausência de alergia.</p>';
@@ -252,7 +274,7 @@
     if(!explicit&&twoMammals)explicit={level:"Possível associação por α-Gal",reason:"Carne e produtos de mamíferos podem compartilhar α-Gal, ligado a reações tardias em indivíduos sensibilizados, geralmente após picadas de carrapatos.",focus:"IgE para α-Gal se a história temporal for compatível; não investigar indiscriminadamente."};
     if(!explicit&&bothCereals)explicit={level:"Homologia entre cereais; clínica variável",reason:"Trigo, centeio e cevada compartilham prolaminas e outras proteínas; reatividade clínica entre eles não é obrigatória. Alergia IgE-mediada não é doença celíaca.",focus:"Extratos dirigidos; Tri a 19 apenas para suspeita de anafilaxia ao trigo dependente de cofatores."};
     if(!explicit&&common.length)explicit={level:"Semelhança molecular identificada; impacto clínico incerto",reason:"As duas fontes contêm famílias proteicas relacionadas. Isso explica eventual co-sensibilização, mas não estabelece probabilidade individual de reação ao segundo alimento.",focus:"Escolha componentes conforme fenótipo e histórico de tolerância, não por rastreamento indiscriminado."};
-    if(!explicit)explicit={level:"Sem associação cruzada bem caracterizada neste módulo",reason:"Não foi encontrado um mecanismo específico consolidado na base selecionada. Isso não significa risco zero, nem exclui alergias independentes.",focus:"Investigar cada alimento separadamente quando houver história clínica relevante."};
+    if(!explicit)explicit={level:"Evidência específica ainda não cadastrada — associação não excluída",reason:"Esta base é curada e incompleta: ausência de par ou família não comprova ausência de reatividade molecular ou clínica. Consulte as referências e a pesquisa bibliográfica específica disponíveis abaixo.",focus:"Investigar cada alimento conforme a história, considerar componentes não cadastrados e conferir estudos específicos antes de concluir."};
     var html='<div class="fx-status"><strong>'+esc(explicit.level)+'</strong><p>'+esc(explicit.reason)+'</p>'+(explicit.focus?'<p>Foco da avaliação: '+esc(explicit.focus)+'</p>':'')+'</div>';
     if(tol)html+='<div class="fx-note" style="margin-top:10px">Tolerância informada: o segundo alimento já é ingerido na apresentação usual sem sintomas. A tolerância habitual é evidência clínica importante contra alergia atual nessa forma de consumo; não solicitar IgEs nem restringi-lo apenas por homologia molecular.</div>';
     html+='<h4>Famílias moleculares relacionadas</h4>';
@@ -263,7 +285,7 @@
     html+='<div class="fx-group"><h5>'+esc(b.label)+' · opções moleculares</h5>'+componentHTML(b)+'</div>';
     html+='<h4>Como aplicar ao paciente</h4><p>1. Descrever alimento implicado, tempo após ingestão, preparo, quantidade, reprodutibilidade, cofatores e alimentos já tolerados. 2. Quando houver suspeita IgE-mediada, iniciar com teste cutâneo e/ou IgE ao extrato, escolhidos pela história. 3. Usar componentes que possam esclarecer sensibilização primária, reatividade cruzada ou fenótipo clínico. 4. Se persistir incerteza, avaliar BAT (quando indicado/disponível) e teste de provocação oral supervisionado.</p>';
     html+='<p>Não prescrever exclusão alimentar generalizada, não interpretar IgE como probabilidade de anafilaxia e não inferir segurança com base apenas em proteína termolábil. Não se aplica para diagnosticar alergias não IgE-mediadas.</p>';
-    html+='<div class="fx-sources">Fontes científicas: '+links()+'. Última revisão do módulo: 09/11/2026.</div>';
+    html+='<div class="fx-sources"><span>Referências para esta comparação (estudos específicos quando disponíveis, além das diretrizes metodológicas):</span> '+links(a,b,common)+'. Revisão da base: 09/11/2026. A pesquisa no PubMed não substitui revisão crítica dos artigos.</div>';
     out.innerHTML=html;
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",insert);
