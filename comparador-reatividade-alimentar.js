@@ -255,6 +255,38 @@
     });
     return body;
   }
+  // Consulta bibliográfica aberta, apenas com nomes de alimentos; nenhum dado de paciente é transmitido.
+  // Resultados automáticos são referências para leitura e NÃO são convertidos em conclusão clínica.
+  var literatureRequest=0;
+  function loadLiterature(a,b) {
+    var requestId=++literatureRequest;
+    var target=document.getElementById("fxLiveLiteratureBody");
+    if(!target)return;
+    if(typeof fetch!=="function"){target.textContent="Busca automática indisponível neste ambiente. Consulte a pesquisa PubMed nas referências.";return;}
+    var wordA=(a.synonyms||a.label).split(",")[0].trim();
+    var wordB=(b.synonyms||b.label).split(",")[0].trim();
+    var q='"'+wordA.replace(/"/g,"")+'" AND "'+wordB.replace(/"/g,"")+'" AND (allergy OR allergen OR profilin OR cross-reactivity)';
+    var url="https://www.ebi.ac.uk/europepmc/webservices/rest/search?query="+encodeURIComponent(q)+"&format=json&resultType=lite&pageSize=6";
+    fetch(url,{mode:"cors",cache:"no-store"}).then(function(response){
+      if(!response.ok)throw new Error("Falha na consulta");
+      return response.json();
+    }).then(function(data){
+      if(requestId!==literatureRequest)return;
+      var node=document.getElementById("fxLiveLiteratureBody");
+      if(!node)return;
+      var entries=(data&&data.resultList&&data.resultList.result)||[];
+      if(!entries.length){node.textContent="Nenhum artigo localizado por esta estratégia automática. Isso não exclui publicações com outras palavras-chave; confira também a busca no PubMed.";return;}
+      node.innerHTML='<span class="fx-rare">Resultados recuperados da Europe PMC, por relevância. As publicações abaixo não foram avaliadas criticamente nesta consulta e não fundamentam, isoladamente, o resultado clínico.</span><div class="fx-literature-list">'+entries.map(function(v){
+        var href=v.doi?"https://doi.org/"+encodeURIComponent(v.doi):(v.pmid?"https://pubmed.ncbi.nlm.nih.gov/"+encodeURIComponent(v.pmid)+"/":"https://europepmc.org/article/"+encodeURIComponent(v.source||"MED")+"/"+encodeURIComponent(v.id||""));
+        var meta=[v.authorString||"",v.journalTitle||"",v.pubYear||""].filter(Boolean).join(" · ");
+        return '<p><a href="'+esc(href)+'" target="_blank" rel="noopener noreferrer">'+esc(v.title||"Artigo indexado")+'</a><span class="fx-rare"> · '+esc(meta)+'</span></p>';
+      }).join("")+'</div>';
+    }).catch(function(){
+      if(requestId!==literatureRequest)return;
+      var node=document.getElementById("fxLiveLiteratureBody");
+      if(node)node.textContent="Consulta automática indisponível no momento. Use o link de busca específica no PubMed listado nas referências.";
+    });
+  }
   function render() {
     var out=document.getElementById("fxResult");if(!out)return;
     var a=byId[document.getElementById("fxFoodA").value],b=byId[document.getElementById("fxFoodB").value],tol=document.getElementById("fxTolerated").checked;
@@ -285,8 +317,10 @@
     html+='<div class="fx-group"><h5>'+esc(b.label)+' · opções moleculares</h5>'+componentHTML(b)+'</div>';
     html+='<h4>Como aplicar ao paciente</h4><p>1. Descrever alimento implicado, tempo após ingestão, preparo, quantidade, reprodutibilidade, cofatores e alimentos já tolerados. 2. Quando houver suspeita IgE-mediada, iniciar com teste cutâneo e/ou IgE ao extrato, escolhidos pela história. 3. Usar componentes que possam esclarecer sensibilização primária, reatividade cruzada ou fenótipo clínico. 4. Se persistir incerteza, avaliar BAT (quando indicado/disponível) e teste de provocação oral supervisionado.</p>';
     html+='<p>Não prescrever exclusão alimentar generalizada, não interpretar IgE como probabilidade de anafilaxia e não inferir segurança com base apenas em proteína termolábil. Não se aplica para diagnosticar alergias não IgE-mediadas.</p>';
-    html+='<div class="fx-sources"><span>Referências para esta comparação (estudos específicos quando disponíveis, além das diretrizes metodológicas):</span> '+links(a,b,common)+'. Revisão da base: 09/11/2026. A pesquisa no PubMed não substitui revisão crítica dos artigos.</div>';
+    html+='<div class="fx-group"><h5>Pesquisa bibliográfica complementar (Europe PMC)</h5><p id="fxLiveLiteratureBody">Consultando publicações indexadas para este par. Apenas os nomes dos alimentos são enviados.</p></div>';
+    html+='<div class="fx-sources"><span>Referências para esta comparação (estudos específicos revisados quando disponíveis, além das diretrizes metodológicas):</span> '+links(a,b,common)+'. Revisão da base: 09/11/2026. A pesquisa no PubMed não substitui revisão crítica dos artigos.</div>';
     out.innerHTML=html;
+    loadLiterature(a,b);
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",insert);
   else insert();
