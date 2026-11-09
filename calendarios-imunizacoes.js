@@ -358,7 +358,9 @@
       style.textContent=
        '.vac-nat-card{width:100%;display:flex;align-items:flex-start;gap:10px;text-align:left;background:#fff;border:1.5px solid #dfe8ed;border-radius:12px;padding:13px 12px;cursor:pointer;font:inherit;color:#0d1f2d;min-height:82px}' +
        '.vac-nat-card[aria-pressed="true"]{border-color:#2d8fa8;background:#effafb}' +
-       '.vac-nat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}' +
+       '.vac-nat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;align-items:start}' +
+       '.vac-nat-inline{grid-column:1/-1!important;min-width:0;width:100%;box-sizing:border-box;margin:0!important}' +
+       '.vac-cal-inline-root{padding:2px 0 10px!important;min-width:0;width:100%;background:#f8fbfd;border-radius:12px}' +
        '.vac-nat-sec{margin:18px 0 8px;font-size:13px;color:#153a4c}' +
        '.vac-nat-batch{border:1px solid #e2e8f0;border-radius:12px;background:#fff;margin-bottom:10px;overflow:hidden}' +
        '.vac-nat-batch-title{padding:12px 13px;background:#f0f7f9;color:#16485a;font-size:12px;font-weight:700}' +
@@ -387,7 +389,7 @@
     if(at && !at.dataset.nativeIntegrated){
       at.dataset.nativeIntegrated='true';
       var back=at.querySelector('button[onclick*="vacShowHub"]');
-      if(back){back.setAttribute('onclick',"vacAbrirCalendarios('sbim')");back.setAttribute('aria-label','Voltar aos calendários SBIm');}
+      if(back){back.setAttribute('onclick','vacFecharCalendario()');back.setAttribute('aria-label','Recolher recuperação de doses');}
       var foot=at.lastElementChild;
       if(foot){
         var ref=document.createElement('a');
@@ -411,11 +413,20 @@
       if(!itens.length)return;
       out+='<h3 class="vac-nat-sec">'+esc(g)+'</h3><div class="vac-nat-grid">';
       itens.forEach(function(d){
-        out+='<button type="button" class="vac-nat-card" data-native-id="'+esc(d[0])+'" aria-pressed="'+(selecionado===d[0]?'true':'false')+'"><span aria-hidden="true" style="font-size:24px">'+d[4]+'</span><span style="min-width:0"><span style="display:block;font-size:12px;font-weight:750">'+esc(d[1])+'</span><span style="display:block;color:#64748b;font-size:10.5px;line-height:1.4;margin-top:4px">'+esc(d[2])+'</span></span></button>';
+        out+='<button type="button" class="vac-nat-card" data-native-id="'+esc(d[0])+'" aria-pressed="'+(selecionado===d[0]?'true':'false')+'" aria-expanded="'+(selecionado===d[0]?'true':'false')+'" aria-controls="'+(d[0]==='atraso'?'vac-sub-atraso':'vacCalPreview')+'"><span aria-hidden="true" style="font-size:24px">'+d[4]+'</span><span style="min-width:0"><span style="display:block;font-size:12px;font-weight:750">'+esc(d[1])+'</span><span style="display:block;color:#64748b;font-size:10.5px;line-height:1.4;margin-top:4px">'+esc(d[2])+'</span></span></button>';
       });
       out+='</div>';
     });
-    var livePreview=get('vacCalPreview'); if(livePreview && list.contains(livePreview))list.after(livePreview);
+    // Resgatar os painéis antes de refazer o catálogo. Nenhum painel pode
+    // ir parar no fim da lista e nenhum dado de paciente é armazenado.
+    var livePreview=get('vacCalPreview');
+    if(livePreview && list.contains(livePreview))list.after(livePreview);
+    var atraso=get('vac-sub-atraso');
+    if(atraso && list.contains(atraso)){
+      atraso.style.display='none';
+      var page=get('page-imunizacoes');
+      if(page)page.appendChild(atraso);
+    }
     list.innerHTML=out||'<p style="font-size:12px">Nenhum calendário encontrado.</p>';
     list.querySelectorAll('[data-native-id]').forEach(function(b){b.addEventListener('click',function(){openNative(b.dataset.nativeId);});});
     var legenda=get('vacCalLegenda');
@@ -436,56 +447,132 @@
     return h+'</div>';
   }
   function openNative(id){
+    // Clique no mesmo calendário = desligar; em outro = trocar o painel.
+    if(selecionado===id){closeNative();return;}
+    var docs=fonte==='sbim'?DOC_SBIM:DOC_PNI;
+    var doc=docs.find(function(d){return d[0]===id;});
+    if(!doc)return;
+    selecionado=id;
+    currentDoc=doc;
+    drawList();
+    var botao=listButton(id);
+    if(!botao)return;
+    var sec=get('vacCalPreview');
+    var atraso=get('vac-sub-atraso');
+    if(atraso){atraso.style.display='none';atraso.classList.remove('vac-nat-inline');}
+    if(sec){sec.style.display='none';sec.classList.remove('vac-nat-inline');}
     if(id==='atraso'&&fonte==='sbim'){
-      if(typeof window.vacShowSub==='function')window.vacShowSub('atraso');
+      if(!atraso)return;
+      atraso.classList.add('vac-nat-inline');
+      atraso.style.display='block';
+      botao.after(atraso);
       if(typeof window.atrRender==='function')window.atrRender();
       return;
     }
-    var docs=fonte==='sbim'?DOC_SBIM:DOC_PNI;
-    var doc=docs.find(function(d){return d[0]===id;});if(!doc)return;
-    selecionado=id;currentDoc=doc;drawList();
-    var sec=get('vacCalPreview'),output=get('vacNativeContent');
+    var output=get('vacNativeContent');
     if(!sec||!output)return;
-    var titulo=get('vacCalPreviewTitulo');if(titulo)titulo.textContent=doc[1];
-    var origem=get('vacCalPreviewOrigem');if(origem)origem.textContent=fonte==='sbim'?'Sociedade Brasileira de Imunizações • SBIm 2026/2027':'Ministério da Saúde • PNI 2026';
+    var titulo=get('vacCalPreviewTitulo');
+    if(titulo)titulo.textContent=doc[1];
+    var origem=get('vacCalPreviewOrigem');
+    if(origem)origem.textContent=fonte==='sbim'
+      ?'Sociedade Brasileira de Imunizações • SBIm 2026/2027'
+      :'Ministério da Saúde • PNI 2026';
     var groups=profiles[fonte][id]||[];
-    var h='<button type="button" id="vacNativeBack" class="vac-nat-back">← Todos os calendários '+(fonte==='sbim'?'SBIm':'PNI')+'</button>';
-    h+='<div class="vac-nat-hint">Consulta didática sem PDF e sem cadastro de pacientes. Abra cada vacina para ler as orientações. Recomendações e esquemas dependem da idade, do produto, do histórico e das condições clínicas.</div>';
+    var h='<div class="vac-nat-hint">Consulta didática sem PDF e sem cadastro de pacientes. Abra cada vacina para ler as orientações. Recomendações e esquemas dependem da idade, do produto, do histórico e das condições clínicas.</div>';
     groups.forEach(function(g){h+=viewGroup(g[0],g[1]);});
     if(fonte==='pni'){
       h+='<div class="vac-nat-hint">O PNI determina a oferta e os critérios na rede pública. Esquemas especiais e mudanças da Instrução Normativa 2026 devem ser conferidos antes da prescrição.</div>';
     }else{
       h+='<div class="vac-nat-hint">SBIm: recomendações clínicas para vacinação, inclusive quando não disponíveis na rotina do SUS. Para recuperação de esquemas, utilize o módulo específico da SBIm.</div>';
     }
-    h+=showFooter(doc[5],fonte==='sbim'?'Calendários de vacinação SBIm 2026/2027':'Calendário Nacional de Vacinação e Instrução Normativa do PNI 2026');
+    h+=showFooter(doc[5],fonte==='sbim'
+      ?'Calendários de vacinação SBIm 2026/2027'
+      :'Calendário Nacional de Vacinação e Instrução Normativa do PNI 2026');
     output.innerHTML=h;
-    var back=get('vacNativeBack');
-    if(back)back.addEventListener('click',function(){window.vacFecharCalendario();});
+    sec.classList.add('vac-nat-inline');
     sec.style.display='block';
-    // O painel se abre no local do toque, sem saltar para o rodapé da página.
-    var botao=listButton(id);
-    if(botao){var grupo=botao.closest('.vac-nat-grid');if(grupo)grupo.after(sec);else botao.after(sec);}
+    // Inserção imediatamente após o botão acionado, dentro da grade.
+    // A grade faz o painel ocupar toda a linha, sem scrollIntoView.
+    botao.after(sec);
   }
-  function listButton(id){var list=get('vacCalendariosLista');return list?Array.prototype.find.call(list.querySelectorAll('[data-native-id]'),function(b){return b.dataset.nativeId===id;}):null;}
+  function listButton(id){
+    var list=get('vacCalendariosLista');
+    return list?Array.prototype.find.call(list.querySelectorAll('[data-native-id]'),function(b){return b.dataset.nativeId===id;}):null;
+  }
   function closeNative(){
-    selecionado=null;currentDoc=null;
-    var sec=get('vacCalPreview');if(sec)sec.style.display='none';
-    var output=get('vacNativeContent');if(output)output.innerHTML='';
+    selecionado=null;
+    currentDoc=null;
+    var sec=get('vacCalPreview');
+    if(sec){sec.style.display='none';sec.classList.remove('vac-nat-inline');}
+    var atraso=get('vac-sub-atraso');
+    if(atraso){atraso.style.display='none';atraso.classList.remove('vac-nat-inline');}
+    var output=get('vacNativeContent');
+    if(output)output.innerHTML='';
     drawList();
   }
+  function menuCalendarios(){
+    var menu=get('vac-menu-hub');
+    if(!menu)return [];
+    return Array.prototype.filter.call(menu.querySelectorAll('button'),function(b){
+      var onclick=b.getAttribute('onclick')||'';
+      return onclick==="vacAbrirCalendarios('sbim')"||onclick==="vacAbrirCalendarios('pni')";
+    });
+  }
+  function resetMenuExpanded(){
+    menuCalendarios().forEach(function(b){b.setAttribute('aria-expanded','false');});
+  }
   window.vacAbrirCalendarios=function(f){
-    fonte=(f==='pni'?'pni':'sbim');selecionado=null;currentDoc=null;
-    if(typeof window.vacShowSub==='function')window.vacShowSub('calendarios');
+    var next=(f==='pni'?'pni':'sbim');
+    var sec=get('vac-sub-calendarios');
+    var menu=get('vac-menu-hub');
+    if(!sec||!menu)return;
     preparar();
-    var title=get('vac-sub-calendarios')&&get('vac-sub-calendarios').querySelector('div[style*="font-size:14px"]');
-    if(title)title.textContent=fonte==='sbim'?'Calendários SBIm 2026/2027':'Calendário Nacional PNI 2026';
+    var botoes=menuCalendarios();
+    var anchor=botoes.find(function(b){
+      return b.getAttribute('onclick')==="vacAbrirCalendarios('"+next+"')";
+    });
+    if(!anchor)return;
+    var visivel=menu.contains(sec)&&sec.style.display!=='none';
+    // Toque repetido no mesmo botão principal também recolhe a seção.
+    if(visivel&&fonte===next){
+      closeNative();
+      sec.style.display='none';
+      resetMenuExpanded();
+      return;
+    }
+    closeNative();
+    fonte=next;
     var busca=get('vacCalBusca');if(busca)busca.value='';
-    var sec=get('vacCalPreview');if(sec)sec.style.display='none';
+    var title=sec.querySelector('div[style*="font-size:14px"]');
+    if(title)title.textContent=fonte==='sbim'?'Calendários SBIm 2026/2027':'Calendário Nacional PNI 2026';
+    // Mantém a tela de Imunizações visível e encaixa o conteúdo no
+    // ponto exato em que o botão foi pressionado.
+    menu.style.display='block';
+    var container=anchor.parentElement;
+    if(container)anchor.after(sec);
+    sec.classList.add('vac-cal-inline-root');
+    sec.style.display='block';
+    resetMenuExpanded();
+    anchor.setAttribute('aria-expanded','true');
     drawList();
   };
   window.vacSelecionarFonteCalendarios=function(f){window.vacAbrirCalendarios(f);};
   window.vacFiltrarCalendarios=function(){closeNative();};
   window.vacFecharCalendario=function(){closeNative();};
+  window.vacFecharCalendariosNivel=function(){
+    closeNative();
+    var sec=get('vac-sub-calendarios');
+    if(sec)sec.style.display='none';
+    resetMenuExpanded();
+  };
+  var velhaMostrarHub=window.vacShowHub;
+  if(typeof velhaMostrarHub==='function'){
+    window.vacShowHub=function(){
+      velhaMostrarHub.apply(this,arguments);
+      resetMenuExpanded();
+      closeNative();
+    };
+  }
   // Não interferir na navegação de outras áreas do app.
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',preparar);
   else preparar();
