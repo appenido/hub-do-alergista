@@ -191,3 +191,59 @@
     font-size: 9.5px !important;
   }
 }
+
+/* HOTFIX_HOME_MOBILE_CONGRESS_20261109 */
+/* O layout horizontal é restrito ao desktop. No telefone o campo e o
+   botão ocupam linhas próprias, sem encolhimento e sem transbordamento. */
+@media (max-width: 620px) {
+  #hubShareHome.hub-congress-assistant-home {
+    width: calc(100% - 24px);
+    max-width: calc(100% - 24px);
+    min-width: 0;
+    margin: 10px 12px 8px;
+    grid-template-columns: minmax(0,1fr);
+    overflow: hidden;
+  }
+  #hubShareHome .hub-share-copy,
+  #hubShareHome .hub-congress-assist-panel {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  #hubShareHome .hub-congress-assist-form {
+    display: grid !important;
+    grid-template-columns: minmax(0,1fr) !important;
+    width: 100% !important;
+    max-width: 100%;
+    min-width: 0;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  #hubShareHome .hub-congress-assist-form input {
+    display: block;
+    grid-column: 1;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    min-height: 46px;
+    flex: none !important;
+    margin: 0;
+    padding: 11px 12px;
+    font-size: 16px !important;
+    line-height: 1.35;
+    box-sizing: border-box;
+  }
+  #hubShareHome .hub-congress-assist-form button {
+    display: block;
+    grid-column: 1;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    min-height: 46px;
+    flex: none !important;
+    margin: 0;
+    padding: 11px 14px;
+    font-size: 15px !important;
+    box-sizing: border-box;
+  }
+}
