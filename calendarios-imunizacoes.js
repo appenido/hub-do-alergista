@@ -207,13 +207,20 @@
     if(!get('vac-nativo-css')){
       var style=document.createElement('style');style.id='vac-nativo-css';
       style.textContent=
-       '.vac-nat-card{width:100%;height:148px;min-height:148px;box-sizing:border-box;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:8px;text-align:left;background:#fff;border:1.5px solid #dfe8ed;border-radius:12px;padding:13px 12px;cursor:pointer;font:inherit;color:#0d1f2d;overflow-wrap:anywhere;line-height:1.4;transition:border-color .15s,background .15s}' +
+       '.vac-nat-shell{min-width:0;min-height:148px;box-sizing:border-box;display:flex;flex-direction:column;align-self:stretch;background:#fff;border:1.5px solid #dfe8ed;border-radius:12px;overflow:hidden;overflow-anchor:none}' +
+       '.vac-nat-card{width:100%;min-height:145px;box-sizing:border-box;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:8px;text-align:left;background:transparent;border:0;border-radius:11px;padding:13px 12px;cursor:pointer;font:inherit;color:#0d1f2d;overflow-wrap:anywhere;line-height:1.4;transition:background .15s;flex-shrink:0}' +
+       '.vac-nat-shell.open{grid-column:1 / -1;border-color:#2d8fa8;background:#fff;box-shadow:0 0 0 1px rgba(45,143,168,.18)}' +
+       '.vac-nat-shell.open>.vac-nat-card{min-height:76px;flex-direction:row;align-items:center;text-align:left;background:#effafb}' +
+       '.vac-nat-shell.open>.vac-nat-card>span:last-child{flex:1;min-width:0}' +
+       '.vac-nat-shell>.vac-nat-body{display:block;width:100%;box-sizing:border-box;min-width:0;border-top:1px solid #dfe8ed;background:#fff;overflow-wrap:anywhere}' +
+       '.vac-nat-shell>.vac-cal-visualizador{margin:0!important;padding:12px!important;border:0!important;border-radius:0!important}' +
+       '.vac-nat-shell>#vac-sub-atraso{margin:0!important;padding:4px 0 16px!important}' +
        '.vac-nat-card>span:first-child{flex:0 0 28px;width:28px;line-height:1.2;text-align:center}' +
        '.vac-nat-card>span:last-child{flex:1 1 auto;min-width:0}' +
        '.vac-nat-card>span:last-child>span:first-child{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}' +
        '.vac-nat-card>span:last-child>span:last-child{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}' +
        '.vac-nat-card:focus-visible{outline:3px solid #2d8fa8;outline-offset:2px}' +
-       '.vac-nat-card[aria-pressed="true"]{border-color:#2d8fa8;background:#effafb}' +
+       '.vac-nat-card[aria-pressed="true"]{background:#effafb}' +
        '.vac-nat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:stretch;grid-auto-flow:row}' +
        '.vac-nat-inline{grid-column:1/-1!important;min-width:0;width:100%;box-sizing:border-box;margin:0!important;align-self:stretch}' +
        '.vac-cal-inline-root{padding:2px 0 10px!important;min-width:0;width:100%;background:#f8fbfd;border-radius:12px}' +
@@ -227,7 +234,7 @@
        '.vac-nat-footer{padding:12px;border-top:1px solid #e2e8f0;margin-top:15px;font-size:11.5px;line-height:1.55;color:#64748b}' +
        '.vac-nat-source{display:block;width:fit-content;max-width:100%;margin-top:10px;color:#1f6980;text-decoration:underline;font-weight:700;overflow-wrap:anywhere}' +
        '.vac-nat-back{border:1px solid #c8e2e9;background:#eef8fb;color:#155c70;border-radius:8px;padding:7px 10px;font:700 11px Manrope,sans-serif;cursor:pointer}' +
-       '@media(min-width:750px){.vac-nat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.vac-nat-card{height:138px;min-height:138px}}';
+       '@media(min-width:750px){.vac-nat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.vac-nat-shell{min-height:138px}.vac-nat-shell:not(.open)>.vac-nat-card{min-height:135px}}';
       document.head.appendChild(style);
     }
     var tabs=get('vacCalTabSBIm');
@@ -265,21 +272,32 @@
     docs.forEach(function(d){if(grupos.indexOf(d[3])<0)grupos.push(d[3]);});
     var out='';
     grupos.forEach(function(g){
-      var itens=docs.filter(function(d){return d[3]===g&&(!q||(d[1]+' '+d[2]).toLocaleLowerCase('pt-BR').indexOf(q)>=0);});
+      var itens=docs.filter(function(d){
+        return d[3]===g && (!q||(d[1]+' '+d[2]).toLocaleLowerCase('pt-BR').indexOf(q)>=0);
+      });
       if(!itens.length)return;
       out+='<h3 class="vac-nat-sec">'+esc(g)+'</h3><div class="vac-nat-grid">';
       itens.forEach(function(d){
-        out+='<button type="button" class="vac-nat-card" data-native-id="'+esc(d[0])+'" aria-pressed="'+(selecionado===d[0]?'true':'false')+'" aria-expanded="'+(selecionado===d[0]?'true':'false')+'" aria-controls="'+(d[0]==='atraso'?'vac-sub-atraso':'vacCalPreview')+'"><span aria-hidden="true" style="font-size:24px">'+d[4]+'</span><span style="min-width:0"><span style="display:block;font-size:12px;font-weight:750">'+esc(d[1])+'</span><span style="display:block;color:#64748b;font-size:10.5px;line-height:1.4;margin-top:4px">'+esc(d[2])+'</span></span></button>';
+        out+='<div class="vac-nat-shell" data-vac-shell="'+esc(d[0])+'">' +
+          '<button type="button" class="vac-nat-card" data-native-id="'+esc(d[0])+'" aria-pressed="false" aria-expanded="false" aria-controls="'+(d[0]==='atraso'?'vac-sub-atraso':'vacCalPreview')+'">' +
+          '<span aria-hidden="true" style="font-size:24px">'+d[4]+'</span>' +
+          '<span style="min-width:0"><span style="display:block;font-size:12px;font-weight:750">'+esc(d[1])+'</span>' +
+          '<span style="display:block;color:#64748b;font-size:10.5px;line-height:1.4;margin-top:4px">'+esc(d[2])+'</span></span></button></div>';
       });
       out+='</div>';
     });
-    // Resgatar os painéis antes de refazer o catálogo. Nenhum painel pode
-    // ir parar no fim da lista e nenhum dado de paciente é armazenado.
+    // O visualizador e a recuperação pertencem ao cartão expandido.
+    // Preservar esses elementos antes de reconstruir a grade na busca.
     var livePreview=get('vacCalPreview');
-    if(livePreview && list.contains(livePreview))list.after(livePreview);
+    if(livePreview && list.contains(livePreview)){
+      livePreview.style.display='none';
+      livePreview.classList.remove('vac-nat-body','vac-nat-inline');
+      list.after(livePreview);
+    }
     var atraso=get('vac-sub-atraso');
     if(atraso && list.contains(atraso)){
       atraso.style.display='none';
+      atraso.classList.remove('vac-nat-body','vac-nat-inline');
       var page=get('page-imunizacoes');
       if(page)page.appendChild(atraso);
     }
@@ -302,31 +320,65 @@
     });
     return h+'</div>';
   }
+  function listButton(id){
+    var list=get('vacCalendariosLista');
+    return list?Array.prototype.find.call(list.querySelectorAll('[data-native-id]'),function(b){return b.dataset.nativeId===id;}):null;
+  }
+  function closeNative(){
+    selecionado=null;
+    currentDoc=null;
+    var list=get('vacCalendariosLista');
+    if(list){
+      list.querySelectorAll('.vac-nat-shell.open').forEach(function(shell){shell.classList.remove('open');});
+      list.querySelectorAll('[data-native-id]').forEach(function(b){
+        b.setAttribute('aria-pressed','false');
+        b.setAttribute('aria-expanded','false');
+      });
+    }
+    var sec=get('vacCalPreview');
+    if(sec){
+      sec.style.display='none';
+      sec.classList.remove('vac-nat-body','vac-nat-inline');
+      if(list&&list.contains(sec))list.after(sec);
+    }
+    var atraso=get('vac-sub-atraso');
+    if(atraso){
+      atraso.style.display='none';
+      atraso.classList.remove('vac-nat-body','vac-nat-inline');
+      if(list&&list.contains(atraso)){
+        var page=get('page-imunizacoes');
+        if(page)page.appendChild(atraso);
+      }
+    }
+    var output=get('vacNativeContent');
+    if(output)output.innerHTML='';
+  }
   function openNative(id){
-    // Clique no mesmo calendário = desligar; em outro = trocar o painel.
+    // Primeiro toque abre dentro do cartão. Segundo toque no mesmo fecha.
     if(selecionado===id){closeNative();return;}
     var docs=fonte==='sbim'?DOC_SBIM:DOC_PNI;
     var doc=docs.find(function(d){return d[0]===id;});
     if(!doc)return;
+    closeNative();
+    var botao=listButton(id);
+    var shell=botao&&botao.closest('.vac-nat-shell');
+    if(!botao||!shell)return;
     selecionado=id;
     currentDoc=doc;
-    drawList();
-    var botao=listButton(id);
-    if(!botao)return;
-    var sec=get('vacCalPreview');
-    var atraso=get('vac-sub-atraso');
-    if(atraso){atraso.style.display='none';atraso.classList.remove('vac-nat-inline');}
-    if(sec){sec.style.display='none';sec.classList.remove('vac-nat-inline');}
+    shell.classList.add('open');
+    botao.setAttribute('aria-pressed','true');
+    botao.setAttribute('aria-expanded','true');
     if(id==='atraso'&&fonte==='sbim'){
-      if(!atraso)return;
-      atraso.classList.add('vac-nat-inline');
+      var atraso=get('vac-sub-atraso');
+      if(!atraso){closeNative();return;}
+      atraso.classList.add('vac-nat-body');
       atraso.style.display='block';
-      placeBelowCardRow(botao,atraso);
+      shell.appendChild(atraso);
       if(typeof window.atrRender==='function')window.atrRender();
       return;
     }
-    var output=get('vacNativeContent');
-    if(!sec||!output)return;
+    var sec=get('vacCalPreview'),output=get('vacNativeContent');
+    if(!sec||!output){closeNative();return;}
     var titulo=get('vacCalPreviewTitulo');
     if(titulo)titulo.textContent=doc[1];
     var origem=get('vacCalPreviewOrigem');
@@ -336,48 +388,17 @@
     var groups=profiles[fonte][id]||[];
     var h='<div class="vac-nat-hint">Consulta didática sem PDF e sem cadastro de pacientes. Abra cada vacina para ler as orientações. Recomendações e esquemas dependem da idade, do produto, do histórico e das condições clínicas.</div>';
     groups.forEach(function(g){h+=viewGroup(g[0],g[1]);});
-    if(fonte==='pni'){
-      h+='<div class="vac-nat-hint">O PNI determina a oferta e os critérios na rede pública. Esquemas especiais e mudanças da Instrução Normativa 2026 devem ser conferidos antes da prescrição.</div>';
-    }else{
-      h+='<div class="vac-nat-hint">SBIm: recomendações clínicas para vacinação, inclusive quando não disponíveis na rotina do SUS. Para recuperação de esquemas, utilize o módulo específico da SBIm.</div>';
-    }
+    h+=fonte==='pni'
+      ?'<div class="vac-nat-hint">O PNI determina a oferta e os critérios na rede pública. Esquemas especiais e mudanças da Instrução Normativa 2026 devem ser conferidos antes da prescrição.</div>'
+      :'<div class="vac-nat-hint">SBIm: recomendações clínicas para vacinação, inclusive quando não disponíveis na rotina do SUS. Para recuperação de esquemas, utilize o módulo específico da SBIm.</div>';
     h+=showFooter(doc[5],fonte==='sbim'
       ?'Calendários de vacinação SBIm 2026/2027'
       :'Calendário Nacional de Vacinação e Instrução Normativa do PNI 2026');
     output.innerHTML=h;
-    sec.classList.add('vac-nat-inline');
+    sec.classList.add('vac-nat-body');
     sec.style.display='block';
-    // Expansão após o fim da linha do cartão, mantendo todas as
-    // caixas da mesma linha niveladas e sem buracos na grade.
-    placeBelowCardRow(botao,sec);
-  }
-  function placeBelowCardRow(botao,painel){
-    if(!botao||!painel)return;
-    var grade=botao.closest('.vac-nat-grid');
-    if(!grade){botao.after(painel);return;}
-    var caixas=Array.prototype.filter.call(grade.children,function(el){
-      return el.classList && el.classList.contains('vac-nat-card');
-    });
-    var index=caixas.indexOf(botao);
-    var largura=window.matchMedia&&window.matchMedia('(min-width:750px)').matches?3:2;
-    if(index<0){botao.after(painel);return;}
-    var fim=Math.min(caixas.length-1,Math.floor(index/largura)*largura+largura-1);
-    caixas[fim].after(painel);
-  }
-  function listButton(id){
-    var list=get('vacCalendariosLista');
-    return list?Array.prototype.find.call(list.querySelectorAll('[data-native-id]'),function(b){return b.dataset.nativeId===id;}):null;
-  }
-  function closeNative(){
-    selecionado=null;
-    currentDoc=null;
-    var sec=get('vacCalPreview');
-    if(sec){sec.style.display='none';sec.classList.remove('vac-nat-inline');}
-    var atraso=get('vac-sub-atraso');
-    if(atraso){atraso.style.display='none';atraso.classList.remove('vac-nat-inline');}
-    var output=get('vacNativeContent');
-    if(output)output.innerHTML='';
-    drawList();
+    shell.appendChild(sec);
+    // Sem scrollIntoView: o conteúdo é filho do próprio cartão selecionado.
   }
   function menuCalendarios(){
     var menu=get('vac-menu-hub');
@@ -423,7 +444,7 @@
     if(area)area.scrollTop=0;
   };
   window.vacSelecionarFonteCalendarios=function(f){window.vacAbrirCalendarios(f);};
-  window.vacFiltrarCalendarios=function(){closeNative();};
+  window.vacFiltrarCalendarios=function(){closeNative();drawList();};
   window.vacFecharCalendario=function(){closeNative();};
   window.vacFecharCalendariosNivel=function(){
     closeNative();
@@ -446,13 +467,6 @@
       closeNative();
     };
   }
-  // Mantém o painel na linha correta ao alternar orientação ou tamanho da tela.
-  window.addEventListener('resize',function(){
-    if(!selecionado)return;
-    var botao=listButton(selecionado);
-    var painel=selecionado==='atraso'?get('vac-sub-atraso'):get('vacCalPreview');
-    if(botao&&painel&&painel.style.display!=='none')placeBelowCardRow(botao,painel);
-  });
   // Não interferir na navegação de outras áreas do app.
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',preparar);
   else preparar();
