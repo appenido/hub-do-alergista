@@ -1,13 +1,21 @@
 {
- "ultimaTentativa": "2026-11-08T16:53:41.810Z",
- "atualizadoEm": "2026-11-08T16:53:41.810Z",
+ "ultimaTentativa": "2026-11-09T21:15:12.842Z",
+ "atualizadoEm": "2026-11-09T21:15:12.842Z",
  "status": "ok",
  "totalCandidatos": 60,
  "totalVerificados": 10,
  "totalPendentes": 3,
- "totalExcluidos": 10,
+ "totalExcluidos": 23,
  "falhasFonte": [],
  "itens": [
+  {
+   "status": "verificado",
+   "titulo": "Amiga de Janaína Barbosa homenageia a apresentadora, que faria 49 anos e morreu de choque anafilático",
+   "fonte": "Globo",
+   "data": "2026-11-08T17:08:36.982Z",
+   "url": "https://revistaquem.globo.com/noticias/noticia/2026/11/amiga-de-janaina-barbosa-homenageia-a-apresentadora-no-dia-em-que-ela-faria-49-anos.ghtml",
+   "verificado": true
+  },
   {
    "status": "verificado",
    "titulo": "Vacinação focada em grupos mais vulneráveis é eficaz contra mpox",
@@ -19,25 +27,9 @@
   {
    "status": "verificado",
    "titulo": "Por que o Brasil ainda não tem canetas de adrenalina para tratar choque anafilático?",
-   "fonte": "Assine Abril",
+   "fonte": "Veja Saúde",
    "data": "2026-11-06T19:49:29.000Z",
    "url": "https://saude.abril.com.br/medicina/por-que-o-brasil-ainda-nao-tem-canetas-de-adrenalina-para-tratar-choque-anafilatico/",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Um terço dos bebês diagnosticados com alergia a amendoim pode não ter o problema",
-   "fonte": "Superinteressante",
-   "data": "2026-11-06T10:00:40.000Z",
-   "url": "https://super.abril.com.br/ciencia/um-terco-dos-bebes-diagnosticados-com-alergia-a-amendoim-pode-nao-ter-o-problema/",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Caminhar 7.500 passos por dia ajuda a controlar os sintomas da asma",
-   "fonte": "Terra",
-   "data": "2026-11-06T08:43:08.000Z",
-   "url": "https://www.terra.com.br/vida-e-estilo/caminhar-7500-passos-por-dia-ajuda-a-controlar-os-sintomas-da-asma,c6790b6ac36bdce92d285a6f775c9f9fse06gvht.html",
    "verificado": true
   },
   {
@@ -66,10 +58,10 @@
   },
   {
    "status": "verificado",
-   "titulo": "Dermatite atópica impacta nas escolhas educacionais e de carreira",
-   "fonte": "Terra",
-   "data": "2026-11-05T12:38:11.000Z",
-   "url": "https://www.terra.com.br/vida-e-estilo/saude/dermatite-atopica-impacta-nas-escolhas-educacionais-e-de-carreira,290a717178a51d00171d3e57de3ac4bcnjhcc0ui.html",
+   "titulo": "Morte de Janaína Barbosa: o que pode causar um choque anafilático e como acontece?",
+   "fonte": "Veja Saúde",
+   "data": "2026-11-05T13:31:19.000Z",
+   "url": "https://saude.abril.com.br/medicina/morte-de-janaina-barbosa-o-que-pode-causar-um-choque-anafilatico-e-como-acontece/",
    "verificado": true
   },
   {
@@ -87,6 +79,14 @@
    "data": "2026-11-05T10:52:11.000Z",
    "url": "https://exame.com/ciencia/janaina-barbosa-o-que-e-o-choque-anafilatico-que-teria-causado-a-morte-da-ex-apresentadora/",
    "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "O que é choque anafilático, apontado como causa da morte de Janaína Barbosa",
+   "fonte": "G1",
+   "data": "2026-11-05T05:56:22.000Z",
+   "url": "https://g1.globo.com/google/amp/saude/video/o-que-e-choque-anafilatico-apontado-como-causa-da-morte-de-janaina-barbosa-15160911.ghtml",
+   "verificado": true
   }
  ],
  "pendentes": [
@@ -99,16 +99,16 @@
   },
   {
    "status": "pendente",
-   "titulo": "O que é choque anafilático, apontado como causa da morte de Janaína Barbosa",
-   "fonte": "Estadão",
-   "url": "https://www.estadao.com.br/em-alta/pulsa/medicina-e-estudos/o-que-e-choque-anafilatico-apontado-como-causa-da-morte-de-janaina-barbosa/",
+   "titulo": "Estudo aponta que um em cada três bebês diagnosticados com alergia a amendoim não tem a condição",
+   "fonte": "O GLOBO",
+   "url": "https://oglobo.globo.com/saude/noticia/2026/11/06/estudo-aponta-que-um-em-cada-tres-bebes-diagnosticados-com-alergia-a-amendoim-nao-tem-a-condicao.ghtml",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   },
   {
    "status": "pendente",
-   "titulo": "Estudo aponta que um em cada três bebês diagnosticados com alergia a amendoim não tem a condição",
+   "titulo": "Apresentadora Janaína Barbosa morreu após choque anafilático; entenda a reação alérgica",
    "fonte": "O GLOBO",
-   "url": "https://oglobo.globo.com/saude/noticia/2026/11/06/estudo-aponta-que-um-em-cada-tres-bebes-diagnosticados-com-alergia-a-amendoim-nao-tem-a-condicao.ghtml",
+   "url": "https://oglobo.globo.com/saude/noticia/2026/11/05/apresentadora-janaina-barbosa-morreu-apos-choque-anafilatico-entenda-a-reacao-alergica.ghtml",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   }
  ],
@@ -116,9 +116,65 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Dia do Trigo: 7 mitos sobre glúten, alergias e digestão",
-   "fonte": "Portal Único",
-   "url": "https://portalunico.com/dia-do-trigo-7-mitos-sobre-gluten-alergias-e-digestao/"
+   "titulo": "Alergias atingem até 40% da população e impactam mais os centros urbanos",
+   "fonte": "Conexão Tocantins",
+   "url": "https://conexaoto.com.br/2026/11/09/alergias-atingem-ate-40-da-populacao-e-impactam-mais-os-centros-urbanos"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Asma no outono: porque aumentam as crises e que sinais não deve ignorar",
+   "fonte": "SIC Notícias",
+   "url": "https://sicnoticias.pt/saude-e-bem-estar/2026-11-09-asma-no-outono-os-fatores-que-podem-agravar-a-doenca-e-os-cuidados-a-ter-d8a6a3f3"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Santa Casa do Rio reúne médicos para discutir avanços em Imunologia e Alergia",
+   "fonte": "Diário do Rio",
+   "url": "https://diariodorio.com/saude/2026/11/09/santa-casa-do-rio-reune-medicos-para-discutir-avancos-em-imunologia-e-alergia.html"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Chegada do frio pode aumentar crises de asma. Especialista alerta para sintomas a que deve estar atento",
+   "fonte": "Notícias de Coimbra",
+   "url": "https://www.noticiasdecoimbra.pt/chegada-do-frio-pode-aumentar-crises-de-asma-especialista-alerta-para-sintomas-a-que-deve-estar-atento/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Alergia a camarão: cuidados antes de comer frutos do mar nas férias",
+   "fonte": "João Bidu",
+   "url": "https://altoastral.joaobidu.com.br/saude/alergia-a-camarao-cuidados-antes-de-comer-frutos-do-mar-nas-ferias.phtml"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Crises de asma disparam com a chegada do frio e da humidade",
+   "fonte": "HealthNews",
+   "url": "https://healthnews.pt/2026/11/09/crises-de-asma-disparam-com-a-chegada-do-frio-e-da-humidade/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Alergias, imunologia e doenças reumáticas na infância serão debatidas em simpósio em Pelotas",
+   "fonte": "Diário da Manhã Pelotas",
+   "url": "https://diariodamanhapelotas.com.br/alergias-imunologia-e-doencas-reumaticas-na-infancia-serao-debatidas-em-simposio-em-pelotas"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Menina de 11 anos percebe motorista sem ar no ônibus escolar e chama o pai para ajudar a salvar a profissional diante de uma crise de asma",
+   "fonte": "Jornal Correio",
+   "url": "https://www.correio24horas.com.br/em-alta/menina-de-11-anos-percebe-motorista-sem-ar-no-onibus-escolar-e-chama-o-pai-para-ajudar-a-salvar-a-profissional-diante-de-uma-crise-de-asma-1126"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Mudança no sistema imunológico pode causar alternância entre dermatite atópica e psoríase",
+   "fonte": "niddedigital.com",
+   "url": "https://niddedigital.com/mudanca-no-sistema-imunologico-pode-causar-alternancia-entre-dermatite-atopica-e-psoriase/"
   },
   {
    "status": "excluido",
@@ -130,23 +186,9 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Dr. Eugênio quer criar novo ambulatório para alergias alimentares graves em MT",
-   "fonte": "Agua Boa News",
-   "url": "https://www.aguaboanews.com.br/noticias/exibir.asp?id=47642&noticia=dr-eugenio-quer-criar-novo-ambulatorio-para-alergias-alimentares-graves-em-mt"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Choque anafilático: uma reação alérgica grave que pode acontecer sem aviso",
    "fonte": "THMais",
    "url": "https://thmais.com.br/novabrasil/choque-anafilatico-uma-reacao-alergica-grave-que-pode-acontecer-sem-aviso/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Plantas dentro de casa podem piorar a alergia? Conheça as espécies que pedem cuidado",
-   "fonte": "Revista Ana Maria",
-   "url": "https://revistaanamaria.com.br/casa/plantas-dentro-de-casa-podem-piorar-a-alergia-conheca-as-especies-que-pedem-cuidado/"
   },
   {
    "status": "excluido",
@@ -182,6 +224,34 @@
    "titulo": "Menina de 11 anos salva motorista de ônibus escolar durante crise grave de asma",
    "fonte": "Jornal Correio",
    "url": "https://www.correio24horas.com.br/mundo/menina-de-11-anos-salva-motorista-de-onibus-escolar-durante-crise-grave-de-asma-1126"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "HCFMRP - USP abre concurso público para médico na área de alergia e imunologia",
+   "fonte": "PCI Concursos",
+   "url": "https://www.pciconcursos.com.br/noticias/hcfmrp-usp-abre-concurso-publico-para-medico-na-area-de-alergia-e-imunologia"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Choque anafilático: entenda a reação alérgica grave que levou apresentadora à morte",
+   "fonte": "Tribuna do Norte",
+   "url": "https://tribunadonorte.com.br/brasil/choque-anafilatico-entenda-a-reacao-alergica-grave-que-levou-apresentadora-a-morte/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Ex-apresentadora do TV Fama, Janaína Barbosa morre aos 48 anos após choque anafilático",
+   "fonte": "Tribuna do Norte",
+   "url": "https://tribunadonorte.com.br/brasil/ex-apresentadora-do-tv-fama-janaina-barbosa-morre-aos-48-anos-apos-choque-anafilatico-entenda/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "O que se sabe e o que ainda falta esclarecer sobre a morte de Janaína Barbosa, ex-TV Fama que sofreu choque anafilático por medicação",
+   "fonte": "Jornal Correio",
+   "url": "https://www.correio24horas.com.br/em-alta/o-que-se-sabe-e-o-que-ainda-falta-esclarecer-sobre-a-morte-de-janaina-barbosa-ex-tv-fama-que-sofreu-choque-anafilatico-por-medicacao-1126"
   }
  ]
 }
