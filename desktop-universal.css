@@ -485,3 +485,181 @@
   .page .igcat-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .page .vac-grid { column-gap: 18px; }
 }
+
+
+/* Desktop 2026-11-09: legibilidade das seções dinâmicas e calendários SBIm/PNI. */
+@media (min-width: 1024px) {
+  /* Padrão legível para conteúdos de calendário gerados depois do carregamento do CSS. */
+  #page-imunizacoes {
+    --vac-font-body: 16px;
+    --vac-font-support: 14.5px;
+    --vac-font-title: 19px;
+  }
+  #page-imunizacoes .vac-nat-sec {
+    font-size: 19px !important;
+    line-height: 1.4 !important;
+    margin: 24px 0 13px;
+    font-weight: 800;
+  }
+  #page-imunizacoes .vac-nat-grid {
+    gap: 14px;
+    align-items: stretch;
+  }
+  #page-imunizacoes .vac-nat-shell:not(.open) > .vac-nat-card {
+    min-height: 160px;
+  }
+  #page-imunizacoes .vac-nat-shell.open > .vac-nat-card {
+    min-height: 90px;
+  }
+  #page-imunizacoes .vac-nat-card {
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    padding: 17px 19px;
+    gap: 13px;
+  }
+  #page-imunizacoes .vac-nat-card > span:first-child {
+    flex-basis: 35px;
+    width: 35px;
+  }
+  #page-imunizacoes .vac-nat-card > span:last-child > span:first-child {
+    font-size: 17px !important;
+    line-height: 1.45 !important;
+    font-weight: 800;
+  }
+  #page-imunizacoes .vac-nat-card > span:last-child > span:last-child {
+    font-size: var(--vac-font-support) !important;
+    line-height: 1.55 !important;
+    color: #486472 !important;
+  }
+  #page-imunizacoes .vac-nat-batch {
+    margin-bottom: 14px;
+  }
+  #page-imunizacoes .vac-nat-batch-title {
+    padding: 16px 19px;
+    font-size: 16px !important;
+    line-height: 1.45 !important;
+    font-weight: 800;
+  }
+  #page-imunizacoes .vac-nat-item summary {
+    padding: 17px 19px;
+    font-size: 17px !important;
+    line-height: 1.5 !important;
+    font-weight: 750;
+  }
+  #page-imunizacoes .vac-nat-item summary > span {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    margin-top: 5px;
+  }
+  #page-imunizacoes .vac-nat-detail,
+  #page-imunizacoes .vac-nat-detail > span {
+    font-size: var(--vac-font-body) !important;
+    line-height: 1.65 !important;
+  }
+  #page-imunizacoes .vac-nat-detail {
+    padding: 2px 19px 19px;
+  }
+  #page-imunizacoes .vac-nat-hint {
+    margin: 14px 0;
+    padding: 14px 17px;
+    font-size: 15px !important;
+    line-height: 1.65 !important;
+  }
+  #page-imunizacoes .vac-nat-footer {
+    padding: 16px 19px;
+    font-size: 15px !important;
+    line-height: 1.65 !important;
+  }
+  #page-imunizacoes .vac-nat-footer .vac-nat-source {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+  }
+  #page-imunizacoes .vac-nat-back {
+    padding: 11px 15px;
+    font-size: 15px !important;
+    min-height: 44px;
+  }
+  #page-imunizacoes .vac-cal-nota,
+  #page-imunizacoes #vacCalLegenda,
+  #page-imunizacoes #vacCalPreviewOrigem {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+  }
+  #page-imunizacoes #vacCalPreviewTitulo {
+    font-size: 20px !important;
+    line-height: 1.4 !important;
+  }
+  #page-imunizacoes #vacCalBusca {
+    font-size: 16px !important;
+    min-height: 48px;
+    padding: 12px 14px;
+  }
+  #page-imunizacoes #vacCalPreview {
+    line-height: 1.65;
+  }
+  #page-imunizacoes #vacCalPreview > div:first-child {
+    padding: 5px 2px 9px;
+    gap: 16px;
+  }
+  #page-imunizacoes #vacCalPreview > div:first-child > button {
+    min-width: 44px;
+    min-height: 44px;
+    font-size: 17px !important;
+  }
+  #page-imunizacoes .vac-nat-body,
+  #page-imunizacoes .vac-cal-inline-root {
+    overflow-wrap: break-word;
+  }
+
+  /* Complementos para textos dinâmicos nas demais páginas e modais.
+     Não interferir em ícones, QR codes, gráficos, números de escores nem na nota editorial do congresso. */
+  .page :is(.vac-network-note, .vac-cal-nota, .vac-nat-detail, .vac-nat-footer,
+    .vac-nat-hint, .vac-nat-item, .vac-nat-source,
+    .igmain-note, .igmain-meta, .igcat-detail, .igcalc-refs,
+    .bio-section, .bio-section li, .bio-section p,
+    .fc-body, .case-desc, .course-description, .guide-body,
+    .art-meta, .art-summary, .rel-description, .lab-help,
+    .hub-congress-answer-detail, .hub-congress-answer-speaker) {
+    line-height: 1.6;
+  }
+  .page :is(.vac-nat-item, .vac-nat-detail, .vac-nat-hint, .vac-nat-footer,
+    .igmain-note, .igmain-meta, .guide-body, .art-summary, .case-desc,
+    .course-description, .rel-description, .lab-help) {
+    font-size: 16px !important;
+  }
+  .page :is(.vac-nat-footer, .vac-nat-hint, .igcat-maker, .igcalc-refs, .bio-fonte) {
+    font-size: 14.5px !important;
+  }
+  .page :is(.vac-nat-item summary, .vac-nat-batch-title) {
+    font-weight: 750;
+  }
+}
+
+/* Janelas menores em notebooks e Macs com painel dividido, sem alterar dispositivos touch. */
+@media (min-width: 760px) and (max-width: 1023px) and (hover: hover) {
+  #page-imunizacoes .vac-nat-card > span:last-child > span:first-child,
+  #page-imunizacoes .vac-nat-batch-title {
+    font-size: 15.5px !important;
+    line-height: 1.45 !important;
+  }
+  #page-imunizacoes .vac-nat-card > span:last-child > span:last-child,
+  #page-imunizacoes .vac-nat-hint,
+  #page-imunizacoes .vac-nat-footer {
+    font-size: 14px !important;
+    line-height: 1.55 !important;
+  }
+  #page-imunizacoes .vac-nat-item summary,
+  #page-imunizacoes .vac-nat-detail,
+  #page-imunizacoes .vac-nat-item summary > span {
+    font-size: 15.5px !important;
+    line-height: 1.55 !important;
+  }
+  #page-imunizacoes .vac-nat-sec {
+    font-size: 18px !important;
+  }
+  #page-imunizacoes #vacCalPreviewOrigem,
+  #page-imunizacoes .vac-cal-nota,
+  #page-imunizacoes #vacCalBusca {
+    font-size: 15px !important;
+  }
+}
