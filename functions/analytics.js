@@ -35,14 +35,7 @@ export async function onRequestPost({request,env}){
   const cf=request.cf||{};
   const country=/^[A-Z]{2}$/.test(cf.country||'')?cf.country:null;
   const region=String(cf.regionCode||cf.region||'').replace(/[^a-zA-Z0-9 ._-]/g,'').slice(0,60)||null;
-  let referrer='direto';
-  try {
-    const ref=request.headers.get('Referer');
-    if(ref){
-      const host=new URL(ref).hostname.toLowerCase();
-      referrer=host===url.hostname?'interno':host.replace(/[^a-z0-9.:-]/g,'').slice(0,100)||'direto';
-    }
-  }catch(_){}
+  const referrer=/^[a-z0-9.:-]{1,100}$/i.test(x.referrer_host||'')?x.referrer_host.toLowerCase():'direto';
   const viewport=['pequena','media','grande'].includes(x.viewport)?x.viewport:'media';
   const display_mode=x.display_mode==='PWA'?'PWA':'navegador';
   const payload={session_key:x.session_key,event_type:x.event_type,
