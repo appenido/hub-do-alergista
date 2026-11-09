@@ -44,10 +44,9 @@ async function createScoreSession(key,id){
  const button=d("score-qr-renovar");if(button)button.disabled=true;
  status("Criando sessão protegida…",false);
  try{
-  if(!window._hubTokenValido||!window.supabase||!window.QRCode)throw new Error("Os recursos para QR Code e transmissão não foram carregados. Atualize o aplicativo conectado à internet.");
-  const jwt=await window._hubTokenValido();if(id!==counter)return;
-  if(!jwt)throw new Error("Entre no Hub com sua conta para utilizar este recurso.");
-  const response=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json","apikey":KEY,"Authorization":"Bearer "+jwt},
+  if(!window.supabase||!window.QRCode)throw new Error("Os recursos de QR Code ainda não foram carregados. Recarregue a página com internet ativa.");
+  // Sessão temporária sem login nem cadastro: código de 192 bits, assinado e válido 15 minutos.
+  const response=await fetch(API,{method:"POST",headers:{"Content-Type":"application/json","apikey":KEY},
    body:JSON.stringify({action:"create",score:key}),cache:"no-store",referrerPolicy:"no-referrer"});
   const data=await response.json().catch(()=>({}));
   if(!response.ok||!data.token||!data.topic)throw new Error(data.error||"Não foi possível criar o QR Code.");
@@ -56,12 +55,11 @@ async function createScoreSession(key,id){
   const site="https://hubdoalergista.pages.dev/score-paciente.html?t="+encodeURIComponent(data.token);
   if(client&&channel){try{await client.removeChannel(channel)}catch(_){}}channel=null;
   client=window.supabase.createClient(SB,KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
-  await client.realtime.setAuth(jwt);
-  channel=client.channel(data.topic,{config:{private:true,broadcast:{self:false}}});
-  const privateChannel=channel;
-  privateChannel.on("broadcast",{event:"score-result"},m=>result(m.payload,id));
+  channel=client.channel(data.topic,{config:{private:false,broadcast:{self:false}}});
+  const receiveChannel=channel;
+  receiveChannel.on("broadcast",{event:"score-result"},m=>result(m.payload,id));
   status("Conectando à recepção de respostas…",false);
-  privateChannel.subscribe(st=>{
+  receiveChannel.subscribe(st=>{
     if(id!==counter)return;
     if(st==="SUBSCRIBED"){
       const node=d("score-qr-image");if(!node)return;
