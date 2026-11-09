@@ -169,3 +169,12 @@
     padding: 8px 9px;
   }
 }
+
+
+/* O banner promocional de reserva contém uma faixa "Inscrições abertas".
+   Exibir somente a arte oficial do evento no topo da imagem.
+   A proporção do painel corresponde ao recorte do cabeçalho ilustrado. */
+#hubShareHome #hubCongressLogo[data-fallback="1"] {
+  object-fit: cover !important;
+  object-position: center top !important;
+}
