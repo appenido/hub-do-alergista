@@ -3321,6 +3321,30 @@ window._bloquearApp=function(){};
 
   <!-- ══ IMUNIZAÇÕES (SBIm) ══ -->
   <div class="page" id="page-imunizacoes">
+  <style id="vac-menu-proportional">
+    /* Cartões de entrada: mesmas proporções, alinhamento e altura. */
+    #vac-menu-hub > div[style*="flex-direction:column"] > button:not(.vac-vaccine-finder) {
+      width:100%; min-height:88px; box-sizing:border-box; flex-shrink:0;
+      display:flex; align-items:center; padding:14px 16px;
+    }
+    #vac-menu-hub > div[style*="flex-direction:column"] > button:not(.vac-vaccine-finder) > span:first-child {
+      flex:0 0 28px; width:28px; text-align:center;
+    }
+    #vac-menu-hub > div[style*="flex-direction:column"] > button:not(.vac-vaccine-finder) > div {
+      flex:1 1 auto; min-width:0; line-height:1.45;
+    }
+    #vac-menu-hub > div[style*="flex-direction:column"] > button:not(.vac-vaccine-finder) > span:last-child {
+      flex:0 0 auto;
+    }
+    #vac-menu-hub .vac-vaccine-finder {
+      width:100%; box-sizing:border-box; min-height:176px;
+      flex-shrink:0;
+    }
+    @media(max-width:390px){
+      #vac-menu-hub > div[style*="flex-direction:column"] > button:not(.vac-vaccine-finder){min-height:96px;}
+    }
+  </style>
+
 
     <div id="vac-menu-hub" style="padding:16px">
       <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;margin-bottom:4px">
@@ -10599,7 +10623,7 @@ function chatToggle(){
 })();
 </script>
 <script src="lgpd-runtime.js?v=20261104-8"></script>
-<script src="calendarios-imunizacoes.js?v=20261109-5"></script>
+<script src="calendarios-imunizacoes.js?v=20261109-6"></script>
 <script src="uptodate-ui.js?v=20261105-2"></script>
 <script src="imunoglobulinas-calculadora.js?v=20261105-4"></script>
 <!-- Questionários QR: criptografia da sessão na função Edge, resposta temporária por Realtime -->
