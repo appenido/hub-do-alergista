@@ -1119,15 +1119,24 @@ _marcarGuiasPagas();
 .vsd-close-inline{border:1px solid var(--gray-100);background:#f4f8fb;color:var(--teal-mid,#2e8b9e);border-radius:8px;padding:9px 13px;font:600 11px Manrope,sans-serif;cursor:pointer;margin-top:4px}
 @media(max-width:520px){.vsd-summary{padding:9px;min-height:120px}.vsd-card-title{font-size:11.5px}.vsd-card-short{font-size:10.5px}.vsd-read{font-size:10px}.vsd-deep{padding:12px 10px}.vsd-table{grid-template-columns:minmax(78px,.75fr) minmax(76px,.85fr) minmax(165px,2fr)}}
 
-/* Compartilhamento de 1 toque em destaque na página inicial */
-.hub-share-home{margin:12px 16px 10px;padding:17px 18px;display:flex;align-items:center;justify-content:space-between;gap:18px;border:1px solid #c9a84c;border-left:5px solid #c9a84c;border-radius:15px;background:linear-gradient(115deg,#0d3042,#1d5d70);box-shadow:0 4px 14px rgba(13,31,45,.12);color:#fff}
-.hub-share-copy{flex:1;min-width:0}
-.hub-share-eyebrow{display:block;font:700 9px Manrope,sans-serif;color:#f1d681;letter-spacing:.1em;margin:0 0 4px}
-.hub-share-home h2{font:800 clamp(15px,2vw,20px)/1.3 Manrope,sans-serif;color:#fff;margin:0 0 4px}
-.hub-share-home p{font:500 11.5px/1.5 Manrope,sans-serif;color:#dfeef0;margin:0}
-.hub-share-action{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;max-width:100%;padding:12px 17px;border-radius:10px;background:#d7b457;color:#142d39;text-decoration:none;text-align:center;font:800 12px/1.35 Manrope,sans-serif;box-shadow:0 2px 7px rgba(0,0,0,.15);transition:background .15s,transform .15s}
-.hub-share-action:hover,.hub-share-action:focus-visible{background:#efd38b;transform:translateY(-1px);outline:2px solid #fff;outline-offset:2px}
-@media(max-width:620px){.hub-share-home{margin:10px 12px 8px;padding:14px;flex-direction:column;align-items:stretch;gap:11px}.hub-share-home h2{font-size:16px}.hub-share-home p{font-size:11px}.hub-share-action{width:100%;min-height:44px}}
+
+/* Campanha do 53º Congresso: identidade nativa do Hub, sem aparência de patrocínio */
+.hub-share-home{margin:12px 16px 10px;padding:16px 18px;display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,270px);align-items:center;gap:17px;border:1px solid #c9e1e7;border-left:5px solid var(--teal-mid);border-radius:14px;background:linear-gradient(115deg,#f1f9fb,#fff);box-shadow:0 3px 12px rgba(13,31,45,.06);color:var(--navy)}
+.hub-share-copy{min-width:0}
+.hub-share-eyebrow{display:block;font:800 10px Manrope,sans-serif;color:var(--teal-mid);letter-spacing:.07em;margin:0 0 5px}
+.hub-share-home h2{font:800 clamp(15px,2vw,19px)/1.35 Manrope,sans-serif;color:var(--navy);margin:0 0 4px}
+.hub-share-home p{font:600 11.5px/1.5 Manrope,sans-serif;color:#3f6273;margin:0}
+.hub-share-home .hub-share-description{color:#526b79;font-weight:500;margin:6px 0 11px}
+.hub-share-action{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:44px;max-width:100%;padding:11px 15px;border-radius:10px;background:var(--teal-mid);border:1px solid var(--teal-mid);color:#fff;text-decoration:none;text-align:center;font:800 12px/1.35 Manrope,sans-serif;transition:background .15s}
+.hub-share-action:hover,.hub-share-action:focus-visible{background:var(--teal);color:#fff;outline:2px solid var(--aqua);outline-offset:2px}
+.hub-share-disclaimer{display:block;margin-top:8px;color:#64788a;font:500 9.5px/1.45 Manrope,sans-serif}
+.hub-congress-brand{display:flex;flex-direction:column;align-items:center;text-decoration:none;min-width:0;gap:5px;color:var(--teal-mid)}
+.hub-congress-visual{width:100%;max-width:270px;height:135px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:10px;background:#102045;border:1px solid #cadbe3}
+.hub-congress-visual img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.hub-congress-text-fallback{display:none;padding:13px;color:#fff;text-align:center;font:800 14px/1.4 Manrope,sans-serif}
+.hub-congress-visual.hub-congress-fallback .hub-congress-text-fallback{display:block}
+.hub-congress-source{font:600 9px/1.35 Manrope,sans-serif;color:var(--teal-mid);text-align:center}
+@media(max-width:620px){.hub-share-home{grid-template-columns:minmax(0,1fr);margin:10px 12px 8px;padding:14px;gap:12px}.hub-share-home h2{font-size:16px}.hub-share-home p{font-size:11px}.hub-share-action{width:100%;min-height:44px}.hub-congress-brand{align-items:stretch}.hub-congress-visual{width:100%;max-width:none;height:132px}.hub-congress-source{text-align:right}}
 
 </style>
 <script>
@@ -1336,15 +1345,23 @@ window._bloquearApp=function(){};
       <div class="alert-tag" id="alertaNoticiaTag">Jornal</div>
     </a>
 
-    <!-- Compartilhamento do Hub: destaque principal da home -->
+    <!-- Campanha independente de divulgação no 53º Congresso ASBAI 2026 -->
     <section id="hubShareHome" class="hub-share-home" aria-labelledby="hubShareHomeTitle">
       <div class="hub-share-copy">
-        <span class="hub-share-eyebrow">AJUDE A DIVULGAR O HUB</span>
-        <h2 id="hubShareHomeTitle">Conhece outro alergista?</h2>
-        <p>Compartilhe gratuitamente as ferramentas do Hub com um colega.</p>
+        <span class="hub-share-eyebrow">DIVULGUE O HUB NO CONGRESSO</span>
+        <h2 id="hubShareHomeTitle">Vamos compartilhar o Hub com outros alergistas?</h2>
+        <p>53º Congresso Brasileiro de Alergia e Imunologia · 12–14/11/2026 · Foz do Iguaçu</p>
+        <p class="hub-share-description">Apresente o Hub do Alergista aos colegas durante o congresso. O acesso é gratuito.</p>
+        <a class="hub-share-action" href="https://wa.me/?text=Durante%20o%2053%C2%BA%20Congresso%20Brasileiro%20de%20Alergia%20e%20Imunologia%20(12%20a%2014%2F11%2F2026%2C%20Foz%20do%20Igua%C3%A7u)%2C%20compartilho%20uma%20ferramenta%20gratuita%20para%20nossos%20colegas%3A%20o%20Hub%20do%20Alergista.%20Protocolos%20de%20bolso%2C%20artigos%2C%20imuniza%C3%A7%C3%B5es%2C%20imunobiol%C3%B3gicos%2C%20escores%20e%20ferramentas%20cl%C3%ADnicas%20reunidos%20em%20um%20s%C3%B3%20lugar.%20Acesse%3A%20https%3A%2F%2Fhubdoalergista.pages.dev%2F%3Futm_source%3Dindicacao%26utm_medium%3Dwhatsapp%26utm_campaign%3Dcongresso_asbai_2026" target="_blank" rel="noopener noreferrer" aria-label="Compartilhar o Hub do Alergista por WhatsApp durante o 53º Congresso Brasileiro de Alergia e Imunologia">Compartilhar pelo WhatsApp <span aria-hidden="true">↗</span></a>
+        <span class="hub-share-disclaimer">Divulgação independente. O Hub não é o aplicativo oficial do congresso.</span>
       </div>
-      <a class="hub-share-action" href="https://wa.me/?text=Conhe%C3%A7a%20o%20Hub%20do%20Alergista!%20Protocolos%20de%20bolso%2C%20artigos%2C%20imuniza%C3%A7%C3%B5es%2C%20imunobiol%C3%B3gicos%2C%20escores%20e%20ferramentas%20para%20a%20pr%C3%A1tica%20em%20Alergia%20e%20Imunologia.%20Acesso%20gratuito%3A%20https%3A%2F%2Fhubdoalergista.pages.dev%2F%3Futm_source%3Dindicacao%26utm_medium%3Dwhatsapp%26utm_campaign%3Dcompartilhar_home" target="_blank" rel="noopener noreferrer" aria-label="Indique o Hub a outro alergista pelo WhatsApp">
-        Indique o Hub a outro alergista <span aria-hidden="true">↗</span>
+      <a class="hub-congress-brand" href="https://congressoalergiaasbai2026.com.br/" target="_blank" rel="noopener noreferrer" aria-label="Conhecer o 53º Congresso Brasileiro de Alergia e Imunologia no site oficial">
+        <span class="hub-congress-visual">
+          <img id="hubCongressLogo" src="https://asbai.org.br/storage/2026/04/Banner-53-Congresso-Brasileiro-de-Alergia-e-Imunologia-DESK.jpg" alt="Identidade visual oficial do 53º Congresso Brasileiro de Alergia e Imunologia, ASBAI 2026"
+            loading="lazy" decoding="async" onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='https://media.licdn.com/dms/image/v2/D4D22AQGe7x-O5_HJzw/feedshare-shrink_1280/B4DZ0._X3JHIAM-/0/1774878293766?e=2147483647&amp;t=k8QpCscUn5B5pamcBlH3c9cF2hI13rLrvI8fryb1GBI&amp;v=beta';}else{this.hidden=true;this.parentElement.classList.add('hub-congress-fallback');}" />
+          <span class="hub-congress-text-fallback">53º CONGRESSO BRASILEIRO DE ALERGIA E IMUNOLOGIA</span>
+        </span>
+        <span class="hub-congress-source">Identidade visual do congresso · Site oficial ↗</span>
       </a>
     </section>
 
