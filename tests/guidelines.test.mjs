@@ -54,9 +54,22 @@ test('as referências têm identidades únicas, URLs exatas e todos os temas',as
     assert.match(i.doi,/^10\.\d+\//);assert.ok(html.includes('data-pmid="'+i.pmid+'"'));
     assert.ok(html.includes('https://pubmed.ncbi.nlm.nih.gov/'+i.pmid+'/'));
   }
-  assert.equal(topics.size,11);assert.equal(ids.size,21);
+  assert.equal(topics.size,11);assert.equal(ids.size,25);
   const section=html.slice(html.indexOf('id="page-guidelines"'),html.indexOf('<!-- ══ PROTOCOLOS EAACI'));
   for(const wrong of ['PMC9898518','PMC9546417','PMC10637984','S2213219824001975','AGREE 2024'])assert.ok(!section.includes(wrong));
+});
+test('protocolo de AEH cita diretrizes internacionais 2026 rastreáveis',async()=>{
+  const data=JSON.parse(await readFile(new URL('../guidelines-referencias.json',import.meta.url)));
+  const html=await readFile(new URL('../index.html',import.meta.url),'utf8');
+  const a=html.indexOf('id="eaaci-3"'),b=html.indexOf('id="eaaci-4"',a);
+  assert.ok(a>0&&b>a);
+  const section=html.slice(a,b);
+  for(const pmid of ['42165046','42990719','41606636']){
+    assert.ok(data.itens.some(i=>i.pmid===pmid),'PMID ausente do catálogo: '+pmid);
+    assert.ok(section.includes('pubmed.ncbi.nlm.nih.gov/'+pmid+'/'),'PMID não citado no protocolo: '+pmid);
+  }
+  assert.match(section,/09\/11\/2026/);
+  assert.match(section,/garadacimabe/);
 });
 test('indisponibilidade do PubMed não é preenchida com artigos arbitrários',async()=>{
   const old=globalThis.fetch;globalThis.fetch=async()=>{throw new Error('offline');};
