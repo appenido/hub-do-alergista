@@ -207,10 +207,13 @@
     if(!get('vac-nativo-css')){
       var style=document.createElement('style');style.id='vac-nativo-css';
       style.textContent=
-       '.vac-nat-card{width:100%;display:flex;align-items:flex-start;gap:10px;text-align:left;background:#fff;border:1.5px solid #dfe8ed;border-radius:12px;padding:13px 12px;cursor:pointer;font:inherit;color:#0d1f2d;min-height:82px}' +
+       '.vac-nat-card{width:100%;height:100%;min-height:118px;box-sizing:border-box;display:flex;align-items:flex-start;gap:10px;text-align:left;background:#fff;border:1.5px solid #dfe8ed;border-radius:12px;padding:14px 12px;cursor:pointer;font:inherit;color:#0d1f2d;overflow-wrap:anywhere;line-height:1.45;transition:border-color .15s,background .15s}' +
+       '.vac-nat-card>span:first-child{flex:0 0 28px;width:28px;line-height:1.2;text-align:center}' +
+       '.vac-nat-card>span:last-child{flex:1 1 auto;min-width:0}' +
+       '.vac-nat-card:focus-visible{outline:3px solid #2d8fa8;outline-offset:2px}' +
        '.vac-nat-card[aria-pressed="true"]{border-color:#2d8fa8;background:#effafb}' +
-       '.vac-nat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;align-items:start}' +
-       '.vac-nat-inline{grid-column:1/-1!important;min-width:0;width:100%;box-sizing:border-box;margin:0!important}' +
+       '.vac-nat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:stretch;grid-auto-flow:row}' +
+       '.vac-nat-inline{grid-column:1/-1!important;min-width:0;width:100%;box-sizing:border-box;margin:0!important;align-self:stretch}' +
        '.vac-cal-inline-root{padding:2px 0 10px!important;min-width:0;width:100%;background:#f8fbfd;border-radius:12px}' +
        '.vac-nat-sec{margin:18px 0 8px;font-size:13px;color:#153a4c}' +
        '.vac-nat-batch{border:1px solid #e2e8f0;border-radius:12px;background:#fff;margin-bottom:10px;overflow:hidden}' +
@@ -316,7 +319,7 @@
       if(!atraso)return;
       atraso.classList.add('vac-nat-inline');
       atraso.style.display='block';
-      botao.after(atraso);
+      placeBelowCardRow(botao,atraso);
       if(typeof window.atrRender==='function')window.atrRender();
       return;
     }
@@ -342,9 +345,22 @@
     output.innerHTML=h;
     sec.classList.add('vac-nat-inline');
     sec.style.display='block';
-    // Inserção imediatamente após o botão acionado, dentro da grade.
-    // A grade faz o painel ocupar toda a linha, sem scrollIntoView.
-    botao.after(sec);
+    // Expansão após o fim da linha do cartão, mantendo todas as
+    // caixas da mesma linha niveladas e sem buracos na grade.
+    placeBelowCardRow(botao,sec);
+  }
+  function placeBelowCardRow(botao,painel){
+    if(!botao||!painel)return;
+    var grade=botao.closest('.vac-nat-grid');
+    if(!grade){botao.after(painel);return;}
+    var caixas=Array.prototype.filter.call(grade.children,function(el){
+      return el.classList && el.classList.contains('vac-nat-card');
+    });
+    var index=caixas.indexOf(botao);
+    var largura=window.matchMedia&&window.matchMedia('(min-width:750px)').matches?3:2;
+    if(index<0){botao.after(painel);return;}
+    var fim=Math.min(caixas.length-1,Math.floor(index/largura)*largura+largura-1);
+    caixas[fim].after(painel);
   }
   function listButton(id){
     var list=get('vacCalendariosLista');
