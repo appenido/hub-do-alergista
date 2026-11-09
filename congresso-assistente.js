@@ -92,6 +92,21 @@ function extract(html){
     nodes.push({s,tag:h?h.tagName:''});
   }
   let day='12/11/2026', room='', group='', time='', current=null, begun=false, afterTime=false;const result=[];
+  // A sala pertence à coluna da atividade na grade. Não se deve usar
+  // a última sala lida no cabeçalho para todas as palestras.
+  function roomFor(element) {
+    const cell=element?.closest('td,th');
+    const table=cell?.closest('table');
+    if(!cell||!table||cell.cellIndex<0)return '';
+    const header=[...table.querySelectorAll('tr')].find(row=>{
+      const labels=[...row.cells].map(c=>c.textContent.trim());
+      return labels.filter(t=>/^Sala\s+\d|^Arena Cient/i.test(t)).length>=2;
+    });
+    if(!header)return '';
+    const label=header.cells[cell.cellIndex]?.textContent.replace(/\s+/g,' ').trim()||'';
+    const match=label.match(/^(Sala\s+(?:\d+[A-Z]?(?:\s*\+\s*\d+[A-Z]?)?|de Reunião)|Arena Científica)$/i);
+    return match?match[0]:'';
+  }
   const isPerson=s=>s.length>7 && s.length<100 && /^[A-ZÀ-Ý .'-]+$/.test(s) && s.trim().split(/\s+/).length>=2;
   for(let i=0;i<nodes.length;i++){
     const t=nodes[i],s=t.s;
@@ -106,13 +121,13 @@ function extract(html){
       if(isPerson(speaker))current.palestrante=speaker;continue;
     }
     if((t.tag==='H4'||t.tag==='H3')&&!isPerson(s)&&s.length>5&&!/^Mesa Redonda|Mini Confer[eê]ncia|Intervalo|Congresso|Programação/i.test(s)){group=s;continue;}
-    if(!time||!room)continue;
+    if(!time)continue;
     if((t.tag==='H5'||t.tag==='H6'||(afterTime&&!t.tag))&&s.length>8&&s.length<180&&!/^Discussão|Discussao|Mesa Redonda|Mini Conferência|Intervalo|Palestrante|Moderador|Moderadora|Outros|Plenária/i.test(s)&&!isPerson(s)){
-      current={dia:day,hora:time,sala:room,titulo:s,palestrante:'',mesa:group};
+      current={dia:day,hora:time,sala:roomFor(p),titulo:s,palestrante:'',mesa:group};
       result.push(current);afterTime=false;
     }
   }
-  return result.filter(x=>/^1[234]\/11\/2026$/.test(x.dia) && x.hora && x.sala);
+  return result.filter(x=>/^1[234]\/11\/2026$/.test(x.dia) && x.hora && x.titulo);
 }
 function merge(a,b){let m=new Map;for(const x of [...a,...b]){
   let k=norm(x.titulo)+'|'+x.dia;
@@ -127,7 +142,7 @@ function load(){
      const d=await r.json();if(!d.ok)throw Error('sem fonte');
      const parsed=extract(d.html||'');
      if(parsed.length<15)throw Error('grade incompleta');
-     dados=merge(parsed,verificados);live=true;
+     dados=merge(verificados,parsed);live=true;
    }catch(e){dados=verificados;live=false;}
    const st=el('hubCongressAssistStatus');
    if(st)st.textContent=live?'Consulta realizada na grade oficial; horários sujeitos a alterações.':'Busca na seleção conferida da programação oficial; a atualização automática está indisponível.';
