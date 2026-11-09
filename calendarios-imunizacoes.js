@@ -207,9 +207,11 @@
     if(!get('vac-nativo-css')){
       var style=document.createElement('style');style.id='vac-nativo-css';
       style.textContent=
-       '.vac-nat-card{width:100%;height:100%;min-height:118px;box-sizing:border-box;display:flex;align-items:flex-start;gap:10px;text-align:left;background:#fff;border:1.5px solid #dfe8ed;border-radius:12px;padding:14px 12px;cursor:pointer;font:inherit;color:#0d1f2d;overflow-wrap:anywhere;line-height:1.45;transition:border-color .15s,background .15s}' +
+       '.vac-nat-card{width:100%;height:148px;min-height:148px;box-sizing:border-box;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:8px;text-align:left;background:#fff;border:1.5px solid #dfe8ed;border-radius:12px;padding:13px 12px;cursor:pointer;font:inherit;color:#0d1f2d;overflow-wrap:anywhere;line-height:1.4;transition:border-color .15s,background .15s}' +
        '.vac-nat-card>span:first-child{flex:0 0 28px;width:28px;line-height:1.2;text-align:center}' +
        '.vac-nat-card>span:last-child{flex:1 1 auto;min-width:0}' +
+       '.vac-nat-card>span:last-child>span:first-child{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}' +
+       '.vac-nat-card>span:last-child>span:last-child{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}' +
        '.vac-nat-card:focus-visible{outline:3px solid #2d8fa8;outline-offset:2px}' +
        '.vac-nat-card[aria-pressed="true"]{border-color:#2d8fa8;background:#effafb}' +
        '.vac-nat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:stretch;grid-auto-flow:row}' +
@@ -225,7 +227,7 @@
        '.vac-nat-footer{padding:12px;border-top:1px solid #e2e8f0;margin-top:15px;font-size:11.5px;line-height:1.55;color:#64748b}' +
        '.vac-nat-source{display:block;width:fit-content;max-width:100%;margin-top:10px;color:#1f6980;text-decoration:underline;font-weight:700;overflow-wrap:anywhere}' +
        '.vac-nat-back{border:1px solid #c8e2e9;background:#eef8fb;color:#155c70;border-radius:8px;padding:7px 10px;font:700 11px Manrope,sans-serif;cursor:pointer}' +
-       '@media(min-width:750px){.vac-nat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}';
+       '@media(min-width:750px){.vac-nat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.vac-nat-card{height:138px;min-height:138px}}';
       document.head.appendChild(style);
     }
     var tabs=get('vacCalTabSBIm');
@@ -440,6 +442,13 @@
       closeNative();
     };
   }
+  // Mantém o painel na linha correta ao alternar orientação ou tamanho da tela.
+  window.addEventListener('resize',function(){
+    if(!selecionado)return;
+    var botao=listButton(selecionado);
+    var painel=selecionado==='atraso'?get('vac-sub-atraso'):get('vacCalPreview');
+    if(botao&&painel&&painel.style.display!=='none')placeBelowCardRow(botao,painel);
+  });
   // Não interferir na navegação de outras áreas do app.
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',preparar);
   else preparar();
