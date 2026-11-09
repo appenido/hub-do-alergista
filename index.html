@@ -9928,7 +9928,7 @@ document.addEventListener('DOMContentLoaded', function(){
 (function(){
   'use strict';
   if(!('serviceWorker' in navigator))return;
-  var registration=null, pending=false, userEdited=false, hadController=!!navigator.serviceWorker.controller;
+  var registration=null, pending=false, userEdited=false, refreshing=false, hadController=!!navigator.serviceWorker.controller;
   var lastCheck=0, bar=null;
   document.addEventListener('input',function(e){
     if(e.target && e.target.closest && e.target.closest('input,textarea,select,[contenteditable="true"]'))userEdited=true;
@@ -9958,7 +9958,16 @@ document.addEventListener('DOMContentLoaded', function(){
   }
   function newVersion(){
     pending=true;
-    if(!document.hidden)notice();
+    if(document.hidden)return;
+    // Atualização automática segura: não interromper formulário em edição.
+    var foco=document.activeElement;
+    var preenchendo=foco && foco.matches && foco.matches('input,textarea,select,[contenteditable="true"]');
+    if(!userEdited&&!preenchendo&&!refreshing){
+      refreshing=true;
+      window.location.reload();
+      return;
+    }
+    notice();
   }
   function check(force){
     if(document.hidden||!navigator.onLine)return;
@@ -9985,7 +9994,7 @@ document.addEventListener('DOMContentLoaded', function(){
   });
   document.addEventListener('visibilitychange',function(){
     if(!document.hidden){
-      if(pending && !userEdited){window.location.reload();return;}
+      if(pending && !userEdited && !refreshing){refreshing=true;window.location.reload();return;}
       if(pending)notice();
       check(true);
     }
