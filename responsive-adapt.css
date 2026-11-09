@@ -1,0 +1,160 @@
+/* Hub do Alergista | adaptação automática por tamanho de tela e tipo de interação.
+   Não depende de userAgent: funciona em Windows, macOS, iOS e Android,
+   incluindo redimensionamento da janela, zoom e rotação do dispositivo. */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+.scroll-area,
+.page {
+  width: 100%;
+  min-width: 0;
+}
+.topbar {
+  padding-left: max(12px, env(safe-area-inset-left));
+  padding-right: max(12px, env(safe-area-inset-right));
+}
+.tb-logo,
+.tb-search {
+  min-width: 0;
+}
+.tb-search input {
+  min-width: 0;
+  text-overflow: ellipsis;
+}
+.hub-share-copy,
+.hub-congress-assist-panel,
+.igcalc-shell,
+.igmain-detail,
+.igcat,
+.ige-workspace {
+  min-width: 0;
+}
+.hscroll,
+.filter-chips {
+  overscroll-behavior-x: contain;
+  scroll-behavior: smooth;
+}
+.igmain-detail,
+.igcalc-body {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.igcalc-table {
+  max-width: 100%;
+}
+.page img,
+.page svg {
+  max-width: 100%;
+}
+@media (max-width: 759px) {
+  .topbar {
+    gap: 7px;
+    padding-left: max(10px, env(safe-area-inset-left));
+    padding-right: max(10px, env(safe-area-inset-right));
+    padding-top: env(safe-area-inset-top);
+    height: calc(var(--topbar-h) + env(safe-area-inset-top));
+  }
+  .tb-logo { flex: 0 1 auto; }
+  .tb-name {
+    display: block;
+    max-width: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .tb-back,
+  .tb-bell,
+  .tb-user {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    flex-shrink: 0;
+  }
+  .tb-search {
+    min-width: 0;
+    flex: 1 1 0;
+    padding: 7px 9px;
+  }
+  .quick-grid,
+  .score-grid,
+  .bio-grid,
+  .igcat-grid {
+    min-width: 0;
+  }
+  .qcard { min-width: 0; }
+  .ql { overflow-wrap: anywhere; }
+  .bio-grid .bio-card,
+  .igcat-grid .igcat-item { min-width: 0; }
+  .modal {
+    max-height: calc(100dvh - 28px);
+    padding-bottom: max(28px, env(safe-area-inset-bottom));
+  }
+  .hub-update-bar {
+    bottom: calc(var(--bottomnav-h) + 10px + env(safe-area-inset-bottom));
+  }
+  /* Safari amplia automaticamente campos menores que 16px ao receber foco.
+     Mantém a página estável durante busca e preenchimento de formulários. */
+  input[type="text"],
+  input[type="search"],
+  input[type="number"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="password"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+@media (max-width: 420px) {
+  .topbar { gap: 6px; }
+  .tb-name { max-width: 90px; font-size: 12px; }
+  .tb-icon { width: 26px; height: 26px; }
+  .hub-congress-assist-form { min-width: 0; }
+  .hub-congress-assist-form input { min-width: 0; }
+}
+@media (max-width: 360px) {
+  /* Ícone do Hub permanece; a busca ocupa o espaço economizado. */
+  .tb-name { display: none; }
+  .quick-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .qcard { min-height: 86px; }
+}
+@media (min-width: 760px) and (max-width: 1023px) {
+  .topbar { gap: 12px; }
+  .scroll-area { padding-bottom: 32px; }
+}
+@media (min-width: 1024px) {
+  .topbar { gap: 14px; padding-left: 24px; padding-right: 24px; }
+  .scroll-area { padding-bottom: 40px; }
+  /* Em notebook/desktop, os diálogos passam a abrir como janelas centrais,
+     sem bloquear desnecessariamente a visualização da página. */
+  .overlay { align-items: center; padding: 20px; }
+  .modal {
+    width: min(100%, 760px);
+    max-height: min(85dvh, 900px);
+    border-radius: 18px;
+    padding-bottom: 28px;
+  }
+}
+@media (hover: none) and (pointer: coarse) {
+  .sp-btn,
+  .fchip,
+  .hub-congress-assist-form button {
+    min-height: 42px;
+  }
+  .qcard,
+  .bio-header,
+  .igcat-card {
+    touch-action: manipulation;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page.active > *,
+  .fav-star.on {
+    animation: none !important;
+  }
+  .hscroll,
+  .filter-chips {
+    scroll-behavior: auto;
+  }
+}
