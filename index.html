@@ -1228,7 +1228,15 @@ _marcarGuiasPagas();
 .igcat-heading p{font-size:11px;color:var(--gray-500);line-height:1.5}
 .igcat-group{margin:0 0 16px}
 .igcat-group h4{font-size:11px;font-weight:800;color:var(--teal-mid);margin:0 0 9px;letter-spacing:.02em}
-.igcat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.igcat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;align-items:stretch}
+.igcat-item{display:flex;flex-direction:column;min-width:0;align-self:stretch;box-sizing:border-box;background:#fff;border:1px solid #dce5eb;border-radius:12px;overflow:hidden;overflow-anchor:none}
+.igcat-item>.igcat-card{border:0;border-radius:0;flex:1 0 auto;min-height:80px;box-shadow:none!important}
+.igcat-item.open{grid-column:1/-1;border-color:#16829a;box-shadow:0 0 0 1px #16829a}
+.igcat-item.open>.igcat-card{flex:0 0 auto;min-height:76px;background:#e7f6f8;border-bottom:1px solid #d3e3e7}
+.igcat-item>.igmain-detail{margin:0!important;padding:14px!important;border:0!important;border-radius:0!important;box-shadow:none!important;min-width:0;max-width:100%;overflow-x:auto;overflow-wrap:anywhere;box-sizing:border-box;background:#fff}
+.igcat-item>.igmain-detail[hidden]{display:none!important}
+.igcat-item.open .igcat-name{font-size:13px}
+#page-imunoglobulinas .igcat-grid{overflow-anchor:none}
 .igcat-card{display:flex;align-items:center;gap:10px;min-width:0;width:100%;background:#fff;border:1px solid #dce5eb;border-radius:12px;padding:13px 12px;text-align:left;cursor:pointer;font-family:Manrope,sans-serif;transition:background .15s,border-color .15s,box-shadow .15s}
 .igcat-card:hover,.igcat-card:focus-visible,.igcat-card[aria-pressed="true"]{border-color:#2d8fa8;background:#f2fafb}
 .igcat-card[aria-pressed="true"]{box-shadow:0 0 0 1px #2d8fa8}
@@ -10678,7 +10686,7 @@ function chatToggle(){
 <script src="lgpd-runtime.js?v=20261104-8"></script>
 <script src="calendarios-imunizacoes.js?v=20261109-8"></script>
 <script src="uptodate-ui.js?v=20261105-2"></script>
-<script src="imunoglobulinas-calculadora.js?v=20261105-4"></script>
+<script src="imunoglobulinas-calculadora.js?v=20261109-1"></script>
 <!-- Questionários QR: criptografia da sessão na função Edge, resposta temporária por Realtime -->
 <script src="/qrcode.min.js?v=20261108-1"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.91.0" referrerpolicy="no-referrer"></script>
