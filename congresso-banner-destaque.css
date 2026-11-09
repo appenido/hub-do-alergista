@@ -247,3 +247,51 @@
     box-sizing: border-box;
   }
 }
+
+/* HOME_CONGRESS_SEARCH_COMPACT_20261109: busca em linha única no celular. */
+#hubShareHome .hub-congress-assist-form {
+  max-width: min(100%, 600px);
+  gap: 7px;
+  margin-top: 5px;
+}
+#page-dashboard #hubShareHome .hub-congress-assist-form input,
+#page-dashboard #hubShareHome .hub-congress-assist-form button {
+  min-height: 42px !important;
+  height: 42px;
+  box-sizing: border-box;
+}
+#hubShareHome .hub-congress-assist-form input {
+  padding: 8px 11px;
+}
+#hubShareHome .hub-congress-assist-form button {
+  min-width: 75px;
+  padding: 8px 12px;
+}
+@media (max-width: 620px) {
+  #hubShareHome .hub-congress-assist-form {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    width: 100% !important;
+    gap: 6px;
+    margin-top: 5px;
+    align-items: center;
+  }
+  #hubShareHome .hub-congress-assist-form input {
+    grid-column: 1;
+    height: 42px;
+    min-height: 42px !important;
+    padding: 8px 10px;
+    font-size: 16px !important;
+  }
+  #hubShareHome .hub-congress-assist-form button {
+    grid-column: 2;
+    width: auto !important;
+    min-width: 70px !important;
+    max-width: none !important;
+    height: 42px;
+    min-height: 42px !important;
+    margin: 0;
+    padding: 8px 11px;
+    font-size: 13px !important;
+  }
+}
