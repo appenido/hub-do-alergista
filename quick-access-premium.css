@@ -2,7 +2,7 @@
    Escopo restrito à home, sem afetar os cards das demais áreas. */
 #page-dashboard .quick-grid {
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-columns:repeat(2,minmax(0,1fr));
   gap:12px;
   padding-inline:clamp(14px,4vw,28px);
   align-items:stretch;
@@ -105,9 +105,10 @@
   color:#1b394b;
   text-wrap:balance;
   text-align:center;
-  overflow-wrap:break-word;
-  word-break:normal;
-  hyphens:none;
+  overflow-wrap:normal !important;
+  word-break:keep-all !important;
+  hyphens:none !important;
+  white-space:normal !important;
 }
 #page-dashboard .quick-grid .qcard[data-nav="interacao"] .ql,
 #page-dashboard .quick-grid .qcard[data-nav="imunoglobulinas"] .ql,
@@ -116,23 +117,23 @@
 }
 #page-dashboard .quick-grid .hub-install-card[hidden]{display:none!important;}
 @media(max-width:339px){
-  #page-dashboard .quick-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;padding-inline:12px;}
+  #page-dashboard .quick-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;padding-inline:10px;}
   #page-dashboard .quick-grid .qcard {min-height:145px;}
 }
 @media(min-width:600px) and (max-width:759px){
-  #page-dashboard .quick-grid {grid-template-columns:repeat(4,minmax(0,1fr));}
+  #page-dashboard .quick-grid {grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
 }
 @media(min-width:760px) and (max-width:1023px){
-  #page-dashboard .quick-grid {grid-template-columns:repeat(5,minmax(0,1fr));gap:15px;}
+  #page-dashboard .quick-grid {grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;}
   #page-dashboard .quick-grid .qcard {min-height:165px;}
 }
 @media(min-width:1024px) and (max-width:1250px){
-  #page-dashboard .quick-grid {grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;}
+  #page-dashboard .quick-grid {grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:16px;}
   #page-dashboard .quick-grid .qcard {min-height:174px;padding:19px 11px;}
   #page-dashboard .quick-grid .qcard .ql {font-size:15.5px!important;}
 }
 @media(min-width:1251px){
-  #page-dashboard .quick-grid {grid-template-columns:repeat(7,minmax(0,1fr));gap:16px;}
+  #page-dashboard .quick-grid {grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;}
   #page-dashboard .quick-grid .qcard {min-height:176px;padding:20px 11px;}
   #page-dashboard .quick-grid .qcard .ql {font-size:15px!important;}
 }
