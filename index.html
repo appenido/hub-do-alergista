@@ -3382,9 +3382,7 @@ window._bloquearApp=function(){};
           </div>
           <button type="button" onclick="vacFecharCalendario()" aria-label="Fechar visualização" style="background:#f1f5f8;border:1px solid var(--gray-100);border-radius:8px;padding:5px 10px;cursor:pointer">✕</button>
         </div>
-        <a id="vacCalPreviewLink" class="vac-cal-link" href="#" target="_blank" rel="noopener noreferrer">Abrir documento oficial</a>
-        <div id="vacCalPreviewAviso" style="font-size:10.5px;color:var(--gray-500);line-height:1.5;margin:9px 0"></div>
-        <iframe id="vacCalPreviewFrame" class="vac-cal-frame" loading="lazy" title="Calendário oficial" referrerpolicy="strict-origin-when-cross-origin" style="display:none"></iframe>
+        <div id="vacNativeContent"></div>
       </div>
       <div class="vac-cal-nota" style="margin-top:14px;padding:12px;border-radius:11px;background:#fff;border:1px solid var(--gray-100)">
         Atenção: as recomendações SBIm podem incluir esquemas diferentes dos disponíveis no SUS, além de indicações fora de bula.
@@ -10601,7 +10599,7 @@ function chatToggle(){
 })();
 </script>
 <script src="lgpd-runtime.js?v=20261104-8"></script>
-<script src="calendarios-imunizacoes.js?v=20261109-4"></script>
+<script src="calendarios-imunizacoes.js?v=20261109-5"></script>
 <script src="uptodate-ui.js?v=20261105-2"></script>
 <script src="imunoglobulinas-calculadora.js?v=20261105-4"></script>
 <!-- Questionários QR: criptografia da sessão na função Edge, resposta temporária por Realtime -->
