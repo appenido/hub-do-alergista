@@ -1,0 +1,429 @@
+/* HUB | Desktop universal.
+   Complementa o layout responsivo em todas as seções da aplicação.
+   Não altera smartphone/tablet e não depende do sistema operacional. */
+@media (min-width: 1024px) {
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { width: 100%; max-width: min(100%, 1920px); }
+  .scroll-area, .page { width: 100%; min-width: 0; }
+  .page { font-size: 16px; line-height: 1.6; }
+  .page :is(h1, h2, h3, h4) { line-height: 1.35; }
+  .page :is(p, li, dt, dd, td, th, label, summary) { font-size: 15px !important; line-height: 1.6; }
+  .page :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]):not([type="file"]), select, textarea) {
+    font-size: 16px !important;
+    min-height: 44px;
+    max-width: 100%;
+  }
+  .page :is(textarea, select, input) { font-family: inherit; }
+  .page :is(button, .btn, .link-btn) { line-height: 1.4; }
+  .page :is(button, .btn, .link-btn):focus-visible,
+  .page :is(input, select, textarea):focus-visible { outline-offset: 2px; }
+  .page :is(table, img, video) { max-width: 100%; }
+  .page :is(.igcalc-table, .ig-tbl, .vsd-table) { max-width: 100%; }
+  .page :is(.igcalc-table, .ig-tbl) th,
+  .page :is(.igcalc-table, .ig-tbl) td { font-size: 14px !important; line-height: 1.55; }
+  .page :is(.scroll-area, .overflow-table, .table-wrap) { overflow-x: auto; }
+  .page :is(.qcard, .guide-card, .bio-card, .vac-card, .igcat-item, .mat-card, .home-fav-card) {
+    min-width: 0;
+  }
+  .page :is(.guide-card, .rel-row, .caso-card, .course-card, .art-card, .fav-row, .mat-card) {
+    line-height: 1.6;
+  }
+  .page :is(.rel-row, .course-card, .mat-card, .guide-card) {
+    padding: 18px 22px;
+  }
+  .page :is(.caso-hdr, .caso-body, .caso-foot, .art-card, .fav-row) {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+  .page :is(.rel-title, .course-title, .fc-title, .pc-title, .gc-name) {
+    font-size: 17px !important;
+    line-height: 1.45;
+  }
+  .page :is(.rel-desc, .course-meta, .fc-body, .pc-body, .nc-body, .ap-desc, .comply) {
+    font-size: 15px !important;
+    line-height: 1.6;
+  }
+  .page :is(.btn, .btn-sm, .sp-btn, .di-add-btn, .ig-btn, .lab-tab, .forum-channel, .fchip, .igchat-chip, .ia-prov-btn, .ap-send) {
+    font-size: 15px !important;
+    min-height: 40px;
+  }
+  .page .btn-sm { padding: 9px 13px; }
+  .page .pg-back { font-size: 16px !important; padding: 16px 22px; margin-left: 24px; width: calc(100% - 48px); }
+  .page .lab-tabs { gap: 10px; padding: 8px 24px 16px; }
+  .page .lab-search, .page .di-input-row { padding: 11px 15px; gap: 12px; }
+  .page :is(.di-search-box, .di-chips, .di-result, .ig-form, .ige-search-hero, .utd-panel) {
+    margin-left: 24px;
+    margin-right: 24px;
+  }
+  .page .di-check-btn { width: calc(100% - 48px); margin-left: 24px; margin-right: 24px; }
+  .page .di-result-header { font-size: 16px !important; padding: 17px 20px; }
+  .page .di-result-body { font-size: 15px !important; padding: 18px 20px; }
+  .page .di-result-pair { font-size: 16px !important; }
+  .page .di-suggestion-chip { font-size: 14px !important; padding: 8px 12px; }
+  .page .vac-grid { gap: 16px; }
+  .page .vac-header { padding: 21px 17px; gap: 13px; }
+  .page .vac-name { font-size: 17px !important; }
+  .page .vac-protection, .page .vac-brand { font-size: 13.5px !important; }
+  .page .ig-form { padding: 20px 22px; }
+  .page .ig-grid { gap: 14px; }
+  .page .ig-card { padding: 17px 19px; gap: 8px; }
+  .page .ig-card .ig-n { font-size: 16px !important; }
+  .page .ig-card .ig-f, .page .ig-card .ig-c { font-size: 14px !important; }
+  .page .ig-card .ig-marca { font-size: 12px !important; }
+  .page .ig-f-row { gap: 8px; margin-bottom: 15px; }
+  .page .ige-workspace { padding: 0 24px 30px; gap: 22px; }
+  .page .ige-workspace.note-open { grid-template-columns: minmax(0, 1fr) minmax(350px, 420px); }
+  .page .ige-results { grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 14px; }
+  .page .ige-results .ige-card .ige-hit { padding: 16px; }
+  .page .ige-search-hero { padding: 19px 22px; }
+  .page .ige-search-heading { font-size: 20px !important; }
+  .page .ige-search-caption { font-size: 14px !important; }
+  .page .vsd-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 12px; }
+  .page .vsd-summary { min-height: 145px; padding: 15px 17px; }
+  .page .vsd-card-title { font-size: 16px !important; }
+  .page .vsd-card-short, .page .vsd-deep, .page .vsd-card p { font-size: 14.5px !important; }
+  .page .utd-panel { padding: 18px 21px; }
+  .page .utd-head h2 { font-size: 19px !important; }
+  .page .utd-item { padding: 14px 17px; }
+  .page .utd-item p { font-size: 15px !important; }
+  .page .igcalc-shell { max-width: 1600px; }
+  .page .igcalc-section { padding: 19px 22px; }
+  .page .igmain-detail { padding: 20px !important; }
+  .page .igmain-detail :is(p,li,th,td) { font-size: 15px !important; }
+  .page .igcat-heading h3 { font-size: 19px !important; }
+  .page .igcat-group h4 { font-size: 16px !important; }
+  .page .igcat-name, .page .igcat-item.open .igcat-name { font-size: 17px !important; }
+  .page .igcat-item>.igcat-card { min-height: 105px; padding: 16px; }
+  .page .fav-row { padding-top: 18px; padding-bottom: 18px; }
+  .page .fav-title { font-size: 16px !important; }
+  .page .fav-sub { font-size: 14px !important; }
+  .page .home-fav-card { min-height: 150px; padding: 16px; }
+  .page .home-fav-card .fav-title { font-size: 16px !important; }
+  .page .home-fav-card .fav-sub { font-size: 14px !important; }
+  .page .score-grid { gap: 16px; }
+  .page .score-grid .sp-name { font-size: 24px !important; }
+  .page .sp-desc { font-size: 15px !important; }
+  .page .bio-grid .bio-name { font-size: 17px !important; }
+  .page .bio-grid .bio-comercial { font-size: 13px !important; }
+  .page .bio-label { font-size: 13px !important; }
+  .page .bio-value { font-size: 15px !important; }
+  .page .bio-value li { font-size: 15px !important; }
+  .page .bio-grid-detail { scroll-margin-top: 86px; }
+  .page .hub-share-copy { min-width: 0; }
+  .page .hub-congress-assist-form { width: 100%; min-width: 0; }
+  .page .hub-congress-assist-form input { width: 100%; min-width: 0; flex: 1 1 0; }
+  .page .hub-congress-assist-form button { flex: 0 0 auto; }
+  .page .hub-congress-answer-title { font-size: 16px !important; }
+  .page .hub-congress-answer-speaker,
+  .page .hub-congress-answer-detail { font-size: 14px !important; }
+  .page .hub-congress-answer-session { font-size: 13px !important; }
+  .page .hub-congress-found { font-size: 14px !important; }
+  .page .news-brand { font-size: 21px !important; }
+  .page .alert-bar-text { font-size: 16px !important; }
+  .page .tb-search input { font-size: 16px !important; }
+  .page .home-favs-grid { gap: 15px; }
+
+  /* Todas as classes originais cuja fonte era fixa entre 7 e 14px. */
+  :is(
+    .tag,
+    .alert-tag,
+    .ql,
+    .sp-desc,
+    .hero-chip,
+    .ig-sn,
+    .ig-grupo-tit,
+    .ig-card .ig-f,
+    .ig-card .ig-c,
+    .ig-card .ig-marca,
+    .igp-conc,
+    .art-journal,
+    .ev-badge,
+    .gc-soc,
+    .gc-year,
+    .nc-src,
+    .nc-date,
+    .pc-cat,
+    .diff,
+    .course-meta,
+    .prog-lbl,
+    .fc-cat,
+    .fc-foot,
+    .fc-badge,
+    .fav-type,
+    .ap-disclaim,
+    .modal-disc,
+    .auth-footer,
+    .nav-section-lbl,
+    .bio-grid .bio-comercial,
+    .bio-label,
+    .bio-fonte,
+    .bio-new,
+    .vac-protection,
+    .vac-brand,
+    .vac-network-note,
+    .home-fav-card .fav-type,
+    .home-fav-card .fav-sub,
+    .ige-select:disabled,
+    .ige-sources,
+    .vsd-sub,
+    .vsd-card .vsd-ex,
+    .vsd-refs,
+    .vsd-read,
+    #hubShareHome .hub-congress-assist-status,
+    .utd-eyebrow,
+    .utd-head p,
+    .utd-source,
+    .utd-meta,
+    .utd-item p,
+    .utd-item a,
+    .utd-foot,
+    .utd-note,
+    .igcalc-choice small,
+    .igcalc-refs,
+    .igcat-fallback,
+    .igcat-maker,
+    .igcat-route,
+    .ig-main-head span
+  ) { font-size: 13.2px !important; }
+
+  :is(
+    .tb-user,
+    .perf-field label,
+    .see-all,
+    .btn,
+    .btn-sm,
+    .alert-bar-text,
+    .sp-btn,
+    .int-chip,
+    .ig-form-tit,
+    .ig-f-row label,
+    .ig-chip,
+    .ig-out h4,
+    .ig-alert,
+    .ig-step,
+    .ig-tbl,
+    .ig-tbl th,
+    .igchat-chip,
+    .ig-card .ig-n,
+    .igp-fab,
+    .art-title,
+    .art-body,
+    .art-why,
+    .fchip,
+    .nc-body,
+    .pc-body,
+    .rel-desc,
+    .caso-body,
+    .fc-body,
+    .fav-title,
+    .link-btn,
+    .ai-sheet-doi,
+    .ia-prov-btn,
+    .ap-desc,
+    .ap-send,
+    .ap-chip,
+    .ap-hist-row,
+    .comply,
+    .sf label,
+    .res-desc,
+    .auth-logo-sub,
+    .auth-tab,
+    .auth-field label,
+    .auth-err,
+    .ai-tab,
+    .forum-channel,
+    .bio-comercial,
+    .bio-value ul li,
+    .bio-ans-yes,
+    .bio-ans-part,
+    .bio-ans-no,
+    .vac-card[open] .vac-protection,
+    .di-chip,
+    .di-result-body,
+    .di-suggestion-chip,
+    .fav-detail-head,
+    .fav-sub,
+    .fav-grp,
+    .home-favs-empty,
+    .lab-tab,
+    .lab-chip,
+    .ige-grp,
+    .ige-cod,
+    .ige-kind,
+    .ige-details,
+    .ige-clinical dt,
+    .ige-clinical dd,
+    .ige-intro,
+    #pedOpenInline,
+    #pedOpenInline .pf-n,
+    .ige-hint,
+    .ige-hit .ige-add,
+    .ped-row .pr-n,
+    .ped-vazio,
+    .pnl-meta,
+    .pnl-acts button,
+    .bio-target,
+    .vsd-card h4,
+    .vsd-card p,
+    .vsd-bottom,
+    .ige-search-caption,
+    .vsd-card-title,
+    .vsd-card-short,
+    .vsd-deep,
+    .vsd-deep p,
+    .vsd-deep ul,.vsd-deep ol,
+    .vsd-deep .vsd-case,
+    .vsd-deep .vsd-source,
+    .vsd-table>div,
+    .hub-congress-assist-panel>p,
+    .utd-item h3,.utd-item.utd-feature h3,
+    .utd-loading,
+    .igcalc-header p,
+    .igcalc-entry-sub,
+    .igcalc-intro,
+    .igcalc-field label,
+    .igcalc-output,
+    .igcalc-summary p,
+    .igcalc-table,
+    .igcalc-alert,
+    .igcalc-error,
+    .igcat-heading p,
+    .igcat-group h4,
+    .igcat-name,
+    .igcat-detail p,
+    .igmain-controls p,
+    .igmain-detail>p,
+    .igmain-detail h4,
+    .igmain-detail .igcalc-section p,
+    .igmain-detail .ig-calculating
+  ) { font-size: 14.6px !important; }
+
+  :is(
+    .tb-icon,
+    .tb-search input,
+    .perf-field input,
+    .ig-f-row input,.ig-f-row select,
+    .ig-btn,
+    .ig-out p,.ig-out li,
+    .ig-kv,
+    .igchat-msg,
+    .igchat-inp,
+    .igp-nome,
+    .perf-menu-btn,
+    .art-title-pt,
+    .gc-name,
+    .nc-title,
+    .pc-title,
+    .rel-title,
+    .course-title,
+    .fc-title,
+    .ai-sheet-close,
+    .ai-sheet-body,
+    .ai-sheet-body h3,
+    .ai-sheet-loading,
+    .ap-row input,
+    .ap-response,
+    .modal-close,
+    .sf select,
+    .auth-field input,
+    .auth-btn,
+    .toast,
+    .bio-grid .bio-name,
+    .bio-value,
+    .bio-rel-btn,
+    .vac-name,
+    .di-input-row input,
+    .di-add-btn,
+    .di-chip button,
+    .di-result-header,
+    .di-result-pair,
+    .fav-star,
+    .fav-detail-content .pc-body,.fav-detail-text,
+    .home-fav-card .fav-title,
+    .home-fav-card .btn-remfav,
+    .pg-back,
+    .lab-search input,
+    .ige-nome,
+    .ped-hdr b,
+    .ped-btn,
+    .pnl-nome,
+    .vsd-box h3,
+    .vsd-deep h5,
+    .utd-head h2,
+    .igcalc-summary h4,.igcalc-section h4,
+    .igcat-heading h3,
+    .igcat-item.open .igcat-name,
+    .igcat-detail-head h4
+  ) { font-size: 15.5px !important; }
+
+  /* Cobertura de textos que o app renderiza com tamanho inline. */
+  :is(.scroll-area, .overlay) :is(
+    [style*="font-size:8px"],
+    [style*="font-size: 8px"],
+    [style*="font-size:8.5px"],
+    [style*="font-size: 8.5px"],
+    [style*="font-size:9px"],
+    [style*="font-size: 9px"],
+    [style*="font-size:9.5px"],
+    [style*="font-size: 9.5px"],
+    [style*="font-size:10px"],
+    [style*="font-size: 10px"],
+    [style*="font-size:10.5px"],
+    [style*="font-size: 10.5px"]
+  ) { font-size: 13.2px !important; }
+  :is(.scroll-area, .overlay) :is(
+    [style*="font-size:11px"],
+    [style*="font-size: 11px"],
+    [style*="font-size:11.5px"],
+    [style*="font-size: 11.5px"],
+    [style*="font-size:12px"],
+    [style*="font-size: 12px"],
+    [style*="font-size:12.5px"],
+    [style*="font-size: 12.5px"],
+    [style*="font-size:13px"],
+    [style*="font-size: 13px"],
+    [style*="font-size:13.5px"],
+    [style*="font-size: 13.5px"],
+    [style*="font-size:14px"],
+    [style*="font-size: 14px"]
+  ) { font-size: 15px !important; }
+
+  /* Componentes já ampliados anteriormente devem prevalecer. */
+  .ql { font-size: 15.5px !important; }
+  .tb-name { font-size: 20px !important; }
+  .tb-user { font-size: 15px !important; }
+  .sec-hdr h2 { font-size: 20px !important; }
+  .sp-name { font-size: 23px !important; }
+  .bio-grid .bio-name { font-size: 17px !important; }
+  .bio-grid .bio-comercial { font-size: 13px !important; }
+  .igcat-name { font-size: 17px !important; }
+  .alert-bar-text { font-size: 16px !important; }
+
+  /* Páginas externas ao painel principal: instalação, questionário e documentação. */
+  body.hub-install-page main { max-width: 940px; width: min(calc(100% - 48px), 940px); margin: 44px auto 70px; }
+  body.hub-install-page header { padding: 22px 30px; }
+  body.hub-install-page header a { font-size: 18px; }
+  body.hub-install-page h1 { font-size: 36px; }
+  body.hub-install-page h2 { font-size: 24px; }
+  body.hub-install-page p, body.hub-install-page li { font-size: 17px; }
+  body.hub-install-page .panel { padding: 30px 34px; }
+  body.hub-install-page .platform { font-size: 18px; min-height: 82px; }
+  body.hub-install-page .note, body.hub-install-page .footer { font-size: 15px; }
+  body.hub-install-page .action { font-size: 17px; min-height: 50px; }
+  body.hub-score-patient-page main { max-width: 1000px; padding: 28px 28px 60px; }
+  body.hub-score-patient-page header { font-size: 20px; padding: 22px 24px; }
+  body.hub-score-patient-page :is(h1,h2) { font-size: 25px; }
+  body.hub-score-patient-page :is(p,li,label,button,input,select) { font-size: 16px; }
+  body.hub-score-patient-page :is(section,.question) { padding: 24px 28px; }
+  body.hub-legal-page { font-size: 16px; line-height: 1.7; }
+  body.hub-legal-page :is(main,header>div,footer) { max-width: 1100px; }
+  body.hub-legal-page main { padding: 32px 38px 62px; }
+  body.hub-legal-page h1 { font-size: 30px; }
+  body.hub-legal-page h2 { font-size: 22px; }
+  body.hub-legal-page :is(p,li,td,th) { font-size: 16px; }
+}
+@media (min-width: 1600px) {
+  .page .ige-workspace.note-open { grid-template-columns: minmax(0, 1fr) 430px; }
+  .page .igcat-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .page .vac-grid { column-gap: 18px; }
+}
