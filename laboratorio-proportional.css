@@ -1,0 +1,214 @@
+/* Hub do Alergista — proporções do Laboratório por largura útil.
+   Mantém a mesma margem e o mesmo limite horizontal para comparação,
+   pesquisa, resultados, notas e conteúdo didático. */
+@media (min-width: 760px) {
+  #page-laboratorio {
+    --lab-container: 1520px;
+    --lab-gutter: clamp(20px, 2.2vw, 32px);
+  }
+  #page-laboratorio > div:first-child,
+  #page-laboratorio .lab-pane {
+    width: min(100%, var(--lab-container));
+    max-width: var(--lab-container);
+    margin-inline: auto;
+    box-sizing: border-box;
+  }
+  #page-laboratorio > div:first-child {
+    padding: 22px var(--lab-gutter) 12px !important;
+  }
+  #page-laboratorio .lab-pane {
+    padding-inline: var(--lab-gutter);
+  }
+  #page-laboratorio #foodCrossCard {
+    width: calc(min(100%, var(--lab-container)) - 2 * var(--lab-gutter));
+    max-width: calc(var(--lab-container) - 2 * var(--lab-gutter));
+    margin: 10px auto 16px !important;
+    box-sizing: border-box;
+  }
+  #page-laboratorio .ige-search-hero {
+    width: 100%;
+    min-width: 0;
+    margin: 0 0 16px !important;
+    box-sizing: border-box;
+  }
+  #page-laboratorio .ige-workspace {
+    width: 100%;
+    padding: 0 0 12px !important;
+    min-width: 0;
+    gap: 16px;
+    box-sizing: border-box;
+  }
+  #page-laboratorio .ige-learning {
+    width: 100%;
+    margin: 0;
+    padding: 0 0 30px !important;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  #page-laboratorio .ige-learning .vsd-box {
+    display: block;
+    width: 100%;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 20px 22px;
+    box-sizing: border-box;
+    border-radius: 14px;
+  }
+  #page-laboratorio .vsd-top {
+    margin-bottom: 16px;
+    align-items: baseline;
+    gap: 10px;
+  }
+  #page-laboratorio .vsd-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 14px;
+  }
+  #page-laboratorio .vsd-grid > .vsd-card {
+    min-width: 0;
+    width: 100%;
+    margin: 0;
+    align-self: stretch;
+    box-sizing: border-box;
+    border-radius: 12px;
+  }
+  #page-laboratorio .vsd-grid > .vsd-card[open] {
+    grid-column: 1 / -1;
+  }
+  #page-laboratorio .vsd-summary {
+    height: auto;
+    min-height: 155px;
+    padding: 17px 18px;
+    gap: 7px;
+    box-sizing: border-box;
+  }
+  #page-laboratorio .vsd-bottom {
+    margin-top: 15px;
+    padding-top: 13px;
+  }
+  #page-laboratorio .vsd-deep {
+    padding: 19px 21px 22px;
+  }
+}
+@media (min-width: 1120px) {
+  #page-laboratorio .vsd-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  #page-laboratorio > div:first-child > div:first-child {
+    font-size: 23px !important;
+    line-height: 1.35;
+    font-weight: 800;
+  }
+  #page-laboratorio > div:first-child > div:nth-child(2) {
+    font-size: 15.5px !important;
+    line-height: 1.5;
+  }
+  #page-laboratorio #foodCrossCard summary {
+    padding: 18px 20px;
+    min-height: 80px;
+  }
+  #page-laboratorio .fx-title {
+    font-size: 17px !important;
+    line-height: 1.4;
+  }
+  #page-laboratorio .fx-summary-sub {
+    font-size: 14px !important;
+    line-height: 1.5;
+  }
+  #page-laboratorio .fx-body {
+    padding: 20px;
+  }
+  #page-laboratorio .fx-field label,
+  #page-laboratorio .fx-field select,
+  #page-laboratorio .fx-controls button,
+  #page-laboratorio .fx-controls label,
+  #page-laboratorio .fx-note,
+  #page-laboratorio .fx-results {
+    font-size: 15.5px !important;
+    line-height: 1.55;
+  }
+  #page-laboratorio .fx-field select {
+    min-height: 48px;
+  }
+  #page-laboratorio .fx-controls button {
+    min-height: 44px;
+    padding: 10px 16px;
+  }
+  #page-laboratorio .ige-search-hero {
+    padding: 18px 20px 20px;
+    border-radius: 14px;
+  }
+  #page-laboratorio .ige-search-title {
+    margin-bottom: 12px;
+    gap: 9px 18px;
+    align-items: center;
+  }
+  #page-laboratorio .ige-search-heading {
+    font-size: 21px !important;
+    line-height: 1.4;
+  }
+  #page-laboratorio .ige-search-caption {
+    font-size: 15px !important;
+    line-height: 1.5;
+  }
+  #page-laboratorio .ige-search-field {
+    min-height: 56px;
+    padding: 10px 14px;
+  }
+  #page-laboratorio .ige-search-field input {
+    min-height: 32px;
+    font-size: 16px !important;
+  }
+  #page-laboratorio .vsd-box h3 {
+    font-size: 21px !important;
+    line-height: 1.35;
+  }
+  #page-laboratorio .vsd-sub {
+    font-size: 14px !important;
+    line-height: 1.5;
+  }
+  #page-laboratorio .vsd-card-title {
+    font-size: 17px !important;
+    line-height: 1.4;
+  }
+  #page-laboratorio .vsd-card-short {
+    font-size: 15.5px !important;
+    line-height: 1.55;
+  }
+  #page-laboratorio .vsd-ex,
+  #page-laboratorio .vsd-read {
+    font-size: 14px !important;
+    line-height: 1.45;
+  }
+  #page-laboratorio .vsd-bottom,
+  #page-laboratorio .vsd-refs {
+    font-size: 15px !important;
+    line-height: 1.6;
+  }
+  #page-laboratorio .vsd-deep,
+  #page-laboratorio .vsd-deep :is(p, li, ul, ol),
+  #page-laboratorio .vsd-deep .vsd-case {
+    font-size: 16px !important;
+    line-height: 1.65;
+  }
+  #page-laboratorio .vsd-deep h5 {
+    font-size: 18px !important;
+    line-height: 1.4;
+  }
+}
+@media (max-width: 759px) {
+  /* No celular as seis fichas continuam compactas, sem largura fixa. */
+  #page-laboratorio .ige-learning,
+  #page-laboratorio .ige-search-hero,
+  #page-laboratorio .vsd-box {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  #page-laboratorio .vsd-grid > .vsd-card {
+    min-width: 0;
+  }
+}
