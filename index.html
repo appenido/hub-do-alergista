@@ -746,11 +746,11 @@ _marcarGuiasPagas();
   margin:0 16px 12px;overflow:hidden;
   transition:box-shadow .2s;
 }
-.bio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 16px 16px;align-items:stretch;}
-.bio-grid .bio-card{margin:0;display:flex;flex-direction:column;}
+.bio-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 16px 16px;align-items:start;}
+.bio-grid .bio-card{margin:0;display:flex;flex-direction:column;min-width:0;align-self:start;}
 .bio-grid .bio-card.open{grid-column:auto;box-shadow:0 0 0 2px var(--teal-mid);}
 .bio-grid .bio-header{
-  flex:1;flex-direction:column;align-items:center;justify-content:flex-start;
+  flex:0 0 auto;flex-direction:column;align-items:center;justify-content:flex-start;
   text-align:center;gap:8px;padding:14px 10px 12px;min-width:0;
 }
 .bio-grid .bio-icon{width:40px;height:40px;border-radius:11px;font-size:18px;}
@@ -763,6 +763,9 @@ _marcarGuiasPagas();
 .bio-grid .bio-chevron{display:none;}
 .bio-grid .bio-new,.bio-grid .bio-norol{display:inline-block;margin:4px 0 0;}
 .bio-grid .bio-card.open .bio-header{background:rgba(59,191,204,.07);}
+.bio-grid .bio-card.open > .bio-body{display:block;width:100%;min-width:0;max-width:100%;overflow-x:auto;overflow-wrap:anywhere;box-sizing:border-box;}
+.bio-grid .bio-card .bio-body table{max-width:100%;}
+.bio-grid .bio-card .bio-body .bio-section{min-width:0;overflow-wrap:anywhere;}
 .bio-grid-detail{
   grid-column:1 / -1;min-width:0;width:100%;box-sizing:border-box;background:#fff;
   border:1px solid var(--gray-100);border-radius:14px;overflow:hidden;
@@ -8141,120 +8144,73 @@ document.addEventListener('click', function(e3) {
 
 
 
-/* ── IMUNOBIOLÓGICOS: card permanece na posição original ── */
+/* ── IMUNOBIOLÓGICOS — FICHA DENTRO DO PRÓPRIO CARTÃO ──
+   Primeiro clique expande o .bio-body que já pertence ao medicamento.
+   Segundo clique no mesmo cartão recolhe. Ao trocar, fecha o anterior.
+   Não cria painéis externos e não altera a posição do cartão na grade. */
 var _bioDetalheAtivo = null;
 
 function fecharBioDetalhe() {
-  if(!_bioDetalheAtivo) return;
-  var atual = _bioDetalheAtivo;
-  _bioDetalheAtivo = null;
-  // Primeiro fechar o cartão. Antes, a ficha era recolocada enquanto o
-  // cartão ainda tinha a classe "open", expandindo-o temporariamente e
-  // podendo causar um salto vertical no navegador do celular.
+  if(!_bioDetalheAtivo)return;
+  var atual=_bioDetalheAtivo;
+  _bioDetalheAtivo=null;
   atual.card.classList.remove('open');
-  if(atual.header){
-    atual.header.setAttribute('aria-expanded','false');
-    atual.header.removeAttribute('aria-controls');
-  }
-  if(atual.marcador.parentNode) atual.marcador.replaceWith(atual.body);
-  else atual.card.appendChild(atual.body);
-  atual.painel.remove();
-}
-
-function posicionarBioDetalhe() {
-  if(!_bioDetalheAtivo) return;
-  var atual = _bioDetalheAtivo;
-  var cards = Array.from(atual.grid.children).filter(function(el){ return el.classList.contains('bio-card'); });
-  var indice = cards.indexOf(atual.card);
-  if(indice < 0) return;
-  var colunas = getComputedStyle(atual.grid).gridTemplateColumns.trim().split(/\s+/).length || 1;
-  var ultimaColuna = Math.min(cards.length - 1, Math.ceil((indice + 1) / colunas) * colunas - 1);
-  cards[ultimaColuna].after(atual.painel);
-}
-
-function capturarPosicaoBio(card) {
-  var header=card.querySelector('.bio-header')||card;
-  var pai=card.parentElement,rolador=null;
-  while(pai && pai!==document.body && pai!==document.documentElement){
-    var estilo=getComputedStyle(pai);
-    if(/(auto|scroll)/.test(estilo.overflowY) && pai.scrollHeight>pai.clientHeight+2){
-      rolador=pai;break;
-    }
-    pai=pai.parentElement;
-  }
-  return {header:header,top:header.getBoundingClientRect().top,rolador:rolador};
-}
-function preservarPosicaoBio(posicao) {
-  if(!posicao||!posicao.header.isConnected)return;
-  var diferenca=posicao.header.getBoundingClientRect().top-posicao.top;
-  if(Math.abs(diferenca)<1)return;
-  if(posicao.rolador) posicao.rolador.scrollTop+=diferenca;
-  else window.scrollTo({top:Math.max(0,window.scrollY+diferenca),left:window.scrollX,behavior:'instant'});
-}
-function preservarBioAposLayout(posicao) {
-  // Reposicionar sem animação apenas o suficiente para manter o cartão
-  // clicado no mesmo lugar; nunca ir ao rodapé do aplicativo.
-  preservarPosicaoBio(posicao);
-  requestAnimationFrame(function(){preservarPosicaoBio(posicao);});
+  if(atual.header)atual.header.setAttribute('aria-expanded','false');
 }
 
 function toggleBio(id) {
-  // Glossário DUT/PCDT usa bloco próprio (não .bio-card).
-  if(id === 'glossario') {
-    var glossario = document.getElementById('bio-glossario');
-    var chev = document.getElementById('chev-glossario');
-    if(!glossario) return;
-    var aberto = glossario.style.display === 'block';
-    glossario.style.display = aberto ? 'none' : 'block';
-    if(chev) chev.style.transform = aberto ? 'none' : 'rotate(90deg)';
+  if(id==='glossario'){
+    var glossario=document.getElementById('bio-glossario');
+    var chev=document.getElementById('chev-glossario');
+    if(!glossario)return;
+    var aberto=glossario.style.display==='block';
+    glossario.style.display=aberto?'none':'block';
+    if(chev)chev.style.transform=aberto?'none':'rotate(90deg)';
     return;
   }
-  var card = document.getElementById('bio-' + id);
-  if(!card) return;
-  var posicao=capturarPosicaoBio(card);
-  if(_bioDetalheAtivo && _bioDetalheAtivo.card === card){
+  var card=document.getElementById('bio-'+id);
+  if(!card)return;
+  var header=card.querySelector('.bio-header');
+  var body=card.querySelector(':scope > .bio-body');
+  if(!body)return;
+  // Card aberto: segundo toque recolhe sem deslocar a tela.
+  if(card.classList.contains('open')){
+    if(_bioDetalheAtivo&&_bioDetalheAtivo.card===card)fecharBioDetalhe();
+    else{
+      card.classList.remove('open');
+      if(header)header.setAttribute('aria-expanded','false');
+    }
+    return;
+  }
+  // Manter no máximo um imunobiológico aberto na grade principal.
+  if(card.closest('#page-imuno .bio-grid')){
     fecharBioDetalhe();
-    preservarBioAposLayout(posicao);
-    return;
+    document.querySelectorAll('#page-imuno .bio-grid .bio-card.open').forEach(function(outro){
+      if(outro===card)return;
+      outro.classList.remove('open');
+      var cab=outro.querySelector('.bio-header');
+      if(cab)cab.setAttribute('aria-expanded','false');
+    });
   }
-  fecharBioDetalhe();
-  var grid = card.closest('.bio-grid');
-  if(!grid) {
-    // Mantém a expansão convencional quando o card está dentro dos Favoritos.
-    card.classList.toggle('open');
-    var cabecalho = card.querySelector('.bio-header');
-    if(cabecalho) cabecalho.setAttribute('aria-expanded',card.classList.contains('open') ? 'true' : 'false');
-    preservarBioAposLayout(posicao);
-    return;
-  }
-  var body = card.querySelector(':scope > .bio-body');
-  var header = card.querySelector('.bio-header');
-  if(!body) return;
-  var marcador = document.createComment('posição original da ficha');
-  body.before(marcador);
-  var painel = document.createElement('section');
-  painel.className = 'bio-grid-detail';
-  painel.id = 'bio-detalhes-' + id;
-  painel.setAttribute('role','region');
-  painel.setAttribute('aria-label', (card.querySelector('.bio-name')?.textContent || 'Biológico') + ' — informações detalhadas');
-  painel.appendChild(body);
+  if(!body.id)body.id='bio-conteudo-'+id;
+  body.setAttribute('role','region');
+  body.setAttribute('aria-label',(card.querySelector('.bio-name')?.textContent||'Biológico')+' — informações detalhadas');
   card.classList.add('open');
   if(header){
     header.setAttribute('aria-expanded','true');
-    header.setAttribute('aria-controls',painel.id);
+    header.setAttribute('aria-controls',body.id);
   }
-  _bioDetalheAtivo = { card:card, body:body, header:header, painel:painel, marcador:marcador, grid:grid };
-  posicionarBioDetalhe();
-  preservarBioAposLayout(posicao);
+  if(card.closest('#page-imuno .bio-grid')){
+    _bioDetalheAtivo={card:card,body:body,header:header};
+  }
 }
 
-window.addEventListener('resize',posicionarBioDetalhe);
 document.querySelectorAll('#page-imuno .bio-grid .bio-header').forEach(function(header){
   header.setAttribute('role','button');
   header.setAttribute('tabindex','0');
   header.setAttribute('aria-expanded','false');
   header.addEventListener('keydown',function(event){
-    if(event.key==='Enter' || event.key===' '){
+    if(event.key==='Enter'||event.key===' '){
       event.preventDefault();
       header.click();
     }
