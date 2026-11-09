@@ -390,49 +390,53 @@
   function resetMenuExpanded(){
     menuCalendarios().forEach(function(b){b.setAttribute('aria-expanded','false');});
   }
+  // NÍVEL 1: abrir seção em tela própria, ocultando os cartões principais.
+  // NÍVEL 2: dentro da seção, cada calendário abre/recolhe no próprio local.
   window.vacAbrirCalendarios=function(f){
     var next=(f==='pni'?'pni':'sbim');
     var sec=get('vac-sub-calendarios');
     var menu=get('vac-menu-hub');
     if(!sec||!menu)return;
     preparar();
-    var botoes=menuCalendarios();
-    var anchor=botoes.find(function(b){
-      return b.getAttribute('onclick')==="vacAbrirCalendarios('"+next+"')";
-    });
-    if(!anchor)return;
-    var visivel=menu.contains(sec)&&sec.style.display!=='none';
-    // Toque repetido no mesmo botão principal também recolhe a seção.
-    if(visivel&&fonte===next){
-      closeNative();
-      sec.style.display='none';
-      resetMenuExpanded();
-      return;
-    }
+    // Versões anteriores encaixavam a seção dentro da lista de botões.
+    // Devolver ao nível da página antes de ocultar o menu.
+    if(menu.contains(sec))menu.after(sec);
     closeNative();
     fonte=next;
-    var busca=get('vacCalBusca');if(busca)busca.value='';
+    sec.dataset.fonte=next;
+    var busca=get('vacCalBusca');
+    if(busca)busca.value='';
     var title=sec.querySelector('div[style*="font-size:14px"]');
-    if(title)title.textContent=fonte==='sbim'?'Calendários SBIm 2026/2027':'Calendário Nacional PNI 2026';
-    // Mantém a tela de Imunizações visível e encaixa o conteúdo no
-    // ponto exato em que o botão foi pressionado.
-    menu.style.display='block';
-    var container=anchor.parentElement;
-    if(container)anchor.after(sec);
-    sec.classList.add('vac-cal-inline-root');
-    sec.style.display='block';
+    if(title)title.textContent=next==='sbim'?'Calendários SBIm 2026/2027':'Calendário Nacional PNI 2026';
+    sec.classList.remove('vac-cal-inline-root');
+    sec.style.display='none';
     resetMenuExpanded();
-    anchor.setAttribute('aria-expanded','true');
+    // Mesmo padrão de navegação dos outros cartões principais da Central.
+    if(typeof window.vacShowSub==='function')window.vacShowSub('calendarios');
+    else {menu.style.display='none';sec.style.display='block';}
+    sec.style.display='block';
     drawList();
+    // A transição de seção começa no topo; a expansão do item final
+    // permanece inline e não realiza qualquer rolagem automática.
+    window.scrollTo(0,0);
+    var area=document.querySelector('.scroll-area');
+    if(area)area.scrollTop=0;
   };
   window.vacSelecionarFonteCalendarios=function(f){window.vacAbrirCalendarios(f);};
   window.vacFiltrarCalendarios=function(){closeNative();};
   window.vacFecharCalendario=function(){closeNative();};
   window.vacFecharCalendariosNivel=function(){
     closeNative();
-    var sec=get('vac-sub-calendarios');
-    if(sec)sec.style.display='none';
     resetMenuExpanded();
+    if(typeof window.vacShowHub==='function')window.vacShowHub();
+    else {
+      var menu=get('vac-menu-hub'),sec=get('vac-sub-calendarios');
+      if(menu)menu.style.display='block';
+      if(sec)sec.style.display='none';
+    }
+    window.scrollTo(0,0);
+    var area=document.querySelector('.scroll-area');
+    if(area)area.scrollTop=0;
   };
   var velhaMostrarHub=window.vacShowHub;
   if(typeof velhaMostrarHub==='function'){
