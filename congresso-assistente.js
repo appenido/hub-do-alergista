@@ -35,6 +35,9 @@ const verificados=[
 ['12/11/2026','16:30 - 16:50','','Padronização dos extratos: papel na efetividade no tratamento','Ernesto Akio Taketomi','Imunoterapia I'],
 ['12/11/2026','16:50 - 17:10','','Imunoterapia sublingual: o que avançamos','Fernando Monteiro Aarestrup','Imunoterapia I'],
 ['12/11/2026','17:10 - 17:30','','IT & Imunobiológicos: alternativas ou associação?','Clóvis Eduardo Santos Galvão','Imunoterapia I'],
+['13/11/2026','10:30 - 10:50','Sala 2','Alergia alimentar e vacinação: O que realmente mudou nas recomendações?','Clarissa Morais Busatto Gerhardt','Imunizações I - Alergia e Vacinas: Medo ou Evidência','Lorena de Castro Diniz; Marta de Fátima Rodrigues da Cunha Guidacci'],
+['13/11/2026','10:50 - 11:10','Sala 2','Vacinação no paciente com doença alérgica grave: Quando adiar, quando indicar e como monitorar?','Antonio Paulo Costa Penido','Imunizações I - Alergia e Vacinas: Medo ou Evidência','Lorena de Castro Diniz; Marta de Fátima Rodrigues da Cunha Guidacci'],
+['13/11/2026','11:10 - 11:30','Sala 2','Excipientes vacinais: gelatina, PEG, polissorbato e alumínio: fato ou ficção?','Bianca Guimarães','Imunizações I - Alergia e Vacinas: Medo ou Evidência','Lorena de Castro Diniz; Marta de Fátima Rodrigues da Cunha Guidacci'],
 ['13/11/2026','10:30 - 10:50','','Fenótipos complexos: quem foge do padrão?','Ana Paula Moschione Castro','Alergia Alimentar II'],
 ['13/11/2026','10:50 - 11:10','','Cofatores e variabilidade da reação: o que muda no risco?','Germana Pimentel Stefani','Alergia Alimentar II'],
 ['13/11/2026','11:10 - 11:30','','Vida real: adesão, qualidade de vida e risco social','Renata Rodrigues Cocco','Alergia Alimentar II'],
@@ -76,7 +79,7 @@ const verificados=[
 ['14/11/2026','15:00 - 15:30','','Avaliação multidimensional da asma grave: imagem, função pulmonar, sintomas e biomarcadores inflamatórios','Alvaro Augusto Souza da Cruz Filho','Asma'],
 ['14/11/2026','15:00 - 15:30','','Clinical practice recommendations for managing children and adults with 22q11.2 deletion syndrome','Kate Sullivan','Imuno'],
 ].map(x=>({dia:x[0],hora:x[1],sala:x[2],titulo:x[3],palestrante:x[4],mesa:x[5],moderadores:x[6]||''}));
-let dados=verificados, live=false, started=false, loadPromise=null;
+let dados=verificados, live=false, started=false, loadPromise=null, lastAttempt=0;
 const el=id=>document.getElementById(id);
 const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();
 const stops=new Set('a o as os de da do das dos que quais qual sobre me diga falar fala vai falar quero ver onde quando que quem com em no na nos nas para por horario hora horarios aula aulas palestrante palestrantes palestra palestras congresso tema temas grade programacao tem'.split(' '));
@@ -134,7 +137,9 @@ function merge(a,b){let m=new Map;for(const x of [...a,...b]){
   if(!m.has(k)||(!m.get(k).palestrante&&x.palestrante))m.set(k,x);
 }return [...m.values()]}
 function load(){
- if(started)return loadPromise;started=true;
+ // Se a consulta falhar, tentar novamente em pesquisas feitas após dois minutos.
+ if(started && (live || Date.now()-lastAttempt<120000))return loadPromise;
+ started=true;lastAttempt=Date.now();
  loadPromise=(async()=>{
    try{
      const r=await fetch('/programacao-congresso',{cache:'no-store'});
@@ -142,10 +147,15 @@ function load(){
      const d=await r.json();if(!d.ok)throw Error('sem fonte');
      const parsed=extract(d.html||'');
      if(parsed.length<15)throw Error('grade incompleta');
-     dados=merge(verificados,parsed);live=true;
+     dados=merge(verificados,parsed);
+     // Priorizar dados conferidos para a sessão de imunizações.
+     dados=merge(dados,verificados.filter(x=>x.palestrante==='Antonio Paulo Costa Penido'));
+     live=true;
    }catch(e){dados=verificados;live=false;}
    const st=el('hubCongressAssistStatus');
-   if(st)st.textContent=live?'Consulta realizada na grade oficial; horários sujeitos a alterações.':'Busca na seleção conferida da programação oficial; a atualização automática está indisponível.';
+   if(st)st.textContent=live?
+     'Busca na grade oficial; confirme eventuais alterações no site do congresso.':
+     'Consulta automática indisponível: busca nos registros conferidos. O catálogo local não contém toda a programação.';
  })();return loadPromise;
 }
 function add(parent,tag,cls,txt){const x=document.createElement(tag);x.className=cls;if(txt!==undefined)x.textContent=txt;parent.appendChild(x);return x;}
@@ -170,7 +180,7 @@ async function ask(){
  const t=[...new Set(norm(query).split(' ').filter(w=>w.length>1&&!stops.has(w)))].slice(0,15);
  if(!t.length){add(box,'p','hub-congress-empty','Digite um tema ou nome mais específico.');return;}
  const matches=dados.map(x=>({x,v:relevance(x,t,norm(query))})).filter(a=>a.v>0).sort((a,b)=>b.v-a.v || a.x.dia.localeCompare(b.x.dia) || a.x.hora.localeCompare(b.x.hora)).slice(0,40);
- if(!matches.length)add(box,'p','hub-congress-empty',live?'Não encontrei esse termo na programação consultada. Tente outro nome ou palavra-chave.':'Não encontrei esse termo na seleção disponível. Consulte a programação completa.');
+ if(!matches.length)add(box,'p','hub-congress-empty',live?'Nenhum registro correspondente na programação consultada. Tente uma palavra do tema ou outro nome.':'Nenhuma correspondência na base parcial. Isso não significa que o palestrante esteja fora do congresso: confira a grade oficial.');
  else{
   add(box,'p','hub-congress-found',matches.length+' resultado(s) correspondente(s):');
   for(const {x} of matches){const c=add(box,'article','hub-congress-answer');
@@ -181,7 +191,7 @@ async function ask(){
     if(x.moderadores)add(c,'div','hub-congress-answer-session','Moderação: '+x.moderadores);
   }
  }
- if(!live)add(box,'p','hub-congress-caveat','Seleção parcial conferida na grade oficial. Para confirmar salas e eventuais alterações, consulte a programação completa.');
+ if(!live && matches.length)add(box,'p','hub-congress-caveat','Base parcial da grade oficial. Para outras palestras e alterações, consulte a programação completa.');
  const source=add(box,'a','hub-congress-source','Conferir programação oficial');source.href=URL;source.target='_blank';source.rel='noopener noreferrer';
 
 }
