@@ -1164,6 +1164,27 @@ _marcarGuiasPagas();
 .hub-share-actions .hub-schedule-action{background:#fff;border:1.5px solid var(--teal-mid);color:var(--teal-mid)}
 .hub-share-actions .hub-schedule-action:hover,.hub-share-actions .hub-schedule-action:focus-visible{background:var(--aqua-pale);outline:2px solid var(--aqua);outline-offset:2px}
 @media(max-width:620px){.hub-share-actions{flex-direction:column}.hub-share-actions .hub-share-action,.hub-share-actions .hub-schedule-action{width:100%}}
+
+/* Assistente de programação, expandido apenas mediante clique */
+.hub-congress-assist-panel[hidden]{display:none!important}
+.hub-congress-assist-panel{grid-column:1/-1;min-width:0;padding:13px;border:1px solid #c9e1e7;background:#fff;border-radius:11px}
+.hub-congress-assist-head{font:800 15px/1.4 Manrope,sans-serif;color:var(--navy);margin-bottom:2px}
+.hub-congress-assist-panel>p{font-size:11.5px;color:#526b79;margin:0 0 10px}
+.hub-congress-assist-form{display:flex;gap:7px}
+.hub-congress-assist-form input{flex:1;min-width:0;min-height:42px;border:1px solid #bdccd4;border-radius:8px;padding:9px 11px;background:#fff;color:var(--navy);font:500 12px Manrope,sans-serif}
+.hub-congress-assist-form button{min-height:42px;padding:8px 13px;border:0;border-radius:8px;background:var(--teal-mid);color:#fff;font:800 12px Manrope,sans-serif;cursor:pointer}
+.hub-congress-assist-form button:focus-visible,.hub-congress-assist-form input:focus-visible{outline:2px solid var(--aqua);outline-offset:2px}
+.hub-congress-assist-status,.hub-congress-assist-foot{margin-top:9px;font:500 10px/1.45 Manrope,sans-serif;color:#64748b}
+.hub-congress-found{margin:12px 0 7px;font:700 11px Manrope,sans-serif;color:var(--teal-mid)}
+.hub-congress-empty,.hub-congress-caveat{padding:8px 0;font:500 11px/1.5 Manrope,sans-serif;color:#64748b}
+.hub-congress-caveat{color:#8d6919}
+.hub-congress-answer{border-top:1px solid #e2e8f0;padding:10px 0}
+.hub-congress-answer-title{font:700 12px/1.5 Manrope,sans-serif;color:var(--navy)}
+.hub-congress-answer-speaker{font:600 11px/1.5 Manrope,sans-serif;color:#335c69}
+.hub-congress-answer-detail{font:800 11px/1.5 Manrope,sans-serif;color:var(--teal-mid);margin:2px 0}
+.hub-congress-answer-session{font:500 10px/1.5 Manrope,sans-serif;color:#64748b}
+.hub-congress-answer-link{display:inline-block;margin-top:8px;font:700 11px/1.5 Manrope,sans-serif;color:var(--teal-mid)}
+@media(max-width:480px){.hub-congress-assist-form{flex-direction:column}.hub-congress-assist-form button{width:100%}}
 </style>
 <script>
 /* Endereço canônico — os espelhos antigos redirecionam para cá */
@@ -1386,6 +1407,7 @@ window._bloquearApp=function(){};
         <div class="hub-share-actions">
         <a class="hub-share-action" href="https://wa.me/?text=Durante%20o%2053%C2%BA%20Congresso%20Brasileiro%20de%20Alergia%20e%20Imunologia%20(12%20a%2014%2F11%2F2026%2C%20Foz%20do%20Igua%C3%A7u)%2C%20compartilho%20uma%20ferramenta%20gratuita%20para%20nossos%20colegas%3A%20o%20Hub%20do%20Alergista.%20Protocolos%20de%20bolso%2C%20artigos%2C%20imuniza%C3%A7%C3%B5es%2C%20imunobiol%C3%B3gicos%2C%20escores%20e%20ferramentas%20cl%C3%ADnicas%20reunidos%20em%20um%20s%C3%B3%20lugar.%20Acesse%3A%20https%3A%2F%2Fhubdoalergista.pages.dev%2F%3Futm_source%3Dindicacao%26utm_medium%3Dwhatsapp%26utm_campaign%3Dcongresso_asbai_2026" target="_blank" rel="noopener noreferrer" aria-label="Compartilhar o Hub do Alergista por WhatsApp durante o 53º Congresso Brasileiro de Alergia e Imunologia">Compartilhar pelo WhatsApp <span aria-hidden="true">↗</span></a>
         <a class="hub-schedule-action" href="https://congressoalergiaasbai2026.com.br/evento/alergia2026/pt/programacao/gradeatividades/todas" target="_blank" rel="noopener noreferrer" aria-label="Visualizar grade horária oficial do 53º Congresso Brasileiro de Alergia e Imunologia">Ver grade horária <span aria-hidden="true">↗</span></a>
+        <button type="button" id="hubCongressAssistToggle" class="hub-schedule-action" style="cursor:pointer" onclick="hubCongressToggle()" aria-controls="hubCongressAssistPanel" aria-expanded="false">Buscar aula ou palestrante</button>
       </div>
         <span class="hub-share-disclaimer">Divulgação independente. O Hub não é o aplicativo oficial do congresso.</span>
       </div>
@@ -1397,6 +1419,18 @@ window._bloquearApp=function(){};
         </span>
         <span class="hub-congress-source">Identidade visual do congresso · Site oficial ↗</span>
       </a>
+      <div id="hubCongressAssistPanel" class="hub-congress-assist-panel" hidden>
+        <div class="hub-congress-assist-head">Assistente da programação</div>
+        <p>Pesquise pelo nome do palestrante, tema ou palavra-chave. Sem cadastro ou login.</p>
+        <div class="hub-congress-assist-form">
+          <label class="sr-only" for="hubCongressQuestion">Tema ou nome do palestrante</label>
+          <input id="hubCongressQuestion" type="search" autocomplete="off" placeholder="Ex.: Grazielly Campos, asma, imunoterapia oral" aria-label="Pesquisar aula por tema ou palestrante">
+          <button type="button" onclick="hubCongressAsk()">Pesquisar</button>
+        </div>
+        <div id="hubCongressAssistStatus" class="hub-congress-assist-status">Consultando a programação oficial…</div>
+        <div id="hubCongressAssistResult" aria-live="polite"></div>
+        <div class="hub-congress-assist-foot">Consulta independente, baseada na grade publicada pelo congresso. Sempre confira alterações no site oficial.</div>
+      </div>
     </section>
 
     <div class="sec-hdr"><h2>Acesso Rápido</h2></div>
@@ -10766,6 +10800,7 @@ function chatToggle(){
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.91.0" referrerpolicy="no-referrer"></script>
 <script src="/scores-qr-common.js?v=20261108-1"></script>
 <script src="/scores-qr-medico.js?v=20261109-2"></script>
+<script src="/congresso-assistente.js?v=20261109-1"></script>
 </body>
 </html>
 
