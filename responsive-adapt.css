@@ -294,3 +294,137 @@ html {
 #hubShareHome .hub-congress-assist-form { align-items: stretch; gap: 9px; }
 #hubShareHome .hub-congress-assist-panel { padding-top: 7px; }
 #hubShareHome .hub-share-disclaimer { display: block; margin-top: 10px; }
+
+
+/* HUB MOBILE VISUAL SCALE 2026-11-09 */
+/* Escala real dos atalhos em Android/iOS e tablets, preservando a área clínica
+   e os estilos independentes de desktop. */
+@media (max-width:1023px) {
+  #page-dashboard .quick-grid {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:12px;
+    padding-inline:clamp(12px,3.3vw,22px);
+    align-items:stretch;
+  }
+  #page-dashboard .quick-grid .qcard,
+  #page-eaaci .eaaci-grid .qcard {
+    box-sizing:border-box;
+    min-width:0;
+    min-height:156px;
+    height:auto;
+    aspect-ratio:auto;
+    padding:16px 9px 14px;
+    gap:11px;
+    justify-content:center;
+    align-items:center;
+    border:1px solid #dae8ed;
+    border-radius:17px;
+    background:#fff;
+    box-shadow:0 3px 12px rgba(13,31,45,.045);
+    -webkit-tap-highlight-color:transparent;
+    transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;
+  }
+  #page-dashboard .quick-grid .qcard:active,
+  #page-eaaci .eaaci-grid .qcard:active {transform:scale(.975);}
+  #page-dashboard .quick-grid .qcard:is(:hover,:focus-visible),
+  #page-eaaci .eaaci-grid .qcard:is(:hover,:focus-visible) {
+    border-color:#81bfca;
+    box-shadow:0 4px 15px rgba(13,31,45,.085);
+  }
+  #page-dashboard .quick-grid .qi,
+  #page-eaaci .eaaci-grid .qi {
+    width:54px;
+    height:54px;
+    min-width:54px;
+    flex:0 0 54px;
+    border-radius:15px;
+    font-size:27px;
+    line-height:1;
+    font-weight:400;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+  }
+  #page-dashboard .quick-grid .qi-teal,
+  #page-eaaci .eaaci-grid .qi-teal {background:linear-gradient(145deg,#edf9fb,#dff2f6);border:1px solid #d3eaee;}
+  #page-dashboard .quick-grid .qi-gold,
+  #page-eaaci .eaaci-grid .qi-gold {background:linear-gradient(145deg,#fffbef,#f5ecd0);border:1px solid #eee1b8;}
+  #page-dashboard .quick-grid .qi-navy,
+  #page-eaaci .eaaci-grid .qi-navy {background:linear-gradient(145deg,#f1f5f8,#e4ebf0);border:1px solid #dae4ea;}
+  #page-dashboard .quick-grid .qi-green,
+  #page-eaaci .eaaci-grid .qi-green {background:linear-gradient(145deg,#f0faf6,#dff2eb);border:1px solid #d5eae0;}
+  #page-dashboard .quick-grid .ql,
+  #page-eaaci .eaaci-grid .ql {
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    font-family:'Manrope',sans-serif;
+    font-size:14px;
+    font-weight:800;
+    line-height:1.36;
+    letter-spacing:-.15px;
+    color:#203c4e;
+    text-align:center;
+    white-space:normal;
+    overflow-wrap:anywhere;
+    word-break:normal;
+    hyphens:auto;
+    text-wrap:balance;
+  }
+  #page-dashboard .sec-hdr h2 {font-size:17px;line-height:1.35;}
+  #page-eaaci .eaaci-grid .qcard {min-height:155px;}
+  #page-eaaci .eaaci-grid .ql {font-size:14px;}
+  #page-imuno .bio-grid .bio-header {
+    min-height:150px;
+    padding:17px 11px 15px;
+    gap:10px;
+  }
+  #page-imuno .bio-grid .bio-icon {
+    width:50px;height:50px;min-width:50px;
+    border-radius:14px;font-size:24px;
+  }
+  #page-imuno .bio-grid .bio-name {
+    font-size:15px;line-height:1.35;font-weight:800;
+    overflow-wrap:anywhere;
+  }
+  #page-imuno .bio-grid .bio-comercial {
+    font-size:11.5px;line-height:1.45;
+  }
+  #page-imunizacoes .vac-header {min-height:148px;gap:9px;padding:15px 10px;}
+  #page-imunizacoes .vac-icon {width:50px;height:50px;border-radius:14px;font-size:23px;}
+  #page-imunizacoes .vac-name {font-size:15px;line-height:1.32;}
+  #page-imunizacoes .vac-protection,
+  #page-imunizacoes .vac-brand {font-size:11.5px;line-height:1.4;}
+  #page-imunoglobulinas .igcat-item>.igcat-card {min-height:108px;padding:13px;gap:11px;}
+  #page-imunoglobulinas .igcat-icon {width:58px;min-width:58px;min-height:55px;padding:6px;border-radius:11px;}
+  #page-imunoglobulinas .igcat-icon img {max-height:42px;}
+  #page-imunoglobulinas .igcat-name,
+  #page-imunoglobulinas .igcat-item.open .igcat-name {font-size:14.5px;line-height:1.37;}
+  #page-imunoglobulinas .igcat-maker,
+  #page-imunoglobulinas .igcat-route {font-size:11.5px;line-height:1.42;}
+  #page-scores .sp-name {font-size:19px;line-height:1.35;}
+  #page-scores .sp-emoji {font-size:26px;}
+  #page-scores .sp-desc {font-size:12.5px;line-height:1.5;}
+  .topbar .tb-icon {width:34px;height:34px;border-radius:10px;}
+  .topbar .tb-name {font-size:16px;}
+}
+@media (min-width:600px) and (max-width:759px) {
+  #page-dashboard .quick-grid {grid-template-columns:repeat(4,minmax(0,1fr));}
+}
+@media (min-width:760px) and (max-width:1023px) {
+  #page-dashboard .quick-grid {grid-template-columns:repeat(5,minmax(0,1fr));}
+}
+@media (max-width:479px) {
+  #page-imunoglobulinas .igcat-grid {grid-template-columns:minmax(0,1fr);}
+  #page-imunoglobulinas .igcat-item>.igcat-card {min-height:92px;}
+}
+@media (max-width:420px) {
+  .topbar .tb-name {font-size:13.5px;}
+}
+@media (max-width:359px) {
+  #page-dashboard .quick-grid {grid-template-columns:repeat(2,minmax(0,1fr));}
+  #page-dashboard .quick-grid .qcard {min-height:146px;}
+}
+@media (prefers-reduced-motion:reduce) {
+  #page-dashboard .quick-grid .qcard,
+  #page-eaaci .eaaci-grid .qcard {transition:none;}
+}
+
