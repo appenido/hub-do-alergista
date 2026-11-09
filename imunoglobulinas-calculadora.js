@@ -208,8 +208,11 @@ function refs(parent,prod){
   parent.appendChild(wrap);
 }
 function render(){
-  var output=get('igcalcDetail');if(!output)return;output.textContent='';
-  if(!current){ptxt(output,'Selecione um dos medicamentos acima para visualizar doses de referência, velocidades e monitorização.');return;}
+  var output=get('igcalcDetail');if(!output)return;
+  output.textContent='';
+  // A ficha só existe visualmente dentro do cartão da marca selecionada.
+  if(!current){output.hidden=true;return;}
+  output.hidden=false;
   var pr=typeof IG_PRODUTOS!=='undefined'?IG_PRODUTOS[current]:null;
   var product=P[current];if(!pr||!product){ptxt(output,'Não foi encontrada ficha validada desta apresentação.');return;}
   var header=el('div',null,'ig-main-head'),left=el('div');
@@ -235,6 +238,12 @@ function render(){
 }
 function build(){
   var box=get('igCatalogProducts');if(!box||typeof IG_PRODUTOS==='undefined')return;
+  // Preservar a ficha compartilhada ao reconstruir o catálogo.
+  var detail=get('igcalcDetail');
+  if(detail&&box.contains(detail)){
+    var root=get('page-imunoglobulinas');
+    if(root)root.querySelector('.igcalc-shell').appendChild(detail);
+  }
   box.textContent='';
   ['IV','SC'].forEach(function(via){
     var group=el('section',null,'igcat-group');
@@ -242,7 +251,15 @@ function build(){
     var grid=el('div',null,'igcat-grid');
     Object.keys(IG_PRODUTOS).forEach(function(key){
       var p=IG_PRODUTOS[key];if(!p||p.via!==via)return;
-      var btn=el('button',null,'igcat-card');btn.type='button';btn.dataset.igKey=key;btn.setAttribute('aria-pressed','false');btn.setAttribute('aria-label','Ver velocidade de infusão de '+p.nome);
+      var item=el('div',null,'igcat-item');
+      item.dataset.igItem=key;
+      var btn=el('button',null,'igcat-card');
+      btn.type='button';
+      btn.dataset.igKey=key;
+      btn.setAttribute('aria-pressed','false');
+      btn.setAttribute('aria-expanded','false');
+      btn.setAttribute('aria-controls','igcalcDetail');
+      btn.setAttribute('aria-label','Abrir ou fechar ficha de '+p.nome);
       var icon=el('span',null,'igcat-icon'),source=(typeof IG_LOGO!=='undefined'&&IG_LOGO[key]||''),src=(typeof IG_LOGO_IMG!=='undefined'&&IG_LOGO_IMG[source]||''),maker=(typeof IG_FABRICANTE!=='undefined'&&IG_FABRICANTE[key]||'');
       if(src){
         var im=el('img');im.src=src;im.alt='Logomarca '+maker;im.loading='lazy';im.decoding='async';
@@ -252,13 +269,27 @@ function build(){
       btn.appendChild(icon);
       var txt=el('span',null,'igcat-copy');txt.appendChild(el('span',p.nome,'igcat-name'));txt.appendChild(el('span',maker,'igcat-maker'));txt.appendChild(el('span',(via==='IV'?'Intravenosa':'Subcutânea')+' · '+p.conc,'igcat-route'));btn.appendChild(txt);
       btn.addEventListener('click',function(){
-        current=key;
-        box.querySelectorAll('button.igcat-card').forEach(function(b){b.setAttribute('aria-pressed',b===btn?'true':'false');});
-        render();
+        var mesmo=current===key;
+        // O mesmo cartão funciona como liga/desliga. Uma nova marca fecha a anterior.
+        current=mesmo?null:key;
+        box.querySelectorAll('.igcat-item').forEach(function(card){
+          var ativo=!mesmo&&card===item;
+          card.classList.toggle('open',ativo);
+          var botao=card.querySelector(':scope > .igcat-card');
+          if(botao){
+            botao.setAttribute('aria-pressed',ativo?'true':'false');
+            botao.setAttribute('aria-expanded',ativo?'true':'false');
+          }
+        });
         var panel=get('igcalcDetail');
-        if(panel&&typeof panel.scrollIntoView==='function')panel.scrollIntoView({behavior:'smooth',block:'start'});
+        if(!mesmo&&panel){
+          // A ficha é filha do próprio quadrado da marca, sem painel no rodapé.
+          item.appendChild(panel);
+        }
+        render();
       });
-      grid.appendChild(btn);
+      item.appendChild(btn);
+      grid.appendChild(item);
     });
     group.appendChild(grid);box.appendChild(group);
   });
@@ -267,6 +298,8 @@ function init(){
   var input=get('igcalcWeight');
   if(!input)return;
   build();
+  var detail=get('igcalcDetail');
+  if(detail)detail.hidden=true;
   input.addEventListener('input',render);
   input.addEventListener('change',render);
   render();
