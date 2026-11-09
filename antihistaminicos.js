@@ -102,8 +102,9 @@ function dose(rule,age,wt,ind){
   d.caution='Anti-H1 sedativo; existem alternativas de segunda geração preferenciais.';break;
  case 'hix':
   if(age<0.5)return {error:'Hixizine xarope contraindicado abaixo de 6 meses.'};
-  if(wt<=40){d.mg=Math.min(wt*0.7,wt*2/3);d.times=3;d.max='Limite adotado: 2 mg/kg/dia; a bula descreve 0,7 mg/kg/dose, mas exige respeitar o teto diário.';}
-  else {d.mg=25;d.times=3;d.max='Limite acima de 40 kg: 100 mg/dia; em idosos, evitar ou máximo 50 mg/dia.';}
+  if(age>=65)return {error:'Hidroxizina não é recomendada em idosos. A bula estabelece máximo de 50 mg/dia quando inevitável; avaliação e prescrição individual são necessárias.'};
+  if(age<12||wt<=40){d.mg=Math.min(wt*0.7,wt*2/3);d.times=3;d.max='Limite pediátrico adotado: 2 mg/kg/dia; a bula descreve 0,7 mg/kg/dose, mas exige respeitar o teto diário.';}
+  else {d.mg=25;d.times=3;d.max='Referência adulta: 25 mg três vezes ao dia; máximo da bula 100 mg/dia.';}
   d.caution='Alerta: risco de QT prolongado e sedação. Apenas referência de dose, não indicação automática.';break;
  case 'cetiF':
   if(age<0.5)return {error:'Xarope Zaditen: uso a partir de 6 meses.'};
