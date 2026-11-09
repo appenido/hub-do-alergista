@@ -55,5 +55,5 @@ test('tolerância ao alimento permanece informada sem exclusão automática', ()
   elements.fxFoodA.value='banana'; elements.fxFoodB.value='abacaxi'; elements.fxTolerated.checked=true;
   cmp.render();
   assert.match(elements.fxResult.innerHTML, /Tolerância informada/);
-  assert.match(elements.fxResult.innerHTML, /não solicitar IgEs nem restringi-lo apenas por homologia/);
+  assert.match(elements.fxResult.innerHTML, /Não restringir ou solicitar IgEs apenas pela homologia molecular/);
 });
