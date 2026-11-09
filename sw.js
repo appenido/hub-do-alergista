@@ -1,7 +1,7 @@
 // Hub do Alergista — cache somente de arquivos públicos estáticos.
 // APIs e dados clínicos dinâmicos jamais são armazenados pelo service worker.
 const CACHE = 'hub-alergista-v1194-desktop-tipo-universal-20261109';
-const ASSETS = ['desktop-universal.css?v=20261109-2', 'responsive-adapt.css?v=20261109-2', 'comparador-reatividade-alimentar.js?v=20261109-3', 'congresso-assistente.js?v=20261109-3', 'imunoglobulinas-calculadora.js?v=20261109-1', './', 'index.html', 'instalar.html', 'lgpd-runtime.js?v=20261104-8', 'ige-clinica.js?v=20261104-2', 'calendarios-imunizacoes.js?v=20261109-8', 'privacidade.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
+const ASSETS = ['desktop-universal.css?v=20261109-2', 'responsive-adapt.css?v=20261109-2', 'comparador-reatividade-alimentar.js?v=20261109-4', 'congresso-assistente.js?v=20261109-3', 'imunoglobulinas-calculadora.js?v=20261109-1', './', 'index.html', 'instalar.html', 'lgpd-runtime.js?v=20261104-8', 'ige-clinica.js?v=20261104-2', 'calendarios-imunizacoes.js?v=20261109-8', 'privacidade.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
 const PATHS = new Set(['/desktop-universal.css', '/congresso-assistente.js', '/comparador-reatividade-alimentar.js', '/responsive-adapt.css', '/', '/index.html', '/instalar.html', '/ige-clinica.js', '/calendarios-imunizacoes.js', '/imunoglobulinas-calculadora.js', '/lgpd-runtime.js', '/privacidade.html', '/manifest.json', '/icon-192.png', '/icon-512.png']);
 let checkInProgress = null;
 
