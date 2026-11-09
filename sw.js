@@ -1,7 +1,7 @@
 // Hub do Alergista — cache somente de arquivos públicos estáticos.
 // APIs e dados clínicos dinâmicos jamais são armazenados pelo service worker.
-const CACHE = 'hub-alergista-v1186-biologicos-inline-20261109';
-const ASSETS = ['./', 'index.html', 'instalar.html', 'lgpd-runtime.js?v=20261104-8', 'ige-clinica.js?v=20261104-2', 'calendarios-imunizacoes.js?v=20261109-7', 'privacidade.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
+const CACHE = 'hub-alergista-v1187-imunizacoes-inline-20261109';
+const ASSETS = ['./', 'index.html', 'instalar.html', 'lgpd-runtime.js?v=20261104-8', 'ige-clinica.js?v=20261104-2', 'calendarios-imunizacoes.js?v=20261109-8', 'privacidade.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
 const PATHS = new Set(['/', '/index.html', '/instalar.html', '/ige-clinica.js', '/calendarios-imunizacoes.js', '/lgpd-runtime.js', '/privacidade.html', '/manifest.json', '/icon-192.png', '/icon-512.png']);
 let checkInProgress = null;
 
