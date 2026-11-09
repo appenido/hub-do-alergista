@@ -30,15 +30,15 @@ function result(payload,id){
  const numeric=Number(payload.total);
  if(!Number.isFinite(numeric))return;
  const ref=Number(calculated.score.split("/")[0].replace(",","."));if(!Number.isFinite(ref)||Math.abs(ref-numeric)>0.051)return;
- const output=d("mResult");if(!output)return;
+ // Resultado recebido aparece no próprio painel do QR, sem rolar até o rodapé do modal.
+ const output=d("score-qr-result");if(!output)return;
  output.style.background=calculated.color;
- d("mResN").textContent=calculated.score;
- d("mResLbl").textContent="Recebido do celular · "+calculated.lbl;
- d("mResDesc").textContent=calculated.desc;
+ d("score-qr-res-n").textContent=calculated.score;
+ d("score-qr-res-lbl").textContent="Recebido do celular · "+calculated.lbl;
+ d("score-qr-res-desc").textContent=calculated.desc;
+ const oldOutput=d("mResult");if(oldOutput)oldOutput.classList.remove("show");
  output.classList.add("show");
- status("Respostas recebidas e calculadas. Sessão ativa até expirar.",false);
- const item=d("score-qr-status");if(item)item.setAttribute("role","status");
- output.scrollIntoView({behavior:"smooth",block:"nearest"});
+ status("Respostas recebidas e calculadas. Resultado logo abaixo do QR Code.",false);
 }
 async function createScoreSession(key,id){
  const button=d("score-qr-renovar");if(button)button.disabled=true;
@@ -88,8 +88,9 @@ function appendPanel(key){
  const panel=document.createElement("section");panel.id="score-qr-panel";
  panel.style.cssText="background:#f5fafb;border:1px solid #b6d8df;border-radius:12px;padding:13px;margin:13px 0;color:#0d1f2d;text-align:center";
  panel.innerHTML='<div style="font-size:14px;font-weight:750">Preenchimento pelo paciente via QR Code</div>'
- +'<p style="font-size:11px;line-height:1.6;margin:7px 0 10px;color:#496878">O paciente responde no celular. Ao tocar em Enviar, a pontuação aparece automaticamente nesta tela. Sessão válida por 15 minutos, sem identificação nem histórico.</p>'
+ +'<p style="font-size:11px;line-height:1.6;margin:7px 0 10px;color:#496878">O paciente responde no celular. Ao tocar em Enviar, o resultado aparece imediatamente abaixo do QR Code nesta tela. Sessão válida por 15 minutos, sem identificação nem histórico.</p>'
  +'<div id="score-qr-image" style="display:flex;justify-content:center;margin:10px auto;min-height:0"></div>'
+ +'<div id="score-qr-result" class="score-result" style="margin:10px auto 12px;padding:18px 14px" role="status" aria-live="polite" aria-atomic="true"><div class="res-n" id="score-qr-res-n">—</div><div class="res-lbl" id="score-qr-res-lbl">—</div><div class="res-desc" id="score-qr-res-desc">—</div></div>'
  +'<div id="score-qr-status" role="status" aria-live="polite" style="font-size:11.5px;min-height:34px;line-height:1.5;color:#496878">Preparando sessão…</div>'
  +'<div style="display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:8px 0"><button type="button" id="score-qr-renovar" class="btn btn-sm">Gerar novo QR Code</button><button type="button" id="score-qr-copy" class="btn btn-sm" hidden>Copiar link</button></div>'
  +'<a id="score-qr-url" style="font-size:11.5px;color:#17697a;overflow-wrap:anywhere" target="_blank" rel="noopener noreferrer"></a>';
@@ -102,6 +103,8 @@ function cleanupChannelOnly(){
  const node=d("score-qr-image");if(node)node.replaceChildren();
  const link=d("score-qr-url");if(link){link.removeAttribute("href");link.textContent="";}
  const cp=d("score-qr-copy");if(cp)cp.hidden=true;
+ const inlineResult=d("score-qr-result");
+ if(inlineResult){inlineResult.classList.remove("show");inlineResult.style.background="";}
 }
 function activatePrurido(){
  const inp=d("vasp1");if(!inp)return;
