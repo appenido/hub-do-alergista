@@ -143,19 +143,56 @@ body{
 .btn-primary{background:var(--teal-mid);color:#fff;border-color:var(--teal-mid);}
 .btn-sm{font-size:11px;padding:6px 11px;}
 
-/* ── ALERT BAR ── */
+/* ── ALERGO NEWS: MASTHEAD DE JORNAL ── */
 .alert-bar{
-  margin:12px 16px 0;
-  background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(201,168,76,.04));
-  border:1px solid rgba(201,168,76,.3);border-radius:13px;
-  padding:12px 14px;display:flex;align-items:flex-start;gap:10px;
-  cursor:pointer;
+  display:block;margin:12px 16px 0;padding:13px 16px 12px;
+  background:linear-gradient(155deg,#fffefa,#f9f4e8);
+  border:1px solid rgba(201,168,76,.42);
+  border-top:4px solid var(--navy);border-radius:12px;
+  box-shadow:0 3px 12px rgba(13,31,45,.06);
+  cursor:pointer;color:var(--navy);
+  transition:border-color .15s,box-shadow .15s;
 }
-.alert-bar-text{font-size:12.5px;color:#2e4057;line-height:1.5;flex:1;}
+.alert-bar:hover,.alert-bar:focus-visible{
+  border-color:var(--teal-mid);box-shadow:0 4px 15px rgba(13,31,45,.1);
+  outline-offset:2px;
+}
+.news-masthead{
+  display:flex;flex-direction:column;align-items:flex-start;
+  gap:4px;padding-bottom:10px;margin-bottom:10px;
+  border-bottom:3px double rgba(13,31,45,.38);
+}
 .alert-tag{
-  background:var(--gold);color:#fff;font-size:9px;font-weight:700;
-  padding:2px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0;margin-top:1px;
+  display:inline-block;background:var(--navy);color:#f0d48b;
+  font:800 10px/1.2 'Manrope',sans-serif;
+  letter-spacing:.18em;text-transform:uppercase;
+  padding:4px 9px;border-radius:2px;
 }
+.news-brand{
+  display:block;font:400 clamp(27px,5.8vw,35px)/1.08 'DM Serif Display',Georgia,serif;
+  letter-spacing:-.025em;color:var(--navy);
+}
+.news-edition{
+  font:700 9px/1.4 'Manrope',sans-serif;
+  color:var(--teal-mid);letter-spacing:.12em;text-transform:uppercase;
+}
+.news-headline-label{
+  margin-bottom:3px;font:800 9px/1.4 'Manrope',sans-serif;
+  color:#8a6d28;letter-spacing:.12em;text-transform:uppercase;
+}
+.alert-bar-text{
+  font:400 17px/1.35 'DM Serif Display',Georgia,serif;
+  color:var(--navy);overflow-wrap:anywhere;
+}
+.news-readmore{
+  margin-top:9px;text-align:right;font:800 10px/1.4 'Manrope',sans-serif;
+  letter-spacing:.02em;color:var(--teal-mid);
+}
+@media(max-width:380px){
+  .news-brand{font-size:27px}
+  .alert-bar-text{font-size:16px}
+}
+
 
 /* ── QUICK GRID ── */
 .quick-grid{
@@ -1345,10 +1382,15 @@ window._bloquearApp=function(){};
 
   <!-- ══ DASHBOARD ══ -->
   <div class="page active" id="page-dashboard">
-    <a class="alert-bar" id="alertaNoticia" href="javascript:void(0)" onclick="navTo('jornal')" style="text-decoration:none;cursor:pointer">
-      <span style="font-size:18px">📰</span>
-      <div class="alert-bar-text" id="alertaNoticiaTexto">Alergia News · toque para ler as notícias da semana</div>
-      <div class="alert-tag" id="alertaNoticiaTag">Jornal</div>
+    <a class="alert-bar" id="alertaNoticia" href="javascript:void(0)" onclick="navTo('jornal')" aria-label="Abrir o jornal Alergo News e ler as principais notícias de alergia e imunologia" style="text-decoration:none;cursor:pointer">
+      <div class="news-masthead">
+        <span class="alert-tag" id="alertaNoticiaTag">Jornal</span>
+        <span class="news-brand">Alergo News</span>
+        <span class="news-edition">Alergia · Imunologia · Atualidades</span>
+      </div>
+      <div class="news-headline-label">Manchete</div>
+      <div class="alert-bar-text" id="alertaNoticiaTexto">As principais notícias de alergia e imunologia, atualizadas para você.</div>
+      <div class="news-readmore">Ler jornal →</div>
     </a>
 
     <!-- Campanha independente de divulgação no 53º Congresso ASBAI 2026 -->
@@ -4098,11 +4140,11 @@ window._bloquearApp=function(){};
 
   <div class="page" id="page-jornal">
     <div style="padding:16px 16px 10px">
-      <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px">
-        <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
-        <span style="font-family:'DM Serif Display',serif;font-size:21px;letter-spacing:.01em">Alergia News</span>
+      <div style="padding-bottom:8px;border-bottom:3px double rgba(13,31,45,.38)">
+        <span class="alert-tag">Jornal</span>
+        <div style="font:400 30px/1.15 'DM Serif Display',Georgia,serif;color:var(--navy);margin-top:5px">Alergo News</div>
+        <div id="jornalSub" style="font-size:12px;color:var(--gray-500);margin-top:4px">Notícias verificadas de alergia e imunologia, dos principais veículos do país</div>
       </div>
-      <div id="jornalSub" style="font-size:12px;color:var(--gray-500);margin-top:4px">Notícias verificadas de alergia e imunologia, dos principais veículos do país</div>
     </div>
     <div id="jornalCorpo" style="padding:0 16px 24px"><div style="padding:20px 0;font-size:12px;color:var(--gray-500)">Carregando o jornal…</div></div>
     <div style="height:80px"></div>
@@ -5761,7 +5803,7 @@ function carregarNoticiasMidia(){
   var feedOk = false;
   if(!cache){
     fetch('jornal/edicao.json').then(function(r){ return r.json(); }).then(function(e){
-      if(!feedOk) _setAlertaNoticia('<strong style="color:var(--gold)">Alergia News:</strong> ' + _escHtml(e.manchete));
+      if(!feedOk) _setAlertaNoticia('<strong style="color:var(--gold)">Alergo News:</strong> ' + _escHtml(e.manchete));
     }).catch(function(){});
   }
 
@@ -5779,7 +5821,7 @@ function carregarNoticiasMidia(){
   }).catch(function(){
     if(cache || feedOk) return;
     fetch('jornal/edicao.json').then(function(r){ return r.json(); }).then(function(e){
-      _setAlertaNoticia('<strong style="color:var(--gold)">Alergia News:</strong> ' + _escHtml(e.manchete));
+      _setAlertaNoticia('<strong style="color:var(--gold)">Alergo News:</strong> ' + _escHtml(e.manchete));
     }).catch(function(){
       var t = document.getElementById('alertaNoticiaTexto');
       if(t) t.textContent = 'Abra o Alergia News desta semana.';
@@ -6998,7 +7040,7 @@ function labInit(){
   igeRender(); pedRender();
 }
 
-var PAGE_TITLES={laboratorio:'Laboratório',eaaci:'Protocolos de bolso',dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',imunizacoes:'Imunizações',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',scores:'Scores',pacientes:'Pacientes',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Preferências',alergonews:'Alergo News',jornal:'Alergia News',mais:'Mais'};
+var PAGE_TITLES={laboratorio:'Laboratório',eaaci:'Protocolos de bolso',dashboard:'Início',crm:'Consultar CRM',material:'Material do Alergista',mais:'Mais',imuno:'Imunobiológicos',imunoglobulinas:'Imunoglobulinas',imunizacoes:'Imunizações',interacao:'Interações medicamentosas',artigos:'Artigos',guidelines:'Guidelines',scores:'Scores',pacientes:'Pacientes',assistente:'IA Clínica',prompts:'Prompts',relatorios:'Relatórios',casos:'Casos',educacao:'Educação',favoritos:'Favoritos',perfil:'Preferências',alergonews:'Alergo News',jornal:'Alergo News',mais:'Mais'};
 
 var _navHistory = ['dashboard'];
 
