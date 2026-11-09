@@ -119,6 +119,45 @@ var P={
     status:'intl'
   }
 };
+
+// Datas de PRIMEIRA concessão: só preencher mediante ato/publicação original verificável.
+// A data de renovação, de bula, de TUSS ou de atualização do Rol não equivale ao primeiro registro.
+var IG_REGULATORIO={
+  privigen_10: {data:null,nota:'Data da concessão original não confirmada em publicação primária. Há referência a processo regulatório em 2010, que não comprova a aprovação inicial.'},
+  octagam_10: {data:null,nota:'Data de concessão original não confirmada em publicação primária.'},
+  kiovig_10: {data:null,nota:'Data de concessão original da apresentação brasileira não confirmada em publicação primária.'},
+  flebogamma_10: {data:null,nota:'Data original não confirmada. A data de aprovação ou atualização de bula não deve ser tratada como data de registro.'},
+  tegeline_5: {data:null,nota:'Data original não confirmada. Verificar a situação atual do produto e apresentação na Anvisa.'},
+  endobulin_5: {data:null,nota:'Identidade e situação cadastral de Endobulin S/D 5% pendentes de confirmação; não confundir com Endobulin KIOVIG 10%.'},
+  gammaked_10: {data:null,nota:'Registro brasileiro da apresentação GAMMAKED 10% não validado; bula internacional não comprova registro na Anvisa.'},
+  gamunex_10: {data:null,nota:'Há documentos brasileiros para GAMUNEX, mas a data inicial e a equivalência com a apresentação GAMUNEX-C exibida ainda requerem confirmação.'},
+  hizentra_20: {data:'21/09/2015',nota:'Registro inicial documentado no Diário Oficial da União de 21/09/2015; conferir situação atual na Anvisa.',url:'https://transparencia.mpf.mp.br/conteudo/diarios-e-boletins/diario-oficial-da-uniao-1/2015/dou1_2015_09_21_suplementar.pdf'},
+  cuvitru_20: {data:null,nota:'Há registro documental no DOU de 26/11/2018, sem confirmação de que essa tenha sido a primeira concessão.',url:'https://pesquisa.in.gov.br/imprensa/servlet/INPDFViewer?captchafield=firstAccess&data=26%2F11%2F2018&jornal=531&pagina=40'},
+  hyqvia_10: {data:'25/09/2017',nota:'Primeiro registro de HyQvia anunciado pela Anvisa com publicação no DOU de 25/09/2017; data da notícia original: 26/09/2017.',url:'https://www.gov.br/anvisa/pt-br/assuntos/noticias-anvisa/2017/aprovada-nova-imunoglobulina-para-terapia-de-reposicao'},
+  gammanorm_165: {data:null,nota:'Data inicial e situação regulatória atual da apresentação brasileira não confirmadas; fonte de velocidade utilizada neste Hub é internacional.'}
+};
+var IG_FONTES_REG={
+  anvisa:'https://www.gov.br/anvisa/pt-br/sistemas/consulta-a-registro-de-medicamentos',
+  ans:'https://www.gov.br/ans/pt-br/acesso-a-informacao/participacao-da-sociedade/atualizacao-do-rol-de-procedimentos/cobertura-assistencial',
+  ansIg:'https://www.gov.br/ans/pt-br/arquivos/acesso-a-informacao/participacao-da-sociedade/consultas-publicas/cp81/medicamentos/re_215_imunoglobulinas_imunodeficiencias.pdf',
+  seguro:'https://www.frontiersin.org/journals/immunology/articles/10.3389/fimmu.2026.1901301/full',
+  aaaai:'https://www.aaaai.org/Aaaai/media/Media-Library-PDFs/Allergist%20Resources/Statements%20and%20Practice%20Parameters/2025-Inborn-errors-of-immunity-pp.pdf'
+};
+var IG_RISCO_FORMULACAO={
+  privigen_10:'Sem sacarose; isso não elimina o risco de lesão renal, trombose, hemólise ou reação infusional associado à via IV.',
+  octagam_10:'A formulação contém maltose: conferir métodos de glicemia compatíveis. Reações sistêmicas seguem relacionadas a dose, taxa e fatores do paciente.',
+  kiovig_10:'Avaliar função renal, estado volêmico e risco trombótico; a ausência de sacarose não elimina reações graves.',
+  flebogamma_10:'Contém sorbitol; revisar a bula quanto a contraindicações relacionadas ao excipiente e riscos específicos.',
+  tegeline_5:'A bula utilizada é histórica; não atribuir perfil de risco comparativo ou indicação preferencial sem confirmação da formulação atual.',
+  endobulin_5:'Apresentação 5% não conciliada com fonte regulatória atual; não afirmar superioridade de segurança.',
+  gammaked_10:'As evidências internacionais não permitem compará-lo diretamente com outras marcas brasileiras quanto a eventos raros.',
+  gamunex_10:'O produto GAMUNEX-C da referência internacional não deve ser automaticamente igualado a outra apresentação nacional.',
+  hizentra_20:'Predominam eritema, edema, desconforto e prurido locais; eventos sistêmicos são menos frequentes do que na administração IV.',
+  cuvitru_20:'Predominam eventos locais, geralmente leves e autolimitados; avaliar hipersensibilidade e técnica de aplicação.',
+  hyqvia_10:'A hialuronidase permite volumes maiores por local; edema e desconforto local podem ser mais expressivos, embora o perfil sistêmico tenda a ser mais favorável do que na via IV.',
+  gammanorm_165:'Predominam eventos locais; confirmar formulação e registro brasileiro antes de extrapolar informações de RCM internacional.'
+};
+
 var ctx={
   pre:[
     'Confirmar indicação de reposição, dose individual, IgG, infecções, exames pertinentes, peso de cálculo e necessidade de ajuste. O peso isolado não estabelece elegibilidade.',
@@ -207,6 +246,42 @@ function refs(parent,prod){
   ptxt(wrap,'Nota: fontes internacionais ou históricas são indicadas como tais. Antes de colocar um valor na bomba, é indispensável conferir a bula brasileira vigente e a indicação específica.');
   parent.appendChild(wrap);
 }
+
+function regulatory(parent,key,product){
+  var reg=IG_REGULATORIO[key]||{};
+  var section=el('section',null,'igcalc-section');
+  section.appendChild(el('h4','Anvisa · registro e data'));
+  ptxt(section,reg.data?'Primeiro registro documentado: '+reg.data+'.':'Data do primeiro registro: ainda não confirmada em fonte primária.');
+  ptxt(section,reg.nota||'Acompanhar o cadastro oficial da Anvisa.');
+  var line=el('p');line.appendChild(lnk(IG_FONTES_REG.anvisa,'Consultar registro e situação atual na Anvisa'));
+  if(reg.url){line.appendChild(document.createTextNode(' · '));line.appendChild(lnk(reg.url,'Documento de referência da data'));}
+  section.appendChild(line);
+  section.appendChild(el('h4','ANS · cobertura e marco regulatório'));
+  ptxt(section,'Não existe data de entrada no Rol para cada marca de imunoglobulina. Na análise técnica do ciclo 2019/2020, a ANS já reconhecia cobertura da terapia com imunoglobulina humana por hemoterapia, tanto IV como SC, nas indicações previstas em bula, conforme a segmentação assistencial. A RN 465/2021 é marco da regulamentação atual, não uma incorporação individual destas marcas.');
+  ptxt(section,'Cobertura obrigatória deve ser verificada conforme procedimento, indicação prevista em bula, contexto de administração, tipo de plano e regras vigentes. Registro sanitário não significa cobertura irrestrita, e código TUSS não é data de incorporação.');
+  var ansLine=el('p');
+  ansLine.appendChild(lnk(IG_FONTES_REG.ansIg,'Nota técnica ANS 2019/2020 — imunoglobulinas'));
+  ansLine.appendChild(document.createTextNode(' · '));
+  ansLine.appendChild(lnk(IG_FONTES_REG.ans,'Rol ANS vigente'));
+  section.appendChild(ansLine);
+  section.appendChild(el('h4','Risco de eventos adversos · comparação clínica'));
+  var route=product.kind==='IV'?'IV':(product.kind==='fSC'?'fSC':'SC');
+  if(route==='IV'){
+    ptxt(section,'Perfil relativo por via: maior frequência de reações sistêmicas do que na via subcutânea. Cefaleia, febre, calafrios e náuseas são possíveis; eventos graves raros incluem trombose, lesão renal aguda, hemólise, meningite asséptica e anafilaxia.');
+  }else if(route==='fSC'){
+    ptxt(section,'Perfil relativo por via: imunoglobulina subcutânea facilitada geralmente apresenta menos reações sistêmicas que IGIV; reações no local (edema, dor, eritema) são frequentes, particularmente com grandes volumes.');
+  }else{
+    ptxt(section,'Perfil relativo por via: menor frequência de reações sistêmicas que IGIV, porém mais reações locais, como dor, edema, eritema e prurido; eventos graves são incomuns, mas possíveis.');
+  }
+  if(IG_RISCO_FORMULACAO[key])ptxt(section,'Ponto específico desta formulação: '+IG_RISCO_FORMULACAO[key]);
+  info(section,'Não existe comparação direta robusta capaz de classificar todas as marcas como maior ou menor risco global. Dose, concentração, velocidade, via, comorbidades, histórico de reações e excipientes modificam o risco. A classificação acima se refere à VIA e ao padrão de eventos, não a um ranking entre fabricantes.');
+  var riskLine=el('p');riskLine.appendChild(lnk(IG_FONTES_REG.seguro,'Consenso de farmacovigilância de imunoglobulinas — 2026'));
+  riskLine.appendChild(document.createTextNode(' · '));riskLine.appendChild(lnk(IG_FONTES_REG.aaaai,'AAAAI/ACAAI/CIS — parâmetro de prática'));
+  section.appendChild(riskLine);
+  ptxt(section,'Revisão documental: 09/11/2026. Para datas não confirmadas, nenhum ano foi inferido a partir de renovação, bula ou mercado.');
+  parent.appendChild(section);
+}
+
 function render(){
   var output=get('igcalcDetail');if(!output)return;
   output.textContent='';
@@ -226,6 +301,7 @@ function render(){
     dose(output,pr,current,weight);
     rates(output,product,weight);
   }
+  regulatory(output,current,product);
   if(product.status==='intl')info(output,'Fonte de velocidade internacional. Não equiparar automaticamente às condições de registro, bula ou indicação no Brasil.');
   if(product.status==='historical')info(output,'Bula histórica: confirmar versão e limites atuais na Anvisa antes da prescrição.');
   if(product.status==='unverified'&&weight!==null)info(output,'Não utilizar taxas de infusão de Endobulin KIOVIG 10% para Endobulin S/D 5%.');
@@ -245,6 +321,21 @@ function build(){
     if(root)root.querySelector('.igcalc-shell').appendChild(detail);
   }
   box.textContent='';
+  var overview=el('details',null,'igcalc-section');
+  overview.style.cssText='background:#f7fafb;border:1px solid #d9e6eb;border-radius:12px;padding:11px 13px;margin-bottom:12px';
+  var overviewTitle=el('summary','Anvisa, Rol ANS e segurança — como comparar os produtos');
+  overviewTitle.style.cssText='cursor:pointer;font-size:12px;font-weight:700;color:#173a4a';
+  overview.appendChild(overviewTitle);
+  ptxt(overview,'As datas do primeiro registro da Anvisa aparecem nas fichas quando comprovadas por fonte documental. Para os demais produtos, é exibido “não confirmada”, sem inventar ano.');
+  ptxt(overview,'A ANS não incorpora individualmente cada marca ao Rol; a análise de 2019/2020 reconheceu a cobertura da hemoterapia com imunoglobulinas IV e SC conforme bula e segmentação. O Rol vigente é regulamentado pela RN 465/2021.');
+  ptxt(overview,'Menos reações sistêmicas: em geral IgSC convencional e facilitada. Mais reações sistêmicas: em geral IgIV. Mais reações locais: IgSC. Não há ranking confiável de segurança global entre marcas.');
+  var overviewLinks=el('p');
+  [[IG_FONTES_REG.anvisa,'Anvisa'],[IG_FONTES_REG.ans,'ANS'],[IG_FONTES_REG.seguro,'Segurança clínica (2026)']].forEach(function(pair,i){
+    if(i)overviewLinks.appendChild(document.createTextNode(' · '));
+    overviewLinks.appendChild(lnk(pair[0],pair[1]));
+  });
+  overview.appendChild(overviewLinks);
+  box.appendChild(overview);
   ['IV','SC'].forEach(function(via){
     var group=el('section',null,'igcat-group');
     group.appendChild(el('h4',via==='IV'?'Intravenosas (IGIV)':'Subcutâneas (IGSC)'));
