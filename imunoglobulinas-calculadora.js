@@ -110,6 +110,33 @@ var P={
     limit:'Não misturar os dois componentes. Seguir titulação gradual da dose e intervalo entre aplicações; a velocidade máxima não autoriza iniciar na dose mensal completa sem titulação.',
     status:'br'
   },
+  imunoglobulin_5:{
+    source:'Imunoglobulin 50 mg/mL — bula profissional brasileira da Blau Farmacêutica, seção 8 (Posologia e modo de usar); registro 1.1637.0044',
+    url:'https://www.blau.com/media/leaflet/9cba21cb-de15-4b34-8c61-4b720fba41da-85ae6ebf-9acb-492d-b6ee-9fb6a6fc849b/Imunog_Wxod21d.pdf',
+    kind:'IV',rates:[],interval:30,
+    specificRows:[
+      {stage:'Início da infusão',minutes:'15–30 min',low:0.6,high:0.6},
+      {stage:'Após 15–30 min, se tolerado',minutes:'Aumento gradual',low:1.2,high:1.2},
+      {stage:'Faixa de progressão geralmente tolerada, não automática',minutes:'Conforme tolerância',low:1.8,high:3.6}
+    ],
+    initial:'A bula orienta iniciar a 0,01 mL/kg/min (0,6 mL/kg/h), passando a 0,02 mL/kg/min (1,2 mL/kg/h) após 15–30 minutos, somente se tolerado.',
+    limit:'A bula descreve tolerância frequente a aumentos graduais de 0,03–0,06 mL/kg/min (1,8–3,6 mL/kg/h). Não estabelece que todo paciente deve atingir a última velocidade; reduzir/interromper em caso de reação.',
+    schedule:'Taxas específicas da bula brasileira. As três linhas NÃO são degraus obrigatórios ou intervalos cronometrados além do início descrito. Contém maltose 100 mg/mL; conferir compatibilidade do método de glicemia. Frasco exibido: 5 g/100 mL (5%).',
+    status:'br'
+  },
+  igvena_5:{
+    source:'Ig Vena 50 mg/mL — bula profissional brasileira aprovada pela Anvisa em 15/09/2023, seção 8 (Modo de administração); registro 1.7577.0002',
+    url:'https://uploads.consultaremedios.com.br/drug_leaflet/pro/Bula-Igvena-Profissional-Consulta-Remedios.pdf',
+    kind:'IV',rates:[],interval:30,
+    specificRows:[
+      {stage:'Velocidade inicial recomendada',minutes:'Primeiros 20–30 min',low:0.46,high:0.92},
+      {stage:'Teto habitual após aumento gradual, se tolerado',minutes:'Após avaliação clínica',low:1.85,high:1.85}
+    ],
+    initial:'Iniciar a 0,46–0,92 mL/kg/h durante 20–30 minutos, depois aumentar gradualmente conforme tolerância.',
+    limit:'Teto geral de 1,85 mL/kg/h; em imunodeficiência primária (DIP), se bem tolerada a taxa de 0,92 mL/kg/h, a bula admite progressão de 2, 4 e até 6 mL/kg/h a cada 20–30 minutos. NÃO utilizar automaticamente essas taxas excepcionais em outras indicações, crianças ou idosos.',
+    schedule:'As taxas de 2, 4 e 6 mL/kg/h são exclusivas da situação de DIP tolerada descrita na bula; não fazem parte desta tabela automática. A formulação contém maltose 100 mg/mL e sódio 3 mmol/L; glicosímetros GDH-PQQ ou glucose-dye oxidoreductase podem indicar glicemia falsamente alta por cerca de 15 h após a infusão. Frasco exibido: 5 g/100 mL (5%).',
+    status:'br'
+  },
   gammanorm_165:{
     source:'Gammanorm 165 mg/mL — Resumo das Características do Medicamento (Octapharma, Portugal), referência internacional',
     url:'https://www.octapharma.pt/api/download/x/78db219a10/rcm-gammanorm.pdf',
@@ -152,6 +179,21 @@ function rates(parent,product,weight){
   var box=el('section',null,'igcalc-summary');box.appendChild(el('h4','Velocidade de infusão · '+(product.kind==='IV'?'bomba intravenosa':'bomba subcutânea')));
   if(product.status==='unverified'){info(box,'Programação automática indisponível. A apresentação cadastrada exige confirmação da concentração e bula atual. Nenhum valor de outra marca deve ser usado.');ptxt(box,product.initial);ptxt(box,product.limit);parent.appendChild(box);return;}
   if(product.kind==='IV'){
+    // Velocidades extraídas da bula da própria marca, sem inventar degraus temporais.
+    if(Array.isArray(product.specificRows)&&product.specificRows.length){
+      table(box,['Etapa na bula','Bomba calculada pelo peso','Taxa prevista na bula'],
+        product.specificRows.map(function(step){
+          var range=step.low===step.high?'':('–'+num(weight*step.high,1));
+          var rateRange=step.low===step.high?'':('–'+num(step.high,2));
+          return [step.stage+' · '+step.minutes,
+            num(weight*step.low,1)+range+' mL/h',
+            num(step.low,2)+rateRange+' mL/kg/h'];
+        }));
+      ptxt(box,product.initial);
+      info(box,product.limit);
+      info(box,product.schedule);
+      parent.appendChild(box);return;
+    }
     if(!product.rates||!product.rates.length){info(box,'A bula específica não foi validada para programação numérica.');parent.appendChild(box);return;}
     var rows=product.rates.map(function(rate,i){
       var time=(product.rates.length===2)?(i===0?'0–30 min':'Após 30 min, se tolerado'):(i===product.rates.length-1?'A partir de '+i*product.interval+' min':(i*product.interval)+'–'+((i+1)*product.interval)+' min');
