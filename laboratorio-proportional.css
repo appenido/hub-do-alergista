@@ -20,8 +20,8 @@
     padding-inline: var(--lab-gutter);
   }
   #page-laboratorio #foodCrossCard {
-    width: calc(min(100%, var(--lab-container)) - 2 * var(--lab-gutter));
-    max-width: calc(var(--lab-container) - 2 * var(--lab-gutter));
+    width: min(calc(100% - var(--lab-gutter) - var(--lab-gutter)), calc(var(--lab-container) - var(--lab-gutter) - var(--lab-gutter)));
+    max-width: calc(var(--lab-container) - var(--lab-gutter) - var(--lab-gutter));
     margin: 10px auto 16px !important;
     box-sizing: border-box;
   }
