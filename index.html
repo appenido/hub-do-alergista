@@ -1289,10 +1289,10 @@ window._bloquearApp=function(){};
     <div class="tb-icon"><svg viewBox="0 0 512 512" width="19" height="19" fill="none" aria-hidden="true"><g stroke="#fff" stroke-width="70" stroke-linecap="round"><line x1="256" y1="286" x2="256" y2="432"/><line x1="256" y1="286" x2="162" y2="139"/><line x1="256" y1="286" x2="350" y2="139"/></g><circle cx="256" cy="432" r="50" fill="#fff"/><circle cx="162" cy="139" r="50" fill="#fff"/><circle cx="350" cy="139" r="50" fill="#fff"/><circle cx="256" cy="286" r="40" fill="#fff"/></svg></div>
     <div class="tb-name">Hub do Alergista</div>
   </div>
-  <div class="tb-search">
-    <span style="color:rgba(255,255,255,.35);font-size:14px">🔍</span>
-    <input id="searchInput" type="text" placeholder="Buscar...">
-  </div>
+  <form class="tb-search" role="search" autocomplete="off">
+    <span aria-hidden="true" style="color:rgba(255,255,255,.35);font-size:14px">🔍</span>
+    <input id="hubSearchQuery" type="search" autocomplete="off" aria-label="Buscar no Hub" placeholder="Buscar...">
+  </form>
   <div class="tb-bell" id="btnNotif">🔔<div class="tb-dot"></div></div>
   <div class="tb-user" id="btnPerfil" title="Preferências" aria-label="Preferências" onclick="navTo('perfil')">⚙</div>
 </header>
@@ -7288,11 +7288,12 @@ function buscarNoHub(q){
   box.innerHTML=h; box.style.display='block';
 }
 
-var _si=document.getElementById('searchInput');
+var _si=document.getElementById('hubSearchQuery');
 if(_si){
+  _si.form.addEventListener('submit',function(e){ e.preventDefault(); buscarNoHub(_si.value); });
   _si.addEventListener('input',function(){ buscarNoHub(this.value); });
   _si.addEventListener('focus',function(){ if(this.value.trim().length>1) buscarNoHub(this.value); });
-  _si.addEventListener('keydown',function(e){ if(e.key==='Enter') buscarNoHub(this.value); if(e.key==='Escape'){ this.value=''; _buscaFechar(); } });
+  _si.addEventListener('keydown',function(e){ if(e.key==='Escape'){ e.preventDefault(); this.value=''; _buscaFechar(); } });
   document.addEventListener('click',function(e){ if(e.target!==_si && !(e.target.closest&&e.target.closest('#buscaRes'))) _buscaFechar(); });
 }
 

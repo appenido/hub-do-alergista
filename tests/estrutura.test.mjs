@@ -7,6 +7,17 @@ import { fileURLToPath } from 'node:url';
 const root = new URL('../', import.meta.url);
 const html = readFileSync(new URL('index.html', root), 'utf8');
 
+test('busca do cabeçalho usa formulário próprio e desativa o preenchimento automático', () => {
+  const search = html.match(/(<form\b[^>]*\bclass="tb-search"[^>]*>)([\s\S]*?)<\/form>/);
+  assert.ok(search, 'A busca deve estar em um formulário próprio');
+  assert.match(search[1], /\brole="search"/);
+  assert.match(search[1], /\bautocomplete="off"/);
+  const field = search[2].match(/<input\b[^>]*>/)?.[0] ?? '';
+  assert.match(field, /\btype="search"/);
+  assert.match(field, /\bautocomplete="off"/);
+  assert.doesNotMatch(field, /\s(?:name|value)=/);
+});
+
 test('Scores permanecem primeiro botão e Favoritos último botão da Home, sem quadro de Favoritos', () => {
   const home = html.slice(html.indexOf('id="page-dashboard"'), html.indexOf('id="page-artigos"'));
   const quick = home.match(/<div class="quick-grid">([\s\S]*?)<\/div>\s*<div class="sec-hdr"/)?.[1] || '';
