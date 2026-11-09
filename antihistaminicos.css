@@ -1,0 +1,63 @@
+
+/* Hub do Alergista — anti-histamínicos H1. Escopo local. */
+#page-antihistaminicos { color:var(--navy); }
+#page-antihistaminicos .ah-shell{max-width:1120px;margin:auto;padding:clamp(16px,2.3vw,30px);padding-bottom:90px}
+#page-antihistaminicos .ah-head{padding:4px 0 18px}
+#page-antihistaminicos .ah-kicker{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-mid);font-weight:800;margin-bottom:7px}
+#page-antihistaminicos h1{font-size:clamp(25px,3vw,35px);font-family:'DM Serif Display',Georgia,serif;font-weight:400;line-height:1.15;color:var(--navy)}
+#page-antihistaminicos .ah-sub{font-size:14px;color:#536879;margin-top:9px;max-width:75ch;line-height:1.6}
+#page-antihistaminicos .ah-alert{background:#fdf9ed;border:1px solid #ecdfb4;border-radius:13px;padding:13px 16px;margin:3px 0 20px;font-size:13px;line-height:1.65;color:#675426}
+#page-antihistaminicos .ah-toolbar{display:flex;gap:12px;align-items:stretch;flex-wrap:wrap;margin-bottom:17px}
+#page-antihistaminicos .ah-tabs{display:flex;gap:6px;border:1px solid #d9e7ee;border-radius:13px;padding:5px;background:#eaf2f6}
+#page-antihistaminicos .ah-tab{border:0;background:transparent;color:#496071;font:700 13px 'Manrope',sans-serif;border-radius:9px;padding:10px 14px;cursor:pointer}
+#page-antihistaminicos .ah-tab[aria-selected="true"]{background:#fff;color:#104c61;box-shadow:0 2px 8px rgba(13,31,45,.1)}
+#page-antihistaminicos .ah-search{flex:1;min-width:190px;padding:12px 14px;background:#fff;border-radius:12px;border:1.5px solid #d9e7ee;font:500 14px 'Manrope',sans-serif;color:var(--navy)}
+#page-antihistaminicos .ah-counter{font-size:12px;color:#728391;margin:0 0 10px}
+#page-antihistaminicos .ah-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:12px}
+#page-antihistaminicos .ah-card{background:#fff;border:1.5px solid #dce7ed;border-radius:15px;min-height:112px;padding:16px;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;gap:10px;font-family:'Manrope',sans-serif;transition:border-color .18s,box-shadow .18s,transform .18s}
+#page-antihistaminicos .ah-card:hover,#page-antihistaminicos .ah-card:focus-visible{border-color:#2d8fa8;box-shadow:0 5px 20px rgba(31,105,128,.1)}
+#page-antihistaminicos .ah-card[aria-pressed="true"]{border-color:#1f6980;background:#f1fafb;box-shadow:0 0 0 2px rgba(45,143,168,.12)}
+#page-antihistaminicos .ah-card-name{font-size:15px;font-weight:800;color:#0d1f2d;line-height:1.3}
+#page-antihistaminicos .ah-card-brand{font-size:12px;color:#596d7b;line-height:1.5}
+#page-antihistaminicos .ah-card-foot{display:flex;gap:6px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+#page-antihistaminicos .ah-chip{font-size:10.5px;font-weight:700;color:#186176;background:#e8f5f8;border-radius:20px;padding:5px 8px}
+#page-antihistaminicos .ah-chip.hist{color:#8d6529;background:#f9f1e3}
+#page-antihistaminicos .ah-empty{padding:25px;border:1px dashed #d8e4eb;background:#fff;border-radius:13px;color:#617483;font-size:14px}
+#page-antihistaminicos .ah-detail{margin-top:22px;padding:clamp(16px,2.4vw,26px);background:#fff;border:1px solid #d9e7ed;border-radius:17px;box-shadow:0 5px 22px rgba(13,31,45,.06);scroll-margin-top:70px}
+#page-antihistaminicos .ah-detail[hidden]{display:none}
+#page-antihistaminicos .ah-detail-top{display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+#page-antihistaminicos .ah-detail h2{font-size:clamp(20px,2.3vw,27px);margin:0 0 5px;font-family:'DM Serif Display',Georgia,serif;font-weight:400}
+#page-antihistaminicos .ah-detail h3{font-size:15px;font-weight:800;margin:17px 0 7px;color:#174b5c}
+#page-antihistaminicos .ah-detail p,#page-antihistaminicos .ah-detail li{font-size:13.5px;line-height:1.7;color:#364d5d}
+#page-antihistaminicos .ah-pair-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 20px;margin-top:15px}
+#page-antihistaminicos .ah-block{padding:14px;background:#f6f9fa;border-radius:12px}
+#page-antihistaminicos .ah-block h3{margin-top:0}
+#page-antihistaminicos .ah-close{border:1px solid #dee9ee;background:#fff;color:#305366;border-radius:10px;width:34px;height:34px;cursor:pointer;font-size:23px;flex-shrink:0}
+#page-antihistaminicos .ah-warning{background:#fff8f4;border-left:3px solid #ce8b55;padding:12px 14px;margin-top:14px;color:#694629;font-size:13px;line-height:1.6}
+#page-antihistaminicos .ah-calc{background:#eff8fa;border:1px solid #cae6ec;border-radius:14px;padding:17px;margin-top:19px}
+#page-antihistaminicos .ah-calc-title{font-size:16px;font-weight:800;color:#184d60;margin:0 0 7px}
+#page-antihistaminicos .ah-field-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:15px 0 12px}
+#page-antihistaminicos .ah-field{display:flex;flex-direction:column;gap:6px}
+#page-antihistaminicos .ah-field label{font-size:12px;font-weight:700;color:#486173}
+#page-antihistaminicos .ah-field input,#page-antihistaminicos .ah-field select{width:100%;border:1.5px solid #cbdce5;border-radius:10px;background:#fff;padding:10px 11px;color:#1b3647;font:500 15px 'Manrope',sans-serif}
+#page-antihistaminicos .ah-field input:focus,#page-antihistaminicos .ah-field select:focus{outline:2px solid #8bd0db;outline-offset:1px}
+#page-antihistaminicos .ah-calc-action{background:#1f6980;color:#fff;border:none;border-radius:10px;padding:12px 18px;cursor:pointer;font:700 13px 'Manrope',sans-serif;min-height:42px}
+#page-antihistaminicos .ah-result{margin-top:13px;background:#fff;border:1px solid #b7dbe2;border-radius:10px;padding:14px;line-height:1.65;font-size:14px;color:#224658}
+#page-antihistaminicos .ah-result.err{border-color:#e5b4aa;background:#fff7f5;color:#8b3e35}
+#page-antihistaminicos .ah-number{font-size:23px;font-weight:800;display:block;margin-bottom:3px;color:#16566c;font-variant-numeric:tabular-nums}
+#page-antihistaminicos .ah-calc-note{font-size:12px;color:#57707e;line-height:1.6;margin-top:10px}
+#page-antihistaminicos .ah-links{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+#page-antihistaminicos .ah-links a{color:#126783;font-size:12px;line-height:1.7;text-decoration:underline;text-underline-offset:3px}
+#page-antihistaminicos .ah-footnote{margin-top:24px;font-size:12px;color:#6a7d88;line-height:1.75}
+@media(max-width:650px){
+ #page-antihistaminicos .ah-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ #page-antihistaminicos .ah-card{padding:13px;min-height:112px}
+ #page-antihistaminicos .ah-card-name{font-size:14px}
+ #page-antihistaminicos .ah-tab{font-size:12px;padding:10px}
+ #page-antihistaminicos .ah-toolbar{flex-direction:column}
+ #page-antihistaminicos .ah-search{min-width:0;width:100%;flex:auto}
+ #page-antihistaminicos .ah-pair-grid{grid-template-columns:1fr}
+ #page-antihistaminicos .ah-field-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #page-antihistaminicos .ah-field:first-child{grid-column:span 2}
+}
+@media(max-width:350px){#page-antihistaminicos .ah-grid{grid-template-columns:1fr}}
