@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Cache-Control" content="no-store">
+<meta name="theme-color" content="#0d1f2d">
+<title>Questionário — Hub do Alergista</title>
+<style>
+:root{--navy:#0d1f2d;--teal:#17697a;--aqua:#3bbfcc;--gold:#c9a84c}
+*{box-sizing:border-box}html{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#f1f5f8;color:var(--navy)}body{margin:0}
+header{background:var(--navy);color:white;padding:18px 16px;text-align:center;font-weight:750}
+main{max-width:690px;margin:0 auto;padding:18px 14px 45px}
+section,.question{background:white;border:1px solid #d9e4e9;border-radius:14px;padding:18px;margin-bottom:12px}
+h1{font-size:23px;margin:0 0 9px}p{line-height:1.55;color:#425867}
+.small{font-size:12px;color:#60788a}legend{font-size:15px;font-weight:720;line-height:1.45;padding:0;margin-bottom:10px}
+.question{min-width:0}fieldset{border:0}.choice{display:flex;align-items:flex-start;gap:12px;padding:11px 10px;border:1px solid #d8e4e9;border-radius:10px;margin:7px 0;font-size:14px;line-height:1.4;cursor:pointer}
+.choice:has(input:checked){border-color:var(--teal);background:#e8f7f9}
+.choice input{margin-top:2px;accent-color:var(--teal);height:18px;width:18px;flex-shrink:0}
+button{background:var(--teal);color:white;border:0;padding:14px 20px;width:100%;border-radius:12px;font-size:15px;font-weight:750;cursor:pointer}
+button:disabled{opacity:.6;cursor:wait}
+#progress{position:sticky;top:0;background:#f1f5f8;padding:12px 0;z-index:2;font-size:12px;color:#425867}
+#progressbar{height:7px;background:#dae4e8;border-radius:20px;overflow:hidden;margin-top:7px}
+#progressfill{background:var(--teal);height:100%;width:0%;transition:width .2s}
+#aviso{color:#a33b32;min-height:18px;margin:12px 0}
+input[type=range]{width:100%;accent-color:var(--teal)}
+#nvas{display:block;text-align:center;font-size:26px;font-weight:750;padding:14px}
+.consent{display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.5;margin:15px 0}.consent input{margin-top:4px}
+#success{display:none;text-align:center}
+#success h2{font-size:24px}
+</style>
+</head>
+<body>
+<header>Hub do Alergista · Questionário</header>
+<main>
+<section id="intro"><h1 id="titulo">Questionário</h1><p id="descricao"></p><p class="small">Não informe nome, CPF, prontuário, telefone ou outros dados que identifiquem você. As respostas serão transmitidas apenas para a sessão temporária aberta pelo profissional.</p></section>
+<div id="progress" hidden><span id="progresstexto">0 respostas</span><div id="progressbar"><div id="progressfill"></div></div></div>
+<form id="form" hidden novalidate>
+  <div id="questions"></div>
+  <section>
+    <label class="consent"><input type="checkbox" id="consentimento" required> <span>Concordo em enviar minhas respostas de saúde ao profissional que apresentou este QR Code. Não há identificação ou histórico no Hub.</span></label>
+    <div id="aviso" role="alert" aria-live="assertive"></div>
+    <button id="enviar" type="submit">Enviar respostas ao médico</button>
+  </section>
+</form>
+<section id="success" role="status"><h2>Respostas enviadas</h2><p>Seu resultado foi transmitido à sessão do profissional. Você já pode fechar esta página.</p><p id="resultado"></p></section>
+<section id="error" hidden><h2>Não foi possível abrir o questionário</h2><p id="error-msg">Solicite ao profissional um novo QR Code.</p></section>
+</main>
+<script src="/scores-qr-data.js?v=20261108-1"></script>
+<script src="/scores-qr-common.js?v=20261108-1"></script>
+<script src="/scores-qr-paciente.js?v=20261108-1"></script>
+</body>
+</html>
