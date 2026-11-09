@@ -382,7 +382,7 @@
       var pane=document.createElement('div');pane.id='vacNativeContent';sec.appendChild(pane);
     }
     var menu=get('vac-menu-hub');
-    if(menu)menu.querySelectorAll('button[onclick*="vacShowSub(\\'atraso\\')"]').forEach(function(b){b.remove();});
+    if(menu)Array.prototype.forEach.call(menu.querySelectorAll('button'),function(b){if(b.getAttribute('onclick')==="vacShowSub('atraso')")b.remove();});
     var at=get('vac-sub-atraso');
     if(at && !at.dataset.nativeIntegrated){
       at.dataset.nativeIntegrated='true';
@@ -415,6 +415,7 @@
       });
       out+='</div>';
     });
+    var livePreview=get('vacCalPreview'); if(livePreview && list.contains(livePreview))list.after(livePreview);
     list.innerHTML=out||'<p style="font-size:12px">Nenhum calendário encontrado.</p>';
     list.querySelectorAll('[data-native-id]').forEach(function(b){b.addEventListener('click',function(){openNative(b.dataset.nativeId);});});
     var legenda=get('vacCalLegenda');
@@ -463,7 +464,7 @@
     sec.style.display='block';
     // O painel se abre no local do toque, sem saltar para o rodapé da página.
     var botao=listButton(id);
-    if(botao)botao.after(sec);
+    if(botao){var grupo=botao.closest('.vac-nat-grid');if(grupo)grupo.after(sec);else botao.after(sec);}
   }
   function listButton(id){var list=get('vacCalendariosLista');return list?Array.prototype.find.call(list.querySelectorAll('[data-native-id]'),function(b){return b.dataset.nativeId===id;}):null;}
   function closeNative(){
