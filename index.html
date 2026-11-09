@@ -1185,6 +1185,26 @@ _marcarGuiasPagas();
 .hub-congress-answer-session{font:500 10px/1.5 Manrope,sans-serif;color:#64748b}
 .hub-congress-answer-link{display:inline-block;margin-top:8px;font:700 11px/1.5 Manrope,sans-serif;color:var(--teal-mid)}
 @media(max-width:480px){.hub-congress-assist-form{flex-direction:column}.hub-congress-assist-form button{width:100%}}
+
+/* Assistente do Congresso visível na primeira posição da home */
+#hubShareHome.hub-congress-assistant-home{margin-top:12px;align-items:center}
+#hubShareHome .hub-congress-assist-panel{grid-column:auto;padding:10px 0 0;background:transparent;border:0;border-radius:0}
+#hubShareHome .hub-congress-prompt{font:600 12px/1.55 Manrope,sans-serif;color:#335c69;margin:5px 0 0}
+#hubShareHome .hub-congress-assist-status{margin-top:7px;font-size:9.5px}
+#hubShareHome .hub-share-disclaimer{margin-top:7px}
+#hubShareHome .hub-congress-visual{height:115px}
+#hubShareHome .hub-congress-assist-form{margin-top:1px}
+#hubShareHome .hub-congress-assist-form input{background:#fff}
+#hubShareHome .hub-congress-assist-form button{flex-shrink:0}
+@media(max-width:620px){
+ #hubShareHome.hub-congress-assistant-home{gap:6px}
+ #hubShareHome .hub-congress-visual{height:84px;max-width:240px}
+ #hubShareHome .hub-congress-brand{align-items:flex-start}
+ #hubShareHome .hub-congress-source{text-align:left}
+ #hubShareHome .hub-congress-assist-form{flex-direction:row}
+ #hubShareHome .hub-congress-assist-form button{width:auto}
+}
+@media(max-width:365px){#hubShareHome .hub-congress-assist-form input{font-size:11px}#hubShareHome .hub-congress-assist-form button{padding:8px 9px}}
 </style>
 <script>
 /* Endereço canônico — os espelhos antigos redirecionam para cá */
@@ -1386,6 +1406,34 @@ window._bloquearApp=function(){};
 
   <!-- ══ DASHBOARD ══ -->
   <div class="page active" id="page-dashboard">
+
+    <!-- Assistente do Congresso: pesquisa aberta e visível na primeira dobra da home -->
+    <section id="hubShareHome" class="hub-share-home hub-congress-assistant-home" aria-labelledby="hubShareHomeTitle">
+      <div class="hub-share-copy">
+        <span class="hub-share-eyebrow">53º CONGRESSO BRASILEIRO DE ALERGIA E IMUNOLOGIA · ASBAI 2026</span>
+        <h2 id="hubShareHomeTitle">Assistente do Congresso</h2>
+        <p class="hub-congress-prompt">Digite o tema da aula ou o nome do palestrante para encontrar dia, horário e sala.</p>
+        <div id="hubCongressAssistPanel" class="hub-congress-assist-panel">
+          <div class="hub-congress-assist-form">
+            <label class="sr-only" for="hubCongressQuestion">Tema da aula ou nome do palestrante</label>
+            <input id="hubCongressQuestion" type="search" enterkeyhint="search" autocomplete="off" placeholder="Tema ou palestrante..." aria-label="Pesquisar por tema ou nome do palestrante">
+            <button type="button" onclick="hubCongressAsk()">Buscar</button>
+          </div>
+          <div id="hubCongressAssistStatus" class="hub-congress-assist-status">Sem cadastro ou login. Consulte a programação do congresso.</div>
+          <div id="hubCongressAssistResult" aria-live="polite"></div>
+        </div>
+        <span class="hub-share-disclaimer">Consulta independente à programação publicada. Horários e salas podem mudar.</span>
+      </div>
+      <a class="hub-congress-brand" href="https://congressoalergiaasbai2026.com.br/" target="_blank" rel="noopener noreferrer" aria-label="Conhecer o 53º Congresso Brasileiro de Alergia e Imunologia no site oficial">
+        <span class="hub-congress-visual">
+          <img id="hubCongressLogo" src="https://asbai.org.br/storage/2026/04/Banner-53-Congresso-Brasileiro-de-Alergia-e-Imunologia-DESK.jpg" alt="Identidade visual oficial do 53º Congresso Brasileiro de Alergia e Imunologia, ASBAI 2026"
+            loading="lazy" decoding="async" onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='https://media.licdn.com/dms/image/v2/D4D22AQGe7x-O5_HJzw/feedshare-shrink_1280/B4DZ0._X3JHIAM-/0/1774878293766?e=2147483647&amp;t=k8QpCscUn5B5pamcBlH3c9cF2hI13rLrvI8fryb1GBI&amp;v=beta';}else{this.hidden=true;this.parentElement.classList.add('hub-congress-fallback');}" />
+          <span class="hub-congress-text-fallback">53º CONGRESSO BRASILEIRO DE ALERGIA E IMUNOLOGIA</span>
+        </span>
+        <span class="hub-congress-source">Identidade visual do congresso · Site oficial ↗</span>
+      </a>
+    </section>
+
     <a class="alert-bar" id="alertaNoticia" href="javascript:void(0)" onclick="navTo('jornal')" aria-label="Abrir o jornal Alergo News e ler as principais notícias de alergia e imunologia" style="text-decoration:none;cursor:pointer">
       <div class="news-masthead">
         <span class="alert-tag" id="alertaNoticiaTag">Jornal</span>
@@ -1396,42 +1444,6 @@ window._bloquearApp=function(){};
       <div class="alert-bar-text" id="alertaNoticiaTexto">As principais notícias de alergia e imunologia, atualizadas para você.</div>
       <div class="news-readmore">Ler jornal →</div>
     </a>
-
-    <!-- Campanha independente de divulgação no 53º Congresso ASBAI 2026 -->
-    <section id="hubShareHome" class="hub-share-home" aria-labelledby="hubShareHomeTitle">
-      <div class="hub-share-copy">
-        <span class="hub-share-eyebrow">DIVULGUE O HUB NO CONGRESSO</span>
-        <h2 id="hubShareHomeTitle">Vamos compartilhar o Hub com outros alergistas?</h2>
-        <p>53º Congresso Brasileiro de Alergia e Imunologia · 12–14/11/2026 · Foz do Iguaçu</p>
-        <p class="hub-share-description">Apresente o Hub do Alergista aos colegas durante o congresso. O acesso é gratuito.</p>
-        <div class="hub-share-actions">
-        <a class="hub-share-action" href="https://wa.me/?text=Durante%20o%2053%C2%BA%20Congresso%20Brasileiro%20de%20Alergia%20e%20Imunologia%20(12%20a%2014%2F11%2F2026%2C%20Foz%20do%20Igua%C3%A7u)%2C%20compartilho%20uma%20ferramenta%20gratuita%20para%20nossos%20colegas%3A%20o%20Hub%20do%20Alergista.%20Protocolos%20de%20bolso%2C%20artigos%2C%20imuniza%C3%A7%C3%B5es%2C%20imunobiol%C3%B3gicos%2C%20escores%20e%20ferramentas%20cl%C3%ADnicas%20reunidos%20em%20um%20s%C3%B3%20lugar.%20Acesse%3A%20https%3A%2F%2Fhubdoalergista.pages.dev%2F%3Futm_source%3Dindicacao%26utm_medium%3Dwhatsapp%26utm_campaign%3Dcongresso_asbai_2026" target="_blank" rel="noopener noreferrer" aria-label="Compartilhar o Hub do Alergista por WhatsApp durante o 53º Congresso Brasileiro de Alergia e Imunologia">Compartilhar pelo WhatsApp <span aria-hidden="true">↗</span></a>
-        <a class="hub-schedule-action" href="https://congressoalergiaasbai2026.com.br/evento/alergia2026/pt/programacao/gradeatividades/todas" target="_blank" rel="noopener noreferrer" aria-label="Visualizar grade horária oficial do 53º Congresso Brasileiro de Alergia e Imunologia">Ver grade horária <span aria-hidden="true">↗</span></a>
-        <button type="button" id="hubCongressAssistToggle" class="hub-schedule-action" style="cursor:pointer" onclick="hubCongressToggle()" aria-controls="hubCongressAssistPanel" aria-expanded="false">Buscar aula ou palestrante</button>
-      </div>
-        <span class="hub-share-disclaimer">Divulgação independente. O Hub não é o aplicativo oficial do congresso.</span>
-      </div>
-      <a class="hub-congress-brand" href="https://congressoalergiaasbai2026.com.br/" target="_blank" rel="noopener noreferrer" aria-label="Conhecer o 53º Congresso Brasileiro de Alergia e Imunologia no site oficial">
-        <span class="hub-congress-visual">
-          <img id="hubCongressLogo" src="https://asbai.org.br/storage/2026/04/Banner-53-Congresso-Brasileiro-de-Alergia-e-Imunologia-DESK.jpg" alt="Identidade visual oficial do 53º Congresso Brasileiro de Alergia e Imunologia, ASBAI 2026"
-            loading="lazy" decoding="async" onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='https://media.licdn.com/dms/image/v2/D4D22AQGe7x-O5_HJzw/feedshare-shrink_1280/B4DZ0._X3JHIAM-/0/1774878293766?e=2147483647&amp;t=k8QpCscUn5B5pamcBlH3c9cF2hI13rLrvI8fryb1GBI&amp;v=beta';}else{this.hidden=true;this.parentElement.classList.add('hub-congress-fallback');}" />
-          <span class="hub-congress-text-fallback">53º CONGRESSO BRASILEIRO DE ALERGIA E IMUNOLOGIA</span>
-        </span>
-        <span class="hub-congress-source">Identidade visual do congresso · Site oficial ↗</span>
-      </a>
-      <div id="hubCongressAssistPanel" class="hub-congress-assist-panel" hidden>
-        <div class="hub-congress-assist-head">Assistente da programação</div>
-        <p>Pesquise pelo nome do palestrante, tema ou palavra-chave. Sem cadastro ou login.</p>
-        <div class="hub-congress-assist-form">
-          <label class="sr-only" for="hubCongressQuestion">Tema ou nome do palestrante</label>
-          <input id="hubCongressQuestion" type="search" autocomplete="off" placeholder="Ex.: Grazielly Campos, asma, imunoterapia oral" aria-label="Pesquisar aula por tema ou palestrante">
-          <button type="button" onclick="hubCongressAsk()">Pesquisar</button>
-        </div>
-        <div id="hubCongressAssistStatus" class="hub-congress-assist-status">Consultando a programação oficial…</div>
-        <div id="hubCongressAssistResult" aria-live="polite"></div>
-        <div class="hub-congress-assist-foot">Consulta independente, baseada na grade publicada pelo congresso. Sempre confira alterações no site oficial.</div>
-      </div>
-    </section>
 
     <div class="sec-hdr"><h2>Acesso Rápido</h2></div>
     <div class="quick-grid">
