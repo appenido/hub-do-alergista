@@ -6916,6 +6916,8 @@ var _navHistory = ['dashboard'];
 
 function navTo(page){
   if(!PAGE_TITLES[page])return;
+  var _paginaAntes = typeof _paginaAtual==='function' ? _paginaAtual() : 'dashboard';
+  if(typeof _hubLembrarRolagem==='function')_hubLembrarRolagem();
   var prev = _navHistory.length ? _navHistory[_navHistory.length-1] : null;
   if(prev !== page) _navHistory.push(page);
 
@@ -6966,16 +6968,22 @@ function navTo(page){
   if(page === 'mais')      { try{ _atualizarInfoUsuario(); }catch(e){} }
   if(page === 'laboratorio'){ try{ labInit(); }catch(e){} }
   if(page !== 'laboratorio'){ try{ pedFechar(); }catch(e){} }
+  if(_paginaAntes !== page && typeof _hubAgendar==='function')_hubAgendar(true);
 }
 
-// Voltar (botão do app e botão físico/gesto do celular)
-// Estratégia: manter sempre 1 entrada-sentinela no histórico. O gesto/botão
-// voltar do celular consome a sentinela, nós tratamos e empurramos outra.
-// Só na home, sem camadas abertas, deixamos o voltar sair do app.
+// Histórico de telas do Hub: o Voltar do Android/PWA e os botões internos
+// retornam à tela efetivamente anterior, incluindo subseções e camadas.
 var _emVoltar = false;
+var _SEL_CAMADAS = '.overlay.open,.ai-sheet.open,.sheet.open,.modal.open,#resumoSheet.open,#chatPanel.open,.igchat-drawer.open,#pedDrawer.open';
+var _hubScreens = [];
+var _hubRestaurando = false;
+var _hubAgenda = null;
+var _hubForcarNovo = false;
 
-var _SEL_CAMADAS = '.overlay.open,.ai-sheet.open,.sheet.open,.modal.open,#resumoSheet.open,#chatPanel.open,.igchat-drawer.open';
-
+function _paginaAtual(){
+  var at = document.querySelector('.page.active');
+  return at ? at.id.replace('page-','') : 'dashboard';
+}
 function _camadasAbertas(){
   var l = [], nl = document.querySelectorAll(_SEL_CAMADAS);
   for(var i=0;i<nl.length;i++) l.push(nl[i]);
@@ -6983,59 +6991,183 @@ function _camadasAbertas(){
   if(auth && auth.style.display !== 'none' && auth.offsetParent !== null) l.push(auth);
   return l;
 }
-
-/* fecha a camada aberta mais acima. true = fechou algo */
 function _fecharCamadaAberta(){
   var abertos = _camadasAbertas();
   if(!abertos.length) return typeof window.fecharFavorito === 'function' && window.fecharFavorito();
   var el = abertos[abertos.length-1];
-  if(el.id === 'authScreen'){ el.style.display = 'none'; }
-  else { el.classList.remove('open'); }
+  if(el.id === 'pedDrawer' && typeof pedFechar === 'function') pedFechar();
+  else if(el.id === 'authScreen') el.style.display='none';
+  else el.classList.remove('open');
   if(typeof _uctPararPolling === 'function') try{ _uctPararPolling(); }catch(e){}
   if(typeof _snot22PararPolling === 'function') try{ _snot22PararPolling(); }catch(e){}
   return true;
 }
-
-function _doBack(){
-  _emVoltar = true;
+function _hubSubAberta(prefix, nomes){
+  for(var i=0;i<nomes.length;i++){
+    var el=document.getElementById(prefix+nomes[i]);
+    if(el && el.style.display !== 'none' && getComputedStyle(el).display !== 'none') return nomes[i];
+  }
+  return 'hub';
+}
+function _hubTela(){
+  var p=_paginaAtual();
+  var camadas=_camadasAbertas().map(function(el){return el.id;}).filter(Boolean);
+  var fav = p==='favoritos' ? document.querySelector('#page-favoritos [data-fav-open][aria-expanded="true"]') : null;
+  var protocolo = p==='eaaci' ? document.querySelector('#page-eaaci .eaaci-card.sel[id]') : null;
+  var calendario = p==='imunizacoes' ? document.querySelector('#vacCalendariosLista [data-cal-id][aria-pressed="true"]') : null;
+  return {
+    pagina:p,
+    sub:p==='imunizacoes' ? _hubSubAberta('vac-sub-',['novo','vacinas','atraso','calendarios'])
+       :p==='imunoglobulinas' ? _hubSubAberta('ig-sub-',['infusao','bulas']) : '',
+    camadas:camadas,
+    bio:p==='imuno' ? Array.from(document.querySelectorAll('#page-imuno .bio-card.open[id]')).map(function(el){return el.id;}) : [],
+    protocolo:protocolo ? protocolo.id : '',
+    favorito:fav ? fav.getAttribute('data-fav-open') : '',
+    calFonte:p==='imunizacoes' && document.getElementById('vacCalTabPNI') && document.getElementById('vacCalTabPNI').classList.contains('ativo') ? 'pni' : 'sbim',
+    calendario:calendario ? calendario.getAttribute('data-cal-id') : '',
+    rolagem:window.scrollY || 0
+  };
+}
+function _hubChave(t){
+  if(!t)return '';
+  return JSON.stringify([t.pagina,t.sub,t.camadas,t.bio,t.protocolo,t.favorito,
+    t.sub==='calendarios'?t.calFonte:'',t.calendario]);
+}
+function _hubLembrarRolagem(){
+  if(_hubRestaurando || !_hubScreens.length)return;
+  _hubScreens[_hubScreens.length-1].rolagem=window.scrollY || 0;
+}
+function _hubRegistrar(forcar){
+  if(_hubRestaurando)return;
+  var atual=_hubTela();
+  if(!_hubScreens.length){_hubScreens.push(atual);return;}
+  var ultima=_hubScreens[_hubScreens.length-1];
+  if(_hubChave(ultima)===_hubChave(atual))return;
+  var anterior=_hubScreens.length>1 ? _hubScreens[_hubScreens.length-2] : null;
+  // Ao fechar uma janela ou usar a seta interna, não cria uma etapa inversa.
+  if(!forcar && anterior && _hubChave(anterior)===_hubChave(atual)){
+    _hubScreens.pop();
+    return;
+  }
+  _hubScreens.push(atual);
+  if(_hubScreens.length>120)_hubScreens.shift();
+}
+function _hubAgendar(forcar){
+  if(_hubRestaurando)return;
+  if(forcar)_hubForcarNovo=true;
+  if(_hubAgenda!==null)return;
+  _hubAgenda=setTimeout(function(){
+    _hubAgenda=null;
+    var forcarAgora=_hubForcarNovo;
+    _hubForcarNovo=false;
+    _hubRegistrar(forcarAgora);
+  },0);
+}
+function _hubRestaurar(t){
+  _hubRestaurando=true;
   try{
-    if(_navHistory.length > 1){
-      _navHistory.pop();
-      var prev = _navHistory.pop();
-      navTo(prev || 'dashboard');
-    } else {
-      navTo('dashboard');
+    if(_paginaAtual()!==t.pagina)navTo(t.pagina);
+    if(t.pagina==='imunizacoes'){
+      if(t.sub==='hub')vacShowHub();
+      else if(t.sub==='calendarios' && typeof window.vacAbrirCalendarios==='function'){
+        window.vacAbrirCalendarios(t.calFonte);
+        if(t.calendario){
+          var cal=Array.from(document.querySelectorAll('#vacCalendariosLista [data-cal-id]')).find(function(el){return el.getAttribute('data-cal-id')===t.calendario;});
+          if(cal)cal.click();
+        }
+      } else vacShowSub(t.sub);
     }
-  } finally { _emVoltar = false; }
+    if(t.pagina==='imunoglobulinas'){
+      if(t.sub==='hub')igShowHub();
+      else igShowSub(t.sub);
+    }
+    if(t.pagina==='imuno' && typeof toggleBio==='function'){
+      var ab=Array.from(document.querySelectorAll('#page-imuno .bio-card.open[id]'));
+      ab.forEach(function(el){if(t.bio.indexOf(el.id)<0)toggleBio(el.id.replace(/^bio-/,''));});
+      t.bio.forEach(function(id){var el=document.getElementById(id);if(el && !el.classList.contains('open'))toggleBio(id.replace(/^bio-/,''));});
+    }
+    if(t.pagina==='eaaci'){
+      var sel=document.querySelector('#page-eaaci .eaaci-card.sel[id]');
+      if(sel && sel.id!==t.protocolo){
+        var b=document.querySelector('#eaaci-btnrow .eaaci-q[data-ego="'+sel.id+'"]');
+        if(b)b.click();
+      }
+      if(t.protocolo && !document.getElementById(t.protocolo)?.classList.contains('sel')){
+        var q=document.querySelector('#eaaci-btnrow .eaaci-q[data-ego="'+t.protocolo+'"]');
+        if(q)q.click();
+      }
+    }
+    if(typeof window.fecharFavorito==='function'){
+      var favAtual=document.querySelector('#page-favoritos [data-fav-open][aria-expanded="true"]');
+      if(favAtual && favAtual.getAttribute('data-fav-open')!==t.favorito)window.fecharFavorito(false);
+      if(t.favorito){
+        var btn=Array.from(document.querySelectorAll('#page-favoritos [data-fav-open]')).find(function(el){return el.getAttribute('data-fav-open')===t.favorito;});
+        if(btn && btn.getAttribute('aria-expanded')!=='true')btn.click();
+      }
+    }
+    _camadasAbertas().forEach(function(el){
+      if(t.camadas.indexOf(el.id)<0){
+        if(el.id==='pedDrawer' && typeof pedFechar==='function')pedFechar();
+        else if(el.id==='authScreen')el.style.display='none';
+        else el.classList.remove('open');
+      }
+    });
+    t.camadas.forEach(function(id){
+      var el=document.getElementById(id);
+      if(!el)return;
+      if(id==='pedDrawer' && typeof pedAbrir==='function')pedAbrir();
+      else if(id==='authScreen')el.style.display='';
+      else el.classList.add('open');
+    });
+    if(typeof _uctPararPolling==='function' && t.camadas.indexOf('overlay')<0)try{_uctPararPolling();}catch(e){}
+    if(typeof _snot22PararPolling==='function' && t.camadas.indexOf('overlay')<0)try{_snot22PararPolling();}catch(e){}
+  } finally { _hubRestaurando=false; }
+  setTimeout(function(){
+    window.scrollTo(0,t.rolagem||0);
+    var sa=document.querySelector('.scroll-area');
+    if(sa && sa.scrollTop && !(t.rolagem||0))sa.scrollTo(0,0);
+    if(typeof window._atualizarSetaCamada==='function')window._atualizarSetaCamada();
+  },0);
 }
-
-function _paginaAtual(){
-  var at = document.querySelector('.page.active');
-  return at ? at.id.replace('page-','') : 'dashboard';
+function _hubVoltar(){
+  if(_hubAgenda!==null){
+    clearTimeout(_hubAgenda);_hubAgenda=null;
+    var forcar=_hubForcarNovo;_hubForcarNovo=false;
+    _hubRegistrar(forcar);
+  } else _hubRegistrar(false);
+  if(_hubScreens.length>1){
+    _hubScreens.pop();
+    _hubRestaurar(_hubScreens[_hubScreens.length-1]);
+    return true;
+  }
+  if(_fecharCamadaAberta()){_hubAgendar(false);return true;}
+  return false;
 }
-
 function _pushSentinela(){
-  try{ history.pushState({hubBack:1}, ''); }catch(e){}
+  try{history.pushState({hubBack:1},'');}catch(e){}
 }
-
 function voltarApp(ev){
-  if(ev && ev.preventDefault) ev.preventDefault();
-  if(_fecharCamadaAberta()) return;
-  if(_paginaAtual() !== 'dashboard') _doBack();
+  if(ev && ev.preventDefault)ev.preventDefault();
+  _hubVoltar();
 }
-window.voltarApp = voltarApp;
+window.voltarApp=voltarApp;
+var _tbBack=document.getElementById('tbBack');
+if(_tbBack)_tbBack.addEventListener('click',voltarApp);
 
-var _tbBack = document.getElementById('tbBack');
-if(_tbBack) _tbBack.addEventListener('click', voltarApp);
+// Captura alterações de tela feitas por módulos internos (sem alterar filtros,
+// resultados clínicos, dados digitados ou o armazenamento de pacientes).
+_hubScreens.push(_hubTela());
+document.addEventListener('click',function(){_hubAgendar(false);},true);
+document.addEventListener('keydown',function(e){
+  if(e.key==='Enter'||e.key===' ')_hubAgendar(false);
+},true);
+new MutationObserver(function(){_hubAgendar(false);})
+  .observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','style','aria-expanded','open']});
 
 _pushSentinela();
-
-window.addEventListener('popstate', function(){
-  // 1º: camada por cima (modal, folha, drawer)
-  if(_fecharCamadaAberta()){ _pushSentinela(); return; }
-  // 2º: página interna → volta uma página do app
-  if(_paginaAtual() !== 'dashboard'){ _doBack(); _pushSentinela(); return; }
-  // 3º: já na home — deixa sair do app
+window.addEventListener('popstate',function(){
+  if(_hubVoltar())_pushSentinela();
+  // Sem telas anteriores: permite o comportamento normal de sair do app.
 });
 
 /* ══ Seta ‹ flutuante para camadas que não têm botão próprio ══ */
@@ -7046,7 +7178,7 @@ window.addEventListener('popstate', function(){
   seta.id = 'layerBack';
   seta.setAttribute('aria-label','Voltar');
   seta.innerHTML = '\u2039';
-  seta.addEventListener('click', function(){ _fecharCamadaAberta(); atualizarSeta(); });
+  seta.addEventListener('click', function(){ _hubVoltar(); atualizarSeta(); });
   document.body.appendChild(seta);
 
   function temVoltarProprio(el){
