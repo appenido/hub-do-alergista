@@ -1,0 +1,623 @@
+/* Hub do Alergista | cards clínicos responsivos v20261110-1
+   Imunobiológicos e imunoglobulinas expandem no próprio card.
+   Estilo aplicado por último para neutralizar regras legadas de painéis
+   absolutos, expansão em linha inteira e ícones genéricos. */
+
+#page-imuno .bio-grid,
+#page-imunoglobulinas .igcat-grid,
+#page-antihistaminicos .ah-grid {
+  min-width:0!important;
+  box-sizing:border-box!important;
+  align-items:start!important;
+  grid-auto-flow:row!important;
+  overflow-anchor:none;
+}
+
+/* BIOLOGICOS: grade de cartões compactos no espaço REAL disponível. */
+#page-imuno .bio-grid {
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))!important;
+  gap:clamp(10px,1.3vw,16px)!important;
+  padding:2px clamp(12px,2vw,24px) 26px!important;
+  width:100%!important;
+}
+#page-imuno .bio-grid > .bio-card,
+#page-imuno .bio-grid > .bio-card.open {
+  position:relative!important;
+  grid-column:auto!important;
+  grid-row:auto!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  min-height:0!important;
+  height:auto!important;
+  align-self:start!important;
+  display:flex!important;
+  flex-direction:column!important;
+  contain:none!important;
+  overflow:hidden!important;
+  z-index:0!important;
+  margin:0!important;
+  border:1px solid #d9e6eb!important;
+  border-radius:17px!important;
+  background:#fff!important;
+  box-sizing:border-box!important;
+  box-shadow:0 3px 13px rgba(16,55,78,.065)!important;
+  transform:none!important;
+  transition:border-color .17s ease,box-shadow .17s ease!important;
+}
+#page-imuno .bio-grid > .bio-card.open {
+  z-index:1!important;
+  border-color:#24849b!important;
+  box-shadow:0 5px 19px rgba(16,73,95,.14)!important;
+}
+/* Cabeçalho horizontal único, sem áreas vazias. */
+#page-imuno .bio-grid > .bio-card > .bio-header,
+#page-imuno .bio-grid > .bio-card.open > .bio-header {
+  flex:0 0 auto!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:clamp(10px,1vw,14px)!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:104px!important;
+  height:auto!important;
+  padding:14px 49px 14px 15px!important;
+  text-align:left!important;
+  box-sizing:border-box!important;
+  background:#fff!important;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+#page-imuno .bio-grid > .bio-card.open > .bio-header {
+  background:linear-gradient(115deg,#f2fafb,#fff)!important;
+  border-bottom:1px solid #e1ecf0!important;
+}
+#page-imuno .bio-grid > .bio-card > .bio-header > div:not(.bio-icon):not(.bio-chevron) {
+  width:auto!important;
+  min-width:0!important;
+  max-width:100%;
+  flex:1 1 0!important;
+  text-align:left!important;
+}
+#page-imuno .bio-grid .bio-header .bio-name {
+  font-size:clamp(15.5px,1.15vw,18px)!important;
+  line-height:1.3!important;
+  letter-spacing:-.012em;
+  overflow-wrap:break-word!important;
+  word-break:normal!important;
+  hyphens:none!important;
+  text-align:left!important;
+}
+#page-imuno .bio-grid .bio-header .bio-comercial {
+  display:block;
+  font-size:clamp(11.5px,.91vw,13px)!important;
+  line-height:1.45!important;
+  margin-top:5px!important;
+  color:#617685!important;
+  overflow-wrap:break-word!important;
+  text-align:left!important;
+}
+#page-imuno .bio-grid .bio-header .bio-icon,
+#page-imuno .bio-grid .bio-header .bio-icon:has(.bio-target) {
+  flex:0 0 74px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:5px!important;
+  width:74px!important;
+  min-width:74px!important;
+  max-width:74px!important;
+  height:68px!important;
+  min-height:68px!important;
+  max-height:68px!important;
+  padding:8px 5px!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+  border:1px solid rgba(255,255,255,.44)!important;
+  border-radius:16px!important;
+  color:#fff!important;
+  box-shadow:0 5px 14px rgba(13,31,45,.18),inset 0 1px 0 rgba(255,255,255,.28)!important;
+  overflow:hidden!important;
+  isolation:isolate;
+  background:linear-gradient(145deg,#376b82,#153c51)!important;
+}
+#page-imuno .bio-grid .bio-header .bio-icon::before {
+  content:"";
+  position:absolute;
+  inset:1px 2px auto;
+  height:45%;
+  background:linear-gradient(180deg,rgba(255,255,255,.23),transparent);
+  border-radius:14px 14px 60% 60%;
+  pointer-events:none;
+}
+#page-imuno .bio-grid .bio-header .bio-icon::after {
+  content:"";
+  display:block;
+  width:26px;
+  height:3px;
+  min-height:3px;
+  flex:0 0 3px;
+  border-radius:6px;
+  background:linear-gradient(90deg,rgba(255,255,255,.45),#fff,rgba(255,255,255,.45));
+  box-shadow:0 0 7px rgba(255,255,255,.2);
+}
+#page-imuno .bio-grid .bio-header .bio-target {
+  position:relative;
+  z-index:1;
+  display:block;
+  font:750 11px/1.25 Manrope,system-ui,sans-serif!important;
+  letter-spacing:-.015em!important;
+  text-align:center!important;
+  color:#fff!important;
+  overflow-wrap:anywhere!important;
+  text-shadow:0 1px 2px rgba(0,0,0,.26);
+}
+#page-imuno .bio-grid .bio-header .bio-chevron {display:none!important;}
+/* O botão de favoritos ocupa a mesma área em todos os medicamentos. */
+#page-imuno .bio-grid > .bio-card .fav-star {
+  position:absolute!important;
+  right:10px!important;
+  top:12px!important;
+  left:auto!important;
+  bottom:auto!important;
+  z-index:3!important;
+  opacity:1!important;
+  filter:none!important;
+  width:34px!important;
+  height:34px!important;
+  padding:0!important;
+  border:1px solid #e1e9ed!important;
+  border-radius:50%!important;
+  background:#fff!important;
+  box-shadow:0 2px 7px rgba(13,31,45,.07)!important;
+}
+#page-imuno .bio-grid > .bio-card .fav-star:focus-visible {
+  outline:2px solid #146e84;
+  outline-offset:2px;
+}
+/* Paletas cromáticas inspiradas nas identidades visuais dos laboratórios.
+   Não são logomarcas redesenhadas nem substitutos de marcas oficiais. */
+#page-imuno .bio-grid > #bio-dupilumabe .bio-header .bio-icon,
+#page-imuno .bio-grid > #bio-dupilumabe .bio-header .bio-icon:has(.bio-target) {
+  background:linear-gradient(145deg,#9456e1 0%,#6f2dbd 57%,#3f1872 100%)!important;
+}
+#page-imuno .bio-grid > #bio-omalizumabe .bio-header .bio-icon,
+#page-imuno .bio-grid > #bio-midostaurina .bio-header .bio-icon {
+  background:linear-gradient(140deg,#f39829 0%,#235b91 47%,#112f59 100%)!important;
+}
+#page-imuno .bio-grid > #bio-mepolizumabe .bio-header .bio-icon,
+#page-imuno .bio-grid > #bio-depemoquimabe .bio-header .bio-icon {
+  background:linear-gradient(145deg,#ffae5a 0%,#f36633 47%,#c94712 100%)!important;
+}
+#page-imuno .bio-grid > #bio-benralizumabe .bio-header .bio-icon {
+  background:linear-gradient(145deg,#b68bdd 0%,#6e367e 56%,#442152 100%)!important;
+}
+#page-imuno .bio-grid > #bio-tezepelumabe .bio-header .bio-icon {
+  background:linear-gradient(145deg,#ab7bcf 0%,#63317e 54%,#254b90 100%)!important;
+}
+#page-imuno .bio-grid > #bio-upadacitinibe .bio-header .bio-icon {
+  background:linear-gradient(145deg,#3666a0 0%,#113d6c 55%,#091c36 100%)!important;
+}
+#page-imuno .bio-grid > #bio-abrocitinibe .bio-header .bio-icon {
+  background:linear-gradient(145deg,#40abe7 0%,#1377bc 55%,#08558e 100%)!important;
+}
+#page-imuno .bio-grid > #bio-tralokinumabe .bio-header .bio-icon {
+  background:linear-gradient(145deg,#3f9cd2 0%,#176596 54%,#083b65 100%)!important;
+}
+#page-imuno .bio-grid > #bio-lebrikizumabe .bio-header .bio-icon {
+  background:linear-gradient(145deg,#ee6c6b 0%,#c82730 54%,#8d1420 100%)!important;
+}
+#page-imuno .bio-grid > #bio-lanadelumabe .bio-header .bio-icon {
+  background:linear-gradient(145deg,#ee7568 0%,#c92832 54%,#8d1622 100%)!important;
+}
+#page-imuno .bio-grid > #bio-garadacimabe .bio-header .bio-icon {
+  background:linear-gradient(145deg,#66afdd 0%,#1676a6 54%,#08496e 100%)!important;
+}
+#page-imuno .bio-grid > #bio-pipeline .bio-header .bio-icon {
+  background:linear-gradient(145deg,#788693,#465564 60%,#24313e)!important;
+}
+/* Expansão real NO CARD, sem painel absoluto, portal ou linha inteira. */
+#page-imuno .bio-grid > .bio-card > .bio-body {display:none!important;}
+#page-imuno .bio-grid > .bio-card.open > .bio-body {
+  display:block!important;
+  flex:0 1 auto!important;
+  position:static!important;
+  inset:auto!important;
+  top:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  left:auto!important;
+  float:none!important;
+  transform:none!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  height:auto!important;
+  max-height:min(72dvh,710px)!important;
+  margin:0!important;
+  padding:12px!important;
+  box-sizing:border-box!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  background:#f6fafb!important;
+  z-index:auto!important;
+}
+#page-imuno .bio-grid > .bio-card.open > .bio-body .bio-section {
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  padding:12px!important;
+  margin:0 0 9px!important;
+  box-sizing:border-box!important;
+  background:#fff!important;
+  border:1px solid #e1eaf0!important;
+  border-radius:11px!important;
+  overflow-wrap:anywhere;
+}
+#page-imuno .bio-grid > .bio-card.open .bio-section:last-child {margin-bottom:0!important;}
+#page-imuno .bio-grid > .bio-card.open .bio-label {font-size:11.5px!important;line-height:1.4!important;}
+#page-imuno .bio-grid > .bio-card.open .bio-value,
+#page-imuno .bio-grid > .bio-card.open .bio-value :is(div,p,li,span) {
+  font-size:clamp(13.5px,1vw,15px)!important;
+  line-height:1.6!important;
+  box-sizing:border-box;
+  min-width:0;
+  max-width:100%;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+#page-imuno .bio-grid > .bio-card.open .bio-value [style*="font-size:"] {
+  font-size:clamp(13.5px,1vw,15px)!important;
+  line-height:1.6!important;
+}
+#page-imuno .bio-grid > .bio-card.open :is(.bio-doses,.bio-dose-grid,.bio-indications) {
+  grid-template-columns:minmax(0,1fr)!important;
+}
+#page-imuno .bio-grid > .bio-card.open :is(img,svg,video) {
+  max-width:100%!important;
+  height:auto;
+}
+#page-imuno .bio-grid > .bio-card.open :is(table,.bio-value table) {
+  display:block;
+  max-width:100%!important;
+  overflow-x:auto!important;
+  -webkit-overflow-scrolling:touch;
+}
+#page-imuno .bio-grid > .bio-card.open :is(input,select,textarea,button) {
+  max-width:100%;
+  box-sizing:border-box;
+}
+#page-imuno .bio-grid > .bio-card.open :is(a,.bio-fonte) {overflow-wrap:anywhere;}
+#page-imuno .bio-grid > .bio-grid-detail {display:none!important;}
+
+/* IMUNOGLOBULINAS: o item aberto permanece na célula original. */
+#page-imunoglobulinas .igcalc-shell {
+  width:100%!important;
+  max-width:min(100%,1320px)!important;
+  margin:0 auto!important;
+  padding:clamp(14px,2vw,24px)!important;
+  box-sizing:border-box!important;
+  min-width:0!important;
+}
+#page-imunoglobulinas .igcat-grid {
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,305px),1fr))!important;
+  gap:12px!important;
+  width:100%!important;
+}
+#page-imunoglobulinas .igcat-item,
+#page-imunoglobulinas .igcat-item.open {
+  display:flex!important;
+  flex-direction:column!important;
+  grid-column:auto!important;
+  grid-row:auto!important;
+  align-self:start!important;
+  min-width:0!important;
+  width:100%!important;
+  height:auto!important;
+  box-sizing:border-box!important;
+  border:1px solid #dbe7ec!important;
+  border-radius:15px!important;
+  overflow:hidden!important;
+  box-shadow:0 3px 13px rgba(13,31,45,.065)!important;
+  background:#fff!important;
+}
+#page-imunoglobulinas .igcat-item.open {
+  border:1.5px solid #237e97!important;
+  box-shadow:0 5px 17px rgba(24,86,109,.12)!important;
+}
+#page-imunoglobulinas .igcat-item > .igcat-card,
+#page-imunoglobulinas .igcat-item.open > .igcat-card {
+  flex:0 0 auto!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:11px!important;
+  width:100%!important;
+  min-width:0!important;
+  min-height:96px!important;
+  height:auto!important;
+  padding:13px!important;
+  box-sizing:border-box!important;
+  text-align:left!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+#page-imunoglobulinas .igcat-item.open > .igcat-card {
+  background:#edf7fa!important;
+  border-bottom:1px solid #dceaf0!important;
+}
+#page-imunoglobulinas .igcat-icon {
+  display:flex;
+  flex:0 0 68px!important;
+  width:68px!important;
+  min-width:68px!important;
+  min-height:57px!important;
+  padding:7px!important;
+  box-sizing:border-box!important;
+  background:linear-gradient(145deg,#fff,#edf5f8)!important;
+  border:1px solid #e1e9ef;
+  border-radius:12px!important;
+}
+#page-imunoglobulinas .igcat-icon img {
+  display:block;
+  max-width:100%!important;
+  max-height:48px!important;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+}
+#page-imunoglobulinas .igcat-copy {
+  min-width:0!important;
+  flex:1 1 0!important;
+}
+#page-imunoglobulinas .igcat-name,
+#page-imunoglobulinas .igcat-item.open .igcat-name {
+  font-size:clamp(14px,1vw,17px)!important;
+  line-height:1.3!important;
+  color:#163449;
+  overflow-wrap:break-word;
+  word-break:normal;
+}
+#page-imunoglobulinas .igcat-maker,
+#page-imunoglobulinas .igcat-route {
+  font-size:clamp(11.5px,.88vw,13px)!important;
+  line-height:1.42!important;
+  overflow-wrap:anywhere;
+}
+#page-imunoglobulinas .igcat-item > .igmain-detail {
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  margin:0!important;
+  padding:clamp(12px,1.3vw,18px)!important;
+  border:0!important;
+  border-radius:0!important;
+  box-sizing:border-box!important;
+  overflow-x:hidden!important;
+  background:#f9fcfd!important;
+}
+#page-imunoglobulinas .igcat-item > .igmain-detail[hidden] {display:none!important;}
+#page-imunoglobulinas .igmain-detail :is(.igcalc-summary,.igcalc-section,.igcalc-alert) {
+  min-width:0!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+}
+#page-imunoglobulinas .igmain-detail .igcalc-sections {
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:10px!important;
+}
+#page-imunoglobulinas .igmain-detail .igcalc-table {
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  overflow-x:auto!important;
+  -webkit-overflow-scrolling:touch;
+  border-collapse:collapse;
+  font-size:12px!important;
+}
+#page-imunoglobulinas .igmain-detail .igcalc-table :is(th,td) {
+  padding:7px 9px!important;
+  font-size:12px!important;
+  line-height:1.45!important;
+  white-space:normal;
+}
+#page-imunoglobulinas .igmain-detail :is(a,li,p) {overflow-wrap:anywhere;}
+#page-imunoglobulinas .igmain-controls {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  box-sizing:border-box;
+  align-items:center;
+  width:100%;
+}
+#page-imunoglobulinas .igmain-controls .igcalc-field {
+  flex:0 1 240px!important;
+  max-width:100%;
+  min-width:0;
+}
+#page-imunoglobulinas .igmain-controls .igcalc-field input {
+  min-width:0;
+  width:100%;
+  box-sizing:border-box;
+  font-size:16px!important;
+}
+#page-imunoglobulinas .igmain-controls p {
+  flex:1 1 320px;
+  min-width:0;
+  margin:0;
+  overflow-wrap:anywhere;
+}
+#page-imunoglobulinas .igcalc-choices {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,145px),1fr));
+  gap:9px;
+}
+
+/* OUTRAS TELAS: a ficha de anti-histamínico não invade toda a grade. */
+#page-antihistaminicos .ah-grid {
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))!important;
+}
+#page-antihistaminicos .ah-card-wrap,
+#page-antihistaminicos .ah-card-wrap-active {
+  grid-column:auto!important;
+  grid-row:auto!important;
+  align-self:start!important;
+  min-width:0!important;
+  height:auto!important;
+}
+#page-antihistaminicos .ah-card-wrap-active > .ah-card {
+  height:auto!important;
+  min-height:88px!important;
+}
+#page-antihistaminicos .ah-card-wrap-active .ah-detail {
+  min-width:0!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+  overflow-x:hidden!important;
+}
+#page-antihistaminicos .ah-detail :is(img,svg,table) {max-width:100%;}
+#page-antihistaminicos .ah-detail table {
+  display:block;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* Regras comuns de segurança para Safari iOS e Chrome Android. */
+#page-imuno, #page-imunoglobulinas, #page-antihistaminicos,
+#page-imunizacoes, #page-scores, #page-eaaci {
+  min-width:0!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+}
+#page-imuno :is(.bio-body,.bio-section),
+#page-imunoglobulinas :is(.igmain-detail,.igcalc-section),
+#page-antihistaminicos :is(.ah-detail,.ah-card-wrap) {min-width:0;}
+#page-imunizacoes :is(.vac-grid,.vac-card,.vac-header),
+#page-eaaci :is(.eaaci-grid,.eaaci-card),
+#page-scores :is(.score-grid,.score-pill) {
+  min-width:0!important;
+  max-width:100%;
+  box-sizing:border-box;
+}
+#page-imunizacoes :is(.vac-body,.vac-detail) :is(table,img,svg),
+#page-eaaci :is(.eaaci-body,.eaaci-card) :is(table,img,svg) {max-width:100%;}
+#page-imunizacoes :is(.vac-body,.vac-detail) table,
+#page-eaaci :is(.eaaci-body,.eaaci-card) table {
+  display:block;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+@media(max-width:759px) {
+  #page-imuno .bio-grid,
+  #page-imunoglobulinas .igcat-grid,
+  #page-antihistaminicos .ah-grid {
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:11px!important;
+  }
+  #page-imuno .bio-grid {padding-inline:12px!important;}
+  #page-imuno .bio-grid > .bio-card > .bio-header,
+  #page-imuno .bio-grid > .bio-card.open > .bio-header {
+    min-height:96px!important;
+    padding:12px 47px 12px 12px!important;
+    gap:11px!important;
+  }
+  #page-imuno .bio-grid .bio-header .bio-icon,
+  #page-imuno .bio-grid .bio-header .bio-icon:has(.bio-target) {
+    width:67px!important;min-width:67px!important;max-width:67px!important;
+    height:64px!important;min-height:64px!important;max-height:64px!important;
+    flex-basis:67px!important;
+    border-radius:14px!important;
+    padding:7px 4px!important;
+  }
+  #page-imuno .bio-grid .bio-header .bio-target {
+    font-size:10.5px!important;
+  }
+  #page-imuno .bio-grid .bio-header .bio-name {
+    font-size:clamp(15px,4.2vw,18px)!important;
+  }
+  #page-imuno .bio-grid .bio-header .bio-comercial {
+    font-size:clamp(11px,3vw,13px)!important;
+  }
+  #page-imuno .bio-grid > .bio-card.open > .bio-body {
+    max-height:min(70dvh,620px)!important;
+  }
+  #page-imunoglobulinas .igcat-item > .igcat-card,
+  #page-imunoglobulinas .igcat-item.open > .igcat-card {
+    min-height:91px!important;
+    padding:12px!important;
+  }
+  #page-imunoglobulinas .igcat-icon {
+    width:59px!important;min-width:59px!important;
+    flex-basis:59px!important;min-height:52px!important;
+  }
+  #page-imunoglobulinas .igmain-controls {
+    display:block!important;
+    padding:13px!important;
+  }
+  #page-imunoglobulinas .igmain-controls .igcalc-field {
+    width:100%!important;
+    max-width:100%!important;
+    margin:0 0 12px!important;
+  }
+  #page-imunoglobulinas .igmain-controls p {
+    font-size:12.5px!important;
+    line-height:1.55!important;
+  }
+  #page-imunoglobulinas .igcalc-field input,
+  #page-imuno :is(input,select,textarea),
+  #page-antihistaminicos :is(input,select,textarea),
+  #page-imunizacoes :is(input,select,textarea) {
+    font-size:16px!important;
+  }
+  #page-antihistaminicos .ah-toolbar {flex-direction:column;gap:9px;}
+  #page-antihistaminicos .ah-search {width:100%;min-width:0!important;box-sizing:border-box;}
+  #page-antihistaminicos .ah-tabs {
+    width:100%;min-width:0;overflow-x:auto;
+    box-sizing:border-box;
+  }
+  #page-antihistaminicos .ah-tab {flex:1 1 auto;white-space:nowrap;}
+  /* Botão do assistente: fica acima da navegação e fora da primeira linha do catálogo. */
+  #auriReabrir {
+    left:auto!important;
+    right:max(12px,env(safe-area-inset-right))!important;
+    bottom:calc(var(--bottomnav-h,64px) + 16px + env(safe-area-inset-bottom))!important;
+    width:40px!important;
+    height:40px!important;
+    font-size:17px!important;
+    opacity:.92;
+  }
+  .scroll-area {min-width:0;}
+}
+@media(max-width:359px) {
+  #page-imuno .bio-grid .bio-header .bio-icon,
+  #page-imuno .bio-grid .bio-header .bio-icon:has(.bio-target) {
+    width:56px!important;min-width:56px!important;max-width:56px!important;
+    flex-basis:56px!important;
+  }
+  #page-imuno .bio-grid > .bio-card > .bio-header,
+  #page-imuno .bio-grid > .bio-card.open > .bio-header {
+    padding-right:43px!important;
+    gap:9px!important;
+  }
+  #page-imuno .bio-grid .bio-header .bio-name {font-size:14.5px!important;}
+  #page-imuno .bio-grid .bio-header .bio-comercial {font-size:11px!important;}
+}
+@media(prefers-reduced-motion:reduce) {
+  #page-imuno .bio-grid > .bio-card,
+  #page-imunoglobulinas .igcat-item,
+  #page-antihistaminicos .ah-card {transition:none!important;}
+}
