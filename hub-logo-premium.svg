@@ -11,7 +11,27 @@
 <path d="M690 682Q1370 514 2048 395L2048 682Z" fill="url(#waves)" opacity=".45"/>
 <path d="M1090 682Q1680 395 2048 422" fill="none" stroke="#109ad4" stroke-width="2" opacity=".85"/>
 <path d="M1440 682Q1795 504 2048 476" fill="none" stroke="url(#goldLine)" stroke-width="5"/>
-<image href="/hub-icon-premium.svg" x="124" y="125" width="407" height="407"/>
+<svg x="124" y="125" width="407" height="407" viewBox="0 0 200 200">
+<title id="title">Hub do Alergista</title><desc id="desc">Anticorpo tridimensional azul, branco e dourado em ícone quadrado arredondado.</desc>
+<defs>
+<linearGradient id="gold" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fff4b7"/><stop offset=".18" stop-color="#f9dc84"/><stop offset=".42" stop-color="#b87a23"/><stop offset=".63" stop-color="#fff0a2"/><stop offset="1" stop-color="#d89835"/></linearGradient>
+<linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0b3d68"/><stop offset=".37" stop-color="#002544"/><stop offset=".74" stop-color="#004878"/><stop offset="1" stop-color="#0ca5e7"/></linearGradient>
+<linearGradient id="glass" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#fff" /><stop offset=".22" stop-color="#c8edff"/><stop offset=".55" stop-color="#f5fcff"/><stop offset=".82" stop-color="#7cb6d7"/><stop offset="1" stop-color="#f0fbff"/></linearGradient>
+<linearGradient id="antigold" x1="0" x2=".7" y1="0" y2="1"><stop stop-color="#fff0b7"/><stop offset=".36" stop-color="#c98d31"/><stop offset=".67" stop-color="#ffe4a3"/><stop offset="1" stop-color="#a46b22"/></linearGradient>
+<radialGradient id="light" cx=".15" cy=".05" r=".9"><stop stop-color="#29b9ff" stop-opacity=".95"/><stop offset=".4" stop-color="#055b93" stop-opacity=".22"/><stop offset="1" stop-color="#002743" stop-opacity="0"/></radialGradient>
+<filter id="shadow" x="-30%" y="-30%" width="170%" height="170%"><feGaussianBlur stdDeviation="2.4"/></filter>
+</defs>
+<rect x="7" y="7" width="186" height="186" rx="52" fill="#001a32"/>
+<rect x="7" y="7" width="186" height="186" rx="52" fill="url(#blue)" stroke="url(#gold)" stroke-width="5"/>
+<rect x="12.5" y="12.5" width="175" height="175" rx="47" fill="url(#light)" stroke="#bcecff" stroke-opacity=".48" stroke-width="1.2"/>
+<path d="M17 76C31 26 66 14 130 18" fill="none" stroke="#e8faff" stroke-opacity=".65" stroke-width="5" stroke-linecap="round"/>
+<path d="M39 40L70 73M161 40L130 73" stroke="#002342" stroke-width="23" stroke-linecap="round" opacity=".4" filter="url(#shadow)"/>
+<path d="M43 43L72 72M157 43L128 72" stroke="url(#antigold)" stroke-width="18" stroke-linecap="round"/>
+<path d="M100 164V99L66 58M100 99L134 58" fill="none" stroke="#00233c" stroke-opacity=".7" stroke-width="27" stroke-linejoin="round" stroke-linecap="round" filter="url(#shadow)"/>
+<path d="M100 164V99L66 58M100 99L134 58" fill="none" stroke="url(#glass)" stroke-width="21" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M96 163V101L65 63M104 98L137 59" fill="none" stroke="#fff" stroke-width="4.5" stroke-opacity=".54" stroke-linecap="round"/>
+<path d="M29 176C64 189 144 188 178 160" fill="none" stroke="#0ea4e5" stroke-opacity=".45" stroke-width="3"/>
+</svg>
 <path d="M591 221V404" stroke="url(#goldLine)" stroke-width="5"/>
 <text x="650" y="355" font-family="Manrope,Arial,sans-serif" font-weight="800" font-size="143" letter-spacing="-5" fill="url(#whiteText)">Hub do</text>
 <text x="1195" y="355" font-family="Manrope,Arial,sans-serif" font-weight="800" font-size="143" letter-spacing="-5" fill="url(#goldText)">Alergista</text>
