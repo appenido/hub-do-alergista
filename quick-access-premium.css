@@ -324,3 +324,33 @@
   border:1px solid #d7e9eb;box-shadow:0 3px 8px rgba(19,56,76,.06);
 }
 #vac-menu-hub .hub-premium-section-icon svg{display:block;width:31px;height:31px;}
+
+
+/* Iconografia premium adicional: relatorios, imunobiologicos, favoritos e ajuda */
+#page-imuno .rel-row .rel-ico {
+  box-sizing:border-box;width:44px;height:44px;border-radius:13px;
+  display:grid;place-items:center;flex:0 0 44px;
+  border:1px solid #d5e7eb;
+  background:radial-gradient(circle at 25% 15%,#fff,#eaf5f7 54%,#dcecf0)!important;
+  box-shadow:0 3px 10px rgba(20,57,77,.075),inset 0 1px 0 #fff;
+}
+#page-imuno .rel-row .rel-ico svg{width:33px;height:33px;display:block;}
+#page-imuno .bio-icon{
+  box-sizing:border-box;border:1px solid rgba(255,255,255,.40);
+  box-shadow:0 3px 10px rgba(12,48,65,.14),inset 0 1px 0 rgba(255,255,255,.2);
+}
+.fav-icon{
+  display:inline-flex;align-items:center;justify-content:center;
+  box-sizing:border-box;min-width:30px;min-height:30px;
+  border-radius:10px;background:linear-gradient(145deg,#f5fafb,#e4f0f3);
+  border:1px solid #dce9ed;
+  box-shadow:inset 0 1px 0 #fff;
+}
+.vsd-ico{
+  display:inline-grid;place-items:center;vertical-align:middle;
+  width:28px;height:28px;border-radius:9px;
+  background:linear-gradient(140deg,#f5fafb,#e2f1f4);
+  border:1px solid #dbe9ed;
+}
+.vsd-ico svg{width:21px;height:21px;display:block;}
+.igchat-head-ico svg{width:24px;height:24px;display:block;}
