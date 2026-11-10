@@ -486,9 +486,9 @@ html {
   }
 }
 
-/* MOBILE_HEADER_CENTERED_APP_ICON_20261109 */
-/* Barra superior limpa para Android e iOS: marca geometricamente centralizada,
-   sem campo de busca ocupando o espaço do cabeçalho. Busca continua no desktop. */
+/* HOME_HUB_LOGO_LEFT_20261110
+   Retorna o logotipo original do Hub ao canto superior esquerdo.
+   Posicionamento natural na barra, sem centralização ou deslocamento absoluto. */
 @media (max-width: 759px) {
   .topbar {
     position: sticky;
@@ -496,25 +496,33 @@ html {
     align-items: center;
     justify-content: flex-start;
     gap: 8px;
-    padding-left: max(12px,env(safe-area-inset-left));
-    padding-right: max(12px,env(safe-area-inset-right));
+    padding-left: max(12px, env(safe-area-inset-left));
+    padding-right: max(12px, env(safe-area-inset-right));
   }
   .topbar .tb-search {
     display: none !important;
   }
   .topbar #tbLogo {
-    position: absolute;
+    position: relative;
+    inset: auto;
+    left: auto;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    transform: none;
     z-index: 2;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
     display: flex;
+    flex: 0 1 auto;
     align-items: center;
-    justify-content: center;
-    width: 44px;
+    justify-content: flex-start;
+    gap: 8px;
+    width: auto;
+    max-width: calc(100% - 84px);
+    min-width: 0;
     height: 44px;
-    padding: 3px;
+    padding: 0;
     margin: 0;
+    white-space: nowrap;
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
   }
@@ -534,7 +542,14 @@ html {
     max-width: 100%;
   }
   .topbar #tbLogo .tb-name {
-    display: none !important;
+    display: block !important;
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: clamp(12px, 3.5vw, 16px);
+    line-height: 1.2;
   }
   .topbar #tbLogo:focus-visible {
     outline: 2px solid var(--gold);
@@ -548,29 +563,10 @@ html {
     flex: 0 0 38px;
   }
 }
-
-/* HOME_MOBILE_HUB_BRAND_20261109: manter ícone e nome visíveis na barra. */
-@media (max-width: 759px) {
-  .topbar #tbLogo {
-    width: max-content;
-    max-width: calc(100% - 110px);
-    gap: 7px;
-    white-space: nowrap;
-  }
+@media (max-width: 360px) {
+  .topbar #tbLogo { gap: 6px; }
   .topbar #tbLogo .tb-name {
-    display: block !important;
-    max-width: calc(100vw - 190px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: clamp(12px, 3.7vw, 16px);
-    line-height: 1.2;
-  }
-}
-@media (max-width: 420px) {
-  .topbar #tbLogo { left: 45%; }
-  .topbar #tbLogo .tb-name {
-    max-width: calc(100vw - 174px);
-    font-size: clamp(12px, 3.6vw, 14.5px);
+    font-size: 12px;
+    max-width: calc(100vw - 156px);
   }
 }
