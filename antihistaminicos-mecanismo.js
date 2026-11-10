@@ -50,6 +50,7 @@ var markup = [
 '<summary><span class="ah-mech-icon" aria-hidden="true">H₁</span><span class="ah-mech-label">Clique aqui e entenda o mecanismo de ação<small>Agonista vs. agonista inverso · animação ilustrada</small></span><span class="ah-mech-arrow" aria-hidden="true">⌄</span></summary>',
 '<div class="ahp-content"><div class="ahp-heading"><p class="ahp-eyebrow">FARMACODINÂMICA · RECEPTOR H1</p>',
 '<h3>Agonista vs. agonista inverso</h3><p>Como funcionam os anti-histamínicos H1</p></div>',
+'<p class="ahp-swipe-hint">Deslize para comparar os três estados <span aria-hidden="true">→</span></p>',
 '<div class="ahp-comparison" aria-label="Comparação ilustrada de receptor H1 inativo, em equilíbrio basal e ativo">',
 card('inverse','01','AGONISTA INVERSO','Anti-histamínico H1','Favorece o estado inativo','Redução da atividade basal','Estabiliza a conformação inativa e diminui a sinalização constitutiva.'),
 card('basal','02','EQUILÍBRIO BASAL','Sem fármaco','Inativo ⇄ ativo','Atividade constitutiva','O receptor alterna espontaneamente entre estados, mesmo sem histamina.'),
