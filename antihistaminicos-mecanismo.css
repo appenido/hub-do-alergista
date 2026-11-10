@@ -1,0 +1,84 @@
+
+/* Anti-H1: filtros por via e módulo de farmacodinâmica. */
+#page-antihistaminicos .ah-route-tabs{flex-wrap:wrap;max-width:100%;gap:4px}
+#page-antihistaminicos .ah-route-tabs .ah-tab{flex:0 0 auto;white-space:nowrap}
+#page-antihistaminicos .ah-route-tabs .ah-tab[aria-pressed="true"]{background:#fff;color:#126078;box-shadow:0 2px 9px rgba(13,31,45,.1)}
+#page-antihistaminicos .ah-card-foot .ah-chip{font-size:10.5px;letter-spacing:0;text-transform:none;max-width:100%;line-height:1.5;white-space:normal}
+#page-antihistaminicos .ah-card-foot .ah-chip.hist{color:#936829;background:#fcf1db}
+#page-antihistaminicos .ah-mechanism{margin:5px 0 22px;background:#fff;border:1px solid #c9dfe6;border-radius:17px;overflow:hidden;box-shadow:0 4px 18px rgba(13,31,45,.045)}
+#page-antihistaminicos .ah-mechanism summary{list-style:none;display:flex;align-items:center;gap:12px;cursor:pointer;padding:17px 18px;min-height:76px;outline-offset:-4px}
+#page-antihistaminicos .ah-mechanism summary::-webkit-details-marker{display:none}
+#page-antihistaminicos .ah-mechanism[open] summary{border-bottom:1px solid #dfecef;background:#f8fcfd}
+#page-antihistaminicos .ah-mech-icon{flex:0 0 45px;height:45px;display:grid;place-items:center;background:linear-gradient(145deg,#154c61,#257e91);border:1px solid #6bb8c9;color:#fff;border-radius:13px;font:700 17px 'Manrope',sans-serif;box-shadow:0 5px 13px rgba(25,101,119,.18)}
+#page-antihistaminicos .ah-mech-label{font:700 clamp(13px,1.55vw,16px)/1.4 'Manrope',sans-serif;color:#0e3546;flex:1}
+#page-antihistaminicos .ah-mech-label small{display:block;font-size:11.5px;font-weight:500;color:#68818d;margin-top:4px}
+#page-antihistaminicos .ah-mech-arrow{color:#28758b;font-size:23px;transition:transform .2s}
+#page-antihistaminicos .ah-mechanism[open] .ah-mech-arrow{transform:rotate(180deg)}
+#page-antihistaminicos .ah-mech-content{padding:17px clamp(14px,2vw,22px) 20px}
+#page-antihistaminicos .ah-mech-content>p{font-size:13.5px;line-height:1.65;color:#395667;margin:0 0 13px}
+#page-antihistaminicos .ah-anim{position:relative;overflow:hidden;height:305px;background:linear-gradient(155deg,#edf7fa,#e2f0f5);border:1px solid #c9e1e8;border-radius:16px}
+#page-antihistaminicos .ah-scene{position:absolute;inset:0;padding:15px 20px 22px;display:flex;flex-direction:column;align-items:center;opacity:0;pointer-events:none}
+#page-antihistaminicos .ah-scene-1{opacity:1}
+#page-antihistaminicos .ah-scene-title{font:800 12.5px/1.3 'Manrope',sans-serif;letter-spacing:.02em;color:#205a6d;text-align:center}
+#page-antihistaminicos .ah-bio-illustration{position:relative;height:142px;width:min(360px,100%);margin-top:1px}
+#page-antihistaminicos .ah-membrane{position:absolute;left:2%;right:2%;top:62px;height:47px;border-top:2px solid #9dc6d3;border-bottom:2px solid #9dc6d3;background:repeating-linear-gradient(90deg,rgba(66,163,186,.12) 0 7px,rgba(66,163,186,.03) 7px 15px);border-radius:7px;transform:perspective(300px) rotateX(9deg)}
+#page-antihistaminicos .ah-receptor{position:absolute;left:calc(50% - 30px);top:36px;width:60px;height:98px;border:4px solid #2d8197;border-radius:25px 25px 18px 18px;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,#257991,#14465e);box-shadow:0 6px 17px rgba(22,84,105,.15);z-index:2;transform:rotate(-8deg);transition:transform .4s}
+#page-antihistaminicos .ah-receptor span{font:800 20px 'Manrope',sans-serif}
+#page-antihistaminicos .ah-receptor:before,#page-antihistaminicos .ah-receptor:after{content:'';position:absolute;top:-4px;width:10px;height:97px;border:2px solid rgba(255,255,255,.55);border-radius:8px}
+#page-antihistaminicos .ah-receptor:before{left:10px}
+#page-antihistaminicos .ah-receptor:after{right:10px}
+#page-antihistaminicos .ah-receptor-on{background:linear-gradient(155deg,#e3a051,#ad6021);border-color:#bc772f;transform:rotate(10deg) scale(1.07);box-shadow:0 4px 18px rgba(204,120,39,.3)}
+#page-antihistaminicos .ah-receptor-off{background:linear-gradient(145deg,#237b71,#17594f);border-color:#218d7f;transform:rotate(-3deg) scale(.97);box-shadow:0 5px 12px rgba(21,111,104,.15)}
+#page-antihistaminicos .ah-ligand-label{position:absolute;left:calc(50% + 42px);top:14px;border-radius:50px;padding:6px 10px;background:#fff;color:#36576a;border:1px solid #c2d9e2;font:700 11px 'Manrope',sans-serif;z-index:3;white-space:nowrap}
+#page-antihistaminicos .ah-no-ligand{top:16px;left:calc(50% + 43px);color:#6b8090}
+#page-antihistaminicos .ah-histamine{background:#f9e5cd;border-color:#e0b484;color:#82501d}
+#page-antihistaminicos .ah-inverse{background:#d6f0e8;border-color:#94cfc0;color:#176a5a}
+#page-antihistaminicos .ah-meter-label{font:700 11px 'Manrope',sans-serif;color:#4d6878;margin-top:0}
+#page-antihistaminicos .ah-meter{height:22px;display:flex;align-items:flex-end;gap:5px;margin-top:5px}
+#page-antihistaminicos .ah-meter span{width:17px;height:6px;border-radius:4px;background:#a5c5cf}
+#page-antihistaminicos .ah-meter-basal span:first-child,#page-antihistaminicos .ah-meter-basal span:nth-child(2){height:13px;background:#54a4b8}
+#page-antihistaminicos .ah-meter-on span{background:#dbad6b}
+#page-antihistaminicos .ah-meter-on span:nth-child(1){height:10px}
+#page-antihistaminicos .ah-meter-on span:nth-child(2){height:13px}
+#page-antihistaminicos .ah-meter-on span:nth-child(3){height:16px}
+#page-antihistaminicos .ah-meter-on span:nth-child(4){height:20px}
+#page-antihistaminicos .ah-meter-on span:nth-child(5){height:22px}
+#page-antihistaminicos .ah-meter-off span{height:5px;background:#8cbdb4}
+#page-antihistaminicos .ah-scene p{font:500 12px/1.5 'Manrope',sans-serif;color:#4b6573;text-align:center;max-width:390px;margin:8px 0 0}
+#page-antihistaminicos .ah-progress{position:absolute;bottom:0;left:0;right:0;height:4px;background:rgba(20,102,121,.11);overflow:hidden}
+#page-antihistaminicos .ah-progress span{display:block;width:0;height:100%;background:linear-gradient(90deg,#2d9db0,#c6a260)}
+#page-antihistaminicos .ah-anim.ah-playing .ah-scene-1{animation:ahShowOne 9s linear both}
+#page-antihistaminicos .ah-anim.ah-playing .ah-scene-2{animation:ahShowTwo 9s linear both}
+#page-antihistaminicos .ah-anim.ah-playing .ah-scene-3{animation:ahShowThree 9s linear both}
+#page-antihistaminicos .ah-anim.ah-playing .ah-progress span{animation:ahLoadProgress 9s linear both}
+#page-antihistaminicos .ah-anim.ah-playing .ah-histamine,
+#page-antihistaminicos .ah-anim.ah-playing .ah-inverse{animation:ahBindLigand 1.4s ease-out both}
+#page-antihistaminicos .ah-anim.ah-playing .ah-receptor-on{animation:ahReceptorOn 2.3s ease-in-out infinite}
+@keyframes ahShowOne{0%,29%{opacity:1}34%,100%{opacity:0}}
+@keyframes ahShowTwo{0%,30%{opacity:0}36%,62%{opacity:1}68%,100%{opacity:0}}
+@keyframes ahShowThree{0%,64%{opacity:0}72%,100%{opacity:1}}
+@keyframes ahLoadProgress{from{width:0}to{width:100%}}
+@keyframes ahBindLigand{from{transform:translateY(-24px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes ahReceptorOn{0%,100%{transform:rotate(8deg) scale(1.07)}50%{transform:rotate(13deg) scale(1.11)}}
+#page-antihistaminicos .ah-replay{border:1px solid #b7d7e0;background:#f5fafc;border-radius:10px;padding:9px 13px;cursor:pointer;color:#175c73;font:700 12px 'Manrope',sans-serif;margin:13px 0 0;min-height:38px}
+#page-antihistaminicos .ah-replay:hover{background:#e7f4f7}
+#page-antihistaminicos .ah-mech-content .ah-mech-difference{margin-top:13px;font-size:12.5px;color:#5b717e}
+@media(max-width:650px){
+ #page-antihistaminicos .ah-route-tabs{width:100%}
+ #page-antihistaminicos .ah-route-tabs .ah-tab{padding:8px 10px;font-size:11px}
+ #page-antihistaminicos .ah-mechanism summary{padding:14px 12px;gap:9px}
+ #page-antihistaminicos .ah-mech-icon{flex-basis:39px;height:39px;font-size:15px}
+ #page-antihistaminicos .ah-mech-label{font-size:12.5px}
+ #page-antihistaminicos .ah-scene{padding:15px 10px 20px}
+ #page-antihistaminicos .ah-scene p{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+ #page-antihistaminicos .ah-anim .ah-scene{animation:none!important}
+ #page-antihistaminicos .ah-anim .ah-scene-1,
+ #page-antihistaminicos .ah-anim .ah-scene-2{opacity:0!important}
+ #page-antihistaminicos .ah-anim .ah-scene-3{opacity:1!important}
+ #page-antihistaminicos .ah-anim .ah-progress span{width:100%!important;animation:none!important}
+ #page-antihistaminicos .ah-anim .ah-histamine,
+ #page-antihistaminicos .ah-anim .ah-inverse,
+ #page-antihistaminicos .ah-anim .ah-receptor-on{animation:none!important}
+}
