@@ -140,7 +140,6 @@
       body.appendChild(entry);
     });
     panel.appendChild(body);
-    panel.appendChild(element('div', 'hub-novidades-footer', 'Apenas novidades publicadas no Hub. Sem avisos técnicos.'));
   }
 
   function openNews() {
