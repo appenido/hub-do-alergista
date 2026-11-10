@@ -189,9 +189,43 @@
       el.setAttribute('aria-hidden','true');
     });
   }
+
+  artwork.person='<circle cx="32" cy="21" r="10" fill="#d8b675" stroke="#a78041" stroke-width="1.8"/><path d="M12 54c1-12 9-19 20-19s19 7 20 19" fill="#8ac7d1" stroke="#246679" stroke-width="2.5" stroke-linecap="round"/><path d="M23 43l9 8 9-8" fill="none" stroke="#e8f6f8" stroke-width="2.2"/>';
+  artwork.woman='<circle cx="32" cy="21" r="10" fill="#efd29e" stroke="#a7854e" stroke-width="1.8"/><path d="M21 27c-8-20 2-24 11-24 12 0 18 9 12 24" fill="none" stroke="#a27c41" stroke-width="5" stroke-linecap="round"/><path d="M13 55c1-13 9-20 19-20s18 7 19 20" fill="#8bc6d0" stroke="#246679" stroke-width="2.2"/>';
+  artwork.child='<circle cx="32" cy="22" r="9" fill="#e8c58d" stroke="#a88447" stroke-width="1.7"/><path d="M17 54c0-11 6-17 15-17s15 6 15 17" fill="#88c4cf" stroke="#26687a" stroke-width="2.2"/><path d="M26 15c5-7 12-4 13 0" fill="none" stroke="#7c694c" stroke-width="3.3" stroke-linecap="round"/>';
+  artwork.trend='<rect x="10" y="12" width="44" height="42" rx="8" fill="#e7f2f4" stroke="#277083" stroke-width="2.2"/><path d="M18 44l10-11 8 4 11-15" fill="none" stroke="#1b8295" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 22h7v7" stroke="#c6a054" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
+  artwork.cycle='<path d="M47 22a19 19 0 0 0-30-2M17 20v-10M17 20h10M17 42a19 19 0 0 0 30 2M47 44v10M47 44H37" stroke="#2a7285" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="32" cy="32" r="5" fill="#d9b66e"/>';
+  artwork.balance='<path d="M32 10v42M19 52h26M18 18h28M14 18l-8 16h16zM50 18l-8 16h16z" fill="none" stroke="#2c6c80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="15" r="5" fill="#d9b66e"/>';
+  artwork.money='<rect x="9" y="19" width="46" height="30" rx="7" fill="#e5f2f3" stroke="#2b6d80" stroke-width="2.4"/><path d="M13 25h38M14 42h14" stroke="#96c8d0" stroke-width="3" stroke-linecap="round"/><circle cx="44" cy="35" r="6" fill="#dfbd71" stroke="#ae893f" stroke-width="1.4"/>';
+  artwork.bee='<path d="M20 31c-10-14-3-22 9-12M44 31c10-14 3-22-9-12" fill="#e2eef0" stroke="#246b80" stroke-width="2"/><ellipse cx="32" cy="36" rx="15" ry="12" fill="#edca76" stroke="#266c80" stroke-width="2.4"/><path d="M24 26v20M33 24v24M41 27v18" stroke="#2b6879" stroke-width="4"/><path d="M22 16l-5-6M42 16l5-6" stroke="#2b6879" stroke-width="2.3" stroke-linecap="round"/>';
+  artwork.nose='<path d="M34 9c-6 13-12 22-15 30-2 5 4 8 9 8h9c6 0 6-6 3-8M28 47c2 4 7 5 10 2" fill="none" stroke="#286b80" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"/><circle cx="48" cy="18" r="5" fill="#d9b46f"/>';
+  artwork.baby='<path d="M28 8h8v10l-3 5v5h-2v-5l-3-5z" fill="#ebd19a" stroke="#9e8554" stroke-width="1.8"/><rect x="19" y="25" width="26" height="31" rx="9" fill="#e6f2f3" stroke="#276b80" stroke-width="2.5"/><path d="M21 40h22v8c0 5-4 8-9 8h-4c-5 0-9-3-9-8z" fill="#8cc8d1"/>';
+  function decorateReportIcons(){
+    var map={
+      '👩':'woman','👨':'person','👦':'child','👧':'child','🧒':'child',
+      '🔴':'skin','🫁':'lungs','👃':'nose','🍽️':'food','⚖️':'balance',
+      '🔄':'cycle','🔁':'cycle','📈':'trend','⬆️':'trend','🍼':'baby',
+      '💰':'money','📄':'book','🥜':'food','🌰':'food','💉':'syringe',
+      '🩹':'skin','🆘':'alert','🐝':'bee','🧪':'molecule',
+      '💊':'medicine','📋':'book','📊':'trend'
+    };
+    document.querySelectorAll('#page-imuno .rel-ico').forEach(function(el){
+      if(el.querySelector('svg'))return;
+      var key=map[el.textContent.trim()];
+      if(!key)return;
+      el.innerHTML=pictogram(key);
+      el.setAttribute('aria-hidden','true');
+    });
+    var note=document.querySelector('.vsd-ico');
+    if(note && !note.querySelector('svg'))note.innerHTML=pictogram('molecule');
+    var chat=document.querySelector('.igchat-head-ico');
+    if(chat && !chat.querySelector('svg'))chat.innerHTML=pictogram('medicine');
+  }
+
   function start(){
     setupVaccines();
     decorateProtocolIcons();
+    decorateReportIcons();
     decorateVaccinationMenu();
     document.addEventListener('click',function(e){
       if(e.target.closest('[data-nav="imunizacoes"]'))decorateVaccinationMenu();
