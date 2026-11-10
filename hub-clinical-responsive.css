@@ -621,3 +621,88 @@
   #page-imunoglobulinas .igcat-item,
   #page-antihistaminicos .ah-card {transition:none!important;}
 }
+
+
+/* VACINAS: ficha dentro do próprio cartão, inclusive em aparelhos móveis. */
+#page-imunizacoes #vacListaAll.vac-grid {
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,325px),1fr))!important;
+  align-items:start!important;
+  gap:12px!important;
+  min-width:0!important;
+  width:100%!important;
+  box-sizing:border-box!important;
+  padding-inline:clamp(12px,2vw,20px)!important;
+}
+#page-imunizacoes #vacListaAll.vac-grid > .vac-card,
+#page-imunizacoes #vacListaAll.vac-grid > .vac-card[open] {
+  grid-column:auto!important;
+  grid-row:auto!important;
+  align-self:start!important;
+  min-width:0!important;
+  max-width:100%!important;
+  width:100%!important;
+  overflow:hidden!important;
+  border-radius:15px!important;
+  box-sizing:border-box!important;
+  box-shadow:0 3px 12px rgba(13,31,45,.06);
+}
+#page-imunizacoes #vacListaAll.vac-grid > .vac-card > .vac-header {
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  text-align:left!important;
+  gap:11px!important;
+  min-height:90px!important;
+  height:auto!important;
+  padding:12px!important;
+}
+#page-imunizacoes #vacListaAll.vac-grid > .vac-card .vac-info {
+  flex:1 1 0!important;
+  width:auto!important;
+  min-width:0!important;
+}
+#page-imunizacoes #vacListaAll.vac-grid > .vac-card .vac-icon {
+  width:55px!important;
+  height:55px!important;
+  min-width:55px!important;
+  border-radius:13px!important;
+}
+#page-imunizacoes #vacListaAll.vac-grid > .vac-card .vac-name {
+  font-size:clamp(14px,1vw,16px)!important;
+  line-height:1.32!important;
+  hyphens:none;
+  overflow-wrap:break-word;
+}
+#page-imunizacoes #vacListaAll.vac-grid > .vac-card .vac-protection,
+#page-imunizacoes #vacListaAll.vac-grid > .vac-card .vac-brand {
+  font-size:clamp(11px,.9vw,12.5px)!important;
+  line-height:1.42!important;
+  overflow-wrap:anywhere;
+}
+#page-imunizacoes #vacListaAll.vac-grid > .vac-card[open] > .vac-body {
+  min-width:0!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+  overflow-wrap:anywhere;
+  background:#f9fcfd;
+  padding:12px!important;
+  border-top:1px solid #deebf0!important;
+}
+#page-imunizacoes #vacListaAll.vac-grid > .vac-empty {
+  grid-column:1 / -1!important;
+}
+@media(max-width:759px) {
+  #page-imunizacoes #vacListaAll.vac-grid {
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:11px!important;
+  }
+  /* Catálogos clínicos têm prioridade de leitura: nenhum botão flutuante por cima. */
+  body:has(#page-imuno.active) #auriReabrir,
+  body:has(#page-imunoglobulinas.active) #auriReabrir,
+  body:has(#page-antihistaminicos.active) #auriReabrir,
+  body:has(#page-imunizacoes.active) #auriReabrir {
+    display:none!important;
+  }
+}
