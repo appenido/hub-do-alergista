@@ -833,6 +833,79 @@ _marcarGuiasPagas();
 }
 .bio-rel-btn:active{background:var(--teal);}
 
+/* Hub — biológicos: expansão exclusivamente dentro do card de origem.
+   Não criar painel separado, não mover o card na grade. */
+#page-imuno .bio-grid{align-items:start;grid-auto-flow:row;overflow-anchor:none;}
+#page-imuno .bio-grid > .bio-card,
+#page-imuno .bio-grid > .bio-card.open{
+  grid-column:auto!important;
+  grid-row:auto!important;
+  width:100%;min-width:0;max-width:100%;margin:0;
+  align-self:start;position:relative;box-sizing:border-box;
+  border-radius:17px;overflow:hidden;
+  background:#fff;
+  box-shadow:0 2px 12px rgba(13,31,45,.045);
+}
+#page-imuno .bio-grid > .bio-card.open{
+  border:1.5px solid #25819a;
+  box-shadow:0 8px 28px rgba(20,88,111,.13);
+}
+#page-imuno .bio-grid > .bio-card > .bio-header{
+  min-height:128px;box-sizing:border-box;
+}
+#page-imuno .bio-grid > .bio-card.open > .bio-header{
+  min-height:0;
+  padding:14px 12px;
+  background:linear-gradient(145deg,#e8f6f9,#fff);
+  border-bottom:1px solid #dcebf0;
+}
+#page-imuno .bio-grid > .bio-card.open > .bio-body{
+  display:block!important;
+  position:static!important;
+  width:100%!important;min-width:0;max-width:100%!important;
+  max-height:min(65vh,640px);
+  overflow-y:auto!important;overflow-x:hidden!important;
+  overscroll-behavior:contain;
+  box-sizing:border-box;
+  padding:10px;
+  scrollbar-width:thin;
+  scrollbar-color:#a8cbd4 transparent;
+}
+#page-imuno .bio-grid > .bio-card > .bio-body .bio-section{
+  width:100%;box-sizing:border-box;
+  border:1px solid #e5edf2;border-radius:11px;
+  background:#fff;padding:12px;margin:0 0 9px;
+  min-width:0;overflow-wrap:anywhere;
+}
+#page-imuno .bio-grid > .bio-card > .bio-body .bio-label{
+  color:#416c83;font-size:10px;letter-spacing:.055em;
+  line-height:1.5;margin-bottom:7px;
+}
+#page-imuno .bio-grid > .bio-card > .bio-body .bio-value{
+  font-size:12px;line-height:1.6;max-width:100%;
+  overflow-wrap:anywhere;
+}
+#page-imuno .bio-grid > .bio-card > .bio-body .bio-dose-grid,
+#page-imuno .bio-grid > .bio-card > .bio-body .bio-doses,
+#page-imuno .bio-grid > .bio-card > .bio-body .bio-indications{
+  grid-template-columns:minmax(0,1fr)!important;
+}
+#page-imuno .bio-grid > .bio-card > .bio-body table{
+  display:block;max-width:100%;overflow-x:auto;
+  white-space:normal;font-size:11px;
+}
+#page-imuno .bio-grid > .bio-card > .bio-body img,
+#page-imuno .bio-grid > .bio-card > .bio-body svg{max-width:100%;height:auto;}
+#page-imuno .bio-grid > .bio-card > .bio-body button{max-width:100%;white-space:normal;}
+#page-imuno .bio-grid > .bio-grid-detail{display:none!important;}
+@media(max-width:559px){
+  #page-imuno .bio-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:0 9px 15px;}
+  #page-imuno .bio-grid > .bio-card > .bio-header{min-height:112px;}
+  #page-imuno .bio-grid > .bio-card.open > .bio-body{padding:7px;max-height:58vh;}
+  #page-imuno .bio-grid > .bio-card > .bio-body .bio-section{padding:9px 8px;}
+  #page-imuno .bio-grid > .bio-card > .bio-body .bio-value{font-size:11px;}
+}
+
 /* ── VACINAS: PAINEL HORIZONTAL ── */
 .vac-grid .vac-card{
   min-width:0;background:#fff;border:1px solid var(--gray-100);border-radius:14px;
