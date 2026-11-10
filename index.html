@@ -9935,51 +9935,9 @@ window.addEventListener('storage',function(e){
 });
 window.addEventListener('online',function(){ carregarFeedHome(true); });
 
-/* ══ SINO DE NOTIFICAÇÕES ══ */
-var NOTIF_NEWS = [
-  {emoji:'🫁', tag:'GINA 2026', txt:'Novo relatório (mai/2026): depemokimabe (anti-IL-5 a cada 26 semanas), anti-IgE biossimilar e nova árvore de decisão para biológicos.', url:'https://ginasthma.org/2026-gina-strategy-report/'},
-  {emoji:'🔴', tag:'Urticária', txt:'Nova diretriz internacional de urticária publicada na Allergy (2026).', url:'https://pubmed.ncbi.nlm.nih.gov/?term=International+Guideline+Definition+Classification+Diagnosis+Management+Urticaria+2026'},
-  {emoji:'💊', tag:'Urticária', txt:'Remibrutinibe: primeiro BTKi oral aprovado pelo FDA para urticária crônica espontânea.', url:'https://pubmed.ncbi.nlm.nih.gov/?term=remibrutinib+chronic+spontaneous+urticaria'},
-  {emoji:'🫁', tag:'Asma', txt:'TERESA (JACI, mai/2026): remissão clínica em 1 ano com tezepelumabe na asma grave.', url:'https://pubmed.ncbi.nlm.nih.gov/?term=tezepelumab+clinical+remission+severe+asthma+TERESA'},
-  {emoji:'🩹', tag:'Derm. atópica', txt:'ARCADIA 1 e 2: nemolizumabe (anti-IL-31) mantém resposta até a semana 48.', url:'https://pubmed.ncbi.nlm.nih.gov/?term=nemolizumab+ARCADIA+atopic+dermatitis+week+48'},
-  {emoji:'🧬', tag:'EoE', txt:'DEGAS: dupilumabe eficaz na gastrite eosinofílica (fase 2).', url:'https://pubmed.ncbi.nlm.nih.gov/?term=dupilumab+eosinophilic+gastritis+DEGAS'}
-];
-
-function openNotifPanel(){
-  var existing = document.getElementById('notifPanel');
-  if(existing){ existing.parentNode.removeChild(existing); return; }
-
-  var p = document.createElement('div');
-  p.id = 'notifPanel';
-  p.style.cssText = 'position:fixed;top:60px;right:12px;width:302px;max-width:calc(100vw - 24px);max-height:70vh;overflow-y:auto;background:#fff;border:1px solid var(--gray-100);border-radius:14px;box-shadow:0 12px 40px rgba(13,31,45,.22);z-index:400;-webkit-overflow-scrolling:touch';
-
-  var html = '<div style="padding:13px 15px;border-bottom:1px solid var(--gray-50);display:flex;align-items:center;justify-content:space-between">' +
-    '<span style="font-size:13.5px;font-weight:800;color:var(--navy)">🔔 Novidades acadêmicas</span>' +
-    '<button id="notifClose" style="background:none;border:none;font-size:19px;color:var(--gray-300);cursor:pointer;line-height:1;padding:0 2px">×</button>' +
-    '</div>';
-
-  for(var i=0;i<NOTIF_NEWS.length;i++){
-    var n = NOTIF_NEWS[i];
-    html += '<a href="' + n.url + '" target="_blank" rel="noopener" style="display:flex;gap:9px;padding:12px 15px;border-bottom:1px solid var(--gray-50);text-decoration:none;cursor:pointer">' +
-      '<span style="font-size:16px;flex-shrink:0">' + n.emoji + '</span>' +
-      '<div style="flex:1;min-width:0">' +
-      '<div style="font-size:9.5px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">' + n.tag + '</div>' +
-      '<div style="font-size:11.5px;color:var(--gray-500);line-height:1.45">' + n.txt + '</div>' +
-      '</div></a>';
-  }
-  html += '<div style="padding:10px;text-align:center"><span style="font-size:10.5px;color:var(--gray-300)">Toque para abrir a fonte</span></div>';
-  p.innerHTML = html;
-  document.body.appendChild(p);
-
-  var dot = document.querySelector('.tb-dot');
-  if(dot) dot.style.display = 'none';
-
-  var cb = document.getElementById('notifClose');
-  if(cb) cb.addEventListener('click', function(ev){
-    ev.stopPropagation();
-    if(p.parentNode) p.parentNode.removeChild(p);
-  });
-}
+/* ══ SINO — SOMENTE NOVIDADES DE CONTEÚDO DO HUB ══ */
+/* A central editorial fica em hub-novidades.js. Não há feed de notícias externas. */
+function openNotifPanel(){}
 
 /* fechar o painel ao tocar fora */
 document.addEventListener('click', function(eN){
