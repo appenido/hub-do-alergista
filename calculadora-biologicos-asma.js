@@ -27,6 +27,8 @@
     numero('eos','Eosinófilos atuais (células/µL)',0,30000,1),
     numero('eosh','Maior eosinofilia nos últimos 12 meses (células/µL)',0,30000,1),
     numero('feno','FeNO (ppb)',0,300,1),
+    numero('escarro','Eosinófilos no escarro induzido (%)',0,100,'0.1'),
+    numero('vef1','VEF1 (% do previsto)',0,200,'0.1'),
     numero('ige','IgE total (UI/mL)',0,50000,1),
     numero('crises','Exacerbações tratadas com corticoide oral nos últimos 12 meses',0,40,1),
     numero('internacoes','Internações por exacerbação ≥24 h nos últimos 12 meses',0,20,1),
@@ -38,6 +40,12 @@
     campo('supressao','Biomarcadores coletados durante uso de corticoide sistêmico?',opSim()),
     campo('inicio','Início da asma',[
       ['','Não informado'],['infancia','Infância'],['adulta','Vida adulta']
+    ]),
+    campo('anterior','Biológico usado anteriormente',[
+      ['','Nenhum / não informado'],['omalizumabe','Omalizumabe'],['mepolizumabe','Mepolizumabe'],['benralizumabe','Benralizumabe'],['depemoquimabe','Depemoquimabe'],['reslizumabe','Reslizumabe'],['dupilumabe','Dupilumabe'],['tezepelumabe','Tezepelumabe']
+    ]),
+    campo('resposta','Resposta ao biológico anterior',[
+      ['','Não informada / não se aplica'],['boa','Boa resposta'],['parcial','Resposta parcial'],['nenhuma','Ausência de resposta']
     ]),
     campo('falta','Acesso ao biológico',[
       ['','Não informado'],['sim','Disponível'],['nao','Ainda não disponível']
@@ -74,9 +82,9 @@
   function numero(id,label,min,max,step){return '<label for="gbi-'+id+'">'+label+'<input type="number" id="gbi-'+id+'" name="'+id+'" min="'+min+'" max="'+max+'" step="'+step+'" placeholder="Não informado"></label>';}
   function check(id,label){return '<label for="gbi-'+id+'"><input type="checkbox" name="'+id+'" id="gbi-'+id+'"><span>'+label+'</span></label>';}
   function read(){
-    var v={}; var ids=['confirmada','otimizada','alta','sintomas','sens','gatilho','ocs','ocs6','ocsrec','supressao','inicio','falta'];
+    var v={}; var ids=['confirmada','otimizada','alta','sintomas','sens','gatilho','ocs','ocs6','ocsrec','supressao','inicio','anterior','resposta','falta'];
     ids.forEach(function(id){v[id]=form.elements[id].value;});
-    ['idade','peso','eos','eosh','feno','ige','crises','internacoes'].forEach(function(id){var a=form.elements[id],x=a.value.trim();v[id]=x===''?null:Number(x);if(v[id]!==null && (!Number.isFinite(v[id]) || !a.checkValidity()))throw Error('Número inválido: '+id);});
+    ['idade','peso','eos','eosh','feno','escarro','vef1','ige','crises','internacoes'].forEach(function(id){var a=form.elements[id],x=a.value.trim();v[id]=x===''?null:Number(x);if(v[id]!==null && (!Number.isFinite(v[id]) || !a.checkValidity()))throw Error('Número inválido: '+id);});
     ['polipos','dermatite','eoe','egpa','uce','alimento','pref26','prefdom'].forEach(function(id){v[id]=form.elements[id].checked;});
     return v;
   }
@@ -106,12 +114,15 @@
     var markers=[];
     if(hasEos&&emax>=150)markers.push('eosinófilos ≥150/µL');
     if(v.feno!==null&&v.feno>=20)markers.push('FeNO ≥20 ppb');
+    if(v.escarro!==null&&v.escarro>=2)markers.push('eosinófilos no escarro ≥2%');
     if(v.sens==='sim'&&v.gatilho==='sim')markers.push('asma clinicamente dirigida por alérgenos');
     if(v.ocs==='sim')markers.push('OCS de manutenção (biomarcadores podem estar suprimidos)');
     if(markers.length)intro+='<p class="gbi-small">Sinais de inflamação T2: '+esc(markers.join('; '))+'. Os limiares de fenotipagem (GINA p. 19) não são, por si, critérios de autorização de biológico.</p>';
     else intro+='<p class="gbi-small">Inflamação T2 não demonstrada pelos dados preenchidos. Uma única medida baixa não exclui T2; revise o contexto e repita exames quando indicado.</p>';
     if(v.falta==='nao')intro+='<div class="gbi-state warn">Acesso informado como indisponível: verificar opções de fornecimento, custo e disponibilidade, sem alterar a indicação clínica.</div>';
     if(v.prefdom)intro+='<p class="gbi-small">Preferência registrada por autoaplicação: confirmar quais apresentações admitem uso domiciliar; reslizumabe é intravenoso.</p>';
+    if(v.anterior&&v.resposta==='nenhuma')intro+='<div class="gbi-state warn">Ausência de resposta ao biológico anterior: após confirmar dose, adesão e tempo adequado de tratamento, considerar troca de alvo se houver outra opção elegível (GINA 2026, p. 26).</div>';
+    if(v.anterior&&v.resposta==='boa')intro+='<p class="gbi-small">Boa resposta ao biológico anterior: considerar manutenção antes de propor troca; avaliar acesso, preferência e indicação clínica.</p>';
     if(v.supressao==='sim')intro+='<div class="gbi-state warn">Biomarcadores obtidos sob corticoide sistêmico: interpretar com cautela. O GINA orienta reavaliação em momento clinicamente apropriado, sem suspensão autônoma do tratamento.</div>';
     if(emax>1500)intro+='<div class="gbi-state warn">Eosinofilia acima de 1.500/µL: investigar outras causas, inclusive EGPA e infecções parasitárias quando pertinente. GINA desaconselha anti-IL4Rα quando há eosinófilos basais ou históricos acima de 1.500/µL pela escassez de evidência.</div>';
     var candidates=[
@@ -146,6 +157,7 @@
         if(v.inicio==='adulta')predictors.push('asma de início adulto');
         if(v.polipos){predictors.push('polipose nasal');if(c.name.indexOf('Mepolizumabe')===0||c.name.indexOf('Depemoquimabe')===0)reasons.push('Possível indicação associada à RSCcPN conforme bula.');}
         if(v.ocs==='sim')predictors.push('uso de OCS de manutenção');
+        if(v.vef1!==null&&v.vef1<65)predictors.push('VEF1 abaixo de 65% do previsto (associação observada em um estudo)');
         if(v.egpa&&(c.name.indexOf('Mepolizumabe')===0||c.name.indexOf('Benralizumabe')===0))reasons.push('EGPA: verificar indicação específica e dose.');
         if(c.name.indexOf('Depemoquimabe')===0){notes.push('Registro Anvisa confirmado; cobertura ANS/SUS e disponibilidade comercial devem ser verificadas.');if(v.pref26)predictors.push('preferência por aplicações semestrais');}
         if(c.name.indexOf('Reslizumabe')===0)notes.push('Administração intravenosa; registro e oferta no Brasil precisam de confirmação.');
@@ -176,6 +188,10 @@
       if(c.kind!=='teze'&&c.kind!=='dup'&&!(v.crises!==null&&v.crises>0)&&!(v.internacoes!==null&&v.internacoes>0)&&v.ocs!=='sim'){
         if(state==='possible')state='conditional';
         notes.push('Confirmar exacerbações prévias/necessidade de OCS e critérios do pagador.');
+      }
+      if(v.anterior&&c.name.toLowerCase().indexOf(v.anterior)===0&&v.resposta==='nenhuma'){
+        if(state==='possible')state='conditional';
+        notes.push('Houve relato de ausência de resposta prévia a este mesmo fármaco; revisar decisão antes de reutilizá-lo.');
       }
       if(!gate&&state==='possible')state='conditional';
       var label=state==='no'?'Fora da faixa etária':state==='unsupported'?'Critério clínico não demonstrado':state==='conditional'?'Necessita confirmação':'Perfil a considerar';
