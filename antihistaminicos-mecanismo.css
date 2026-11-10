@@ -189,11 +189,11 @@
 }
 @keyframes ahpBindInverse{
   0%{transform:translate(0,-26px) rotate(-9deg);opacity:.65}
-  14%,100%{transform:translate(8px,22px) rotate(7deg);opacity:1}
+  14%,100%{transform:translate(8px,58px) rotate(7deg);opacity:1}
 }
 @keyframes ahpBindActive{
   0%,59%{transform:translate(0,-29px) rotate(-16deg);opacity:.68}
-  75%,100%{transform:translate(-6px,21px) rotate(11deg);opacity:1}
+  75%,100%{transform:translate(-6px,50px) rotate(11deg);opacity:1}
 }
 @keyframes ahpPulse{
   0%,30%,100%{opacity:.5;transform:scale(.96)}
@@ -249,8 +249,11 @@
  #page-antihistaminicos .ahp-timeline *{animation:none!important;transition:none!important}
  #page-antihistaminicos .ahp-panel-inverse .ahp-seesaw{transform:rotate(-11deg)}
  #page-antihistaminicos .ahp-panel-active .ahp-seesaw{transform:rotate(11deg)}
- #page-antihistaminicos .ahp-panel-inverse .ahp-ligand-inverse{transform:translate(8px,22px)}
- #page-antihistaminicos .ahp-panel-active .ahp-ligand-active{transform:translate(-6px,21px)}
+ #page-antihistaminicos .ahp-panel-inverse .ahp-ligand-inverse{transform:translate(8px,58px)}
+ #page-antihistaminicos .ahp-panel-active .ahp-ligand-active{transform:translate(-6px,50px)}
  #page-antihistaminicos .ahp-panel-active .ahp-sparks{opacity:.85}
  #page-antihistaminicos .ahp-timeline-progress{width:100%}
 }
+
+#page-antihistaminicos .ahp-swipe-hint{display:none;text-align:center;color:#54798b;font:700 11px/1.4 "Manrope",sans-serif;margin:0 0 10px}
+@media(max-width:780px){#page-antihistaminicos .ahp-swipe-hint{display:block}}
