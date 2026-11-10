@@ -7527,6 +7527,18 @@ document.addEventListener('keydown',function(e){
 new MutationObserver(function(){_hubAgendar(false);})
   .observe(document.body,{subtree:true,attributes:true,attributeFilter:['class','style','aria-expanded','open']});
 
+// Comportamento de acordeão em todos os módulos: ao abrir outro cartão
+// <details> no mesmo grupo, feche o anterior sem gerar telas intermediárias.
+document.addEventListener('toggle',function(event){
+  var atual=event.target;
+  if(!atual || atual.tagName!=='DETAILS' || !atual.open || !atual.parentElement)return;
+  Array.from(atual.parentElement.children).forEach(function(irmao){
+    if(irmao!==atual && irmao.tagName==='DETAILS' && irmao.open){
+      irmao.open=false;
+    }
+  });
+},true);
+
 window.addEventListener('popstate',function(event){
   var destino=event.state&&event.state.hubNav;
   var proximaTela=_hubNavPendente;
