@@ -392,3 +392,79 @@
     aspect-ratio: 650 / 261;
   }
 }
+
+
+/* CONGRESSO_ALINHAMENTO_FINAL_20261109
+   Evita banner maior que a área da Home e protege Windows/Mac/Retina/zoom. */
+#hubShareHome.hub-congress-assistant-home {
+  width: calc(100% - 32px);
+  max-width: 1180px;
+  min-width: 0;
+  margin: 12px 16px 10px;
+  box-sizing: border-box;
+}
+#hubShareHome .hub-congress-brand {
+  max-width: 650px;
+  width: 100%;
+  min-width: 0;
+}
+#hubShareHome .hub-congress-visual {
+  width: 100%;
+  max-width: 650px !important;
+  height: auto !important;
+  aspect-ratio: 650 / 261;
+  padding: 0;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+#hubShareHome #hubCongressLogo {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: none !important;
+  aspect-ratio: 650 / 261;
+  object-fit: contain !important;
+  object-position: center !important;
+  border-radius: 0 !important;
+}
+#hubShareHome .hub-share-copy {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+@media (max-width: 1180px) {
+  #hubShareHome.hub-congress-assistant-home {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 14px;
+  }
+  #hubShareHome .hub-congress-brand {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+  }
+  #hubShareHome .hub-share-copy {
+    grid-column: 1;
+    grid-row: 2;
+  }
+}
+@media (min-width: 1181px) {
+  #hubShareHome.hub-congress-assistant-home {
+    grid-template-columns: minmax(0, 43fr) minmax(0, 57fr);
+    column-gap: clamp(18px, 2.5vw, 36px);
+  }
+  #hubShareHome .hub-congress-brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  #hubShareHome .hub-share-copy {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+@media (max-width: 620px) {
+  #hubShareHome.hub-congress-assistant-home {
+    width: calc(100% - 24px);
+    max-width: calc(100% - 24px);
+    margin: 10px 12px 8px;
+  }
+}
