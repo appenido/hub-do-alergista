@@ -468,3 +468,74 @@
     margin: 10px 12px 8px;
   }
 }
+
+
+/* HOME_ENTRADA_CONGRESSO_APROVADO_20261109
+   Banner aprovado no topo da Home, em largura integral, com assistente abaixo. */
+#page-dashboard #hubShareHome.hub-congress-assistant-home {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  align-items: start !important;
+  justify-items: center;
+  gap: clamp(12px, 1.6vw, 20px);
+  max-width: 100%;
+  box-sizing: border-box;
+}
+#page-dashboard #hubShareHome .hub-congress-brand {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-self: center !important;
+  width: 100% !important;
+  max-width: min(100%, 980px) !important;
+  min-width: 0;
+}
+#page-dashboard #hubShareHome .hub-congress-visual {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  aspect-ratio: 650 / 261 !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+  background: transparent !important;
+}
+#page-dashboard #hubShareHome .hub-congress-visual img {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+  aspect-ratio: 650 / 261 !important;
+  object-fit: contain !important;
+  border-radius: 0 !important;
+}
+#page-dashboard #hubShareHome .hub-share-copy {
+  grid-column: 1 !important;
+  grid-row: 2 !important;
+  justify-self: center;
+  width: 100% !important;
+  max-width: min(100%, 980px) !important;
+  min-width: 0;
+  padding-top: 0 !important;
+}
+#page-dashboard #hubShareHome .hub-congress-source {
+  align-self: flex-start;
+  text-align: left !important;
+}
+#page-dashboard #hubShareHome .hub-congress-assist-form {
+  width: 100%;
+  max-width: 100%;
+}
+@media (max-width: 620px) {
+  #page-dashboard #hubShareHome.hub-congress-assistant-home {
+    width: calc(100% - 24px);
+    max-width: calc(100% - 24px);
+    margin: 10px 12px;
+    padding: 12px;
+  }
+  #page-dashboard #hubShareHome .hub-congress-brand,
+  #page-dashboard #hubShareHome .hub-share-copy { max-width: 100% !important; }
+}
