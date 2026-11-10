@@ -1609,6 +1609,14 @@ _marcarGuiasPagas();
 <link rel="stylesheet" href="/alergo-news-premium.css?v=20261110-justificado-4">
 
 <link rel="stylesheet" href="/hub-clinical-responsive.css?v=20261110-radar-compact-3">
+<style id="snot22-intro-layout">
+/* SNOT-22: descrição separada do título, com alinhamento justificado. */
+#overlay.score-snot22 .modal-hdr{gap:12px;padding:5px 0 16px;margin-bottom:2px;border-bottom:1px solid #d7e5eb}
+#overlay.score-snot22 #mTitle{flex:1;min-width:0;text-align:center;line-height:1.35;overflow-wrap:break-word}
+#overlay.score-snot22 #mDesc{box-sizing:border-box;margin:3px 0 9px;padding:16px 18px;border:1px solid #d9e7eb;border-left:4px solid #26839d;border-radius:11px;background:#f7fafc;color:#405b6c!important;font-size:16px!important;line-height:1.75!important;text-align:justify;text-justify:inter-word;hyphens:auto;overflow-wrap:break-word}
+#overlay.score-snot22 #mDesc::before{content:"IMPACTO DOS SINTOMAS";display:block;margin-bottom:8px;color:#19516b;font-family:'Manrope',sans-serif;font-size:11px;font-weight:800;letter-spacing:.07em;line-height:1.35;text-align:left}
+@media(max-width:600px){#overlay.score-snot22 .modal-hdr{padding-bottom:13px}#overlay.score-snot22 #mDesc{padding:13px 14px;font-size:14px!important;line-height:1.7!important}}
+</style>
 </head>
 <body>
 
@@ -8386,6 +8394,7 @@ var currentScore=null;
 function openScore(key){
   var s=SCORES[key];if(!s)return;
   currentScore=key;
+  document.getElementById('overlay').classList.toggle('score-snot22',key==='snot22');
   document.getElementById('mTitle').textContent=s.title;
   document.getElementById('mDesc').textContent=s.desc;
   var botaoCalcular=document.getElementById('mCalc');
