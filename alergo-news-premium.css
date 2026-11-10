@@ -1,0 +1,63 @@
+/* Alergo News — edição visual interativa, 09/11/2026 */
+#page-jornal #jornalCorpo{width:100%;max-width:1080px;margin:0 auto;box-sizing:border-box}
+#page-jornal .an-feature{margin:12px 0 24px;font-family:'Manrope',Arial,sans-serif}
+#page-jornal .an-feature-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:12px}
+#page-jornal .an-eyebrow{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-mid,#147d83);font-weight:700;margin-bottom:3px}
+#page-jornal .an-section-title{font-family:'DM Serif Display',Georgia,serif;font-size:27px;line-height:1.15;color:var(--navy,#142b43)}
+#page-jornal .an-count{font-size:12px;white-space:nowrap;color:var(--gray-500,#637184);font-variant-numeric:tabular-nums}
+#page-jornal .an-stage{position:relative;outline:none}
+#page-jornal .an-stage:focus-visible{outline:3px solid var(--teal-mid,#147d83);outline-offset:4px;border-radius:19px}
+#page-jornal .an-slide[hidden]{display:none!important}
+#page-jornal .an-story-card{display:block!important;border-radius:19px!important;border:1px solid rgba(17,60,79,.14)!important;background:#fff!important;box-shadow:0 12px 36px rgba(15,45,65,.075)!important;overflow:hidden;text-decoration:none!important;padding:0!important;margin:0!important;color:inherit!important;min-height:0}
+#page-jornal .an-story-card:hover{border-color:rgba(16,131,135,.45)!important;box-shadow:0 16px 40px rgba(15,45,65,.11)!important}
+#page-jornal .an-story-cover{height:142px;background:radial-gradient(circle at 82% 16%,rgba(242,202,116,.38),transparent 37%),linear-gradient(120deg,#103a52 0%,#176579 66%,#0e414b 100%);position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:18px 20px;box-sizing:border-box}
+#page-jornal .an-story-cover:after{content:"";position:absolute;right:-25px;top:-87px;width:270px;height:270px;border:1px solid rgba(255,255,255,.21);border-radius:50%;box-shadow:0 0 0 30px rgba(255,255,255,.035),0 0 0 64px rgba(255,255,255,.035);pointer-events:none}
+#page-jornal .an-cover-mark{position:relative;z-index:1;color:#fff;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;display:flex;align-items:center;gap:9px}
+#page-jornal .an-cover-mark svg{width:25px;height:25px;color:#f2d696}
+#page-jornal .an-story-card > .an-source,#page-jornal .an-story-card > .an-title,#page-jornal .an-story-card > .an-description,#page-jornal .an-story-card > .an-read{margin-left:21px!important;margin-right:21px!important}
+#page-jornal .an-story-card > .an-source{margin-top:17px!important;font-size:11px!important;gap:9px!important;flex-wrap:wrap}
+#page-jornal .an-story-card > .an-source img{width:20px;height:20px}
+#page-jornal .an-story-card > .an-title{font-family:'DM Serif Display',Georgia,serif!important;font-size:clamp(22px,2.5vw,30px)!important;line-height:1.23!important;letter-spacing:-.012em;margin-top:9px!important;color:var(--navy,#142b43)!important}
+#page-jornal .an-story-card > .an-description{font-size:14px!important;line-height:1.65!important;color:var(--gray-500,#637184)!important;margin-top:10px!important}
+#page-jornal .an-story-card > .an-read{font-size:13px!important;margin-top:17px!important;margin-bottom:21px!important;color:var(--teal-mid,#147d83)!important;font-weight:700!important}
+#page-jornal .an-story-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:13px}
+#page-jornal .an-story-progress{display:flex;gap:7px;align-items:center;flex:1;max-width:245px}
+#page-jornal .an-story-progress button{appearance:none;border:0;border-radius:999px;background:#dbe4e9;width:100%;height:5px;cursor:pointer;padding:0;transition:background .18s,transform .18s}
+#page-jornal .an-story-progress button[aria-pressed="true"]{background:var(--teal-mid,#147d83);transform:scaleY(1.3)}
+#page-jornal .an-story-actions{display:flex;align-items:center;gap:7px}
+#page-jornal .an-story-actions button{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid #d9e4e8;background:#fff;color:var(--navy,#142b43);border-radius:12px;min-height:39px;min-width:39px;padding:8px 11px;font:600 12px/1.2 'Manrope',Arial,sans-serif;cursor:pointer}
+#page-jornal .an-story-actions button:hover{background:#f3f8f9;border-color:#92bdc2}
+#page-jornal .an-story-actions button:focus-visible,#page-jornal .an-story-progress button:focus-visible{outline:3px solid var(--teal-mid,#147d83);outline-offset:3px}
+#page-jornal .an-story-status{font-size:11px;color:var(--gray-500,#637184);margin-top:7px;min-height:15px}
+#page-jornal .an-news-list-heading{font:600 12px/1.3 'Manrope',Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-mid,#147d83);margin:4px 0 12px}
+#page-jornal .an-news-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-bottom:14px}
+#page-jornal .an-news-card{display:flex!important;flex-direction:column!important;justify-content:center;background:#fff!important;border:1px solid #e1e8ec!important;border-radius:15px!important;padding:19px 20px!important;margin:0!important;text-decoration:none!important;box-shadow:0 2px 9px rgba(24,45,65,.025)!important;min-width:0}
+#page-jornal .an-news-card:hover{border-color:#9bbfc4!important;background:#fbfdfd!important}
+#page-jornal .an-news-card > .an-source{font-size:11px!important;gap:8px!important;flex-wrap:wrap}
+#page-jornal .an-news-card > .an-title{font-family:'DM Serif Display',Georgia,serif!important;font-size:clamp(18px,2vw,22px)!important;line-height:1.3!important;color:var(--navy,#142b43)!important;margin-top:9px!important}
+#page-jornal .an-news-card > .an-description{font-size:13.2px!important;line-height:1.55!important;margin-top:9px!important;color:var(--gray-500,#637184)!important}
+#page-jornal .an-news-card > .an-read{font-size:12px!important;color:var(--teal-mid,#147d83)!important;margin-top:13px!important}
+#page-alergonews #alergoNewsLista{max-width:1080px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+#page-alergonews #alergoNewsLista > a{border-radius:15px!important;padding:19px 20px!important;margin:0!important;box-shadow:0 3px 12px rgba(24,45,65,.035)}
+#page-alergonews #alergoNewsLista > a > div:nth-child(2){font-family:'DM Serif Display',Georgia,serif!important;font-size:19px!important;font-weight:500!important;line-height:1.35!important}
+#page-alergonews #alergoNewsLista > a > div:last-child{font-size:12px!important}
+#page-dashboard .alert-bar .alert-bar-text{font-size:14px!important;line-height:1.5!important}
+@media(min-width:720px){
+ #page-jornal .an-news-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #page-alergonews #alergoNewsLista{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #page-jornal .an-story-cover{height:166px}
+}
+@media(max-width:480px){
+ #page-jornal .an-story-cover{height:112px;padding:15px}
+ #page-jornal .an-section-title{font-size:24px}
+ #page-jornal .an-story-card > .an-source,#page-jornal .an-story-card > .an-title,#page-jornal .an-story-card > .an-description,#page-jornal .an-story-card > .an-read{margin-left:16px!important;margin-right:16px!important}
+ #page-jornal .an-story-card > .an-title{font-size:23px!important}
+ #page-jornal .an-story-card > .an-description{font-size:13px!important}
+ #page-jornal .an-news-card{padding:16px!important}
+ #page-jornal .an-news-card > .an-title{font-size:19px!important}
+ #page-jornal .an-story-actions button{padding:7px 9px}
+ #page-jornal .an-story-actions .an-share-label{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ #page-jornal .an-story-progress button{transition:none}
+}
