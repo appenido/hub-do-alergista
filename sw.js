@@ -7,7 +7,12 @@ let checkInProgress = null;
 
 self.addEventListener('install', event => {
   self.skipWaiting();
-  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).catch(() => {}));
+  event.waitUntil(caches.open(CACHE).then(async cache => {
+    // Banner mínimo e prioritário: manter disponível mesmo se outro
+    // recurso opcional falhar durante o precache.
+    try { await cache.add('congresso-asbai-2026-banner.svg'); } catch (error) {}
+    await cache.addAll(ASSETS.filter(path => path !== 'congresso-asbai-2026-banner.svg')).catch(() => {});
+  }).catch(() => {}));
 });
 
 self.addEventListener('activate', event => {
