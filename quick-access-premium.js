@@ -50,3 +50,153 @@
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',enhance,{once:true});
   else enhance();
 })();
+
+
+/* HUB PREMIUM 2026-11-09 — fichas vacinais sem deslocamento e icones vetoriais */
+(function(){
+  'use strict';
+  var lastFocus=null, overlay=null;
+  var artwork={
+    syringe:'<path d="M14 39l-4 9 9-4M21 39l22-22M38 11l15 15M43 7l14 14" stroke="#214d62" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M20 36l18-18 9 9-18 18z" fill="#8ecbd3" stroke="#226d7d" stroke-width="1.7"/><path d="M25 32l4 4M29 28l4 4M33 24l4 4" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/><circle cx="49" cy="13" r="4" fill="#dbbc6f"/>',
+    helix:'<path d="M23 11c23 8-5 24 18 42M41 11c-23 8 5 24-18 42" fill="none" stroke="#1b7184" stroke-width="3.4" stroke-linecap="round"/><path d="M26 17h12M24 25h16M24 33h16M26 41h12M29 49h6" stroke="#d5ab56" stroke-width="2.6" stroke-linecap="round"/><circle cx="23" cy="11" r="3" fill="#256a7f"/><circle cx="41" cy="11" r="3" fill="#d6ad5d"/>',
+    shield:'<path d="M32 7l21 8v17c0 12-8 20-21 26-13-6-21-14-21-26V15z" fill="#d8edf0" stroke="#20586b" stroke-width="2.3" stroke-linejoin="round"/><path d="M32 16l12 5v11c0 7-4 12-12 17-8-5-12-10-12-17V21z" fill="#86c6cf"/><path d="M32 25v15M24.5 32.5h15" stroke="#fff" stroke-width="4.5" stroke-linecap="round"/>',
+    molecule:'<g fill="none" stroke="#286d80" stroke-width="3" stroke-linecap="round"><path d="M22 22l18 6M22 22l2 21M40 28l-16 15M40 28l10 14"/></g><circle cx="22" cy="22" r="8" fill="#d7ecf0" stroke="#2b7185" stroke-width="2"/><circle cx="40" cy="28" r="7.5" fill="#91cad1" stroke="#2b7185" stroke-width="2"/><circle cx="24" cy="43" r="7" fill="#e8c780" stroke="#b58b41" stroke-width="2"/><circle cx="50" cy="42" r="5" fill="#d7ecf0" stroke="#2b7185" stroke-width="2"/>',
+    medicine:'<g transform="rotate(-38 32 32)"><rect x="12" y="22" width="40" height="20" rx="10" fill="#e5f2f5" stroke="#246378" stroke-width="2.3"/><path d="M32 22v20" stroke="#246378" stroke-width="2.3"/><path d="M22 22h10v20H22a10 10 0 010-20z" fill="#8ac8d1"/></g><circle cx="49" cy="16" r="4" fill="#d8b366"/>',
+    lungs:'<path d="M31 11v17M33 11v17M31 23c-9-1-12-11-16-7C10 22 9 39 11 47c2 8 15 8 18-2l2-16M33 23c9-1 12-11 16-7 5 6 6 23 4 31-2 8-15 8-18-2l-2-16" fill="#d8ecf0" stroke="#206179" stroke-width="2.6" stroke-linejoin="round"/><path d="M20 30l9 9M44 30l-9 9" stroke="#c69d4d" stroke-width="2" stroke-linecap="round"/>',
+    skin:'<rect x="12" y="16" width="40" height="32" rx="11" fill="#e5f1f1" stroke="#2b7082" stroke-width="2.3"/><path d="M19 27c6-9 12 9 18 0s12 4 12 4M18 40c7-7 12 8 20 0s11 2 11 2" fill="none" stroke="#c39d54" stroke-width="2.7" stroke-linecap="round"/>',
+    book:'<path d="M10 17c9-3 16-2 22 2 6-4 13-5 22-2v34c-8-3-16-2-22 2-6-4-14-5-22-2z" fill="#e2f0f3" stroke="#256276" stroke-width="2.3" stroke-linejoin="round"/><path d="M32 20v33M16 27h10M16 34h10M38 27h10M38 34h10" stroke="#5d9eae" stroke-width="2" stroke-linecap="round"/><path d="M24 13v12" stroke="#c69d4d" stroke-width="3" stroke-linecap="round"/>',
+    alert:'<path d="M32 8L58 53H6z" fill="#e9f2f2" stroke="#28677a" stroke-width="2.4" stroke-linejoin="round"/><path d="M32 25v14" stroke="#b68a3e" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="46" r="2.5" fill="#b68a3e"/>',
+    food:'<circle cx="32" cy="34" r="20" fill="#e5f2f3" stroke="#286d80" stroke-width="2.5"/><circle cx="32" cy="34" r="12" fill="none" stroke="#aacfd7" stroke-width="2"/><path d="M15 10v17M11 12v11M19 12v11M49 10v44" stroke="#bd994f" stroke-width="2.4" stroke-linecap="round"/>'
+  };
+  function pictogram(kind) {
+    return '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">'+(artwork[kind]||artwork.shield)+'</svg>';
+  }
+  function kindForVaccine(card) {
+    var label=((card.querySelector('.vac-name')||{}).textContent||'').toLowerCase();
+    var all=(window.VAC_CATALOGO||[]);
+    var item=all.find(function(v){return v.nome.toLowerCase()===label;});
+    var tipo=item?(item.tipo||'').toLowerCase():'';
+    if(tipo.indexOf('monoclonal')>=0)return 'shield';
+    if(tipo.indexOf('atenuad')>=0)return 'helix';
+    if(tipo.indexOf('conjugad')>=0 || tipo.indexOf('recombinant')>=0 || tipo.indexOf('subunidade')>=0)return 'molecule';
+    if(label.indexOf('pneumoc')>=0 || label.indexOf('meningoc')>=0)return 'molecule';
+    return 'syringe';
+  }
+  function decorateVaccineCards(){
+    var grid=document.getElementById('vacListaAll');if(!grid)return;
+    grid.querySelectorAll('.vac-card').forEach(function(card){
+      var ico=card.querySelector('.vac-icon');
+      if(ico && !ico.querySelector('svg'))ico.innerHTML=pictogram(kindForVaccine(card));
+      var summary=card.querySelector('.vac-header');
+      if(summary){summary.setAttribute('aria-haspopup','dialog');summary.setAttribute('aria-label','Abrir informações: '+(card.querySelector('.vac-name')||{}).textContent);}
+    });
+  }
+  function initOverlay(){
+    if(overlay)return overlay;
+    overlay=document.createElement('div');
+    overlay.id='vacPremiumBackdrop';
+    overlay.className='vac-premium-backdrop';
+    overlay.hidden=true;
+    overlay.setAttribute('aria-hidden','true');
+    overlay.innerHTML='<section class="vac-premium-sheet" role="dialog" aria-modal="true" aria-labelledby="vacPremiumTitle" tabindex="-1">'
+      +'<div class="vac-premium-sheet-head"><div class="vac-premium-sheet-heading">'
+      +'<div class="vac-premium-sheet-kicker">Vacinas disponíveis no Brasil</div>'
+      +'<h2 class="vac-premium-sheet-title" id="vacPremiumTitle"></h2>'
+      +'<div class="vac-premium-sheet-sub" id="vacPremiumSub"></div></div>'
+      +'<button type="button" class="vac-premium-close" aria-label="Fechar informações da vacina">×</button></div>'
+      +'<div class="vac-premium-scroll" id="vacPremiumContent"></div></section>';
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click',function(e){
+      if(e.target===overlay || e.target.closest('.vac-premium-close'))closeFicha();
+    });
+    return overlay;
+  }
+  function openFicha(card){
+    var body=card&&card.querySelector('.vac-body');if(!body)return;
+    var backdrop=initOverlay();
+    lastFocus=card.querySelector('.vac-header')||document.activeElement;
+    backdrop.querySelector('#vacPremiumTitle').textContent=(card.querySelector('.vac-name')||{}).textContent||'Vacina';
+    backdrop.querySelector('#vacPremiumSub').textContent=(card.querySelector('.vac-protection')||{}).textContent||'';
+    backdrop.querySelector('#vacPremiumContent').innerHTML=body.outerHTML;
+    backdrop.querySelector('.vac-premium-scroll').scrollTop=0;
+    backdrop.hidden=false;
+    backdrop.setAttribute('aria-hidden','false');
+    backdrop.querySelector('.vac-premium-close').focus();
+  }
+  function closeFicha(){
+    if(!overlay || overlay.hidden)return;
+    overlay.hidden=true;overlay.setAttribute('aria-hidden','true');
+    overlay.querySelector('#vacPremiumContent').innerHTML='';
+    if(lastFocus && lastFocus.isConnected && lastFocus.getClientRects().length)lastFocus.focus({preventScroll:true});
+    lastFocus=null;
+  }
+  function setupVaccines(){
+    var grid=document.getElementById('vacListaAll');if(!grid || grid.dataset.premiumBound==='1')return;
+    grid.dataset.premiumBound='1';
+    grid.addEventListener('click',function(event){
+      var summary=event.target.closest('summary.vac-header');
+      if(!summary || !grid.contains(summary))return;
+      event.preventDefault();event.stopPropagation();
+      openFicha(summary.closest('.vac-card'));
+    });
+    document.addEventListener('keydown',function(e){
+      if(!overlay || overlay.hidden)return;
+      if(e.key==='Escape'){e.preventDefault();closeFicha();return;}
+      if(e.key!=='Tab')return;
+      var focusables=Array.from(overlay.querySelectorAll('button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])'))
+        .filter(function(node){return !node.hasAttribute('disabled') && node.getClientRects().length;});
+      if(!focusables.length)return;
+      var first=focusables[0],last=focusables[focusables.length-1];
+      if(e.shiftKey && document.activeElement===first){e.preventDefault();last.focus();}
+      else if(!e.shiftKey && document.activeElement===last){e.preventDefault();first.focus();}
+    });
+    if(typeof window.vacRenderVacinas==='function' && !window.vacRenderVacinas._premiumBound){
+      var prior=window.vacRenderVacinas;
+      var extended=function(){
+        closeFicha();
+        var result=prior.apply(this,arguments);
+        decorateVaccineCards();
+        return result;
+      };
+      extended._premiumBound=true;
+      window.vacRenderVacinas=extended;
+    }
+    decorateVaccineCards();
+    if(typeof MutationObserver==='function'){
+      new MutationObserver(function(){decorateVaccineCards();})
+        .observe(grid,{childList:true});
+    }
+  }
+  function decorateProtocolIcons(){
+    var kinds={anafilaxia:'alert',urticaria:'skin',it:'shield',aa:'food',da:'skin',asma:'lungs',medicam:'medicine',diag:'molecule',eoe:'medicine'};
+    document.querySelectorAll('#page-eaaci .eaaci-grid .qcard').forEach(function(card){
+      var ico=card.querySelector('.qi');
+      if(ico && !ico.querySelector('svg')){
+        ico.innerHTML=pictogram(kinds[card.dataset.etopic]||'book');
+        ico.setAttribute('aria-hidden','true');
+      }
+    });
+  }
+  function decorateVaccinationMenu(){
+    var menu=document.getElementById('vac-menu-hub');if(!menu)return;
+    menu.querySelectorAll('button').forEach(function(btn){
+      var el=btn.firstElementChild;
+      if(!el || el.tagName!=='SPAN' || el.querySelector('svg'))return;
+      var t=btn.textContent.toLowerCase();
+      var k=t.indexOf('calendários')>=0?'book':t.indexOf('pni')>=0?'shield':'syringe';
+      el.innerHTML=pictogram(k);
+      el.classList.add('hub-premium-section-icon');
+      el.setAttribute('aria-hidden','true');
+    });
+  }
+  function start(){
+    setupVaccines();
+    decorateProtocolIcons();
+    decorateVaccinationMenu();
+    document.addEventListener('click',function(e){
+      if(e.target.closest('[data-nav="imunizacoes"]'))decorateVaccinationMenu();
+    });
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});
+  else start();
+})();
