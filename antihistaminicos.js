@@ -41,7 +41,8 @@ var ITEMS=[
  {id:'mizolastina',g:2,n:'Mizolastina',b:'Mizollen (histórico/internacional)',f:'Comprimidos 10 mg em mercados externos.',i:'Rinite e urticária em mercados onde aprovado.',k:'Anti-H1 de segunda geração estudado em urticária.',w:'Não considerar disponível ou aprovado no Brasil sem pesquisa atual no bulário da Anvisa.',u:GA2LEN,h:1},
  {id:'acrivastina',g:2,n:'Acrivastina',b:'Semprex (internacional)',f:'Cápsulas 8 mg em mercados específicos.',i:'Rinite e urticária em mercados onde aprovado.',k:'Anti-H1 periférico de segunda geração; disponibilidade local incerta.',w:'Verificar registro no Brasil; não inferir posologia a partir de produtos estrangeiros.',u:BULAS,h:1},
  {id:'terfenadina',g:2,n:'Terfenadina',b:'Marcas históricas — não usar',f:'Produto histórico retirado/descontinuado em numerosos mercados.',i:'Referência histórica da farmacologia, não opção terapêutica.',k:'Atenção: fármaco associado a cardiotoxicidade e interações medicamentosas.',w:'NÃO RECOMENDADO. Foi substituído por alternativas mais seguras, como fexofenadina.',u:GA2LEN,h:1},
- {id:'astemizol',g:2,n:'Astemizol',b:'Marcas históricas — não usar',f:'Produto histórico retirado/descontinuado em numerosos mercados.',i:'Referência histórica, não opção terapêutica.',k:'Risco importante de QT prolongado e arritmia.',w:'NÃO RECOMENDADO. Não selecionar para tratamento da rinite ou urticária.',u:GA2LEN,h:1}
+ {id:'astemizol',g:2,n:'Astemizol',b:'Marcas históricas — não usar',f:'Produto histórico retirado/descontinuado em numerosos mercados.',i:'Referência histórica, não opção terapêutica.',k:'Risco importante de QT prolongado e arritmia.',w:'NÃO RECOMENDADO. Não selecionar para tratamento da rinite ou urticária.',u:GA2LEN,h:1},
+ {id:'levocabastina',g:2,n:'Levocabastina',b:'Livostin (referência histórica; confirmar registro atual no Brasil)',f:'Ocular: suspensão 0,5 mg/mL. Nasal: spray 0,5 mg/mL em mercados específicos.',i:'Conjuntivite e rinite alérgica nas apresentações autorizadas.',k:'Anti-H1 de aplicação tópica em mucosa ocular e nasal.',w:'Disponibilidade comercial e registro brasileiro atuais não confirmados; não extrapolar concentração, gotas ou idade entre produtos.',u:'https://www.e-lactancia.org/media/papers/Levocabastine-DS-JJ2010.pdf',h:1}
 ];
 
 window.AH_ROUTES={
@@ -52,7 +53,7 @@ window.AH_ROUTES={
  dexclorfeniramina:['oral'],difenidramina:['oral'],
  dimenidrinato:['oral','injetavel'],doxilamina:['oral'],ebastina:['oral'],
  emedastina:['ocular'],epinastina:['oral','ocular'],feniramina:['ocular'],
- fexofenadina:['oral'],hidroxizina:['oral'],levocetirizina:['oral'],
+ fexofenadina:['oral'],hidroxizina:['oral'],levocabastina:['ocular','nasal'],levocetirizina:['oral'],
  loratadina:['oral'],meclozina:['oral'],mizolastina:['oral'],
  olopatadina:['ocular','nasal'],oxatomida:['oral'],prometazina:['oral','injetavel'],
  rupatadina:['oral'],terfenadina:['oral'],triprolidina:['oral']
