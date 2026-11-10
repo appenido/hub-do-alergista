@@ -906,6 +906,68 @@ _marcarGuiasPagas();
   #page-imuno .bio-grid > .bio-card > .bio-body .bio-value{font-size:11px;}
 }
 
+/* Correção definitiva: dropdown ancorado no mesmo card, sem reflow da grade. */
+#page-imuno .bio-grid{align-items:start!important;grid-auto-flow:row!important;}
+#page-imuno .bio-grid>.bio-card,
+#page-imuno .bio-grid>.bio-card.open{
+  position:relative!important;overflow:visible!important;
+  z-index:1;grid-column:auto!important;grid-row:auto!important;
+  height:100%;min-height:128px;align-self:stretch!important;
+  contain:layout;
+}
+#page-imuno .bio-grid>.bio-card.open{z-index:110!important;}
+#page-imuno .bio-grid>.bio-card>.bio-header,
+#page-imuno .bio-grid>.bio-card.open>.bio-header{
+  min-height:128px!important;height:100%!important;
+  box-sizing:border-box!important;
+  display:flex;justify-content:center;
+}
+#page-imuno .bio-grid>.bio-card.open>.bio-body{
+  display:block!important;position:absolute!important;
+  top:calc(100% - 2px)!important;
+  left:var(--bio-panel-left,0px)!important;
+  width:min(430px,calc(100vw - 28px))!important;
+  max-width:none!important;min-width:0!important;
+  max-height:min(65vh,650px)!important;
+  overflow-y:auto!important;overflow-x:hidden!important;
+  background:#fff!important;border:1.5px solid #25819a!important;
+  border-radius:0 15px 15px 15px;
+  box-shadow:0 18px 38px rgba(13,31,45,.22)!important;
+  padding:12px!important;z-index:111!important;
+  box-sizing:border-box!important;
+  overscroll-behavior:contain;
+}
+#page-imuno .bio-grid>.bio-card.open>.bio-body .bio-section{
+  padding:12px 14px!important;margin:0 0 10px!important;
+}
+#page-imuno .bio-grid>.bio-card.open>.bio-body .bio-value{
+  font-size:13px!important;line-height:1.62!important;
+}
+#page-imuno .bio-grid>.bio-card.open>.bio-body .bio-dose-grid,
+#page-imuno .bio-grid>.bio-card.open>.bio-body .bio-doses,
+#page-imuno .bio-grid>.bio-card.open>.bio-body .bio-indications{
+  grid-template-columns:minmax(0,1fr)!important;
+}
+@media(max-width:559px){
+ #page-imuno .bio-grid>.bio-card,
+ #page-imuno .bio-grid>.bio-card.open{min-height:112px!important;}
+ #page-imuno .bio-grid>.bio-card>.bio-header,
+ #page-imuno .bio-grid>.bio-card.open>.bio-header{min-height:112px!important;}
+ #page-imuno .bio-grid>.bio-card.open>.bio-body{padding:9px!important;max-height:61vh!important;}
+}
+/* Cores inspiradas nas identidades corporativas atuais dos fabricantes. */
+#bio-dupilumabe .bio-icon{background:linear-gradient(135deg,#23004c,#7a00e6)!important;}
+#bio-omalizumabe .bio-icon,#bio-midostaurina .bio-icon{background:linear-gradient(135deg,#133f75,#ee8d20)!important;}
+#bio-mepolizumabe .bio-icon,#bio-depemoquimabe .bio-icon{background:linear-gradient(135deg,#e65d00,#ff9b25)!important;}
+#bio-benralizumabe .bio-icon,#bio-tezepelumabe .bio-icon{background:linear-gradient(135deg,#5e267d,#e3a624)!important;}
+#bio-upadacitinibe .bio-icon{background:linear-gradient(135deg,#071e4a,#315a9b)!important;}
+#bio-abrocitinibe .bio-icon{background:linear-gradient(135deg,#0068a0,#37aad4)!important;}
+#bio-tralokinumabe .bio-icon{background:linear-gradient(135deg,#17558a,#39a6c6)!important;}
+#bio-lebrikizumabe .bio-icon{background:linear-gradient(135deg,#a31e32,#e34545)!important;}
+#bio-lanadelumabe .bio-icon{background:linear-gradient(135deg,#a31a29,#e9574f)!important;}
+#bio-garadacimabe .bio-icon{background:linear-gradient(135deg,#0a5686,#218db2)!important;}
+#page-imuno .bio-grid .bio-icon{color:#fff!important;box-shadow:0 3px 10px rgba(0,0,0,.12);}
+
 /* ── VACINAS: PAINEL HORIZONTAL ── */
 .vac-grid .vac-card{
   min-width:0;background:#fff;border:1px solid var(--gray-100);border-radius:14px;
@@ -8708,8 +8770,19 @@ function toggleBio(id) {
   }
   if(card.closest('#page-imuno .bio-grid')){
     _bioDetalheAtivo={card:card,body:body,header:header};
+    posicionarFichaBio(card,body);
   }
 }
+function posicionarFichaBio(card,body){
+  if(!card||!body)return;
+  var rect=card.getBoundingClientRect();
+  var largura=Math.min(430,window.innerWidth-28);
+  var esquerda=Math.max(14,Math.min(rect.left,window.innerWidth-14-largura));
+  body.style.setProperty('--bio-panel-left',(esquerda-rect.left)+'px');
+}
+window.addEventListener('resize',function(){
+  if(_bioDetalheAtivo)posicionarFichaBio(_bioDetalheAtivo.card,_bioDetalheAtivo.body);
+});
 
 document.querySelectorAll('#page-imuno .bio-grid .bio-header').forEach(function(header){
   header.setAttribute('role','button');
