@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 533" width="1200" height="533" role="img" aria-labelledby="title desc">
+  <title id="title">53º Congresso Brasileiro de Alergia e Imunologia</title>
+  <desc id="desc">12 a 14 de novembro de 2026, Centro de Convenções Bourbon Cataratas, Foz do Iguaçu, Paraná.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F8A52F"/><stop offset="1" stop-color="#FB8D23"/></linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3AD1EB"/><stop offset="1" stop-color="#1389BA"/></linearGradient>
+    <clipPath id="card"><rect x="32" y="34" width="1136" height="465" rx="36"/></clipPath>
+  </defs>
+  <rect width="1200" height="533" fill="url(#bg)"/>
+  <path d="M1030 0 Q1123 78 1200 8 V0Z M1080 533 Q1140 473 1200 490 V533Z" fill="#FFC44B" opacity=".7"/>
+  <rect x="32" y="34" width="1136" height="465" rx="36" fill="#112144"/>
+  <g clip-path="url(#card)">
+    <path d="M0 426 Q148 355 312 424 Q454 485 550 526 H0Z" fill="#162D55" opacity=".85"/>
+    <path d="M-5 395 Q140 347 300 398 Q400 433 455 495 H0Z" fill="#1B3868" opacity=".6"/>
+    <circle cx="150" cy="135" r="41" fill="#FFC447"/>
+    <g stroke="#FFC447" stroke-width="5" stroke-linecap="round">
+      <path d="M150 67V55M150 215V203M82 135H70M230 135H218M102 87L92 77M198 183L208 193M102 183L92 193M198 87L208 77"/>
+    </g>
+    <g fill="none" stroke-linecap="round">
+      <path d="M81 212 C66 255 96 295 70 347 C51 393 95 428 68 471" stroke="#3CC9E9" stroke-width="21"/>
+      <path d="M122 220 C115 260 145 303 120 354 C103 392 149 437 129 491" stroke="#168DBC" stroke-width="22"/>
+      <path d="M161 225 C153 279 185 306 157 363 C134 415 174 446 166 496" stroke="#43DCF1" stroke-width="18"/>
+      <path d="M202 236 C178 288 224 325 198 366 C177 413 218 445 214 493" stroke="#1287BA" stroke-width="19"/>
+      <path d="M241 256 C224 311 261 342 235 394 C215 434 252 462 248 501" stroke="#31C9E7" stroke-width="16"/>
+      <path d="M53 474 Q95 455 132 474 T212 475 T289 473" stroke="#51D9E5" stroke-width="4" opacity=".8"/>
+    </g>
+    <g fill="none" stroke="#F1A13A" stroke-width="5" stroke-linecap="round" opacity=".9">
+      <path d="M246 81Q270 103 277 132M247 81Q281 81 303 96M249 80Q258 52 282 43"/>
+      <path d="M262 132Q281 140 297 165M262 132Q307 123 326 138"/>
+      <path d="M278 55Q301 48 319 64"/>
+    </g>
+    <path d="M319 80V450" stroke="#335179" stroke-width="2" opacity=".75"/>
+    <text x="354" y="187" font-family="Arial,Helvetica,sans-serif" font-size="136" font-weight="800" letter-spacing="-6" fill="#38C5E9">53º</text>
+    <text x="647" y="129" font-family="Arial,Helvetica,sans-serif" font-size="29" font-weight="700" letter-spacing="1.2" fill="#F8FDFF">CONGRESSO BRASILEIRO DE</text>
+    <text x="642" y="206" font-family="Arial,Helvetica,sans-serif" font-size="72" font-weight="800" letter-spacing="-1.5" fill="#FFFFFF">ALERGIA E</text>
+    <text x="353" y="285" font-family="Arial,Helvetica,sans-serif" font-size="74" font-weight="800" letter-spacing="-1.5" fill="#FFFFFF">IMUNOLOGIA</text>
+    <rect x="354" y="329" width="224" height="109" rx="13" fill="#FFFFFF"/>
+    <text x="374" y="381" font-family="Arial,Helvetica,sans-serif" font-size="40" font-weight="800" fill="#13264B">12–14</text>
+    <text x="376" y="415" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="800" letter-spacing=".5" fill="#13264B">NOV / 2026</text>
+    <rect x="594" y="329" width="533" height="109" rx="13" fill="#2DBDE9"/>
+    <text x="618" y="376" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="800" letter-spacing=".4" fill="#FFFFFF">CENTRO DE CONVENÇÕES</text>
+    <text x="618" y="414" font-family="Arial,Helvetica,sans-serif" font-size="31" font-weight="800" fill="#FFFFFF">BOURBON CATARATAS</text>
+    <text x="356" y="468" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="600" letter-spacing="1.1" fill="#B5CEDC">FOZ DO IGUAÇU • PARANÁ</text>
+  </g>
+</svg>
