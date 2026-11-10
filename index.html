@@ -8833,13 +8833,35 @@ function abrirModeloRelatorio(bioId, bioNome, diag, sexo){
 }
 
 
-var _relClose = document.getElementById('relatorioClose');
-if(_relClose) _relClose.addEventListener('click', function(){
-  var s = document.getElementById('relatorioSheet');
-  if(s) s.classList.remove('open');
+/* Fechamento do relatório: o HTML do sheet fica depois deste script.
+   Delegação no documento evita botão inerte por inicialização antecipada. */
+function fecharRelatorioSheet() {
+  var sheet = document.getElementById('relatorioSheet');
+  if(!sheet || !sheet.classList.contains('open')) return false;
+  sheet.classList.remove('open');
+  if(typeof _hubAgendar === 'function') _hubAgendar(false);
+  return true;
+}
+document.addEventListener('click', function(ev) {
+  var alvo = ev.target;
+  if(!alvo || typeof alvo.closest !== 'function') return;
+  if(alvo.closest('#relatorioClose')) {
+    ev.preventDefault();
+    ev.stopPropagation();
+    fecharRelatorioSheet();
+    return;
+  }
+  if(alvo.id === 'relatorioSheet') fecharRelatorioSheet();
 });
-var _relSheet = document.getElementById('relatorioSheet');
-if(_relSheet) _relSheet.addEventListener('click', function(e){ if(e.target===this) this.classList.remove('open'); });
+document.addEventListener('keydown', function(ev) {
+  if(ev.key !== 'Escape') return;
+  var sheet = document.getElementById('relatorioSheet');
+  if(!sheet || !sheet.classList.contains('open')) return;
+  var camadas = typeof _camadasAbertas === 'function' ? _camadasAbertas() : [];
+  if(camadas.length && camadas[camadas.length - 1] !== sheet) return;
+  ev.preventDefault();
+  fecharRelatorioSheet();
+});
 
 function gerarRelatorio() {
   var pac  = (document.getElementById('relPaciente').value || '').trim();
@@ -10379,7 +10401,7 @@ document.addEventListener('DOMContentLoaded', function(){
       <div class="ai-sheet-inner" style="padding-bottom:40px">
         <div class="ai-sheet-handle"></div>
         <div class="ai-sheet-hdr">
-          <button id="relatorioClose" class="btn-back" aria-label="Voltar">‹</button>
+          <button type="button" id="relatorioClose" class="btn-back" aria-label="Voltar ao imunobiológico">‹</button>
           <div class="ai-sheet-title" id="relatorioTitle" style="font-size:15px">Gerar Relatório</div>
           <div style="width:38px"></div>
         </div>
