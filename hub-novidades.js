@@ -103,7 +103,7 @@
     var heading = element('div', 'hub-novidades-heading');
     heading.appendChild(element('div', 'hub-novidades-eyebrow', 'ATUALIZAÇÕES DO APLICATIVO'));
     heading.appendChild(element('h2', '', 'Novidades do Hub'));
-    heading.appendChild(element('p', '', 'Novos conteúdos adicionados ao aplicativo'));
+    heading.appendChild(element('p', '', 'Novos conteúdos adicionados ao aplicativo, organizados para uma consulta rápida.'));
     header.appendChild(heading);
     var close = element('button', 'hub-novidades-close', '×');
     close.type = 'button';
@@ -130,7 +130,7 @@
       content.appendChild(meta);
       content.appendChild(element('span', 'hub-novidades-title', item.title));
       content.appendChild(element('span', 'hub-novidades-description', item.description));
-      content.appendChild(element('span', 'hub-novidades-action', 'Acessar conteúdo  →'));
+      content.appendChild(element('span', 'hub-novidades-action', 'Abrir conteúdo  →'));
       entry.appendChild(icon);
       entry.appendChild(content);
       entry.addEventListener('click', function () {
@@ -186,27 +186,27 @@
       '#btnNotif{outline-offset:3px;}',
       '#btnNotif:focus-visible{outline:2px solid #66d5df;}',
       '#btnNotif .hub-novidades-dot{width:8px;height:8px;top:5px;right:5px;background:#5cd2df;border:2px solid #102535;box-sizing:content-box;}',
-      '#notifPanel.hub-novidades-panel{position:fixed;right:12px;top:calc(env(safe-area-inset-top, 0px) + 61px);width:min(395px, calc(100vw - 24px));max-height:min(76vh, 620px);overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;box-sizing:border-box;background:#fff;border:1px solid #dce9ed;border-radius:17px;box-shadow:0 16px 48px rgba(11,32,45,.20);z-index:900;color:#173448;font-family:Manrope,Arial,sans-serif;}',
-      '.hub-novidades-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:19px 19px 14px;border-bottom:1px solid #e9f0f2;}',
+      '#notifPanel.hub-novidades-panel{position:fixed;right:12px;top:calc(env(safe-area-inset-top, 0px) + 61px);width:min(430px, calc(100vw - 24px));max-height:min(76vh, 660px);display:flex;flex-direction:column;overflow:hidden;overscroll-behavior:contain;box-sizing:border-box;background:#fff;border:1px solid #d4e3ea;border-radius:17px;box-shadow:0 16px 48px rgba(11,32,45,.20);z-index:900;color:#173448;font-family:Manrope,Arial,sans-serif;}',
+      '.hub-novidades-header{display:flex;flex:0 0 auto;align-items:flex-start;justify-content:space-between;gap:10px;padding:18px 19px 15px;border-bottom:1px solid #dce7eb;background:#fff;}',
       '.hub-novidades-heading h2{margin:3px 0 4px;font-size:19px;line-height:1.3;letter-spacing:-.03em;font-weight:800;color:#13324a;}',
-      '.hub-novidades-heading p{font-size:11.5px;line-height:1.5;margin:0;color:#64808e;}',
+      '.hub-novidades-heading p{font-size:12.5px;line-height:1.5;margin:0;color:#4e6b7a;}',
       '.hub-novidades-eyebrow{font-size:9px;font-weight:800;letter-spacing:.12em;color:#218f9b;}',
       '.hub-novidades-close{border:0;background:#f1f6f7;border-radius:9px;width:29px;height:29px;color:#45616e;font-size:21px;line-height:1;cursor:pointer;flex-shrink:0;}',
-      '.hub-novidades-list{display:block;max-height:calc(min(76vh, 620px) - 158px);overflow:auto;}',
-      '.hub-novidades-entry{display:flex;align-items:flex-start;gap:12px;box-sizing:border-box;width:100%;padding:15px 18px;text-align:left;border:0;border-bottom:1px solid #ecf1f3;background:white;cursor:pointer;font-family:inherit;transition:background .16s;}',
-      '.hub-novidades-entry:hover,.hub-novidades-entry:focus-visible{background:#f3f9fa;outline:0;}',
-      '.hub-novidades-entry.unread{background:linear-gradient(90deg,#f2fafb,#fff 74%);}',
-      '.hub-novidades-icon{display:inline-flex;flex:0 0 37px;width:37px;height:37px;align-items:center;justify-content:center;border:1px solid #e0ecef;background:#f1f8f9;border-radius:11px;font-size:19px;line-height:1;}',
-      '.hub-novidades-content{display:flex;flex:1;min-width:0;flex-direction:column;gap:5px;}',
-      '.hub-novidades-meta{display:flex;justify-content:space-between;gap:10px;color:#238d96;font-size:10px;font-weight:750;letter-spacing:.015em;}',
-      '.hub-novidades-meta span:last-child{color:#899ba5;font-weight:600;white-space:nowrap;}',
-      '.hub-novidades-title{font-weight:800;font-size:13.3px;line-height:1.35;color:#15364a;}',
-      '.hub-novidades-description{font-size:11.5px;line-height:1.5;color:#5a7482;}',
-      '.hub-novidades-action{font-size:10.6px;font-weight:800;color:#168896;margin-top:2px;}',
-      '.hub-novidades-footer{padding:11px 15px;text-align:center;background:#f8fbfb;color:#7a939e;font-size:10px;line-height:1.5;}',
+      '.hub-novidades-list{display:block;flex:1 1 auto;min-height:0;max-height:none;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:14px;background:#f1f6f8;scrollbar-gutter:stable;}',
+      '.hub-novidades-entry{display:flex;align-items:flex-start;gap:13px;box-sizing:border-box;width:100%;margin:0 0 13px;padding:16px 15px;text-align:left;border:1px solid #d4e1e7;border-left:4px solid #20939e;border-radius:13px;background:#fff;box-shadow:0 3px 10px rgba(25,63,79,.06);cursor:pointer;font-family:inherit;transition:background .16s,border-color .16s,box-shadow .16s,transform .16s;}',
+      '.hub-novidades-entry:hover{background:#f9fcfd;border-color:#8ac3cb;box-shadow:0 5px 16px rgba(25,63,79,.11);transform:translateY(-1px);}.hub-novidades-entry:focus-visible{outline:3px solid #188895;outline-offset:2px;}',
+      '.hub-novidades-entry.unread{background:#fff;border-left-color:#087a89;box-shadow:0 4px 14px rgba(14,115,128,.11);}.hub-novidades-entry:last-child{margin-bottom:0;}',
+      '.hub-novidades-icon{display:inline-flex;flex:0 0 40px;width:40px;height:40px;align-items:center;justify-content:center;border:1px solid #d6e8ec;background:#eaf5f7;border-radius:11px;font-size:21px;line-height:1;}',
+      '.hub-novidades-content{display:flex;flex:1;min-width:0;flex-direction:column;align-items:flex-start;gap:8px;}',
+      '.hub-novidades-meta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:7px;width:100%;color:#116d78;font-size:10.5px;font-weight:800;letter-spacing:.015em;}.hub-novidades-meta span:first-child{display:inline-flex;align-items:center;max-width:100%;padding:4px 8px;border-radius:6px;background:#e3f2f4;color:#116d78;}',
+      '.hub-novidades-meta span:last-child{color:#526b79;font-weight:700;white-space:nowrap;padding:3px 0;margin-left:auto;}',
+      '.hub-novidades-title{display:block;font-weight:800;font-size:15px;line-height:1.35;color:#103146;letter-spacing:-.01em;}',
+      '.hub-novidades-description{display:block;font-size:12.5px;line-height:1.55;color:#405d6e;}',
+      '.hub-novidades-action{display:inline-flex;align-items:center;justify-content:center;margin-top:4px;padding:7px 11px;border:1px solid #b9dce1;border-radius:8px;background:#eaf6f7;color:#096f7c;font-size:11.5px;line-height:1.35;font-weight:800;}',
+      '.hub-novidades-footer{flex:0 0 auto;padding:11px 15px;text-align:center;border-top:1px solid #dce7eb;background:#fff;color:#587585;font-size:10.5px;line-height:1.5;}',
       '.hub-novidades-empty,.hub-novidades-error{padding:23px 18px;text-align:center;color:#68818d;font-size:12px;line-height:1.55;margin:0;}',
       '.hub-novidades-retry{display:block;margin:0 auto 18px;padding:7px 16px;border:1px solid #b5d6d9;border-radius:8px;background:#f2fafb;color:#168896;cursor:pointer;}',
-      '@media(max-width:520px){#notifPanel.hub-novidades-panel{top:calc(env(safe-area-inset-top, 0px) + 57px);right:8px;width:calc(100vw - 16px);max-height:76dvh;border-radius:14px;}.hub-novidades-heading h2{font-size:18px;}.hub-novidades-entry{padding:14px 15px;}}'
+      '@media(max-width:520px){#notifPanel.hub-novidades-panel{top:calc(env(safe-area-inset-top, 0px) + 57px);right:8px;width:calc(100vw - 16px);max-height:76dvh;border-radius:14px;}.hub-novidades-heading h2{font-size:18px;}.hub-novidades-list{padding:10px;scrollbar-gutter:auto;}.hub-novidades-entry{padding:13px 12px;gap:10px;margin-bottom:10px;}.hub-novidades-icon{flex-basis:37px;width:37px;height:37px;}.hub-novidades-title{font-size:14px;}.hub-novidades-description{font-size:12px;}}'
     ].join('\n');
     document.head.appendChild(style);
   }
