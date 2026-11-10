@@ -97,6 +97,7 @@
     if(v.alta==='nao')block.push('A gravidade sob tratamento otimizado ainda não foi estabelecida para seleção de biológico.');
     var symptomatic=v.sintomas==='sim'||exacerb||v.ocs==='sim';
     if(v.sintomas==='nao'&&v.crises===0&&v.internacoes===0&&v.ocs==='nao')block.push('Sem exacerbações, controle inadequado ou necessidade de OCS de manutenção informados; rever indicação de biológico.');
+    if(v.sintomas==='nao'&&v.crises===0&&v.internacoes===0&&v.ocs==='nao')block.push('Não foi demonstrada atividade clínica atual que justifique terapia adicional.');
     var gate=block.length===0&&need.length===0;
     var intro='<h4>Interpretação clínica</h4>';
     if(block.length)intro+='<div class="gbi-state warn">A seleção de biológico não está liberada nesta triagem: '+esc(block.join(' '))+'</div>';
@@ -109,6 +110,8 @@
     if(v.ocs==='sim')markers.push('OCS de manutenção (biomarcadores podem estar suprimidos)');
     if(markers.length)intro+='<p class="gbi-small">Sinais de inflamação T2: '+esc(markers.join('; '))+'. Os limiares de fenotipagem (GINA p. 19) não são, por si, critérios de autorização de biológico.</p>';
     else intro+='<p class="gbi-small">Inflamação T2 não demonstrada pelos dados preenchidos. Uma única medida baixa não exclui T2; revise o contexto e repita exames quando indicado.</p>';
+    if(v.falta==='nao')intro+='<div class="gbi-state warn">Acesso informado como indisponível: verificar opções de fornecimento, custo e disponibilidade, sem alterar a indicação clínica.</div>';
+    if(v.prefdom)intro+='<p class="gbi-small">Preferência registrada por autoaplicação: confirmar quais apresentações admitem uso domiciliar; reslizumabe é intravenoso.</p>';
     if(v.supressao==='sim')intro+='<div class="gbi-state warn">Biomarcadores obtidos sob corticoide sistêmico: interpretar com cautela. O GINA orienta reavaliação em momento clinicamente apropriado, sem suspensão autônoma do tratamento.</div>';
     if(emax>1500)intro+='<div class="gbi-state warn">Eosinofilia acima de 1.500/µL: investigar outras causas, inclusive EGPA e infecções parasitárias quando pertinente. GINA desaconselha anti-IL4Rα quando há eosinófilos basais ou históricos acima de 1.500/µL pela escassez de evidência.</div>';
     var candidates=[
@@ -138,7 +141,7 @@
         else if(emax>=150){
           reasons.push('Eosinofilia documentada ('+emax+'/µL).');
           if(emax>=300)predictors.push('eosinófilos elevados');
-        } else {if(state==='possible')state='unsupported';notes.push('Eosinofilia não demonstrada nos resultados informados; repetir quando pertinente e avaliar critérios locais.');}
+        } else {if(state==='possible')state=(v.ocs==='sim'||v.supressao==='sim')?'conditional':'unsupported';notes.push('Eosinofilia não demonstrada nos resultados informados; se houve OCS, possível supressão. Repetir quando pertinente e avaliar critérios locais.');}
         if(v.crises!==null&&v.crises>0)predictors.push('exacerbações no último ano');
         if(v.inicio==='adulta')predictors.push('asma de início adulto');
         if(v.polipos){predictors.push('polipose nasal');if(c.name.indexOf('Mepolizumabe')===0||c.name.indexOf('Depemoquimabe')===0)reasons.push('Possível indicação associada à RSCcPN conforme bula.');}
