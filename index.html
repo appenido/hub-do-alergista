@@ -6616,22 +6616,19 @@ function salvarNovoPrompt(){
 }
 
 function renderUserPrompts(){
-  var sec  = document.getElementById('userPromptsSection');
+  var sec = document.getElementById('userPromptsSection');
   var list = document.getElementById('userPromptsList');
   if(!list) return;
   var arr = _carregarPrompts().filter(function(p){ return p.origem==='usuario'; });
   if(sec) sec.style.display = arr.length ? '' : 'none';
   list.innerHTML = arr.map(function(p,i){
-    return '<div style="background:#fff;border:1.5px solid var(--gray-100);border-radius:12px;padding:12px 14px;margin-bottom:10px">'
-      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'
-      +'<span style="background:var(--teal-light);color:var(--teal-mid);font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px">'+_escHtml(p.categoria||'Geral')+'</span>'
-      +'<span style="font-size:10px;color:var(--gray-400)">'+_escHtml(p.data||'')+'</span>'
-      +'<button onclick="_deletarPrompt('+i+')" style="margin-left:auto;background:none;border:none;color:#e74c3c;font-size:16px;cursor:pointer;padding:0 4px" title="Remover">×</button>'
-      +'</div>'
-      +'<div style="font-size:13.5px;font-weight:700;color:var(--navy);margin-bottom:4px">'+_escHtml(p.titulo)+'</div>'
-      +'<div style="font-size:12.5px;color:var(--gray-500);line-height:1.5;white-space:pre-wrap">'+_escHtml((p.corpo||'').substring(0,200))+(p.corpo&&p.corpo.length>200?'…':'')+'</div>'
-      +'<div style="display:flex;gap:8px;margin-top:10px">'
-      +'<button onclick="usarPromptNoAssistente('+_escHtml(JSON.stringify(p.corpo))+')" style="flex:1;background:var(--teal-mid);color:#fff;border:none;border-radius:9px;padding:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:\'Manrope\',sans-serif">Usar no Assistente ↗</button>'
+    return '<div class="prompt-card">'
+      +'<div class="pc-cat">'+_escHtml(p.categoria||'Geral')+'</div>'
+      +'<div class="pc-title">'+_escHtml(p.titulo||'Modelo sem nome')+'</div>'
+      +'<div class="pc-body" style="white-space:pre-wrap">'+_escHtml(p.corpo||'')+'</div>'
+      +'<div class="pc-acts">'
+      +'<button type="button" class="btn btn-sm btn-copy-prompt">Copiar modelo</button>'
+      +'<button type="button" class="btn btn-sm" onclick="_deletarPrompt('+i+')">Excluir</button>'
       +'</div></div>';
   }).join('');
 }
