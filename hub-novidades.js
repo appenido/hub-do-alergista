@@ -60,7 +60,8 @@
       .catch(function () {
         // Não mostrar notícias externas ou anúncios fictícios no lugar do feed.
         if (!loaded) items = [];
-        return null;
+        refreshBell();
+        return loaded ? items : null;
       })
       .finally(function () { loading = null; });
     return loading;
