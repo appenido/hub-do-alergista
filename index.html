@@ -7310,12 +7310,12 @@ function _hubRecriarPilha(id){
 // Navegação hierárquica: trocar uma aba irmã substitui a tela atual,
 // em vez de empilhar outras abas no botão Voltar (inclusive Android/PWA).
 function _hubCaminho(t){
-  if(!t || !t.pagina || t.pagina==='dashboard')return [];
-  var p=[t.pagina];
+  if(!t || !t.pagina)return [];
+  var p=t.pagina==='dashboard'?[]:[t.pagina];
   if(t.sub && t.sub!=='hub'){
     p.push('sub:'+t.sub+(t.sub==='calendarios'?':'+(t.calFonte||'sbim'):''));
   }
-  if(t.calendario)p.push('calendario:'+t.calendario);
+  if(t.sub==='calendarios' && t.calendario)p.push('calendario:'+t.calendario);
   if(t.bio && t.bio.length)p.push('bio:'+t.bio[t.bio.length-1]);
   if(t.protocolo)p.push('protocolo:'+t.protocolo);
   if(t.favorito)p.push('favorito:'+t.favorito);
