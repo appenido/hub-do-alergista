@@ -1,0 +1,243 @@
+/* Sininho de novidades editoriais do Hub.
+   Publica SOMENTE novos conteúdos de data/hub-novidades.json;
+   mudanças técnicas, correções e notícias externas não entram aqui. */
+(function () {
+  'use strict';
+
+  var FEED_URL = '/data/hub-novidades.json';
+  var SEEN_KEY = 'hub_novidades_lidas_v1';
+  var PERMITTED_SECTIONS = ['antihistaminicos','eaaci','scores','laboratorio','imunoglobulinas','imuno','imunizacoes','guidelines','artigos','jornal','interacao','educacao','prompts','material'];
+  var items = [];
+  var loaded = false;
+  var loading = null;
+
+  function readSeen() {
+    try {
+      var saved = JSON.parse(localStorage.getItem(SEEN_KEY) || '[]');
+      return Array.isArray(saved) ? saved.filter(function (id) { return typeof id === 'string'; }).slice(-300) : [];
+    } catch (_) { return []; }
+  }
+
+  function saveSeen(list) {
+    try { localStorage.setItem(SEEN_KEY, JSON.stringify(list.slice(-300))); } catch (_) {}
+  }
+
+  function formatDate(date) {
+    var match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date || '');
+    return match ? match[3] + '/' + match[2] + '/' + match[1] : '';
+  }
+
+  function validItem(item) {
+    return item && typeof item.id === 'string' && /^[a-zA-Z0-9-]{3,90}$/.test(item.id) &&
+      /^\d{4}-\d{2}-\d{2}$/.test(item.date || '') &&
+      typeof item.title === 'string' && item.title.length <= 130 &&
+      typeof item.description === 'string' && item.description.length <= 300 &&
+      PERMITTED_SECTIONS.indexOf(item.section) !== -1;
+  }
+
+  function fetchNews(force) {
+    if (loading) return loading;
+    if (loaded && !force) return Promise.resolve(items);
+    loading = fetch(FEED_URL, { cache: 'no-store', credentials: 'same-origin' })
+      .then(function (res) {
+        if (!res.ok) throw new Error('Falha na consulta de novidades');
+        return res.json();
+      })
+      .then(function (data) {
+        var list = Array.isArray(data.items) ? data.items.filter(validItem) : [];
+        var unique = Object.create(null);
+        items = list.filter(function (item) {
+          if (unique[item.id]) return false;
+          unique[item.id] = true;
+          return true;
+        }).sort(function (a, b) {
+          return b.date.localeCompare(a.date) || b.id.localeCompare(a.id);
+        }).slice(0, 40);
+        loaded = true;
+        refreshBell();
+        return items;
+      })
+      .catch(function () {
+        // Não mostrar notícias externas ou anúncios fictícios no lugar do feed.
+        if (!loaded) items = [];
+        return null;
+      })
+      .finally(function () { loading = null; });
+    return loading;
+  }
+
+  function refreshBell() {
+    var bell = document.getElementById('btnNotif');
+    if (!bell) return;
+    var seen = readSeen();
+    var unread = items.filter(function (item) { return seen.indexOf(item.id) < 0; }).length;
+    var dot = bell.querySelector('.tb-dot');
+    if (dot) {
+      dot.style.display = unread ? 'block' : 'none';
+      dot.classList.add('hub-novidades-dot');
+      dot.setAttribute('aria-hidden', 'true');
+      dot.title = unread ? unread + ' novos conteúdos' : '';
+    }
+    bell.title = unread ? 'Novidades do Hub: ' + unread + ' conteúdo(s) novo(s)' : 'Novidades do Hub';
+    bell.setAttribute('aria-label', bell.title);
+  }
+
+  function closeNews() {
+    var panel = document.getElementById('notifPanel');
+    if (panel) panel.remove();
+    var bell = document.getElementById('btnNotif');
+    if (bell) bell.setAttribute('aria-expanded', 'false');
+  }
+
+  function element(tag, cssClass, text) {
+    var node = document.createElement(tag);
+    if (cssClass) node.className = cssClass;
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  function renderPanel(panel, wasUnread) {
+    panel.textContent = '';
+    var header = element('div', 'hub-novidades-header');
+    var heading = element('div', 'hub-novidades-heading');
+    heading.appendChild(element('div', 'hub-novidades-eyebrow', 'ATUALIZAÇÕES DO APLICATIVO'));
+    heading.appendChild(element('h2', '', 'Novidades do Hub'));
+    heading.appendChild(element('p', '', 'Novos conteúdos adicionados ao aplicativo'));
+    header.appendChild(heading);
+    var close = element('button', 'hub-novidades-close', '×');
+    close.type = 'button';
+    close.setAttribute('aria-label', 'Fechar novidades');
+    close.addEventListener('click', function (event) { event.stopPropagation(); closeNews(); });
+    header.appendChild(close);
+    panel.appendChild(header);
+
+    var body = element('div', 'hub-novidades-list');
+    if (!items.length) {
+      body.appendChild(element('p', 'hub-novidades-empty', 'Nenhum novo conteúdo publicado no momento.'));
+    }
+
+    items.forEach(function (item) {
+      var entry = element('button', 'hub-novidades-entry' + (wasUnread.indexOf(item.id) !== -1 ? ' unread' : ''));
+      entry.type = 'button';
+      entry.setAttribute('aria-label', item.title + '. Ir para ' + item.category);
+      var icon = element('span', 'hub-novidades-icon', typeof item.icon === 'string' ? item.icon.slice(0, 4) : '✦');
+      icon.setAttribute('aria-hidden', 'true');
+      var content = element('span', 'hub-novidades-content');
+      var meta = element('span', 'hub-novidades-meta');
+      meta.appendChild(element('span', '', item.category || 'Novo conteúdo'));
+      meta.appendChild(element('span', '', formatDate(item.date)));
+      content.appendChild(meta);
+      content.appendChild(element('span', 'hub-novidades-title', item.title));
+      content.appendChild(element('span', 'hub-novidades-description', item.description));
+      content.appendChild(element('span', 'hub-novidades-action', 'Acessar conteúdo  →'));
+      entry.appendChild(icon);
+      entry.appendChild(content);
+      entry.addEventListener('click', function () {
+        closeNews();
+        if (typeof window.navTo === 'function') window.navTo(item.section);
+      });
+      body.appendChild(entry);
+    });
+    panel.appendChild(body);
+    panel.appendChild(element('div', 'hub-novidades-footer', 'Apenas novidades publicadas no Hub. Sem avisos técnicos.'));
+  }
+
+  function openNews() {
+    if (document.getElementById('notifPanel')) { closeNews(); return; }
+    var panel = element('section', 'hub-novidades-panel');
+    panel.id = 'notifPanel';
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-label', 'Novidades do Hub');
+    panel.setAttribute('aria-modal', 'false');
+    panel.appendChild(element('p', 'hub-novidades-empty', 'Carregando novidades...'));
+    document.body.appendChild(panel);
+    var bell = document.getElementById('btnNotif');
+    if (bell) bell.setAttribute('aria-expanded', 'true');
+    var seenBefore = readSeen();
+    fetchNews(true).then(function (result) {
+      if (!panel.isConnected) return;
+      if (!result) {
+        panel.textContent = '';
+        var message = element('div', 'hub-novidades-error', 'As novidades estão temporariamente indisponíveis. Tente novamente.');
+        var close = element('button', 'hub-novidades-retry', 'Fechar');
+        close.type = 'button';
+        close.addEventListener('click', closeNews);
+        panel.appendChild(message);
+        panel.appendChild(close);
+        return;
+      }
+      renderPanel(panel, items.filter(function (item) { return seenBefore.indexOf(item.id) === -1; }).map(function (item) { return item.id; }));
+      // A abertura da central marca como vistas apenas as publicações realmente carregadas.
+      var seenNow = readSeen();
+      items.forEach(function (item) {
+        if (seenNow.indexOf(item.id) === -1) seenNow.push(item.id);
+      });
+      saveSeen(seenNow);
+      refreshBell();
+    });
+  }
+
+  function addStyles() {
+    if (document.getElementById('hub-novidades-styles')) return;
+    var style = element('style');
+    style.id = 'hub-novidades-styles';
+    style.textContent = [
+      '#btnNotif{outline-offset:3px;}',
+      '#btnNotif:focus-visible{outline:2px solid #66d5df;}',
+      '#btnNotif .hub-novidades-dot{width:8px;height:8px;top:5px;right:5px;background:#5cd2df;border:2px solid #102535;box-sizing:content-box;}',
+      '#notifPanel.hub-novidades-panel{position:fixed;right:12px;top:calc(env(safe-area-inset-top, 0px) + 61px);width:min(395px, calc(100vw - 24px));max-height:min(76vh, 620px);overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;box-sizing:border-box;background:#fff;border:1px solid #dce9ed;border-radius:17px;box-shadow:0 16px 48px rgba(11,32,45,.20);z-index:900;color:#173448;font-family:Manrope,Arial,sans-serif;}',
+      '.hub-novidades-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:19px 19px 14px;border-bottom:1px solid #e9f0f2;}',
+      '.hub-novidades-heading h2{margin:3px 0 4px;font-size:19px;line-height:1.3;letter-spacing:-.03em;font-weight:800;color:#13324a;}',
+      '.hub-novidades-heading p{font-size:11.5px;line-height:1.5;margin:0;color:#64808e;}',
+      '.hub-novidades-eyebrow{font-size:9px;font-weight:800;letter-spacing:.12em;color:#218f9b;}',
+      '.hub-novidades-close{border:0;background:#f1f6f7;border-radius:9px;width:29px;height:29px;color:#45616e;font-size:21px;line-height:1;cursor:pointer;flex-shrink:0;}',
+      '.hub-novidades-list{display:block;max-height:calc(min(76vh, 620px) - 158px);overflow:auto;}',
+      '.hub-novidades-entry{display:flex;align-items:flex-start;gap:12px;box-sizing:border-box;width:100%;padding:15px 18px;text-align:left;border:0;border-bottom:1px solid #ecf1f3;background:white;cursor:pointer;font-family:inherit;transition:background .16s;}',
+      '.hub-novidades-entry:hover,.hub-novidades-entry:focus-visible{background:#f3f9fa;outline:0;}',
+      '.hub-novidades-entry.unread{background:linear-gradient(90deg,#f2fafb,#fff 74%);}',
+      '.hub-novidades-icon{display:inline-flex;flex:0 0 37px;width:37px;height:37px;align-items:center;justify-content:center;border:1px solid #e0ecef;background:#f1f8f9;border-radius:11px;font-size:19px;line-height:1;}',
+      '.hub-novidades-content{display:flex;flex:1;min-width:0;flex-direction:column;gap:5px;}',
+      '.hub-novidades-meta{display:flex;justify-content:space-between;gap:10px;color:#238d96;font-size:10px;font-weight:750;letter-spacing:.015em;}',
+      '.hub-novidades-meta span:last-child{color:#899ba5;font-weight:600;white-space:nowrap;}',
+      '.hub-novidades-title{font-weight:800;font-size:13.3px;line-height:1.35;color:#15364a;}',
+      '.hub-novidades-description{font-size:11.5px;line-height:1.5;color:#5a7482;}',
+      '.hub-novidades-action{font-size:10.6px;font-weight:800;color:#168896;margin-top:2px;}',
+      '.hub-novidades-footer{padding:11px 15px;text-align:center;background:#f8fbfb;color:#7a939e;font-size:10px;line-height:1.5;}',
+      '.hub-novidades-empty,.hub-novidades-error{padding:23px 18px;text-align:center;color:#68818d;font-size:12px;line-height:1.55;margin:0;}',
+      '.hub-novidades-retry{display:block;margin:0 auto 18px;padding:7px 16px;border:1px solid #b5d6d9;border-radius:8px;background:#f2fafb;color:#168896;cursor:pointer;}',
+      '@media(max-width:520px){#notifPanel.hub-novidades-panel{top:calc(env(safe-area-inset-top, 0px) + 57px);right:8px;width:calc(100vw - 16px);max-height:76dvh;border-radius:14px;}.hub-novidades-heading h2{font-size:18px;}.hub-novidades-entry{padding:14px 15px;}}'
+    ].join('\n');
+    document.head.appendChild(style);
+  }
+
+  function start() {
+    addStyles();
+    var bell = document.getElementById('btnNotif');
+    if (!bell) return;
+    bell.setAttribute('role', 'button');
+    bell.setAttribute('tabindex', '0');
+    bell.setAttribute('aria-controls', 'notifPanel');
+    bell.setAttribute('aria-expanded', 'false');
+    bell.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        openNews();
+      }
+    });
+    // A rotina original da Home já chama openNotifPanel() ao clicar no sino.
+    window.openNotifPanel = openNews;
+    fetchNews(false);
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) fetchNews(true);
+    });
+    window.addEventListener('storage', function (event) {
+      if (event.key === SEEN_KEY) refreshBell();
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && document.getElementById('notifPanel')) closeNews();
+    });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+  else start();
+})();
