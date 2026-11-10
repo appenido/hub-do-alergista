@@ -7307,21 +7307,85 @@ function _hubRecriarPilha(id){
   }
   if(caminho.length)_hubScreens=caminho.reverse();
 }
+// Navegação hierárquica: trocar uma aba irmã substitui a tela atual,
+// em vez de empilhar outras abas no botão Voltar (inclusive Android/PWA).
+function _hubCaminho(t){
+  if(!t || !t.pagina || t.pagina==='dashboard')return [];
+  var p=[t.pagina];
+  if(t.sub && t.sub!=='hub'){
+    p.push('sub:'+t.sub+(t.sub==='calendarios'?':'+(t.calFonte||'sbim'):''));
+  }
+  if(t.calendario)p.push('calendario:'+t.calendario);
+  if(t.bio && t.bio.length)p.push('bio:'+t.bio[t.bio.length-1]);
+  if(t.protocolo)p.push('protocolo:'+t.protocolo);
+  if(t.favorito)p.push('favorito:'+t.favorito);
+  (t.camadas||[]).forEach(function(id){p.push('camada:'+id);});
+  return p;
+}
+function _hubPrefixoComum(a,b){
+  var n=0;
+  while(n<a.length && n<b.length && a[n]===b[n])n++;
+  return n;
+}
+function _hubSubstituirEntrada(atual){
+  _hubScreens[_hubScreens.length-1]=atual;
+  if(_hubNavNodes[_hubNavId])_hubNavNodes[_hubNavId].tela=atual;
+  try{
+    var estado=history.state&&typeof history.state==='object'?history.state:{};
+    history.replaceState(Object.assign({},estado,{
+      hubNav:{sessao:_hubNavSession,id:_hubNavId}
+    }),'');
+  }catch(e){}
+}
+var _hubNavPendente=null;
 function _hubRegistrar(forcar){
   if(_hubRestaurando || _hubPendingBrowserBack)return;
   var atual=_hubTela();
   if(!_hubScreens.length){_hubScreens.push(atual);return;}
   var ultima=_hubScreens[_hubScreens.length-1];
   if(_hubChave(ultima)===_hubChave(atual))return;
-  var anterior=_hubScreens.length>1 ? _hubScreens[_hubScreens.length-2] : null;
-  // Um fechamento explícito equivale a uma etapa de voltar.
-  if(!forcar && anterior && _hubChave(anterior)===_hubChave(atual) && _hubNavId>0){
-    _hubPendingBrowserBack=true;
-    try{history.back();return;}catch(e){_hubPendingBrowserBack=false;}
+  var antigo=_hubCaminho(ultima), novo=_hubCaminho(atual);
+  var comum=_hubPrefixoComum(antigo,novo);
+
+  // Troca horizontal entre telas do mesmo nível: somente uma permanece aberta.
+  // Ex.: Vacinas A → Vacinas B; calendários A → B; imunoglobulinas;
+  // módulos principais, protocolos, cartões e favoritos.
+  if(antigo.length===novo.length && novo.length>0 && comum===novo.length-1){
+    _hubSubstituirEntrada(atual);
+    return;
   }
+
+  // Se a nova tela não é descendente da atual, volte ao ancestral comum
+  // em um único salto e descarte o ramo anterior antes de avançar.
+  if(comum<antigo.length){
+    var indice=-1;
+    for(var i=_hubScreens.length-2;i>=0;i--){
+      var caminho=_hubCaminho(_hubScreens[i]);
+      if(caminho.length!==comum)continue;
+      if(_hubPrefixoComum(caminho,novo)===comum){indice=i;break;}
+    }
+    if(indice<0){
+      for(var j=_hubScreens.length-2;j>=0;j--){
+        var candidato=_hubCaminho(_hubScreens[j]);
+        if(candidato.length<=comum && _hubPrefixoComum(candidato,novo)===candidato.length){
+          indice=j;break;
+        }
+      }
+    }
+    if(indice>=0 && _hubNavId>0){
+      var passos=_hubScreens.length-1-indice;
+      var base=_hubCaminho(_hubScreens[indice]);
+      _hubNavPendente=_hubPrefixoComum(base,novo)===novo.length && base.length===novo.length
+        ? null : atual;
+      _hubPendingBrowserBack=true;
+      try{history.go(-passos);return;}
+      catch(e){_hubPendingBrowserBack=false;_hubNavPendente=null;}
+    }
+  }
+
+  // Aprofundamento real: somente aqui se cria uma etapa no histórico.
   _hubScreens.push(atual);
   if(_hubScreens.length>120)_hubScreens.shift();
-  // Entrada real do histórico para botão/gesto físico do Android e PWA.
   var id=++_hubNavNextId;
   _hubNavNodes[id]={pai:_hubNavId,tela:atual};
   try{
@@ -7465,11 +7529,19 @@ new MutationObserver(function(){_hubAgendar(false);})
 
 window.addEventListener('popstate',function(event){
   var destino=event.state&&event.state.hubNav;
+  var proximaTela=_hubNavPendente;
+  _hubNavPendente=null;
   _hubPendingBrowserBack=false;
   if(destino && destino.sessao===_hubNavSession && _hubNavNodes[destino.id]){
     _hubNavId=destino.id;
     _hubRecriarPilha(destino.id);
     _hubRestaurar(_hubNavNodes[destino.id].tela);
+    // Após substituir um ramo, a aba nova nasce diretamente do ancestral;
+    // as antigas não reaparecem ao tocar/gesticular Voltar.
+    if(proximaTela){
+      _hubRestaurar(proximaTela);
+      _hubRegistrar(true);
+    }
     return;
   }
   // Fallback se o navegador retornar a estado externo enquanto houver tela interna.
