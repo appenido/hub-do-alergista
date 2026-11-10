@@ -25,6 +25,7 @@
     style.textContent = [
       '.hub-home-icon-heading{display:flex!important;align-items:center!important;column-gap:10px!important;row-gap:6px;flex-wrap:wrap;min-width:0;max-width:100%;}',
       '.hub-home-heading-icon{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;flex:0 0 34px;width:34px;height:34px;border-radius:11px;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:20px;font-weight:400;line-height:1;background:rgba(37,158,171,.10);border:1px solid rgba(37,158,171,.14);vertical-align:middle;}',
+      '.hub-home-heading-icon svg{display:block;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:contain;}',
       '.hub-home-heading-icon[data-tone="navy"]{background:rgba(13,31,45,.075);border-color:rgba(13,31,45,.12);}',
       '.hub-home-heading-icon[data-tone="gold"]{background:rgba(193,150,55,.11);border-color:rgba(193,150,55,.17);}',
       '.hub-home-heading-icon[data-tone="green"]{background:rgba(40,142,105,.10);border-color:rgba(40,142,105,.15);}',
@@ -44,11 +45,37 @@
     if (!heading || !homeCard || heading.querySelector('.hub-home-heading-icon')) return;
 
     const source = homeCard.querySelector('.qi');
-    if (!source || !source.textContent.trim()) return;
+    if (!source) return;
+    const sourceSvg = source.querySelector('svg');
+    const sourceGlyph = sourceSvg ? '' : source.textContent.trim();
+    if (!sourceSvg && !sourceGlyph) return;
     const icon = document.createElement('span');
     icon.className = 'hub-home-heading-icon';
-    icon.textContent = source.textContent.trim();
     icon.setAttribute('aria-hidden', 'true');
+
+    // A Home usa ilustrações SVG próprias: espelha exatamente o mesmo desenho
+    // e renomeia seus gradientes para não duplicar IDs no documento.
+    if (sourceSvg) {
+      const clonedSvg = sourceSvg.cloneNode(true);
+      const idMap = Object.create(null);
+      clonedSvg.querySelectorAll('[id]').forEach(function (node) {
+        const previous = node.id;
+        idMap[previous] = previous + '-heading';
+        node.id = idMap[previous];
+      });
+      clonedSvg.querySelectorAll('*').forEach(function (node) {
+        ['fill', 'stroke', 'filter', 'clip-path', 'mask'].forEach(function (attribute) {
+          const previous = node.getAttribute(attribute);
+          if (!previous || previous.indexOf('url(#') < 0) return;
+          node.setAttribute(attribute, previous.replace(/url\\(#([^)]+)\\)/g, function (all, id) {
+            return idMap[id] ? 'url(#' + idMap[id] + ')' : all;
+          }));
+        });
+      });
+      icon.appendChild(clonedSvg);
+    } else {
+      icon.textContent = sourceGlyph;
+    }
     const colorClass = Array.from(source.classList).find(function (name) {
       return /^qi-(?:navy|gold|green|teal)$/.test(name);
     });
