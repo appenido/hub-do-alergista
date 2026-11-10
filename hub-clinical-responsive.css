@@ -706,3 +706,44 @@
     display:none!important;
   }
 }
+
+
+/* Radar Regulatório ANVISA/ANS/CONITEC: quadro compacto, responsivo e rolável. */
+#page-imuno #radarBox {
+  width:calc(100% - 32px)!important;
+  max-width:820px!important;
+  margin:6px auto 14px!important;
+  box-sizing:border-box!important;
+  border-radius:12px!important;
+}
+#page-imuno #radarBox > div:first-child {
+  padding:9px 12px!important;
+  min-height:50px;
+  box-sizing:border-box;
+}
+#page-imuno #radarBox #radarLista {
+  max-height:228px!important;
+  overflow-y:auto!important;
+  overflow-x:hidden!important;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+}
+#page-imuno #radarBox #radarStatus {
+  font-size:10.5px!important;
+  line-height:1.45;
+}
+@media(max-width:759px) {
+  #page-imuno #radarBox {
+    width:calc(100% - 24px)!important;
+    max-width:100%!important;
+    margin:5px 12px 12px!important;
+  }
+  #page-imuno #radarBox > div:first-child {
+    padding:8px 10px!important;
+    min-height:46px;
+  }
+  #page-imuno #radarBox #radarLista {
+    max-height:min(190px,30dvh)!important;
+  }
+}
