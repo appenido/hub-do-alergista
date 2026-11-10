@@ -67,7 +67,7 @@
         ['fill', 'stroke', 'filter', 'clip-path', 'mask'].forEach(function (attribute) {
           const previous = node.getAttribute(attribute);
           if (!previous || previous.indexOf('url(#') < 0) return;
-          node.setAttribute(attribute, previous.replace(/url\\(#([^)]+)\\)/g, function (all, id) {
+          node.setAttribute(attribute, previous.replace(/url\(#([^)]+)\)/g, function (all, id) {
             return idMap[id] ? 'url(#' + idMap[id] + ')' : all;
           }));
         });
