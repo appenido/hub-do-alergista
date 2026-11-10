@@ -30,7 +30,7 @@
   max-width: none !important;
   height: auto !important;
   min-height: 0;
-  aspect-ratio: 2.25 / 1;
+  aspect-ratio: 650 / 261;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -131,7 +131,7 @@
     width: 100%;
     max-width: none !important;
     height: auto !important;
-    aspect-ratio: 2.25 / 1;
+    aspect-ratio: 650 / 261;
     min-height: 0;
   }
   #hubShareHome .hub-share-copy {
@@ -150,7 +150,7 @@
     max-width: none;
   }
   #hubShareHome .hub-congress-visual {
-    aspect-ratio: 2.25 / 1;
+    aspect-ratio: 650 / 261;
     border-radius: 11px;
   }
   #hubShareHome .hub-congress-source {
@@ -294,4 +294,25 @@
     padding: 8px 11px;
     font-size: 13px !important;
   }
+}
+
+/* CONGRESSO_ARTE_OFICIAL_20261109: não recortar nem adicionar moldura à imagem oficial. */
+#hubShareHome .hub-congress-visual {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  aspect-ratio: 650 / 261;
+}
+#hubShareHome .hub-congress-visual img {
+  object-fit: contain;
+  object-position: center center;
+  max-width: 100%;
+  aspect-ratio: 650 / 261;
+}
+#hubShareHome .hub-congress-brand:hover .hub-congress-visual,
+#hubShareHome .hub-congress-brand:focus-visible .hub-congress-visual {
+  border: 0;
+  box-shadow: none;
 }
