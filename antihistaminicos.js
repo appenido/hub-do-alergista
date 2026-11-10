@@ -76,7 +76,7 @@ function init(){
   var tab=e.target.closest('[data-ah-route]');
   if(tab){state.route=tab.dataset.ahRoute;state.selected=null;render();return;}
   var card=e.target.closest('[data-ah-id]');
-  if(card){var id=card.dataset.ahId;state.selected=state.selected===id?null:id;renderCards();renderDetail();return;}
+  if(card){var id=card.dataset.ahId;state.selected=state.selected===id?null:id;renderCards();renderDetail();if(state.selected){var opened=root.querySelector('.ah-card-wrap-active');if(opened)opened.scrollIntoView({block:'nearest',behavior:'smooth'});}return;}
   if(e.target.closest('[data-ah-close]')){var selectedId=state.selected;state.selected=null;renderCards();renderDetail();var target=Array.from(root.querySelectorAll('[data-ah-id]')).find(function(el){return el.dataset.ahId===selectedId;});if(target)target.focus({preventScroll:true});return;}
   if(e.target.closest('[data-ah-calc]')){calculate();return;}
  });
