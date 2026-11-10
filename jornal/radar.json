@@ -1,11 +1,11 @@
 {
- "ultimaTentativa": "2026-11-09T21:15:12.842Z",
- "atualizadoEm": "2026-11-09T21:15:12.842Z",
+ "ultimaTentativa": "2026-11-10T18:25:27.057Z",
+ "atualizadoEm": "2026-11-10T18:25:27.057Z",
  "status": "ok",
  "totalCandidatos": 60,
  "totalVerificados": 10,
  "totalPendentes": 3,
- "totalExcluidos": 23,
+ "totalExcluidos": 28,
  "falhasFonte": [],
  "itens": [
   {
@@ -18,16 +18,8 @@
   },
   {
    "status": "verificado",
-   "titulo": "Vacinação focada em grupos mais vulneráveis é eficaz contra mpox",
-   "fonte": "agenciabrasil.ebc.com.br",
-   "data": "2026-11-07T15:37:00.000Z",
-   "url": "https://agenciabrasil.ebc.com.br/saude/noticia/2026-11/nao-ha-necessidade-de-vacinacao-da-populacao-contra-mpox",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
    "titulo": "Por que o Brasil ainda não tem canetas de adrenalina para tratar choque anafilático?",
-   "fonte": "Veja Saúde",
+   "fonte": "Assine Abril",
    "data": "2026-11-06T19:49:29.000Z",
    "url": "https://saude.abril.com.br/medicina/por-que-o-brasil-ainda-nao-tem-canetas-de-adrenalina-para-tratar-choque-anafilatico/",
    "verificado": true
@@ -59,7 +51,7 @@
   {
    "status": "verificado",
    "titulo": "Morte de Janaína Barbosa: o que pode causar um choque anafilático e como acontece?",
-   "fonte": "Veja Saúde",
+   "fonte": "Assine Abril",
    "data": "2026-11-05T13:31:19.000Z",
    "url": "https://saude.abril.com.br/medicina/morte-de-janaina-barbosa-o-que-pode-causar-um-choque-anafilatico-e-como-acontece/",
    "verificado": true
@@ -87,14 +79,22 @@
    "data": "2026-11-05T05:56:22.000Z",
    "url": "https://g1.globo.com/google/amp/saude/video/o-que-e-choque-anafilatico-apontado-como-causa-da-morte-de-janaina-barbosa-15160911.ghtml",
    "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Janaína Barbosa terá velório restrito após morte por choque anafilático",
+   "fonte": "Terra",
+   "data": "2026-11-04T20:07:44.000Z",
+   "url": "https://www.terra.com.br/diversao/gente/janaina-barbosa-tera-velorio-restrito-apos-morte-por-choque-anafilatico,9ad9b392c15f62f3961a03a0d00e99fezborq3fs.html",
+   "verificado": true
   }
  ],
  "pendentes": [
   {
    "status": "pendente",
-   "titulo": "1 em cada 3 bebês diagnosticados com alergia a amendoim pode não ter a condição, aponta estudo",
-   "fonte": "Crescer",
-   "url": "https://revistacrescer.globo.com/saude/noticia/2026/11/1-em-cada-3-bebes-diagnosticados-com-alergia-a-amendoim-pode-nao-ter-a-condicao-aponta-estudo.ghtml",
+   "titulo": "Nem sempre é alergia: entenda a doença de pele diagnosticada em Mari Menezes",
+   "fonte": "O GLOBO",
+   "url": "https://oglobo.globo.com/ela/noticia/2026/11/10/nem-sempre-e-alergia-entenda-a-doenca-de-pele-diagnosticada-em-mari-menezes.ghtml",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   },
   {
@@ -113,6 +113,20 @@
   }
  ],
  "excluidos": [
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Anafilaxia pode matar em minutos; saiba reconhecer os sinais",
+   "fonte": "ES Hoje",
+   "url": "https://eshoje.com.br/saude/2026/11/anafilaxia-pode-matar/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Microplásticos, eventos extremos e alergias: o que a exposição ambiental tem a ver com a sua saúde?",
+   "fonte": "niddedigital.com",
+   "url": "https://niddedigital.com/microplasticos-eventos-extremos-e-alergias-o-que-a-exposicao-ambiental-tem-a-ver-com-a-sua-saude/"
+  },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
@@ -159,8 +173,8 @@
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Alergias, imunologia e doenças reumáticas na infância serão debatidas em simpósio em Pelotas",
-   "fonte": "Diário da Manhã Pelotas",
-   "url": "https://diariodamanhapelotas.com.br/alergias-imunologia-e-doencas-reumaticas-na-infancia-serao-debatidas-em-simposio-em-pelotas"
+   "fonte": "Blog do Juares",
+   "url": "https://blogdojuares.com.br/noticia/103982/alergias-imunologia-e-doencas-reumaticas-na-infancia-serao-debatidas-em-simposio-em-pelotas.html"
   },
   {
    "status": "excluido",
@@ -179,9 +193,9 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Jovem de 17 anos é picado por cascavel e fica internado na UTI após reação alérgica ao soro",
-   "fonte": "ACidade ON",
-   "url": "https://www.acidadeon.com/ribeiraopreto/cotidiano/adolescente-de-17-anos-e-picado-por-cascavel-e-moradores-reclamam-de-terreno-com-mato-alto/"
+   "titulo": "Dia do Trigo: 7 mitos sobre glúten, alergias e digestão",
+   "fonte": "Portal Único",
+   "url": "https://portalunico.com/dia-do-trigo-7-mitos-sobre-gluten-alergias-e-digestao/"
   },
   {
    "status": "excluido",
@@ -221,16 +235,9 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Menina de 11 anos salva motorista de ônibus escolar durante crise grave de asma",
-   "fonte": "Jornal Correio",
-   "url": "https://www.correio24horas.com.br/mundo/menina-de-11-anos-salva-motorista-de-onibus-escolar-durante-crise-grave-de-asma-1126"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "HCFMRP - USP abre concurso público para médico na área de alergia e imunologia",
-   "fonte": "PCI Concursos",
-   "url": "https://www.pciconcursos.com.br/noticias/hcfmrp-usp-abre-concurso-publico-para-medico-na-area-de-alergia-e-imunologia"
+   "titulo": "Hospital das Clínicas da Faculdade de Medicina de Ribeirão Preto abre concurso para médico I – alergia e imunologia",
+   "fonte": "Qconcursos Folha Dirigida",
+   "url": "https://folha.qconcursos.com/n/hospital-das-clinicas-da-faculdade-de-medicina-de-ribeirao-preto-abre-concurso-para-medico-i-alergia-e-imunologia"
   },
   {
    "status": "excluido",
@@ -245,13 +252,6 @@
    "titulo": "Ex-apresentadora do TV Fama, Janaína Barbosa morre aos 48 anos após choque anafilático",
    "fonte": "Tribuna do Norte",
    "url": "https://tribunadonorte.com.br/brasil/ex-apresentadora-do-tv-fama-janaina-barbosa-morre-aos-48-anos-apos-choque-anafilatico-entenda/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "O que se sabe e o que ainda falta esclarecer sobre a morte de Janaína Barbosa, ex-TV Fama que sofreu choque anafilático por medicação",
-   "fonte": "Jornal Correio",
-   "url": "https://www.correio24horas.com.br/em-alta/o-que-se-sabe-e-o-que-ainda-falta-esclarecer-sobre-a-morte-de-janaina-barbosa-ex-tv-fama-que-sofreu-choque-anafilatico-por-medicacao-1126"
   }
  ]
 }
