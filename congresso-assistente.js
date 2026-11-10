@@ -158,6 +158,14 @@ function load(){
      'Consulta automática indisponível: busca nos registros conferidos. O catálogo local não contém toda a programação.';
  })();return loadPromise;
 }
+function formatarDiaCongresso(dia){
+ const m=String(dia||'').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+ if(!m)return dia;
+ const d=new Date(Date.UTC(+m[3],+m[2]-1,+m[1]));
+ if(d.getUTCFullYear()!==+m[3]||d.getUTCMonth()!==+m[2]-1||d.getUTCDate()!==+m[1])return dia;
+ const semana=new Intl.DateTimeFormat('pt-BR',{weekday:'long',timeZone:'UTC'}).format(d);
+ return semana.charAt(0).toUpperCase()+semana.slice(1)+', '+dia;
+}
 function add(parent,tag,cls,txt){const x=document.createElement(tag);x.className=cls;if(txt!==undefined)x.textContent=txt;parent.appendChild(x);return x;}
 function relevance(x,tokens,phrase){
  let score=0, hit=0;
@@ -187,7 +195,7 @@ async function ask(){
   for(const {x} of matches){const c=add(box,'article','hub-congress-answer');
     add(c,'div','hub-congress-answer-title',x.titulo);
     if(x.palestrante)add(c,'div','hub-congress-answer-speaker',x.palestrante);
-    add(c,'div','hub-congress-answer-detail',x.dia+' · '+x.hora+(x.sala?' · '+x.sala:' · Sala: consultar grade oficial'));
+    add(c,'div','hub-congress-answer-detail',formatarDiaCongresso(x.dia)+' · '+x.hora+(x.sala?' · '+x.sala:' · Sala: consultar grade oficial'));
     if(x.mesa)add(c,'div','hub-congress-answer-session',x.mesa);
     if(x.moderadores)add(c,'div','hub-congress-answer-session','Moderação: '+x.moderadores);
   }
