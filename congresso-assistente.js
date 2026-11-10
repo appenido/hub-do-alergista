@@ -210,7 +210,26 @@ window.hubCongressToggle=function(){
  if(!panel.hidden){el('hubCongressQuestion')?.focus();load();}
 };
 window.hubCongressAsk=ask;
+function insertMascot(){
+  const parent=document.querySelector('#hubShareHome .hub-share-copy');
+  if(!parent || parent.querySelector('.hub-congress-mascot'))return;
+  const button=document.createElement('button');
+  button.type='button';
+  button.className='hub-congress-mascot';
+  button.setAttribute('aria-label','Quati assistente do congresso: pesquisar palestras');
+  button.title='Clique para buscar uma palestra';
+  const img=document.createElement('img');
+  img.src='/img/quati-assistente-congresso.webp?v=20261109';
+  img.width=128;img.height=111;img.alt='';
+  img.loading='eager';img.decoding='async';
+  const label=document.createElement('span');
+  label.textContent='Seu guia do congresso';
+  button.append(img,label);
+  button.addEventListener('click',()=>el('hubCongressQuestion')?.focus());
+  parent.prepend(button);
+}
 document.addEventListener('DOMContentLoaded',()=>{
+ insertMascot();
  el('hubCongressQuestion')?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();ask();}});
 });
 })();
