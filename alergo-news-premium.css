@@ -250,3 +250,72 @@
     line-height:1.48!important;
   }
 }
+
+
+/* AlergoNews: tipografia editorial justificada e alinhamento proporcional — 10/11/2026.
+   Justificar somente títulos e textos corridos; manter marca, fontes,
+   datas e botões alinhados à esquerda, sem espaçamento artificial. */
+#page-dashboard #alertaNoticia #alertaNoticiaTexto,
+#page-jornal .an-story-card > .an-title,
+#page-jornal .an-story-card > .an-description,
+#page-jornal .an-news-card > .an-title,
+#page-jornal .an-news-card > .an-description,
+#page-alergonews #alergoNewsLista > a > div:nth-child(2) {
+  text-align:justify!important;
+  text-align-last:left!important;
+  text-justify:inter-word;
+  -webkit-hyphens:auto;
+  hyphens:auto;
+  word-break:normal!important;
+  overflow-wrap:break-word!important;
+  word-spacing:normal!important;
+  letter-spacing:normal!important;
+  text-wrap:pretty;
+  max-width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+}
+#page-dashboard #alertaNoticia #alertaNoticiaTexto {
+  line-height:1.53!important;
+  padding:0!important;
+  margin:0!important;
+}
+#page-jornal .an-story-card > .an-title {
+  line-height:1.32!important;
+}
+#page-jornal .an-story-card > .an-description,
+#page-jornal .an-news-card > .an-description {
+  line-height:1.65!important;
+}
+#page-jornal .an-news-card > .an-title,
+#page-alergonews #alergoNewsLista > a > div:nth-child(2) {
+  line-height:1.42!important;
+}
+#page-jornal .an-story-card > .an-source,
+#page-jornal .an-news-card > .an-source,
+#page-jornal .an-story-card > .an-read,
+#page-jornal .an-news-card > .an-read,
+#page-dashboard #alertaNoticia .news-masthead,
+#page-jornal .an-feature-heading,
+#page-alergonews #alergoNewsLista > a > div:first-child,
+#page-alergonews #alergoNewsLista > a > div:last-child {
+  text-align:left!important;
+  text-align-last:left!important;
+  hyphens:none;
+}
+#page-jornal .an-story-card,
+#page-jornal .an-news-card,
+#page-alergonews #alergoNewsLista > a {
+  min-width:0!important;
+  max-width:100%!important;
+  box-sizing:border-box!important;
+}
+@media(max-width:480px) {
+  #page-dashboard #alertaNoticia #alertaNoticiaTexto {
+    font-size:12.5px!important;
+    line-height:1.55!important;
+  }
+  #page-jornal .an-story-card > .an-title {line-height:1.34!important;}
+  #page-jornal .an-news-card > .an-title {line-height:1.43!important;}
+  #page-alergonews #alergoNewsLista > a > div:nth-child(2) {line-height:1.43!important;}
+}
