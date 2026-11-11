@@ -1,13 +1,53 @@
 {
- "ultimaTentativa": "2026-11-10T18:25:27.057Z",
- "atualizadoEm": "2026-11-10T18:25:27.057Z",
+ "ultimaTentativa": "2026-11-11T18:17:57.586Z",
+ "atualizadoEm": "2026-11-11T18:17:57.586Z",
  "status": "ok",
  "totalCandidatos": 60,
  "totalVerificados": 10,
  "totalPendentes": 3,
- "totalExcluidos": 28,
+ "totalExcluidos": 21,
  "falhasFonte": [],
  "itens": [
+  {
+   "status": "verificado",
+   "titulo": "Abacaxi causa reação alérgica na ex-BBB Cacau Colucci após pegar fruta em supermercado",
+   "fonte": "Terra",
+   "data": "2026-11-11T13:06:16.000Z",
+   "url": "https://www.terra.com.br/diversao/gente/abacaxi-causa-reacao-alergica-na-ex-bbb-cacau-colucci-apos-pegar-fruta-em-supermercado,486573532135cd1478e0d7c483681f18nc0qbwd6.html",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Ex-BBB tem reação alérgica após encostar em fruta em supermercado",
+   "fonte": "UOL",
+   "data": "2026-11-11T11:44:01.000Z",
+   "url": "https://www.uol.com.br/splash/noticias/2026/11/11/ex-bbb-relata-reacao-alergica-apos-pegar-abacaxi-em-supermercado.ghtm",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Ex-BBB Cacau Colucci descobre alergia ao pegar fruta em supermercado",
+   "fonte": "Globo",
+   "data": "2026-11-11T10:33:51.124Z",
+   "url": "https://revistaquem.globo.com/noticias/noticia/2026/11/ex-bbb-cacau-colucci-tem-reacao-alergica-ao-encostar-em-fruta-em-supermercado.ghtml",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Quem tem asma pode praticar exercícios físicos? Veja quais cuidados tomar",
+   "fonte": "Assine Abril",
+   "data": "2026-11-10T21:00:02.000Z",
+   "url": "https://boaforma.abril.com.br/movimento/asma-pode-praticar-exercicios-fisicos/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Viúvo de enfermeira que morreu após reação alérgica em Portugal faz homenagem um mês após casamento",
+   "fonte": "Terra",
+   "data": "2026-11-10T17:54:17.000Z",
+   "url": "https://www.terra.com.br/noticias/brasil/viuvo-de-enfermeira-que-morreu-apos-reacao-alergica-em-portugal-faz-homenagem-um-mes-apos-casamento,0d0f6ccd2c1487ee4e10148b2457d419hfwou41d.html",
+   "verificado": true
+  },
   {
    "status": "verificado",
    "titulo": "Amiga de Janaína Barbosa homenageia a apresentadora, que faria 49 anos e morreu de choque anafilático",
@@ -26,18 +66,18 @@
   },
   {
    "status": "verificado",
-   "titulo": "Família confirma que choque anafilático causou a morte de Janaína Barbosa",
-   "fonte": "VEJA SÃO PAULO",
-   "data": "2026-11-05T17:03:34.000Z",
-   "url": "https://vejasp.abril.com.br/cultura-lazer/familia-confirma-que-choque-anafilatico-causou-a-morte-de-janaina-barbosa/",
+   "titulo": "Caminhar 7.500 passos por dia ajuda a controlar os sintomas da asma",
+   "fonte": "Terra",
+   "data": "2026-11-06T08:43:08.000Z",
+   "url": "https://www.terra.com.br/vida-e-estilo/caminhar-7500-passos-por-dia-ajuda-a-controlar-os-sintomas-da-asma,c6790b6ac36bdce92d285a6f775c9f9fse06gvht.html",
    "verificado": true
   },
   {
    "status": "verificado",
-   "titulo": "Janaína Barbosa x choque anafilático: alergista alerta para reação fatal",
-   "fonte": "Metrópoles",
-   "data": "2026-11-05T16:21:00.000Z",
-   "url": "https://www.metropoles.com/colunas/fabia-oliveira/janaina-barbosa-x-choque-anafilatico-alergista-alerta-para-reacao-fatal",
+   "titulo": "Família confirma que choque anafilático causou a morte de Janaína Barbosa",
+   "fonte": "VEJA SÃO PAULO",
+   "data": "2026-11-05T17:03:34.000Z",
+   "url": "https://vejasp.abril.com.br/cultura-lazer/familia-confirma-que-choque-anafilatico-causou-a-morte-de-janaina-barbosa/",
    "verificado": true
   },
   {
@@ -47,49 +87,16 @@
    "data": "2026-11-05T16:09:23.000Z",
    "url": "https://www.terra.com.br/vida-e-estilo/saude/choque-anafilatico-possivel-caso-de-janaina-barbosa-clara-nunes-e-outros-famosos-mostram-como-uma-alergia-pode-ser-fatal,92b53b647746d936b581e9c118bb7891bjw5yukn.html",
    "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Morte de Janaína Barbosa: o que pode causar um choque anafilático e como acontece?",
-   "fonte": "Assine Abril",
-   "data": "2026-11-05T13:31:19.000Z",
-   "url": "https://saude.abril.com.br/medicina/morte-de-janaina-barbosa-o-que-pode-causar-um-choque-anafilatico-e-como-acontece/",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "O que é choque anafilático que causou a morte de Janaína Barbosa? Entenda",
-   "fonte": "Terra",
-   "data": "2026-11-05T12:11:03.000Z",
-   "url": "https://www.terra.com.br/vida-e-estilo/saude/o-que-e-choque-anafilatico-que-causou-a-morte-de-janaina-barbosa-entenda,25f9d65ba6ebfbc56d66903f6cbcb01byqakf65k.html",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Janaína Barbosa: o que é o choque anafilático que teria causado a morte da ex-apresentadora?",
-   "fonte": "Exame",
-   "data": "2026-11-05T10:52:11.000Z",
-   "url": "https://exame.com/ciencia/janaina-barbosa-o-que-e-o-choque-anafilatico-que-teria-causado-a-morte-da-ex-apresentadora/",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "O que é choque anafilático, apontado como causa da morte de Janaína Barbosa",
-   "fonte": "G1",
-   "data": "2026-11-05T05:56:22.000Z",
-   "url": "https://g1.globo.com/google/amp/saude/video/o-que-e-choque-anafilatico-apontado-como-causa-da-morte-de-janaina-barbosa-15160911.ghtml",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Janaína Barbosa terá velório restrito após morte por choque anafilático",
-   "fonte": "Terra",
-   "data": "2026-11-04T20:07:44.000Z",
-   "url": "https://www.terra.com.br/diversao/gente/janaina-barbosa-tera-velorio-restrito-apos-morte-por-choque-anafilatico,9ad9b392c15f62f3961a03a0d00e99fezborq3fs.html",
-   "verificado": true
   }
  ],
  "pendentes": [
+  {
+   "status": "pendente",
+   "titulo": "Ex-BBB Cacau Colucci: é possível ter alergia com abacaxi só tocando nele?",
+   "fonte": "O GLOBO",
+   "url": "https://oglobo.globo.com/saude/noticia/2026/11/11/ex-bbb-cacau-colucci-e-possivel-ter-alergia-com-abacaxi-so-tocando-nele.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+  },
   {
    "status": "pendente",
    "titulo": "Nem sempre é alergia: entenda a doença de pele diagnosticada em Mari Menezes",
@@ -103,16 +110,44 @@
    "fonte": "O GLOBO",
    "url": "https://oglobo.globo.com/saude/noticia/2026/11/06/estudo-aponta-que-um-em-cada-tres-bebes-diagnosticados-com-alergia-a-amendoim-nao-tem-a-condicao.ghtml",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Apresentadora Janaína Barbosa morreu após choque anafilático; entenda a reação alérgica",
-   "fonte": "O GLOBO",
-   "url": "https://oglobo.globo.com/saude/noticia/2026/11/05/apresentadora-janaina-barbosa-morreu-apos-choque-anafilatico-entenda-a-reacao-alergica.ghtml",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   }
  ],
  "excluidos": [
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Ex-BBB surpreende ao mostrar reação alérgica ao encostar em fruta",
+   "fonte": "virgula.me",
+   "url": "https://virgula.me/famosos/ex-bbb-surpreende-ao-mostrar-reacao-alergica-ao-encostar-em-fruta/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Floração do caju: ventos fortes aumentam risco de rinite alérgica no Ceará",
+   "fonte": "OpiniãoCE",
+   "url": "https://www.opiniaoce.com.br/ceara/2026/11/11/floracao-do-caju-ventos-fortes-aumentam-risco-de-rinite-alergica-no-ceara/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Reação alérgica grave pode causar falta de ar e levar à morte; veja os sinais",
+   "fonte": "Folha do ES",
+   "url": "https://folhadoes.com/anafilaxia-reacao-alergica-grave-pode-levar-a-morte/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Choque anafilático: alergista alerta para riscos de reações a medicamentos",
+   "fonte": "Tarobá",
+   "url": "https://taroba.com.br/tv/londrina/vitrine-revista/choque-anafilatico-alergista-alerta-para-riscos-de-reacoes-a-medicamentos"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Época de floração do caju requer cuidados com alergias; médica da UPA alerta sobre cuidados",
+   "fonte": "Repórter Ceará",
+   "url": "https://reporterceara.com.br/2026/11/10/epoca-de-floracao-do-caju-requer-cuidados-com-alergias-medica-da-upa-alerta-sobre-cuidados/"
+  },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
@@ -143,13 +178,6 @@
   },
   {
    "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Santa Casa do Rio reúne médicos para discutir avanços em Imunologia e Alergia",
-   "fonte": "Diário do Rio",
-   "url": "https://diariodorio.com/saude/2026/11/09/santa-casa-do-rio-reune-medicos-para-discutir-avancos-em-imunologia-e-alergia.html"
-  },
-  {
-   "status": "excluido",
    "motivo": "veículo estrangeiro",
    "titulo": "Chegada do frio pode aumentar crises de asma. Especialista alerta para sintomas a que deve estar atento",
    "fonte": "Notícias de Coimbra",
@@ -157,24 +185,10 @@
   },
   {
    "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Alergia a camarão: cuidados antes de comer frutos do mar nas férias",
-   "fonte": "João Bidu",
-   "url": "https://altoastral.joaobidu.com.br/saude/alergia-a-camarao-cuidados-antes-de-comer-frutos-do-mar-nas-ferias.phtml"
-  },
-  {
-   "status": "excluido",
    "motivo": "veículo estrangeiro",
    "titulo": "Crises de asma disparam com a chegada do frio e da humidade",
    "fonte": "HealthNews",
    "url": "https://healthnews.pt/2026/11/09/crises-de-asma-disparam-com-a-chegada-do-frio-e-da-humidade/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Alergias, imunologia e doenças reumáticas na infância serão debatidas em simpósio em Pelotas",
-   "fonte": "Blog do Juares",
-   "url": "https://blogdojuares.com.br/noticia/103982/alergias-imunologia-e-doencas-reumaticas-na-infancia-serao-debatidas-em-simposio-em-pelotas.html"
   },
   {
    "status": "excluido",
@@ -193,9 +207,30 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Alergias podem surgir na idade adulta e requerem atenção e cuidado no diagnóstico",
+   "fonte": "AJN1",
+   "url": "https://ajn1.com.br/alergias-podem-surgir-na-idade-adulta-e-requerem-atencao-e-cuidado-no-diagnostico/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "A primavera é linda… até a alergia aparecer!",
+   "fonte": "força do vale",
+   "url": "https://jornalforcadovale.com.br/colunas/saude-e-beleza/a-primavera-e-linda-ate-a-alergia-aparecer/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Dia do Trigo: 7 mitos sobre glúten, alergias e digestão",
    "fonte": "Portal Único",
    "url": "https://portalunico.com/dia-do-trigo-7-mitos-sobre-gluten-alergias-e-digestao/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Jovem de 17 anos é picado por cascavel e fica internado na UTI após reação alérgica ao soro",
+   "fonte": "ACidade ON",
+   "url": "https://www.acidadeon.com/ribeiraopreto/cotidiano/adolescente-de-17-anos-e-picado-por-cascavel-e-moradores-reclamam-de-terreno-com-mato-alto/"
   },
   {
    "status": "excluido",
@@ -217,41 +252,6 @@
    "titulo": "O que se sabe sobre a morte de Janaína Barbosa, ex-apresentadora que sofreu choque anafilático por medicação",
    "fonte": "Tribuna da Bahia",
    "url": "https://www.trbn.com.br/materia/I167008/o-que-se-sabe-sobre-a-morte-de-janaina-barbosa-ex-apresentadora-que-sofreu-choque-anafilatico-por-medicacao"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Janaína Barbosa morreu após choque anafilático; amiga relata troca de medicamento",
-   "fonte": "Folha Vitória",
-   "url": "https://www.folhavitoria.com.br/cultura/famosos/janaina-barbosa-morreu-apos-choque-anafilatico-amiga-relata-troca-de-medicamento/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Alergias também podem surgir na vida adulta",
-   "fonte": "DOL",
-   "url": "https://dol.com.br/carajas/noticias/967466/alergias-tambem-podem-surgir-na-vida-adulta"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Hospital das Clínicas da Faculdade de Medicina de Ribeirão Preto abre concurso para médico I – alergia e imunologia",
-   "fonte": "Qconcursos Folha Dirigida",
-   "url": "https://folha.qconcursos.com/n/hospital-das-clinicas-da-faculdade-de-medicina-de-ribeirao-preto-abre-concurso-para-medico-i-alergia-e-imunologia"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Choque anafilático: entenda a reação alérgica grave que levou apresentadora à morte",
-   "fonte": "Tribuna do Norte",
-   "url": "https://tribunadonorte.com.br/brasil/choque-anafilatico-entenda-a-reacao-alergica-grave-que-levou-apresentadora-a-morte/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Ex-apresentadora do TV Fama, Janaína Barbosa morre aos 48 anos após choque anafilático",
-   "fonte": "Tribuna do Norte",
-   "url": "https://tribunadonorte.com.br/brasil/ex-apresentadora-do-tv-fama-janaina-barbosa-morre-aos-48-anos-apos-choque-anafilatico-entenda/"
   }
  ]
 }
