@@ -19,9 +19,16 @@
 #page-antihistaminicos .ah-grid > .ah-card-wrap {
   grid-column: auto !important;
   grid-row: auto !important;
+  align-self: start !important;
   min-width: 0 !important;
   width: 100%;
   box-sizing: border-box;
+}
+
+/* Cards vizinhos não se esticam até a altura da ficha clínica aberta. */
+#page-antihistaminicos .ah-grid > .ah-card-wrap,
+#page-imunoglobulinas .igcat-grid > .igcat-item {
+  align-self: start !important;
 }
 
 /* O cartão aberto não invade as três colunas nem muda de posição. */
