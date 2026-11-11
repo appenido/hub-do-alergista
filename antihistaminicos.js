@@ -96,8 +96,11 @@ function renderCards(){
  if(counter)counter.textContent=a.length+' fármacos em ordem alfabética'+(state.route==='todas'?'':' · via '+window.AH_ROUTE_LABELS[state.route].toLowerCase());
  area.innerHTML=a.length?a.map(function(x){
   var selected=state.selected===x.id;
-  return '<article class="ah-card-wrap'+(selected?' ah-card-wrap-active':'')+'" data-ah-wrap="'+escapeHtml(x.id)+'">'+
-   '<button type="button" class="ah-card" data-ah-id="'+escapeHtml(x.id)+'" aria-expanded="'+String(selected)+'" aria-controls="'+(selected?'ahDetail':'')+'"><span><span class="ah-card-name">'+escapeHtml(x.n)+'</span><span class="ah-card-brand" style="display:block;margin-top:5px">'+escapeHtml(x.b)+'</span></span><span class="ah-card-foot"><span class="ah-chip '+(x.h?'hist':'')+'">'+(window.AH_ROUTES[x.id]||[]).map(function(v){return window.AH_ROUTE_LABELS[v];}).join(' · ')+'</span><span class="ah-card-chevron" aria-hidden="true">'+(selected?'⌃':'›')+'</span></span></button>'+
+  var routes=window.AH_ROUTES[x.id]||['oral'];
+  var predominant=routes[0]||'oral';
+  var pills=routes.map(function(v){return '<span class="ah-chip ah-chip-'+escapeHtml(v)+'">'+escapeHtml(window.AH_ROUTE_LABELS[v]||v)+'</span>';}).join('');
+  return '<article class="ah-card-wrap ah-route-'+escapeHtml(predominant)+(routes.length>1?' ah-route-multi':'')+(selected?' ah-card-wrap-active':'')+'" data-ah-wrap="'+escapeHtml(x.id)+'">'+
+   '<button type="button" class="ah-card" data-ah-id="'+escapeHtml(x.id)+'" aria-expanded="'+String(selected)+'" aria-controls="'+(selected?'ahDetail':'')+'"><span><span class="ah-card-name">'+escapeHtml(x.n)+'</span><span class="ah-card-brand" style="display:block;margin-top:5px">'+escapeHtml(x.b)+'</span></span><span class="ah-card-foot"><span class="ah-chip-group">'+pills+'</span><span class="ah-card-chevron" aria-hidden="true">'+(selected?'⌃':'›')+'</span></span></button>'+
    (selected?'<section class="ah-detail" id="ahDetail" aria-label="Detalhes de '+escapeHtml(x.n)+'" aria-live="polite"></section>':'')+
    '</article>';
  }).join(''):'<div class="ah-empty">Nenhum fármaco encontrado com esse termo. Experimente o princípio ativo ou a marca.</div>';
