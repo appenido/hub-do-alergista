@@ -64,13 +64,16 @@ async function createScoreSession(key,id){
     if(st==="SUBSCRIBED"){
       const node=d("score-qr-image");if(!node)return;
       node.replaceChildren();
-      try{new window.QRCode(node,{text:site,width:188,height:188,colorDark:"#0d1f2d",colorLight:"#ffffff",correctLevel:window.QRCode.CorrectLevel.M});}
-      catch(_){status("Não foi possível desenhar o QR Code.",true);return;}
+      try{new window.QRCode(node,{text:site,width:256,height:256,colorDark:"#0d1f2d",colorLight:"#ffffff",correctLevel:window.QRCode.CorrectLevel.M});}
+      catch(_){status("O QR Code não pôde ser desenhado. Use o link do formulário abaixo.",true);}
       const url=d("score-qr-url");if(url){url.href=site;url.textContent="Abrir formulário do paciente";}
       const copy=d("score-qr-copy");if(copy){copy.hidden=false;copy.onclick=async()=>{try{await navigator.clipboard.writeText(site);copy.textContent="Link copiado";}catch(_){status("Use o link abaixo para abrir ou copiar o endereço.",true);}};}
-      status("QR Code ativo. Aguarde o paciente responder e tocar em Enviar.",false);
+      if(node.childNodes.length)status("QR Code ativo. Aguarde o paciente responder e tocar em Enviar.",false);
     }else if(st==="CHANNEL_ERROR"||st==="TIMED_OUT"||st==="CLOSED"){
-      status("A conexão em tempo real foi interrompida. Gere um novo QR Code.",true);
+      const image=d("score-qr-image");if(image)image.replaceChildren();
+      const link=d("score-qr-url");if(link){link.removeAttribute("href");link.textContent="";}
+      const copy=d("score-qr-copy");if(copy)copy.hidden=true;
+      status("Conexão interrompida. O QR Code foi desativado para evitar perda de respostas. Gere um novo código.",true);
     }
   });
   const life=Math.max(0,Number(data.expiresAt)-Date.now());
@@ -78,6 +81,7 @@ async function createScoreSession(key,id){
    status("QR Code expirado. Clique em Gerar novo QR Code.",true);
    const node=d("score-qr-image");if(node)node.replaceChildren();
    const link=d("score-qr-url");if(link){link.removeAttribute("href");link.textContent="";}
+   const copy=d("score-qr-copy");if(copy)copy.hidden=true;
    if(client&&channel){client.removeChannel(channel).catch(()=>{});channel=null;}
   },life);
  }catch(e){if(id===counter)status(e.message||"Falha de conexão.",true);}
@@ -89,7 +93,7 @@ function appendPanel(key){
  panel.style.cssText="background:#f5fafb;border:1px solid #b6d8df;border-radius:12px;padding:13px;margin:13px 0;color:#0d1f2d;text-align:center";
  panel.innerHTML='<div style="font-size:14px;font-weight:750">Preenchimento pelo paciente via QR Code</div>'
  +'<p style="font-size:11px;line-height:1.6;margin:7px 0 10px;color:#496878">O paciente responde no celular. Ao tocar em Enviar, o resultado aparece imediatamente abaixo do QR Code nesta tela. Sessão válida por 15 minutos, sem identificação nem histórico.</p>'
- +'<div id="score-qr-image" style="display:flex;justify-content:center;margin:10px auto;min-height:0"></div>'
+ +'<div id="score-qr-image" style="display:flex;justify-content:center;align-items:center;width:min(100%,296px);padding:12px;margin:10px auto;min-height:0;border:1px solid #dae5e9;border-radius:14px;background:#fff;overflow:hidden"></div>'
  +'<div id="score-qr-result" class="score-result" style="margin:10px auto 12px;padding:18px 14px" role="status" aria-live="polite" aria-atomic="true"><div class="res-n" id="score-qr-res-n">—</div><div class="res-lbl" id="score-qr-res-lbl">—</div><div class="res-desc" id="score-qr-res-desc">—</div></div>'
  +'<div id="score-qr-status" role="status" aria-live="polite" style="font-size:11.5px;min-height:34px;line-height:1.5;color:#496878">Preparando sessão…</div>'
  +'<div style="display:flex;gap:7px;justify-content:center;flex-wrap:wrap;margin:8px 0"><button type="button" id="score-qr-renovar" class="btn btn-sm">Gerar novo QR Code</button><button type="button" id="score-qr-copy" class="btn btn-sm" hidden>Copiar link</button></div>'
