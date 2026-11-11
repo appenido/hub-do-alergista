@@ -1,146 +1,171 @@
-/* Hub do Alergista | Grade uniforme de medicamentos – 11/11/2026.
-   Imunobiológicos, imunoglobulinas e anti-histamínicos: três por fileira
-   quando a tela comporta; dois por fileira em dispositivos compactos.
-   A ficha continua descendente do card clicado, sem ocupar a linha toda. */
+/* Hub do Alergista — grades clinicas responsivas (revisao 11/11/2026).
+   O numero de colunas acompanha a largura disponivel, sem comprimir nomes,
+   logomarcas e informacoes clinicas. A ficha abre no card clicado. */
 
+/* Monitores amplos: exatamente tres medicamentos por linha. */
 #page-imuno .bio-grid,
 #page-imunoglobulinas .igcat-grid,
 #page-antihistaminicos .ah-grid {
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  grid-auto-flow: row !important;
-  align-items: start !important;
-  gap: clamp(9px, 1.3vw, 16px) !important;
-  min-width: 0;
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  grid-auto-flow:row!important;
+  align-items:start!important;
+  gap:clamp(10px,1.4vw,16px)!important;
+  min-width:0!important;
 }
-
-#page-imuno .bio-grid > .bio-card,
-#page-imunoglobulinas .igcat-grid > .igcat-item,
-#page-antihistaminicos .ah-grid > .ah-card-wrap {
-  grid-column: auto !important;
-  grid-row: auto !important;
-  align-self: start !important;
-  min-width: 0 !important;
-  width: 100%;
-  box-sizing: border-box;
+#page-imuno .bio-grid>.bio-card,
+#page-imunoglobulinas .igcat-grid>.igcat-item,
+#page-antihistaminicos .ah-grid>.ah-card-wrap {
+  grid-column:auto!important;
+  grid-row:auto!important;
+  align-self:start!important;
+  width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
 }
-
-/* Cards vizinhos não se esticam até a altura da ficha clínica aberta. */
-#page-antihistaminicos .ah-grid > .ah-card-wrap,
-#page-imunoglobulinas .igcat-grid > .igcat-item {
-  align-self: start !important;
+/* Mantem a expansao integrada no proprio medicamento, sem abarcar a linha. */
+#page-imunoglobulinas .igcat-grid>.igcat-item.open,
+#page-antihistaminicos .ah-grid>.ah-card-wrap-active {
+  grid-column:auto!important;
+  grid-row:auto!important;
 }
-
-/* O cartão aberto não invade as três colunas nem muda de posição. */
-#page-imunoglobulinas .igcat-grid > .igcat-item.open,
-#page-antihistaminicos .ah-grid > .ah-card-wrap-active {
-  grid-column: auto !important;
-  grid-row: auto !important;
-  min-width: 0 !important;
-  align-self: start;
+#page-imunoglobulinas .igcat-item.open>.igmain-detail,
+#page-antihistaminicos .ah-card-wrap-active>.ah-detail {
+  width:100%!important;
+  min-width:0!important;
+  max-width:100%!important;
+  max-height:min(75dvh,760px);
+  overflow-x:auto!important;
+  overflow-y:auto!important;
+  box-sizing:border-box!important;
+  overflow-wrap:break-word;
 }
-
-/* Fichas clínicas permanecem integradas aos próprios cartões. */
-#page-imunoglobulinas .igcat-item.open > .igmain-detail,
-#page-antihistaminicos .ah-card-wrap-active > .ah-detail {
-  width: 100% !important;
-  min-width: 0 !important;
-  max-width: 100% !important;
-  max-height: min(70dvh, 760px);
-  overflow-y: auto !important;
-  overflow-x: auto !important;
-  box-sizing: border-box !important;
-  scrollbar-width: thin;
-  overflow-wrap: anywhere;
+/* Cabecalhos verticais em grades com varias colunas: texto abaixo do icone,
+   preservando a largura integral do nome e da marca. */
+@media(min-width:600px) {
+  #page-imuno .bio-grid>.bio-card>.bio-header,
+  #page-imuno .bio-grid>.bio-card.open>.bio-header {
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:11px!important;
+    min-height:168px!important;
+    height:auto!important;
+    padding:15px 12px!important;
+    text-align:center!important;
+  }
+  #page-imuno .bio-grid>.bio-card>.bio-header>div:not(.bio-icon):not(.bio-chevron) {
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    flex:0 0 auto!important;
+    text-align:center!important;
+  }
+  #page-imuno .bio-grid .bio-header .bio-name,
+  #page-imuno .bio-grid .bio-header .bio-comercial {
+    text-align:center!important;
+    overflow-wrap:break-word!important;
+    word-break:normal!important;
+    hyphens:auto!important;
+  }
+  #page-imuno .bio-grid>.bio-card>.bio-header .bio-icon {
+    margin-inline:auto!important;
+  }
+  #page-imunoglobulinas .igcat-item>.igcat-card,
+  #page-imunoglobulinas .igcat-item.open>.igcat-card {
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    text-align:center!important;
+    gap:10px!important;
+    min-height:155px!important;
+    padding:12px!important;
+  }
+  #page-imunoglobulinas .igcat-item>.igcat-card .igcat-copy {
+    width:100%!important;
+    min-width:0!important;
+    flex:0 0 auto!important;
+    text-align:center!important;
+  }
+  #page-imunoglobulinas .igcat-item>.igcat-card :is(.igcat-name,.igcat-maker,.igcat-route) {
+    text-align:center!important;
+    overflow-wrap:break-word!important;
+    word-break:normal!important;
+    hyphens:auto!important;
+  }
+  #page-imunoglobulinas .igcat-item>.igcat-card .igcat-icon {
+    margin-inline:auto!important;
+  }
 }
-
-/* Conteúdo clínico reorganizado para caber em um terço da grade. */
-#page-antihistaminicos .ah-card-wrap-active .ah-pair-grid,
-#page-antihistaminicos .ah-card-wrap-active .ah-field-grid,
+/* As fichas e calculadoras podem rolar dentro do card, sem alargar a grade. */
+#page-antihistaminicos .ah-card-wrap-active :is(.ah-pair-grid,.ah-field-grid),
 #page-imunoglobulinas .igcat-item.open .igcalc-sections {
-  grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-columns:minmax(0,1fr)!important;
 }
 #page-antihistaminicos .ah-card-wrap-active .ah-field:first-child {
-  grid-column: auto !important;
+  grid-column:auto!important;
 }
 #page-antihistaminicos .ah-card-wrap-active .ah-detail {
-  padding: clamp(10px, 1.25vw, 18px) !important;
+  padding:clamp(12px,1.4vw,19px)!important;
 }
-#page-antihistaminicos .ah-card-wrap-active .ah-detail-top {
-  align-items: flex-start;
+#page-antihistaminicos :is(.ah-card-name,.ah-card-brand),
+#page-imunoglobulinas :is(.igcat-name,.igcat-maker,.igcat-route) {
+  word-break:normal!important;
+  overflow-wrap:break-word!important;
+  hyphens:auto;
 }
-#page-antihistaminicos .ah-card-wrap-active .ah-detail h2 {
-  font-size: clamp(17px, 1.5vw, 23px);
-  overflow-wrap: anywhere;
-}
-#page-antihistaminicos .ah-card-wrap-active .ah-block {
-  padding: 11px;
-}
-#page-imunoglobulinas .igcat-item.open > .igmain-detail {
-  margin: 0 !important;
-  padding: clamp(10px, 1.2vw, 15px) !important;
+#page-imunoglobulinas .igcat-item.open>.igmain-detail {
+  margin:0!important;
+  padding:clamp(11px,1.25vw,17px)!important;
 }
 #page-imunoglobulinas .igcat-item.open .igcalc-table {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  overflow-x: auto;
-}
-#page-imunoglobulinas .igcat-item.open .igcalc-table th,
-#page-imunoglobulinas .igcat-item.open .igcalc-table td {
-  padding: 7px 6px;
-  overflow-wrap: normal;
-}
-#page-imunoglobulinas .igcat-grid > .igcat-item > .igcat-card {
-  min-width: 0;
-}
-#page-imunoglobulinas .igcat-copy {
-  min-width: 0;
-  overflow-wrap: anywhere;
+  display:block;
+  width:100%;
+  max-width:100%;
+  overflow-x:auto;
 }
 
-/* Em celulares, manter duas opções lado a lado, nunca a coluna única
-   definida anteriormente pelos estilos legados. */
-@media (max-width: 730px) {
+/* Tablets e notebooks compactos: duas colunas sem esmagar tipografia. */
+@media(min-width:600px) and (max-width:1079px) {
   #page-imuno .bio-grid,
   #page-imunoglobulinas .igcat-grid,
   #page-antihistaminicos .ah-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    gap: 9px !important;
-  }
-  #page-imuno .bio-grid {
-    padding-inline: 10px !important;
-  }
-  #page-imunoglobulinas .igcat-grid .igcat-card {
-    padding: 10px 7px !important;
-    gap: 6px !important;
-    flex-wrap: wrap;
-  }
-  #page-imunoglobulinas .igcat-grid .igcat-icon {
-    width: 43px;
-    min-width: 43px;
-  }
-  #page-imunoglobulinas .igcat-grid .igcat-name {
-    overflow-wrap: anywhere;
-  }
-  #page-antihistaminicos .ah-card-wrap-active .ah-detail,
-  #page-imunoglobulinas .igcat-item.open > .igmain-detail {
-    padding: 10px !important;
-  }
-  #page-antihistaminicos .ah-card-wrap-active .ah-detail p,
-  #page-antihistaminicos .ah-card-wrap-active .ah-detail li {
-    font-size: 12px;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
   }
 }
 
-@media (max-width: 375px) {
-  #page-imuno .bio-grid .bio-header .bio-name {
-    font-size: 14px !important;
+/* Celulares: nao comprimir conteudo medico em colunas de ~150px.
+   Uma coluna preserva nomes, favoritos e fichas no card, sem cortes. */
+@media(max-width:599px) {
+  #page-imuno .bio-grid,
+  #page-imunoglobulinas .igcat-grid,
+  #page-antihistaminicos .ah-grid {
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:11px!important;
   }
-  #page-antihistaminicos .ah-card-wrap .ah-card {
-    padding: 12px 8px 12px 13px;
+  #page-imuno .bio-grid {
+    padding-inline:12px!important;
   }
-  #page-antihistaminicos .ah-card-name {
-    font-size: 13px;
+  #page-imuno .bio-grid>.bio-card>.bio-header,
+  #page-imuno .bio-grid>.bio-card.open>.bio-header {
+    flex-direction:row!important;
+    align-items:center!important;
+    text-align:left!important;
+  }
+  #page-imuno .bio-grid .bio-header :is(.bio-name,.bio-comercial) {
+    text-align:left!important;
+    word-break:normal!important;
+  }
+  #page-imunoglobulinas .igcat-item>.igcat-card,
+  #page-imunoglobulinas .igcat-item.open>.igcat-card {
+    flex-direction:row!important;
+    align-items:center!important;
+    text-align:left!important;
+  }
+  #page-antihistaminicos .ah-card-wrap-active .ah-detail,
+  #page-imunoglobulinas .igcat-item.open>.igmain-detail {
+    padding:13px!important;
   }
 }
