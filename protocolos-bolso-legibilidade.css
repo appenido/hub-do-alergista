@@ -1,0 +1,75 @@
+/* Protocolos de bolso — hierarquia visual uniforme em todas as condutas.
+   Os textos e as referencias cientificas originais permanecem inalterados. */
+#page-eaaci .eaaci-card .eaaci-body {
+  line-height: 1.65;
+}
+#page-eaaci .eaaci-card .eaaci-body > ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0;
+  margin: 14px 0 18px;
+}
+#page-eaaci .eaaci-card .eaaci-body > ul > li {
+  display: block;
+  min-width: 0;
+  box-sizing: border-box;
+  margin: 0 !important;
+  padding: 14px 16px 15px;
+  border: 1px solid #e1eaf0;
+  border-left: 3px solid #328da3;
+  border-radius: 11px;
+  background: linear-gradient(110deg, #f5fafc, #fff 75%);
+  color: #334b5b;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: clamp(13px, 1.04vw, 15px);
+  font-weight: 450;
+  line-height: 1.72;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+#page-eaaci .eaaci-card .eaaci-body > ul > li > .eaaci-conduta-titulo {
+  display: block;
+  margin: 0 0 7px;
+  color: #164c65;
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: clamp(13.5px, 1.1vw, 16px);
+  font-weight: 800;
+  line-height: 1.42;
+  letter-spacing: -.01em;
+  text-align: left;
+}
+#page-eaaci .eaaci-card .eaaci-body > ul > li > .eaaci-conduta-titulo::after {
+  content: "";
+  display: block;
+  width: 24px;
+  height: 2px;
+  margin-top: 7px;
+  border-radius: 99px;
+  background: #a6d5df;
+}
+#page-eaaci .eaaci-card .eaaci-body > p:not(:first-child) {
+  margin: 13px 0;
+  line-height: 1.65;
+}
+#page-eaaci .eaaci-card .eaaci-body > .eaaci-ref {
+  margin-top: 20px;
+  border-top: 1px solid #dae7ed;
+}
+@media (max-width: 640px) {
+  #page-eaaci .eaaci-card .eaaci-body > ul {
+    gap: 10px;
+    margin: 12px 0 15px;
+  }
+  #page-eaaci .eaaci-card .eaaci-body > ul > li {
+    padding: 12px 12px 13px;
+    font-size: 13px;
+    line-height: 1.65;
+    border-radius: 10px;
+  }
+  #page-eaaci .eaaci-card .eaaci-body > ul > li > .eaaci-conduta-titulo {
+    font-size: 13.5px;
+    margin-bottom: 6px;
+  }
+}
