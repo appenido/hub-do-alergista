@@ -76,9 +76,14 @@ function makeCSS(){
  '#scorad-ui .sc-chip b{color:#176f8b;white-space:nowrap}#scorad-ui .sc-chip.on{background:#fff5e3;border-color:#ddbc83}',
  '#scorad-ui .sc-sign{padding:11px;border:1px solid #dfeaf0;border-radius:12px;margin:8px 0}',
  '#scorad-ui .sc-sign-title{font-size:13px;font-weight:800}#scorad-ui .sc-sign-tip{font-size:11px;color:#657c89;margin:4px 0 9px}',
- '#scorad-ui .sc-choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px}',
- '#scorad-ui .sc-choices button{border:1px solid #d4e2e8;background:#f7fbfc;border-radius:8px;padding:8px 2px;min-height:39px;font-size:10px;color:#526977}',
- '#scorad-ui .sc-choices button.on{background:#0e7290;border-color:#0e7290;color:white;font-weight:800}',
+ '#scorad-ui .sc-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}',
+ '#scorad-ui .sc-photo-choice{position:relative;width:100%;aspect-ratio:1/1;min-height:112px;display:block;overflow:hidden;cursor:pointer;padding:0;border:3px solid transparent;border-radius:12px;background-image:url("/assets/scorad-intensidades.webp?v=20261111-1");background-size:400% 600%;background-repeat:no-repeat;background-color:#e9d2c9;box-shadow:0 3px 9px rgba(16,56,73,.09)}',
+ '#scorad-ui .sc-photo-choice.on{border-color:#057fa4;box-shadow:0 0 0 2px #e7f7fa,0 4px 16px rgba(9,111,143,.26)}',
+ '#scorad-ui .sc-photo-choice:focus-visible{outline:3px solid #0e7290;outline-offset:3px}',
+ '#scorad-ui .sc-grade-number{position:absolute;top:7px;right:8px;display:grid;place-items:center;width:25px;height:25px;background:rgba(10,46,65,.91);border-radius:50%;color:white;font-size:13px;font-weight:850;z-index:1}',
+ '#scorad-ui .sc-photo-bottom{position:absolute;bottom:0;left:0;right:0;padding:15px 3px 7px;background:linear-gradient(0deg,rgba(10,38,53,.89),transparent);color:white;font-size:11px;line-height:1.2;font-weight:800;text-shadow:0 1px 2px rgba(0,0,0,.2)}',
+ '#scorad-ui .sc-photo-choice.on .sc-grade-number{background:#007ea3}',
+ '#scorad-ui .sc-reset-button{display:block;width:100%;border:1px solid #cfe3eb;color:#1c6f86;background:#f1f8fa;border-radius:10px;padding:12px;margin-top:15px;font-size:12px;font-weight:800;cursor:pointer}',
  '#scorad-ui .sc-v-item{padding:13px;border:1px solid #dceaf0;border-radius:11px;margin:12px 0}',
  '#scorad-ui .sc-v-item label{display:block;font-size:13px;font-weight:800}#scorad-ui .sc-v-item p{font-size:11px;color:#617a86;margin:4px 0 12px}',
  '#scorad-ui output{display:block;text-align:center;font-size:13px;font-weight:800;color:#146f8c;padding:8px;background:#e6f6f9;border-radius:8px}',
@@ -113,9 +118,9 @@ function render(){
  '<div class="sc-note">Regra dos nove: utilizada aqui para adultos e crianças a partir de 2 anos. Em menores de 2 anos, a distribuição anatômica exige adaptação pediátrica e não deve ser calculada com estes percentuais.</div></section>'+
  '<section data-stage="1" hidden><h3 class="sc-heading">B · Intensidade das lesões</h3>'+
  '<p class="sc-hint">Escolha uma área representativa do eczema. Avalie os seis sinais de 0 a 3, independentemente da localização corporal.</p>'+
- S.map(function(s){return '<div class="sc-sign"><div class="sc-sign-title">'+s[1]+' <span id="sc-selected-'+s[0]+'" style="float:right;color:#2d849b;font-size:11px"></span></div><div class="sc-sign-tip">'+s[2]+'</div>'+
- '<div class="sc-choices">'+['Ausente','Leve','Moderado','Intenso'].map(function(t,i){return '<button type="button" data-skey="'+s[0]+'" data-sval="'+i+'" aria-pressed="false">'+i+' · '+t+'</button>';}).join('')+'</div></div>';}).join('')+
- '<div class="sc-note">A xerose deve ser pontuada em pele não inflamada. B varia de 0 a 18 pontos.</div><div class="sc-alert" id="sc-b-alert"></div></section>'+
+ S.map(function(s,row){return '<div class="sc-sign"><div class="sc-sign-title">'+s[1]+' <span id="sc-selected-'+s[0]+'" style="float:right;color:#2d849b;font-size:11px"></span></div><div class="sc-sign-tip">'+s[2]+'</div>'+
+ '<div class="sc-choices sc-photo-grid">'+['Ausente','Leve','Moderado','Intenso'].map(function(t,i){return '<button type="button" class="sc-photo-choice" style="background-position:'+(i*100/3).toFixed(3)+'% '+(row*100/5).toFixed(3)+'%" data-skey="'+s[0]+'" data-sval="'+i+'" aria-pressed="false" aria-label="'+s[1]+': '+t+', '+i+' pontos"><span class="sc-grade-number">'+i+'</span><span class="sc-photo-bottom">'+i+' · '+t+'</span></button>';}).join('')+'</div></div>';}).join('')+
+ '<div class="sc-note">Fotografias clínicas ilustrativas fornecidas como referência. Selecione a graduação de cada sinal em uma área representativa do eczema. A xerose deve ser avaliada em pele não inflamada. B varia de 0 a 18 pontos.</div><div class="sc-alert" id="sc-b-alert"></div></section>'+
  '<section data-stage="2" hidden><h3 class="sc-heading">C · Sintomas subjetivos</h3><p class="sc-hint">Média dos últimos três dias e noites. Confirme as duas escalas, mesmo quando a pontuação for zero.</p>'+
  [['prurido','Prurido','Nenhum prurido → máximo imaginável'],['sono','Perda de sono','Sem comprometimento → máximo imaginável']].map(function(x){return '<div class="sc-v-item"><label for="sc-v-'+x[0]+'">'+x[1]+'</label><p>'+x[2]+'</p><input type="range" id="sc-v-'+x[0]+'" min="0" max="10" value="0" step="0.5"/>'+
  '<div class="sc-hints"><span>0</span><span>10</span></div><output id="sc-output-'+x[0]+'">Marque a intensidade</output></div>';}).join('')+
@@ -126,12 +131,13 @@ function render(){
  var mres=document.getElementById('mResult');mres.className='score-result';mres.style.display='none';
  f.querySelectorAll('[data-sc-region]').forEach(function(el){el.addEventListener('click',function(){select(el.dataset.scRegion);});el.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();select(el.dataset.scRegion);}});});
  f.onclick=function(ev){
-  var t=ev.target.closest('[data-rid],[data-preset],[data-skey],[data-tab]');
+  var t=ev.target.closest('[data-rid],[data-preset],[data-skey],[data-tab],[data-sc-new]');
   if(!t)return;
   if(t.dataset.rid){select(t.dataset.rid);return;}
   if(t.dataset.preset!==undefined){setArea(Number(t.dataset.preset));return;}
   if(t.dataset.skey){D.sign[t.dataset.skey]=Number(t.dataset.sval);updateSigns();return;}
   if(t.dataset.tab!==undefined){move(Number(t.dataset.tab));return;}
+  if(t.dataset.scNew!==undefined){render();return;}
  };
  f.querySelector('#sc-area-range').addEventListener('input',function(ev){setArea(Number(ev.target.value));});
  ['prurido','sono'].forEach(function(id){
@@ -172,8 +178,10 @@ function move(n){
  step=n;
  document.querySelectorAll('#scorad-ui [data-stage]').forEach(function(el){el.hidden=Number(el.dataset.stage)!==n;});
  document.querySelectorAll('#scorad-ui [data-tab]').forEach(function(el){var on=Number(el.dataset.tab)===n;el.classList.toggle('on',on);el.setAttribute('aria-selected',String(on));});
- document.getElementById('mCalc').textContent=n===3?'Recomeçar avaliação':n===2?'Calcular SCORAD →':'Continuar →';
+ document.getElementById('mCalc').textContent=n===3?'Ver resultado ↑':n===2?'Calcular SCORAD →':'Continuar →';
  if(n===3)showResult();
+ var modal=document.querySelector('#overlay .modal');
+ if(modal)modal.scrollTop=0;
 }
 function showResult(){
  var a=aTotal(),b=bTotal(),c=D.sym.prurido+D.sym.sono,t=a/5+3.5*b+c;
@@ -184,11 +192,12 @@ function showResult(){
  '<div class="sc-line"><span>B · Intensidade</span><b>'+b+'/18 = '+fmt(b*3.5,1)+' pontos</b></div>'+
  '<div class="sc-line"><span>C · Sintomas</span><b>'+fmt(c,1)+'/20 pontos</b></div>'+
  '<div class="sc-note">Fórmula: A/5 + (7 × B)/2 + C. Classificação convencional: &lt;25 leve; 25–49,9 moderada; ≥50 grave. Os pontos de corte diferem entre protocolos e não estabelecem, isoladamente, indicação terapêutica.</div>'+
- '<div class="sc-cites">Fontes: <a href="https://asbai.org.br/wp-content/uploads/2023/08/Ler-Dermatite-atopica-ABRIL-2022.pdf" target="_blank" rel="noopener">ASBAI, Dermatite Atópica, p. 28</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/21576955/" target="_blank" rel="noopener">Oranje et al., 2011</a> · <a href="https://www.clinicacroce.com.br/scorad/" target="_blank" rel="noopener">Clínica Croce</a> · <a href="https://scorad.corti.li/" target="_blank" rel="noopener">Corti</a>.</div>';
+ '<div class="sc-cites">Fontes: <a href="https://asbai.org.br/wp-content/uploads/2023/08/Ler-Dermatite-atopica-ABRIL-2022.pdf" target="_blank" rel="noopener">ASBAI, Dermatite Atópica, p. 28</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/21576955/" target="_blank" rel="noopener">Oranje et al., 2011</a> · <a href="https://www.clinicacroce.com.br/scorad/" target="_blank" rel="noopener">Clínica Croce</a> · <a href="https://scorad.corti.li/" target="_blank" rel="noopener">Corti</a>.</div>'+ 
+ '<button type="button" class="sc-reset-button" data-sc-new="1">Nova avaliação (zerar dados)</button>';
 }
 function calculate(){
  if(!D)return;
- if(step===3){render();return;}
+ if(step===3){showResult();var modal=document.querySelector('#overlay .modal');if(modal)modal.scrollTop=0;return;}
  if(step===0){move(1);return;}
  if(step===1){if(!bValid()){document.getElementById('sc-b-alert').textContent='Avalie os seis sinais antes de continuar.';return;}move(2);return;}
  if(step===2){if(!(D.touched.prurido&&D.touched.sono)){document.getElementById('sc-c-alert').textContent='Confirme as duas escalas.';return;}move(3);}
