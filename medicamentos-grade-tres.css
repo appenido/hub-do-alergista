@@ -1,0 +1,139 @@
+/* Hub do Alergista | Grade uniforme de medicamentos – 11/11/2026.
+   Imunobiológicos, imunoglobulinas e anti-histamínicos: três por fileira
+   quando a tela comporta; dois por fileira em dispositivos compactos.
+   A ficha continua descendente do card clicado, sem ocupar a linha toda. */
+
+#page-imuno .bio-grid,
+#page-imunoglobulinas .igcat-grid,
+#page-antihistaminicos .ah-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  grid-auto-flow: row !important;
+  align-items: start !important;
+  gap: clamp(9px, 1.3vw, 16px) !important;
+  min-width: 0;
+}
+
+#page-imuno .bio-grid > .bio-card,
+#page-imunoglobulinas .igcat-grid > .igcat-item,
+#page-antihistaminicos .ah-grid > .ah-card-wrap {
+  grid-column: auto !important;
+  grid-row: auto !important;
+  min-width: 0 !important;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* O cartão aberto não invade as três colunas nem muda de posição. */
+#page-imunoglobulinas .igcat-grid > .igcat-item.open,
+#page-antihistaminicos .ah-grid > .ah-card-wrap-active {
+  grid-column: auto !important;
+  grid-row: auto !important;
+  min-width: 0 !important;
+  align-self: start;
+}
+
+/* Fichas clínicas permanecem integradas aos próprios cartões. */
+#page-imunoglobulinas .igcat-item.open > .igmain-detail,
+#page-antihistaminicos .ah-card-wrap-active > .ah-detail {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  max-height: min(70dvh, 760px);
+  overflow-y: auto !important;
+  overflow-x: auto !important;
+  box-sizing: border-box !important;
+  scrollbar-width: thin;
+  overflow-wrap: anywhere;
+}
+
+/* Conteúdo clínico reorganizado para caber em um terço da grade. */
+#page-antihistaminicos .ah-card-wrap-active .ah-pair-grid,
+#page-antihistaminicos .ah-card-wrap-active .ah-field-grid,
+#page-imunoglobulinas .igcat-item.open .igcalc-sections {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+#page-antihistaminicos .ah-card-wrap-active .ah-field:first-child {
+  grid-column: auto !important;
+}
+#page-antihistaminicos .ah-card-wrap-active .ah-detail {
+  padding: clamp(10px, 1.25vw, 18px) !important;
+}
+#page-antihistaminicos .ah-card-wrap-active .ah-detail-top {
+  align-items: flex-start;
+}
+#page-antihistaminicos .ah-card-wrap-active .ah-detail h2 {
+  font-size: clamp(17px, 1.5vw, 23px);
+  overflow-wrap: anywhere;
+}
+#page-antihistaminicos .ah-card-wrap-active .ah-block {
+  padding: 11px;
+}
+#page-imunoglobulinas .igcat-item.open > .igmain-detail {
+  margin: 0 !important;
+  padding: clamp(10px, 1.2vw, 15px) !important;
+}
+#page-imunoglobulinas .igcat-item.open .igcalc-table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+}
+#page-imunoglobulinas .igcat-item.open .igcalc-table th,
+#page-imunoglobulinas .igcat-item.open .igcalc-table td {
+  padding: 7px 6px;
+  overflow-wrap: normal;
+}
+#page-imunoglobulinas .igcat-grid > .igcat-item > .igcat-card {
+  min-width: 0;
+}
+#page-imunoglobulinas .igcat-copy {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Em celulares, manter duas opções lado a lado, nunca a coluna única
+   definida anteriormente pelos estilos legados. */
+@media (max-width: 730px) {
+  #page-imuno .bio-grid,
+  #page-imunoglobulinas .igcat-grid,
+  #page-antihistaminicos .ah-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+  }
+  #page-imuno .bio-grid {
+    padding-inline: 10px !important;
+  }
+  #page-imunoglobulinas .igcat-grid .igcat-card {
+    padding: 10px 7px !important;
+    gap: 6px !important;
+    flex-wrap: wrap;
+  }
+  #page-imunoglobulinas .igcat-grid .igcat-icon {
+    width: 43px;
+    min-width: 43px;
+  }
+  #page-imunoglobulinas .igcat-grid .igcat-name {
+    overflow-wrap: anywhere;
+  }
+  #page-antihistaminicos .ah-card-wrap-active .ah-detail,
+  #page-imunoglobulinas .igcat-item.open > .igmain-detail {
+    padding: 10px !important;
+  }
+  #page-antihistaminicos .ah-card-wrap-active .ah-detail p,
+  #page-antihistaminicos .ah-card-wrap-active .ah-detail li {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 375px) {
+  #page-imuno .bio-grid .bio-header .bio-name {
+    font-size: 14px !important;
+  }
+  #page-antihistaminicos .ah-card-wrap .ah-card {
+    padding: 12px 8px 12px 13px;
+  }
+  #page-antihistaminicos .ah-card-name {
+    font-size: 13px;
+  }
+}
