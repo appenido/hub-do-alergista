@@ -26,7 +26,7 @@ function bTotal(){return S.reduce(function(t,s){return t+(D.sign[s[0]]||0);},0);
 function bValid(){return S.every(function(s){return D.sign[s[0]]!==null;});}
 function region(id){return R.find(function(r){return r.id===id;});}
 function skinFigure(back){
- var ids=back?{head:'cab',torso:'trB',armL:'brE',armR:'brD',legL:'peE',legR:'peD'}:{head:'cab',torso:'trF',armL:'brE',armR:'brD',legL:'peE',legR:'peD',gen:'gen'};
+ var ids=back?{head:'cab',torso:'trB',armL:'brE',armR:'brD',legL:'peE',legR:'peD'}:{head:'cab',torso:'trF',armL:'brD',armR:'brE',legL:'peD',legR:'peE',gen:'gen'};
  var paths={
  head:'<ellipse cx="90" cy="25" rx="14" ry="18"/>',
  torso:'<path d="M68 53 Q90 49 112 53 L110 132 Q90 139 70 132 Z"/>',
