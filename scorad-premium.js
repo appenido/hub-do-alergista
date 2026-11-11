@@ -125,14 +125,14 @@ function render(){
  document.getElementById('overlay').classList.add('scorad-modal','open');
  var mres=document.getElementById('mResult');mres.className='score-result';mres.style.display='none';
  f.querySelectorAll('[data-sc-region]').forEach(function(el){el.addEventListener('click',function(){select(el.dataset.scRegion);});el.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();select(el.dataset.scRegion);}});});
- f.addEventListener('click',function(ev){
+ f.onclick=function(ev){
   var t=ev.target.closest('[data-rid],[data-preset],[data-skey],[data-tab]');
   if(!t)return;
   if(t.dataset.rid){select(t.dataset.rid);return;}
   if(t.dataset.preset!==undefined){setArea(Number(t.dataset.preset));return;}
   if(t.dataset.skey){D.sign[t.dataset.skey]=Number(t.dataset.sval);updateSigns();return;}
   if(t.dataset.tab!==undefined){move(Number(t.dataset.tab));return;}
- });
+ };
  f.querySelector('#sc-area-range').addEventListener('input',function(ev){setArea(Number(ev.target.value));});
  ['prurido','sono'].forEach(function(id){
   var el=f.querySelector('#sc-v-'+id);
