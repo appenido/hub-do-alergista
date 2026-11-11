@@ -92,6 +92,19 @@ function makeCSS(){
  '#scorad-ui .sc-final{background:linear-gradient(115deg,#103a50,#147b99);color:white;padding:17px;border-radius:14px;text-align:center}',
  '#scorad-ui .sc-final strong{font-size:41px;display:block;line-height:1.3}',
  '#scorad-ui .sc-line{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid #dfe8ed;padding:10px 2px;font-size:12px}',
+ '#scorad-ui .sc-result-details{margin:16px 0 0;display:grid;gap:12px}',
+ '#scorad-ui .sc-detail-card{background:#fff;border:1px solid #dee9ef;border-radius:12px;padding:15px 14px}',
+ '#scorad-ui .sc-detail-label{font-size:11px;letter-spacing:.04em;text-transform:uppercase;font-weight:800;color:#587586;margin:0 0 10px}',
+ '#scorad-ui .sc-formula{display:flex;align-items:center;justify-content:center;text-align:center;min-height:48px;border:1px solid #e2edf1;background:#f8fbfc;border-radius:9px;padding:10px 6px;color:#164c63;font-size:17px;line-height:1.5;font-weight:750;letter-spacing:.01em;font-variant-numeric:tabular-nums}',
+ '#scorad-ui .sc-classification{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}',
+ '#scorad-ui .sc-severity{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:74px;background:#f8fafb;border:1px solid #e0e8ec;border-radius:10px;padding:9px 5px;text-align:center}',
+ '#scorad-ui .sc-severity .sc-severity-range{font-size:12px;color:#4b6776;font-weight:750;white-space:nowrap}',
+ '#scorad-ui .sc-severity .sc-severity-name{font-size:12px;color:#183c50;font-weight:800}',
+ '#scorad-ui .sc-severity.selected{border:2px solid #117895;background:#ecf8fa;padding:8px 4px}',
+ '#scorad-ui .sc-severity.selected .sc-severity-name{color:#086a85}',
+ '#scorad-ui .sc-context{padding:12px 14px;border-left:3px solid #bf9e60;border-radius:0 9px 9px 0;background:#f8f7f3;color:#53616a;font-size:11.5px;line-height:1.75;margin:0}',
+ '#scorad-ui .sc-result-details+.sc-cites{margin-top:15px}',
+
  '#scorad-ui .sc-cites{font-size:10px;line-height:1.7;margin:12px 0;color:#536a77}#scorad-ui .sc-cites a{color:#196e86;text-decoration:underline}',
  '#scorad-ui [hidden]{display:none!important}',
  '@media(min-width:660px){#scorad-ui .sc-stage0-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;align-items:start}#scorad-ui .sc-maps{margin:0}#scorad-ui .sc-editor{margin:0 0 10px}}',
@@ -191,7 +204,15 @@ function showResult(){
  '<div class="sc-line"><span>A · Extensão</span><b>'+fmt(a,1)+'% = '+fmt(a/5,2)+' pontos</b></div>'+
  '<div class="sc-line"><span>B · Intensidade</span><b>'+b+'/18 = '+fmt(b*3.5,1)+' pontos</b></div>'+
  '<div class="sc-line"><span>C · Sintomas</span><b>'+fmt(c,1)+'/20 pontos</b></div>'+
- '<div class="sc-note">Fórmula: A/5 + (7 × B)/2 + C. Classificação convencional: &lt;25 leve; 25–49,9 moderada; ≥50 grave. Os pontos de corte diferem entre protocolos e não estabelecem, isoladamente, indicação terapêutica.</div>'+
+ '<div class="sc-result-details">'+
+ '<section class="sc-detail-card" aria-label="Fórmula do SCORAD"><h4 class="sc-detail-label">Fórmula do SCORAD</h4><div class="sc-formula">A ÷ 5 + (7 × B) ÷ 2 + C</div></section>'+
+ '<section class="sc-detail-card" aria-label="Classificação de gravidade"><h4 class="sc-detail-label">Classificação de gravidade</h4><div class="sc-classification">'+
+ '<div class="sc-severity'+(t<25?' selected':'')+'"><span class="sc-severity-range">&lt; 25</span><span class="sc-severity-name">Leve</span></div>'+
+ '<div class="sc-severity'+(t>=25&&t<50?' selected':'')+'"><span class="sc-severity-range">25–49,9</span><span class="sc-severity-name">Moderada</span></div>'+
+ '<div class="sc-severity'+(t>=50?' selected':'')+'"><span class="sc-severity-range">≥ 50</span><span class="sc-severity-name">Grave</span></div>'+
+ '</div></section>'+
+ '<p class="sc-context">Observação clínica: os pontos de corte podem variar conforme o protocolo. O SCORAD isoladamente não determina a indicação terapêutica.</p>'+
+ '</div>'+
  '<div class="sc-cites">Fontes: <a href="https://asbai.org.br/wp-content/uploads/2023/08/Ler-Dermatite-atopica-ABRIL-2022.pdf" target="_blank" rel="noopener">ASBAI, Dermatite Atópica, p. 28</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/21576955/" target="_blank" rel="noopener">Oranje et al., 2011</a> · <a href="https://www.clinicacroce.com.br/scorad/" target="_blank" rel="noopener">Clínica Croce</a> · <a href="https://scorad.corti.li/" target="_blank" rel="noopener">Corti</a>.</div>'+ 
  '<button type="button" class="sc-reset-button" data-sc-new="1">Nova avaliação (zerar dados)</button>';
 }
