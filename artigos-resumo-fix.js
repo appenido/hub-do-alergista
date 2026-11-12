@@ -105,7 +105,6 @@
     String(resposta||'').split('\n').forEach(function(l){
       l=l.trim();if(!l)return;
       if(/^#{1,4}\s/.test(l)){
-        if(/<p class="hub-ai-texto">/.test(html))html+='</p>';
         html+='<h3>'+esc(l.replace(/^#+\s*/,''))+'</h3>';
       } else if(/^[-*] /i.test(l)){
         html+='<p class="hub-ai-ponto">'+esc(l.replace(/^[-*]\s*/,''))+'</p>';
