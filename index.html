@@ -9978,7 +9978,7 @@ function _homeAttr(txt){ return _feedEscape(txt).replace(/"/g,'&quot;'); }
 
 function _homeCacheLer(id){
   try{
-    var c = JSON.parse(localStorage.getItem('hub_home_tema_v2_' + id)||'null');
+    var c = JSON.parse(localStorage.getItem('hub_home_tema_v3_' + id)||'null');
     if(c && c.dados && c.dados.result && Array.isArray(c.dados.result.uids)) return c;
   }catch(e){}
   return null;
@@ -10034,7 +10034,7 @@ function carregarFeedHome(forcar){
   var box = document.getElementById('homeArtigos');
   if(!box) return Promise.resolve();
   var temas = _homeTemasSelecionados();
-  var chave = JSON.stringify([temas.map(function(t){ return t.id; }),new Date().toLocaleDateString('pt-BR')]);
+  var chave = JSON.stringify([temas.map(function(t){ return t.id; }),Math.floor(Date.now()/3600000)]);
   if(!forcar && _homeFeedChave === chave) return _homeFeedPromise;
   _homeFeedChave = chave;
   var versao = ++_homeFeedVersao;
@@ -10046,7 +10046,7 @@ function carregarFeedHome(forcar){
     var cache = _homeCacheLer(t.id);
     var idade = cache ? Date.now() - cache.atualizadoEm : Infinity;
     return {id:t.id,nome:t.nome,dados:cache ? cache.dados : null,
-      carregando:!!forcar || !(idade >= 0 && idade < 24*60*60*1000),erro:false};
+      carregando:!!forcar || !(idade >= 0 && idade < 60*60*1000),erro:false};
   });
   _homeRenderGrupos(box,grupos);
   var seq = _homeFeedFila;
@@ -10055,7 +10055,7 @@ function carregarFeedHome(forcar){
       if(versao !== _homeFeedVersao || !g.carregando) return;
       return _homeBuscarTema(g.id).then(function(d){
         g.dados = d;
-        try{ localStorage.setItem('hub_home_tema_v2_' + g.id, JSON.stringify({atualizadoEm:Date.now(),dados:d})); }catch(e){}
+        try{ localStorage.setItem('hub_home_tema_v3_' + g.id, JSON.stringify({atualizadoEm:Date.now(),dados:d})); }catch(e){}
       }).catch(function(){ g.erro = true; }).then(function(){
         g.carregando = false;
         if(versao === _homeFeedVersao) _homeRenderGrupos(box,grupos);
