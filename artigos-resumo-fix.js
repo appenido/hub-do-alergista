@@ -147,8 +147,8 @@
         +'<div class="hub-ai-processando-titulo">Análise crítica em elaboração</div>'
         +'<p>Extraindo pergunta clínica, desenho do estudo, resultados e limitações. O resumo oficial permanece na aba Resumo.</p>'
         +'<div class="hub-ai-pulsando" aria-hidden="true"></div></div>';
-      var resumo=dados.texto.slice(0,2850);
-      var truncado=dados.texto.length>2850?' [Abstract parcialmente transcrito por limite técnico.]':'';
+      var resumo=dados.texto.slice(0,2050);
+      var truncado=dados.texto.length>2050?' [Abstract parcialmente transcrito por limite técnico.]':'';
       var pergunta=[
         'Você é um revisor crítico de literatura médica. Faça uma ANÁLISE CRÍTICA em português brasileiro, DIFERENTE DE UM RESUMO.',
         'Baseie-se SOMENTE no título e abstract abaixo; não alegue acesso ao artigo completo. Nunca invente números, evidências, riscos, desfechos, diretrizes ou referências.',
