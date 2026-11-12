@@ -1698,7 +1698,7 @@ window._bloquearApp=function(){};
         <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
         Artigos
       </div>
-      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Ordenados por data de publicação · revistas indexadas com fator de impacto</div>
+      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Artigos indexados no PubMed · filtros temáticos · atualizações contínuas</div>
     </div>
 
     
@@ -1720,7 +1720,7 @@ window._bloquearApp=function(){};
           <span style="background:#0a4d68;color:#fff;font-size:8.5px;font-weight:800;padding:3px 6px;border-radius:5px;letter-spacing:.02em">PubMed</span>
           Últimas publicações
         </div>
-        <button onclick="carregarFeed(_feedTema)" style="background:var(--gray-50);border:1px solid var(--gray-100);border-radius:9px;padding:6px 12px;font-size:11.5px;font-weight:700;color:var(--teal-mid);cursor:pointer;font-family:Manrope,sans-serif">🔄 Atualizar</button>
+        <button onclick="carregarFeed(_feedTema,true)" style="background:var(--gray-50);border:1px solid var(--gray-100);border-radius:9px;padding:6px 12px;font-size:11.5px;font-weight:700;color:var(--teal-mid);cursor:pointer;font-family:Manrope,sans-serif">🔄 Atualizar</button>
       </div>
       <div id="feedChips" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;-webkit-overflow-scrolling:touch"></div>
       <div id="feedResults" style="margin-top:4px"></div>
@@ -7398,7 +7398,7 @@ function navTo(page){
   if(page === 'guidelines'){ ordenarGuidelinesEstaticos(); carregarGuidelinesLive(); }
   if(page === 'perfil') preencherPerfil();
 
-  if(page === 'artigos' && !_feedLoaded){ _feedLoaded = true; renderFeedChips(); carregarFeed('todos'); }
+  if(page === 'artigos'){ if(!_feedLoaded){ _feedLoaded = true; renderFeedChips(); carregarFeed('todos'); } else if(typeof window.hubArtigosAoAbrir==='function'){ window.hubArtigosAoAbrir(); } }
   if(page === 'imuno'){
     var hojeR = new Date().toLocaleDateString('pt-BR');
     var ultimoR = '';
@@ -11234,6 +11234,7 @@ function chatToggle(){
     .observe(document.body,{childList:true,subtree:true});
 })();
 </script>
+<script src="/artigos-premium.js?v=20261112-1"></script>
 <script src="lgpd-runtime.js?v=20261104-8"></script>
 <script src="calendarios-imunizacoes.js?v=20261109-8"></script>
 <script src="uptodate-ui.js?v=20261105-2"></script>
