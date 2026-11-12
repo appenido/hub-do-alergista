@@ -4,8 +4,6 @@
 'use strict';
 if(!window.crypto||!crypto.randomUUID)return;
 const CHOICE_KEY='hub_analytics_choice_v1';
-const SB='https://jpdtqtenlivxgjkyizcg.supabase.co';
-const KEY='sb_publishable_CzAI8BUm2Po7CfobLlxv8A_NtuTil8j';
 const session=crypto.randomUUID();
 const D=document;
 let enabled=false,prev=null,enteredAt=Date.now(),sent=0,lastClick=0;
@@ -94,26 +92,22 @@ function aviso(){
 window.hubPreferenciasMetricas=function(){
   salvar('');enabled=false;aviso();
 };
-async function linkPrivado(){
-  // O link só é apresentado para quem comprovar sua permissão; os dados permanecem
-  // protegidos por RLS mesmo que outra pessoa conheça o endereço da central.
-  let auth;try{auth=JSON.parse(sessionStorage.getItem('hub_secure_auth')||'{}');}catch(_){return;}
-  if(!auth.access)return;
-  try{
-    const r=await fetch(SB+'/rest/v1/hub_admin_roles?select=user_id&limit=1',{headers:{apikey:KEY,Authorization:'Bearer '+auth.access}});
-    if(!r.ok||!(await r.json()).length)return;
-    const perfil=D.getElementById('page-perfil')||D.getElementById('page-dashboard');
-    if(!perfil||D.getElementById('hubLinkCentral'))return;
-    const a=D.createElement('a');
-    a.id='hubLinkCentral';a.href='/central-hub.html';a.textContent='Central administrativa do Hub';
-    a.style.cssText='display:block;width:fit-content;padding:12px 15px;margin:18px auto;border-radius:12px;background:#e8eff8;color:#163d6c;text-decoration:none;font:500 15px system-ui';
-    perfil.appendChild(a);
-  }catch(_){}
+function linkCentral(){
+  // O link é visível em Preferências; todos os dados continuam protegidos
+  // pela autenticação Supabase, pelo papel de administrador e por RLS.
+  const perfil=D.getElementById('page-perfil');
+  if(!perfil||D.getElementById('hubLinkCentral'))return;
+  const a=D.createElement('a');
+  a.id='hubLinkCentral';a.href='/central-hub.html';
+  a.setAttribute('aria-label','Abrir Central de acessos — login administrativo obrigatório');
+  a.style.cssText='display:flex;align-items:center;gap:12px;margin:16px 16px 0;padding:15px 16px;background:#fff;border:1px solid #d7e2ec;border-radius:14px;color:#173c61;text-decoration:none;box-shadow:0 3px 14px #123a6310;font:inherit;min-width:0';
+  a.innerHTML='<span aria-hidden="true" style="display:grid;place-items:center;width:43px;height:43px;flex:none;border-radius:13px;background:linear-gradient(145deg,#123a63,#27749b);color:white;box-shadow:0 5px 12px #123a6326"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 16 4-4 3 2 5-7"/><path d="M16 7h3v3"/></svg></span><span style="display:flex;flex-direction:column;gap:3px;flex:1;min-width:0"><span style="font-weight:750;font-size:14px;color:#123a63">Central de acessos</span><span style="font-size:11.5px;line-height:1.4;color:#64788c">Relatórios de visitas e funcionalidades · login restrito</span></span><span aria-hidden="true" style="color:#8ca1b5;font-size:22px">›</span>';
+  perfil.insertBefore(a,perfil.lastElementChild);
 }
 function principal(){
   if(escolha()==='sim')iniciar();
   else if(escolha()!=='nao')aviso();
-  linkPrivado();
+  linkCentral();
 }
 if(D.readyState==='loading')D.addEventListener('DOMContentLoaded',principal,{once:true});else principal();
 })();
