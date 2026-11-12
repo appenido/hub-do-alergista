@@ -130,6 +130,89 @@
   @media (prefers-reduced-motion:reduce) {
     #page-imunizacoes #vacListaAll.vac-grid > details.vac-card {transition:none !important;}
   }
+
+  /* Calendários por população SBIm/PNI: abrir sem tirar o card da célula. */
+  #page-imunizacoes #vacCalendariosLista .vac-nat-grid {
+    align-items:start !important;
+    grid-auto-flow:row !important;
+    position:relative;
+    overflow:visible !important;
+    overflow-anchor:none;
+    isolation:isolate;
+  }
+  #page-imunizacoes #vacCalendariosLista .vac-nat-grid.vac-nat-grid-active {
+    z-index:70;
+  }
+  #page-imunizacoes #vacCalendariosLista .vac-nat-grid > .vac-nat-shell,
+  #page-imunizacoes #vacCalendariosLista .vac-nat-grid > .vac-nat-shell.open {
+    position:relative !important;
+    grid-column:auto !important;
+    grid-row:auto !important;
+    box-sizing:border-box !important;
+    width:100% !important;
+    min-width:0 !important;
+    height:148px !important;
+    min-height:148px !important;
+    max-height:148px !important;
+    margin:0 !important;
+    align-self:start !important;
+    overflow:visible !important;
+    z-index:1;
+    overflow-anchor:none;
+  }
+  #page-imunizacoes #vacCalendariosLista .vac-nat-grid > .vac-nat-shell.open {
+    z-index:80 !important;
+    border-color:#2d8fa8;
+    box-shadow:0 0 0 2px rgba(45,143,168,.18);
+  }
+  #page-imunizacoes #vacCalendariosLista .vac-nat-shell > .vac-nat-card,
+  #page-imunizacoes #vacCalendariosLista .vac-nat-shell.open > .vac-nat-card {
+    width:100% !important;
+    height:145px !important;
+    min-height:145px !important;
+    max-height:145px !important;
+    flex-direction:column !important;
+    align-items:flex-start !important;
+    justify-content:flex-start !important;
+    text-align:left !important;
+    padding:13px 12px !important;
+    overflow:hidden !important;
+    box-sizing:border-box !important;
+  }
+  #page-imunizacoes #vacCalendariosLista .vac-nat-shell.open > .vac-nat-card {
+    background:#effafb !important;
+  }
+  #page-imunizacoes #vacCalendariosLista .vac-nat-shell > .vac-nat-body {
+    display:block;
+    position:absolute !important;
+    top:calc(100% - 2px) !important;
+    left:var(--vac-nat-panel-left,0px) !important;
+    width:var(--vac-nat-panel-width,min(460px,calc(100vw - 24px))) !important;
+    min-width:0 !important;
+    max-width:none !important;
+    max-height:min(64vh,620px) !important;
+    max-height:min(64dvh,620px) !important;
+    padding:12px !important;
+    box-sizing:border-box !important;
+    overflow-y:auto !important;
+    overflow-x:auto !important;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+    background:#fff !important;
+    border:1.5px solid #2d8fa8 !important;
+    border-radius:0 0 14px 14px !important;
+    box-shadow:0 18px 38px rgba(13,31,45,.2);
+    z-index:100 !important;
+    scrollbar-width:thin;
+  }
+  #page-imunizacoes #vacCalendariosLista .vac-nat-shell > .vac-nat-body table {
+    max-width:100%;
+  }
+  @media(max-width:359px) {
+    #page-imunizacoes #vacCalendariosLista .vac-nat-shell > .vac-nat-body {
+      padding:9px !important;
+    }
+  }
   `;
 
   function init() {
@@ -174,6 +257,33 @@
       requestAnimationFrame(function(){positionCard(active());});
     });
 
+
+    function positionNative() {
+      var list = document.getElementById('vacCalendariosLista');
+      if (!list) return;
+      var shell = list.querySelector('.vac-nat-shell.open');
+      list.querySelectorAll('.vac-nat-grid-active').forEach(function(g){
+        if (!shell || g !== shell.parentElement) g.classList.remove('vac-nat-grid-active');
+      });
+      if (!shell) return;
+      var nativeGrid = shell.parentElement;
+      if (nativeGrid) nativeGrid.classList.add('vac-nat-grid-active');
+      var r = shell.getBoundingClientRect();
+      var viewportW = document.documentElement.clientWidth;
+      var boundary = list.getBoundingClientRect();
+      var leftEdge = Math.max(12,boundary.left);
+      var rightEdge = Math.min(viewportW - 12,boundary.right);
+      var width = Math.min(460,Math.max(1,rightEdge - leftEdge));
+      var left = Math.max(leftEdge,Math.min(r.left,rightEdge - width));
+      shell.style.setProperty('--vac-nat-panel-left',(left - r.left)+'px');
+      shell.style.setProperty('--vac-nat-panel-width',width+'px');
+    }
+
+    document.addEventListener('click',function(ev) {
+      var inCalendar = ev.target.closest && ev.target.closest('#vac-sub-calendarios');
+      if (inCalendar) requestAnimationFrame(positionNative);
+    });
+
     document.addEventListener('keydown', function(ev){
       if (ev.key !== 'Escape') return;
       var opened = active();
@@ -183,10 +293,10 @@
       if (summary) summary.focus({preventScroll:true});
     });
 
-    window.addEventListener('resize', function(){positionCard(active());},{passive:true});
-    window.addEventListener('orientationchange', function(){positionCard(active());},{passive:true});
+    window.addEventListener('resize', function(){positionCard(active());positionNative();},{passive:true});
+    window.addEventListener('orientationchange', function(){positionCard(active());positionNative();},{passive:true});
     if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize',function(){positionCard(active());},{passive:true});
+      window.visualViewport.addEventListener('resize',function(){positionCard(active());positionNative();},{passive:true});
     }
   }
 
