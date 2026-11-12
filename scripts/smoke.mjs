@@ -35,6 +35,13 @@ async function verificar() {
   assert.ok(manifest.name || manifest.short_name, 'Manifesto do aplicativo inválido');
   const script = await (await get('/sw.js')).text();
   assert.match(script, /const CACHE/);
+  // Garante que a função dinâmica de artigos foi publicada (não apenas o HTML estático).
+  const artigosInvalidos=await fetch(BASE+'/artigos?tema=tema-inexistente',{
+    method:'GET',signal:AbortSignal.timeout(TIMEOUT),cache:'no-store'
+  });
+  assert.equal(artigosInvalidos.status,400,'Rota /artigos não está publicada corretamente');
+  const erroArtigos=await artigosInvalidos.json();
+  assert.match(String(erroArtigos.erro||''),/Filtro inválido/);
   const noticias = await (await get('/news')).json();
   assert.ok(Array.isArray(noticias.itens), '/news não tem lista de itens');
   assert.ok(noticias.itens.length <= 10, 'Limite de notícias verificado excedido');
