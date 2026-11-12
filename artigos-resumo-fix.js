@@ -97,14 +97,24 @@
     a.textContent=/\.pdf(?:[?#]|$)|\/pdf(?:[/?#]|$)/i.test(alvo)?'📄 Abrir PDF original':'📄 Abrir artigo original';
     links.appendChild(a);
   }
-  function analiseHTML(resposta, jornal) {
-    var html='<div style="font-size:11px;color:var(--teal-mid);padding:9px 11px;border-left:3px solid var(--teal-mid);background:#f2f8f9;margin-bottom:14px">Análise do abstract · '+esc(jornal)+'</div>';
+  function analiseHTML(resposta, jornal, dados) {
+    var html='<section class="hub-ai-critica" aria-label="Avaliação crítica do artigo">'
+      +'<div class="hub-ai-critica-intro"><span>ANÁLISE CRÍTICA POR IA</span>'
+      +'<div>'+esc(jornal)+(dados&&dados.pmid?' · PMID '+esc(dados.pmid):'')+'</div>'
+      +'<p>Interpretação clínica e metodológica. Esta área não reproduz o resumo do artigo.</p></div>';
     String(resposta||'').split('\n').forEach(function(l){
       l=l.trim();if(!l)return;
-      if(/^#{1,4}\s/.test(l))html+='<h3>'+esc(l.replace(/^#+\s*/,''))+'</h3>';
-      else html+='<p>'+esc(l.replace(/^[-*]\s*/,''))+'</p>';
+      if(/^#{1,4}\s/.test(l)){
+        if(/<p class="hub-ai-texto">/.test(html))html+='</p>';
+        html+='<h3>'+esc(l.replace(/^#+\s*/,''))+'</h3>';
+      } else if(/^[-*] /i.test(l)){
+        html+='<p class="hub-ai-ponto">'+esc(l.replace(/^[-*]\s*/,''))+'</p>';
+      } else {
+        html+='<p class="hub-ai-texto">'+esc(l)+'</p>';
+      }
     });
-    return html+'<p style="font-size:11px;line-height:1.5;color:var(--gray-500)">Análise automática baseada apenas no abstract publicado. Confira o artigo completo antes de orientar condutas.</p>';
+    html+='</section><p class="hub-ai-ressalva">Gerado por IA a partir do abstract oficial, não do texto integral. Dados ausentes e conclusões devem ser conferidos no original antes da aplicação clínica.</p>';
+    return html;
   }
 
   window.openAiSheet=function(card){
@@ -122,42 +132,69 @@
     var sheet=document.getElementById('aiSheet');
     var body=document.getElementById('aiSheetBody');
     if(!sheet||!body)return;
-    document.getElementById('aiSheetTitle').textContent=tituloPt||titulo||'Análise do artigo';
+    document.getElementById('aiSheetTitle').textContent='Análise crítica · '+(tituloPt||titulo||'Artigo');
     var doiEl=document.getElementById('aiSheetDoi');
     doiEl.textContent=doi?'DOI: '+doi:'';
     doiEl.style.display=doi?'flex':'none';
     colocarLink(sheet,card,titulo||tituloPt);
     sheet.classList.add('open');
-    body.innerHTML='<div class="ai-sheet-loading" role="status">Consultando o resumo oficial no PubMed…</div>';
+    body.innerHTML='<div class="ai-sheet-loading" role="status">Conferindo a referência científica para a análise crítica…</div>';
 
     artigoNoPubmed({uid:uid,doi:doi,titulo:titulo}).then(function(dados){
       if(token!==tentativaAtual)return;
       var oficial=mostrarResumoOficial(dados);
-      body.innerHTML=oficial+
-        '<p id="aiAnaliseStatus" role="status" style="font-size:12px;color:var(--teal-mid);margin:15px 0">Gerando análise crítica a partir do abstract…</p>';
+      body.innerHTML='<div class="hub-ai-processando" role="status">'
+        +'<div class="hub-ai-processando-titulo">Análise crítica em elaboração</div>'
+        +'<p>Extraindo pergunta clínica, desenho do estudo, resultados e limitações. O resumo oficial permanece na aba Resumo.</p>'
+        +'<div class="hub-ai-pulsando" aria-hidden="true"></div></div>';
       var resumo=dados.texto.slice(0,2850);
       var truncado=dados.texto.length>2850?' [Abstract parcialmente transcrito por limite técnico.]':'';
-      var pergunta='Analise APENAS o abstract médico informado, sem inventar números, resultados ou conclusões. '
-        +'Quando um dado não constar, escreva "não informado no resumo". Responda em português brasileiro '
-        +'e use estas seções: ## Objetivo; ## Métodos e população; ## Resultados; ## Limitações; '
-        +'## Aplicabilidade clínica. Não afirme ter lido o artigo integral. '
-        +'Título: '+titulo+'. Revista: '+jornal+'. Abstract: '+resumo+truncado;
+      var pergunta=[
+        'Você é um revisor crítico de literatura médica. Faça uma ANÁLISE CRÍTICA em português brasileiro, DIFERENTE DE UM RESUMO.',
+        'Baseie-se SOMENTE no título e abstract abaixo; não alegue acesso ao artigo completo. Nunca invente números, evidências, riscos, desfechos, diretrizes ou referências.',
+        'Para dado não informado no abstract, escreva "não informado no abstract". Seja objetivo e clínico. NÃO traduza ou repita o abstract integral.',
+        'Use EXATAMENTE estas seções, iniciadas por ##, em linhas separadas:',
+        '## Pergunta clínica (PICO)',
+        '## Desenho, população e qualidade metodológica',
+        '## Resultados quantitativos e relevância clínica',
+        '## Limitações, vieses e incertezas',
+        '## Aplicabilidade em Alergia e Imunologia no Brasil',
+        '## Conclusão crítica e implicações para a prática',
+        'Quando houver dados comparativos explícitos, relacione grupos, números, desfecho e tempo. Caso contrário, não calcule efeitos.',
+        'Não afirme nível GRADE, recomendação de diretriz ou status regulatório sem evidência textual.',
+        'Título: '+titulo,
+        'Revista: '+jornal,
+        'Abstract: '+resumo+truncado
+      ].join('\n');
       return buscarComPrazo('/ia',{method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({pergunta:pergunta})},22000)
         .then(function(r){return r.json().then(function(d){if(!r.ok||!d.resposta)throw new Error(d.erro||'Serviço de IA indisponível.');return d.resposta;});})
         .then(function(resposta){
           if(token!==tentativaAtual)return;
-          body.innerHTML=analiseHTML(resposta,jornal)+
-            '<details style="margin-top:16px"><summary style="color:var(--teal-mid);cursor:pointer">Consultar o abstract oficial do PubMed</summary><div style="margin-top:12px">'+oficial+'</div></details>';
+          body.innerHTML=analiseHTML(resposta,jornal,dados)+
+            '<details class="hub-ai-abstract-link"><summary>Consultar fonte: abstract original do PubMed</summary><div>'+oficial+'</div></details>';
         })
-        .catch(function(){
+        .catch(function(e){
           if(token!==tentativaAtual)return;
-          body.innerHTML=oficial+'<p style="font-size:12px;line-height:1.6;color:#795d22;margin-top:14px">'
-            +'A análise automática não respondeu dentro do prazo ou está indisponível. O resumo oficial permanece disponível acima.</p>';
+          body.innerHTML='<div class="hub-ai-erro" role="alert">'
+            +'<h3>Análise por IA indisponível</h3>'
+            +'<p>Não foi possível obter uma avaliação crítica do serviço de IA. '
+            +'Não exibimos o abstract como se fosse uma análise gerada.</p>'
+            +'<p class="hub-ai-causa">'+esc(e && e.name==='AbortError'
+              ? 'Tempo de resposta excedido.' : (e&&e.message?e.message:'Serviço de IA não respondeu.'))+'</p>'
+            +'<button type="button" class="hub-ai-refazer" id="hubAiTentarNovamente">Tentar análise novamente</button>'
+            +'<p>Para ler o texto disponível, use o botão Resumo no card do artigo.</p></div>';
+          var retry=document.getElementById('hubAiTentarNovamente');
+          if(retry)retry.addEventListener('click',function(){window.openAiSheet(card);});
         });
     }).catch(function(e){
       if(token!==tentativaAtual)return;
-      mostrarErroOrigem(body,card,e);
+      body.innerHTML='<div class="hub-ai-erro" role="alert"><h3>Não foi possível validar o artigo</h3>'
+        +'<p>'+esc(e&&e.message?e.message:'Falha na consulta à fonte PubMed.')
+        +' A análise por IA não será realizada sem confirmar o texto de origem.</p>'
+        +'<button type="button" class="hub-ai-refazer" id="hubAiReconsultar">Reconsultar artigo</button></div>';
+      var retry=document.getElementById('hubAiReconsultar');
+      if(retry)retry.addEventListener('click',function(){window.openAiSheet(card);});
     });
   };
 
