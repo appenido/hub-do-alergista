@@ -138,6 +138,24 @@
         if(retry)retry.addEventListener('click',function(){load(active,true);});
       });
   }
+  // A Home utiliza a mesma busca rigorosa, sem os filtros antigos por medicamento isolado.
+  window._homeBuscarTema=function(id){
+    if(!topicNames[id] || id==='todos')return Promise.reject(new Error('Tema inválido'));
+    return fetch('/artigos?'+new URLSearchParams({tema:id,dias:'365'}).toString(),{
+      cache:'no-store',headers:{Accept:'application/json'}
+    }).then(function(r){if(!r.ok)throw new Error('PubMed indisponível');return r.json();})
+      .then(function(d){
+        if(d.schema!==1 || d.topic!==id || !Array.isArray(d.artigos))throw new Error('Artigos inválidos');
+        var result={uids:[]};
+        d.artigos.slice(0,3).forEach(function(a){
+          if(!/^[1-9]\d{0,8}$/.test(String(a.pmid)) || !(a.topics||[]).includes(id))return;
+          result.uids.push(a.pmid);
+          result[a.pmid]={uid:a.pmid,title:a.title,source:a.journal,pubdate:a.date,sortpubdate:a.date,
+            authors:(a.authors||[]).map(function(name){return {name:name};})};
+        });
+        return {result:result};
+      });
+  };
   window.renderFeedChips=renderChips;
   window.carregarFeed=load;
   window.hubArtigosAoAbrir=function(){
