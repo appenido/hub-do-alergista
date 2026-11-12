@@ -2,7 +2,7 @@
    Escopo restrito à home, sem afetar os cards das demais áreas. */
 #page-dashboard .quick-grid {
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-columns:repeat(3,minmax(0,1fr));
   gap:12px;
   padding-inline:clamp(14px,4vw,28px);
   align-items:stretch;
@@ -117,23 +117,23 @@
 }
 #page-dashboard .quick-grid .hub-install-card[hidden]{display:none!important;}
 @media(max-width:339px){
-  #page-dashboard .quick-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;padding-inline:10px;}
+  #page-dashboard .quick-grid {grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;padding-inline:9px;}
   #page-dashboard .quick-grid .qcard {min-height:145px;}
 }
 @media(min-width:600px) and (max-width:759px){
-  #page-dashboard .quick-grid {grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
+  #page-dashboard .quick-grid {grid-template-columns:repeat(3,minmax(0,1fr));}
 }
 @media(min-width:760px) and (max-width:1023px){
-  #page-dashboard .quick-grid {grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;}
+  #page-dashboard .quick-grid {grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;}
   #page-dashboard .quick-grid .qcard {min-height:165px;}
 }
 @media(min-width:1024px) and (max-width:1250px){
-  #page-dashboard .quick-grid {grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:16px;}
+  #page-dashboard .quick-grid {grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}
   #page-dashboard .quick-grid .qcard {min-height:174px;padding:19px 11px;}
   #page-dashboard .quick-grid .qcard .ql {font-size:15.5px!important;}
 }
 @media(min-width:1251px){
-  #page-dashboard .quick-grid {grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;}
+  #page-dashboard .quick-grid {grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;}
   #page-dashboard .quick-grid .qcard {min-height:176px;padding:20px 11px;}
   #page-dashboard .quick-grid .qcard .ql {font-size:15px!important;}
 }
@@ -451,4 +451,24 @@
 }
 @media(prefers-reduced-motion:reduce){
   #page-imuno .bio-grid .bio-card{transition:none;}
+}
+
+/* Home: exatamente tres botoes por fileira em todas as larguras, sem afetar outras grades. */
+#page-dashboard .quick-grid {
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  max-width:1020px;
+  margin-inline:auto;
+}
+@media(max-width:599px){
+  #page-dashboard .quick-grid {gap:clamp(6px,1.8vw,10px);padding-inline:clamp(8px,3vw,14px);}
+  #page-dashboard .quick-grid .qcard {min-height:128px;gap:8px;padding:10px 3px 9px;border-radius:14px;}
+  #page-dashboard .quick-grid .qcard .qi {flex-basis:clamp(42px,13vw,52px);width:clamp(42px,13vw,52px);min-width:clamp(42px,13vw,52px);height:clamp(42px,13vw,52px);padding:4px;border-radius:14px;font-size:23px;}
+  #page-dashboard .quick-grid .qcard .ql,
+  #page-dashboard .quick-grid .qcard[data-nav="interacao"] .ql,
+  #page-dashboard .quick-grid .qcard[data-nav="imunoglobulinas"] .ql,
+  #page-dashboard .quick-grid .qcard[data-nav="imuno"] .ql {font-size:clamp(10px,2.85vw,12.5px);line-height:1.22;letter-spacing:-.25px;overflow-wrap:anywhere!important;word-break:normal!important;}
+}
+@media(max-width:339px){
+  #page-dashboard .quick-grid .qcard {min-height:122px;}
+  #page-dashboard .quick-grid .qcard .ql {font-size:10px;}
 }
