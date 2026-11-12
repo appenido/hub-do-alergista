@@ -58,27 +58,35 @@ export async function onRequestPost({request,env}){
     return resposta({erro:'Remova qualquer informação identificável de pacientes antes de utilizar a IA.'},422,origin);
   const key=env.GEMINI_API_KEY||env.GEMINI||env.GOOGLE_API_KEY;
   if(!key)return resposta({erro:'IA temporariamente indisponível.'},503,origin);
-  const MODELOS=['gemini-flash-latest','gemini-2.5-flash','gemini-2.0-flash','gemini-flash-lite-latest'];
+  // Priorização de modelos válidos com prazo curto: a interface não deve ficar
+  // esperando uma longa cadeia de tentativas e exibir o abstract como substituto.
+  const MODELOS=['gemini-2.5-flash','gemini-flash-latest'];
   const corpo=JSON.stringify({
     system_instruction:{parts:[{text:SISTEMA}]},
     contents:[{role:'user',parts:[{text:pergunta}]}],
-    generationConfig:{temperature:0.3,maxOutputTokens:1200}
+    generationConfig:{temperature:0.25,maxOutputTokens:1800}
   });
+  let ultimaFalha='';
   for(const modelo of MODELOS){
-    for(let tentativa=0;tentativa<2;tentativa++){
-      try{
-        const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+modelo+':generateContent?key='+encodeURIComponent(key),
-          {method:'POST',headers:{'Content-Type':'application/json'},body:corpo});
-        if(r.ok){
-          const d=await r.json();
-          const partes=(((d.candidates||[])[0]||{}).content||{}).parts||[];
-          const texto=partes.map(p=>p.text||'').join('').trim();
-          if(texto)return resposta({resposta:texto},200,origin);
-        }
-        if(r.status!==429&&r.status!==503)break;
-        await new Promise(resolve=>setTimeout(resolve,1200));
-      }catch(_){break;}
-    }
+    const controller=new AbortController();
+    const timer=setTimeout(()=>controller.abort(),8500);
+    try{
+      const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+modelo+':generateContent?key='+encodeURIComponent(key),
+        {method:'POST',headers:{'Content-Type':'application/json'},body:corpo,signal:controller.signal});
+      if(r.ok){
+        const d=await r.json();
+        const partes=(((d.candidates||[])[0]||{}).content||{}).parts||[];
+        const texto=partes.map(p=>typeof p.text==='string'?p.text:'').join('').trim();
+        if(texto)return resposta({resposta:texto},200,origin);
+        ultimaFalha='O serviço não retornou conteúdo.';
+      }else{
+        ultimaFalha=r.status===429?'Serviço de IA temporariamente sobrecarregado.':
+          r.status===401||r.status===403?'Serviço de IA sem autorização.':
+          'Serviço de IA indisponível (HTTP '+r.status+').';
+        if(r.status===401||r.status===403)break;
+      }
+    }catch(e){ultimaFalha=e&&e.name==='AbortError'?'A IA excedeu o tempo limite.':'Falha de comunicação com a IA.';}
+    finally{clearTimeout(timer);}
   }
-  return resposta({erro:'Não foi possível consultar o serviço de IA agora.'},502,origin);
+  return resposta({erro:ultimaFalha||'Não foi possível consultar o serviço de IA agora.'},503,origin);
 }
