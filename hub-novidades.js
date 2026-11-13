@@ -10,6 +10,7 @@
   var items = [];
   var loaded = false;
   var loading = null;
+  var lastChecked = '';
 
   function readSeen() {
     try {
@@ -44,6 +45,7 @@
         return res.json();
       })
       .then(function (data) {
+        lastChecked = typeof data.checkedAt === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(data.checkedAt) ? data.checkedAt : '';
         var list = Array.isArray(data.items) ? data.items.filter(validItem) : [];
         var unique = Object.create(null);
         items = list.filter(function (item) {
@@ -104,6 +106,7 @@
     heading.appendChild(element('div', 'hub-novidades-eyebrow', 'ATUALIZAÇÕES DO APLICATIVO'));
     heading.appendChild(element('h2', '', 'Novidades do Hub'));
     heading.appendChild(element('p', '', 'Novos conteúdos adicionados ao aplicativo, organizados para uma consulta rápida.'));
+    if (lastChecked) heading.appendChild(element('p', 'hub-novidades-checked', 'Verificação automática: ' + formatDate(lastChecked)));
     header.appendChild(heading);
     var close = element('button', 'hub-novidades-close', '×');
     close.type = 'button';
@@ -189,6 +192,7 @@
       '.hub-novidades-header{display:flex;flex:0 0 auto;align-items:flex-start;justify-content:space-between;gap:10px;padding:18px 19px 15px;border-bottom:1px solid #dce7eb;background:#fff;}',
       '.hub-novidades-heading h2{margin:3px 0 4px;font-size:19px;line-height:1.3;letter-spacing:-.03em;font-weight:800;color:#13324a;}',
       '.hub-novidades-heading p{font-size:12.5px;line-height:1.5;margin:0;color:#4e6b7a;}',
+      '.hub-novidades-heading .hub-novidades-checked{font-size:10.5px;line-height:1.4;margin-top:7px;color:#527480;}',
       '.hub-novidades-eyebrow{font-size:9px;font-weight:800;letter-spacing:.12em;color:#218f9b;}',
       '.hub-novidades-close{border:0;background:#f1f6f7;border-radius:9px;width:29px;height:29px;color:#45616e;font-size:21px;line-height:1;cursor:pointer;flex-shrink:0;}',
       '.hub-novidades-list{display:block;flex:1 1 auto;min-height:0;max-height:none;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:14px;background:#f1f6f8;scrollbar-gutter:stable;}',
@@ -227,6 +231,9 @@
     // A rotina original da Home já chama openNotifPanel() ao clicar no sino.
     window.openNotifPanel = openNews;
     fetchNews(false);
+    // Atualizar o sino mesmo se o aplicativo ficar aberto por muito tempo.
+    window.setInterval(function () { if (!document.hidden) fetchNews(true); }, 60 * 60 * 1000);
+    window.addEventListener('focus', function () { fetchNews(true); });
     document.addEventListener('visibilitychange', function () {
       if (!document.hidden) fetchNews(true);
     });
