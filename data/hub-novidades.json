@@ -12,22 +12,13 @@
       "section": "scores"
     },
     {
-      "id": "2026-11-09-anti-h1",
+      "id": "2026-11-09-reatividade-alimentar",
       "date": "2026-11-09",
-      "category": "Medicamentos",
-      "icon": "💊",
-      "title": "Catálogo de anti-histamínicos",
-      "description": "Nova seção com medicamentos organizados alfabeticamente, vias de administração, apresentações e recursos de cálculo de dose.",
-      "section": "antihistaminicos"
-    },
-    {
-      "id": "2026-11-09-biologicos-asma",
-      "date": "2026-11-09",
-      "category": "Protocolos de bolso",
-      "icon": "🫁",
-      "title": "Calculadora de biológicos para asma",
-      "description": "Nova ferramenta para organizar os critérios clínicos de elegibilidade e apoiar a seleção de tratamentos biológicos na asma grave.",
-      "section": "eaaci"
+      "category": "Laboratório",
+      "icon": "🧬",
+      "title": "Comparador de reatividade cruzada alimentar",
+      "description": "Nova consulta entre dois alimentos, com componentes moleculares e interpretação clínica da possível reatividade cruzada.",
+      "section": "laboratorio"
     },
     {
       "id": "2026-11-09-pen-fast",
@@ -39,15 +30,24 @@
       "section": "scores"
     },
     {
-      "id": "2026-11-09-reatividade-alimentar",
+      "id": "2026-11-09-biologicos-asma",
       "date": "2026-11-09",
-      "category": "Laboratório",
-      "icon": "🧬",
-      "title": "Comparador de reatividade cruzada alimentar",
-      "description": "Nova consulta entre dois alimentos, com componentes moleculares e interpretação clínica da possível reatividade cruzada.",
-      "section": "laboratorio"
+      "category": "Protocolos de bolso",
+      "icon": "🫁",
+      "title": "Calculadora de biológicos para asma",
+      "description": "Nova ferramenta para organizar os critérios clínicos de elegibilidade e apoiar a seleção de tratamentos biológicos na asma grave.",
+      "section": "eaaci"
+    },
+    {
+      "id": "2026-11-09-anti-h1",
+      "date": "2026-11-09",
+      "category": "Medicamentos",
+      "icon": "💊",
+      "title": "Catálogo de anti-histamínicos",
+      "description": "Nova seção com medicamentos organizados alfabeticamente, vias de administração, apresentações e recursos de cálculo de dose.",
+      "section": "antihistaminicos"
     }
   ],
-  "checkedAt": "2026-11-12",
-  "lastScannedCommit": "e5b02934f8b50b6032cfe0de0fad70d219eafa67"
+  "checkedAt": "2026-11-13",
+  "lastScannedCommit": "98420f21af3b278f6e242b709bbd65e14663ae35"
 }
