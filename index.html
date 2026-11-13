@@ -965,6 +965,7 @@ _marcarGuiasPagas();
 #bio-abrocitinibe .bio-icon{background:linear-gradient(135deg,#0068a0,#37aad4)!important;}
 #bio-tralokinumabe .bio-icon{background:linear-gradient(135deg,#17558a,#39a6c6)!important;}
 #bio-lebrikizumabe .bio-icon{background:linear-gradient(135deg,#a31e32,#e34545)!important;}
+#bio-nemolizumabe .bio-icon{background:linear-gradient(135deg,#243443,#6a9eac)!important;}
 #bio-lanadelumabe .bio-icon{background:linear-gradient(135deg,#a31a29,#e9574f)!important;}
 #bio-garadacimabe .bio-icon{background:linear-gradient(135deg,#0a5686,#218db2)!important;}
 #page-imuno .bio-grid .bio-icon{color:#fff!important;box-shadow:0 3px 10px rgba(0,0,0,.12);}
@@ -3565,6 +3566,40 @@ window._bloquearApp=function(){};
         <div class="bio-section"><div class="bio-label">PCDT / SUS</div><div class="bio-value"><div style="font-size:12px;color:var(--gray-600);line-height:1.6"><span class="bio-ans-no">❌ Não incorporado</span><br><br>Sem avaliação da CONITEC localizada. O PCDT de DA (Portaria Conjunta nº 28/2025) não o inclui.</div><span class="bio-fonte">Fontes: portarias SECTICS/MS e PCDTs (CONITEC / Ministério da Saúde). Revisado em 02/10/2026.</span></div></div>
         <div class="bio-section"><button class="bio-rel-btn btn-open-relatorio" data-rel="LEBRI DA.docx" onclick="openRelatorioSheet('lebrikizumabe','Lebriquizumabe')">📝 Gerar relatório para plano de saúde</button></div>
         <div class="bio-section bio-rationale" data-bio-rationale="lebrikizumabe"><div class="bio-label">Por que utilizar este biológico?</div><div class="bio-value"><p>Perfil em que considerar: Dermatite atópica moderada a grave não controlada com terapia tópica, quando se busca tratamento com anticorpo anti-IL-13.</p><p>O que os estudos demonstraram: ADvocate 1/2 demonstraram melhora das lesões e do prurido versus placebo durante a indução. Os resultados sustentam o bloqueio de IL-13 como opção terapêutica na DA.</p><p>Na prática, é uma alternativa para controle cutâneo; a possibilidade de manutenção a cada quatro semanas depende da resposta e do esquema de bula. Os ensaios contra placebo não estabelecem superioridade sobre outros biológicos.</p></div><div class="bio-fonte">Estudos de referência: <a href="https://pubmed.ncbi.nlm.nih.gov/36920778/" target="_blank" rel="noopener noreferrer">ADvocate 1/2 · NEJM, 2023</a> · <a href="https://www.ema.europa.eu/en/medicines/human/EPAR/ebglyss" target="_blank" rel="noopener noreferrer">Informações do produto · EMA</a>. Síntese clínica revisada em 04/11/2026.</div></div>
+      </div>
+    </div>
+
+    <div class="bio-card" id="bio-nemolizumabe">
+      <div class="bio-header" onclick="toggleBio('nemolizumabe')" role="button" tabindex="0" aria-expanded="false" aria-controls="bio-conteudo-nemolizumabe" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleBio('nemolizumabe')}">
+        <div class="bio-icon" style="background:linear-gradient(135deg,#253a49,#688c95)"><span class="bio-target" title="Antagonista do receptor alfa da IL-31">Anti-IL-31Rα</span></div>
+        <div>
+          <div class="bio-name">Nemolizumabe <span class="bio-new">NOVO</span></div>
+          <div class="bio-comercial">Nemluvio® · Galderma</div>
+        </div>
+        <div class="bio-chevron">›</div>
+      </div>
+      <div class="bio-body" id="bio-conteudo-nemolizumabe">
+        <div class="bio-section"><div class="bio-label">Mecanismo de ação</div><div class="bio-value">Anticorpo monoclonal humanizado IgG2 que se liga seletivamente à subunidade alfa do receptor de IL-31 (IL-31Rα), inibindo a sinalização dessa citocina envolvida no prurido e na inflamação cutânea. <strong>Seu alvo é o receptor de IL-31, não a citocina livre.</strong></div></div>
+        <div class="bio-section"><div class="bio-label">Indicações registradas na ANVISA</div><div class="bio-value">Dermatite atópica moderada a grave em adultos e adolescentes a partir de 12 anos candidatos a terapia sistêmica; prurigo nodular moderado a grave em adultos candidatos a terapia sistêmica. <span class="bio-fonte">Registro nº 1.2916.0207, concedido em maio de 2026; RE ANVISA nº 1.991/2026.</span></div></div>
+        <div class="bio-section"><div class="bio-label">Apresentação</div><div class="bio-value">Caneta autoinjetora subcutânea de <strong>30 mg</strong> de pó liofilizado, com diluente integrado (0,49 mL após reconstituição). Cada dose de 60 mg requer duas canetas de 30 mg.</div></div>
+        <div class="bio-section"><div class="bio-label">Posologia e dose por doença</div><div class="bio-value">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="background:var(--gray-50);border-radius:9px;padding:10px 12px">
+              <div style="font-weight:800;color:var(--navy);font-size:12.5px;margin-bottom:3px">Dermatite atópica moderada a grave (≥ 12 anos)</div>
+              <div style="font-size:12px;line-height:1.5"><strong>60 mg SC na dose inicial</strong> (2 canetas de 30 mg), seguidos de <strong>30 mg SC a cada 4 semanas até a semana 16</strong>. Reavaliar a resposta após 16 semanas; se houver benefício e indicação de continuidade, <strong>30 mg a cada 8 semanas</strong>, conforme bula brasileira. Pode ser usado com ou sem terapias tópicas.</div>
+            </div>
+            <div style="background:var(--gray-50);border-radius:9px;padding:10px 12px">
+              <div style="font-weight:800;color:var(--navy);font-size:12.5px;margin-bottom:3px">Prurigo nodular moderado a grave (adultos)</div>
+              <div style="font-size:12px;line-height:1.5"><strong>Dose inicial de 60 mg SC</strong>. Se peso <strong>&lt; 90 kg</strong>, manter <strong>30 mg a cada 4 semanas</strong>; se peso <strong>≥ 90 kg</strong>, manter <strong>60 mg a cada 4 semanas</strong>. Avaliar resposta na semana 16.</div>
+            </div>
+          </div>
+        </div></div>
+        <div class="bio-section"><div class="bio-label">Exames, avaliação clínica e DUT</div><div class="bio-value">Documentar diagnóstico, tratamentos prévios, gravidade e impacto clínico: EASI/SCORAD, prurido (NRS), sono e DLQI na dermatite atópica; intensidade do prurido, extensão das lesões e qualidade de vida no prurigo nodular. <strong>Não há exigência de exames laboratoriais de rotina específica na bula.</strong> Não aplicar automaticamente a DUT 65.14, de outros imunobiológicos, ao nemolizumabe.</div></div>
+        <div class="bio-section"><div class="bio-label">Cobertura ANS (Rol)</div><div class="bio-value"><span class="bio-ans-no">Sem DUT específica identificada</span><div style="font-size:12px;color:var(--gray-600);margin-top:8px;line-height:1.6">Até a revisão de 13/11/2026, não foi identificada inclusão nominal do nemolizumabe nas diretrizes de utilização de cobertura obrigatória do Rol ANS. <strong>Registro sanitário na ANVISA não equivale à incorporação no Rol.</strong> Avaliar cobertura contratual e atualizações oficiais; não atribuir critérios de cobertura de outros medicamentos.</div><span class="bio-fonte">Fonte: Rol e Anexo II da ANS; situação sujeita a mudanças regulatórias.</span></div></div>
+        <div class="bio-section"><div class="bio-label">PCDT / SUS</div><div class="bio-value">Nemolizumabe não consta no PCDT nacional de dermatite atópica aprovado em novembro de 2025. Não presumir disponibilidade pelo SUS; conferir eventuais incorporações e alterações posteriores da CONITEC e do Ministério da Saúde.</div></div>
+        <div class="bio-section"><div class="bio-label">Segurança, vacinação e conservação</div><div class="bio-value">Atenção a reações de hipersensibilidade; avaliar alterações respiratórias em pacientes com doença pulmonar. Atualizar imunizações antes do início e <strong>evitar vacinas vivas durante o tratamento</strong>, conforme bula brasileira. Conservar entre <strong>2 e 8 °C</strong>, sem congelar. A bula permite, uma única vez, até <strong>90 dias a ≤ 30 °C</strong> na embalagem original; após reconstituição, usar em até <strong>4 horas</strong>.</div></div>
+        <div class="bio-section"><button class="bio-rel-btn btn-open-relatorio" onclick="openRelatorioSheet('nemolizumabe','Nemolizumabe')">📝 Gerar relatório para plano de saúde</button></div>
+        <div class="bio-section bio-rationale" data-bio-rationale="nemolizumabe"><div class="bio-label">Por que utilizar este biológico?</div><div class="bio-value"><p>É uma opção dirigida ao eixo IL-31/IL-31R, especialmente relevante quando o prurido intenso prejudica o sono e a qualidade de vida na dermatite atópica ou no prurigo nodular.</p><p>Nos estudos de fase 3 ARCADIA 1/2, a associação ao tratamento tópico melhorou inflamação e prurido na dermatite atópica. Nos estudos OLYMPIA 1/2, houve redução significativa do prurido e das lesões do prurigo nodular em comparação ao placebo.</p><p>Os ensaios de registro não demonstram superioridade direta sobre outros biológicos. A escolha depende de indicação, perfil do paciente, comorbidades, acesso e objetivos terapêuticos.</p></div><div class="bio-fonte">Fontes: <a href="https://www.galderma.com/sites/default/files/2026-08/Bula%20Nemluvio.pdf" target="_blank" rel="noopener noreferrer">bula brasileira · Galderma, 2026</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/39067461/" target="_blank" rel="noopener noreferrer">ARCADIA 1/2 · Lancet, 2024</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/39602139/" target="_blank" rel="noopener noreferrer">OLYMPIA 1 · JAMA Dermatol, 2025</a> · <a href="https://www.nejm.org/doi/full/10.1056/NEJMoa2301333" target="_blank" rel="noopener noreferrer">OLYMPIA 2 · NEJM, 2023</a>. Revisado em 13/11/2026.</div></div>
       </div>
     </div>
     <div class="bio-card" id="bio-midostaurina">
@@ -7934,7 +7969,7 @@ document.addEventListener('click',function(e){
 /* ── SEARCH ── */
 var _BUSCA_PAGINAS = [
   ['dashboard','inicio home'],
-  ['imuno','imunobiologicos biologicos biologico anti-ige anti-il5 anti-il4 omalizumabe xolair omlyclo dupilumabe dupixent mepolizumabe nucala benralizumabe fasenra tezepelumabe tezspire reslizumabe cinqair ligelizumabe remibrutinibe radar anvisa conitec ans rol dut pcdt bula'],
+  ['imuno','imunobiologicos biologicos biologico anti-ige anti-il5 anti-il4 omalizumabe xolair omlyclo dupilumabe dupixent mepolizumabe nucala benralizumabe fasenra tezepelumabe tezspire reslizumabe cinqair ligelizumabe remibrutinibe nemolizumabe nemluvio galderma anti-il31 prurigo nodular dermatite atopica radar anvisa conitec ans rol dut pcdt bula'],
   ['imunoglobulinas','imunoglobulina gamaglobulina igg reposicao subcutanea endovenosa hizentra hyqvia octagam privigen tegeline flebogamma'],
   ['antihistaminicos','anti histaminicos anti-h1 antialergico antialergicos primeira segunda geracao dexclorfeniramina polaramine histamin hidroxizina hixizine prometazina fenergan cetotifeno zaditen loratadina claritin desloratadina desalex cetirizina zyrtec levocetirizina zyxem fexofenadina allegra bilastina alektos ebastina ebastel rupatadina rupafin epinastina talerc'],
   ['interacao','interacoes medicamentosas interacao droga farmaco'],
