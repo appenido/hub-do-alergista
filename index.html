@@ -3712,7 +3712,7 @@ window._bloquearApp=function(){};
         <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
         Interações medicamentosas
       </div>
-      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Verificação pela base oficial do Medscape — mais de 9.000 fármacos, sempre atualizada</div>
+      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Triagem preliminar por IA, com opção de conferência em base especializada</div>
     </div>
 
     <div style="padding:0 16px 24px;display:flex;flex-direction:column;gap:14px">
@@ -3721,9 +3721,9 @@ window._bloquearApp=function(){};
       <div style="background:linear-gradient(135deg,#2a6ebb,#1e5490);border-radius:16px;padding:20px;color:#fff">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
           <span style="font-size:22px">💊</span>
-          <div style="font-size:16px;font-weight:800">Medscape Interaction Checker</div>
+          <div style="font-size:16px;font-weight:800">Verificador de interações</div>
         </div>
-        <div style="font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.5;margin-bottom:16px">Adicione os medicamentos que deseja verificar. Ao abrir o Medscape, insira cada um no verificador para ver todas as interações.</div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.5;margin-bottom:16px">Informe os medicamentos para uma triagem preliminar. Confira o resultado em uma base de interações antes de prescrever.</div>
 
         <div id="diCampos">
           <div style="margin-bottom:9px"><label style="font-size:11px;font-weight:700;color:rgba(255,255,255,.9);display:block;margin-bottom:5px">Medicamento 1</label><input type="text" id="diMed1" placeholder="Ex: omalizumabe" style="border:none;border-radius:10px;padding:12px 13px;font-family:'Manrope',sans-serif;font-size:16px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box"></div>
@@ -3734,8 +3734,9 @@ window._bloquearApp=function(){};
 
         <button id="diAddCampo" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:10px;padding:10px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;width:100%;margin-bottom:10px">+ Adicionar outro medicamento</button>
 
-        <button id="diVerificarBtn" onclick="verificarInteracoes()" style="background:#fff;color:#2a6ebb;border:none;border-radius:11px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;width:100%">🔍 Verificar interações</button>
-        <div style="font-size:10.5px;color:rgba(255,255,255,.7);text-align:center;margin-top:8px;line-height:1.4">A análise é feita aqui no app, sem sair para outro site.</div>
+        <button id="diVerificarBtn" type="button" onclick="verificarInteracoes()" style="background:#fff;color:#2a6ebb;border:none;border-radius:11px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;width:100%">🔍 Analisar interações</button>
+        <button id="diMedscapeBtn" type="button" style="background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:11px;padding:12px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;width:100%;margin-top:9px">Conferir na base do Medscape ↗</button>
+        <div style="font-size:10.5px;color:rgba(255,255,255,.78);text-align:center;margin-top:9px;line-height:1.45">A triagem por IA ocorre no Hub. A conferência no Medscape abre o site externo e exige a inclusão dos medicamentos.</div>
       </div>
 
       <div id="diResultado" style="display:none;background:#fff;border:1px solid var(--gray-100);border-radius:13px;padding:15px;font-size:13px;color:var(--navy);line-height:1.6;white-space:pre-wrap"></div>
@@ -3756,7 +3757,7 @@ window._bloquearApp=function(){};
         </div>
       </div>
 
-      <div style="font-size:10.5px;color:var(--gray-300);font-style:italic;line-height:1.5">⚠️ A verificação de interações é feita integralmente pela base do Medscape (WebMD), referência clínica atualizada continuamente. Este hub apenas direciona a consulta — sempre confirme com a bula e o julgamento clínico.</div>
+      <div style="font-size:10.5px;color:var(--gray-300);font-style:italic;line-height:1.5">A triagem automatizada não consulta diretamente o banco do Medscape e não substitui verificação em fonte especializada, bula e avaliação clínica. Quando a IA não responder, utilize o botão de conferência.</div>
     </div>
   </div>
 
@@ -4490,7 +4491,7 @@ window._bloquearApp=function(){};
       <div class="guide-card" data-nav="educacao" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🎓</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Educação Continuada</div><div style="font-size:11.5px;color:var(--gray-500)">ASBAI · EAACI Nexus · UCARE LevelUp</div></div></div></div>
       <div class="guide-card" data-nav="imuno" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💉</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Imunobiológicos</div><div style="font-size:11.5px;color:var(--gray-500)">Rol ANS · DUT SUS · Relatórios · 9 biológicos</div></div></div></div>
       <div class="guide-card" data-nav="antihistaminicos" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💊</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Anti-histamínicos</div><div style="font-size:11.5px;color:var(--gray-500)">1ª e 2ª gerações · apresentações · calculadoras</div></div></div></div>
-      <div class="guide-card" data-nav="interacao" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">⚕️</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Interação Medicamentosa</div><div style="font-size:11.5px;color:var(--gray-500)">Verificador clínico · Medscape integrado</div></div></div></div>
+      <div class="guide-card" data-nav="interacao" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">⚕️</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Interação Medicamentosa</div><div style="font-size:11.5px;color:var(--gray-500)">Triagem por IA · conferência no Medscape</div></div></div></div>
       <div class="guide-card" data-nav="favoritos" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🔖</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Favoritos</div><div style="font-size:11.5px;color:var(--gray-500)">Artigos, scores e outros conteúdos salvos</div></div></div></div>
     </div>
     <div style="margin:16px 16px 0;background:#f8fafc;border:1px solid var(--gray-100);border-radius:13px;padding:14px 16px">
@@ -5054,47 +5055,94 @@ function _iaFormatar(texto){
   return html;
 }
 
-/* ── INTERAÇÕES MEDICAMENTOSAS (dentro do app) ── */
-function verificarInteracoes(){
+/* ── INTERAÇÕES MEDICAMENTOSAS: triagem por IA, sem se passar pelo Medscape ── */
+function diMensagem(box, titulo, descricao, comAtalho){
+  box.style.display = 'block';
+  box.style.whiteSpace = 'normal';
+  box.replaceChildren();
+  var h = document.createElement('div');
+  h.style.cssText = 'font-size:13px;font-weight:800;color:var(--navy);margin-bottom:6px';
+  h.textContent = titulo;
+  box.appendChild(h);
+  var p = document.createElement('div');
+  p.style.cssText = 'font-size:12.5px;line-height:1.65;color:var(--gray-500)';
+  p.textContent = descricao;
+  box.appendChild(p);
+  if(comAtalho){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = 'Conferir medicamentos no Medscape ↗';
+    b.style.cssText = 'margin-top:12px;width:100%;background:#eaf3fc;color:#1e5490;border:1px solid #a5c7ed;border-radius:9px;padding:11px;font:700 12.5px Manrope,sans-serif;cursor:pointer';
+    b.addEventListener('click', abrirMedscapeInteracao);
+    box.appendChild(b);
+  }
+}
+async function verificarInteracoes(){
+  var entrada = diColetarMeds();
   var meds = [];
-  document.querySelectorAll('#diCampos input').forEach(function(i){
-    var v = (i.value||'').trim();
-    if(v) meds.push(v);
+  var vistos = new Set();
+  entrada.forEach(function(nome){
+    var chave = nome.toLocaleLowerCase('pt-BR');
+    if(!vistos.has(chave)){ vistos.add(chave); meds.push(nome); }
   });
   var box = document.getElementById('diResultado');
   var btn = document.getElementById('diVerificarBtn');
-  if(!box) return;
-  box.style.display = 'block';
-  if(meds.length < 2){ box.textContent = 'Informe pelo menos dois medicamentos.'; return; }
-  btn.disabled = true; btn.textContent = 'Analisando…';
-  box.textContent = 'Analisando interações…';
-  var pedido = 'Analise as interações medicamentosas entre: ' + meds.join(', ') + '.\n' +
-    'Para cada par com interação relevante, informe: os dois fármacos, a gravidade (grave / moderada / leve), o mecanismo em uma linha e a conduta prática. ' +
-    'Liste primeiro as graves. Se não houver interação relevante entre algum par, diga isso em uma linha. ' +
-    'Ao final, acrescente uma linha lembrando que a conferência em base oficial (Medscape, UpToDate) é recomendada antes de prescrever. Responda em português do Brasil, em texto corrido com tópicos curtos.';
-  var pronto = false;
-  setTimeout(function(){
-    if(!pronto){
-      box.textContent = 'A análise está demorando mais que o normal. Tente novamente.';
-      btn.disabled = false; btn.textContent = '🔍 Verificar interações';
+  if(!box || !btn) return;
+  if(meds.length < 2){
+    diMensagem(box,'Faltam medicamentos','Informe pelo menos dois medicamentos diferentes.',false);
+    return;
+  }
+  if(meds.length > 15 || meds.some(function(m){return m.length > 100;})){
+    diMensagem(box,'Revise os medicamentos','Informe até 15 princípios ativos, com no máximo 100 caracteres por medicamento.',false);
+    return;
+  }
+  var pedido = 'Realize uma triagem PRELIMINAR de possíveis interações entre estes princípios ativos: ' + meds.join('; ') + '.\n' +
+    'Para cada combinação com possível interação clinicamente relevante, explique gravidade, mecanismo e conduta em tópicos curtos. ' +
+    'Destaque também riscos farmacodinâmicos e de imunossupressão relevantes. ' +
+    'Não alegue ter consultado Medscape, UpToDate ou bases em tempo real. Não invente referências ou certezas; explicite limitações e incertezas. ' +
+    'Não conclua que uma combinação é segura apenas pela ausência de interação conhecida. Responda em português brasileiro.';
+  var controller = new AbortController();
+  var timer = setTimeout(function(){controller.abort();},25000);
+  btn.disabled = true;
+  btn.textContent = 'Consultando…';
+  diMensagem(box,'Analisando interações','Processando a triagem preliminar. A conferência em uma base farmacológica continua necessária.',false);
+  try{
+    var resposta = await fetch('/ia',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({pergunta:pedido}),
+      cache:'no-store',
+      signal:controller.signal
+    });
+    var d = await resposta.json().catch(function(){return null;});
+    if(resposta.ok && d && typeof d.resposta === 'string' && d.resposta.trim()){
+      box.style.whiteSpace = 'normal';
+      box.innerHTML = '<div style="font-size:11px;line-height:1.5;border-left:3px solid #bd8c26;padding:8px 11px;background:#fff8e8;border-radius:8px;margin-bottom:12px;color:#6b5118">Triagem preliminar gerada por IA, não validada pelo Medscape. Confira em fonte clínica especializada antes de qualquer decisão.</div>' + _iaFormatar(d.resposta);
+      var conferir = document.createElement('button');
+      conferir.type = 'button';
+      conferir.textContent = 'Conferir no Medscape ↗';
+      conferir.style.cssText = 'margin-top:12px;width:100%;padding:11px;border-radius:9px;border:1px solid #a5c7ed;background:#eaf3fc;color:#1e5490;font:700 12.5px Manrope,sans-serif;cursor:pointer';
+      conferir.addEventListener('click', abrirMedscapeInteracao);
+      box.appendChild(conferir);
+    }else if(resposta.status === 422){
+      diMensagem(box,'Verifique os dados inseridos','Use somente nomes de medicamentos, sem dados identificáveis de pacientes.',false);
+    }else{
+      var indisponivel = resposta.status === 429 || resposta.status === 503;
+      diMensagem(box,'Triagem automatizada indisponível',
+        indisponivel ? 'O serviço atingiu um limite temporário ou não está disponível. Nenhum resultado de interação foi confirmado. Utilize a base especializada para conferir os medicamentos informados.' :
+        'Não foi possível concluir a análise. Nenhum resultado foi confirmado. Confira as combinações em uma base especializada.',true);
     }
-  }, 45000);
-  fetch('/ia', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({pergunta: pedido})})
-    .then(function(r){ return r.text().then(function(t){ return {status:r.status, texto:t}; }); })
-    .then(function(res){
-      pronto = true;
-      var d = null;
-      try{ d = JSON.parse(res.texto); }catch(e){}
-      if(d && d.resposta){ box.style.whiteSpace='normal'; box.innerHTML = _iaFormatar(d.resposta); }
-      else if(d && d.erro)  box.textContent = 'Erro: ' + d.erro;
-      else box.textContent = 'Erro inesperado (HTTP ' + res.status + '): ' + res.texto.slice(0,200);
-    })
-    .catch(function(e){ pronto = true; box.textContent = 'Falha de conexão: ' + ((e && e.message) || 'desconhecida'); })
-    .then(function(){ btn.disabled = false; btn.textContent = '🔍 Verificar interações'; });
+  }catch(erro){
+    diMensagem(box,'Triagem automatizada indisponível',
+      erro && erro.name === 'AbortError' ?
+        'A consulta excedeu o tempo limite. Não foi possível confirmar interações. Utilize a base especializada.' :
+        'Falha de conexão na consulta. Não foi possível confirmar interações. Utilize a base especializada.',true);
+  }finally{
+    clearTimeout(timer);
+    btn.disabled = false;
+    btn.textContent = '🔍 Analisar interações';
+  }
 }
-
-
-
 
 /* ── Endereço completo ───────────────────────────── */
 function _cepMascara(el){
@@ -10764,7 +10812,7 @@ var CHAT_FAQ = [
   {k:['crm','consultar medico','cfm'],
    r:'Em Consultar CRM você pesquisa por número e UF ou por nome, direto na base do CFM.'},
   {k:['interac','medicament','medicamento junto'],
-   r:'Em Interações medicamentosas há um verificador clínico integrado ao Medscape.'},
+   r:'Em Interações medicamentosas há uma triagem por IA e um atalho para conferência no Medscape.'},
   {k:['offline','sem internet','instalar','pwa','app','icone','tela inicial'],
    r:'O Hub é um PWA: dá para instalar na tela inicial (no Chrome, menu ⋮ → Instalar aplicativo; no iPhone, Compartilhar → Adicionar à Tela de Início). Depois de instalado, as telas já visitadas funcionam offline.'},
   {k:['senha','login','entrar','cadastr','conta','esqueci','nao consigo'],
