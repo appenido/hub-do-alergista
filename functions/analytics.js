@@ -38,7 +38,7 @@ export async function onRequestPost({request,env}){
   // A Cloudflare estima a localização pela rede; arredondamento a ~11 km,
   // sem coletar IP bruto, GPS, código postal ou localização do navegador.
   const city=country&&typeof cf.city==='string'
-    ? (cf.city.trim().replace(/[<>\\x00-\\x1F]/g,'').slice(0,80)||null):null;
+    ? (cf.city.trim().replace(/[<>\x00-\x1F]/g,'').slice(0,80)||null):null;
   const hasCoords=cf.latitude!=null&&cf.longitude!=null&&String(cf.latitude).trim()!==''&&String(cf.longitude).trim()!=='';
   const lat=hasCoords?Number(cf.latitude):NaN;
   const lon=hasCoords?Number(cf.longitude):NaN;
