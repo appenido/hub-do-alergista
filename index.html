@@ -5279,23 +5279,23 @@ var VAC_CATALOGO=[
   sbim:'https://sbim.org.br/calendario-sbim/criancas-0-menores-6-anos'},
  {id:'pnc10',sus:1,particular:0,nome:'Pneumocócica 10-valente (VPC10)',comercial:'Synflorix (GSK)',fabricante:'GSK',
   prot:'Doença pneumocócica (10 sorotipos)',tipo:'Inativada (conjugada)',
-  pop:'Crianças de 2 meses a 4 anos, 11 meses e 29 dias.',
-  esq:'3 doses (2, 4 e 6 m) + reforço aos 12–15 m.',
-  obs:'PNI em transição para VPC20; verificar protocolo MS vigente.',
+  pop:'Rotina infantil do PNI enquanto houver estoque da VPC10. Em crianças de risco, consultar a estratégia VPC20 da RIE.',
+  esq:'PNI: duas doses aos 2 e 4 meses, com reforço aos 12 meses. Na transição para VPC20, considerar idade, produto e doses já recebidas.',
+  obs:'A VPC20 substitui gradualmente a VPC10 no SUS. Consultar o calendário vigente e a Nota Técnica MS 52/2026 para os esquemas especiais.',
   ea:'Locais: dor, eritema, enduração (muito comuns). Sistêmicos: febre, irritabilidade (comuns). Raros: anafilaxia, convulsão febril.',
   sbim:'https://sbim.org.br/calendario-sbim/criancas-0-menores-6-anos'},
  {id:'pnc20_sus',sus:1,particular:1,nome:'Pneumocócica 20-valente (VPC20)',comercial:'Apexxnar / Prevnar 20 (Pfizer)',fabricante:'Pfizer',
   prot:'Doença pneumocócica (20 sorotipos)',tipo:'Inativada (conjugada)',
-  pop:'Adultos e idosos ≥18 anos — transição em curso no PNI/MS 2026.',
-  esq:'1 dose (substitui a sequência VPC13 + VPP23 em adultos).',
-  obs:'Cobertura mais ampla; dispensa VPP23 sequencial. Aguardar protocolo pediátrico MS.',
+  pop:'SBIm: rotina a partir de 50 anos e, antes disso, na presença de comorbidades de risco. SUS: rotina infantil, grupos especiais da RIE, indígenas, idosos ≥85 anos e idosos de 60–84 anos acamados/institucionalizados, conforme histórico vacinal.',
+  esq:'SBIm: em não vacinados ≥5 anos, uma dose; lactentes seguem esquema por idade. RIE/MS: 2–6 meses, 3 doses + reforço; 7–11 meses, 2 + reforço; 12–59 meses, 2 doses; ≥5 anos, dose única, salvo TCTH/CAR-T.',
+  obs:'Antecipação por comorbidades descrita abaixo. Depois da VPC20, não aplicar VPP23. Histórico prévio com VPC10/13/15 ou VPP23 pode alterar a indicação; conferir diferenças SBIm × PNI/MS.',
   ea:'Locais: dor, eritema, enduração (muito comuns). Sistêmicos: fadiga, cefaleia, mialgia (comuns). Raros: anafilaxia.',
   sbim:'https://sbim.org.br/calendarios-de-vacinacao'},
  {id:'menc',sus:1,particular:1,nome:'Meningocócica C conjugada (MenC)',comercial:'NeisVac-C (Pfizer) · Menjugate (GSK) · Meningitec (Pfizer)',fabricante:'Pfizer / GSK',
   prot:'Doença meningocócica sorogrupo C',tipo:'Inativada (conjugada)',
-  pop:'Crianças de 2 meses a 4 anos, 11 meses e 29 dias. Adolescentes 11–14 anos (reforço).',
-  esq:'2 doses aos 3 e 5 m + reforço aos 12 m. Adolescentes: 1 dose.',
-  obs:'Em grupos de risco (asplenia, complemento etc.), considerar MenACWY.',
+  pop:'PNI: MenC aos 3 e 5 meses; reforço infantil com MenACWY aos 12 meses. Adolescentes recebem MenACWY, não MenC de rotina.',
+  esq:'Lactentes: MenC aos 3 e 5 meses. Aos 12 meses, reforço com MenACWY. Esquemas especiais variam por condição.',
+  obs:'Asplenia, deficiência de complemento e outras condições de risco exigem avaliação de MenACWY e MenB com reforços específicos.',
   ea:'Locais: eritema, edema, dor (comuns). Sistêmicos: febre, irritabilidade (comuns em lactentes). Raros: anafilaxia.',
   sbim:'https://sbim.org.br/calendario-sbim/criancas-0-menores-6-anos'},
  {id:'menacwy',sus:1,particular:1,nome:'Meningocócica ACWY conjugada',comercial:'Menveo (GSK) · Nimenrix (Pfizer)',fabricante:'GSK / Pfizer',
@@ -5356,9 +5356,9 @@ var VAC_CATALOGO=[
   sbim:'https://sbim.org.br/calendario-sbim/criancas-0-menores-6-anos'},
  {id:'vpp23',sus:1,particular:1,nome:'Pneumocócica 23-valente (VPP23)',comercial:'Pneumovax 23 (MSD)',fabricante:'MSD',
   prot:'Doença pneumocócica (23 sorotipos)',tipo:'Inativada (polissacarídeo)',
-  pop:'Idosos ≥60 anos (SUS). Grupos de risco ≥2 anos: asplenia, imunocomprometidos, comorbidades crônicas.',
-  esq:'1 dose. Reforço único após 5 anos em alto risco (asplenia, IRC, fistula LCR).',
-  obs:'Em transição com VPC20. Deve ser precedida de VPC13 (≥8 semanas) em imunossuprimidos.',
+  pop:'Vacina polissacarídica utilizada em esquemas anteriores e em situações específicas durante a transição da RIE; não é vacina de rotina universal para todos os idosos no SUS.',
+  esq:'Quando ainda indicada pela norma de transição: esquema sequencial individualizado, com até duas doses de VPP23 separadas por 5 anos. Não aplicar VPP23 após VPC20.',
+  obs:'Na RIE, o MS orienta esgotar estoques de VPC13/VPP23 antes da substituição. Quem já recebeu 2 VPP23 não recebe VPC20 na estratégia MS 52/2026; a SBIm pode recomendar VPC20 segundo avaliação clínica.',
   ea:'Locais: eritema, enduração, dor intensa (muito comuns — mais frequentes que nas VPCs). Sistêmicos: febre baixa, mialgia (incomuns). Raros: reação de Arthus (revacinação precoce), anafilaxia.',
   sbim:'https://sbim.org.br/calendario-sbim/adultos'},
  {id:'dt',sus:1,particular:0,nome:'dT (dupla adulto)',comercial:'dT Bio-Manguinhos · dT Butantan',fabricante:'Bio-Manguinhos / Butantan',
@@ -5377,16 +5377,16 @@ var VAC_CATALOGO=[
   sbim:'https://sbim.org.br/calendario-sbim/gestantes'},
  {id:'hpv4',sus:1,particular:0,nome:'HPV quadrivalente (HPV4)',comercial:'Gardasil (MSD)',fabricante:'MSD',
   prot:'HPV 6, 11, 16 e 18',tipo:'Inativada (VLP)',
-  pop:'Meninas 9–14 anos e meninos 11–14 anos (SUS). Imunossuprimidos e sobreviventes de violência sexual de 9–45 anos nos CRIEs.',
-  esq:'9–14 anos: 2 doses (0 e 6 m). ≥15 anos/imunossuprimidos: 3 doses (0, 2 e 6 m).',
-  obs:'Não terapêutico.',
+  pop:'PNI: meninas e meninos de 9–14 anos; populações especiais (HIV, transplantes, câncer, violência sexual, usuários de PrEP e papilomatose respiratória recorrente), com idades específicas.',
+  esq:'Rotina de 9–14 anos: dose única. Imunodeprimidos elegíveis: 3 doses (0, 2 e 6 meses). Violência sexual: 9–14 anos, 2 doses; 15–45 anos, 3 doses. Outras situações especiais: conferir normativa.',
+  obs:'Vacina preventiva, não trata infecção por HPV. O PNI diferencia dose única de rotina dos esquemas de pessoas com imunodepressão ou outras indicações especiais.',
   ea:'Locais: eritema, dor, enduração (muito comuns). Sistêmicos: cefaleia, febre (comuns). Síncope vasovagal pós-vacinal (observar 15 min). Muito raros: anafilaxia.',
   sbim:'https://sbim.org.br/calendario-sbim/adolescentes'},
  {id:'dengue_sus',sus:1,particular:1,nome:'Dengue (Qdenga)',comercial:'Qdenga (Takeda)',fabricante:'Takeda',
   prot:'Dengue sorotipos 1, 2, 3 e 4',tipo:'Atenuada (quimérica tetravalente)',
-  pop:'Crianças e adolescentes de 6–16 anos.',
-  esq:'2 doses com intervalo de 3 meses.',
-  obs:'No PNI: seleção municipal por endemicidade. Independente de sorotipo prévio.',
+  pop:'PNI: crianças e adolescentes de 10 a 14 anos, conforme critérios de oferta territorial; na rede privada, faixa etária depende do registro da apresentação.',
+  esq:'Qdenga (TAK-003): duas doses com intervalo de três meses, conforme idade aprovada para o produto.',
+  obs:'Vacina viva atenuada, contraindicada na gestação e em imunodeficiência relevante. Não confundir faixa etária licenciada com oferta do PNI.',
   ea:'Locais: dor, eritema (comuns). Sistêmicos: cefaleia, mialgia, mal-estar (comuns). Raros: reações alérgicas.',
   sbim:'https://sbim.org.br/calendarios-de-vacinacao'},
  {id:'vvsr',sus:1,particular:1,nome:'VSR materno (Abrysvo)',comercial:'Abrysvo (Pfizer)',fabricante:'Pfizer',
@@ -5421,9 +5421,9 @@ var VAC_CATALOGO=[
   sbim:'https://sbim.org.br/calendario-sbim/criancas-0-menores-6-anos'},
  {id:'pnc15',sus:0,particular:1,nome:'Pneumocócica 15-valente (VPC15)',comercial:'Vaxneuvance (MSD)',fabricante:'MSD',
   prot:'Doença pneumocócica (15 sorotipos)',tipo:'Inativada (conjugada)',
-  pop:'Lactentes ≥2 meses; adultos ≥18 anos em grupos de risco.',
-  esq:'Lactentes: 3+1 (2, 4, 6 e 12–15 m). Adultos: 1 dose.',
-  obs:'Cobertura adicional sobre sorotipos 22F e 33F vs VPC13.',
+  pop:'SBIm: crianças a partir de 2 meses; adultos em situações selecionadas, conforme risco e histórico de vacinas pneumocócicas.',
+  esq:'Lactentes: 2, 4 e 6 meses + reforço aos 12–15 meses. Em adultos, se utilizada VPC15 em lugar da VPC20, avaliar complemento com VPP23 no esquema sequencial.',
+  obs:'Inclui os sorotipos 22F e 33F em relação à VPC13. Não confundir dose única de VPC20 com esquema iniciado por VPC15.',
   ea:'Locais: dor, eritema (muito comuns). Sistêmicos: febre, irritabilidade (comuns em lactentes). Raros: anafilaxia.',
   sbim:'https://sbim.org.br/calendarios-de-vacinacao'},
  {id:'menb',sus:0,particular:1,nome:'Meningocócica B (MenB)',comercial:'Bexsero (GSK) · Trumenba (Pfizer)',fabricante:'GSK / Pfizer',
@@ -5963,6 +5963,24 @@ function vacCopiar(){
   if(navigator.clipboard) navigator.clipboard.writeText(t).then(function(){ alert('Calendário copiado.'); });
   else alert(t);
 }
+
+var VAC_VPC20_CLINICA =
+  '<div style="margin:12px 0 6px;padding:13px;border:1px solid #b6d6e0;background:#f4fafc;border-radius:12px;font-size:11.5px;line-height:1.65;color:#193d4f">'
+  +'<div style="font-size:13px;font-weight:800;margin-bottom:7px">VPC20: quando antecipar por comorbidade?</div>'
+  +'<p>SBIm 2026/2027: rotina a partir de 50 anos, mas recomendada antes dessa idade quando existe risco aumentado de doença pneumocócica. Na RIE/SUS, a Nota Técnica 52/2026 define 21 situações de indicação especial, desde os 2 meses conforme condição.</p>'
+  +'<details style="margin:9px 0"><summary style="font-weight:750;cursor:pointer">Lista completa de comorbidades e condições da RIE/MS (21 grupos)</summary>'
+  +'<ol style="padding-left:19px;margin:6px 0">'
+  +'<li>HIV/aids.</li><li>Doença oncológica ativa ou até alta médica.</li><li>Transplante de órgão sólido.</li><li>Transplante de células-tronco hematopoéticas (TCTH).</li><li>Terapia celular CAR-T.</li><li>Asplenia anatômica/funcional e doenças relacionadas.</li><li>Erros inatos da imunidade (imunodeficiências primárias).</li><li>Fibrose cística.</li><li>Fístula liquórica ou derivação ventriculoperitoneal.</li><li>Imunodepressão por tratamento medicamentoso.</li><li>Implante coclear.</li><li>Nefropatia crônica, hemodiálise ou síndrome nefrótica.</li><li>Pneumopatias crônicas (exceto asma intermitente e asma persistente leve).</li><li>Asma persistente moderada ou grave.</li><li>Cardiopatia crônica.</li><li>Hepatopatia crônica.</li><li>Doença neurológica crônica incapacitante.</li><li>Trissomias.</li><li>Diabetes mellitus.</li><li>Doenças de depósito.</li><li>Prematuridade de até 36 semanas e 6 dias, até 23 meses.</li></ol>'
+  +'<p style="margin:5px 0">Asma leve e rinite alérgica isolada não estão listadas como indicação especial de VPC20 pela Nota Técnica 52/2026. A gravidade e o tratamento imunossupressor precisam ser avaliados individualmente.</p></details>'
+  +'<details style="margin:9px 0"><summary style="font-weight:750;cursor:pointer">Esquema na RIE para pessoas ainda não vacinadas</summary>'
+  +'<p>Início aos 2–6 meses: 3 doses (0, 2 e 4 meses) e reforço aos 12–15 meses. Início aos 7–11 meses: 2 doses separadas por 2 meses e reforço aos 12–15 meses. Início aos 12–59 meses: 2 doses, separadas por 2 meses. A partir de 5 anos: dose única, exceto protocolos específicos para TCTH e CAR-T.</p></details>'
+  +'<details style="margin:9px 0"><summary style="font-weight:750;cursor:pointer">Quem pode receber pelo SUS sem comorbidade?</summary>'
+  +'<p>Rotina infantil conforme calendário do PNI (VPC20 aos 2 e 4 meses e reforço aos 12 meses, com regras de transição). Povos indígenas segundo histórico; pessoas de 60–84 anos acamadas ou institucionalizadas; e todos os idosos a partir de 85 anos, respeitando o histórico vacinal. A rotina geral SBIm para ≥50 anos não significa oferta universal no SUS.</p></details>'
+  +'<details style="margin:9px 0"><summary style="font-weight:750;cursor:pointer">Doses anteriores: diferenças SBIm × Ministério da Saúde</summary>'
+  +'<p>MS/RIE 52/2026: esquema completo com VPC10 ou VPC13 e sem VPP23 → VPC20 após pelo menos 8 semanas; uma dose prévia de VPP23 → VPC20 após pelo menos 1 ano (e 8 semanas da última conjugada); duas VPP23 → sem VPC20 adicional nesta estratégia. Após VPC20, não aplicar VPP23.</p>'
+  +'<p>SBIm 2026/2027: pode recomendar VPC20 mesmo após uma ou duas VPP23 (intervalo usual de 1 ano). Após esquema sequencial completo com VPC13/VPC15 e VPP23, a VPC20 pode ser indicada a critério médico, conforme condição. Portanto, não presumir que as duas orientações são equivalentes.</p></details>'
+  +'<div style="margin-top:8px;border-top:1px solid #d5e8ee;padding-top:7px">Fontes: <a href="https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/notas-tecnicas/2026/nota-tecnica-no-52-2026-cgici-dpni-svsa-ms.pdf" target="_blank" rel="noopener noreferrer">MS, NT 52/2026, itens 4–6</a> · <a href="https://sbim.org.br/images/calend-vacinacao-pacientes-especiais-2026-27-260617a.pdf_2026-06-24.pdf" target="_blank" rel="noopener noreferrer">SBIm, pacientes especiais 2026/2027</a> · <a href="https://www.gov.br/saude/pt-br/vacinacao/calendario" target="_blank" rel="noopener noreferrer">PNI, calendário 2026</a></div></div>';
+
 function vacRenderVacinas(filtro){
   var f=(filtro||'').toLowerCase().trim();
   var box=document.getElementById('vacListaAll');
@@ -6003,6 +6021,7 @@ function vacRenderVacinas(filtro){
       +linha('Esquema',v.esq)
       +linha('Tipo',v.tipo)
       +linha('Obs.',v.obs)
+      +(v.id==='pnc20_sus'?'<tr><td colspan="2" style="padding-top:7px">'+VAC_VPC20_CLINICA+'</td></tr>':'')
       +(v.particularNota?linha('Rede particular',v.particularNota):'')
       +'</table>'
       +(v.ea?'<div style="margin-top:10px;background:#fff8f0;border:1px solid #ffe0b2;border-radius:9px;padding:9px 11px">'
