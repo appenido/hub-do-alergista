@@ -11,7 +11,7 @@ const html=load('index.html'),admin=load('central-hub.html'),
 test('PWA instala telemetria somente no cliente principal, não em formulários clínicos',()=>{
   assert.match(html,/src="\/analytics-client\.js\?v=20261112-1"/);
   assert.match(sw,/analytics-client\.js\?v=20261112-1/);
-  assert.match(events,/CHOICE_KEY='hub_analytics_choice_v1'/);
+  assert.match(events,/CHOICE_KEY='hub_analytics_choice_v2'/);
   assert.match(events,/escolha\(\)==='sim'/);
   assert.match(events,/if\(!enabled/);
   assert.doesNotMatch(events,/\.value\b/);
