@@ -102,7 +102,7 @@
   </section>
   <script>
     document.getElementById('revisarMetricas').addEventListener('click',function(){
-      try{localStorage.removeItem('hub_analytics_choice_v1');}catch(_){}
+      try{localStorage.removeItem('hub_analytics_choice_v1');localStorage.removeItem('hub_analytics_choice_v2');}catch(_){}
       alert('Preferência redefinida. Ao voltar ao Hub, você poderá aceitar ou recusar a coleta.');
     });
   </script>
