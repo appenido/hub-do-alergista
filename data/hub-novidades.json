@@ -1,7 +1,16 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-09",
+  "updatedAt": "2026-11-11",
   "items": [
+    {
+      "id": "2026-11-11-scorad-anatomico",
+      "date": "2026-11-11",
+      "category": "Scores",
+      "icon": "📋",
+      "title": "SCORAD por região anatômica com atlas clínico",
+      "description": "Nova calculadora por áreas corporais, acompanhada de imagens clínicas para graduar a intensidade das lesões.",
+      "section": "scores"
+    },
     {
       "id": "2026-11-09-anti-h1",
       "date": "2026-11-09",
@@ -38,5 +47,7 @@
       "description": "Nova consulta entre dois alimentos, com componentes moleculares e interpretação clínica da possível reatividade cruzada.",
       "section": "laboratorio"
     }
-  ]
+  ],
+  "checkedAt": "2026-11-12",
+  "lastScannedCommit": "e5b02934f8b50b6032cfe0de0fad70d219eafa67"
 }
