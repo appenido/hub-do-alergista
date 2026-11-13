@@ -17,7 +17,9 @@ function gravarAuth(result){
 }
 function limpar(){
   sessionStorage.removeItem(AUTH);
-  admin=false;report=null;el('dashboard').hidden=true;el('authPanel').hidden=false;el('logout').hidden=true;
+  admin=false;report=null;mapSessions=[];mapFiltered=[];mapGroups=[];
+  if(geoMap){geoMap.remove();geoMap=null;mapLayer=null;}
+  el('dashboard').hidden=true;el('authPanel').hidden=false;el('logout').hidden=true;
 }
 async function token(){
   const a=credenciais();
@@ -156,6 +158,198 @@ function desenharGrafico(data){
   legend.innerHTML='<span><i></i>Sessões</span><span><i style="background:#81abbe"></i>Visualizações</span>';
   root.appendChild(legend);
 }
+
+/* Localização é aproximada e opt-in: cada linha representa uma sessão, nunca uma pessoa.
+   Registros antigos são posicionados no centro do estado/região; não é GPS. */
+const BR_ESTADOS={
+ AC:[-9.0,-70.8],AL:[-9.6,-36.8],AP:[1.4,-51.8],AM:[-3.4,-64.7],BA:[-12.7,-41.7],
+ CE:[-5.3,-39.5],DF:[-15.8,-47.9],ES:[-19.2,-40.3],GO:[-16.0,-49.7],
+ MA:[-5.0,-45.3],MT:[-12.7,-55.6],MS:[-20.5,-54.7],MG:[-18.5,-44.6],
+ PA:[-3.4,-52.0],PB:[-7.1,-36.8],PR:[-24.9,-51.6],PE:[-8.3,-37.9],
+ PI:[-7.7,-42.8],RJ:[-22.2,-42.5],RN:[-5.8,-36.5],RS:[-30.0,-53.1],
+ RO:[-11.2,-62.7],RR:[2.1,-61.4],SC:[-27.2,-50.5],SP:[-22.3,-48.6],
+ SE:[-10.6,-37.4],TO:[-10.2,-48.3]
+};
+const PY_REGIOES={
+ '0':[-25.3,-57.6],'1':[-22.9,-57.0],'2':[-24.0,-56.8],'3':[-25.4,-56.8],
+ '4':[-25.9,-56.0],'5':[-25.5,-55.6],'6':[-26.6,-55.9],'7':[-26.8,-55.4],
+ '8':[-27.1,-57.1],'9':[-25.2,-57.0],'10':[-25.5,-54.7],
+ '11':[-24.9,-57.2],'12':[-22.2,-60.0],'13':[-23.5,-58.5],
+ '14':[-23.3,-56.5],'15':[-20.9,-59.8],'16':[-25.0,-57.5],'17':[-23.3,-58.3]
+};
+const PAISES={
+ BR:[-14.2,-51.9],PY:[-23.4,-58.4],AR:[-38.4,-63.6],UY:[-32.5,-55.8],
+ CL:[-35.7,-71.5],BO:[-16.3,-63.6],PE:[-9.2,-75.0],CO:[4.6,-74.1],
+ US:[39.8,-98.6],CA:[56.1,-106.3],MX:[23.6,-102.6],PT:[39.7,-8.0],
+ ES:[40.5,-3.7],FR:[46.6,2.2],DE:[51.2,10.5],IT:[42.8,12.5],
+ GB:[55.3,-3.4],JP:[36.2,138.3],AU:[-25.3,133.8]
+};
+let geoMap=null,mapLayer=null,mapSessions=[],mapFiltered=[],mapGroups=[],mapPage=0;
+const mapPageSize=40;
+const geoNames=typeof Intl.DisplayNames==='function'?new Intl.DisplayNames(['pt-BR'],{type:'region'}):null;
+function paisNome(code){
+  try{return /^[A-Z]{2}$/.test(code||'')?(geoNames?.of(code)||code):'País não informado';}
+  catch(_){return code||'País não informado';}
+}
+function localNome(r){
+  const country=String(r.country||'');
+  const region=String(r.region||'');
+  const place=country==='PY'&&region==='10'?'Alto Paraná':region;
+  return [r.city||'',place,paisNome(country)].filter(Boolean).join(' · ');
+}
+function pontoSessao(r){
+  if(r.geo_lat!==null&&r.geo_lon!==null&&r.geo_lat!==undefined&&r.geo_lon!==undefined){
+    const lat=Number(r.geo_lat),lon=Number(r.geo_lon);
+    if(Number.isFinite(lat)&&Number.isFinite(lon)&&Math.abs(lat)<=90&&Math.abs(lon)<=180)
+      return {lat,lon,precisao:'Cidade/região estimada pela rede (aproximada)'};
+  }
+  const country=String(r.country||''),region=String(r.region||'').toUpperCase();
+  const center=country==='BR'?BR_ESTADOS[region]:
+    country==='PY'?PY_REGIOES[region]:null;
+  if(center)return {lat:center[0],lon:center[1],precisao:'Centro aproximado do estado ou região (histórico)'};
+  if(PAISES[country]){
+    const p=PAISES[country];
+    return {lat:p[0],lon:p[1],precisao:'Centro aproximado do país (histórico)'};
+  }
+  return null;
+}
+function normalizarBusca(str){
+  return String(str||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+}
+function mapearGrupos(rows){
+  const groups=new Map();
+  rows.forEach(row=>{
+    const pos=pontoSessao(row);
+    if(!pos)return;
+    // Coordenadas repetidas não recebem deslocamento artificial, que sugeriria precisão inexistente.
+    const id=pos.lat.toFixed(2)+':'+pos.lon.toFixed(2);
+    let item=groups.get(id);
+    if(!item){item={lat:pos.lat,lon:pos.lon,rows:[],labels:new Set(),precisao:pos.precisao};groups.set(id,item);}
+    item.rows.push(row);
+    item.labels.add(localNome(row));
+  });
+  return Array.from(groups.values());
+}
+function criarPopup(item){
+  const popup=d.createElement('div');
+  const h=d.createElement('div');h.className='map-popup-title';
+  h.textContent=Array.from(item.labels).slice(0,2).join(' / ');
+  popup.appendChild(h);
+  const info=d.createElement('div');info.className='map-popup-row';
+  info.textContent=fmt(item.rows.length)+' '+(item.rows.length===1?'sessão registrada':'sessões registradas');
+  popup.appendChild(info);
+  const last=d.createElement('div');last.className='map-popup-row';
+  last.textContent='Mais recente: '+dataFormat(item.rows[0].recorded_at);
+  popup.appendChild(last);
+  const precision=d.createElement('div');precision.className='map-popup-row';
+  precision.textContent=item.precisao;
+  popup.appendChild(precision);
+  return popup;
+}
+function caberMapa(){
+  if(!geoMap||!mapGroups.length)return;
+  const bounds=window.L.latLngBounds(mapGroups.map(p=>[p.lat,p.lon]));
+  if(mapGroups.length===1)geoMap.setView([mapGroups[0].lat,mapGroups[0].lon],mapGroups[0].precisao.includes('estado')?5:7);
+  else geoMap.fitBounds(bounds.pad(.18),{padding:[24,24],maxZoom:9});
+}
+function desenharMapa(){
+  if(!el('panel-mapa').classList.contains('active'))return;
+  const root=el('accessMap');
+  if(!window.L){
+    texto('mapNotice','O mapa interativo não carregou. A lista de sessões continua disponível.');
+    return;
+  }
+  if(!geoMap){
+    geoMap=window.L.map(root,{scrollWheelZoom:false,zoomControl:true}).setView([-16,-51],4);
+    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+      attribution:'&copy; OpenStreetMap contributors',maxZoom:16
+    }).addTo(geoMap);
+    mapLayer=window.L.layerGroup().addTo(geoMap);
+  }
+  mapLayer.clearLayers();
+  mapGroups.forEach(item=>{
+    const count=item.rows.length;
+    const radius=Math.min(25,7+Math.sqrt(count)*2.1);
+    item.marker=window.L.circleMarker([item.lat,item.lon],{
+      radius,stroke:true,color:'#fff',weight:2.5,
+      fillColor:'#1e5b8d',fillOpacity:.83
+    }).addTo(mapLayer).bindPopup(criarPopup(item),{maxWidth:275});
+    item.marker.bindTooltip(fmt(count)+' '+(count===1?'sessão':'sessões'),{direction:'top'});
+  });
+  geoMap.invalidateSize();
+  if(mapGroups.length)caberMapa();
+}
+function listarSessoes(){
+  const body=el('mapSessionsTable');body.replaceChildren();
+  const pages=Math.max(1,Math.ceil(mapFiltered.length/mapPageSize));
+  mapPage=Math.min(mapPage,pages-1);
+  const begin=mapPage*mapPageSize;
+  mapFiltered.slice(begin,begin+mapPageSize).forEach((r,i)=>{
+    const tr=d.createElement('tr');
+    const cells=[dataFormat(r.recorded_at),localNome(r),r.device||'Não informado'];
+    cells.forEach(t=>{const td=d.createElement('td');td.textContent=t;tr.appendChild(td);});
+    const td=d.createElement('td');
+    const pos=pontoSessao(r);
+    if(pos){
+      const btn=d.createElement('button');btn.type='button';btn.className='map-locate';
+      btn.textContent='Ver';btn.dataset.mapIndex=String(begin+i);
+      btn.setAttribute('aria-label','Ver local aproximado no mapa');
+      td.appendChild(btn);
+    }else td.textContent='—';
+    tr.appendChild(td);body.appendChild(tr);
+  });
+  if(!mapFiltered.length){
+    const tr=d.createElement('tr'),td=d.createElement('td');
+    td.colSpan=4;td.className='empty';td.textContent='Nenhuma sessão encontrada para este filtro.';
+    tr.appendChild(td);body.appendChild(tr);
+  }
+  texto('mapPageInfo',fmt(mapFiltered.length)+' sessões · página '+(mapPage+1)+' de '+pages);
+  el('mapPrev').disabled=mapPage===0;
+  el('mapNext').disabled=mapPage>=pages-1;
+}
+function atualizarMapa(){
+  const filter=normalizarBusca(el('mapFilter').value.trim());
+  mapFiltered=filter?mapSessions.filter(x=>normalizarBusca(localNome(x)).includes(filter)):mapSessions.slice();
+  mapGroups=mapearGrupos(mapFiltered);
+  mapPage=0;listarSessoes();
+  const positioned=mapFiltered.filter(r=>pontoSessao(r)).length;
+  texto('mapSummary',fmt(positioned)+' de '+fmt(mapFiltered.length)+' sessões localizadas');
+  texto('mapNotice',fmt(mapGroups.length)+' localidades representadas. A posição é aproximada e não representa o endereço de nenhum visitante.');
+  desenharMapa();
+}
+async function carregarMapa(){
+  try{
+    const start=new Date(Date.now()-days*86400000).toISOString();
+    const columns='recorded_at,session_key,country,region,city,geo_lat,geo_lon,device';
+    const rows=[];
+    let offset=0;
+    while(offset<100000){
+      const path='/rest/v1/hub_analytics_events?select='+columns+
+        '&event_type=eq.session_start&recorded_at=gte.'+encodeURIComponent(start)+
+        '&order=recorded_at.desc&limit=1000&offset='+offset;
+      const chunk=await supa(path);
+      if(!Array.isArray(chunk))throw new Error('Consulta geográfica indisponível');
+      rows.push(...chunk);
+      offset+=chunk.length;
+      if(chunk.length<1000)break;
+    }
+    // session_start é único por sessão; não multiplicar visualizações e cliques.
+    mapSessions=rows;
+    atualizarMapa();
+    if(offset>=100000)texto('mapNotice','Exibidas as 100 mil sessões mais recentes. Reduza o período para consultar mais acessos.');
+  }catch(err){
+    mapSessions=[];atualizarMapa();
+    texto('mapNotice','Não foi possível consultar as localizações: '+(err.message||'erro desconhecido'));
+  }
+}
+function abrirSessaoNoMapa(index){
+  const row=mapFiltered[index],pos=row&&pontoSessao(row);
+  if(!pos||!geoMap)return;
+  geoMap.setView([pos.lat,pos.lon],Math.max(6,Math.min(9,geoMap.getZoom())));
+  const item=mapGroups.find(g=>g.rows.includes(row));
+  if(item?.marker)item.marker.openPopup();
+}
+
 function apresentar(){
   if(!report)return;
   const t=report.totals||{};
@@ -183,6 +377,7 @@ async function carregar(){
   try{
     report=await supa('/rest/v1/rpc/hub_analytics_report','POST',{p_days:days});
     apresentar();
+    await carregarMapa();
     texto('status','Relatório carregado · coleta sujeita à autorização dos visitantes');
     texto('updated','Atualizado: '+dataFormat(report.generated_at));
   }catch(e){
@@ -206,7 +401,7 @@ async function exportar(){
   const btn=el('download');btn.disabled=true;btn.textContent='Preparando CSV…';
   try{
     const start=new Date(Date.now()-days*86400000).toISOString();
-    const cols=['recorded_at','session_key','event_type','feature','action','seconds_visible','country','region','device','os','browser','display_mode','viewport','referrer_host'];
+    const cols=['recorded_at','session_key','event_type','feature','action','seconds_visible','country','region','city','geo_lat','geo_lon','device','os','browser','display_mode','viewport','referrer_host'];
     const lines=[cols.map(csvField).join(';')];
     let offset=0;
     while(true){
@@ -227,6 +422,7 @@ function abas(){
   d.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>{
     d.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b===btn));
     d.querySelectorAll('.panel-group').forEach(panel=>panel.classList.toggle('active',panel.id==='panel-'+btn.dataset.tab));
+    if(btn.dataset.tab==='mapa')requestAnimationFrame(desenharMapa);
   }));
 }
 function init(){
@@ -235,6 +431,14 @@ function init(){
   el('period').addEventListener('change',e=>{days=Number(e.target.value)||30;carregar();});
   el('reload').addEventListener('click',carregar);
   el('download').addEventListener('click',exportar);
+  el('mapFilter').addEventListener('input',atualizarMapa);
+  el('mapReset').addEventListener('click',()=>{el('mapFilter').value='';atualizarMapa();caberMapa();});
+  el('mapPrev').addEventListener('click',()=>{if(mapPage>0){mapPage--;listarSessoes();}});
+  el('mapNext').addEventListener('click',()=>{mapPage++;listarSessoes();});
+  el('mapSessionsTable').addEventListener('click',e=>{
+    const btn=e.target.closest('[data-map-index]');
+    if(btn)abrirSessaoNoMapa(Number(btn.dataset.mapIndex));
+  });
   abas();
   if(credenciais().access){
     verificar().catch(e=>{limpar();el('loginError').textContent=e.message||'É necessário entrar novamente.';});
