@@ -88,7 +88,7 @@
     ['dTpa','Uma dose a cada gestação, conforme idade gestacional recomendada','Proteção do recém-nascido contra coqueluche.'],
     ['Hepatite B','Completar esquema quando suscetível','Verificar registro e risco de exposição.'],
     ['Covid-19','Vacinação e reforços conforme calendário vigente','Utilizar produto recomendado para gestantes.'],
-    ['VSR materno','Uma dose na gestação, na janela gestacional aprovada e recomendada','Conferir bula e atualização do calendário antes de prescrever.'],
+    ['VSR materno','PNI: uma dose a partir de 28 semanas, em cada gestação, independentemente da idade materna','O objetivo é proteger o lactente por anticorpos maternos. Na rede privada, respeitar bula e orientação aplicável à apresentação utilizada.'],
     ['Febre amarela','Geralmente adiar; avaliar apenas se risco epidemiológico elevado','Vacina viva; decisão individual após análise de risco-benefício.'],
     ['Tríplice viral, varicela e dengue','Não aplicar durante a gestação','Vacinas vivas atenuadas, com contraindicação na gestação.']
   ];
@@ -151,7 +151,7 @@
     ['Influenza','Uma dose durante a gestação, a cada temporada','Vacina inativada.'],
     ['Hepatite B','Completar esquema se necessário','Registro e sorologia podem orientar investigação.'],
     ['Covid-19','Esquema e periodicidade da normativa vigente','Utilizar apresentação indicada para gestantes.'],
-    ['VSR materno','Uma dose conforme janela gestacional do PNI','Conferir idade gestacional e critérios vigentes.']
+    ['VSR materno','Uma dose em cada gestação a partir da 28ª semana gestacional, segundo o PNI','Não limitar a 32–36 semanas no PNI. Pode ser coadministrada com dTpa, influenza e outras vacinas indicadas, em sítios distintos.']
   ];
   var profiles={
     sbim:{
