@@ -40,7 +40,7 @@
     ['Hepatite B','Primeira dose nas primeiras 12 horas de vida','Completar a série segundo as apresentações combinadas e histórico vacinal.'],
     ['Rotavírus','Início a partir de 6 semanas; esquema conforme RV1 ou RV5','Há limites etários de início e término e regras específicas de resgate.'],
     ['DTPa + Hib + VIP ± hepatite B','Iniciar aos 2 meses; esquema primário e reforços na infância','Preferir apresentações combinadas; conferir idade, fabricante e intercambialidade.'],
-    ['Pneumocócicas conjugadas','A partir dos 2 meses; esquema conforme a idade de início','SBIm recomenda VPC15/VPC20; avaliar necessidades adicionais nas comorbidades.'],
+    ['Pneumocócicas conjugadas (VPC20/VPC15)','SBIm: 2, 4 e 6 meses + reforço aos 12–15 meses; esquema de resgate conforme idade','Para crianças com doença de risco, a RIE usa VPC20: 2–6 meses, 3+1; 7–11 meses, 2+1; 12–59 meses, 2 doses. Não confundir com rotina infantil do PNI (2+1).'],
     ['Meningocócica ACWY','Iniciar na primeira infância; reforços conforme idade e produto','Preferir ACWY ao uso isolado da meningocócica C quando possível.'],
     ['Meningocócica B','Iniciar na primeira infância; doses e reforços conforme idade','Intervalos variam conforme início do esquema e fabricante.'],
     ['Influenza','Anual a partir dos 6 meses','Na primovacinação antes de 9 anos, considerar duas doses com intervalo mínimo de 4 semanas.'],
@@ -68,14 +68,14 @@
     ['Tríplice viral','Atualizar esquema de duas doses quando indicado','Vacina viva; contraindicações na gestação e imunossupressão.'],
     ['Varicela','Duas doses se suscetível','Avaliar imunidade e possibilidade de vacina viva.'],
     ['Febre amarela','Avaliar esquema prévio, idade e exposição','A SBIm recomenda considerar duas doses com intervalo de 10 anos.'],
-    ['Pneumocócica VPC20','Rotina a partir de 50 anos; antecipar em comorbidades','Esquemas anteriores exigem avaliação dos intervalos e produtos.'],
+    ['Pneumocócica VPC20 — antecipação por risco','SBIm: rotina aos 50 anos; antes dos 50 anos, indicar se houver asma moderada/grave, pneumopatia/cardiopatia/nefropatia/hepatopatia crônicas, diabetes, imunodeficiência, asplenia, imunossupressão ou outros grupos especiais listados abaixo','Adultos ainda não vacinados: 1 dose. O SUS não a oferece universalmente a partir de 50 anos; aplica critérios do PNI/RIE e histórico vacinal.'],
     ['Herpes-zóster recombinante','A partir de 50 anos; duas doses','Também pode ser indicada antes dos 50 anos em imunossupressão.'],
     ['HPV9','Avaliar indicação segundo idade e condição clínica','Esquema em adultos varia conforme situação imunológica.'],
     ['Dengue','Considerar indicação conforme produto licenciado','Não usar imunizante vivo durante gestação ou imunossupressão.']
   ];
   var IDOSO=[
     ['Influenza','Anual; preferir apresentações mais imunogênicas quando indicadas','A oferta na rede pública pode variar.'],
-    ['Pneumocócica conjugada VPC20','Dose única quando não vacinado com conjugada, conforme histórico','Se já recebeu VPP23 ou conjugadas, observar intervalos e esquemas.'],
+    ['Pneumocócica conjugada VPC20','SBIm: dose única de rotina em idosos não previamente vacinados; no SUS, considerar idade ≥85 anos, 60–84 anos acamados/institucionalizados ou condição especial da RIE','Após VPC10/13 sem VPP23, MS/RIE: aguardar ≥8 semanas; após uma VPP23: ≥1 ano; após duas VPP23: sem nova VPC20 no SUS/RIE. Recomendação SBIm pode diferir.'],
     ['Herpes-zóster recombinante','Duas doses, habitualmente 0–2 meses','Recomendada mesmo após episódio prévio de zóster.'],
     ['Vírus sincicial respiratório (VSR)','Uma dose; priorizar risco a partir dos 60 e rotina a partir dos 70 anos','Não há recomendação estabelecida de revacinação periódica no calendário de referência.'],
     ['dTpa','Atualização e reforço de 10 em 10 anos','Checar esquema básico e necessidade de reforço antecipado em contatos de lactentes.'],
@@ -108,17 +108,17 @@
     ['Transplante de células-tronco hematopoéticas','Revacinação conforme protocolo específico','Pode exigir reconstrução integral da imunização.'],
     ['Imunoglobulina humana','Avaliar interferência com vacinas vivas e resposta humoral','Intervalos variam segundo dose, indicação e produto; não usar regra única.'],
     ['HIV','Individualizar segundo CD4, controle virológico e idade','Vacinas vivas dependem de critérios imunológicos.'],
-    ['Doenças crônicas','Avaliar proteção adicional para pneumo, influenza e hepatites','Risco e recomendação variam por condição.']
+    ['Pneumocócica VPC20 — lista de comorbidades','Asma moderada/grave; outras pneumopatias crônicas; cardiopatia; diabetes; nefropatia; hepatopatia; asplenia; imunodeficiência; imunossupressão; transplante; câncer; HIV e demais condições da NT MS 52/2026','Abrir esta ficha para consultar as 21 indicações completas, esquemas por idade e diferenças de acesso SUS/RIE × SBIm.']
   ];
   var PNI_CHILD=[
     ['Ao nascer','BCG e hepatite B','Dose inicial preferencialmente na maternidade.'],
-    ['2 meses','Pentavalente, VIP, pneumocócica conjugada e rotavírus','Primeiras doses do esquema básico da criança.'],
+    ['2 meses','Pentavalente, VIP, VPC20 e rotavírus','VPC20: dose 1 aos 2 meses; dose 2 aos 4 meses; reforço aos 12 meses (PNI, esquema 2+1). Durante transição, considerar doses prévias de VPC10.'],
     ['3 meses','Meningocócica C','Primeira dose.'],
     ['4 meses','Pentavalente, VIP, pneumocócica conjugada e rotavírus','Segundas doses conforme calendário e produto.'],
     ['5 meses','Meningocócica C','Segunda dose.'],
     ['6 meses','Pentavalente, VIP, influenza e Covid-19 conforme produto','Completar séries iniciais e iniciar vacinas indicadas a partir dessa idade.'],
     ['9 meses','Febre amarela','Primeira dose de rotina.'],
-    ['12 meses','Tríplice viral, pneumocócica conjugada e meningocócica ACWY','Reforços e primeira tríplice viral conforme registro.'],
+    ['12 meses','Tríplice viral, reforço com VPC20 e meningocócica ACWY','VPC20: reforço após as doses infantis aos 2 e 4 meses. MenACWY: substitui o reforço de meningocócica C na rotina do PNI.'],
     ['15 meses','DTP, VIP, hepatite A e varicela/tetraviral conforme apresentação','Reforços e atualização do segundo ano.'],
     ['4 anos','DTP, varicela e febre amarela','Reforços da infância; conferir histórico.'],
     ['9 a 14 anos','HPV','Regra de dose e faixa etária conforme normativa vigente.']
@@ -144,7 +144,7 @@
     ['Hepatite B','Atualizar quando não vacinado','Considerar histórico.'],
     ['dT','Esquema básico e reforço decenal','Registro vacinal define necessidade.'],
     ['Febre amarela','Decisão individual em pessoas com 60 anos ou mais','Considerar risco de doença e eventos adversos.'],
-    ['Pneumocócica conjugada','Oferta especial segundo critérios vigentes da rede específica','Não confundir recomendação SBIm com acesso universal no SUS.']
+    ['Pneumocócica VPC20 — critérios SUS','Rotina SUS: idosos ≥85 anos; de 60–84 anos, acamados e/ou institucionalizados; indígenas conforme histórico; e pessoas de risco enquadradas na RIE','Em pessoas ≥85 anos previamente vacinadas, seguir regras específicas do Ministério da Saúde: por exemplo, duas doses de VPP23 ou VPC13/15 + VPP23 podem dispensar VPC20 na estratégia SUS.']
   ];
   var PNI_PREG=[
     ['dTpa','Uma dose a cada gestação segundo janela do PNI','Fundamental para proteção contra coqueluche no lactente.'],
@@ -195,7 +195,7 @@
         ['Imunodeficiência / imunossupressão','Identificar indicação específica e avaliar vacina viva','O manual e as notas do Ministério da Saúde definem os critérios.'],
         ['Asplenia e complementopatias','Avaliar pneumocócicas, meningocócicas e Hib','Encaminhar ao serviço de referência com documentação clínica.'],
         ['Transplantados','Planejar vacinação segundo fase de tratamento','Seguir critérios do CRIE/RIE e normas vigentes.'],
-        ['Outras comorbidades','Avaliar risco infeccioso e elegibilidade','Não pressupor oferta para todos os grupos.']
+        ['Pneumocócica VPC20 — 21 grupos de indicação especial','Inclui asma persistente moderada/grave, outras pneumopatias crônicas, diabetes, cardiopatia, hepatopatia, nefropatia, imunodeficiência, imunossupressão, asplenia e demais grupos da NT MS 52/2026','Abrir esta ficha para ver a lista integral, faixas etárias, doses, intervalos e as diferenças entre as recomendações da SBIm e o acesso no SUS.']
       ]]]
     }
   };
@@ -312,11 +312,28 @@
     return '<div class="vac-nat-footer">Fonte: '+esc(origem)+'. Conteúdo clínico reorganizado em linguagem de consulta rápida. Pode haver condições adicionais, notas e mudanças normativas. Confira a publicação integral para prescrição e decisão em situações complexas.'+
       '<a class="vac-nat-source" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">Consultar arquivo original da instituição responsável ↗</a></div>';
   }
+
+  var PNEUMO20_GUIA_HTML =
+    '<div style="border:1px solid #b8d9e0;border-radius:11px;background:#f4fafb;padding:12px;margin-top:12px;line-height:1.7;font-size:11.5px;color:#244856">'
+    +'<div style="font-weight:800;color:#17445a;font-size:12.5px;margin-bottom:6px">Pneumo 20 (VPC20): indicação especial e antecipação</div>'
+    +'<p style="margin:0 0 9px">SBIm: rotina a partir dos 50 anos; antes dos 50 anos em pessoas com comorbidades de risco. PNI/RIE: as condições clínicas abaixo permitem indicação especial, com critérios e esquemas próprios. A oferta gratuita não equivale à recomendação universal da SBIm.</p>'
+    +'<details style="margin:7px 0"><summary style="cursor:pointer;font-weight:700">Quais condições? 21 indicações da Nota Técnica MS nº 52/2026, seção 6</summary>'
+    +'<ol style="padding:4px 0 0 20px;margin:0"><li>HIV/aids</li><li>Neoplasia em atividade ou até alta médica</li><li>Transplante de órgão sólido</li><li>Transplante de células-tronco hematopoéticas (TCTH)</li><li>Terapia CAR-T</li><li>Asplenia anatômica ou funcional</li><li>Imunodeficiências primárias/erros inatos da imunidade</li><li>Fibrose cística</li><li>Fístula liquórica ou derivação ventriculoperitoneal</li><li>Imunossupressão terapêutica</li><li>Implante coclear</li><li>Nefropatia crônica, hemodiálise ou síndrome nefrótica</li><li>Pneumopatia crônica, exceto asma intermitente ou persistente leve</li><li>Asma persistente moderada ou grave</li><li>Cardiopatia crônica</li><li>Hepatopatia crônica</li><li>Doença neurológica crônica incapacitante</li><li>Trissomias</li><li>Diabetes</li><li>Doença de depósito</li><li>Prematuridade (≤36 semanas e 6 dias) até 23 meses</li></ol>'
+    +'<p style="margin:6px 0">Rinite alérgica isolada e asma leve não são indicações especiais nessa lista.</p></details>'
+    +'<details style="margin:7px 0"><summary style="cursor:pointer;font-weight:700">Esquemas da RIE em não vacinados</summary>'
+    +'<p>Início aos 2–6 meses: três doses aos 0, 2 e 4 meses + reforço aos 12–15 meses. Início aos 7–11 meses: duas doses (0 e 2 meses) + reforço aos 12–15 meses. Início aos 12–59 meses: duas doses com intervalo de dois meses. A partir de 5 anos: dose única, exceto situações como TCTH e CAR-T.</p></details>'
+    +'<details style="margin:7px 0"><summary style="cursor:pointer;font-weight:700">Já recebeu VPC ou VPP23?</summary>'
+    +'<p>MS/RIE 52/2026: VPC10/VPC13 completas sem VPP23 → VPC20 com intervalo mínimo de oito semanas; uma dose de VPP23 → VPC20 após pelo menos um ano (e ao menos oito semanas da última conjugada); duas doses de VPP23 → não indica VPC20 adicional nesta estratégia. Não aplicar VPP23 após VPC20.</p>'
+    +'<p>SBIm 2026/2027: pode indicar VPC20 mesmo após uma ou duas VPP23 (respeitar um ano), e em situações com esquema sequencial completo a critério médico. Não extrapolar recomendação SBIm para elegibilidade no SUS.</p></details>'
+    +'<details style="margin:7px 0"><summary style="cursor:pointer;font-weight:700">Quem recebe na rotina do SUS?</summary>'
+    +'<p>Crianças, em esquema de rotina 2, 4 e reforço aos 12 meses (atenção à transição com VPC10); povos indígenas segundo histórico; idosos a partir de 85 anos; e pessoas de 60–84 anos acamadas/institucionalizadas. Na RIE, as 21 situações especiais acima. Avaliar doses prévias para não revacinar indevidamente.</p></details>'
+    +'<div style="border-top:1px solid #d0e6ec;margin-top:9px;padding-top:7px">Fontes: <a href="https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/notas-tecnicas/2026/nota-tecnica-no-52-2026-cgici-dpni-svsa-ms.pdf" target="_blank" rel="noopener noreferrer">MS, NT 52/2026, itens 4–6</a> · <a href="https://sbim.org.br/images/calend-vacinacao-pacientes-especiais-2026-27-260617a.pdf_2026-06-24.pdf" target="_blank" rel="noopener noreferrer">SBIm, pacientes especiais 2026/2027</a> · <a href="https://www.gov.br/saude/pt-br/vacinacao/calendario" target="_blank" rel="noopener noreferrer">PNI, calendário 2026</a></div></div>';
+
   function viewGroup(group,rows){
     var h='<div class="vac-nat-batch"><div class="vac-nat-batch-title">'+esc(group)+'</div>';
     rows.forEach(function(r){
       h+='<details class="vac-nat-item"><summary>'+esc(r[0])+'<span style="display:block;color:#476474;font-weight:400;margin-top:4px">'+esc(r[1])+'</span></summary>'+
-        '<div class="vac-nat-detail"><span style="color:#1f6980">Orientação clínica: </span>'+esc(r[2]||'Confira observações e exceções no arquivo original.')+'</div></details>';
+        '<div class="vac-nat-detail"><span style="color:#1f6980">Orientação clínica: </span>'+esc(r[2]||'Confira observações e exceções no arquivo original.')+(/pneumoc|pneumo|VPC20/i.test(r[0])?PNEUMO20_GUIA_HTML:'')+'</div></details>';
     });
     return h+'</div>';
   }
@@ -386,7 +403,7 @@
       ?'Sociedade Brasileira de Imunizações • SBIm 2026/2027'
       :'Ministério da Saúde • PNI 2026';
     var groups=profiles[fonte][id]||[];
-    var h='<div class="vac-nat-hint">Consulta didática sem PDF e sem cadastro de pacientes. Abra cada vacina para ler as orientações. Recomendações e esquemas dependem da idade, do produto, do histórico e das condições clínicas.</div>';
+    var h='<div class="vac-nat-hint">Consulte cada ficha para saber quem deve vacinar, idade de início, número de doses, intervalos, contraindicações relevantes e eventuais critérios do SUS. SBIm é uma recomendação clínica; PNI/RIE define elegibilidade pública. Verifique histórico e medicações antes da prescrição.</div>';
     groups.forEach(function(g){h+=viewGroup(g[0],g[1]);});
     h+=fonte==='pni'
       ?'<div class="vac-nat-hint">O PNI determina a oferta e os critérios na rede pública. Esquemas especiais e mudanças da Instrução Normativa 2026 devem ser conferidos antes da prescrição.</div>'
