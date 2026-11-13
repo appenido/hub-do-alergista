@@ -8,7 +8,9 @@
 <meta name="theme-color" content="#123a63">
 <title>Central de Acessos · Hub do Alergista</title>
 <link rel="icon" href="/favicon-32.png">
-<link rel="stylesheet" href="/central-hub.css?v=20261109-1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
+<link rel="stylesheet" href="/central-hub.css?v=20261112-geo1">
 </head>
 <body>
 <header class="top" id="header">
@@ -66,6 +68,7 @@
     <nav class="tabs" aria-label="Áreas do painel">
       <button class="tab active" data-tab="resumo">Visão geral</button>
       <button class="tab" data-tab="ferramentas">Funcionalidades</button>
+      <button class="tab" data-tab="mapa">Mapa de acessos</button>
       <button class="tab" data-tab="publico">Público e dispositivos</button>
       <button class="tab" data-tab="atividades">Atividades recentes</button>
       <button class="tab" data-tab="assinaturas">Assinaturas</button>
@@ -87,13 +90,36 @@
         <article class="panel"><div class="panel-head"><h2>Cliques detalhados</h2><span>Seção e identificador técnico do controle</span></div><div class="table-scroll"><table><thead><tr><th>Seção</th><th>Botão/ação</th><th>Cliques</th></tr></thead><tbody id="actionsTable"></tbody></table></div></article>
       </div>
     </section>
+    <section class="panel-group" id="panel-mapa">
+      <article class="panel">
+        <div class="panel-head"><div><h2>Mapa geográfico dos acessos</h2>
+          <p class="muted map-subtitle">Cada sessão autorizada aparece na lista; marcadores próximos são agrupados no mapa. Localizações anteriores aparecem pelo centro aproximado do estado ou região.</p>
+        </div><span id="mapSummary">Consultando localizações…</span></div>
+        <div class="map-toolbar">
+          <label class="map-search-label" for="mapFilter">Filtrar por localidade</label>
+          <input id="mapFilter" type="search" placeholder="Cidade, estado, país…" autocomplete="off" aria-label="Filtrar acessos por localidade">
+          <button id="mapReset" type="button" class="outline">Mostrar todos no mapa</button>
+        </div>
+        <div id="accessMap" class="access-map" role="region" aria-label="Mapa interativo dos acessos por localização aproximada"></div>
+        <p id="mapNotice" class="map-notice" role="status">Carregando as localizações autorizadas…</p>
+        <div class="map-legend"><span><i class="legend-dot"></i>Círculo: sessões por localidade</span><span>Endereços, GPS e IP não são exibidos nem armazenados nas métricas.</span></div>
+      </article>
+      <article class="panel">
+        <div class="panel-head"><h2>Localização de cada sessão</h2><span>Data e hora de Brasília · sem identificação pessoal</span></div>
+        <div class="table-scroll map-table-scroll"><table>
+          <thead><tr><th>Data e hora</th><th>Localização estimada</th><th>Dispositivo</th><th>Mapa</th></tr></thead>
+          <tbody id="mapSessionsTable"><tr><td colspan="4">Carregando…</td></tr></tbody>
+        </table></div>
+        <div class="map-pagination"><span id="mapPageInfo">—</span><div><button type="button" class="outline" id="mapPrev">Anterior</button><button type="button" class="outline" id="mapNext">Próximo</button></div></div>
+      </article>
+    </section>
     <section class="panel-group" id="panel-publico">
       <div class="three-cols">
         <article class="panel"><div class="panel-head"><h2>Tipo de dispositivo</h2></div><div id="devices" class="bars"></div></article>
         <article class="panel"><div class="panel-head"><h2>Sistemas operacionais</h2></div><div id="systems" class="bars"></div></article>
         <article class="panel"><div class="panel-head"><h2>Navegadores</h2></div><div id="browsers" class="bars"></div></article>
       </div>
-      <article class="panel"><div class="panel-head"><h2>Localização aproximada</h2><span>País e estado/região fornecidos pela infraestrutura, sem GPS ou IP armazenado</span></div><div class="table-scroll"><table><thead><tr><th>País</th><th>Estado ou região</th><th>Sessões</th></tr></thead><tbody id="locationsTable"></tbody></table></div></article>
+      <article class="panel"><div class="panel-head"><h2>Localização aproximada</h2><span>País, estado ou região estimados pela infraestrutura, sem GPS ou IP armazenado</span></div><div class="table-scroll"><table><thead><tr><th>País</th><th>Estado ou região</th><th>Sessões</th></tr></thead><tbody id="locationsTable"></tbody></table></div></article>
     </section>
     <section class="panel-group" id="panel-atividades">
       <article class="panel"><div class="panel-head"><h2>Últimos eventos registrados</h2><span>Registros técnicos sem nomes ou identificação de visitantes</span></div>
@@ -117,7 +143,7 @@
     <section class="panel-group" id="panel-privacidade">
       <article class="panel"><div class="panel-head"><h2>Governança das métricas</h2></div>
         <p>A coleta começa apenas depois da autorização do visitante. São contabilizados eventos de abertura de áreas, interações com botões e tempo visível.</p>
-        <p>Não são enviados valores digitados, termos de pesquisa, informações de pacientes, endereços IP, coordenadas GPS, e-mail do visitante nem identidade do usuário. A sessão aleatória vale apenas enquanto a página está aberta.</p>
+        <p>Não são enviados valores digitados, termos de pesquisa, informações de pacientes, endereços IP, coordenadas GPS, e-mail do visitante nem identidade do usuário. Quando disponíveis, cidade e coordenadas aproximadas da rede são obtidas pela Cloudflare, com coordenadas arredondadas a 0,1 grau. O mapa não representa a localização exata do visitante. A sessão aleatória vale apenas enquanto a página está aberta.</p>
         <p>Os números correspondem ao público que autorizou a medição. Por isso, não representam todos os visitantes, não identificam pessoas únicas e não podem ser utilizados isoladamente para medir assinantes.</p>
         <p><a href="/privacidade.html" target="_blank" rel="noopener">Consultar a política de privacidade</a></p>
       </article>
@@ -125,6 +151,8 @@
     <footer class="footer">Central do Hub · Acesso restrito · Dados agregados, sem identificadores clínicos</footer>
   </section>
 </main>
-<script src="/central-hub.js?v=20261112-1" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous" defer></script>
+<script src="/central-hub.js?v=20261112-geo1" defer></script>
 </body>
 </html>
