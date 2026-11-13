@@ -431,6 +431,15 @@ function init(){
   el('logout').addEventListener('click',()=>{limpar();el('email').value='';});
   el('period').addEventListener('change',e=>{days=Number(e.target.value)||30;carregar();});
   el('reload').addEventListener('click',carregar);
+  // Central aberta: atualiza métricas e mapa sem exigir recarregar a página.
+  // Nenhuma consulta é feita enquanto o painel estiver bloqueado ou oculto.
+  setInterval(()=>{if(admin&&!loading&&!d.hidden)carregar();},5*60*1000);
+  d.addEventListener('visibilitychange',()=>{
+    if(!d.hidden&&admin&&!loading&&report?.generated_at){
+      const last=new Date(report.generated_at).getTime();
+      if(Number.isFinite(last)&&Date.now()-last>5*60*1000)carregar();
+    }
+  });
   el('download').addEventListener('click',exportar);
   el('mapFilter').addEventListener('input',atualizarMapa);
   el('mapReset').addEventListener('click',()=>{el('mapFilter').value='';atualizarMapa();caberMapa();});
