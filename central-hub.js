@@ -261,7 +261,7 @@ function desenharMapa(){
   }
   if(!geoMap){
     geoMap=window.L.map(root,{scrollWheelZoom:false,zoomControl:true}).setView([-16,-51],4);
-    window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    window.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
       attribution:'&copy; OpenStreetMap contributors',maxZoom:16
     }).addTo(geoMap);
     mapLayer=window.L.layerGroup().addTo(geoMap);
@@ -348,6 +348,7 @@ function abrirSessaoNoMapa(index){
   geoMap.setView([pos.lat,pos.lon],Math.max(6,Math.min(9,geoMap.getZoom())));
   const item=mapGroups.find(g=>g.rows.includes(row));
   if(item?.marker)item.marker.openPopup();
+  el('accessMap').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function apresentar(){
