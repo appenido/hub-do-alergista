@@ -1,7 +1,16 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-11",
+  "updatedAt": "2026-11-13",
   "items": [
+    {
+      "id": "2026-11-13-nemolizumabe",
+      "date": "2026-11-13",
+      "category": "Imunobiológicos",
+      "icon": "💉",
+      "title": "Nemolizumabe (Nemluvio®)",
+      "description": "Nova ficha do anti-IL-31Rα: indicações em dermatite atópica e prurigo nodular, posologia por doença, segurança e referências da bula brasileira.",
+      "section": "imuno"
+    },
     {
       "id": "2026-11-11-scorad-anatomico",
       "date": "2026-11-11",
