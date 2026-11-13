@@ -3,6 +3,15 @@
   "updatedAt": "2026-11-13",
   "items": [
     {
+      "id": "2026-11-13-vpc20-risco",
+      "date": "2026-11-13",
+      "category": "Imunizações",
+      "icon": "💉",
+      "title": "VPC20: antecipação por comorbidades e critérios do SUS",
+      "description": "Novo guia na ficha da Pneumo 20 com as 21 indicações especiais do Ministério da Saúde, esquemas por idade e diferenças entre SBIm e PNI/RIE.",
+      "section": "imunizacoes"
+    },
+    {
       "id": "2026-11-13-nemolizumabe",
       "date": "2026-11-13",
       "category": "Imunobiológicos",
