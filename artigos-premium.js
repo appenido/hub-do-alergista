@@ -93,7 +93,6 @@
       '<a class="link-btn pub" href="'+pub+'" target="_blank" rel="noopener noreferrer">Abrir no PubMed</a>'+
       (a.doi?'<a class="link-btn" href="https://doi.org/'+encodeURIComponent(a.doi)+'" target="_blank" rel="noopener noreferrer">Na revista</a>':'')+
       '<button type="button" class="link-btn btn-resumo">Resumo</button>'+
-      '<button type="button" class="link-btn ai btn-ai-summary">Analisar com IA</button>'+
       '<button type="button" class="link-btn btn-save" aria-label="Favoritar artigo" style="margin-left:auto">🔖</button>'+
       '</div></article>';
   }
