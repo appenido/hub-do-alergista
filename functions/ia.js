@@ -60,13 +60,14 @@ export async function onRequestPost({request,env}){
   if(!key)return resposta({erro:'IA temporariamente indisponível.'},503,origin);
   // Priorização de modelos válidos com prazo curto: a interface não deve ficar
   // esperando uma longa cadeia de tentativas e exibir o abstract como substituto.
-  const MODELOS=['gemini-2.5-flash','gemini-flash-latest'];
+  const MODELOS=['gemini-2.5-flash-lite','gemini-2.5-flash'];
   const corpo=JSON.stringify({
     system_instruction:{parts:[{text:SISTEMA}]},
     contents:[{role:'user',parts:[{text:pergunta}]}],
     generationConfig:{temperature:0.25,maxOutputTokens:1800}
   });
   let ultimaFalha='';
+  let statusFalha=503;
   for(const modelo of MODELOS){
     const controller=new AbortController();
     const timer=setTimeout(()=>controller.abort(),8500);
@@ -79,7 +80,9 @@ export async function onRequestPost({request,env}){
         const texto=partes.map(p=>typeof p.text==='string'?p.text:'').join('').trim();
         if(texto)return resposta({resposta:texto},200,origin);
         ultimaFalha='O serviço não retornou conteúdo.';
+        statusFalha=503;
       }else{
+        statusFalha=r.status===429?429:503;
         ultimaFalha=r.status===429?'Serviço de IA temporariamente sobrecarregado.':
           r.status===401||r.status===403?'Serviço de IA sem autorização.':
           'Serviço de IA indisponível (HTTP '+r.status+').';
@@ -88,5 +91,5 @@ export async function onRequestPost({request,env}){
     }catch(e){ultimaFalha=e&&e.name==='AbortError'?'A IA excedeu o tempo limite.':'Falha de comunicação com a IA.';}
     finally{clearTimeout(timer);}
   }
-  return resposta({erro:ultimaFalha||'Não foi possível consultar o serviço de IA agora.'},503,origin);
+  return resposta({erro:ultimaFalha||'Não foi possível consultar o serviço de IA agora.'},statusFalha,origin);
 }
