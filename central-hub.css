@@ -74,3 +74,34 @@ td:last-child,th:last-child{text-align:right}
 [hidden]{display:none!important}
 @media(max-width:1150px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.two-cols{grid-template-columns:1fr}.three-cols{grid-template-columns:repeat(2,minmax(0,1fr))}.intro{align-items:flex-start;flex-direction:column}.actions{justify-content:flex-start}}
 @media(max-width:700px){main{padding:17px 13px}.top{padding:14px 13px;min-height:70px}.brand-title{font-size:16px}.private{font-size:11px}.back{font-size:25px}.logo-mark{width:35px;height:35px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.kpi{padding:14px}.kpi>div{font-size:28px}.kpi small{font-size:10px}.three-cols{grid-template-columns:1fr}.panel{padding:16px}.actions{width:100%;gap:8px}.actions select,.actions button{font-size:12px;padding:10px}.auth-card{padding:25px 19px}.planning{align-items:flex-start;gap:13px;padding:20px}.planning-icon{width:40px;height:40px;font-size:27px}.top-right{gap:5px}.tabs{margin:17px 0}}
+
+
+/* Mapa privativo de acessos — interface adaptável à tela */
+.map-subtitle{font-size:13px;max-width:790px;margin:6px 0 0}
+.map-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:15px}
+.map-search-label{font-size:13px;color:#526782}
+.map-toolbar input{flex:1 1 230px;min-width:170px;max-width:450px;border:1px solid #cddae7;background:#fdfefe;color:var(--ink);border-radius:10px;padding:11px 13px;outline-color:#1d6792}
+.access-map{height:clamp(340px,51vw,550px);width:100%;background:#eaf0f5;border:1px solid #dce7ef;border-radius:14px;overflow:hidden;z-index:0}
+.access-map .leaflet-container{font:13px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+.access-map .leaflet-control-attribution{font-size:10px}
+.map-notice{font-size:12px;color:#718398;margin:12px 2px}
+.map-legend{display:flex;gap:15px;justify-content:space-between;flex-wrap:wrap;color:#7b899a;font-size:12px}
+.legend-dot{display:inline-block;width:10px;height:10px;background:#245c90;border:2px solid white;outline:1px solid #245c90;border-radius:50%;margin-right:7px}
+.map-popup-title{color:#123f6c;font-size:14px;font-weight:700;margin-bottom:5px}
+.map-popup-row{font-size:12px;color:#53657c;padding:2px 0}
+.map-table-scroll{max-height:410px}
+.map-table-scroll td:last-child,.map-table-scroll th:last-child{text-align:center}
+.map-locate{padding:6px 12px;border:1px solid #cfdeeb;border-radius:9px;background:#eff5fa;color:#164a76;font-size:12px}
+.map-pagination{display:flex;justify-content:space-between;align-items:center;gap:13px;padding-top:12px;color:#697b8e;font-size:12px}
+.map-pagination>div{display:flex;gap:9px}
+.map-pagination button{font-size:12px;padding:7px 12px}
+.map-pagination button:disabled{opacity:.35;cursor:default}
+@media(max-width:700px){
+ .access-map{height:380px;border-radius:12px}
+ .map-toolbar{gap:9px}
+ .map-toolbar .map-search-label{width:100%}
+ .map-toolbar input{flex-basis:100%;max-width:none}
+ .map-toolbar .outline{font-size:12px}
+ .map-table-scroll table{min-width:520px}
+ .map-legend{font-size:11px}
+}
