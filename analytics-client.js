@@ -3,7 +3,7 @@
 (function(){
 'use strict';
 if(!window.crypto||!crypto.randomUUID)return;
-const CHOICE_KEY='hub_analytics_choice_v1';
+const CHOICE_KEY='hub_analytics_choice_v2';
 const session=crypto.randomUUID();
 const D=document;
 let enabled=false,prev=null,enteredAt=Date.now(),sent=0,lastClick=0;
