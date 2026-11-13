@@ -35,12 +35,22 @@ export async function onRequestPost({request,env}){
   const cf=request.cf||{};
   const country=/^[A-Z]{2}$/.test(cf.country||'')?cf.country:null;
   const region=String(cf.regionCode||cf.region||'').replace(/[^a-zA-Z0-9 ._-]/g,'').slice(0,60)||null;
+  // A Cloudflare estima a localização pela rede; arredondamento a ~11 km,
+  // sem coletar IP bruto, GPS, código postal ou localização do navegador.
+  const city=country&&typeof cf.city==='string'
+    ? (cf.city.trim().replace(/[<>\\x00-\\x1F]/g,'').slice(0,80)||null):null;
+  const hasCoords=cf.latitude!=null&&cf.longitude!=null&&String(cf.latitude).trim()!==''&&String(cf.longitude).trim()!=='';
+  const lat=hasCoords?Number(cf.latitude):NaN;
+  const lon=hasCoords?Number(cf.longitude):NaN;
+  const coordsOk=country&&Number.isFinite(lat)&&Number.isFinite(lon)&&lat>=-90&&lat<=90&&lon>=-180&&lon<=180;
+  const geo_lat=coordsOk?Math.round(lat*10)/10:null;
+  const geo_lon=coordsOk?Math.round(lon*10)/10:null;
   const referrer=/^[a-z0-9.:-]{1,100}$/i.test(x.referrer_host||'')?x.referrer_host.toLowerCase():'direto';
   const viewport=['pequena','media','grande'].includes(x.viewport)?x.viewport:'media';
   const display_mode=x.display_mode==='PWA'?'PWA':'navegador';
   const payload={session_key:x.session_key,event_type:x.event_type,
     feature:x.feature,action:x.action||'-',seconds_visible:seconds,
-    country,region,device,os,browser,display_mode,viewport,referrer_host:referrer,source:'hub-pwa'};
+    country,region,city,geo_lat,geo_lon,device,os,browser,display_mode,viewport,referrer_host:referrer,source:'hub-pwa'};
   try{
     const result=await fetch(SB+'/rest/v1/hub_analytics_events',{
       method:'POST',headers:{apikey:env?.SUPABASE_PUBLISHABLE_KEY||PUBLIC_KEY,
