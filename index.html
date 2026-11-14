@@ -3712,7 +3712,7 @@ window._bloquearApp=function(){};
         <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
         Interações medicamentosas
       </div>
-      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Consulta de bulas oficiais sem IA + acesso ao Medscape</div>
+      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Fontes oficiais: openFDA + NIH/RxNorm, com consulta complementar à EMA e Anvisa</div>
     </div>
 
     <div style="padding:0 16px 24px;display:flex;flex-direction:column;gap:14px">
@@ -3723,7 +3723,7 @@ window._bloquearApp=function(){};
           <span style="font-size:22px">💊</span>
           <div style="font-size:16px;font-weight:800">Verificador de interações</div>
         </div>
-        <div style="font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.5;margin-bottom:16px">Informe os medicamentos para consultar as seções de interações das bulas norte-americanas (openFDA). A conferência completa entre medicamentos é feita no Medscape.</div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.5;margin-bottom:16px">Informe os princípios ativos para identificar medicamentos pela NIH/RxNorm e consultar bulas FDA. Este módulo não classifica a gravidade de interações. Consulte também EMA e Anvisa nos links oficiais.</div>
 
         <div id="diCampos">
           <div style="margin-bottom:9px"><label style="font-size:11px;font-weight:700;color:rgba(255,255,255,.9);display:block;margin-bottom:5px">Medicamento 1</label><input type="text" id="diMed1" placeholder="Ex: omalizumabe" style="border:none;border-radius:10px;padding:12px 13px;font-family:'Manrope',sans-serif;font-size:16px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box"></div>
@@ -3734,9 +3734,9 @@ window._bloquearApp=function(){};
 
         <button id="diAddCampo" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:10px;padding:10px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;width:100%;margin-bottom:10px">+ Adicionar outro medicamento</button>
 
-        <button id="diVerificarBtn" type="button" onclick="consultarInteracoesSemIA()" style="background:#fff;color:#2a6ebb;border:none;border-radius:11px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;width:100%">Consultar bulas sem IA</button>
+        <button id="diVerificarBtn" type="button" onclick="consultarInteracoesSemIA()" style="background:#fff;color:#2a6ebb;border:none;border-radius:11px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;width:100%">Consultar FDA + RxNorm</button>
         <button id="diMedscapeBtn" type="button" style="background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:11px;padding:12px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;width:100%;margin-top:9px">Conferir na base do Medscape ↗</button>
-        <div style="font-size:10.5px;color:rgba(255,255,255,.78);text-align:center;margin-top:9px;line-height:1.45">As bulas são consultadas diretamente na FDA, sem IA. O Medscape abre no site original, onde os medicamentos precisam ser inseridos.</div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,.78);text-align:center;margin-top:9px;line-height:1.45">Pesquisa documental via FDA e NIH/RxNorm, sem IA e sem contratação. Medscape é serviço externo; confira também as bulas brasileiras.</div>
       </div>
 
       <div id="diResultado" style="display:none;background:#fff;border:1px solid var(--gray-100);border-radius:13px;padding:15px;font-size:13px;color:var(--navy);line-height:1.6;white-space:pre-wrap"></div>
@@ -3757,7 +3757,7 @@ window._bloquearApp=function(){};
         </div>
       </div>
 
-      <div style="font-size:10.5px;color:var(--gray-300);font-style:italic;line-height:1.5">Consulta documental direta à openFDA, sem IA. Ausência de menção em bula não significa ausência de interação. Consulte também o Medscape e a bula brasileira.</div>
+      <div style="font-size:10.5px;color:var(--gray-300);font-style:italic;line-height:1.5">FDA: seções de bulas. NIH/RxNorm: identificação farmacológica. EMA e Anvisa: consulta documental externa. Ausência de menção não significa ausência de interação.</div>
     </div>
   </div>
 
@@ -11293,7 +11293,7 @@ function chatToggle(){
 <script src="/scores-qr-medico.js?v=20261111-qr-revisao-1"></script>
 <script src="/congresso-assistente.js?v=20261109-3"></script>
 <script src="/comparador-reatividade-alimentar.js?v=20261109-5"></script>
-<script src="/interacoes-clinicas.js?v=20261114-sem-ia-1"></script>
+<script src="/interacoes-clinicas.js?v=20261114-fda-rxnorm-1"></script>
 <script src="/analytics-client.js?v=20261113-health1"></script>
 <script src="/filter-chips-drag.js?v=20261109-1"></script>
 <script src="/quick-access-premium.js?v=20261112-firstpaint-1" defer></script>

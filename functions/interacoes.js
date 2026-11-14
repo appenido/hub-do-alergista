@@ -8,6 +8,13 @@ const HEADERS={
   'Vary':'Origin'
 };
 const MEDSCAPE='https://reference.medscape.com/drug-interactionchecker';
+// RxNorm identifica substancias; nao e uma base de interacoes medicamentosas.
+const FONTES_OFICIAIS={
+  fda:'https://open.fda.gov/apis/drug/label/',
+  rxnorm:'https://rxnav.nlm.nih.gov/',
+  ema:'https://www.ema.europa.eu/en/medicines',
+  anvisa:'https://www.gov.br/anvisa/pt-br/sistemas/bulario-eletronico'
+};
 const ALIASES={
   dupilumabe:'dupilumab',dupixent:'dupilumab',omalizumabe:'omalizumab',xolair:'omalizumab',
   mepolizumabe:'mepolizumab',nucala:'mepolizumab',benralizumabe:'benralizumab',
@@ -79,6 +86,41 @@ function filtrarBula(d,ing,original){
     secaoTruncada:secao.length>23000,
     temSecao:!!secao
   };
+}
+
+async function consultarRxNorm(nome){
+  const ing=nomeFDA(nome);
+  const termo=ing.replace(/[^a-z0-9 \-/]/g,'').slice(0,65).trim();
+  if(!termo)return {status:'nao_identificado'};
+  // Somente igualdade exata ou normalizada: nao inferir correspondencia aproximada.
+  const url=new URL('https://rxnav.nlm.nih.gov/REST/rxcui.json');
+  url.searchParams.set('name',termo);
+  url.searchParams.set('search','2');
+  url.searchParams.set('allsrc','0');
+  async function obterJson(endpoint){
+    const ac=new AbortController();
+    const timer=setTimeout(()=>ac.abort(),6500);
+    try{
+      const resp=await fetch(endpoint,{signal:ac.signal,headers:{Accept:'application/json'}});
+      if(!resp.ok)throw Error('HTTP '+resp.status);
+      return await resp.json();
+    }finally{clearTimeout(timer);}
+  }
+  try{
+    const dados=await obterJson(url.toString());
+    const ids=Array.isArray(dados?.idGroup?.rxnormId)?dados.idGroup.rxnormId:[];
+    const id=String(ids[0]||'');
+    if(!/^\d{1,12}$/.test(id))return {status:'nao_identificado'};
+    let padronizado=termo, tipo='';
+    try{
+      const detalhes=await obterJson('https://rxnav.nlm.nih.gov/REST/rxcui/'+id+'/properties.json');
+      padronizado=String(detalhes?.properties?.name||termo).slice(0,140);
+      tipo=String(detalhes?.properties?.tty||'').slice(0,12);
+    }catch(_){
+      // O identificador permanece valido se a consulta dos detalhes falhar.
+    }
+    return {status:'identificado',rxcui:id,nomePadronizado:padronizado,tipo};
+  }catch(_){return {status:'indisponivel'};}
 }
 async function consultarNome(nome,env){
   const ing=nomeFDA(nome);
@@ -176,16 +218,20 @@ export async function onRequestPost({request,env={}}){
   // No maximo 3 solicitacoes paralelas: protege limite publico da FDA.
   const bulas=[];
   for(let i=0;i<nomes.length;i+=3){
-    const grupo=await Promise.all(nomes.slice(i,i+3).map(n=>consultarNome(n,env)));
+    const grupo=await Promise.all(nomes.slice(i,i+3).map(async n=>{
+      const [bula,rxnorm]=await Promise.all([consultarNome(n,env),consultarRxNorm(n)]);
+      return {...bula,rxnorm};
+    }));
     bulas.push(...grupo);
   }
   const pares=ocorrencias(bulas);
   return saida({
-    fonte:'openFDA',
+    fonte:'openFDA + NIH/RxNorm',
+    fontesOficiais:FONTES_OFICIAIS,
     dataConsulta:new Date().toISOString(),
     bulas,
     pares,
     medscape:MEDSCAPE,
-    aviso:'A pesquisa identifica mencoes textuais em bulas dos EUA, nao calcula a interacao farmacologica entre pares. Ausencia de mencao ou de bula nao comprova seguranca. Verifique em uma base DDI validada e nas bulas brasileiras.'
+    aviso:'A RxNorm padroniza nomes e identificadores, e a openFDA mostra textos de bulas dos EUA. Esta consulta nao calcula nem classifica interacoes farmacologicas. Ausencia de mencao ou de bula nao comprova seguranca. EMA e Anvisa oferecem consulta documental complementar, nao verificacao automatica de pares. Nunca informe dados de pacientes.'
   });
 }

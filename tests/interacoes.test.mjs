@@ -18,7 +18,18 @@ function fakeServer(meds,forcarStatus=null){
       async url=>{
         calls.push(String(url));
         if(forcarStatus!==null)return makeResp({error:'service unavailable'},forcarStatus);
-        const nome=new URL(String(url)).searchParams.get('search');
+        const u=new URL(String(url));
+        if(u.hostname==='rxnav.nlm.nih.gov'){
+          if(u.pathname==='/REST/rxcui.json'){
+            const name=u.searchParams.get('name');
+            if(/^(dupilumab|methotrexate)$/i.test(name))
+              return makeResp({idGroup:{rxnormId:[name.toLowerCase()==='dupilumab'?'12345':'67890']}});
+            return makeResp({idGroup:{}});
+          }
+          if(u.pathname.endsWith('/properties.json'))
+            return makeResp({properties:{name:u.pathname.includes('12345')?'dupilumab':'methotrexate',tty:'IN'}});
+        }
+        const nome=u.searchParams.get('search')||'';
         if(/dupilumab/i.test(nome))return makeResp({results:[{
           set_id:'123e4567-e89b-12d3-a456-426614174000',
           effective_time:'20261010',
@@ -61,11 +72,15 @@ test('consulta diretamente a API de bulas e produz menção textual, não confir
   assert.equal(r.data.bulas[0].principioAtivo,'dupilumab');
   assert.equal(r.data.bulas[1].principioAtivo,'methotrexate');
   assert.equal(r.data.pares[0].mencoes.length,1);
-  assert.match(r.data.aviso,/nao calcula a interacao farmacologica/i);
-  assert.ok(r.calls.every(x=>x.startsWith('https://api.fda.gov/drug/label.json')));
+  assert.match(r.data.aviso,/nao calcula nem classifica interacoes farmacologicas/i);
+  assert.ok(r.calls.some(x=>x.startsWith('https://api.fda.gov/drug/label.json')));
+  assert.ok(r.calls.some(x=>x.startsWith('https://rxnav.nlm.nih.gov/REST/rxcui.json')));
+  assert.equal(r.data.bulas[0].rxnorm.rxcui,'12345');
+  assert.equal(r.data.bulas[1].rxnorm.rxcui,'67890');
+  assert.equal(r.data.fontesOficiais.anvisa,'https://www.gov.br/anvisa/pt-br/sistemas/bulario-eletronico');
 });
 
-test('se a FDA não encontra medicamento, não classifica como seguro',async()=>{
+test('normalização RxNorm não transforma ausência de bula em avaliação de segurança',async()=>{
   const req=fakeServer();
   const r=await req(['Bilastina','Metotrexato']);
   assert.equal(r.status,200);
