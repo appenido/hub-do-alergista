@@ -171,11 +171,15 @@ def main():
         for x in prior.get("items", [])
     }
     extracted, source_date = download()
+    checked_at = dt.datetime.now(dt.timezone.utc).date().isoformat()
+    # Uma checagem nova não deve notificar títulos antigos como se fossem lançamentos.
+    old_checked_at = prior.get("checkedAt") or prior.get("sourceUpdatedAt") or "1970-01-01"
     new_items = []
     for entry in extracted:
         key = re.sub(r"\W+", "", entry["title"].lower())
         old = previous_by_title.get(key, {})
         entry["topic"] = old.get("topic") or entry["topic"]
+        entry["firstSeenAt"] = old.get("firstSeenAt") or (old_checked_at if old else checked_at)
         if old.get("titlePt"):
             entry["titlePt"] = old["titlePt"]
         if old.get("summary"):
@@ -185,7 +189,7 @@ def main():
     result = {
         "source": SOURCES[0],
         "sourceUpdatedAt": source_date or prior.get("sourceUpdatedAt"),
-        "checkedAt": dt.datetime.now(dt.timezone.utc).date().isoformat(),
+        "checkedAt": checked_at,
         "items": new_items,
     }
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
