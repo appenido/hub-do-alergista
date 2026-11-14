@@ -203,20 +203,35 @@
     }catch(_){}
   }
   function scheduleRemote(source){
-    if(!catalog||!catalog.has(source)||language==='pt-BR')return;
+    if(!catalog||!catalog.has(source)||language==='pt-BR'||serviceUnavailable)return;
     if(source.length<3||source.length>1600)return;
     var key=cacheKey(language,source);
     if(translationsCache[key]||failed.has(key)||inflight.has(key))return;
     workQueue.add(key);
+    translationStatus();
     if(!processing&&!queueTimer){
       queueTimer=setTimeout(function(){queueTimer=null;processQueue();},160);
     }
   }
+  var serviceUnavailable=false;
+  function translationStatus(){
+    var box=document.getElementById('hubLanguageControl');
+    if(box){
+      box.classList.toggle('hub-language-loading',language!=='pt-BR'&&(workQueue.size>0||inflight.size>0)&&!serviceUnavailable);
+      box.setAttribute('title',serviceUnavailable?'Tradução automática temporariamente indisponível':'Idioma da interface');
+    }
+    var label=document.getElementById('hubTranslationStatus');
+    if(label)label.textContent=serviceUnavailable?
+      (language==='en'?'Automatic translation is temporarily unavailable. Original Portuguese text is displayed.':
+       language==='es'?'La traducción automática no está disponible temporalmente. Se muestra el texto original en portugués.':''):
+      (workQueue.size||inflight.size?
+        (language==='en'?'Translating this page…':language==='es'?'Traduciendo esta página…':''):'');
+  }
   async function processQueue(){
-    if(processing||!workQueue.size)return;
+    if(processing||!workQueue.size||serviceUnavailable)return;
     processing=true;
-    try{
-      while(workQueue.size){
+    async function worker(){
+      while(workQueue.size&&!serviceUnavailable){
         var first=workQueue.values().next().value;
         var locale=first.split('\u0000')[0];
         var batch=[],total=0;
@@ -224,7 +239,7 @@
           var parts=k.split('\u0000');
           if(parts[0]!==locale)continue;
           var source=parts.slice(1).join('\u0000');
-          if(batch.length>=18||total+source.length>6800)break;
+          if(batch.length>=24||total+source.length>8100)break;
           batch.push(source);total+=source.length;
           workQueue.delete(k);inflight.add(k);
         }
@@ -236,7 +251,10 @@
             headers:{'Content-Type':'application/json'},
             body:JSON.stringify({language:locale,texts:batch})
           });
-          if(!response.ok)throw new Error('translation service unavailable');
+          if(!response.ok){
+            if(response.status===503){serviceUnavailable=true;workQueue.clear();}
+            throw new Error('translation service unavailable');
+          }
           var payload=await response.json();
           var results=payload&&payload.translations;
           if(!Array.isArray(results)||results.length!==batch.length)throw new Error('invalid translation response');
@@ -254,8 +272,11 @@
           batch.forEach(function(src){inflight.delete(cacheKey(locale,src));});
         }
         if(ok&&language===locale)applyLanguage();
+        translationStatus();
       }
-    }finally{processing=false;}
+    }
+    try{await Promise.all([worker(),worker()]);}
+    finally{processing=false;translationStatus();}
   }
   function loadCatalog(){
     fetch('/data/hub-i18n-catalog.json?v=20261114-3',{cache:'force-cache',credentials:'same-origin'})
@@ -326,6 +347,7 @@
     var code=document.getElementById('hubLangCode');
     if(code)code.textContent=codes[language];
     document.documentElement.lang=language;
+    translationStatus();
   }
   var originalDocumentTitle=null;
   function applyLanguage(){
@@ -377,6 +399,7 @@
       var pselect=makeSelect('hub-language-settings-select');
       pselect.id='hubLanguageSelectSettings';
       panel.appendChild(pselect);
+      var status=document.createElement('p');status.id='hubTranslationStatus';status.style.cssText='margin:9px 0 0;font-size:11px;color:#65798a;line-height:1.5';status.setAttribute('aria-live','polite');panel.appendChild(status);
       var blocks=profile.children;
       profile.insertBefore(panel,blocks.length>1?blocks[1]:null);
     }
