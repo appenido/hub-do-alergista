@@ -1,0 +1,86 @@
+/* Hub do Alergista — catálogo de medicamentos, responsivo e com expansão local. */
+#page-medicamentos{--med-ink:#15394f;--med-teal:#147a8d;--med-gold:#be963f;color:var(--med-ink);}
+#page-medicamentos *{box-sizing:border-box}
+#medApp{padding:clamp(13px,2.2vw,28px);max-width:1480px;margin:0 auto}
+#medApp .med-intro{padding:6px 3px 19px}
+#medApp .med-eyebrow{font:800 10px/1.5 Manrope,Arial,sans-serif;letter-spacing:.15em;color:#a27a28}
+#medApp .med-intro h1{font:800 clamp(24px,3vw,34px)/1.2 Manrope,Arial,sans-serif;color:#12384e;margin:5px 0 8px}
+#medApp .med-intro p{font:500 clamp(12px,1.15vw,15px)/1.6 Manrope,Arial,sans-serif;color:#506b7b;max-width:850px;margin:0}
+#medApp .med-categories{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+#medApp .med-category{border:1px solid #d6e4ea;border-radius:17px;background:linear-gradient(135deg,#fff,#f9fcfd);box-shadow:0 5px 20px rgba(19,57,77,.045);min-width:0;overflow:hidden;transition:border-color .2s ease,box-shadow .2s ease}
+#medApp .med-category.is-open{border-color:#8ec0ca;box-shadow:0 10px 26px rgba(19,71,91,.095)}
+#medApp .med-category-toggle{display:flex;width:100%;min-height:90px;align-items:center;gap:13px;text-align:left;padding:13px 16px;background:transparent;border:0;color:#163c51;font-family:Manrope,Arial,sans-serif;cursor:pointer}
+#medApp .med-category-toggle:focus-visible,#medApp .med-check-prices:focus-visible,#medApp .med-prod summary:focus-visible{outline:3px solid #126f8d;outline-offset:-3px}
+#medApp .med-category-icon{flex:0 0 51px;width:51px;height:51px;display:grid;place-items:center;border:1px solid #d4e9ed;border-radius:15px;background:#f5fbfc;box-shadow:inset 0 1px #fff}
+#medApp .med-category-icon svg{width:43px;height:43px}
+#medApp .med-category-copy{display:flex;flex:1;min-width:0;flex-direction:column;gap:4px}
+#medApp .med-category-name{display:block;white-space:normal;overflow-wrap:normal;word-break:normal;hyphens:none;font-size:clamp(13px,1.3vw,17px);font-weight:800;line-height:1.3}
+#medApp .med-category-sub{display:block;color:#68808d;font-size:clamp(10px,.95vw,12px);font-weight:500;line-height:1.35}
+#medApp .med-category-arrow{flex:0 0 auto;display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:#e8f2f4;color:#1f6d83;font-size:22px;line-height:1;transition:transform .2s}
+#medApp .med-category.is-open .med-category-arrow{transform:rotate(180deg)}
+#medApp .med-category-body{border-top:1px solid #e0eaf0;padding:15px;min-width:0}
+#medApp .med-category-body[hidden]{display:none!important}
+#medApp .med-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:14px}
+#medApp .med-filters-basic{grid-template-columns:minmax(0,1fr)}
+#medApp .med-filters label{display:flex;flex-direction:column;gap:5px;color:#4a6271;font-size:11px;font-weight:700}
+#medApp .med-filters input,#medApp .med-filters select{width:100%;height:38px;min-width:0;border:1px solid #cbdde4;border-radius:9px;padding:7px 9px;background:#fff;font:500 12px Manrope,Arial,sans-serif;color:#15394f}
+#medApp .med-filters input:focus,#medApp .med-filters select:focus{outline:2px solid #71b6c4;outline-offset:1px}
+#medApp .med-results{display:grid;grid-template-columns:minmax(0,1fr);gap:9px;align-items:start}
+#medApp .med-prod{min-width:0;border:1px solid #dce7eb;border-radius:11px;background:#fff;overflow:hidden}
+#medApp .med-prod[open]{border-color:#92c1ca;box-shadow:0 3px 11px rgba(14,65,81,.065)}
+#medApp .med-prod summary{list-style:none;display:flex;gap:10px;align-items:center;min-height:64px;cursor:pointer;padding:10px 11px}
+#medApp .med-prod summary::-webkit-details-marker{display:none}
+#medApp .med-prod-index{display:grid;flex:0 0 27px;width:27px;height:27px;place-items:center;border-radius:8px;background:#edf6f7;color:#327184;font-size:10px;font-weight:800}
+#medApp .med-prod-head{display:flex;flex:1;min-width:0;flex-direction:column;gap:3px}
+#medApp .hub-med-nome{font-size:12px;font-weight:800;line-height:1.38;color:#163b50;overflow-wrap:anywhere}
+#medApp .med-prod-brand{font-size:10px;font-weight:500;line-height:1.4;color:#6e8190;overflow-wrap:anywhere}
+#medApp .med-prod-tag{flex:0 1 auto;max-width:44%;display:inline-flex;align-items:center;padding:5px 7px;border:1px solid #d7e7e9;border-radius:7px;background:#f2faf9;color:#24667a;text-align:center;font-size:9px;font-weight:800;line-height:1.28;overflow-wrap:break-word}
+#medApp .med-prod-chevron{color:#5a8793;font-size:20px;line-height:1;transition:transform .15s}
+#medApp .med-prod[open] .med-prod-chevron{transform:rotate(180deg)}
+#medApp .med-prod-detail{padding:0 13px 14px 47px;font-size:11px;line-height:1.55;color:#476374}
+#medApp .med-prod-detail>div{border-top:1px solid #eef2f4;padding-top:10px;margin-top:8px}
+#medApp .med-prod-detail p{margin:3px 0 1px}
+#medApp .med-mini-label{display:block;color:#1e5a73;font-size:10px;font-weight:800;letter-spacing:.025em}
+#medApp .med-prod-detail>a{display:inline-block;margin-top:11px;color:#14778d;font-size:10px;font-weight:700;overflow-wrap:anywhere}
+#medApp .med-source,#medApp .med-endnote{font-size:10px;line-height:1.6;color:#647b88;margin:13px 2px 0}
+#medApp .med-source a,#medApp .med-endnote a{color:#176f86}
+#medApp .med-endnote{margin-top:19px;border-top:1px solid #e4edf0;padding-top:12px}
+#medApp .med-empty{padding:15px;border:1px dashed #b9d2dc;border-radius:10px;background:#f8fbfc;color:#526c7a;font-size:12px;line-height:1.5}
+#medApp .med-price-status{font-size:11px;line-height:1.5;color:#4e6877;padding:8px 10px;background:#f4f8fa;border-radius:8px;margin-bottom:9px}
+#medApp .med-check-prices{padding:8px 12px;border:1px solid #a6cbd3;border-radius:9px;background:#eaf5f7;color:#1a6579;font:700 11px Manrope,Arial,sans-serif;cursor:pointer;margin:0 0 12px}
+#medApp .med-price-result{margin:0 0 11px}
+#medApp .med-price-proof{margin:-1px 0 0;padding:10px 13px;border:1px solid #b7d6d0;border-top:0;border-radius:0 0 10px 10px;background:#f1fbf7;color:#246350;font-size:11px;font-weight:700}
+#medApp .med-uncoted{margin-top:14px;padding:10px;border:1px dashed #b8cbd3;border-radius:10px}
+#medApp .med-uncoted>summary{color:#526b77;font-size:11px;font-weight:800;cursor:pointer;padding:4px}
+#medApp .med-uncoted .med-results{margin-top:10px}
+#medApp #ahApp{margin:0;padding:0;max-width:none}
+#medApp #ahApp .ah-head{padding-top:0}
+#medApp #ahApp .ah-grid{display:grid;grid-template-columns:minmax(0,1fr)!important}
+#medApp #ahApp .ah-card-wrap{min-width:0}
+#medApp #ahApp .ah-card-wrap-active .ah-detail{max-height:70dvh;overflow:auto}
+#medApp .hub-precos-panel{max-width:100%;margin:8px 6px 13px;overflow-wrap:anywhere}
+@media(min-width:1360px){
+  #medApp .med-categories{grid-template-columns:repeat(4,minmax(0,1fr))}
+  #medApp .med-category.is-open{grid-column:span 2}
+}
+@media(min-width:770px) and (max-width:1359px){
+  #medApp .med-category.is-open{grid-column:span 2}
+  #medApp .med-category.is-open .med-results{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:769px){
+  #medApp .med-categories{grid-template-columns:minmax(0,1fr)}
+  #medApp .med-category-toggle{min-height:82px;padding:12px 13px}
+  #medApp .med-category-body{padding:12px}
+  #medApp .med-category-name{font-size:15px}
+  #medApp .med-category-sub{font-size:11px}
+  #medApp .med-filters{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #medApp .med-filters label:first-child{grid-column:span 2}
+  #medApp .med-filters-basic label:first-child{grid-column:span 2}
+}
+@media(max-width:390px){
+  #medApp{padding:11px}
+  #medApp .med-prod summary{gap:7px;padding:9px 8px}
+  #medApp .med-prod-index{flex-basis:22px;width:22px}
+  #medApp .med-prod-tag{font-size:8px;padding:4px}
+  #medApp .med-prod-detail{padding:0 10px 11px 10px}
+}
