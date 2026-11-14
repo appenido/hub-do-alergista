@@ -30,8 +30,11 @@ function renderizar(box,dados){
   const semClassificacao=pares.length-identificadas;
   box.appendChild(el('div','Resultado das interações medicamentosas',
     'font-size:14px;font-weight:800;color:'+COR_TEXTO+';margin-bottom:8px'));
-  const resumo=identificadas+' combinação(ões) com alerta documentado; '+semClassificacao+
-    ' combinação(ões) sem evidência suficiente para classificação, de '+pares.length+' pesquisada(s).';
+  const resumo=identificadas>0?
+    identificadas+' combinação(ões) com alerta documentado e '+semClassificacao+
+    ' sem classificação clínica, de '+pares.length+' pesquisada(s).':
+    'Não há interação classificada para esta consulta: '+semClassificacao+
+    ' combinação(ões) sem evidência suficiente para classificação. Isso não significa ausência de interação.';
   box.appendChild(el('div',resumo,
     'font-size:12.5px;color:#506475;line-height:1.6;margin-bottom:12px'));
   pares.forEach(function(p){
