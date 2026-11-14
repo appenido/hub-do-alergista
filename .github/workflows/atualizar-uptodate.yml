@@ -1,9 +1,8 @@
 name: Atualizar novidades UpToDate
 
 on:
-  schedule:
-    # 06:00 em Brasília (UTC-3), diariamente.
-    - cron: '0 9 * * *'
+  # A rotina diária das 04h é centralizada em publicar-novidades.yml.
+  # Este fluxo permanece disponível para verificação manual e mudanças no extrator.
   workflow_dispatch:
   push:
     paths:
