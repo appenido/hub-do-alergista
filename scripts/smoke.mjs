@@ -27,6 +27,12 @@ async function verificar() {
   assert.match(medsJS, /data-med-budget/, 'Filtro de preço não está publicado');
   const medsCSS = await (await get('/medicamentos-catalogo.css')).text();
   assert.match(medsCSS, /#medApp/, 'Estilos de Medicamentos não publicados');
+  const asmaJS = await (await get('/asma-dispositivos.js')).text();
+  assert.match(asmaJS, /Symbicort Turbuhaler 6\/200/, 'MART por apresentação não publicado');
+  assert.match(asmaJS, /Fostair DPI 100\/6 Next/, 'Dispositivo Next e doses ausentes');
+  assert.match(asmaJS, /Jet — spray com espaçador integrado/, 'Desenho específico do dispositivo Jet ausente');
+  const asmaCSS = await (await get('/asma-dispositivos.css')).text();
+  assert.match(asmaCSS, /asma-inhaler-card/, 'Fichas de asma sem CSS publicado');
   // A instalação deve abrir diretamente na aba atual: evitar disparar a PWA já instalada
   // (que pode exibir uma tela de abertura antiga armazenada no dispositivo).
   const installLink = home.match(/<a[^>]+id=["']hubInstallBtn["'][^>]+>/i)?.[0];
