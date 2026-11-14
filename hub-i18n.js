@@ -258,7 +258,7 @@
     }finally{processing=false;}
   }
   function loadCatalog(){
-    fetch('/data/hub-i18n-catalog.json?v=20261114-2',{cache:'force-cache',credentials:'same-origin'})
+    fetch('/data/hub-i18n-catalog.json?v=20261114-3',{cache:'force-cache',credentials:'same-origin'})
       .then(function(r){if(!r.ok)throw new Error('catalogue');return r.json();})
       .then(function(obj){
         catalog=new Set((obj.strings||[]).map(normalizeText));
@@ -327,8 +327,10 @@
     if(code)code.textContent=codes[language];
     document.documentElement.lang=language;
   }
+  var originalDocumentTitle=null;
   function applyLanguage(){
     syncControls();
+    if(originalDocumentTitle!==null)document.title=translateString(originalDocumentTitle);
     translateSubtree(document.body);
     window.dispatchEvent(new Event('resize'));
     document.dispatchEvent(new CustomEvent('hub:languagechange',{detail:{language:language}}));
@@ -354,6 +356,7 @@
   }
   function install(){
     if(document.getElementById('hubLanguageControl'))return;
+    originalDocumentTitle=document.title;
     var bar=document.querySelector('.topbar');
     var shell=document.createElement('div');
     shell.className=bar?'hub-language-control':'hub-language-control hub-language-floating';
