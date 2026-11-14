@@ -10625,7 +10625,19 @@ body:has(#page-dashboard.active) #chatPanel{display:none!important;}
   border-radius:14px;justify-content:flex-start;font:inherit;
 }
 .eaaci-grid .qi{width:40px;height:40px;border-radius:11px;font-size:18px;flex-shrink:0}
-.eaaci-grid .ql{font-size:13px;font-weight:800;line-height:1.25;color:var(--navy);overflow-wrap:anywhere;hyphens:auto}
+/* Títulos dos protocolos: fonte ampliada sem hifenização nem divisão de palavras. */
+.eaaci-grid .ql{
+  font-size:clamp(12px,4vw,17px);
+  font-weight:800;
+  line-height:1.3;
+  color:var(--navy);
+  overflow-wrap:normal;
+  word-break:normal;
+  hyphens:none;
+  white-space:normal;
+  text-wrap:balance;
+  max-width:100%;
+}
 .eaaci-grid .qcard.on{border-color:var(--teal-mid);box-shadow:0 0 0 2px rgba(59,191,204,.18)}
 .eaaci-grid .qcard:focus-visible{outline:2px solid var(--teal-mid);outline-offset:2px}
 
