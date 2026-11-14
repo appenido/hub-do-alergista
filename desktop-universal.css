@@ -781,7 +781,7 @@
   max-height:min(74dvh,760px)!important;
   overflow-y:auto!important;
   overflow-x:hidden!important;
-  overscroll-behavior:contain;
+  overscroll-behavior-y:auto;overscroll-behavior-x:contain;
   box-sizing:border-box!important;
   padding:clamp(10px,1.2vw,15px)!important;
   background:#f7fafc!important;
