@@ -35,9 +35,35 @@ test('erro de cota exibe alternativa segura em vez de resultado clínico',async(
   });
   await c.executar();
   assert.equal(c.resultado.children[0].textContent,'Triagem automatizada indisponível');
-  assert.match(c.resultado.children[1].textContent,/Nenhum resultado de interação foi confirmado/);
+  assert.match(c.resultado.children[1].textContent,/Não foi possível confirmar as combinações informadas/);
   assert.equal(c.resultado.children.at(-1).tag,'button');
   assert.equal(c.botao.disabled,false);
+});
+
+test('ciclosporina e prednisona retornam conteúdo documental mesmo sem API de IA',async()=>{
+  const c=montarConsulta(['Ciclosporina','Prednisona'],{
+    ok:false,status:429,json:async()=>({erro:'Cota excedida'})
+  });
+  await c.executar();
+  assert.equal(c.chamadas,0,'Pares documentados devem funcionar sem requisitar IA');
+  assert.match(c.resultado.children[0].textContent,/Interações identificadas em bula oficial/);
+  const card=c.resultado.children.find(el=>el.tag==='section');
+  assert.ok(card,'Deve exibir card com a interação');
+  assert.match(card.children[0].textContent,/Ciclosporina \+ Prednisona/);
+  assert.match(card.children[1].textContent,/prednisolona/);
+  const link=card.children.find(el=>el.tag==='a');
+  assert.match(link.href,/dailymed.nlm.nih.gov/);
+});
+
+test('falha da IA preserva achado de bula e declara pares não cobertos',async()=>{
+  const c=montarConsulta(['Ciclosporina','Prednisona','Dupilumabe'],{
+    ok:false,status:429,json:async()=>({erro:'Cota excedida'})
+  });
+  await c.executar();
+  assert.equal(c.chamadas,1);
+  assert.match(c.resultado.children[0].textContent,/Interações identificadas em bula oficial/);
+  assert.ok(c.resultado.children.some(el=>/Pares sem cobertura/.test(el.children?.[0]?.textContent||'')));
+  assert.ok(c.resultado.children.some(el=>/limite de cota/.test(el.textContent||'')));
 });
 
 test('sucesso traz aviso explícito de triagem não validada',async()=>{
