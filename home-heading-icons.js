@@ -13,6 +13,7 @@
     interacao: '#page-interacao > div:first-child > div:first-child',
     imunoglobulinas: '#page-imunoglobulinas .igcalc-header h2',
     antihistaminicos: '#page-antihistaminicos .ah-head h1',
+    medicamentos: '#page-medicamentos .med-intro h1',
     imunizacoes: '#page-imunizacoes #vac-menu-hub > div:first-child',
     laboratorio: '#page-laboratorio > div:first-child > div:first-child',
     favoritos: '#page-favoritos > div:first-child > div:first-child'
