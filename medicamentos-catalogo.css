@@ -84,3 +84,19 @@
   #medApp .med-prod-tag{font-size:8px;padding:4px}
   #medApp .med-prod-detail{padding:0 10px 11px 10px}
 }
+
+/* Catálogo expandido de hidratantes — filtros por marca e fonte original. */
+#page-medicamentos #medApp .med-moist-stats{display:flex;align-items:center;min-height:32px;margin-bottom:11px;padding:7px 10px;border:1px solid #dbe8ed;border-radius:9px;background:#f4f9fa;color:#345c6e;font:700 11px/1.5 Manrope,Arial,sans-serif}
+#page-medicamentos #medApp .med-moist-filters{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+#page-medicamentos #medApp .med-moist-filters .med-moist-search-label{grid-column:span 2}
+#page-medicamentos #medApp .med-prod-detail .med-brand-source{display:inline-flex;align-items:center;margin-top:8px;margin-right:8px;padding:7px 9px;border:1px solid #c8dce3;border-radius:8px;text-decoration:none;color:#126b82;background:#f5fafc;font-size:10px;font-weight:700}
+#page-medicamentos #medApp .med-prod-detail .med-brand-source:hover{background:#eaf5f8}
+@media(max-width:1020px){
+ #page-medicamentos #medApp .med-moist-filters{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #page-medicamentos #medApp .med-moist-filters .med-moist-search-label{grid-column:span 2}
+}
+@media(max-width:470px){
+ #page-medicamentos #medApp .med-moist-filters{grid-template-columns:minmax(0,1fr)}
+ #page-medicamentos #medApp .med-moist-filters label,#page-medicamentos #medApp .med-moist-filters label:first-child,#page-medicamentos #medApp .med-moist-filters .med-moist-search-label{grid-column:1/-1}
+ #page-medicamentos #medApp .med-moist-stats{font-size:10px}
+}
