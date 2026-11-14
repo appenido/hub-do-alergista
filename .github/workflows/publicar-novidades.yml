@@ -36,6 +36,7 @@ jobs:
           python-version: '3.12'
       - name: Testar extração UpToDate
         run: python scripts/atualizar_uptodate.py --self-test
+      # URLs alternativas públicas; rejeitar edições anteriores ao índice já publicado.
       - name: Verificar novidades públicas UpToDate
         id: uptodate
         continue-on-error: true
