@@ -10,6 +10,7 @@
      style.textContent='.eaaci-body .hub-flow{background:linear-gradient(125deg,#e8f5f5,#f6fafc);border-left:4px solid #0b817f;border-radius:10px;padding:11px 13px;margin:8px 0 13px;color:#153c47;font-size:12px;line-height:1.6;font-weight:650}.eaaci-body .hub-flow small{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#0e6d71;margin-bottom:3px}.eaaci-body .hub-clinical-steps{padding-left:22px;margin:12px 0}.eaaci-body .hub-clinical-steps li{padding:9px 4px 11px 1px;margin-bottom:5px;border-bottom:1px solid rgba(15,80,94,.10);line-height:1.63}.eaaci-body .hub-clinical-steps li:last-child{border-bottom:0}.eaaci-body .hub-clinical-steps .eaaci-conduta-titulo{display:block;margin:0 0 4px;color:#103a58;font-size:12.5px;line-height:1.4}.eaaci-body .hub-clinical-steps li::marker{color:#0d8281;font-weight:bold}.eaaci-body .hub-clinical-revision{font-size:10px!important;line-height:1.5;color:#426578!important;font-weight:650!important}';
      style.textContent += "\n#page-eaaci .eaaci-card .eaaci-body{width:100%;min-width:0;box-sizing:border-box;line-height:1.65}\n#page-eaaci .eaaci-body .hub-flow{display:block;width:100%;box-sizing:border-box;background:linear-gradient(115deg,#e8f5f5,#f8fafc);border-left:4px solid #168d90;border-radius:11px;padding:12px 14px;margin:12px 0 18px;color:#153c47;font-size:13px;line-height:1.65;font-weight:600}\n#page-eaaci .eaaci-body .hub-flow small{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#0e6d71;margin-bottom:5px;font-weight:800}\n#page-eaaci .eaaci-body .hub-clinical-heading{font-size:13px;font-weight:800;color:#123e58;margin:16px 0 10px;letter-spacing:.015em}\n#page-eaaci .eaaci-card .eaaci-body > ol.hub-clinical-steps{list-style:none!important;counter-reset:hub-clinical;display:flex!important;flex-direction:column!important;flex-wrap:nowrap!important;gap:12px!important;grid-template-columns:none!important;width:100%!important;max-width:100%;box-sizing:border-box;padding:0!important;margin:0 0 22px!important}\n#page-eaaci .eaaci-card .eaaci-body > ol.hub-clinical-steps > li{counter-increment:hub-clinical;display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:8px;position:relative;min-width:0;width:100%;box-sizing:border-box;padding:15px 18px!important;margin:0!important;border:1px solid #dce8ef;border-left:3px solid #2a879e;border-radius:12px;background:linear-gradient(110deg,#f7fafc 0%,#fff 68%);box-shadow:0 2px 5px rgba(16,51,74,.035);color:#354c59;line-height:1.68;overflow-wrap:break-word;word-break:normal}\n#page-eaaci .eaaci-body .hub-clinical-steps > li::before{content:counter(hub-clinical, decimal-leading-zero);position:absolute;right:16px;top:15px;color:#98aebb;font-size:11px;font-weight:800;letter-spacing:.04em}\n#page-eaaci .eaaci-body .hub-clinical-steps .eaaci-conduta-titulo{display:block!important;max-width:calc(100% - 38px);margin:0!important;color:#123f5c;font-size:clamp(13.5px,1.15vw,16px);line-height:1.45;font-weight:800;letter-spacing:-.01em}\n#page-eaaci .eaaci-body .hub-clinical-steps .eaaci-conduta-titulo::after{content:\"\";display:block;width:26px;height:2px;margin-top:7px;background:#e3bc72;border-radius:100px}\n#page-eaaci .eaaci-body .hub-clinical-steps .hub-step-copy{display:block!important;margin:0!important;padding:0!important;color:#344e5c;font-size:clamp(12.7px,1.05vw,14.5px);line-height:1.75;min-width:0;overflow-wrap:break-word}\n#page-eaaci .eaaci-body .hub-dose{display:inline;font-weight:850;color:#654113;background:#fff0cf;border:1px solid #e6be70;border-radius:5px;padding:1px 5px;-webkit-box-decoration-break:clone;box-decoration-break:clone;white-space:normal;font-variant-numeric:tabular-nums}\n#page-eaaci .eaaci-body .hub-clinical-revision{font-size:10.5px!important;line-height:1.55;color:#426578!important;font-weight:650!important}\n@media(max-width:640px){\n#page-eaaci .eaaci-card .eaaci-body > ol.hub-clinical-steps{gap:10px!important}\n#page-eaaci .eaaci-card .eaaci-body > ol.hub-clinical-steps > li{padding:13px 13px 14px!important;gap:7px;border-radius:10px}\n#page-eaaci .eaaci-body .hub-clinical-steps > li::before{right:12px;top:13px}\n#page-eaaci .eaaci-body .hub-clinical-steps .eaaci-conduta-titulo{font-size:13.5px}\n#page-eaaci .eaaci-body .hub-clinical-steps .hub-step-copy{font-size:13px;line-height:1.68}\n#page-eaaci .eaaci-body .hub-flow{padding:11px 12px;font-size:12px}\n}\n";
      style.textContent += "\n#page-eaaci .eaaci-body .hub-drug{display:inline!important;font-weight:850!important;color:var(--drug-ink)!important;background:var(--drug-tint)!important;border-bottom:2px solid var(--drug-accent)!important;border-radius:4px;padding:0 3px;-webkit-box-decoration-break:clone;box-decoration-break:clone}\n#page-eaaci .eaaci-body .eaaci-conduta-titulo .hub-drug{font-weight:900!important}\n#page-eaaci .eaaci-body .hub-flow .hub-drug{font-weight:850!important}\n#page-eaaci .eaaci-body .hub-drug:focus-visible{outline:2px solid var(--drug-accent);outline-offset:2px}\n";
+     style.textContent += "\n/* Fluxograma clínico vertical — leitura em uma coluna, sem conteúdo lado a lado. */\n#page-eaaci .eaaci-body .hub-flow{width:100%;padding:15px 14px 10px;margin:12px 0 20px}\n#page-eaaci .eaaci-body .hub-flow-nodes{display:flex!important;flex-direction:column!important;align-items:stretch!important;width:100%;gap:0}\n#page-eaaci .eaaci-body .hub-flow-node{position:relative;display:block!important;width:100%!important;min-width:0;box-sizing:border-box;padding:11px 13px;margin:0;background:#fff;border:1px solid #cbdce2;border-radius:9px;color:#123f53;font-size:clamp(12.5px,1vw,14px);line-height:1.55;font-weight:750;text-align:left;overflow-wrap:anywhere}\n#page-eaaci .eaaci-body .hub-flow-node:not(:last-child){margin-bottom:33px}\n#page-eaaci .eaaci-body .hub-flow-node:not(:last-child)::after{content:\"↓\";position:absolute;top:calc(100% + 2px);left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;height:28px;width:26px;font-size:22px;font-weight:900;color:#087a80}\n#page-eaaci .eaaci-body .hub-flow-node:last-child{border-left:4px solid #b78a3a}\n#page-eaaci .eaaci-card .eaaci-body > ol.hub-clinical-steps > li{display:flex!important;flex-direction:column!important;flex-wrap:nowrap!important;align-items:stretch!important;gap:10px!important;padding:15px 16px!important;box-sizing:border-box;min-width:0;width:100%;text-align:left}\n#page-eaaci .eaaci-body .hub-step-fields{display:flex!important;flex-direction:column!important;flex-wrap:nowrap!important;align-items:stretch!important;gap:8px!important;width:100%;min-width:0}\n#page-eaaci .eaaci-body .hub-clinical-field{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:5px!important;width:100%;min-width:0;box-sizing:border-box;border:1px solid #e3eaf0;border-radius:9px;background:#fff;padding:10px 12px;text-align:left}\n#page-eaaci .eaaci-body .hub-field-label{display:block!important;width:100%;font-size:10px;font-weight:850;letter-spacing:.055em;text-transform:uppercase;line-height:1.3;color:#477083}\n#page-eaaci .eaaci-body .hub-field-text{display:block!important;width:100%;min-width:0;font-size:clamp(12.7px,1vw,14px);line-height:1.64;color:#233f4f;font-weight:500;overflow-wrap:anywhere;hyphens:auto}\n#page-eaaci .eaaci-body .hub-clinical-field[data-kind=\"dose\"]{background:#fffaf0;border:1px solid #ead4a4;border-left:4px solid #c39236}\n#page-eaaci .eaaci-body .hub-clinical-field[data-kind=\"dose\"] .hub-field-label{color:#8b5d14}\n#page-eaaci .eaaci-body .hub-clinical-field[data-kind=\"dose\"] .hub-field-text{font-weight:650}\n#page-eaaci .eaaci-body .hub-clinical-field[data-kind=\"next\"]{background:#f1f7fa;border-left:3px solid #5189a4}\n#page-eaaci .eaaci-body .hub-clinical-field[data-kind=\"review\"]{background:#f2faf8;border-left:3px solid #269481}\n#page-eaaci .eaaci-body .hub-clinical-field[data-kind=\"warning\"]{background:#fff6f1;border-left:3px solid #be7547}\n#page-eaaci .eaaci-body .hub-field-text .hub-dose{font-weight:900!important;background:#ffe9af!important;color:#5c3a05!important;border:1px solid #d7ae54!important}\n@media(max-width:640px){\n#page-eaaci .eaaci-body .hub-flow{padding:12px 11px 10px}\n#page-eaaci .eaaci-body .hub-flow-node{padding:10px 11px;font-size:12.5px}\n#page-eaaci .eaaci-card .eaaci-body > ol.hub-clinical-steps > li{padding:12px!important;gap:8px!important}\n#page-eaaci .eaaci-body .hub-clinical-field{padding:9px 10px;gap:4px}\n#page-eaaci .eaaci-body .hub-field-text{font-size:13px;line-height:1.6}\n}\n";
      document.head.appendChild(style);
    }
    // Posologias destacadas; exames e biomarcadores permanecem sem marcador.
@@ -49,6 +50,43 @@
      }
      if(last<source.length)addDoseSpans(node,source.slice(last));
    }
+
+   // Segmentação apenas visual: preserva cada frase e sua indicação, dose e ressalvas.
+   function clinicalSegments(text){
+     return String(text||'').split(/;\s*|(?<=[.!?])\s+(?=[A-ZÁÉÍÓÚÃÕÂÊÔÇ])/gu)
+       .map(function(t){return t.trim()}).filter(Boolean);
+   }
+   function segmentKind(text){
+     const x=text.trim();
+     doseRegex.lastIndex=0;
+     // Dose com contexto completo permanece numa linha exclusiva.
+     if(doseRegex.test(x))return 'dose';
+     if(/^(?:se\s+|caso\s+|na\s+falha|se\s+persist|sem\s+resposta|se\s+não\s+|após\s+falha|em\s+refrat)/iu.test(x))return 'next';
+     if(/^(?:reavaliar|acompanhar|monitorar|registrar\s+(?:o\s+)?(?:uct|uas7)|repetir\s+(?:eda|endoscopia|exames)|avalia[rç]|seguimento)/iu.test(x))return 'review';
+     if(/^(?:não\s+|evitar\s+|atenção|cuidado|contraindic|alerta|jamais|nunca\s+|suspender\s+se)/iu.test(x))return 'warning';
+     return 'conduct';
+   }
+   const clinicalLabels={conduct:'Conduta',dose:'Dose / esquema',next:'Se não responder / próximo passo',review:'Reavaliação',warning:'Atenção / orientação'};
+   function appendField(parent,part){
+     const kind=segmentKind(part);
+     const field=document.createElement('div');
+     field.className='hub-clinical-field';
+     field.dataset.kind=kind;
+     const label=document.createElement('span');
+     label.className='hub-field-label';
+     label.textContent=clinicalLabels[kind];
+     const content=document.createElement('div');
+     content.className='hub-field-text';
+     appendClinicalText(content,part);
+     field.append(label,content);parent.appendChild(field);
+   }
+   function appendVerticalFlow(parent,flow){
+     String(flow||'').split(/\s*→\s*/u).map(function(t){return t.trim()}).filter(Boolean).forEach(function(text){
+       const node=document.createElement('div');
+       node.className='hub-flow-node';
+       appendClinicalText(node,text);parent.appendChild(node);
+     });
+   }
    Object.keys(DATA).forEach(function(id){
      const card=document.getElementById('eaaci-'+id), item=DATA[id];
      if(!card || card.dataset.clinicalExpanded==='20261114')return;
@@ -56,16 +94,16 @@
      if(!priorList)return;
      const flow=document.createElement('div'); flow.className='hub-flow';
      const kicker=document.createElement('small'); kicker.textContent='Fluxo de decisão clínica';
-     const algorithm=document.createElement('div'); appendClinicalText(algorithm,item.flow);
+     const algorithm=document.createElement('div'); algorithm.className='hub-flow-nodes'; appendVerticalFlow(algorithm,item.flow);
      flow.append(kicker,algorithm); priorList.parentNode.insertBefore(flow,priorList);
      const heading=document.createElement('div');heading.className='hub-clinical-heading';heading.textContent='Conduta prática — passo a passo';
      const ul=document.createElement('ol');ul.className='hub-clinical-steps';
      item.steps.forEach(function(pair){
        const li=document.createElement('li');
        const title=document.createElement('strong');title.className='eaaci-conduta-titulo';appendClinicalText(title,pair[0]);
-       const copy=document.createElement('p');copy.className='hub-step-copy';
-       appendClinicalText(copy,pair[1]);
-       li.append(title,copy);ul.appendChild(li);
+       const fields=document.createElement('div');fields.className='hub-step-fields';
+       clinicalSegments(pair[1]).forEach(function(part){appendField(fields,part)});
+       li.append(title,fields);ul.appendChild(li);
      });
      priorList.replaceWith(heading,ul);
      const lead=body.querySelector('p');
