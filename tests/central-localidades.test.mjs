@@ -16,7 +16,7 @@ test('registros antigos sem município usam região sem inventar uma cidade',()=
 
 test('mapa identifica grau de precisão para sessões antigas',()=>{
   assert.match(map,/cidade não registrada/);
-  assert.match(map,/somente estado ou região/);
+  assert.match(map,/apenas por estado ou região/);
   assert.match(map,/function regiaoNome/);
   assert.doesNotMatch(map,/city\s*=\s*['"]Belo Horizonte['"]/);
 });
