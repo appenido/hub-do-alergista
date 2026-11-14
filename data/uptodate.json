@@ -93,6 +93,7 @@
     }
   ],
   "lastAttemptAt": "2026-11-14",
-  "checkStatus": "verified",
-  "checkMethod": "revisao-manual-indice-publico"
+  "checkStatus": "unavailable",
+  "checkMethod": "revisao-manual-indice-publico",
+  "checkMessage": "Fonte pública temporariamente indisponível para leitura automática"
 }
