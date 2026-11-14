@@ -47,7 +47,8 @@ test('Javascript e CSS do catálogo anti-H1 continuam válidos',()=>{
 });
 
 test('Catálogo de hidratantes reúne várias marcas, veículos e fontes verificáveis',()=>{
- const json=js.split('const MOIST=')[1].split(';\nconst icons=')[0];
+ const json=js.match(/const MOIST=(\[[\s\S]*?\]);\s*const icons=/)?.[1];
+ assert.ok(json, 'Lista de hidratantes não encontrada');
  const products=JSON.parse(json);
  assert.ok(products.length>=65, 'Catálogo deve oferecer variedade significativa');
  const brands=new Set(products.map(x=>x[1]));
