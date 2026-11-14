@@ -5,6 +5,11 @@ on:
     # 04h no horário de Brasília (UTC-3): mesma janela da auditoria diária.
     - cron: '0 7 * * *'
   workflow_dispatch:
+  # Executar a primeira sincronização assim que esta rotina é alterada.
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publicar-novidades.yml'
 
 permissions:
   contents: write
