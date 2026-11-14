@@ -1,40 +1,40 @@
 /* Hub do Alergista | mecanismo anti-H1: palco unico WebGL 3D. */
-#page-antihistaminicos .ah-route-tabs{flex-wrap:wrap;max-width:100%;gap:4px}
-#page-antihistaminicos .ah-route-tabs .ah-tab{flex:0 0 auto;white-space:nowrap}
-#page-antihistaminicos .ah-route-tabs .ah-tab[aria-pressed="true"]{background:#fff;color:#126078;box-shadow:0 2px 9px rgba(13,31,45,.1)}
-#page-antihistaminicos .ah-card-foot .ah-chip{font-size:10.5px;letter-spacing:0;text-transform:none;max-width:100%;line-height:1.5;white-space:normal}
-#page-antihistaminicos .ah-card-foot .ah-chip.hist{color:#936829;background:#fcf1db}
-#page-antihistaminicos .ah3d{
+:is(#page-antihistaminicos,#page-medicamentos) .ah-route-tabs{flex-wrap:wrap;max-width:100%;gap:4px}
+:is(#page-antihistaminicos,#page-medicamentos) .ah-route-tabs .ah-tab{flex:0 0 auto;white-space:nowrap}
+:is(#page-antihistaminicos,#page-medicamentos) .ah-route-tabs .ah-tab[aria-pressed="true"]{background:#fff;color:#126078;box-shadow:0 2px 9px rgba(13,31,45,.1)}
+:is(#page-antihistaminicos,#page-medicamentos) .ah-card-foot .ah-chip{font-size:10.5px;letter-spacing:0;text-transform:none;max-width:100%;line-height:1.5;white-space:normal}
+:is(#page-antihistaminicos,#page-medicamentos) .ah-card-foot .ah-chip.hist{color:#936829;background:#fcf1db}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d{
   margin:8px 0 23px;background:#fff;border:1px solid #c7dfe8;border-radius:18px;
   box-shadow:0 8px 30px rgba(13,53,77,.075);overflow:hidden;
 }
-#page-antihistaminicos .ah3d>summary{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d>summary{
   display:flex;align-items:center;gap:13px;min-height:79px;padding:16px 20px;
   list-style:none;cursor:pointer;outline-offset:-3px;
   background:linear-gradient(110deg,#fff 20%,#f2fafc);
 }
-#page-antihistaminicos .ah3d>summary::-webkit-details-marker{display:none}
-#page-antihistaminicos .ah3d>summary:focus-visible{outline:3px solid #43a8c3}
-#page-antihistaminicos .ah3d[open]>summary{border-bottom:1px solid #dbe9ee}
-#page-antihistaminicos .ah3d .ah-mech-icon{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d>summary::-webkit-details-marker{display:none}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d>summary:focus-visible{outline:3px solid #43a8c3}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d[open]>summary{border-bottom:1px solid #dbe9ee}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d .ah-mech-icon{
   width:48px;height:48px;flex:0 0 48px;display:grid;place-items:center;
   border-radius:14px;background:linear-gradient(140deg,#113146,#1c7187);
   box-shadow:inset 0 1px 0 #7dc8d744,0 6px 14px #15587624;
   color:#fff;font:750 18px 'Manrope',sans-serif;
 }
-#page-antihistaminicos .ah3d .ah-mech-label{flex:1;min-width:0;color:#103a50;font:750 clamp(13px,1.55vw,17px)/1.35 'Manrope',sans-serif}
-#page-antihistaminicos .ah3d .ah-mech-label small{display:block;margin-top:5px;color:#648292;font:500 11.5px/1.45 'Manrope',sans-serif}
-#page-antihistaminicos .ah3d .ah-mech-arrow{font-size:24px;color:#327f91;transition:transform .2s}
-#page-antihistaminicos .ah3d[open] .ah-mech-arrow{transform:rotate(180deg)}
-#page-antihistaminicos .ah3d-content{padding:clamp(13px,2.5vw,27px);background:linear-gradient(145deg,#f9fcfd,#f1f8fb)}
-#page-antihistaminicos .ah3d-intro{text-align:center;padding:2px 0 18px}
-#page-antihistaminicos .ah3d-eyebrow{color:#2c7d92;letter-spacing:.15em;font:800 10px/1.4 'Manrope',sans-serif}
-#page-antihistaminicos .ah3d-intro h3{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d .ah-mech-label{flex:1;min-width:0;color:#103a50;font:750 clamp(13px,1.55vw,17px)/1.35 'Manrope',sans-serif}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d .ah-mech-label small{display:block;margin-top:5px;color:#648292;font:500 11.5px/1.45 'Manrope',sans-serif}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d .ah-mech-arrow{font-size:24px;color:#327f91;transition:transform .2s}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d[open] .ah-mech-arrow{transform:rotate(180deg)}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-content{padding:clamp(13px,2.5vw,27px);background:linear-gradient(145deg,#f9fcfd,#f1f8fb)}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-intro{text-align:center;padding:2px 0 18px}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-eyebrow{color:#2c7d92;letter-spacing:.15em;font:800 10px/1.4 'Manrope',sans-serif}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-intro h3{
   font:400 clamp(23px,3vw,35px)/1.16 'DM Serif Display',Georgia,serif;
   letter-spacing:-.02em;color:#122f46;margin:8px 0 7px;
 }
-#page-antihistaminicos .ah3d-intro p{font:500 clamp(12px,1.15vw,14px)/1.6 'Manrope',sans-serif;color:#607888;margin:0}
-#page-antihistaminicos .ah3d-stage{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-intro p{font:500 clamp(12px,1.15vw,14px)/1.6 'Manrope',sans-serif;color:#607888;margin:0}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-stage{
   width:100%;height:clamp(330px,43vw,500px);min-height:330px;position:relative;
   overflow:hidden;border-radius:17px;isolation:isolate;
   border:1px solid #244a64;background:
@@ -43,109 +43,109 @@
    linear-gradient(152deg,#071522,#092d43 53%,#0b1c32);
   box-shadow:0 15px 35px rgba(14,49,70,.16),inset 0 0 45px rgba(7,20,36,.44);
 }
-#page-antihistaminicos .ah3d-stage canvas{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-stage canvas{
   display:block;position:absolute;inset:0;width:100%;height:100%;touch-action:pan-y;
   cursor:grab;z-index:1;
 }
-#page-antihistaminicos .ah3d-stage canvas:active{cursor:grabbing}
-#page-antihistaminicos .ah3d-grain{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-stage canvas:active{cursor:grabbing}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-grain{
   z-index:2;pointer-events:none;position:absolute;inset:0;
   background:radial-gradient(ellipse at 50% 75%,transparent 35%,rgba(4,13,27,.28) 100%);
 }
-#page-antihistaminicos .ah3d-top{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-top{
   position:absolute;top:16px;left:16px;right:16px;
   display:flex;justify-content:space-between;gap:12px;align-items:center;
   z-index:3;pointer-events:none;
 }
-#page-antihistaminicos .ah3d-live{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-live{
   display:flex;gap:8px;align-items:center;padding:8px 11px;
   border:1px solid #72d9eb43;border-radius:8px;
   background:rgba(5,26,44,.70);backdrop-filter:blur(9px);
   font:800 9.5px/1.2 'Manrope',sans-serif;letter-spacing:.08em;color:#a9e6f3;
 }
-#page-antihistaminicos .ah3d-live-dot{width:7px;height:7px;background:#66dfd8;border-radius:50%;box-shadow:0 0 11px #52eee4}
-#page-antihistaminicos .ah3d-place{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-live-dot{width:7px;height:7px;background:#66dfd8;border-radius:50%;box-shadow:0 0 11px #52eee4}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-place{
   font:650 9.5px/1.2 'Manrope',sans-serif;letter-spacing:.08em;color:#95bed0;
   text-shadow:0 1px 6px #051526;
 }
-#page-antihistaminicos .ah3d-key{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-key{
   position:absolute;z-index:3;left:15px;top:65px;
   display:flex;flex-direction:column;align-items:flex-start;gap:9px;pointer-events:none;
   font:550 11px/1.4 'Manrope',sans-serif;color:#dcecf6;
   text-shadow:0 1px 9px #0a1827;
 }
-#page-antihistaminicos .ah3d-key span{display:flex;align-items:center;gap:8px}
-#page-antihistaminicos .ah3d-dot{width:9px;height:9px;border-radius:50%;display:inline-block;box-shadow:inset -1px -2px 3px #092d4a88,0 0 10px currentColor}
-#page-antihistaminicos .ah3d-dot-protein{background:#63c5e8;color:#63c5e8}
-#page-antihistaminicos .ah3d-dot-hist{background:#f5ae72;color:#f5ae72}
-#page-antihistaminicos .ah3d-dot-drug{background:#afa0f3;color:#afa0f3}
-#page-antihistaminicos .ah3d-bottom{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-key span{display:flex;align-items:center;gap:8px}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-dot{width:9px;height:9px;border-radius:50%;display:inline-block;box-shadow:inset -1px -2px 3px #092d4a88,0 0 10px currentColor}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-dot-protein{background:#63c5e8;color:#63c5e8}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-dot-hist{background:#f5ae72;color:#f5ae72}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-dot-drug{background:#afa0f3;color:#afa0f3}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-bottom{
   position:absolute;z-index:3;left:16px;right:16px;bottom:14px;
   display:flex;align-items:center;justify-content:space-between;gap:6px;
   pointer-events:none;font:700 9.5px/1.45 'Manrope',sans-serif;
   color:#a7c5d5;letter-spacing:.07em;text-shadow:0 1px 7px #041322;
 }
-#page-antihistaminicos .ah3d-bottom span{letter-spacing:0;font-weight:500;color:#b7d4e1}
-#page-antihistaminicos .ah3d-loading{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-bottom span{letter-spacing:0;font-weight:500;color:#b7d4e1}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-loading{
   position:absolute;z-index:4;inset:0;display:grid;place-items:center;padding:20px;
   color:#b9d4e6;font:600 13px/1.6 'Manrope',sans-serif;
   text-align:center;background:rgba(3,17,31,.28);
 }
-#page-antihistaminicos .ah3d-loading.ah3d-failed{background:rgba(9,32,48,.94)}
-#page-antihistaminicos .ah3d-info{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-loading.ah3d-failed{background:rgba(9,32,48,.94)}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-info{
   display:grid;grid-template-columns:1fr minmax(175px,30%);
   gap:3px 20px;align-items:center;padding:17px 19px 16px;
   background:linear-gradient(125deg,#fff,#eff8fb);
   border:1px solid #d5e5ed;border-top:0;border-radius:0 0 13px 13px;
 }
-#page-antihistaminicos .ah3d-step{font:800 10px/1.3 'Manrope',sans-serif;color:#277990;letter-spacing:.12em}
-#page-antihistaminicos .ah3d-info-title{font:800 clamp(14px,1.5vw,17px)/1.45 'Manrope',sans-serif;color:#173a4d}
-#page-antihistaminicos .ah3d-info>p{font:500 12px/1.6 'Manrope',sans-serif;color:#567182;grid-column:1;margin:0}
-#page-antihistaminicos .ah3d-signal{grid-column:2;grid-row:1/4;display:flex;flex-direction:column;gap:10px;align-self:center}
-#page-antihistaminicos .ah3d-signal>span{font:750 11px/1.3 'Manrope',sans-serif;color:#3e6376}
-#page-antihistaminicos .ah3d-meter{height:9px;width:100%;border-radius:50px;background:#d8e8ef;overflow:hidden}
-#page-antihistaminicos .ah3d-meter>span{display:block;width:22%;height:100%;border-radius:50px;background:#5bb2c2;transition:width .2s ease}
-#page-antihistaminicos .ah3d-controls{display:flex;justify-content:space-between;align-items:center;gap:13px;flex-wrap:wrap;margin:15px 0 12px}
-#page-antihistaminicos .ah3d-modes{display:flex;align-items:center;flex-wrap:wrap;gap:5px;padding:5px;border:1px solid #cce1e9;border-radius:11px;background:#e8f1f6}
-#page-antihistaminicos .ah3d-modes button{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-step{font:800 10px/1.3 'Manrope',sans-serif;color:#277990;letter-spacing:.12em}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-info-title{font:800 clamp(14px,1.5vw,17px)/1.45 'Manrope',sans-serif;color:#173a4d}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-info>p{font:500 12px/1.6 'Manrope',sans-serif;color:#567182;grid-column:1;margin:0}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-signal{grid-column:2;grid-row:1/4;display:flex;flex-direction:column;gap:10px;align-self:center}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-signal>span{font:750 11px/1.3 'Manrope',sans-serif;color:#3e6376}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-meter{height:9px;width:100%;border-radius:50px;background:#d8e8ef;overflow:hidden}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-meter>span{display:block;width:22%;height:100%;border-radius:50px;background:#5bb2c2;transition:width .2s ease}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-controls{display:flex;justify-content:space-between;align-items:center;gap:13px;flex-wrap:wrap;margin:15px 0 12px}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-modes{display:flex;align-items:center;flex-wrap:wrap;gap:5px;padding:5px;border:1px solid #cce1e9;border-radius:11px;background:#e8f1f6}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-modes button{
   border:0;background:transparent;padding:9px 12px;min-height:40px;
   border-radius:8px;font:700 11.5px/1.3 'Manrope',sans-serif;color:#446675;cursor:pointer
 }
-#page-antihistaminicos .ah3d-modes button[aria-pressed="true"]{color:#0d4c60;background:#fff;box-shadow:0 2px 9px #17455f20}
-#page-antihistaminicos .ah3d-actions{display:flex;gap:8px;align-items:center}
-#page-antihistaminicos .ah3d-actions button{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-modes button[aria-pressed="true"]{color:#0d4c60;background:#fff;box-shadow:0 2px 9px #17455f20}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-actions{display:flex;gap:8px;align-items:center}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-actions button{
   border:1px solid #bad5df;background:#fff;color:#215c76;min-height:42px;
   border-radius:10px;padding:9px 13px;font:750 11.5px 'Manrope',sans-serif;cursor:pointer
 }
-#page-antihistaminicos .ah3d-controls button:focus-visible{outline:3px solid #5ab5d1;outline-offset:2px}
-#page-antihistaminicos .ah3d-track{height:4px;background:#d6e6eb;border-radius:15px;overflow:hidden}
-#page-antihistaminicos .ah3d-track span{width:0;height:100%;display:block;border-radius:15px;background:linear-gradient(90deg,#65c1cc,#f2a16b 46%,#a293e5 100%)}
-#page-antihistaminicos .ah3d-note{
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-controls button:focus-visible{outline:3px solid #5ab5d1;outline-offset:2px}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-track{height:4px;background:#d6e6eb;border-radius:15px;overflow:hidden}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-track span{width:0;height:100%;display:block;border-radius:15px;background:linear-gradient(90deg,#65c1cc,#f2a16b 46%,#a293e5 100%)}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-note{
   color:#69808d;font:450 11px/1.6 'Manrope',sans-serif;
   text-align:justify;margin:13px 0 0;overflow-wrap:break-word;
 }
-#page-antihistaminicos .ah3d-note a{color:#1f7b91;text-decoration:underline}
+:is(#page-antihistaminicos,#page-medicamentos) .ah3d-note a{color:#1f7b91;text-decoration:underline}
 @media(max-width:700px){
- #page-antihistaminicos .ah3d>summary{padding:13px 12px;gap:10px}
- #page-antihistaminicos .ah3d .ah-mech-icon{width:43px;height:43px;flex-basis:43px}
- #page-antihistaminicos .ah3d .ah-mech-label{font-size:13.2px}
- #page-antihistaminicos .ah3d .ah-mech-label small{font-size:10.5px}
- #page-antihistaminicos .ah3d-intro h3{font-size:25px}
- #page-antihistaminicos .ah3d-stage{height:clamp(340px,96vw,450px)}
- #page-antihistaminicos .ah3d-info{grid-template-columns:1fr;padding:14px 13px}
- #page-antihistaminicos .ah3d-info>p{grid-column:1}
- #page-antihistaminicos .ah3d-signal{grid-column:1;grid-row:auto;padding-top:8px;gap:6px}
- #page-antihistaminicos .ah3d-controls{align-items:stretch}
- #page-antihistaminicos .ah3d-modes{width:100%;justify-content:space-between}
- #page-antihistaminicos .ah3d-modes button{flex:1;min-width:0;padding:9px 5px}
- #page-antihistaminicos .ah3d-actions{width:100%;justify-content:center}
- #page-antihistaminicos .ah3d-actions button{flex:1}
- #page-antihistaminicos .ah3d-key{left:11px;top:67px;gap:8px;font-size:10px}
- #page-antihistaminicos .ah3d-top{left:11px;right:11px;top:11px}
- #page-antihistaminicos .ah3d-live{padding:7px;letter-spacing:.025em;font-size:8px}
- #page-antihistaminicos .ah3d-place{font-size:8px}
- #page-antihistaminicos .ah3d-bottom{left:11px;right:11px;font-size:8.5px}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d>summary{padding:13px 12px;gap:10px}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d .ah-mech-icon{width:43px;height:43px;flex-basis:43px}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d .ah-mech-label{font-size:13.2px}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d .ah-mech-label small{font-size:10.5px}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d-intro h3{font-size:25px}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d-stage{height:clamp(340px,96vw,450px)}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d-info{grid-template-columns:1fr;padding:14px 13px}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d-info>p{grid-column:1}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d-signal{grid-column:1;grid-row:auto;padding-top:8px;gap:6px}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d-controls{align-items:stretch}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d-modes{width:100%;justify-content:space-between}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d-modes button{flex:1;min-width:0;padding:9px 5px}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d-actions{width:100%;justify-content:center}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d-actions button{flex:1}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d-key{left:11px;top:67px;gap:8px;font-size:10px}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d-top{left:11px;right:11px;top:11px}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d-live{padding:7px;letter-spacing:.025em;font-size:8px}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d-place{font-size:8px}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d-bottom{left:11px;right:11px;font-size:8.5px}
 }
 @media(prefers-reduced-motion:reduce){
- #page-antihistaminicos .ah3d *{transition:none!important;animation:none!important}
+ :is(#page-antihistaminicos,#page-medicamentos) .ah3d *{transition:none!important;animation:none!important}
 }
