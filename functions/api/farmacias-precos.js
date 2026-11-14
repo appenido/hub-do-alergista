@@ -46,7 +46,14 @@ export async function onRequestPost({request,env}) {
       pharmacy:clean(o.pharmacy),presentation:clean(o.presentation,250),
       price:Number(o.price),currency:'BRL',verified:true,
       ean:/^\d{8,14}$/.test(clean(o.ean,14))?clean(o.ean,14):'',
-      updatedAt:clean(o.updatedAt,40),url:new URL(o.url).toString()
+      updatedAt:clean(o.updatedAt,40),url:new URL(o.url).toString(),
+      // Vincula preço somente à unidade física identificada pelo fornecedor.
+      storeId:clean(o.storeId || o.branchId,140),
+      storeAddress:clean(o.storeAddress,250),
+      storeLat:Number.isFinite(Number(o.storeLat ?? o.storeLocation?.latitude)) ?
+        Number(o.storeLat ?? o.storeLocation?.latitude) : null,
+      storeLon:Number.isFinite(Number(o.storeLon ?? o.storeLocation?.longitude)) ?
+        Number(o.storeLon ?? o.storeLocation?.longitude) : null
     })):[];
     return respond({offers,configured:true,provider:clean(json.provider || 'parceiro autorizado',80)});
   } catch (_) { return respond({offers:[],configured:true}); }
