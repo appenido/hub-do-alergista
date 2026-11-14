@@ -98,10 +98,11 @@ const SHAPES={
  next:'<path d="M16 13h30l6 35H19z" fill="url(#ink)" stroke="#164b64" stroke-width="1.7"/><path d="M17 17h25l5 24H20z" fill="url(#teal)"/><rect x="27" y="7" width="11" height="10" rx="2" fill="url(#metal)"/><rect x="25" y="28" width="15" height="7" rx="2" fill="#e0f2f5"/><path d="M19 48h33" stroke="url(#gold)" stroke-width="5" stroke-linecap="round"/>',
  respimat:'<rect x="22" y="10" width="21" height="43" rx="8" fill="url(#ink)" stroke="#1d5a70" stroke-width="1.5"/><rect x="24" y="27" width="17" height="17" rx="4" fill="url(#teal)"/><rect x="26" y="5" width="14" height="9" rx="3" fill="url(#metal)"/><rect x="40" y="16" width="11" height="7" rx="3" fill="url(#metal)"/><path d="M45 13l8-3m-8 12 11 1" stroke="#87c9d7" stroke-width="2.3" stroke-linecap="round"/><path d="M24 47h17" stroke="url(#gold)" stroke-width="3"/>'
 };
+let iconSerial=0;
 const htmlEscape=s=>String(s==null?'':s).replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
 function icon(type,small){
  type=SHAPES[type]?type:'pmdi';
- let id='asma-device-'+type;
+ let id='asma-device-'+type+'-'+(++iconSerial);
  let defs='<defs><linearGradient id="'+id+'-ink" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#396f89"/><stop offset=".6" stop-color="#195168"/><stop offset="1" stop-color="#112f44"/></linearGradient><linearGradient id="'+id+'-teal" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#a7e1e7"/><stop offset=".6" stop-color="#319faf"/><stop offset="1" stop-color="#11748b"/></linearGradient><linearGradient id="'+id+'-metal" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fff"/><stop offset=".5" stop-color="#cadce6"/><stop offset="1" stop-color="#7098a8"/></linearGradient><linearGradient id="'+id+'-gold" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#ffedb5"/><stop offset=".5" stop-color="#d2aa52"/><stop offset="1" stop-color="#ad7f29"/></linearGradient></defs>';
  const body=SHAPES[type].replace(/url\(#(ink|teal|metal|gold)\)/g,(_m,n)=>'url(#'+id+'-'+n+')');
  return '<span class="asma-device'+(small?' asma-device-small':'')+'" title="'+htmlEscape(DEVICE_NAMES[type])+'" aria-label="'+htmlEscape(DEVICE_NAMES[type])+'"><svg role="img" aria-label="'+htmlEscape(DEVICE_NAMES[type])+'" viewBox="0 0 64 64">'+defs+body+'</svg></span>';
