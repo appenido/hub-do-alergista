@@ -20,6 +20,13 @@ async function verificar() {
   const home = await (await get('/')).text();
   assert.match(home, /<title>Hub do Alergista<\/title>/i);
   assert.match(home, /id=["']page-guidelines["']/i);
+  assert.match(home, /id=["']page-medicamentos["']/i, 'A aba Medicamentos não está publicada');
+  assert.match(home, /data-nav=["']medicamentos["']/i, 'Atalho Medicamentos ausente da Home');
+  assert.doesNotMatch(home, /<div class="qcard" data-nav="antihistaminicos">/i, 'Antigo atalho permanece na Home');
+  const medsJS = await (await get('/medicamentos-catalogo.js')).text();
+  assert.match(medsJS, /data-med-budget/, 'Filtro de preço não está publicado');
+  const medsCSS = await (await get('/medicamentos-catalogo.css')).text();
+  assert.match(medsCSS, /#medApp/, 'Estilos de Medicamentos não publicados');
   // A instalação deve abrir diretamente na aba atual: evitar disparar a PWA já instalada
   // (que pode exibir uma tela de abertura antiga armazenada no dispositivo).
   const installLink = home.match(/<a[^>]+id=["']hubInstallBtn["'][^>]+>/i)?.[0];
