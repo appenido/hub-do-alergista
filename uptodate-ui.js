@@ -49,10 +49,20 @@ function render(dados){
     more.addEventListener('click',function(){mostrarTodos=!mostrarTodos;render(dados);});
     container.appendChild(more);
   }
-  var txt='Fonte atualizada em '+dataBrasil(dados.sourceUpdatedAt)+' · Última verificação: '+dataBrasil(dados.checkedAt);
-  var verificada=dados.checkedAt?new Date(dados.checkedAt+'T12:00:00Z'):null;
-  if(!verificada||Number.isNaN(verificada.getTime())||(Date.now()-verificada.getTime())>3*86400000)
-    txt+=' · Verificação diária pendente';
+  var txt='Edição da fonte: '+dataBrasil(dados.sourceUpdatedAt);
+  var ultimaValida=dados.checkedAt?new Date(dados.checkedAt+'T12:00:00Z'):null;
+  var ultimaTentativa=dados.lastAttemptAt?new Date(dados.lastAttemptAt+'T12:00:00Z'):ultimaValida;
+  var acessoRecente=ultimaTentativa&&!Number.isNaN(ultimaTentativa.getTime())&&
+    (Date.now()-ultimaTentativa.getTime())<2*86400000;
+  if(dados.checkStatus==='unavailable'){
+    txt+=' · Consulta automática sem confirmação: '+dataBrasil(dados.lastAttemptAt);
+    txt+=' · Última conferência válida: '+dataBrasil(dados.checkedAt);
+  }else if(acessoRecente){
+    txt+=' · Conferido em '+dataBrasil(dados.checkedAt);
+  }else{
+    txt+=' · Última conferência válida: '+dataBrasil(dados.checkedAt);
+    txt+=' · Rotina automática sem registro recente';
+  }
   status.textContent=txt;
 }
 async function atualizar(){
