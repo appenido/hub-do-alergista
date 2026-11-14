@@ -3736,7 +3736,7 @@ window._bloquearApp=function(){};
 
         <button id="diVerificarBtn" type="button" onclick="verificarInteracoes()" style="background:#fff;color:#2a6ebb;border:none;border-radius:11px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;width:100%">🔍 Analisar interações</button>
         <button id="diMedscapeBtn" type="button" style="background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:11px;padding:12px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;width:100%;margin-top:9px">Conferir na base do Medscape ↗</button>
-        <div style="font-size:10.5px;color:rgba(255,255,255,.78);text-align:center;margin-top:9px;line-height:1.45">A triagem por IA ocorre no Hub. A conferência no Medscape abre o site externo e exige a inclusão dos medicamentos.</div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,.78);text-align:center;margin-top:9px;line-height:1.45">Interações selecionadas são verificadas em bula oficial. A triagem por IA ocorre no Hub quando necessário. O Medscape abre externamente e exige inserir os medicamentos.</div>
       </div>
 
       <div id="diResultado" style="display:none;background:#fff;border:1px solid var(--gray-100);border-radius:13px;padding:15px;font-size:13px;color:var(--navy);line-height:1.6;white-space:pre-wrap"></div>
@@ -3757,7 +3757,7 @@ window._bloquearApp=function(){};
         </div>
       </div>
 
-      <div style="font-size:10.5px;color:var(--gray-300);font-style:italic;line-height:1.5">A triagem automatizada não consulta diretamente o banco do Medscape e não substitui verificação em fonte especializada, bula e avaliação clínica. Quando a IA não responder, utilize o botão de conferência.</div>
+      <div style="font-size:10.5px;color:var(--gray-300);font-style:italic;line-height:1.5">A base documental é parcial. Pares não encontrados não são considerados seguros. A IA não consulta o Medscape e não substitui bula, fontes especializadas ou avaliação clínica.</div>
     </div>
   </div>
 
@@ -5055,92 +5055,226 @@ function _iaFormatar(texto){
   return html;
 }
 
-/* ── INTERAÇÕES MEDICAMENTOSAS: triagem por IA, sem se passar pelo Medscape ── */
-function diMensagem(box, titulo, descricao, comAtalho){
-  box.style.display = 'block';
-  box.style.whiteSpace = 'normal';
-  box.replaceChildren();
-  var h = document.createElement('div');
-  h.style.cssText = 'font-size:13px;font-weight:800;color:var(--navy);margin-bottom:6px';
-  h.textContent = titulo;
-  box.appendChild(h);
-  var p = document.createElement('div');
-  p.style.cssText = 'font-size:12.5px;line-height:1.65;color:var(--gray-500)';
-  p.textContent = descricao;
-  box.appendChild(p);
-  if(comAtalho){
-    var b = document.createElement('button');
-    b.type = 'button';
-    b.textContent = 'Conferir medicamentos no Medscape ↗';
-    b.style.cssText = 'margin-top:12px;width:100%;background:#eaf3fc;color:#1e5490;border:1px solid #a5c7ed;border-radius:9px;padding:11px;font:700 12.5px Manrope,sans-serif;cursor:pointer';
-    b.addEventListener('click', abrirMedscapeInteracao);
-    box.appendChild(b);
+/* ── INTERAÇÕES MEDICAMENTOSAS: bula oficial + triagem complementar ── */
+/* Base curada e parcial. Não classificar pares ausentes como "sem interação". */
+var DI_FONTE_CICLOSPORINA = 'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5e5926a7-1de0-4b54-a5c0-286b6200ff82';
+var DI_GRUPOS_CICLOSPORINA = [
+  {
+    ativos:['prednisona','prednisolona'],
+    efeito:'A ciclosporina pode reduzir a depuração da prednisolona. A prednisona é convertida em prednisolona; o uso simultâneo também soma efeitos imunossupressores.',
+    conduta:'Associação possível em indicações específicas, não automaticamente contraindicada. Avaliar dose, duração, sinais de toxicidade e risco infeccioso.'
+  },
+  {
+    ativos:['metilprednisolona'],
+    efeito:'A bula relaciona a metilprednisolona ao aumento da exposição à ciclosporina e descreve relatos de convulsões com doses altas da associação.',
+    conduta:'Avaliar necessidade da combinação; monitorar efeitos adversos, função renal e níveis de ciclosporina quando indicados.'
+  },
+  {
+    ativos:['claritromicina','eritromicina','azitromicina','fluconazol','itraconazol','cetoconazol','voriconazol','diltiazem','verapamil','alopurinol','amiodarona'],
+    efeito:'A bula relaciona este medicamento ao aumento da concentração sanguínea da ciclosporina, com potencial de maior toxicidade.',
+    conduta:'Reavaliar a associação e monitorar função renal, pressão arterial e, quando indicado, concentrações de ciclosporina; considerar ajuste ou alternativa.'
+  },
+  {
+    ativos:['rifampicina','carbamazepina','fenitoina','fenobarbital','oxcarbazepina','nafcillina','nafcilina'],
+    efeito:'A bula relaciona este medicamento à redução da exposição à ciclosporina, com risco de perda de eficácia.',
+    conduta:'Avaliar alternativa e monitorar concentrações de ciclosporina e resposta clínica, com ajuste supervisionado se necessário.'
+  },
+  {
+    ativos:['metotrexato','diclofenaco','naproxeno','gentamicina','vancomicina','ciprofloxacino','tobramicina','colchicina','tacrolimo','sulfametoxazol trimetoprima','trimetoprima sulfametoxazol'],
+    efeito:'A bula relaciona esta associação ao potencial de comprometimento renal aditivo. A magnitude depende do esquema e dos fatores clínicos.',
+    conduta:'Monitorar creatinina e outros parâmetros renais; evitar desidratação e reavaliar associação, dose ou alternativa conforme risco.'
+  },
+  {
+    ativos:['digoxina'],
+    efeito:'A ciclosporina pode reduzir a depuração da digoxina; a bula descreve casos de toxicidade digitálica grave após iniciar a associação.',
+    conduta:'Verificar possibilidade de alternativa e monitorar níveis de digoxina, função renal e sinais de toxicidade.'
+  },
+  {
+    ativos:['sinvastatina','atorvastatina','lovastatina','pravastatina','rosuvastatina'],
+    efeito:'A ciclosporina pode aumentar a exposição a estatinas, elevando o risco de miopatia e rabdomiólise; o risco e os limites de dose variam conforme a estatina.',
+    conduta:'Consultar o limite e as contraindicações específicos da estatina; considerar alternativa e investigar dor ou fraqueza muscular.'
+  },
+  {
+    ativos:['colchicina'],
+    efeito:'A ciclosporina aumenta a exposição à colchicina; foram descritas miopatia e neuropatia, sobretudo na disfunção renal.',
+    conduta:'A bula recomenda redução da dose da colchicina quando associada e avaliação individual do risco; monitorar toxicidade neuromuscular e renal.'
+  },
+  {
+    ativos:['tacrolimo'],
+    efeito:'A combinação de dois inibidores de calcineurina potencializa risco de nefrotoxicidade e imunossupressão.',
+    conduta:'Em geral, evitar uso concomitante; conferir protocolo específico e monitorar rigorosamente se houver justificativa excepcional.'
   }
+];
+function diNormalizar(nome){
+  var n=String(nome||'').toLocaleLowerCase('pt-BR').normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,' ').trim();
+  var alias={
+    cyclosporine:'ciclosporina',ciclosporin:'ciclosporina',ciclosporina:'ciclosporina',
+    prednisone:'prednisona',prednisolone:'prednisolona',methylprednisolone:'metilprednisolona',
+    methotrexate:'metotrexato',clarithromycin:'claritromicina',erythromycin:'eritromicina',
+    azithromycin:'azitromicina',fluconazole:'fluconazol',itraconazole:'itraconazol',
+    ketoconazole:'cetoconazol',voriconazole:'voriconazol',
+    rifampin:'rifampicina',phenytoin:'fenitoina',carbamazepine:'carbamazepina',
+    phenobarbital:'fenobarbital',tacrolimus:'tacrolimo',cyclosporin_a:'ciclosporina',
+    allopurinol:'alopurinol',digoxin:'digoxina',colchicine:'colchicina',
+    simvastatin:'sinvastatina',atorvastatin:'atorvastatina',rosuvastatin:'rosuvastatina',
+    'sulfametoxazol + trimetoprima':'sulfametoxazol trimetoprima',
+    'sulfametoxazol/trimetoprima':'sulfametoxazol trimetoprima',
+    'trimetoprima + sulfametoxazol':'trimetoprima sulfametoxazol'
+  };
+  return alias[n]||n;
+}
+function diBuscarBase(medicamentos){
+  var achados=[],naoCobertos=[],normalizados=medicamentos.map(diNormalizar);
+  for(var i=0;i<medicamentos.length;i++){
+    for(var j=i+1;j<medicamentos.length;j++){
+      var a=normalizados[i],b=normalizados[j];
+      var outro=a==='ciclosporina'?b:b==='ciclosporina'?a:null;
+      var regra=null;
+      if(outro){
+        for(var k=DI_GRUPOS_CICLOSPORINA.length-1;k>=0;k--){
+          if(DI_GRUPOS_CICLOSPORINA[k].ativos.indexOf(outro)>=0){regra=DI_GRUPOS_CICLOSPORINA[k];break;}
+        }
+      }
+      var titulo=medicamentos[i]+' + '+medicamentos[j];
+      if(regra)achados.push({titulo:titulo,efeito:regra.efeito,conduta:regra.conduta,fonte:DI_FONTE_CICLOSPORINA});
+      else naoCobertos.push(titulo);
+    }
+  }
+  return {achados:achados,naoCobertos:naoCobertos};
+}
+function diNo(tag,conteudo,css){
+  var el=document.createElement(tag);
+  if(conteudo!==undefined)el.textContent=conteudo;
+  if(css)el.style.cssText=css;
+  return el;
+}
+function diAtalhoMedscape(box){
+  var b=diNo('button','Conferir medicamentos no Medscape ↗',
+    'margin-top:12px;width:100%;background:#eaf3fc;color:#1e5490;border:1px solid #a5c7ed;border-radius:9px;padding:11px;font:700 12.5px Manrope,sans-serif;cursor:pointer');
+  b.type='button';
+  b.addEventListener('click',abrirMedscapeInteracao);
+  box.appendChild(b);
+}
+function diMensagem(box,titulo,descricao,comAtalho){
+  box.style.display='block';
+  box.style.whiteSpace='normal';
+  box.replaceChildren();
+  box.appendChild(diNo('div',titulo,'font-size:13px;font-weight:800;color:var(--navy);margin-bottom:6px'));
+  box.appendChild(diNo('div',descricao,'font-size:12.5px;line-height:1.65;color:var(--gray-500)'));
+  if(comAtalho)diAtalhoMedscape(box);
+}
+function diRenderizarBase(box,relatorio,aviso,respostaIA){
+  box.style.display='block';box.style.whiteSpace='normal';box.replaceChildren();
+  box.appendChild(diNo('div','Interações identificadas em bula oficial',
+    'font-size:14px;font-weight:800;color:var(--navy);margin-bottom:7px'));
+  box.appendChild(diNo('div',relatorio.achados.length+' associação(ões) documentada(s) nesta base selecionada. Não é uma checagem exaustiva.',
+    'font-size:11px;line-height:1.5;color:var(--gray-500);margin-bottom:10px'));
+  relatorio.achados.forEach(function(item){
+    var painel=diNo('section',undefined,'padding:12px 13px;margin-bottom:10px;border:1px solid #e2e9ed;border-left:4px solid #c9a84c;border-radius:10px;background:#fbfcfd');
+    painel.appendChild(diNo('div',item.titulo,'font-size:13px;font-weight:800;color:var(--navy);margin-bottom:7px'));
+    painel.appendChild(diNo('div','Interação e risco: '+item.efeito,'font-size:12.5px;line-height:1.6;color:#2f4555;margin-bottom:7px'));
+    painel.appendChild(diNo('div','Conduta e monitorização: '+item.conduta,'font-size:12.5px;line-height:1.6;color:#2f4555'));
+    var fonte=diNo('a','Fonte: bula oficial de ciclosporina — DailyMed ↗',
+      'display:inline-block;margin-top:8px;font-size:11px;font-weight:700;color:#17677e;text-decoration:underline');
+    fonte.href=item.fonte;fonte.target='_blank';fonte.rel='noopener noreferrer';
+    painel.appendChild(fonte);
+    box.appendChild(painel);
+  });
+  if(relatorio.naoCobertos.length){
+    var pendente=diNo('section',undefined,'margin-top:7px;padding:11px;border-radius:9px;background:#fff8e8;border:1px solid #ecdcb3');
+    pendente.appendChild(diNo('div','Pares sem cobertura nesta base: '+relatorio.naoCobertos.length,
+      'font-size:12px;font-weight:800;color:#78551d;margin-bottom:5px'));
+    pendente.appendChild(diNo('div',relatorio.naoCobertos.slice(0,5).join(' · ')+(relatorio.naoCobertos.length>5?' · e outros':'')+
+      '. Ausência de registro nesta base NÃO significa ausência de interação.',
+      'font-size:11.5px;color:#78551d;line-height:1.5'));
+    box.appendChild(pendente);
+  }
+  if(aviso)box.appendChild(diNo('div',aviso,
+    'font-size:11.5px;line-height:1.6;color:#5f6f7d;margin-top:11px'));
+  if(respostaIA){
+    var sec=diNo('section',undefined,'margin-top:13px;border-top:1px solid #dce5eb;padding-top:11px');
+    sec.appendChild(diNo('div','Triagem complementar por IA (não validada em base de interações)',
+      'font-size:12px;font-weight:800;color:#795d19;margin-bottom:7px'));
+    var corpo=diNo('div');
+    corpo.innerHTML=_iaFormatar(respostaIA);
+    sec.appendChild(corpo);
+    box.appendChild(sec);
+  }
+  diAtalhoMedscape(box);
 }
 async function verificarInteracoes(){
-  var entrada = diColetarMeds();
-  var meds = [];
-  var vistos = new Set();
+  var entrada=diColetarMeds(),meds=[],vistos=new Set();
   entrada.forEach(function(nome){
-    var chave = nome.toLocaleLowerCase('pt-BR');
-    if(!vistos.has(chave)){ vistos.add(chave); meds.push(nome); }
+    var chave=diNormalizar(nome);
+    if(!vistos.has(chave)){vistos.add(chave);meds.push(nome);}
   });
-  var box = document.getElementById('diResultado');
-  var btn = document.getElementById('diVerificarBtn');
-  if(!box || !btn) return;
-  if(meds.length < 2){
+  var box=document.getElementById('diResultado'),btn=document.getElementById('diVerificarBtn');
+  if(!box||!btn)return;
+  if(meds.length<2){
     diMensagem(box,'Faltam medicamentos','Informe pelo menos dois medicamentos diferentes.',false);
     return;
   }
-  if(meds.length > 15 || meds.some(function(m){return m.length > 100;})){
+  if(meds.length>15||meds.some(function(m){return m.length>100;})){
     diMensagem(box,'Revise os medicamentos','Informe até 15 princípios ativos, com no máximo 100 caracteres por medicamento.',false);
     return;
   }
-  var pedido = 'Realize uma triagem PRELIMINAR de possíveis interações entre estes princípios ativos: ' + meds.join('; ') + '.\n' +
-    'Para cada combinação com possível interação clinicamente relevante, explique gravidade, mecanismo e conduta em tópicos curtos. ' +
-    'Destaque também riscos farmacodinâmicos e de imunossupressão relevantes. ' +
-    'Não alegue ter consultado Medscape, UpToDate ou bases em tempo real. Não invente referências ou certezas; explicite limitações e incertezas. ' +
+  var base=diBuscarBase(meds);
+  // Os pares identificados na bula não dependem de cota, chave ou disponibilidade da IA.
+  if(base.achados.length&&!base.naoCobertos.length){
+    diRenderizarBase(box,base,'Resultado documental, independente da IA. Revise o contexto clínico e a bula vigente.',null);
+    return;
+  }
+  var pedido='Realize uma triagem PRELIMINAR de possíveis interações entre estes princípios ativos: '+meds.join('; ')+'.\n'+
+    'Para cada combinação com possível interação clinicamente relevante, explique gravidade, mecanismo e conduta em tópicos curtos. '+
+    'Destaque também riscos farmacodinâmicos e de imunossupressão relevantes. '+
+    'Não alegue ter consultado Medscape, UpToDate ou bases em tempo real. Não invente referências ou certezas; explicite limitações e incertezas. '+
     'Não conclua que uma combinação é segura apenas pela ausência de interação conhecida. Responda em português brasileiro.';
-  var controller = new AbortController();
-  var timer = setTimeout(function(){controller.abort();},25000);
-  btn.disabled = true;
-  btn.textContent = 'Consultando…';
-  diMensagem(box,'Analisando interações','Processando a triagem preliminar. A conferência em uma base farmacológica continua necessária.',false);
+  var controller=new AbortController();
+  var timer=setTimeout(function(){controller.abort();},12000);
+  btn.disabled=true;btn.textContent='Consultando…';
+  if(base.achados.length){
+    diRenderizarBase(box,base,'Consultando a IA apenas para análise complementar; os pares não cobertos ainda exigem conferência.',null);
+  }else{
+    diMensagem(box,'Consultando interações','Verificando a triagem complementar. A base documental local não cobre estas combinações.',false);
+  }
   try{
-    var resposta = await fetch('/ia',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({pergunta:pedido}),
-      cache:'no-store',
-      signal:controller.signal
+    var resposta=await fetch('/ia',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({pergunta:pedido}),cache:'no-store',signal:controller.signal
     });
-    var d = await resposta.json().catch(function(){return null;});
-    if(resposta.ok && d && typeof d.resposta === 'string' && d.resposta.trim()){
-      box.style.whiteSpace = 'normal';
-      box.innerHTML = '<div style="font-size:11px;line-height:1.5;border-left:3px solid #bd8c26;padding:8px 11px;background:#fff8e8;border-radius:8px;margin-bottom:12px;color:#6b5118">Triagem preliminar gerada por IA, não validada pelo Medscape. Confira em fonte clínica especializada antes de qualquer decisão.</div>' + _iaFormatar(d.resposta);
-      var conferir = document.createElement('button');
-      conferir.type = 'button';
-      conferir.textContent = 'Conferir no Medscape ↗';
-      conferir.style.cssText = 'margin-top:12px;width:100%;padding:11px;border-radius:9px;border:1px solid #a5c7ed;background:#eaf3fc;color:#1e5490;font:700 12.5px Manrope,sans-serif;cursor:pointer';
-      conferir.addEventListener('click', abrirMedscapeInteracao);
-      box.appendChild(conferir);
-    }else if(resposta.status === 422){
-      diMensagem(box,'Verifique os dados inseridos','Use somente nomes de medicamentos, sem dados identificáveis de pacientes.',false);
+    var d=await resposta.json().catch(function(){return null;});
+    if(resposta.ok&&d&&typeof d.resposta==='string'&&d.resposta.trim()){
+      if(base.achados.length){
+        diRenderizarBase(box,base,'A análise por IA é complementar e não substitui uma base farmacológica validada.',d.resposta);
+      }else{
+        box.style.display='block';box.style.whiteSpace='normal';
+        box.innerHTML='<div style="font-size:11px;line-height:1.5;border-left:3px solid #bd8c26;padding:8px 11px;background:#fff8e8;border-radius:8px;margin-bottom:12px;color:#6b5118">Triagem preliminar gerada por IA, não validada pelo Medscape. Confira em fonte clínica especializada antes de qualquer decisão.</div>'+_iaFormatar(d.resposta);
+        diAtalhoMedscape(box);
+      }
+    }else if(resposta.status===422){
+      if(base.achados.length)diRenderizarBase(box,base,'A IA não pôde processar os dados inseridos; confira os demais pares em base especializada.',null);
+      else diMensagem(box,'Verifique os dados inseridos','Use somente nomes de medicamentos, sem dados identificáveis de pacientes.',false);
     }else{
-      var indisponivel = resposta.status === 429 || resposta.status === 503;
-      diMensagem(box,'Triagem automatizada indisponível',
-        indisponivel ? 'O serviço atingiu um limite temporário ou não está disponível. Nenhum resultado de interação foi confirmado. Utilize a base especializada para conferir os medicamentos informados.' :
-        'Não foi possível concluir a análise. Nenhum resultado foi confirmado. Confira as combinações em uma base especializada.',true);
+      var detalhe=resposta.status===429?'limite de cota da IA':resposta.status===503?'indisponibilidade do serviço de IA':'erro na consulta de IA';
+      if(base.achados.length){
+        diRenderizarBase(box,base,'Análise complementar indisponível ('+detalhe+'). Os registros de bula acima continuam válidos; os demais pares não foram verificados.',null);
+      }else{
+        diMensagem(box,'Triagem automatizada indisponível',
+          'Não foi possível confirmar as combinações informadas ('+detalhe+'). Não interprete como ausência de interações. Utilize a base especializada para conferir os medicamentos.',true);
+      }
     }
   }catch(erro){
-    diMensagem(box,'Triagem automatizada indisponível',
-      erro && erro.name === 'AbortError' ?
-        'A consulta excedeu o tempo limite. Não foi possível confirmar interações. Utilize a base especializada.' :
-        'Falha de conexão na consulta. Não foi possível confirmar interações. Utilize a base especializada.',true);
+    var motivo=erro&&erro.name==='AbortError'?'tempo limite excedido':'falha de conexão';
+    if(base.achados.length){
+      diRenderizarBase(box,base,'Complemento por IA indisponível ('+motivo+'). Os demais pares ainda precisam de conferência.',null);
+    }else{
+      diMensagem(box,'Triagem automatizada indisponível',
+        'Consulta não concluída ('+motivo+'). Nenhuma interação foi descartada. Utilize a base especializada.',true);
+    }
   }finally{
     clearTimeout(timer);
-    btn.disabled = false;
-    btn.textContent = '🔍 Analisar interações';
+    btn.disabled=false;btn.textContent='🔍 Analisar interações';
   }
 }
 
