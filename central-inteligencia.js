@@ -11,6 +11,17 @@ const percent=(n,total)=>total>0?decimal(100*number(n)/number(total))+'%':'—';
 const dateTime=iso=>{try{return iso?new Intl.DateTimeFormat('pt-BR',{dateStyle:'short',timeStyle:'short',timeZone:'America/Sao_Paulo'}).format(new Date(iso)):'—';}catch(_){return '—';}};
 const duration=seconds=>{const s=number(seconds);if(s<60)return fmt(Math.round(s))+' s';if(s<3600)return decimal(s/60)+' min';return decimal(s/3600)+' h';};
 const weekdays=['Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'];
+function localidade(r){
+  if(r.city&&String(r.city).trim())return String(r.city).trim();
+  const region=window.hubCentralRegiaoNome?.(r.country||'',r.region||'')||r.region||'';
+  if(region)return region+' (somente estado/região)';
+  if(r.country&&r.country!=='—')return r.country+' (somente país)';
+  return 'Localização municipal indisponível';
+}
+function precisao(r){
+  return r.location_precision==='cidade'?'Cidade estimada':
+    r.location_precision==='região'?'Estado/região':'País';
+}
 let extended=null,base=null,days=30,serial=0;
 const setText=(id,value)=>{const n=el(id);if(n)n.textContent=value;};
 function clear(id){const n=el(id);if(n)n.replaceChildren();return n;}
@@ -102,7 +113,7 @@ function population(){
  bars('viewports',extended.viewports,r=>({pequena:'Tela pequena',media:'Tela média',grande:'Tela grande'})[r.name]||r.name,'sessions',10);
  bars('countries',extended.countries,r=>r.country,'sessions',15);
  table('citiesTable',extended.cities,[
-  r=>r.city||'Não informada',r=>r.country||'—',r=>fmt(r.sessions)
+  r=>localidade(r),r=>r.country||'—',r=>precisao(r),r=>fmt(r.sessions)
  ]);
  bars('sessionSources',extended.session_sources,r=>r.name,'sessions',25);
  bars('weekdays',(extended.weekday||[]).map(r=>({...r,name:weekdays[number(r.weekday)-1]||'Não informado'})),
@@ -123,6 +134,7 @@ function quality(){
    root.append(
     qualityRow('País disponível',percent(t.identified_countries,s),'GeoIP aproximado; não é GPS'),
     qualityRow('Cidade disponível',percent(t.identified_cities,s),'A cidade pode diferir da localização real'),
+    qualityRow('Estado/região disponível',percent(t.identified_regions,s),'Informação alternativa para acessos históricos sem cidade'),
     qualityRow('Sessões no período',fmt(s),'Apenas sessões que autorizaram a coleta'),
     qualityRow('Uso por PWA',percent(t.pwa_sessions,s),'Modo de exibição detectado')
    );
@@ -190,8 +202,8 @@ function exportFile(kind){
   download(pre,['Funcionalidade','Visualizações','Cliques','Sessões','Tempo visível (s)'],
     (extended.features||[]).map(x=>[x.feature,x.views,x.clicks,x.sessions,x.visible_seconds]));
  }else if(kind==='cidades'){
-  download(pre,['Cidade aproximada','País','Sessões'],
-    (extended.cities||[]).map(x=>[x.city,x.country,x.sessions]));
+  download(pre,['Cidade ou estado/região','País','Precisão','Sessões'],
+    (extended.cities||[]).map(x=>[localidade(x),x.country,precisao(x),x.sessions]));
  }
 }
 d.addEventListener('change',ev=>{if(ev.target?.id==='featureSort')journeys();});
