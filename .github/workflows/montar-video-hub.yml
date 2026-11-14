@@ -20,7 +20,8 @@ jobs:
         run: |
           set -euo pipefail
           cat assets/hub-video-partes/parte-*.bin > assets/hub-demonstracao.mp4
-          test "$(stat -c %s assets/hub-demonstracao.mp4)" -eq 4420199
+          test "$(stat -c %s assets/hub-demonstracao.mp4)" -eq 3358634
+          echo "eedbc5c2384dad8729f082e95b2195a3849dd4cf087150b631c35ff934bcf18b  assets/hub-demonstracao.mp4" | sha256sum -c -
       - name: Publicar arquivo no repositorio
         shell: bash
         run: |
