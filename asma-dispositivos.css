@@ -1,0 +1,66 @@
+/* Hub do Alergista — dispositivos de asma, fichas premium e doses transparentes. */
+#page-medicamentos #medApp [data-med-category="inalatoria"].is-open{grid-column:1/-1}
+#page-medicamentos .asma-module{min-width:0}
+#page-medicamentos .asma-note{border:1px solid #ccdde8;border-left:3px solid #247c92;background:linear-gradient(130deg,#f3fafb,#fff);padding:14px 16px;border-radius:12px;margin:0 0 14px;color:#425f70;font:500 12px/1.6 Manrope,Arial,sans-serif}
+#page-medicamentos .asma-note p{margin:6px 0 0}
+#page-medicamentos .asma-label{color:#1f6177;display:block;font:800 10px/1.5 Manrope,Arial,sans-serif;letter-spacing:.04em}
+#page-medicamentos .asma-legend{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 15px}
+#page-medicamentos .asma-legend>span{display:inline-flex;gap:4px;align-items:center;border:1px solid #d9e6ed;background:#fff;padding:5px 7px;border-radius:10px;min-width:0}
+#page-medicamentos .asma-legend small{font-size:9px;line-height:1.35;color:#5a7180;font-weight:700;max-width:110px}
+#page-medicamentos .asma-device{width:54px;height:54px;flex:0 0 54px;display:grid;place-items:center;border-radius:13px;background:linear-gradient(150deg,#fbffff,#e9f4f7);border:1px solid #d3e7eb;box-shadow:inset 0 1px 0 #fff,0 3px 8px rgba(25,76,97,.07)}
+#page-medicamentos .asma-device svg{display:block;width:49px;height:49px;overflow:visible}
+#page-medicamentos .asma-device-small{width:31px;height:31px;flex-basis:31px;border-radius:9px}
+#page-medicamentos .asma-device-small svg{width:28px;height:28px}
+#page-medicamentos .asma-count{font-size:11px;font-weight:800;letter-spacing:.04em;color:#627986;margin:8px 0 10px}
+#page-medicamentos .asma-catalog{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+#page-medicamentos .asma-inhaler-card{min-width:0;border:1px solid #d6e6ed;border-radius:15px;background:#fff;box-shadow:0 4px 15px rgba(30,76,98,.045);overflow:hidden;transition:border-color .2s,box-shadow .2s}
+#page-medicamentos .asma-inhaler-card[open]{border-color:#88b9c4;box-shadow:0 8px 24px rgba(24,75,93,.1)}
+#page-medicamentos .asma-inhaler-card>summary{list-style:none;display:flex;align-items:center;gap:11px;padding:12px 13px;min-height:85px;cursor:pointer}
+#page-medicamentos .asma-inhaler-card>summary::-webkit-details-marker{display:none}
+#page-medicamentos .asma-inhaler-card>summary:focus-visible{outline:3px solid #13859b;outline-offset:-3px}
+#page-medicamentos .asma-inhaler-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+#page-medicamentos .asma-inhaler-main .hub-med-nome{color:#183f53;font-size:13px;font-weight:800;overflow-wrap:break-word;word-break:normal}
+#page-medicamentos .asma-brand{color:#147b8f;font-size:11.5px;font-weight:700;line-height:1.3;overflow-wrap:break-word}
+#page-medicamentos .asma-strength{color:#6c8190;font-size:10px;line-height:1.4;font-weight:600}
+#page-medicamentos .asma-chevron{flex:0 0 auto;font-size:22px;color:#4d8495;line-height:1}
+#page-medicamentos .asma-inhaler-card[open] .asma-chevron{transform:rotate(180deg)}
+#page-medicamentos .asma-quick{display:grid;grid-template-columns:1fr 1fr;gap:0;border-block:1px solid #eef2f5;background:#fafdfe}
+#page-medicamentos .asma-quick>span{display:flex;min-width:0;flex-direction:column;gap:5px;padding:11px 13px;font-size:11px;color:#244c63;line-height:1.6;font-weight:600;overflow-wrap:break-word}
+#page-medicamentos .asma-quick>span+span{border-left:1px solid #e3ecf1;color:#735522;background:#fffcf4}
+#page-medicamentos .asma-quick small{font-size:9px;line-height:1.35;font-weight:900;letter-spacing:.06em;color:#46849a}
+#page-medicamentos .asma-quick>span+span small{color:#a77927}
+#page-medicamentos .asma-mart-row{padding:9px 13px 11px}
+#page-medicamentos .asma-mart{display:inline-flex;align-items:center;min-height:23px;padding:5px 8px;border:1px solid #d9e4ea;border-radius:7px;background:#f5f8fa;color:#667c88;font-size:10px;font-weight:800;line-height:1.3}
+#page-medicamentos .asma-mart-yes{background:#ebf9f3;color:#1e7856;border-color:#bce1d1}
+#page-medicamentos .asma-mart-gina{background:#eaf3ff;color:#315d8b;border-color:#c5dbee}
+#page-medicamentos .asma-mart-caution{background:#fffaea;color:#8f6a23;border-color:#f0e1ae}
+#page-medicamentos .asma-inhaler-more{padding:12px 14px 15px;background:#fff;border-top:1px solid #e4eef2}
+#page-medicamentos .asma-inhaler-more>div:not(.asma-inhaler-sources){padding:8px 0;border-bottom:1px solid #eff3f5}
+#page-medicamentos .asma-inhaler-more p{margin:4px 0;color:#486373;font-size:11px;line-height:1.6}
+#page-medicamentos .asma-inhaler-sources{display:flex;flex-wrap:wrap;gap:9px;padding:12px 0 3px}
+#page-medicamentos .asma-inhaler-sources a,#page-medicamentos .asma-foot a{color:#186f89;font-size:11px;font-weight:700;overflow-wrap:anywhere}
+#page-medicamentos .asma-dpoc{margin-top:16px;border:1px dashed #bbd0d9;background:#fafcfd;border-radius:13px;padding:13px 15px;color:#415f70}
+#page-medicamentos .asma-dpoc>summary{font-size:12px;font-weight:800;cursor:pointer}
+#page-medicamentos .asma-dpoc>p{font-size:11px;line-height:1.5}
+#page-medicamentos .asma-dpoc-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#page-medicamentos .asma-dpoc-list>div{display:flex;gap:9px;align-items:center;background:#fff;border:1px solid #e1ebef;border-radius:9px;padding:9px;min-width:0}
+#page-medicamentos .asma-dpoc-list>div>span:last-child{display:flex;flex-direction:column;gap:3px;min-width:0}
+#page-medicamentos .asma-dpoc-list strong{font-size:10.5px;line-height:1.4;color:#2c586b;overflow-wrap:break-word}
+#page-medicamentos .asma-dpoc-list small{font-size:9px;line-height:1.4;color:#6b7c86}
+#page-medicamentos .asma-foot{border-top:1px solid #dde8ed;font-size:10px;color:#617b89;line-height:1.6;padding:12px 3px 0;margin:17px 0 0}
+@media(min-width:1300px){
+ #page-medicamentos .asma-catalog{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media(max-width:899px){
+ #page-medicamentos .asma-catalog{grid-template-columns:minmax(0,1fr)}
+ #page-medicamentos .asma-dpoc-list{grid-template-columns:minmax(0,1fr)}
+}
+@media(max-width:410px){
+ #page-medicamentos .asma-quick{grid-template-columns:minmax(0,1fr)}
+ #page-medicamentos .asma-quick>span+span{border-left:0;border-top:1px solid #e3ecf1}
+ #page-medicamentos .asma-inhaler-card>summary{gap:8px;padding:10px}
+ #page-medicamentos .asma-device{width:45px;height:45px;flex-basis:45px}
+ #page-medicamentos .asma-device svg{width:42px;height:42px}
+ #page-medicamentos .asma-device-small{width:30px;height:30px;flex-basis:30px}
+ #page-medicamentos .asma-device-small svg{width:27px;height:27px}
+}
