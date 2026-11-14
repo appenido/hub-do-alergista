@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { classifyCommit, guessSection, isContentFile, updateFeed } from '../scripts/atualizar-novidades.mjs';
+import { classifyCommit, guessSection, isContentFile, newUpToDateItems, updateFeed } from '../scripts/atualizar-novidades.mjs';
 
 test('identifica publicação clínica nova em arquivos reais', () => {
   const result = classifyCommit('Criar SCORAD clínico por região anatômica com regra dos nove', ['scorad-premium.js']);
@@ -29,4 +29,28 @@ test('a verificação diária sem novo conteúdo não fabrica alertas', () => {
   assert.equal(updated.items.length, 1);
   assert.equal(updated.updatedAt, '2026-11-09');
   assert.equal(updated.checkedAt, '2026-11-12');
+});
+
+test('UpToDate publica somente tópicos inéditos confirmados na verificação diária', () => {
+  const radar = {
+    source: 'https://ff.uptodate.com/contents/whats-new-in-allergy-and-immunology',
+    checkedAt: '2026-11-14',
+    items: [
+      {title:'New approach to severe atopic dermatitis', titlePt:'Nova abordagem da dermatite atópica grave',
+       topic:'Dermatite atópica', firstSeenAt:'2026-11-14'},
+      {title:'Previously verified topic about urticaria', firstSeenAt:'2026-11-04'}
+    ]
+  };
+  const fresh = newUpToDateItems(radar, '2026-11-14');
+  assert.equal(fresh.length, 1);
+  assert.equal(fresh[0].source, 'uptodate');
+  assert.equal(fresh[0].title, 'Nova abordagem da dermatite atópica grave');
+  assert.equal(fresh[0].section, 'artigos');
+  const base = {version:1, updatedAt:'2026-11-13',items:[]};
+  const published = updateFeed(base, [], 'sha1', '2026-11-14', radar);
+  assert.equal(published.items.length, 1);
+  assert.equal(published.updatedAt, '2026-11-14');
+  assert.equal(updateFeed(published, [], 'sha2', '2026-11-14', radar).items.length, 1);
+  assert.equal(newUpToDateItems(radar, '2026-11-15').length, 0);
+  assert.equal(newUpToDateItems({...radar,source:'https://example.com'}, '2026-11-14').length, 0);
 });
