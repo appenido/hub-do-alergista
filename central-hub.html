@@ -10,7 +10,7 @@
 <link rel="icon" href="/favicon-32.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
-<link rel="stylesheet" href="/central-hub.css?v=20261112-geo1">
+<link rel="stylesheet" href="/central-hub.css?v=20261113-intel2">
 </head>
 <body>
 <header class="top" id="header">
@@ -64,13 +64,19 @@
       <article class="kpi"><span>Cliques registrados</span><div id="kClicks">—</div><small>Interações em controles e links</small></article>
       <article class="kpi"><span>Tempo visível total</span><div id="kTime">—</div><small>Estimativa das telas ativas</small></article>
       <article class="kpi"><span>Eventos coletados</span><div id="kEvents">—</div><small>Somente após autorização</small></article>
+      <article class="kpi"><span>Atividade nos últimos 15 min</span><div id="kActive15">—</div><small>Sessões com evento recente, não usuários on-line</small></article>
+      <article class="kpi"><span>Sessões engajadas</span><div id="kEngagement">—</div><small>10 s, 2 áreas ou 1 interação</small></article>
+      <article class="kpi"><span>Tempo visível por sessão</span><div id="kAverage">—</div><small>Média estimada de tempo em tela</small></article>
     </div>
     <nav class="tabs" aria-label="Áreas do painel">
       <button class="tab active" data-tab="resumo">Visão geral</button>
+      <button class="tab" data-tab="inteligencia">Inteligência de uso</button>
       <button class="tab" data-tab="ferramentas">Funcionalidades</button>
+      <button class="tab" data-tab="jornadas">Jornadas</button>
       <button class="tab" data-tab="mapa">Mapa de acessos</button>
       <button class="tab" data-tab="publico">Público e dispositivos</button>
       <button class="tab" data-tab="atividades">Atividades recentes</button>
+      <button class="tab" data-tab="diagnostico">Qualidade dos dados</button>
       <button class="tab" data-tab="assinaturas">Assinaturas</button>
       <button class="tab" data-tab="privacidade">Privacidade</button>
     </nav>
@@ -84,11 +90,44 @@
         <article class="panel"><div class="panel-head"><h2>Origem dos acessos</h2><span>Referência de tráfego por domínio</span></div><div id="topSources" class="bars"></div></article>
       </div>
     </section>
+    <section class="panel-group" id="panel-inteligencia">
+      <div class="intel-topline"><h2>Inteligência de acessos</h2><span id="intelStatus" role="status">Aguardando consulta autenticada</span></div>
+      <div class="intel-kpis">
+        <article class="panel intel-stat"><span>Variação de sessões</span><strong id="iVariation">—</strong><small>Comparação com período anterior de mesma duração</small></article>
+        <article class="panel intel-stat"><span>Taxa de engajamento</span><strong id="iEngage">—</strong><small>Definição operacional, não pessoas únicas</small></article>
+        <article class="panel intel-stat"><span>Taxa de saída rápida</span><strong id="iBounce">—</strong><small>Uma área ou menos, sem clique e menos de 10 s</small></article>
+        <article class="panel intel-stat"><span>Áreas por sessão</span><strong id="iDepth">—</strong><small>Média de visualizações por sessão</small></article>
+        <article class="panel intel-stat"><span>Cliques por sessão</span><strong id="iInteraction">—</strong><small>Média de interações registradas</small></article>
+        <article class="panel intel-stat"><span>Tempo mediano em tela</span><strong id="iMedian">—</strong><small>Somente períodos visíveis da página</small></article>
+      </div>
+      <article class="panel">
+        <div class="panel-head"><div><h2>Mapa de calor semanal</h2><p class="muted">Sessões iniciadas por dia da semana e horário de Brasília</p></div><span>Cor mais intensa = mais sessões</span></div>
+        <div id="heatmap" class="heatmap-scroll" aria-label="Mapa de calor de acessos por dia da semana e hora"></div>
+      </article>
+      <div class="two-cols">
+        <article class="panel"><div class="panel-head"><h2>Distribuição por dia da semana</h2><span>Início das sessões</span></div><div id="weekdays" class="bars"></div></article>
+        <article class="panel"><div class="panel-head"><h2>Fontes de tráfego</h2><span>Origem da primeira atividade de cada sessão</span></div><div id="sessionSources" class="bars"></div></article>
+      </div>
+    </section>
     <section class="panel-group" id="panel-ferramentas">
       <div class="two-cols">
         <article class="panel"><div class="panel-head"><h2>Ranking de funcionalidades</h2><span>Áreas mais acessadas</span></div><div id="allFeatures" class="bars"></div></article>
         <article class="panel"><div class="panel-head"><h2>Cliques detalhados</h2><span>Seção e identificador técnico do controle</span></div><div class="table-scroll"><table><thead><tr><th>Seção</th><th>Botão/ação</th><th>Cliques</th></tr></thead><tbody id="actionsTable"></tbody></table></div></article>
       </div>
+    </section>
+    <section class="panel-group" id="panel-jornadas">
+      <article class="panel">
+        <div class="panel-head"><div><h2>Engajamento por funcionalidade</h2><p class="muted">Visualizações, cliques, sessões e tempo visível registrado, sem coletar textos digitados</p></div>
+          <label class="sort-label">Ordenar por <select id="featureSort" aria-label="Ordenar ranking"><option value="views">Visualizações</option><option value="clicks">Cliques</option><option value="sessions">Sessões</option><option value="visible_seconds">Tempo visível</option></select></label></div>
+        <div class="table-scroll"><table><thead><tr><th>Funcionalidade</th><th>Visualizações</th><th>Cliques</th><th>Sessões</th><th>Tempo visível</th></tr></thead><tbody id="featureMetrics"></tbody></table></div>
+      </article>
+      <div class="two-cols">
+        <article class="panel"><div class="panel-head"><h2>Primeiras áreas visitadas</h2><span>Entrada nas sessões medidas</span></div><div id="entrances" class="bars"></div></article>
+        <article class="panel"><div class="panel-head"><h2>Últimas áreas visitadas</h2><span>Última visualização observada</span></div><div id="exits" class="bars"></div></article>
+      </div>
+      <article class="panel"><div class="panel-head"><div><h2>Caminhos de navegação</h2><p class="muted">Transições entre áreas, observadas pela sequência dos eventos em cada sessão</p></div><span>Não é o percurso individual de uma pessoa</span></div>
+        <div class="table-scroll"><table><thead><tr><th>Área de origem</th><th>Área seguinte</th><th>Transições</th></tr></thead><tbody id="flowsTable"></tbody></table></div>
+      </article>
     </section>
     <section class="panel-group" id="panel-mapa">
       <article class="panel">
@@ -119,11 +158,35 @@
         <article class="panel"><div class="panel-head"><h2>Sistemas operacionais</h2></div><div id="systems" class="bars"></div></article>
         <article class="panel"><div class="panel-head"><h2>Navegadores</h2></div><div id="browsers" class="bars"></div></article>
       </div>
+      <div class="three-cols">
+        <article class="panel"><div class="panel-head"><h2>Modo de acesso</h2><span>PWA instalado ou navegador</span></div><div id="displayModes" class="bars"></div></article>
+        <article class="panel"><div class="panel-head"><h2>Tamanho de tela</h2><span>Pequena, média e grande</span></div><div id="viewports" class="bars"></div></article>
+        <article class="panel"><div class="panel-head"><h2>Países</h2><span>Geolocalização aproximada da rede</span></div><div id="countries" class="bars"></div></article>
+      </div>
+      <article class="panel"><div class="panel-head"><h2>Cidades com mais sessões</h2><span>Localidade estimada pela rede, sem identificação pessoal</span></div>
+        <div class="table-scroll"><table><thead><tr><th>Cidade</th><th>País</th><th>Sessões</th></tr></thead><tbody id="citiesTable"></tbody></table></div>
+      </article>
       <article class="panel"><div class="panel-head"><h2>Localização aproximada</h2><span>País, estado ou região estimados pela infraestrutura, sem GPS ou IP armazenado</span></div><div class="table-scroll"><table><thead><tr><th>País</th><th>Estado ou região</th><th>Sessões</th></tr></thead><tbody id="locationsTable"></tbody></table></div></article>
     </section>
     <section class="panel-group" id="panel-atividades">
       <article class="panel"><div class="panel-head"><h2>Últimos eventos registrados</h2><span>Registros técnicos sem nomes ou identificação de visitantes</span></div>
         <div class="table-scroll"><table><thead><tr><th>Data e hora</th><th>Tipo</th><th>Área</th><th>Ação</th><th>Dispositivo</th><th>Localização</th></tr></thead><tbody id="recentTable"></tbody></table></div>
+      </article>
+    </section>
+    <section class="panel-group" id="panel-diagnostico">
+      <div class="two-cols">
+        <article class="panel"><div class="panel-head"><h2>Qualidade e cobertura</h2><span>Com base nas sessões registradas</span></div><div id="qualityStats" class="quality-list"></div></article>
+        <article class="panel"><div class="panel-head"><h2>Período observado</h2><span>Integridade da instrumentação</span></div><div id="coverageStats" class="quality-list"></div></article>
+      </div>
+      <article class="panel">
+        <div class="panel-head"><h2>Exportações adicionais</h2><span>Relatórios derivados de dados reais, sem dados clínicos</span></div>
+        <div class="export-row"><button id="exportSummary" class="outline" type="button">Exportar resumo CSV</button><button id="exportFeatures" class="outline" type="button">Exportar funcionalidades CSV</button><button id="exportCities" class="outline" type="button">Exportar cidades CSV</button></div>
+        <p class="muted">A exportação completa de eventos está disponível na parte superior. Os relatórios só são gerados para administradores autorizados.</p>
+      </article>
+      <article class="panel">
+        <div class="panel-head"><h2>Limites da análise</h2></div>
+        <p class="muted">A medição depende do consentimento do visitante. Sessões não são pessoas únicas; o identificador aleatório não persiste entre visitas. Por isso, retenção de pessoas, usuários recorrentes, dados demográficos pessoais, localização exata, faturamento e conversão em pacientes não podem ser inferidos destes eventos.</p>
+        <p class="muted">Os indicadores de engajamento e saída rápida são definições operacionais próprias, não equivalem automaticamente às métricas de outras plataformas de análise. A geolocalização é aproximada, baseada na rede e pode ser imprecisa.</p>
       </article>
     </section>
     <section class="panel-group" id="panel-assinaturas">
@@ -153,6 +216,7 @@
 </main>
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous" defer></script>
-<script src="/central-hub.js?v=20261112-geo2" defer></script>
+<script src="/central-hub.js?v=20261113-intel2" defer></script>
+<script src="/central-inteligencia.js?v=20261113-intel2" defer></script>
 </body>
 </html>
