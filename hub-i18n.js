@@ -258,7 +258,7 @@
     }finally{processing=false;}
   }
   function loadCatalog(){
-    fetch('/data/hub-i18n-catalog.json?v=20261114-1',{cache:'force-cache',credentials:'same-origin'})
+    fetch('/data/hub-i18n-catalog.json?v=20261114-2',{cache:'force-cache',credentials:'same-origin'})
       .then(function(r){if(!r.ok)throw new Error('catalogue');return r.json();})
       .then(function(obj){
         catalog=new Set((obj.strings||[]).map(normalizeText));
