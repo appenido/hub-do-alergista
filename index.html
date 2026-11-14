@@ -4569,7 +4569,7 @@ window._bloquearApp=function(){};
       </div>
     </div>
     <div style="margin:8px 16px 0;background:#fff;border:1px solid var(--gray-100);border-radius:13px;padding:16px">
-      <p style="font-size:12px;color:var(--gray-500);line-height:1.55;margin:0 0 12px">Escolha até três áreas de interesse para personalizar os artigos recentes. Não é necessário criar uma conta.</p>
+      <p style="font-size:12px;color:var(--gray-500);line-height:1.55;margin:0 0 12px">Escolha até 10 áreas de interesse para personalizar os artigos recentes. Não é necessário criar uma conta.</p>
       <div id="perfInteresses" style="display:flex;flex-wrap:wrap;gap:6px"></div>
       <div id="perfMsg" role="status" aria-live="polite" style="font-size:11.5px;color:var(--teal-mid);margin:10px 0;min-height:14px"></div>
       <button type="button" onclick="salvarPerfil()" style="width:100%;background:var(--navy);border:none;color:#fff;border-radius:10px;padding:12px;font-family:'Manrope',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Salvar preferências neste dispositivo</button>
@@ -5034,13 +5034,13 @@ function _renderPerfInteresses(){
 }
 function _togglePerfInteresse(btn){
   var sel = document.querySelectorAll('#perfInteresses .int-chip.sel');
-  if(!btn.classList.contains('sel') && sel.length >= 3) return;
+  if(!btn.classList.contains('sel') && sel.length >= 10) return;
   btn.classList.toggle('sel');
 }
 function _perfInteressesSelecionados(){
   var out = [];
   document.querySelectorAll('#perfInteresses .int-chip.sel').forEach(function(b){ out.push(b.getAttribute('data-int')); });
-  return out.slice(0,3);
+  return out.slice(0,10);
 }
 
 
@@ -6554,16 +6554,16 @@ function perguntarIaHub(){
 /* ── INTERESSES + SAUDAÇÃO/PENDÊNCIAS ───────────── */
 function _toggleInteresse(btn){
   var sel = document.querySelectorAll('#cadInteresses .int-chip.sel');
-  if(!btn.classList.contains('sel') && sel.length >= 3) return;
+  if(!btn.classList.contains('sel') && sel.length >= 10) return;
   btn.classList.toggle('sel');
 }
 function _interessesSelecionados(){
   var out = [];
   document.querySelectorAll('#cadInteresses .int-chip.sel').forEach(function(b){ out.push(b.getAttribute('data-int')); });
-  return out.slice(0,3);
+  return out.slice(0,10);
 }
 function _meusInteresses(){
-  try{var ints=JSON.parse(localStorage.getItem('hub_public_interesses')||'[]');return Array.isArray(ints)?ints.slice(0,3):[];}
+  try{var ints=JSON.parse(localStorage.getItem('hub_public_interesses')||'[]');return Array.isArray(ints)?ints.slice(0,10):[];}
   catch(e){return [];}
 }
 function atualizarHero(){
@@ -10062,7 +10062,7 @@ function _homeTemasSelecionados(){
     if(!id || vistos[id]) return false;
     vistos[id] = true;
     return true;
-  }).slice(0,3).map(function(nome){ return {id:INTERESSE_TOPICO[nome], nome:nome}; });
+  }).slice(0,10).map(function(nome){ return {id:INTERESSE_TOPICO[nome], nome:nome}; });
 }
 
 function _homeAttr(txt){ return _feedEscape(txt).replace(/"/g,'&quot;'); }
@@ -10130,7 +10130,7 @@ function carregarFeedHome(forcar){
   _homeFeedChave = chave;
   var versao = ++_homeFeedVersao;
   if(!temas.length){
-    box.innerHTML = '<div style="font-size:12px;color:var(--gray-500);line-height:1.6;padding:10px 0">Selecione até três áreas de interesse em Preferências para visualizar os artigos mais recentes. <button type="button" class="link-btn" onclick="navTo(\'perfil\')">Escolher temas</button></div>';
+    box.innerHTML = '<div style="font-size:12px;color:var(--gray-500);line-height:1.6;padding:10px 0">Selecione até 10 áreas de interesse em Preferências para visualizar os artigos mais recentes. <button type="button" class="link-btn" onclick="navTo(\'perfil\')">Escolher temas</button></div>';
     return Promise.resolve();
   }
   var grupos = temas.map(function(t){
