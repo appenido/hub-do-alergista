@@ -197,7 +197,11 @@ def main():
         # Diferenciar tentativa diária da confirmação efetiva do conteúdo oficial.
         # O dashboard nunca deve afirmar que a fonte foi verificada sem sucesso real.
         prior["lastAttemptAt"] = checked_at
-        prior["checkStatus"] = "unavailable"
+        prior["autoCheckStatus"] = "unavailable"
+        prior["checkStatus"] = (
+            "verified_manual" if prior.get("checkMethod") == "revisao-manual-indice-publico"
+            and prior.get("checkedAt") == checked_at else "unavailable"
+        )
         prior["checkMessage"] = "Fonte pública temporariamente indisponível para leitura automática"
         atomic_save(prior)
         print("AVISO: a consulta automática foi tentada, mas não validou novos dados: " + str(exc), file=sys.stderr)
