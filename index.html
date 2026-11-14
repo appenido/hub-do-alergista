@@ -1623,6 +1623,54 @@ _marcarGuiasPagas();
 <link rel="stylesheet" href="/protocolos-bolso-legibilidade.css?v=20261111-1">
 <link rel="stylesheet" href="/artigos-analise-clinica.css?v=20261112-1">
 <style id="hub-artigos-sem-analise-ia">.art-card .btn-ai-summary{display:none!important}</style>
+
+<style id="hub-home-labels-legibilidade-20261114">
+/* Home: nomes maiores, palavras completas e tres cards por fileira no celular. */
+#page-dashboard .quick-grid .qcard .ql{
+  font-size:clamp(12px,3.4vw,15px);
+  font-weight:800;
+  letter-spacing:-.18px;
+  line-height:1.24;
+  color:#21354a;
+  white-space:normal;
+  word-break:normal;
+  overflow-wrap:normal;
+  hyphens:none;
+  text-wrap:balance;
+  text-align:center;
+  max-width:100%;
+  text-transform:none!important;
+}
+#page-dashboard .quick-grid .qcard[data-nav="imuno"] .ql > span:first-child{
+  font-size:inherit!important;
+  font-weight:800!important;
+  white-space:nowrap;
+  text-transform:none!important;
+}
+#page-dashboard .quick-grid .qcard[data-nav="imuno"] .ql > span:last-child{
+  font-size:clamp(8px,2.3vw,10px)!important;
+  font-weight:600!important;
+  white-space:nowrap;
+  text-transform:none!important;
+}
+#page-imuno .bio-target,
+#page-imuno .bio-grid .bio-target{
+  text-transform:none!important;
+}
+@media(max-width:559px){
+  #page-dashboard .quick-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:9px;
+    padding-inline:12px;
+  }
+  #page-dashboard .quick-grid .qcard{
+    min-width:0;
+    aspect-ratio:auto;
+    min-height:110px;
+    padding:9px 4px;
+  }
+}
+</style>
 </head>
 <body>
 
@@ -11278,6 +11326,48 @@ function chatToggle(){
 <script src="/alergo-news-premium.js?v=20261109-1" defer></script>
 <script src="/artigos-resumo-fix.js?v=20261112-2" defer></script>
 <script src="/protocolos-bolso-condutas-20261114.js?v=20261114-4"></script>
+
+<script id="hub-home-label-fit-20261114">
+(function(){
+  'use strict';
+  function fitHomeLabels(){
+    var labels=document.querySelectorAll('#page-dashboard .quick-grid .qcard .ql');
+    if(!labels.length)return;
+    var canvas=document.createElement('canvas');
+    var ctx=canvas.getContext('2d');
+    labels.forEach(function(label){
+      label.style.removeProperty('font-size');
+      var computed=window.getComputedStyle(label);
+      var requested=parseFloat(computed.fontSize)||13;
+      var target=label.querySelector('span:first-child')||label;
+      var words=(target.textContent||'').trim().split(/\s+/).filter(Boolean);
+      var available=label.clientWidth-2;
+      if(!ctx||!words.length||available<=0)return;
+      ctx.font=computed.fontWeight+' '+requested+'px '+computed.fontFamily;
+      var largest=words.reduce(function(max,word){
+        return Math.max(max,ctx.measureText(word).width);
+      },0);
+      if(largest>available){
+        label.style.fontSize=Math.max(7.5,Math.floor(requested*available/largest*10)/10)+'px';
+      }
+    });
+  }
+  function start(){
+    fitHomeLabels();
+    if(document.fonts&&document.fonts.ready){
+      document.fonts.ready.then(fitHomeLabels);
+    }
+    var grid=document.querySelector('#page-dashboard .quick-grid');
+    if(grid&&window.ResizeObserver){
+      new ResizeObserver(fitHomeLabels).observe(grid);
+    }
+    window.addEventListener('resize',fitHomeLabels,{passive:true});
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',start,{once:true});
+  }else{start();}
+})();
+</script>
 </body>
 </html>
 
