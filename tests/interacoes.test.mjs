@@ -25,7 +25,7 @@ test('a seção contém apenas a verificação de interações em português',()
   assert.match(secao,/Verificar interações/);
   assert.match(secao,/onclick="verificarInteracoes\(\)"/);
   assert.doesNotMatch(secao,/Medscape|RxNorm|openFDA|\bIA\b|bula oficial|NIH/i);
-  assert.doesNotMatch(cliente,/Medscape|RxNorm|openFDA|/i);
+  assert.doesNotMatch(cliente,/Medscape|RxNorm|openFDA/i);
   assert.doesNotMatch(cliente,/fetch\(['"]\/ia['"]/);
   assert.doesNotMatch(servidor,/fetch\(/);
   assert.match(sw,/interacoes-clinicas\.js\?v=20261114-interacoes-pt-1/);
