@@ -43,7 +43,8 @@ test('a seção contém apenas a verificação de interações em português',()
   assert.match(secao,/Verificar interações/);
   assert.match(secao,/onclick="verificarInteracoes\(\)"/);
   assert.doesNotMatch(secao,/Medscape|RxNorm|openFDA|\bIA\b|bula oficial|NIH/i);
-  assert.doesNotMatch(cliente,/Medscape|RxNorm|openFDA/i);
+  assert.doesNotMatch(cliente,/Medscape|generativelanguage\.googleapis\.com/i);
+  assert.match(cliente,/NIH\/RxNorm/);
   assert.doesNotMatch(cliente,/fetch\(['"]\/ia['"]/);
   assert.match(servidor,/rxnav\.nlm\.nih\.gov/);
   assert.match(servidor,/api\.fda\.gov/);
