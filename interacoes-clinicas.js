@@ -44,9 +44,10 @@ function renderizar(box,d){
   const pares=Array.isArray(d.pares)?d.pares:[];
   box.appendChild(criar('div','Consulta documental de interações',
     'font-size:15px;font-weight:800;color:#102f45;margin-bottom:5px'));
-  box.appendChild(avisoTexto('Fonte: bulas dos Estados Unidos via openFDA. Consulta sem IA em '+new Date(d.dataConsulta||Date.now()).toLocaleString('pt-BR')+'. Os textos originais estão em inglês.'));
+  box.appendChild(avisoTexto('Fontes: FDA/openFDA (bulas) + NIH/RxNorm (nomes e identificadores). Consulta sem IA em '+new Date(d.dataConsulta||Date.now()).toLocaleString('pt-BR')+'. Os textos originais das bulas estão em inglês.'));
   const encontrados=bulas.filter(x=>x.status==='encontrado').length;
-  box.appendChild(criar('div',encontrados+' de '+bulas.length+' medicamento(s) com bula localizada',
+  const padronizados=bulas.filter(x=>x.rxnorm&&x.rxnorm.status==='identificado').length;
+  box.appendChild(criar('div','FDA: '+encontrados+'/'+bulas.length+' bulas · RxNorm: '+padronizados+'/'+bulas.length+' medicamentos identificados',
     'font-size:12px;font-weight:700;color:#285a78;margin-bottom:14px'));
   const aviso=criar('div','Esta ferramenta não determina que um par é seguro ou contraindicado. Ela localiza menções nas bulas; a ausência de menção não exclui interação.',
     'font-size:12px;line-height:1.6;padding:11px;background:#fff6e6;border-left:3px solid #bb8722;border-radius:8px;color:#79571e;margin-bottom:14px');
@@ -87,6 +88,11 @@ function renderizar(box,d){
       'cursor:pointer;padding:13px;font-size:12px;font-weight:800;color:#1b415c;overflow-wrap:anywhere');
     card.appendChild(sum);
     const cont=criar('div',undefined,'padding:0 13px 15px');
+    if(b.rxnorm&&b.rxnorm.status==='identificado'){
+      cont.appendChild(avisoTexto('NIH/RxNorm: '+b.rxnorm.nomePadronizado+' · RxCUI '+b.rxnorm.rxcui+(b.rxnorm.tipo?' · '+b.rxnorm.tipo:'')));
+    }else{
+      cont.appendChild(avisoTexto('NIH/RxNorm: '+(b.rxnorm&&b.rxnorm.status==='indisponivel'?'consulta temporariamente indisponível':'sem correspondência exata/normalizada confirmada')+'.'));
+    }
     if(b.status==='encontrado'){
       cont.appendChild(avisoTexto((b.marca?'Marca: '+b.marca+' · ':'')+'Atualização da bula: '+dataFDA(b.atualizado)));
       if(b.temSecao){
@@ -102,10 +108,15 @@ function renderizar(box,d){
         'Sem correspondência confirmada na base norte-americana.';
       cont.appendChild(avisoTexto(falha+' Não se pode inferir ausência de interação.'));
     }
+    const ref=criar('div',undefined,'display:flex;gap:14px;flex-wrap:wrap;margin-top:9px');
+    ref.appendChild(linkOficial('https://www.ema.europa.eu/en/medicines','Consultar EMA ↗'));
+    ref.appendChild(linkOficial('https://www.gov.br/anvisa/pt-br/sistemas/bulario-eletronico','Consultar Bulário Anvisa ↗'));
+    cont.appendChild(ref);
     card.appendChild(cont);box.appendChild(card);
   });
   box.appendChild(botaoMedscape());
-  box.appendChild(avisoTexto('Use também a bula brasileira (Anvisa) e uma base especializada de interações. A base openFDA é norte-americana e não cobre todos os medicamentos registrados no Brasil.'));
+  box.appendChild(avisoTexto('EMA e Anvisa: consultas externas complementares, não verificação automática neste módulo. A ferramenta não classifica gravidade, não recomenda condutas terapêuticas e pode deixar de identificar interações importantes.'));
+  box.appendChild(avisoTexto('Este produto utiliza dados públicos da U.S. National Library of Medicine (NLM), NIH/HHS. A NLM não é responsável pelo produto e não o endossa nem recomenda.'));
 }
 async function consultarInteracoesSemIA(){
   const box=document.getElementById('diResultado');
@@ -123,10 +134,10 @@ async function consultarInteracoesSemIA(){
   const ac=new AbortController();
   const timer=setTimeout(function(){ac.abort();},55000);
   btn.disabled=true;
-  btn.textContent='Consultando bulas…';
+  btn.textContent='Consultando FDA + RxNorm…';
   box.style.display='block';
   box.style.whiteSpace='normal';
-  box.replaceChildren(criar('div','Consultando a base pública de bulas da FDA…',
+  box.replaceChildren(criar('div','Consultando openFDA e NIH/RxNorm…',
     'color:#23435b;font-size:13px;font-weight:700;padding:8px 0'));
   try{
     const r=await fetch('/interacoes',{
@@ -145,7 +156,7 @@ async function consultarInteracoesSemIA(){
       e&&e.name==='AbortError'?'A consulta excedeu o tempo limite. Nenhuma interação foi descartada.':
         'Falha de comunicação com a base de bulas. Nenhuma interação foi descartada.');
   }finally{
-    clearTimeout(timer);btn.disabled=false;btn.textContent='Consultar bulas sem IA';
+    clearTimeout(timer);btn.disabled=false;btn.textContent='Consultar FDA + RxNorm';
   }
 }
 window.consultarInteracoesSemIA=consultarInteracoesSemIA;
