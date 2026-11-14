@@ -298,7 +298,8 @@
   function translateAttributes(el){
     if(!allowed(el))return;
     var values=attrs.get(el)||{};
-    ['placeholder','aria-label','title'].forEach(function(key){
+    ['placeholder','aria-label','title','value'].forEach(function(key){
+      if(key==='value' && !(el.tagName==='INPUT' && /^(button|submit|reset)$/i.test(el.type)))return;
       if(!el.hasAttribute(key))return;
       var current=el.getAttribute(key);
       var rec=sourceOrNew(values[key],current);
