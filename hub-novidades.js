@@ -1,6 +1,5 @@
-/* Sininho de novidades editoriais do Hub.
-   Publica SOMENTE novos conteúdos de data/hub-novidades.json;
-   mudanças técnicas, correções e notícias externas não entram aqui. */
+/* Sininho editorial: novos conteúdos do Hub e novos títulos verificados do índice público UpToDate.
+   Correções e notícias externas não são notificações de conteúdo novo. */
 (function () {
   'use strict';
 
@@ -121,20 +120,29 @@
     }
 
     items.forEach(function (item) {
-      var entry = element('button', 'hub-novidades-entry' + (wasUnread.indexOf(item.id) !== -1 ? ' unread' : ''));
+      var isUpToDate = item.source === 'uptodate';
+      var entry = element('button', 'hub-novidades-entry' + (wasUnread.indexOf(item.id) !== -1 ? ' unread' : '') + (isUpToDate ? ' is-uptodate' : ''));
       entry.type = 'button';
       entry.setAttribute('aria-label', item.title + '. Ir para ' + item.category);
-      var icon = element('span', 'hub-novidades-icon', typeof item.icon === 'string' ? item.icon.slice(0, 4) : '✦');
-      icon.setAttribute('aria-hidden', 'true');
+      var icon = isUpToDate ? null : element('span', 'hub-novidades-icon', typeof item.icon === 'string' ? item.icon.slice(0, 4) : '✦');
+      if (icon) icon.setAttribute('aria-hidden', 'true');
       var content = element('span', 'hub-novidades-content');
       var meta = element('span', 'hub-novidades-meta');
       meta.appendChild(element('span', '', item.category || 'Novo conteúdo'));
       meta.appendChild(element('span', '', formatDate(item.date)));
       content.appendChild(meta);
-      content.appendChild(element('span', 'hub-novidades-title', item.title));
+      var titleRow = element('span', 'hub-novidades-title-row');
+      if (isUpToDate) {
+        var sourceMark = element('span', 'hub-novidades-source-uptodate', 'U');
+        sourceMark.title = 'UpToDate';
+        sourceMark.setAttribute('aria-label', 'Fonte: UpToDate');
+        titleRow.appendChild(sourceMark);
+      }
+      titleRow.appendChild(element('span', 'hub-novidades-title', item.title));
+      content.appendChild(titleRow);
       content.appendChild(element('span', 'hub-novidades-description', item.description));
       content.appendChild(element('span', 'hub-novidades-action', 'Abrir conteúdo  →'));
-      entry.appendChild(icon);
+      if (icon) entry.appendChild(icon);
       entry.appendChild(content);
       entry.addEventListener('click', function () {
         closeNews();
@@ -209,7 +217,15 @@
       '.hub-novidades-footer{flex:0 0 auto;padding:11px 15px;text-align:center;border-top:1px solid #dce7eb;background:#fff;color:#587585;font-size:10.5px;line-height:1.5;}',
       '.hub-novidades-empty,.hub-novidades-error{padding:23px 18px;text-align:center;color:#68818d;font-size:12px;line-height:1.55;margin:0;}',
       '.hub-novidades-retry{display:block;margin:0 auto 18px;padding:7px 16px;border:1px solid #b5d6d9;border-radius:8px;background:#f2fafb;color:#168896;cursor:pointer;}',
-      '@media(max-width:520px){#notifPanel.hub-novidades-panel{top:calc(env(safe-area-inset-top, 0px) + 57px);right:8px;width:calc(100vw - 16px);max-height:76dvh;border-radius:14px;}.hub-novidades-heading h2{font-size:18px;}.hub-novidades-list{padding:10px;scrollbar-gutter:auto;}.hub-novidades-entry{padding:13px 12px;gap:10px;margin-bottom:10px;}.hub-novidades-icon{flex-basis:37px;width:37px;height:37px;}.hub-novidades-title{font-size:14px;}.hub-novidades-description{font-size:12px;}}'
+      '@media(max-width:520px){#notifPanel.hub-novidades-panel{top:calc(env(safe-area-inset-top, 0px) + 57px);right:8px;width:calc(100vw - 16px);max-height:76dvh;border-radius:14px;}.hub-novidades-heading h2{font-size:18px;}.hub-novidades-list{padding:10px;scrollbar-gutter:auto;}.hub-novidades-entry{padding:13px 12px;gap:10px;margin-bottom:10px;}.hub-novidades-icon{flex-basis:37px;width:37px;height:37px;}.hub-novidades-title{font-size:14px;}.hub-novidades-description{font-size:12px;}}',
+      '.hub-novidades-title-row{display:flex;align-items:flex-start;gap:10px;width:100%;min-width:0;}',
+      '.hub-novidades-title{min-width:0;flex:1;font-size:17px;line-height:1.45;font-weight:800;letter-spacing:0;overflow-wrap:break-word;text-align:left;}',
+      '.hub-novidades-description{font-size:14px;line-height:1.6;letter-spacing:0;text-align:left;}',
+      '.hub-novidades-meta{font-size:12px;line-height:1.4;}',
+      '.hub-novidades-action{font-size:12px;min-height:30px;}',
+      '.hub-novidades-source-uptodate{display:inline-flex;flex:0 0 33px;width:33px;height:33px;justify-content:center;align-items:center;border:1px solid #bbdfcd;border-radius:9px;background:#e9f6ee;color:#157544;font:800 21px/1 Manrope,Arial,sans-serif;}',
+      '.hub-novidades-entry.is-uptodate{border-left-color:#27965d;}',
+      '@media(max-width:520px){.hub-novidades-title{font-size:16px;line-height:1.43;}.hub-novidades-description{font-size:13.5px;line-height:1.55;}.hub-novidades-meta{font-size:11.5px;}.hub-novidades-entry{padding:15px 13px;}.hub-novidades-source-uptodate{flex-basis:30px;width:30px;height:30px;font-size:19px;}}'
     ].join('\n');
     document.head.appendChild(style);
   }
