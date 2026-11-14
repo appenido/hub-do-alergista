@@ -21,6 +21,15 @@
       "section": "imuno"
     },
     {
+      "id": "2026-11-13-imuno-c2a8a0c932d1",
+      "date": "2026-11-13",
+      "category": "Imunobiológicos",
+      "icon": "💉",
+      "title": "Nemolizumabe (Nemluvio) aos imunobiológicos com bula brasileira e evidências atuais",
+      "description": "Novo conteúdo disponibilizado na seção Imunobiológicos.",
+      "section": "imuno"
+    },
+    {
       "id": "2026-11-11-scorad-anatomico",
       "date": "2026-11-11",
       "category": "Scores",
@@ -66,6 +75,6 @@
       "section": "antihistaminicos"
     }
   ],
-  "checkedAt": "2026-11-13",
-  "lastScannedCommit": "98420f21af3b278f6e242b709bbd65e14663ae35"
+  "checkedAt": "2026-11-14",
+  "lastScannedCommit": "f7718839bd259a37b73905ea1f31bb0eae1baf80"
 }
