@@ -6,6 +6,7 @@ const LANGS=new Set(['en','es']);
 const MAX_ITEMS=24;
 const MAX_CHARS=8500;
 let catalogPromise;
+let catalogReadAt=0;
 const reply=(obj,status=200)=>new Response(JSON.stringify(obj),{
   status,headers:{
     'Content-Type':'application/json; charset=utf-8',
@@ -29,16 +30,33 @@ function safeTranslation(source,translated){
     !/<(?:script|style|iframe)\b/i.test(t) &&
     !hasIdentifier(t);
 }
+// Atualizar o catálogo sem depender de reiniciar o Worker.
 async function readCatalog(request,env){
-  if(!catalogPromise){
+  if(!catalogPromise||Date.now()-catalogReadAt>3600000){
+    catalogReadAt=Date.now();
     catalogPromise=(async()=>{
       if(!env.ASSETS)throw Error('Public assets unavailable');
-      const u=new URL('/data/hub-i18n-catalog.json',request.url);
-      const r=await env.ASSETS.fetch(new Request(u.toString(),{method:'GET'}));
-      if(!r.ok)throw Error('Catalog unavailable');
-      const j=await r.json();
+      async function asset(path){
+        const u=new URL(path,request.url);
+        const r=await env.ASSETS.fetch(new Request(u.toString(),{method:'GET'}));
+        if(!r.ok)throw Error('Public asset unavailable: '+path);
+        return r.json();
+      }
+      const j=await asset('/data/hub-i18n-catalog.json');
       if(!j||!Array.isArray(j.strings))throw Error('Catalog invalid');
-      return new Set(j.strings);
+      const allowed=new Set(j.strings);
+      // Atualizações editoriais diárias também entram no catálogo permitido.
+      function insertLeaves(value){
+        if(typeof value==='string'){
+          const normalized=value.replace(/\s+/g,' ').trim();
+          if(normalized.length>=3&&normalized.length<=1600)allowed.add(normalized);
+        }else if(Array.isArray(value)){value.forEach(insertLeaves);}
+        else if(value&&typeof value==='object'){Object.values(value).forEach(insertLeaves);}
+      }
+      for(const path of ['/data/uptodate.json','/data/hub-novidades.json']){
+        try{insertLeaves(await asset(path));}catch(_){}
+      }
+      return allowed;
     })().catch(e=>{catalogPromise=null;throw e;});
   }
   return catalogPromise;
@@ -118,7 +136,8 @@ export async function onRequestOptions({request}){
     'Access-Control-Max-Age':'300'
   }});
 }
-export async function onRequestPost({request,env,waitUntil}){
+export async function onRequestPost(context){
+  const {request,env}=context;
   const origin=request.headers.get('Origin');
   if(origin&&origin!==ORIGEM)return reply({error:'Origem não autorizada'},403);
   const referer=request.headers.get('Referer');
@@ -149,7 +168,7 @@ export async function onRequestPost({request,env,waitUntil}){
       const i=missing[n],translated=returned[n];
       if(safeTranslation(texts[i],translated)){
         translations[i]=translated.trim();
-        await toCache(request,language,texts[i],translations[i],{waitUntil});
+        await toCache(request,language,texts[i],translations[i],context);
       }
     }
   }
