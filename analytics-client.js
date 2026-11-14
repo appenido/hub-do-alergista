@@ -63,10 +63,68 @@ function cliques(ev){
   const now=Date.now();if(now-lastClick<160)return;lastClick=now;
   enviar('click',pagina(),acao(el),0,false);
 }
+
+/* Observabilidade técnica opt-in: somente números e categorias, nunca mensagens ou URLs. */
+let healthStarted=false,healthFlushed=false,healthLcp=0,healthCls=0,healthLatency=0,healthErrors=0;
+function sendHealth(metric,value,beacon){
+  if(!enabled||!Number.isFinite(value)||value<0)return;
+  const payload=JSON.stringify({session_key:session,metric,feature:pagina(),
+    value:Math.min(300000,Math.round(value*1000)/1000)});
+  if(beacon&&navigator.sendBeacon){
+    navigator.sendBeacon('/health-analytics',new Blob([payload],{type:'application/json'}));
+  }else{
+    fetch('/health-analytics',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:payload,credentials:'same-origin',keepalive:true}).catch(()=>{});
+  }
+}
+function flushHealth(){
+  if(!enabled||!healthStarted||healthFlushed)return;
+  healthFlushed=true;
+  if(healthLcp>0)sendHealth('lcp_ms',healthLcp,true);
+  sendHealth('cls_score',healthCls,true);
+  if(healthLatency>0)sendHealth('interaction_latency_ms',healthLatency,true);
+}
+function startHealth(){
+  if(healthStarted||!window.performance)return;
+  healthStarted=true;
+  try{
+    const nav=performance.getEntriesByType('navigation')[0];
+    if(nav){
+      if(nav.responseStart>0)sendHealth('ttfb_ms',Math.max(0,nav.responseStart-nav.requestStart),false);
+      if(nav.domContentLoadedEventEnd>0)sendHealth('dom_ready_ms',nav.domContentLoadedEventEnd,false);
+    }
+  }catch(_){}
+  if(typeof PerformanceObserver==='function'){
+    for(const [name,record] of [
+      ['largest-contentful-paint',e=>{healthLcp=Math.max(healthLcp,e.startTime||0);}],
+      ['layout-shift',e=>{if(!e.hadRecentInput)healthCls+=e.value||0;}],
+      ['event',e=>{if(e.interactionId&&e.duration>healthLatency)healthLatency=e.duration;}]
+    ]){
+      try{
+        if(PerformanceObserver.supportedEntryTypes?.includes(name)){
+          const observer=new PerformanceObserver(list=>{for(const entry of list.getEntries())record(entry);});
+          observer.observe({type:name,buffered:true,durationThreshold:40});
+        }
+      }catch(_){}
+    }
+  }
+  window.addEventListener('error',ev=>{
+    // Não registrar erro, arquivo, stack trace, conteúdo clínico ou URL.
+    if(enabled&&healthErrors++<20)sendHealth('js_error',1,false);
+  },{capture:true,passive:true});
+  window.addEventListener('unhandledrejection',()=>{
+    if(enabled&&healthErrors++<20)sendHealth('js_error',1,false);
+  },{passive:true});
+  window.addEventListener('offline',()=>{if(enabled)sendHealth('offline',1,false);},{passive:true});
+  D.addEventListener('visibilitychange',()=>{if(D.hidden)flushHealth();});
+  window.addEventListener('pagehide',flushHealth,{passive:true});
+}
+
 function iniciar(){
   if(enabled)return;enabled=true;
   prev=pagina();enteredAt=Date.now();
   enviar('session_start',prev,'-',0,false);
+  startHealth();
   enviar('page_view',prev,'-',0,false);
   D.addEventListener('click',cliques,{capture:true,passive:true});
   D.querySelectorAll('.page').forEach(pg=>{
@@ -84,7 +142,7 @@ function aviso(){
   el.setAttribute('role','dialog');el.setAttribute('aria-label','Medição anônima de uso');
   el.setAttribute('data-analytics-ignore','');
   el.style.cssText='position:fixed;bottom:14px;left:14px;right:14px;margin:auto;max-width:650px;background:#fff;color:#24364f;border:1px solid #d6dfe8;border-radius:17px;padding:16px;z-index:2147482000;box-shadow:0 8px 34px #10243a33;font:14px/1.5 system-ui,sans-serif';
-  el.innerHTML='<div style="margin-bottom:11px">O Hub gostaria de medir, sem identificação pessoal, quais seções e botões são mais utilizados. Após sua autorização, estimamos país, estado, cidade e posição aproximada pela infraestrutura de rede, sem armazenar IP ou utilizar GPS. Não coletamos dados clínicos ou buscas digitadas. Você pode recusar sem prejudicar seu acesso. <a href="/privacidade.html" style="color:#174d87">Privacidade</a>.</div><div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap"><button type="button" id="hubAnRecusar" style="border:1px solid #aabacc;border-radius:9px;background:#fff;color:#254267;padding:9px 15px;font:inherit;cursor:pointer">Recusar</button><button type="button" id="hubAnAceitar" style="border:1px solid #184c83;border-radius:9px;background:#184c83;color:#fff;padding:9px 15px;font:inherit;cursor:pointer">Autorizar métricas</button></div>';
+  el.innerHTML='<div style="margin-bottom:11px">O Hub gostaria de medir, sem identificação pessoal, quais seções e botões são mais utilizados. Após sua autorização, estimamos país, estado, cidade e posição aproximada pela infraestrutura de rede, sem armazenar IP ou utilizar GPS. Medimos também desempenho técnico e quantidade de erros, sem armazenar seus detalhes. Não coletamos dados clínicos ou buscas digitadas. Você pode recusar sem prejudicar seu acesso. <a href="/privacidade.html" style="color:#174d87">Privacidade</a>.</div><div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap"><button type="button" id="hubAnRecusar" style="border:1px solid #aabacc;border-radius:9px;background:#fff;color:#254267;padding:9px 15px;font:inherit;cursor:pointer">Recusar</button><button type="button" id="hubAnAceitar" style="border:1px solid #184c83;border-radius:9px;background:#184c83;color:#fff;padding:9px 15px;font:inherit;cursor:pointer">Autorizar métricas</button></div>';
   D.body.appendChild(el);
   el.querySelector('#hubAnRecusar').onclick=()=>{salvar('nao');el.remove();};
   el.querySelector('#hubAnAceitar').onclick=()=>{salvar('sim');el.remove();iniciar();};
