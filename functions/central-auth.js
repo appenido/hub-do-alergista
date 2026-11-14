@@ -4,6 +4,9 @@
 const SUPABASE='https://jpdtqtenlivxgjkyizcg.supabase.co';
 const FALLBACK_KEY='sb_publishable_CzAI8BUm2Po7CfobLlxv8A_NtuTil8j';
 const COOKIE='__Host-hub_admin_rt';
+// Marcador não identificável: exclui as métricas deste navegador por 365 dias.
+const EXCLUSION_COOKIE='__Host-hub_admin_notrack';
+const EXCLUSION_MAX_AGE=365*24*60*60;
 const COOKIE_MAX_AGE=30*24*60*60;
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const RESPONSE_HEADERS={
@@ -15,13 +18,19 @@ const RESPONSE_HEADERS={
  'Referrer-Policy':'no-referrer',
  'Vary':'Cookie'
 };
-function result(status,body,refresh){
+function result(status,body,refresh,excludeOwner=false){
  const headers=new Headers(RESPONSE_HEADERS);
  if(refresh!==undefined){
   const parts=[COOKIE+'='+(refresh?encodeURIComponent(refresh):''),
    'Path=/','HttpOnly','Secure','SameSite=Strict','Priority=High',
    'Max-Age='+(refresh?COOKIE_MAX_AGE:0)];
-  headers.set('Set-Cookie',parts.join('; '));
+  headers.append('Set-Cookie',parts.join('; '));
+ }
+ if(excludeOwner){
+  headers.append('Set-Cookie',[
+   EXCLUSION_COOKIE+'=1','Path=/','HttpOnly','Secure','SameSite=Strict',
+   'Priority=High','Max-Age='+EXCLUSION_MAX_AGE
+  ].join('; '));
  }
  return new Response(JSON.stringify(body),{status,headers});
 }
@@ -92,7 +101,7 @@ export async function onRequestPost({request,env}){
     return result(401,{erro:'Credenciais inválidas ou acesso não autorizado.'});
    if(!await verifyAdmin(body.access_token,key))
     return result(403,{erro:'Credenciais inválidas ou acesso não autorizado.'},'');
-   return result(200,safeToken(body),body.refresh_token);
+   return result(200,safeToken(body),body.refresh_token,true);
   }catch(_){return result(503,{erro:'Autenticação temporariamente indisponível.'});}
  }
  if(action==='resume'){
@@ -106,7 +115,7 @@ export async function onRequestPost({request,env}){
     return result(401,{erro:'Sessão expirada. Entre novamente.'},'');
    if(!await verifyAdmin(body.access_token,key))
     return result(403,{erro:'Acesso não autorizado.'},'');
-   return result(200,safeToken(body),body.refresh_token);
+   return result(200,safeToken(body),body.refresh_token,true);
   }catch(_){return result(503,{erro:'Não foi possível revalidar a sessão.'});}
  }
  if(action==='logout'){
