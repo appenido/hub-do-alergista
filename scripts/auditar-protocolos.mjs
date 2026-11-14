@@ -27,6 +27,9 @@ for(const [pid,steps] of Object.entries(meds)){
     issues.push({key,priority:'P1',protocol:pid,step,topic,drug,dose,description:'Posologia não resolutiva. Substituir por critérios explícitos, tabela de peso/idade ou justificativa objetiva de dose variável.',reference:reference?.[1]||null});
    }
    if(!dose||!drug||!comment)issues.push({key:key+':incompleto',priority:'P0',protocol:pid,step,topic,drug,dose,description:'Medicamento sem descrição, dose ou nome.'});
+   if(!reference||!Array.isArray(reference)||reference.length!==2||!/^https:\/\//.test(reference[1])){
+     issues.push({key:key+':sem-fonte',priority:'P1',protocol:pid,step,topic,drug,dose,description:'Medicamento sem fonte verificável diretamente vinculada à posologia.'});
+   }
   }
  }
 }
