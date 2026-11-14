@@ -96,7 +96,7 @@ function instalarEstilos(){
     '#utdHighlights .utd-item a{font-size:12.5px!important;line-height:1.45!important;}',
     '#utdHighlights .utd-more{font-size:13px!important;padding:8px!important;}',
     '@media(max-width:720px){#utdHighlights.utd-highlights{grid-template-columns:minmax(0,1fr)!important;grid-auto-flow:row!important;grid-auto-columns:auto!important;overflow-x:visible!important;scroll-snap-type:none!important;}#utdHighlights .utd-item{scroll-snap-align:none!important;padding:14px!important;}#utdHighlights .utd-title-row h3{font-size:16px!important;}#utdHighlights .utd-item p{font-size:13.5px!important;}}'
-  ].join('\\n');
+  ].join(' ');
   document.head.appendChild(style);
 }
 function iniciar(){
