@@ -19,7 +19,7 @@ function montarConsulta(medicamentos,resposta){
   const botao={disabled:false,textContent:'Analisar'};
   const doc={
     getElementById(id){return id==='diResultado'?resultado:id==='diVerificarBtn'?botao:null;},
-    createElement(tag){return {tag,style:{},textContent:'',addEventListener(){}};}
+    createElement(tag){return {tag,style:{},textContent:'',children:[],appendChild(el){this.children.push(el);},addEventListener(){}};}
   };
   const mockFetch=async()=>{chamadas++;return resposta;};
   const executar=new Function(
