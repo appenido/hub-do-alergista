@@ -10,6 +10,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/publicar-novidades.yml'
+      - 'scripts/atualizar_uptodate.py'
 
 permissions:
   contents: write
@@ -55,7 +56,14 @@ jobs:
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add data/hub-novidades.json data/uptodate.json
             git commit -m "chore(novidades): auditoria diária Hub e UpToDate"
-            git push origin HEAD:main
+            for tentativa in 1 2 3; do
+              if git push origin HEAD:main; then exit 0; fi
+              echo "Tentativa de publicação $tentativa falhou; sincronizando alterações paralelas."
+              git pull --rebase origin main
+              sleep 3
+            done
+            echo "::error::Não foi possível publicar a conferência após 3 tentativas"
+            exit 1
           else
             echo "Feed já atualizado; não há alterações a publicar."
           fi
