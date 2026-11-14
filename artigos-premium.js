@@ -22,13 +22,14 @@
     var s=document.createElement('style');s.id='hub-artigos-style';
     s.textContent=[
       '#page-artigos > .filter-chips,#page-artigos #artigos-list{display:none!important}',
-      '#artigosBuscaForm{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin:7px 0 9px}',
-      '#artigosBuscaTermo{min-width:0;width:100%;box-sizing:border-box;padding:11px 13px;border-radius:11px;border:1px solid #ccdbe2;background:#fff;color:var(--navy);font:500 13px Manrope,sans-serif;outline-offset:2px}',
-      '#artigosBuscaBotao{padding:10px 17px;border:0;border-radius:11px;background:var(--teal-mid);color:#fff;font:700 12px Manrope,sans-serif;cursor:pointer}',
-      '.hub-artigos-aux{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:0 0 12px}',
-      '.hub-artigos-aux label{display:flex;align-items:center;gap:7px;font:600 11.5px Manrope,sans-serif;color:var(--gray-500)}',
-      '#artigosPeriodo{border:1px solid #ccdbe2;background:#fff;border-radius:9px;padding:6px 9px;font:600 11.5px Manrope,sans-serif;color:var(--navy)}',
-      '#artigosBuscaLimpar{border:0;background:none;color:var(--teal-mid);font:700 11.5px Manrope,sans-serif;cursor:pointer;padding:5px}',
+      '#artigosBuscaForm{display:grid;grid-template-columns:minmax(0,1fr) 84px;gap:6px;margin:5px 0 7px;width:100%;max-width:100%;align-items:stretch}',
+      '#artigosBuscaTermo{min-width:0;width:100%;box-sizing:border-box;height:38px;min-height:38px;padding:0 10px;border-radius:9px;border:1px solid #ccdbe2;background:#fff;color:var(--navy);font:500 12px Manrope,sans-serif!important;line-height:normal;outline-offset:2px;-webkit-text-size-adjust:100%}',
+      '#artigosBuscaTermo::placeholder{color:#798994;font-size:12px;text-overflow:ellipsis}',
+      '#artigosBuscaBotao{height:38px;min-height:38px;padding:0 9px;border:0;border-radius:9px;background:var(--teal-mid);color:#fff;font:700 11.5px Manrope,sans-serif!important;cursor:pointer}',
+      '.hub-artigos-aux{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:nowrap;margin:0 0 9px;min-width:0}',
+      '.hub-artigos-aux label{display:flex;align-items:center;gap:5px;min-width:0;white-space:nowrap;font:600 11px Manrope,sans-serif;color:var(--gray-500)}',
+      '#artigosPeriodo{width:112px;max-width:33vw;min-width:0;height:32px;min-height:32px;box-sizing:border-box;border:1px solid #ccdbe2;background:#fff;border-radius:8px;padding:0 6px;font:600 11px Manrope,sans-serif!important;color:var(--navy);line-height:normal;-webkit-text-size-adjust:100%}',
+      '#artigosBuscaLimpar{border:0;background:none;color:var(--teal-mid);font:700 10.5px Manrope,sans-serif!important;cursor:pointer;padding:5px 2px;white-space:nowrap;flex:none}',
       '#artigosStatus{font:500 11px Manrope,sans-serif;color:var(--gray-500);line-height:1.5;min-height:18px;margin:3px 0 10px}',
       '#feedChips button[aria-pressed=true]{background:var(--teal-mid)!important;color:#fff!important;border-color:var(--teal-mid)!important}',
       '#feedChips button{scroll-snap-align:start}',
@@ -36,7 +37,7 @@
       '#feedResults .art-title{font-size:13px;line-height:1.48}',
       '#feedResults .art-title-pt{font-size:13px;line-height:1.48}',
       '#feedResults .art-links{display:flex;gap:7px;flex-wrap:wrap}',
-      '@media(max-width:420px){#artigosBuscaForm{grid-template-columns:minmax(0,1fr) auto}#artigosBuscaBotao{padding:9px 11px}}'
+      '@media(max-width:360px){#artigosBuscaForm{grid-template-columns:minmax(0,1fr) 76px}#artigosPeriodo{width:98px}#artigosBuscaBotao{padding:0 7px}.hub-artigos-aux label{font-size:10.5px}}'
     ].join('\n');document.head.appendChild(s);
   }
   function renderChips(){
@@ -52,8 +53,8 @@
     var chips=document.getElementById('feedChips');if(!chips)return;
     if(!document.getElementById('artigosBuscaForm')){
       var block=document.createElement('div');
-      block.innerHTML='<form id="artigosBuscaForm" role="search"><input id="artigosBuscaTermo" type="search" maxlength="120" autocomplete="off" placeholder="Pesquisar doença, medicamento ou palavra-chave" aria-label="Pesquisar artigos científicos"><button id="artigosBuscaBotao" type="submit">Pesquisar</button></form>'+
-        '<div class="hub-artigos-aux"><label for="artigosPeriodo">Publicações de <select id="artigosPeriodo"><option value="30">30 dias</option><option value="90">90 dias</option><option value="365" selected>12 meses</option><option value="1095">3 anos</option><option value="0">Qualquer data</option></select></label><button id="artigosBuscaLimpar" type="button">Limpar pesquisa</button></div>';
+      block.innerHTML='<form id="artigosBuscaForm" role="search"><input id="artigosBuscaTermo" type="search" maxlength="120" autocomplete="off" placeholder="Doença ou medicamento..." aria-label="Pesquisar artigos científicos"><button id="artigosBuscaBotao" type="submit">Buscar</button></form>'+
+        '<div class="hub-artigos-aux"><label for="artigosPeriodo">Período: <select id="artigosPeriodo"><option value="30">30 dias</option><option value="90">90 dias</option><option value="365" selected>12 meses</option><option value="1095">3 anos</option><option value="0">Qualquer data</option></select></label><button id="artigosBuscaLimpar" type="button">Limpar pesquisa</button></div>';
       chips.parentNode.insertBefore(block,chips);
       var status=document.createElement('div');status.id='artigosStatus';status.setAttribute('role','status');
       chips.parentNode.insertBefore(status,document.getElementById('feedResults'));
