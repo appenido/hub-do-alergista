@@ -49,7 +49,14 @@ test('posologia e referências continuam no fluxo e todas as expansões apontam 
   for(const [id,steps] of Object.entries(meds)){
     for(const [step,items] of Object.entries(steps)){
       assert.ok(protocols[id]&&Number(step)>=1&&Number(step)<=protocols[id].steps.length);
-      for(const item of items)assert.equal(item.length,3,'Medicamento sem nome, dose e observação');
+      for(const item of items){
+        assert.ok(item.length===3||item.length===4,'Medicamento precisa de nome, dose, observação e fonte opcional');
+        assert.ok(item.slice(0,3).every(x=>typeof x==='string'&&x.trim().length>0));
+        if(item[3]){
+          assert.ok(Array.isArray(item[3])&&item[3].length===2);
+          assert.match(item[3][1],/^https:\/\//);
+        }
+      }
     }
   }
   for(const [id,nodes] of Object.entries(flowMeds)){
