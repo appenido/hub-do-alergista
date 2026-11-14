@@ -173,6 +173,8 @@ def main():
         for x in prior.get("items", [])
     }
     extracted, source_date = download()
+    if source_date and prior.get("sourceUpdatedAt") and source_date < prior["sourceUpdatedAt"]:
+        raise RuntimeError("A fonte disponível é mais antiga que o índice já publicado; dados preservados.")
     checked_at = dt.datetime.now(dt.timezone.utc).date().isoformat()
     # Títulos antigos descobertos após melhora do extrator não são novos lançamentos.
     old_checked_at = prior.get("checkedAt") or prior.get("sourceUpdatedAt") or "1970-01-01"
