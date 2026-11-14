@@ -163,6 +163,9 @@
   async function openPrice(button) {
     const card = panelFor(button);
     if (!card) return;
+    // Produtos da aba Medicamentos usam <details>; a área de preços é
+    // expandida no próprio cartão, mesmo quando o cifrão fica no <summary>.
+    if (card.matches('details')) card.open = true;
     const name = button.dataset.hubPrice;
     const existing = card.querySelector(':scope > .hub-precos-panel');
     if (existing && !existing.hidden && active === existing) {
