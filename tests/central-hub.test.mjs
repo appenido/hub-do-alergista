@@ -26,7 +26,9 @@ test('não há token administrativo, senha, service role ou chave secreta no fro
   assert.match(adminJs,/hub_analytics_report/);
   assert.match(adminJs,/\/central-auth/);
   assert.match(adminJs,/credentials:'same-origin'/);
-  assert.doesNotMatch(adminJs,/service_role|sb_secret_|localStorage|sessionStorage/);
+  assert.doesNotMatch(adminJs,/service_role|sb_secret_|localStorage/);
+  assert.match(adminJs,/sessionStorage\.removeItem\('hub_secure_auth'\)/);
+  assert.doesNotMatch(adminJs,/sessionStorage\.(?:getItem|setItem)/);
   assert.doesNotMatch(adminJs,/refresh_token/);
   assert.match(load('functions/central-auth.js'),/HttpOnly/);
   assert.match(load('functions/central-auth.js'),/SameSite=Strict/);
