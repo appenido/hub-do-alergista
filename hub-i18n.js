@@ -284,6 +284,20 @@
       .then(function(obj){
         catalog=new Set((obj.strings||[]).map(normalizeText));
         if(language!=='pt-BR')applyLanguage();
+        // Notícias e novidades mudam diariamente: sincronizar o texto público atual.
+        function insertPublic(value){
+          if(typeof value==='string'){
+            var phrase=normalizeText(value);
+            if(phrase.length>=3&&phrase.length<=1600)catalog.add(phrase);
+          }else if(Array.isArray(value))value.forEach(insertPublic);
+          else if(value&&typeof value==='object')Object.keys(value).forEach(function(k){insertPublic(value[k]);});
+        }
+        Promise.all(['/data/uptodate.json','/data/hub-novidades.json'].map(function(path){
+          return fetch(path,{cache:'no-store',credentials:'same-origin'})
+            .then(function(r){return r.ok?r.json():null;})
+            .then(insertPublic)
+            .catch(function(){});
+        })).then(function(){if(language!=='pt-BR')applyLanguage();});
       })
       .catch(function(){catalog=new Set();});
   }
