@@ -40,7 +40,8 @@ test('Central mantém apenas token curto em memória, com login automático por 
  assert.match(browser,/autenticacao\('login'/);
  assert.match(browser,/autenticacao\('logout'\)/);
  assert.match(browser,/credentials:'same-origin'/);
- assert.doesNotMatch(browser,/sessionStorage|localStorage|document\.cookie|refresh_token|grant_type=password/);
+ assert.match(browser,/sessionStorage\.removeItem\('hub_secure_auth'\)/);
+ assert.doesNotMatch(browser,/sessionStorage\.(?:getItem|setItem)|localStorage|document\.cookie|refresh_token|grant_type=password/);
  assert.match(markup,/Acesso exclusivo/);
 });
 test('acesso correto em navegador novo cria cookie HttpOnly, Secure e SameSite Strict',async()=>{
