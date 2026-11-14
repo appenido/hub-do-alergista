@@ -284,7 +284,7 @@
     var el=node.nodeType===1?node:node.parentElement;
     if(!el)return false;
     // Não traduzir campos digitados, respostas privadas ou telas ainda invisíveis.
-    return !el.closest('script,style,noscript,textarea,pre,code,input,select,option,[data-hub-i18n-skip],[contenteditable="true"],.page:not(.active)');
+    return !el.closest('script,style,noscript,textarea,pre,code,[data-hub-i18n-skip],[contenteditable="true"],.page:not(.active)');
   }
   function translateText(node){
     if(!allowed(node))return;
