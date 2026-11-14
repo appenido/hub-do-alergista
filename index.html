@@ -9793,6 +9793,21 @@ function _feedEscape(str){
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+/* Extrai do catálogo oficial a mudança concreta, sem repetir texto genérico. */
+function _mudancaObjetivaAnvisa(it){
+  var texto = String((it && (it.alteracao || it.resumo)) || '')
+    .replace(/^Registro de medicamento ou nova indicação aprovada pela ANVISA\.\s*/i, '')
+    .replace(/\s+/g, ' ').trim();
+  if(!texto) return 'O resumo oficial não detalha a alteração. Consulte a publicação.';
+  var fimFrase = texto.indexOf('. ');
+  if(fimFrase >= 75 && fimFrase <= 330) return texto.slice(0, fimFrase + 1);
+  if(texto.length > 330){
+    var limite = texto.lastIndexOf(' ', 330);
+    return texto.slice(0, limite > 180 ? limite : 330).replace(/[,:;\s]+$/, '') + '…';
+  }
+  return texto;
+}
+
 /* ══ RADAR REGULATÓRIO — Supabase Edge Function ══ */
 var _radarLoaded = false;
 var RADAR_URL = 'https://jpdtqtenlivxgjkyizcg.supabase.co/functions/v1/radar-alergia';
@@ -9928,7 +9943,9 @@ function carregarRadar(forcar){
         '</div>' +
         '<div style="font-size:12.5px;font-weight:700;color:var(--navy);line-height:1.4;margin-bottom:3px">' +
           _feedEscape(it.titulo||'')+'</div>' +
-        (it.resumo?'<div style="font-size:11px;color:var(--gray-500);line-height:1.4;margin-bottom:5px">'+_feedEscape(it.resumo.slice(0,250))+'</div>':'') +
+        (it.fonte==='ANVISA'
+          ? '<div style="font-size:11px;color:var(--gray-500);line-height:1.5;margin-bottom:6px"><span style="font-weight:800;color:var(--teal-mid)">O que mudou:</span> '+_feedEscape(_mudancaObjetivaAnvisa(it))+'</div>'
+          : (it.resumo?'<div style="font-size:11px;color:var(--gray-500);line-height:1.4;margin-bottom:5px">'+_feedEscape(it.resumo.slice(0,250))+'</div>':'')) +
         (linkSeguro?'<a href="'+linkSeguro+'" target="_blank" rel="noopener noreferrer" style="font-size:11px;font-weight:700;color:var(--teal-mid)">Abrir fonte oficial →</a>':'') +
         '</div>';
       html += _bloco;
