@@ -18,6 +18,8 @@ function gravarAuth(result){
 function limpar(){
   sessionStorage.removeItem(AUTH);
   admin=false;report=null;mapSessions=[];mapFiltered=[];mapGroups=[];
+  delete window.hubCentralRequest;
+  window.dispatchEvent(new CustomEvent('hub:central-logout'));
   if(geoMap){geoMap.remove();geoMap=null;mapLayer=null;}
   el('dashboard').hidden=true;el('authPanel').hidden=false;el('logout').hidden=true;
 }
@@ -58,6 +60,8 @@ async function verificar(){
   const roles=await supa('/rest/v1/hub_admin_roles?select=user_id&user_id=eq.'+encodeURIComponent(user.id)+'&limit=1');
   if(!Array.isArray(roles)||roles.length!==1)throw new Error('Esta conta não possui autorização para consultar a central.');
   admin=true;
+  // Interface adicional usa a mesma sessao e a mesma verificacao RLS.
+  window.hubCentralRequest=supa;
   el('authPanel').hidden=true;el('dashboard').hidden=false;el('logout').hidden=false;
   await carregar();
 }
@@ -378,6 +382,7 @@ async function carregar(){
   try{
     report=await supa('/rest/v1/rpc/hub_analytics_report','POST',{p_days:days});
     apresentar();
+    window.dispatchEvent(new CustomEvent('hub:central-report',{detail:{days,report}}));
     await carregarMapa();
     texto('status','Relatório carregado · coleta sujeita à autorização dos visitantes');
     texto('updated','Atualizado: '+dataFormat(report.generated_at));
