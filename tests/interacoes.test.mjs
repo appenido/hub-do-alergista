@@ -72,7 +72,7 @@ test('consulta diretamente a API de bulas e produz menção textual, não confir
   assert.equal(r.data.bulas[0].principioAtivo,'dupilumab');
   assert.equal(r.data.bulas[1].principioAtivo,'methotrexate');
   assert.equal(r.data.pares[0].mencoes.length,1);
-  assert.match(r.data.aviso,/nao calcula a interacao farmacologica/i);
+  assert.match(r.data.aviso,/nao calcula nem classifica interacoes farmacologicas/i);
   assert.ok(r.calls.some(x=>x.startsWith('https://api.fda.gov/drug/label.json')));
   assert.ok(r.calls.some(x=>x.startsWith('https://rxnav.nlm.nih.gov/REST/rxcui.json')));
   assert.equal(r.data.bulas[0].rxnorm.rxcui,'12345');
