@@ -25,9 +25,12 @@ test('todos os protocolos devem ter critérios visíveis para todas as etapas',(
     for(let i=0;i<protocol.steps.length;i++){
       const details=criteria[id][i];
       assert.ok(Array.isArray(details)&&details.length>0,'Etapa sem explicação '+id+'/'+(i+1));
-      for(const explanation of details){
+      assert.ok(typeof details[0]==='string'&&details[0].trim().length>=8,
+        'Título do critério ausente '+id+'/'+(i+1));
+      assert.ok(details.length>=2,'Etapa sem conduta explicada '+id+'/'+(i+1));
+      for(const explanation of details.slice(1)){
         assert.ok(typeof explanation==='string'&&explanation.trim().length>40,
-          'Critério não resolutivo '+id+'/'+(i+1));
+          'Explicação clínica insuficiente '+id+'/'+(i+1));
       }
     }
     assert.match(references[id][1],/^https:\/\/\S+$/,'Referência inválida '+id);
