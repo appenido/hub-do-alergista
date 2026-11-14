@@ -178,6 +178,94 @@
   var observer;
   var scheduled=false;
   var pending=new Set();
+  // A seleção de idioma vale para todas as páginas, não somente para a Home.
+  var catalog=null;
+  var translationsCache=Object.create(null);
+  var workQueue=new Set();
+  var inflight=new Set();
+  var failed=new Set();
+  var queueTimer=null;
+  var processing=false;
+  var storageKey='hub_i18n_translations_v2';
+  try{
+    var stored=JSON.parse(localStorage.getItem(storageKey)||'{}');
+    if(stored&&typeof stored==='object'&&!Array.isArray(stored))translationsCache=stored;
+  }catch(_){}
+  function normalizeText(s){return String(s||'').replace(/\s+/g,' ').trim();}
+  function cacheKey(locale,source){return locale+'\u0000'+source;}
+  function saveCache(){
+    try{
+      var keys=Object.keys(translationsCache);
+      if(keys.length>1000){
+        keys.slice(0,keys.length-950).forEach(function(k){delete translationsCache[k];});
+      }
+      localStorage.setItem(storageKey,JSON.stringify(translationsCache));
+    }catch(_){}
+  }
+  function scheduleRemote(source){
+    if(!catalog||!catalog.has(source)||language==='pt-BR')return;
+    if(source.length<3||source.length>1600)return;
+    var key=cacheKey(language,source);
+    if(translationsCache[key]||failed.has(key)||inflight.has(key))return;
+    workQueue.add(key);
+    if(!processing&&!queueTimer){
+      queueTimer=setTimeout(function(){queueTimer=null;processQueue();},160);
+    }
+  }
+  async function processQueue(){
+    if(processing||!workQueue.size)return;
+    processing=true;
+    try{
+      while(workQueue.size){
+        var first=workQueue.values().next().value;
+        var locale=first.split('\u0000')[0];
+        var batch=[],total=0;
+        for(var k of workQueue){
+          var parts=k.split('\u0000');
+          if(parts[0]!==locale)continue;
+          var source=parts.slice(1).join('\u0000');
+          if(batch.length>=18||total+source.length>6800)break;
+          batch.push(source);total+=source.length;
+          workQueue.delete(k);inflight.add(k);
+        }
+        if(!batch.length){workQueue.delete(first);continue;}
+        var ok=false;
+        try{
+          var response=await fetch('/api/traduzir',{
+            method:'POST',credentials:'same-origin',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({language:locale,texts:batch})
+          });
+          if(!response.ok)throw new Error('translation service unavailable');
+          var payload=await response.json();
+          var results=payload&&payload.translations;
+          if(!Array.isArray(results)||results.length!==batch.length)throw new Error('invalid translation response');
+          batch.forEach(function(src,i){
+            var key=cacheKey(locale,src);
+            var translated=results[i];
+            if(typeof translated==='string'&&translated.trim()){
+              translationsCache[key]=translated.trim();
+            }else failed.add(key);
+          });
+          ok=true;saveCache();
+        }catch(_){
+          batch.forEach(function(src){failed.add(cacheKey(locale,src));});
+        }finally{
+          batch.forEach(function(src){inflight.delete(cacheKey(locale,src));});
+        }
+        if(ok&&language===locale)applyLanguage();
+      }
+    }finally{processing=false;}
+  }
+  function loadCatalog(){
+    fetch('/data/hub-i18n-catalog.json?v=20261114-1',{cache:'force-cache',credentials:'same-origin'})
+      .then(function(r){if(!r.ok)throw new Error('catalogue');return r.json();})
+      .then(function(obj){
+        catalog=new Set((obj.strings||[]).map(normalizeText));
+        if(language!=='pt-BR')applyLanguage();
+      })
+      .catch(function(){catalog=new Set();});
+  }
   function sourceOrNew(record,current){
     if(!record || record.rendered!==current)return {original:current,rendered:current};
     return record;
@@ -186,13 +274,17 @@
     if(language==='pt-BR')return value;
     var m=/^(\s*)([\s\S]*?)(\s*)$/.exec(value);
     if(!m)return value;
-    var t=translations[m[2]];
-    return t && t[language] ? m[1]+t[language]+m[3] : value;
+    var original=normalizeText(m[2]);
+    var t=translations[original];
+    var result=t&&t[language]||translationsCache[cacheKey(language,original)];
+    if(!result){scheduleRemote(original);return value;}
+    return m[1]+result+m[3];
   }
   function allowed(node){
     var el=node.nodeType===1?node:node.parentElement;
     if(!el)return false;
-    return !el.closest('script,style,noscript,textarea,pre,code,[data-hub-i18n-skip],[contenteditable="true"]');
+    // Não traduzir campos digitados, respostas privadas ou telas ainda invisíveis.
+    return !el.closest('script,style,noscript,textarea,pre,code,input,select,option,[data-hub-i18n-skip],[contenteditable="true"],.page:not(.active)');
   }
   function translateText(node){
     if(!allowed(node))return;
@@ -262,16 +354,16 @@
   function install(){
     if(document.getElementById('hubLanguageControl'))return;
     var bar=document.querySelector('.topbar');
-    if(!bar)return;
     var shell=document.createElement('div');
-    shell.className='hub-language-control';
+    shell.className=bar?'hub-language-control':'hub-language-control hub-language-floating';
     shell.id='hubLanguageControl';
     shell.setAttribute('title','Idioma da interface');
     shell.setAttribute('data-hub-i18n-skip','');
     shell.innerHTML='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-5 5-5 13 0 18M12 3c5 5 5 13 0 18"/></svg><span id="hubLangCode">PT</span><span class="hub-lang-arrow" aria-hidden="true">⌄</span>';
     shell.appendChild(makeSelect('hub-language-native'));
     var profileBtn=document.getElementById('btnPerfil');
-    bar.insertBefore(shell,profileBtn||null);
+    if(bar)bar.insertBefore(shell,profileBtn||null);
+    else document.body.insertBefore(shell,document.body.firstChild);
     var profile=document.getElementById('page-perfil');
     if(profile){
       var panel=document.createElement('section');
@@ -298,8 +390,9 @@
         work.forEach(translateSubtree);
       });
     });
-    observer.observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['placeholder','aria-label','title']});
+    observer.observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['placeholder','aria-label','title','class']});
     applyLanguage();
+    loadCatalog();
     window.addEventListener('storage',function(e){if(e.key===KEY && SUPPORTED.indexOf(e.newValue)>=0 && e.newValue!==language){language=e.newValue;applyLanguage();}});
   }
   window.HubI18n={getLanguage:function(){return language;},setLanguage:setLanguage};
