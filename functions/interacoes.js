@@ -203,18 +203,82 @@ inserir('hidroxizina',['claritromicina','azitromicina','fluoxetina'],
 
 function registro(a,b){
   const encontrada=REGRAS.get(chave(a,b));
+  if(!encontrada&&(principio(a)==='omalizumabe'||principio(b)==='omalizumabe')){
+    return {par:[a,b],situacao:'dados_insuficientes',nivel:'Dados insuficientes',
+      efeito:'A bula do Xolair informa que não foram realizados estudos formais de interações medicamentosas com omalizumabe. Na urticária crônica espontânea, o uso concomitante com imunossupressores não foi estudado.',
+      conduta:'Não interpretar ausência de estudos como segurança comprovada ou interação prejudicial. Avaliar individualmente a indicação, os riscos clínicos e o outro medicamento.',
+      fonte:{nome:'Bula Xolair — seção 7, revisão de agosto de 2026',url:'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=7f6a2191-adfb-48b9-9bfa-0d9920479f0d'}};
+  }
   return encontrada?
     {par:[a,b],situacao:'identificada',nivel:encontrada.nivel,
       efeito:encontrada.efeito,conduta:encontrada.conduta,fonte:encontrada.fonte}:
-    {par:[a,b],situacao:'nao_avaliada',nivel:'Não avaliada nesta base',
-      efeito:'Esta combinação não possui registro clínico revisado na base disponível.',
-      conduta:'Não conclua que a associação é segura. Consulte uma fonte farmacológica validada antes de prescrever.',
+    {par:[a,b],situacao:'nao_avaliada',nivel:'Dados insuficientes',
+      efeito:'Esta combinação não possui classificação clínica revisada na base disponível.',
+      conduta:'Não conclua que a associação é segura. Confira as bulas, o contexto do paciente e uma fonte de interações especializada antes de prescrever.',
       fonte:null};
+}
+
+// NIH/RxNorm identifica principios ativos; FDA/openFDA informa dados de bula.
+// Nenhum destes servicos oferece, isoladamente, uma base de pares clinicamente classificados.
+const NOMES_EXTERNOS={
+  omalizumabe:'omalizumab',dupilumabe:'dupilumab',mepolizumabe:'mepolizumab',
+  ciclosporina:'cyclosporine',metotrexato:'methotrexate',prednisona:'prednisone',
+  prednisolona:'prednisolone',claritromicina:'clarithromycin',azitromicina:'azithromycin',
+  hidroxizina:'hydroxyzine',sertralina:'sertraline',citalopram:'citalopram',
+  escitalopram:'escitalopram',alopurinol:'allopurinol',azatioprina:'azathioprine',
+  colchicina:'colchicine',sinvastatina:'simvastatin',atorvastatina:'atorvastatin',
+  fluconazol:'fluconazole',itraconazol:'itraconazole',ibuprofeno:'ibuprofen',
+  naproxeno:'naproxen',diclofenaco:'diclofenac',omeprazol:'omeprazole',
+  pantoprazol:'pantoprazole',digoxina:'digoxin',teofilina:'theophylline',
+  varfarina:'warfarin',amiodarona:'amiodarone',tacrolimo:'tacrolimus',
+  febuxostate:'febuxostat',carbamazepina:'carbamazepine',fenitoina:'phenytoin',
+  rifampicina:'rifampin',ciprofloxacino:'ciprofloxacin',amoxicilina:'amoxicillin',
+  levofloxacino:'levofloxacin',moxifloxacino:'moxifloxacin',
+  'sulfametoxazol/trimetoprima':'sulfamethoxazole'
+};
+async function buscarJson(url){
+  const ac=new AbortController(),t=setTimeout(()=>ac.abort(),4000);
+  try{
+    const res=await fetch(url,{signal:ac.signal,headers:{Accept:'application/json'}});
+    if(!res.ok)return {ok:false,data:null};
+    return {ok:true,data:await res.json()};
+  }catch(_){return {ok:false,data:null};}
+  finally{clearTimeout(t);}
+}
+async function documentoOficial(nome,env){
+  const ativo=NOMES_EXTERNOS[principio(nome)];
+  if(!ativo)return {medicamento:nome,rxnorm:'não identificado',fda:'não localizado'};
+  const urlRx=new URL('https://rxnav.nlm.nih.gov/REST/rxcui.json');
+  urlRx.searchParams.set('name',ativo);urlRx.searchParams.set('search','2');
+  const urlFda=new URL('https://api.fda.gov/drug/label.json');
+  urlFda.searchParams.set('search','openfda.generic_name:"'+ativo+'"');
+  urlFda.searchParams.set('limit','10');
+  if(env?.OPENFDA_API_KEY)urlFda.searchParams.set('api_key',env.OPENFDA_API_KEY);
+  const [rx,fda]=await Promise.all([buscarJson(urlRx),buscarJson(urlFda)]);
+  const ids=rx.data?.idGroup?.rxnormId||[];
+  const rxcui=Array.isArray(ids)&&/^\d+$/.test(String(ids[0]||''))?String(ids[0]):null;
+  const registros=Array.isArray(fda.data?.results)?fda.data.results:[];
+  const compativeis=registros.filter(reg=>
+    (reg.openfda?.generic_name||[]).some(n=>
+      normalizar(n).split(/[ ,;/]/)[0]===ativo)
+  ).sort((a,b)=>String(b.effective_time||'').localeCompare(String(a.effective_time||'')));
+  const escolhido=compativeis.find(x=>Array.isArray(x.drug_interactions))||compativeis[0];
+  const setId=String(escolhido?.set_id||escolhido?.openfda?.spl_set_id?.[0]||'');
+  return {
+    medicamento:nome,
+    rxnorm:rxcui?'identificado':(rx.ok?'não identificado':'indisponível'),
+    rxcui,
+    fda:escolhido?'localizado':(fda.ok?'não localizado':'indisponível'),
+    linkBula:/^[0-9a-f-]{36}$/i.test(setId)?
+      'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid='+setId:null,
+    secaoInteracoesDisponivel:!!escolhido?.drug_interactions?.length,
+    dataBula:String(escolhido?.effective_time||'')
+  };
 }
 export async function onRequestOptions(){
   return new Response(null,{status:204,headers:{...CABECALHOS,Allow:'POST, OPTIONS'}});
 }
-export async function onRequestPost({request}){
+export async function onRequestPost({request,env={}}){
   const origem=request.headers.get('Origin');
   if(origem&&origem!==new URL(request.url).origin)return responder({erro:'Origem não autorizada.'},403);
   if(Number(request.headers.get('Content-Length')||0)>4000)return responder({erro:'Requisição muito extensa.'},413);
@@ -235,13 +299,21 @@ export async function onRequestPost({request}){
   const pares=[];
   for(let i=0;i<nomes.length;i++)
     for(let j=i+1;j<nomes.length;j++)pares.push(registro(nomes[i],nomes[j]));
-  const prioridade={'Contraindicada':0,'Evitar associação':1,'Interação importante':2,'Requer monitorização':3,'Não avaliada nesta base':4};
-  pares.sort((a,b)=>prioridade[a.nivel]-prioridade[b.nivel]);
+  const prioridade={'Contraindicada':0,'Evitar associação':1,'Interação importante':2,'Requer monitorização':3,'Dados insuficientes':4};
+  pares.sort((a,b)=>(prioridade[a.nivel]??4)-(prioridade[b.nivel]??4));
+  const pendentes=pares.filter(p=>p.situacao!=='identificada');
+  const nomesPendentes=[...new Set(pendentes.flatMap(p=>p.par))].slice(0,6);
+  const consultas=await Promise.all(nomesPendentes.map(n=>documentoOficial(n,env)));
+  const indices=new Map(consultas.map(x=>[principio(x.medicamento),x]));
+  for(const par of pendentes){
+    par.documentos=par.par.map(n=>indices.get(principio(n))).filter(Boolean);
+  }
   return responder({
     dataConsulta:new Date().toISOString(),
     pares,
     identificadas:pares.filter(p=>p.situacao==='identificada').length,
-    naoAvaliadas:pares.filter(p=>p.situacao==='nao_avaliada').length,
-    aviso:'A base possui cobertura parcial. Uma combinação não avaliada não deve ser interpretada como isenta de interação.'
+    naoAvaliadas:pendentes.length,
+    consultas,
+    aviso:'A base clínica tem cobertura parcial. As fontes FDA/openFDA e NIH/RxNorm complementam a consulta documental, mas não classificam automaticamente interações entre pares. Combinação não classificada não significa associação segura.'
   });
 }
