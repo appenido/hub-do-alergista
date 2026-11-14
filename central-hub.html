@@ -76,6 +76,7 @@
       <button class="tab" data-tab="mapa">Mapa de acessos</button>
       <button class="tab" data-tab="publico">Público e dispositivos</button>
       <button class="tab" data-tab="atividades">Atividades recentes</button>
+      <button class="tab" data-tab="saude">Saúde técnica</button>
       <button class="tab" data-tab="diagnostico">Qualidade dos dados</button>
       <button class="tab" data-tab="assinaturas">Assinaturas</button>
       <button class="tab" data-tab="privacidade">Privacidade</button>
@@ -173,6 +174,31 @@
         <div class="table-scroll"><table><thead><tr><th>Data e hora</th><th>Tipo</th><th>Área</th><th>Ação</th><th>Dispositivo</th><th>Localização</th></tr></thead><tbody id="recentTable"></tbody></table></div>
       </article>
     </section>
+    <section class="panel-group" id="panel-saude">
+      <div class="intel-topline"><h2>Saúde técnica do aplicativo</h2><span id="healthStatus" role="status">Aguardando consulta autenticada</span></div>
+      <div class="health-metrics">
+        <article class="panel intel-stat"><span>Resposta inicial (TTFB · p75)</span><strong id="hTtfb">—</strong><small>Tempo até o primeiro byte medido no navegador</small></article>
+        <article class="panel intel-stat"><span>Carregamento visual (LCP · p75)</span><strong id="hLcp">—</strong><small>Maior elemento visível, quando suportado</small></article>
+        <article class="panel intel-stat"><span>Estabilidade visual (CLS · p75)</span><strong id="hCls">—</strong><small>Deslocamento acumulado de elementos</small></article>
+        <article class="panel intel-stat"><span>DOM pronto (p75)</span><strong id="hDom">—</strong><small>Carregamento do documento HTML</small></article>
+        <article class="panel intel-stat"><span>Falhas de JavaScript</span><strong id="hErrors">—</strong><small>Contagem de ocorrências sem capturar mensagens</small></article>
+        <article class="panel intel-stat"><span>Quedas de conexão</span><strong id="hOffline">—</strong><small>Eventos de perda de rede durante a visita</small></article>
+      </div>
+      <div class="two-cols">
+        <article class="panel"><div class="panel-head"><h2>Amostras de desempenho</h2><span>Médias e percentis; valores reais captados após autorização</span></div>
+          <div class="table-scroll"><table><thead><tr><th>Métrica</th><th>Amostras</th><th>Média</th><th>p75</th><th>p95</th></tr></thead><tbody id="healthTable"></tbody></table></div>
+        </article>
+        <article class="panel"><div class="panel-head"><h2>Falhas técnicas por área</h2><span>Contagem anônima, sem detalhes dos erros</span></div><div id="healthErrorsFeature" class="bars"></div></article>
+      </div>
+      <div class="two-cols">
+        <article class="panel"><div class="panel-head"><h2>Falhas por dispositivo</h2></div><div id="healthErrorsDevice" class="bars"></div></article>
+        <article class="panel"><div class="panel-head"><h2>Histórico diário de falhas</h2></div>
+          <div class="table-scroll"><table><thead><tr><th>Data</th><th>Falhas JS</th><th>Quedas de conexão</th></tr></thead><tbody id="healthTimeline"></tbody></table></div></article>
+      </div>
+      <article class="panel">
+        <p class="muted">Esses indicadores começam a ser coletados apenas após a publicação desta versão e o consentimento do visitante. Não são monitoramentos de servidor, não comprovam indisponibilidade total do serviço e não representam todos os dispositivos. A latência de interação é uma medição simplificada, não o indicador INP oficial.</p>
+      </article>
+    </section>
     <section class="panel-group" id="panel-diagnostico">
       <div class="two-cols">
         <article class="panel"><div class="panel-head"><h2>Qualidade e cobertura</h2><span>Com base nas sessões registradas</span></div><div id="qualityStats" class="quality-list"></div></article>
@@ -218,5 +244,6 @@
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous" defer></script>
 <script src="/central-hub.js?v=20261113-intel2" defer></script>
 <script src="/central-inteligencia.js?v=20261113-intel2" defer></script>
+<script src="/central-saude.js?v=20261113-health1" defer></script>
 </body>
 </html>
