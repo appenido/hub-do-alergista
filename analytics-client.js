@@ -4,6 +4,16 @@
 'use strict';
 if(!window.crypto||!crypto.randomUUID)return;
 const CHOICE_KEY='hub_analytics_choice_v2';
+const OWNER_EXCLUSION_KEY='hub_analytics_owner_excluded_v1';
+function ownerExcluded(){
+  try{return localStorage.getItem(OWNER_EXCLUSION_KEY)==='1';}catch(_){return false;}
+}
+function disableOwnerAnalytics(){
+  if(!ownerExcluded())return;
+  enabled=false;
+  try{localStorage.setItem(CHOICE_KEY,'nao');}catch(_){}
+  D.getElementById('hubAnalyticsConsent')?.remove();
+}
 const session=crypto.randomUUID();
 const D=document;
 let enabled=false,prev=null,enteredAt=Date.now(),sent=0,lastClick=0;
@@ -18,7 +28,7 @@ function referencia(){
   }catch(_){return 'direto';}
 }
 function enviar(tipo,feat,acao,segundos,beacon){
-  if(!enabled||sent++>1500)return;
+  if(!enabled||ownerExcluded()||sent++>1500)return;
   const payload=JSON.stringify({session_key:session,event_type:tipo,
     feature:(feat||'dashboard').slice(0,64),action:(acao||'-').slice(0,80),
     seconds_visible:Math.max(0,Math.min(3600,Math.floor(segundos||0))),
@@ -67,7 +77,7 @@ function cliques(ev){
 /* Observabilidade técnica opt-in: somente números e categorias, nunca mensagens ou URLs. */
 let healthStarted=false,healthFlushed=false,healthLcp=0,healthCls=0,healthLatency=0,healthErrors=0;
 function sendHealth(metric,value,beacon){
-  if(!enabled||!Number.isFinite(value)||value<0)return;
+  if(!enabled||ownerExcluded()||!Number.isFinite(value)||value<0)return;
   const payload=JSON.stringify({session_key:session,metric,feature:pagina(),
     value:Math.min(300000,Math.round(value*1000)/1000)});
   if(beacon&&navigator.sendBeacon){
@@ -78,7 +88,7 @@ function sendHealth(metric,value,beacon){
   }
 }
 function flushHealth(){
-  if(!enabled||!healthStarted||healthFlushed)return;
+  if(!enabled||ownerExcluded()||!healthStarted||healthFlushed)return;
   healthFlushed=true;
   if(healthLcp>0)sendHealth('lcp_ms',healthLcp,true);
   sendHealth('cls_score',healthCls,true);
@@ -123,7 +133,7 @@ function startHealth(){
 }
 
 function iniciar(){
-  if(enabled)return;enabled=true;
+  if(enabled||ownerExcluded())return;enabled=true;
   prev=pagina();enteredAt=Date.now();
   enviar('session_start',prev,'-',0,false);
   startHealth();
@@ -139,7 +149,7 @@ function iniciar(){
   window.addEventListener('pagehide',saida,{passive:true});
 }
 function aviso(){
-  if(D.getElementById('hubAnalyticsConsent'))return;
+  if(ownerExcluded()||D.getElementById('hubAnalyticsConsent'))return;
   const el=D.createElement('aside');el.id='hubAnalyticsConsent';
   el.setAttribute('role','dialog');el.setAttribute('aria-label','Medição anônima de uso');
   el.setAttribute('data-analytics-ignore','');
@@ -150,6 +160,7 @@ function aviso(){
   el.querySelector('#hubAnAceitar').onclick=()=>{salvar('sim');el.remove();iniciar();};
 }
 window.hubPreferenciasMetricas=function(){
+  if(ownerExcluded()){disableOwnerAnalytics();return;}
   salvar('');enabled=false;aviso();
 };
 function linkCentral(){
@@ -165,9 +176,14 @@ function linkCentral(){
   perfil.insertBefore(a,perfil.lastElementChild);
 }
 function principal(){
+  if(ownerExcluded()){disableOwnerAnalytics();linkCentral();return;}
   if(escolha()==='sim')iniciar();
   else if(escolha()!=='nao')aviso();
   linkCentral();
 }
+// Uma autenticação válida em outra aba interrompe a coleta na aba já aberta.
+window.addEventListener('storage',event=>{
+  if(event.key===OWNER_EXCLUSION_KEY&&event.newValue==='1')disableOwnerAnalytics();
+});
 if(D.readyState==='loading')D.addEventListener('DOMContentLoaded',principal,{once:true});else principal();
 })();
