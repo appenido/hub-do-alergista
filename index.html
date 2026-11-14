@@ -866,7 +866,7 @@ _marcarGuiasPagas();
   width:100%!important;min-width:0;max-width:100%!important;
   max-height:min(65vh,640px);
   overflow-y:auto!important;overflow-x:hidden!important;
-  overscroll-behavior:contain;
+  overscroll-behavior-y:auto;overscroll-behavior-x:contain;
   box-sizing:border-box;
   padding:10px;
   scrollbar-width:thin;
@@ -936,7 +936,7 @@ _marcarGuiasPagas();
   box-shadow:0 18px 38px rgba(13,31,45,.22)!important;
   padding:12px!important;z-index:111!important;
   box-sizing:border-box!important;
-  overscroll-behavior:contain;
+  overscroll-behavior-y:auto;overscroll-behavior-x:contain;
 }
 #page-imuno .bio-grid>.bio-card.open>.bio-body .bio-section{
   padding:12px 14px!important;margin:0 0 10px!important;
@@ -1233,7 +1233,7 @@ _marcarGuiasPagas();
 .vsd-refs a{display:block;color:var(--teal-mid);margin-top:5px;overflow-wrap:anywhere}
 @media(max-width:480px){.vsd-box{padding:9px 10px}.vsd-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}.vsd-card{padding:8px}.vsd-card h4{font-size:11px}.vsd-card p{font-size:10.6px;line-height:1.45}.vsd-card .vsd-ex{font-size:10px}.vsd-sub{margin-left:0}}
 /* Radar regulatório: rolagem apenas das atualizações; cabeçalho permanece visível. */
-#radarLista{max-height:400px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--gray-300) transparent}
+#radarLista{max-height:400px;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:var(--gray-300) transparent}
 #radarLista:focus-visible{outline:2px solid var(--teal-mid);outline-offset:-2px}
 @media(max-width:600px){#radarLista{max-height:48vh}}
 /* Busca de IgE: elemento principal, antes dos resultados e da seção didática. */
@@ -1519,7 +1519,7 @@ _marcarGuiasPagas();
 .hub-update-bar button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 </style>
 <link rel="stylesheet" href="responsive-adapt.css?v=20261110-logo-esquerda-1">
-<link rel="stylesheet" href="desktop-universal.css?v=20261109-bio-card-7">
+<link rel="stylesheet" href="desktop-universal.css?v=20261114-scroll-chain-1">
 <link rel="stylesheet" href="laboratorio-proportional.css?v=20261109-1">
 <link rel="stylesheet" href="comparador-resultado.css?v=20261109-1">
 <link rel="stylesheet" href="scores-desktop.css?v=20261109-2">
@@ -1610,7 +1610,7 @@ _marcarGuiasPagas();
 </style>
 <link rel="stylesheet" href="/alergo-news-premium.css?v=20261110-justificado-4">
 
-<link rel="stylesheet" href="/hub-clinical-responsive.css?v=20261110-radar-compact-3">
+<link rel="stylesheet" href="/hub-clinical-responsive.css?v=20261114-scroll-chain-1">
 <style id="snot22-intro-layout">
 /* SNOT-22: descrição separada do título, com alinhamento justificado. */
 #overlay.score-snot22 .modal-hdr{gap:12px;padding:5px 0 16px;margin-bottom:2px;border-bottom:1px solid #d7e5eb}
