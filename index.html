@@ -1671,6 +1671,39 @@ _marcarGuiasPagas();
   }
 }
 </style>
+
+<style id="hub-terapias-alvo-head-centralizado">
+/* Titulo centralizado em relacao a largura inteira, mesmo apos insercao do icone premium. */
+#page-imuno > div:first-child > div:first-child{
+  position:relative;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr);
+  align-items:center;
+  justify-items:center;
+  width:100%;
+  box-sizing:border-box;
+  min-height:48px;
+  padding:0 46px;
+}
+#page-imuno > div:first-child > div:first-child > span[style*="width:3px"]{
+  position:absolute;left:0;top:50%;transform:translateY(-50%);
+}
+#page-imuno > div:first-child > div:first-child > .hub-home-heading-icon{
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  margin:0!important;
+}
+#page-imuno > div:first-child > div:first-child > div{
+  grid-column:1;
+  justify-self:center;
+  align-self:center;
+  min-width:0;
+  width:100%;
+  margin:0 auto;
+  text-align:center;
+}
+#page-imuno > div:first-child > div:first-child > div span{display:block}
+#terapiasRevisaoStatus{font-size:11px;line-height:1.5;color:var(--teal-mid);margin-top:7px;font-weight:700}
+</style>
 </head>
 <body>
 
@@ -3192,10 +3225,10 @@ window._bloquearApp=function(){};
     <div style="padding:8px 16px 6px">
       <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px">
         <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
-        <div style="display:flex;flex:1;flex-direction:column;align-items:center;text-align:center;gap:3px;line-height:1.2"><span style="font-size:18px;font-weight:800">Terapias Alvo</span><span style="font-size:11px;font-weight:600;color:var(--gray-500)">Mabs, i-JAK1, iBTK</span></div>
+        <div style="display:flex;flex:1;flex-direction:column;align-items:center;text-align:center;gap:3px;line-height:1.2"><span style="font-size:18px;font-weight:800">Terapias Alvo</span><span style="font-size:11px;font-weight:600;color:var(--gray-500)">Mabs, i-JAK, iBTK</span></div>
       </div>
       <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Dose por doença · critérios e exames para DUT · Rol ANS · PCDT/SUS</div>
-      <div style="font-size:10.5px;color:var(--teal-mid);margin-top:6px;font-weight:700">✔ Fichas revisadas em 02/10/2026 contra ANS, ANVISA e CONITEC</div>
+      <div id="terapiasRevisaoStatus" role="status" aria-live="polite">Fontes regulatórias: ANVISA, ANS, CONITEC e Diário Oficial. Checagem automática: aguardando consulta. Condutas e doses requerem revisão clínica individual.</div>
     </div>
     <!-- BLOCO EDUCACIONAL: DUT x PCDT x Rol -->
     <div style="margin:8px 16px 16px;background:linear-gradient(135deg,rgba(59,191,204,.08),rgba(59,191,204,.02));border:1px solid rgba(59,191,204,.22);border-radius:14px;overflow:hidden">
@@ -4534,7 +4567,7 @@ window._bloquearApp=function(){};
     <div class="gap-list">
       <div class="guide-card" data-nav="casos" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💬</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Fórum de Discussão</div><div style="font-size:11.5px;color:var(--gray-500)">Discussões por especialidade · área médica restrita</div></div></div></div>
       <div class="guide-card" data-nav="educacao" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🎓</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Educação Continuada</div><div style="font-size:11.5px;color:var(--gray-500)">ASBAI · EAACI Nexus · UCARE LevelUp</div></div></div></div>
-      <div class="guide-card" data-nav="imuno" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💉</span><div><div style="font-size:14px;font-weight:800;color:var(--navy);text-align:center">Terapias Alvo</div><div style="font-size:10px;color:var(--gray-500);text-align:center">Mabs, i-JAK1, iBTK</div></div></div></div>
+      <div class="guide-card" data-nav="imuno" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💉</span><div><div style="font-size:14px;font-weight:800;color:var(--navy);text-align:center">Terapias Alvo</div><div style="font-size:10px;color:var(--gray-500);text-align:center">Mabs, i-JAK, iBTK</div></div></div></div>
       <div class="guide-card" data-nav="antihistaminicos" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💊</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Anti-histamínicos</div><div style="font-size:11.5px;color:var(--gray-500)">1ª e 2ª gerações · apresentações · calculadoras</div></div></div></div>
       <div class="guide-card" data-nav="interacao" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">⚕️</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Interação Medicamentosa</div><div style="font-size:11.5px;color:var(--gray-500)">Verificação de interações</div></div></div></div>
       <div class="guide-card" data-nav="favoritos" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🔖</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Favoritos</div><div style="font-size:11.5px;color:var(--gray-500)">Artigos, scores e outros conteúdos salvos</div></div></div></div>
@@ -9709,6 +9742,8 @@ function carregarRadar(forcar){
   if(forcar){ _radarLoaded = false; }
   lista.innerHTML = '<div style="padding:14px;font-size:12px;color:var(--gray-300);text-align:center">⏳ Buscando novidades regulatórias...</div>';
   if(status) status.textContent = 'Consultando ANS · CONITEC · ANVISA · Diário Oficial...';
+  var revisao = document.getElementById('terapiasRevisaoStatus');
+  if(revisao) revisao.textContent = 'Checagem regulatória em andamento. Condutas e doses exigem revisão clínica independente.';
 
   if(!window.fetch){
     lista.innerHTML = '<div style="padding:14px;font-size:12px;color:var(--gray-500)">Seu navegador não suporta busca automática.</div>';
@@ -9765,9 +9800,10 @@ function carregarRadar(forcar){
       return _ehTema(it);   // sempre restrito a alergia/imunologia, em todas as fontes
     });
     var fontes = d.fontes || {};
-    var gerado = d.gerado_em ? new Date(d.gerado_em) : new Date();
-    var hm = gerado.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
-    var dd = gerado.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+    var gerado = d.gerado_em ? new Date(d.gerado_em) : null;
+    var dataValida = !!(gerado && !isNaN(gerado.getTime()) && gerado.getTime() <= Date.now() + 300000);
+    var hm = dataValida ? gerado.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',timeZone:'America/Sao_Paulo'}) : '';
+    var dd = dataValida ? gerado.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'America/Sao_Paulo'}) : 'data não informada';
 
     // status bar: fontes OK/erro
     var partes = [];
@@ -9777,9 +9813,17 @@ function carregarRadar(forcar){
       if(fs && fs.ok) partes.push(fn + (fs.n ? ' (' + fs.n + ')' : ''));
       else partes.push(fn + ' indisponível');
     }
-    if(status) status.textContent = dd + ' ' + hm + ' · ' + partes.join(' · ');
-
+    if(status) status.textContent = dd + (hm ? ' ' + hm : '') + ' · ' + partes.join(' · ');
     if(status) status.textContent += ' · até 20 por órgão · ordem decrescente de data';
+    var okTodasFontes = nomes.every(function(nome){return fontes[nome] && fontes[nome].ok === true;});
+    var statusRevisao = document.getElementById('terapiasRevisaoStatus');
+    if(statusRevisao){
+      var verificacao = dataValida ? dd + ' às ' + hm : 'data não confirmada';
+      var recencia = dataValida && (Date.now() - gerado.getTime()) <= 86400000;
+      statusRevisao.textContent = 'Checagem regulatória: ' + verificacao +
+        (okTodasFontes && recencia ? ' · fontes consultadas' : ' · parcial ou desatualizada') +
+        '. Revisão clínica das fichas e doses: não confirmada por essa consulta.';
+    }
 
     // Uma lista única: notícias mais recentes primeiro, independentemente do órgão.
     // Datas ausentes ou inválidas ficam ao final, sem fabricar datas.
@@ -9832,6 +9876,8 @@ function carregarRadar(forcar){
   }).catch(function(e){
     lista.innerHTML = '<div style="padding:14px;font-size:12px;color:var(--gray-500)">Não foi possível carregar o radar agora. <button onclick="carregarRadar(true)" style="background:none;border:none;color:var(--teal-mid);font-weight:700;cursor:pointer;font-size:12px;font-family:Manrope,sans-serif">Tentar novamente</button></div>';
     if(status) status.textContent = 'Erro: ' + (e && e.message ? e.message : 'verifique a conexão');
+    var revisaoErro = document.getElementById('terapiasRevisaoStatus');
+    if(revisaoErro) revisaoErro.textContent = 'Checagem regulatória não confirmada. Condutas e doses não foram revisadas automaticamente.';
   });
 }
 
