@@ -136,14 +136,16 @@ function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,x=>({'&':'&amp;',
 function norm(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
 function catIcon(id){return '<svg viewBox="0 0 64 64" width="38" height="38" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#f0f8f9"/>'+icons[id]+'</svg>';}
 function fmt(value){return Number(value).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
-function sourceHref(id){return id==='topicos'?FONTES.pele:id==='inalatoria'?FONTES.asma:id==='formulas'?FONTES.formulas:ANVISA;}
-function sourceLabel(id){return id==='topicos'?'Ministério da Saúde — potência':id==='inalatoria'?'GINA 2026':id==='formulas'?'SBP — Nutrologia':'Bulário eletrônico Anvisa';}
+function sourceHref(id){return id==='topicos'?FONTES.pele:id==='inalatoria'?FONTES.asma:id==='formulas'?FONTES.formulas:id==='hidratantes'?'https://www.gov.br/anvisa/pt-br/sistemas/sistema-de-consultas/':ANVISA;}
+function sourceLabel(id){return id==='topicos'?'Ministério da Saúde — potência':id==='inalatoria'?'GINA 2026':id==='formulas'?'SBP — Nutrologia':id==='hidratantes'?'Sistema de Consultas Anvisa':'Bulário eletrônico Anvisa';}
 function cards(data,id){
+ const anvisaLink=(id==='hidratantes'||id==='formulas')?'https://www.gov.br/anvisa/pt-br/sistemas/sistema-de-consultas/':ANVISA;
+ const anvisaLabel=id==='hidratantes'?'Consultar regularização do cosmético':id==='formulas'?'Consultar regularização da fórmula':'Conferir bula e registro na Anvisa';
  return '<div class="med-results" aria-live="polite">'+data.map((item,i)=>{
   const name=esc(item[0]),brand=esc(item[1]),form=esc(item[2]),tag=esc(item[3]),note=esc(item[4]);
   return '<details class="med-prod" data-hub-medicamento data-item="'+i+'"><summary><span class="med-prod-index">'+String(i+1).padStart(2,'0')+'</span><span class="med-prod-head"><span class="hub-med-nome">'+name+'</span><span class="med-prod-brand">'+brand+'</span></span><span class="med-prod-tag">'+tag+'</span><span class="med-prod-chevron">⌄</span></summary>'+
   '<div class="med-prod-detail"><div><span class="med-mini-label">Apresentações / veículo</span><p>'+form+'</p></div><div><span class="med-mini-label">Orientações clínicas</span><p>'+note+'</p></div>'+
-  '<a href="'+ANVISA+'" target="_blank" rel="noopener noreferrer">Conferir bula e registro na Anvisa</a></div></details>';
+  '<a href="'+anvisaLink+'" target="_blank" rel="noopener noreferrer">'+anvisaLabel+'</a></div></details>';
  }).join('')+'</div><p class="med-source">Marcas exemplificativas, sem confirmação automática de registro ou disponibilidade. <a href="'+sourceHref(id)+'" target="_blank" rel="noopener noreferrer">'+sourceLabel(id)+'</a>.</p>';
 }
 let initDone=false,moistPrices=new Map(),moistChecked=false,moistBusy=false,moistMessage='';
@@ -220,7 +222,8 @@ function renderMoist(sec,slot){
  if(!moistChecked&&!moistBusy)loadMoistPrices(false);
  const verified=affordable.map(({item,offers})=>{
   const min=Math.min(...offers.map(o=>o.price));
-  return '<div class="med-price-result">'+cards([item],'hidratantes')+'<div class="med-price-proof">Menor oferta verificada: '+fmt(min)+' · '+offers.length+' oferta(s) dentro do orçamento. Confira o volume da embalagem e o frete.</div></div>';
+  const best=offers.reduce((a,b)=>Number(a.price)<=Number(b.price)?a:b);
+  return '<div class="med-price-result">'+cards([item],'hidratantes')+'<div class="med-price-proof">Menor oferta verificada: '+fmt(min)+' · '+esc(best.pharmacy)+' · '+offers.length+' oferta(s) dentro do orçamento. <a href="'+esc(best.url)+'" target="_blank" rel="noopener noreferrer">Conferir oferta e embalagem</a></div></div>';
  }).join('');
  status.textContent=moistBusy?'Consultando fontes integradas para as ofertas atuais…':moistMessage||
  (affordable.length?'Exibindo apenas ofertas verificadas dentro do valor informado.':'Nenhuma oferta verificada disponível dentro do limite informado.');
