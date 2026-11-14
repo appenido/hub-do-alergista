@@ -108,78 +108,568 @@ const DB={
  ]
 };
 const MOIST=[
- ["CeraVe Creme Hidratante","CeraVe","Creme","Corpo, Face, Mãos","Ceramidas, ácido hialurônico e veículo mais espesso.","https://www.cerave.com.br/todos-os-produtos/creme-hidratante"],
- ["CeraVe Loção Hidratante","CeraVe","Loção","Corpo, Face","Ceramidas; loção de espalhabilidade elevada.","https://www.cerave.com.br/todos-os-produtos/locao-hidratante"],
- ["CeraVe Loção Hidratante Intensiva Hydro-Urea","CeraVe","Loção","Corpo","Loção para pele seca a muito seca; confirmar composição antes de usar em pele fissurada.","https://www.cerave.com.br/todos-os-produtos/locao-hidratante-intensiva-com-hydroureia-cerave"],
- ["CeraVe Loção Facial Hidratante","CeraVe","Loção","Face","Versão facial com ceramidas; verificar a apresentação com ou sem FPS.","https://www.cerave.com.br/todos-os-produtos/locao-facial-hidratante"],
- ["CeraVe Creme Reparador para Mãos","CeraVe","Creme","Mãos, Áreas ressecadas","Cuidado específico para ressecamento das mãos.","https://www.cerave.com.br/todos-os-produtos/hidratacao"],
- ["CeraVe Hidratante Facial Water Gel","CeraVe","Gel-creme","Face","Textura em gel para quem prefere aplicação facial leve.","https://www.cerave.com.br/todos-os-produtos/pele-seca"],
- ["Cetaphil Creme Hidratante","Cetaphil","Creme","Corpo, Face, Mãos","Creme espesso para pele seca e sensível; avaliar tolerância individual.","https://www.cetaphil.com.br/produtos"],
- ["Cetaphil Loção Hidratante","Cetaphil","Loção","Corpo, Face","Loção de uso diário para grandes áreas.","https://www.cetaphil.com.br/produtos"],
- ["Cetaphil Gel Creme Rápida Absorção","Cetaphil","Gel-creme","Corpo","Veículo mais leve para hidratação corporal.","https://www.cetaphil.com.br/produtos/hidratacao-corporal"],
- ["Cetaphil Advanced Moisturizer Loção","Cetaphil","Loção","Corpo","Loção hidratante para pele ressecada.","https://www.cetaphil.com.br/produtos"],
- ["Cetaphil PRO AD Restoraderm Creme","Cetaphil","Creme","Corpo, Face, Bebê","Linha para pele seca com tendência atópica; confirmar idade indicada no rótulo.","https://www.cetaphil.com.br/linhas/pro-ad-restoraderm/creme-hidratante-pro-ad-227/3499320015462.html"],
- ["Cetaphil PRO AD Restoraderm Loção","Cetaphil","Loção","Corpo, Face, Bebê","Loção sem fragrância informada pelo fabricante; indicação a partir de três meses conforme produto.","https://www.cetaphil.com.br/linhas/pro-ad-restoraderm/lo%C3%A7%C3%A3o-hidratante-pro-ad-restoraderm-236ml/7897930775794.html"],
- ["Cetaphil PRO Ureia 10% Loção","Cetaphil","Loção","Corpo, Áreas ressecadas","Contém ureia a 10%; pode causar ardência em pele fissurada.","https://www.cetaphil.com.br/produtos/hidratacao-corporal"],
- ["Cetaphil Optimal Hydration Water Gel","Cetaphil","Gel-creme","Face","Opção facial em textura gel.","https://www.cetaphil.com.br/produtos"],
- ["Bioderma Atoderm Intensive Baume","Bioderma","Bálsamo","Corpo, Face, Bebê","Bálsamo relipidante para pele muito seca com tendência atópica.","https://www.biodermabrasil.com/p/atoderm-intensive-baume"],
- ["Bioderma Atoderm Crème Ultra","Bioderma","Creme","Corpo, Face, Bebê","Creme nutritivo sem perfume para pele normal a seca.","https://www.biodermabrasil.com/p/atoderm-creme-ultra"],
- ["Bioderma Atoderm Intensive Gel-Creme","Bioderma","Gel-creme","Corpo, Face, Bebê","Textura gel-creme leve para pele muito seca com tendência atópica.","https://www.biodermabrasil.com/p/atoderm-intensive-gelcreme"],
- ["Lipikar Baume AP+M","La Roche-Posay","Bálsamo","Corpo, Face, Bebê","Bálsamo para pele muito seca e com tendência atópica; consultar ingredientes.","https://www.laroche-posay.com.br/lipikar/baume-ap-m"],
- ["Eucerin UreaRepair Plus 10% Loção","Eucerin","Loção","Corpo, Áreas ressecadas","Ureia 10% e ceramidas para xerose; pode arder em lesões fissuradas.","https://www.eucerin.com.br/produtos/urea-repair/urea-repair-plus-locao-hidratante-corporal"],
- ["Eucerin pH5 Loção Hidratante Corporal","Eucerin","Loção","Corpo","Loção para pele sensível com dexpantenol.","https://www.eucerin.com.br/produtos/pele-sensivel/ph5-lotion-400ml"],
- ["Eucerin AtopiControl Loção","Eucerin","Loção","Corpo","Linha para pele com tendência atópica; confirmar oferta local e formulação.","https://www.eucerin.com.br/produtos/urea-repair/urea-repair-plus-locao-hidratante-corporal"],
- ["Eucerin Anti-Pigment Loção Corporal","Eucerin","Loção","Corpo","Hidratação com ativos para uniformização do tom; não é emoliente simples.","https://www.eucerin.com.br/produtos/anti-pigment/eucerin-anti-pigment-lo%C3%A7%C3%A3o-corporal-hidratante-400ml-"],
- ["Mustela Stelatopia+ Hidratante Relipidante","Mustela","Bálsamo","Bebê, Corpo, Face","Produto da linha Stelatopia+ para pele muito seca; conferir faixa etária.","https://www.mustela.com.br/collections/hidratante"],
- ["Mustela Hydra Bebê Hidratante Corporal","Mustela","Loção","Bebê, Corpo","Hidratação infantil de uso diário; conferir fragrância no rótulo.","https://www.mustela.com.br/collections/hidratacao"],
- ["Mustela Hidratante Calmante Schisandra BIO","Mustela","Loção","Bebê, Corpo, Face","Linha para pele sensível; confirmar veículo e composição.","https://www.mustela.com.br/collections/hidratacao"],
- ["Mustela Creme Hidratante BIO","Mustela","Creme","Bebê, Corpo, Face","Versão orgânica; verificar ingredientes e idade recomendada.","https://www.mustela.com.br/collections/cremes-hidratantes-e-balsamos"],
- ["Neutrogena Norwegian Sem Fragrância","Neutrogena","Loção","Corpo","Versão sem fragrância, para pele seca.","https://www.neutrogena.com.br/cuidado-corporal/linhas-de-productos/norwegian-formula"],
- ["Neutrogena Norwegian Com Fragrância","Neutrogena","Loção","Corpo","Versão perfumada; preferir cautela em peles reativas.","https://www.neutrogena.com.br/cuidado-corporal/linhas-de-productos/norwegian-formula"],
- ["Neutrogena Body Care Intensive Hidrata & Repara","Neutrogena","Loção","Corpo","Hidratante corporal; verificar composição da variante.","https://www.neutrogena.com.br/cuidado-corporal/hidratacao-corporal"],
- ["Neutrogena Body Care Intensive Hidrata & Suaviza","Neutrogena","Loção","Corpo","Loção para uso corporal diário.","https://www.neutrogena.com.br/cuidado-corporal/hidratacao-corporal"],
- ["Neutrogena Hydro Boost Water Gel Corporal","Neutrogena","Gel-creme","Corpo","Textura leve para uso corporal.","https://www.neutrogena.com.br/cuidado-corporal/hidratacao-corporal"],
- ["Nivea Milk","Nivea","Loção","Corpo","Loção corporal de textura nutritiva, com fragrância; não indicada pelo fabricante para rosto.","https://www.nivea.com.br/produtos/nivea-locao-hidratante-milk-pele-seca-a-extrasseca-40058083156970033.html"],
- ["Nivea Soft Milk","Nivea","Loção","Corpo","Loção de uso corporal com absorção mais rápida.","https://www.nivea.com.br/destaques/hidratante-corporal-milk"],
- ["Nivea Lotion Express","Nivea","Loção","Corpo","Loção leve de rápida absorção; contém fragrância conforme variante.","https://www.nivea.com.br/destaques/hidratante-corporal-milk"],
- ["Nivea Cuida & Repara","Nivea","Loção","Corpo","Opção corporal para ressecamento; conferir perfume.","https://careshop.nivea.com.br/beleza-e-perfumaria/corpo/hidratante/NIVEA%20Creme/Unissex/higiene-e-saude/sabonete/intimo"],
- ["Nivea Creme Lata Azul","Nivea","Creme","Corpo, Mãos, Áreas ressecadas","Creme oclusivo clássico e perfumado; não escolher automaticamente para pele atópica.","https://www.nivea.com.br/destaques/hidratante-corporal-milk"],
- ["Granado Bebê Dermocalmante 120 mL","Granado","Loção","Bebê, Corpo","Com ceramidas e sem perfume informado na página oficial.","https://www.granado.com.br/granado/loc-o-hidratante-dermocalmante-120ml"],
- ["Granado Bebê Dermocalmante 300 mL","Granado","Loção","Bebê, Corpo","Embalagem maior da linha dermocalmante.","https://www.granado.com.br/granado/bebe/hidratacao"],
- ["Granado Bebê Suave Calêndula","Granado","Loção","Bebê, Corpo","Linha infantil perfumada; verificar composição e tolerância.","https://www.granado.com.br/granado/bebe/hidratacao"],
- ["Granado Bebê Suave Tradicional","Granado","Loção","Bebê, Corpo","Linha infantil de uso diário; confirmar fragrância.","https://www.granado.com.br/granado/bebe/hidratacao"],
- ["Bepantol Derma Restaurador Diário","Bepantol","Loção","Corpo","Hidratante corporal com dexpantenol, de aplicação diária.","https://www.bepantol.com.br/nossos-produtos/bepantol-derma-hidratante-restaurador-diario-400ml"],
- ["Bepantol Derma Balm Regenerador","Bepantol","Bálsamo","Corpo, Áreas ressecadas","Textura mais consistente para xerose intensa.","https://www.bepantol.com.br/nossos-produtos/"],
- ["Bepantol Derma Creme Multirrestaurador","Bepantol","Creme","Mãos, Áreas ressecadas","Dexpantenol e agentes emolientes para áreas localizadas.","https://www.bepantol.com.br/nossos-produtos/bepantol-derma-creme-multirrestaurador-40g"],
- ["Bepantol Derma Toque Seco","Bepantol","Creme","Mãos, Corpo","Creme oil-free de rápida absorção.","https://www.bepantol.com.br/nossos-produtos/"],
- ["Bepantol Sensicalm Hidratante","Bepantol","Creme","Corpo, Áreas ressecadas","Hidratante para pele seca e sensível; consultar idade indicada na embalagem.","https://www.bepantol.com.br/nossos-produtos/"],
- ["Dermage Hidracare Creme Corporal","Dermage","Creme","Corpo","Creme para pele seca a extrasseca com ceramidas e ácido hialurônico.","https://www.dermage.com.br/hidracare-creme-hidratante-corporal/p"],
- ["Dermage Hidracare Loção Corporal","Dermage","Loção","Corpo","Loção para pele normal a seca.","https://www.dermage.com.br/hidracare-locao-hidratante-corporal/p"],
- ["Dermage Regenerage Body","Dermage","Loção","Corpo","Linha de hidratação e reparação de pele sensível.","https://www.dermage.com.br/corpo/hidratacao-corporal"],
- ["Dermage Ureiactive","Dermage","Loção","Corpo, Áreas ressecadas","Com ureia; atenção à ardência em fissuras.","https://www.dermage.com.br/corpo/hidratacao-corporal"],
- ["Dermage Hyaluage Body","Dermage","Loção","Corpo","Textura hidratante corporal com ácido hialurônico.","https://www.dermage.com.br/corpo/hidratacao-corporal"],
- ["Profuse Nutrel B5","Profuse","Creme","Corpo, Face, Mãos, Áreas ressecadas","Creme multirreparador com pantenol e emolientes.","https://www.profuse.com.br/produtos/nutrel-b5/"],
- ["Profuse Nutrel Suavizante Balm","Profuse","Bálsamo","Face","Produto facial para pele sensível; conferir composição.","https://www.profuse.com.br/linhas/nutrel/"],
- ["ISDIN Ureadin Lotion 10","ISDIN","Loção","Corpo, Áreas ressecadas","Ureia 10% para xerose; evitar aplicação indiscriminada em pele fissurada.","https://www.isdin.com/pt-BR/produto/ureadin/locao-rx"],
- ["ISDIN Ureadin Rx 10","ISDIN","Loção","Corpo, Áreas ressecadas","Loção com ureia e dexpantenol; conferir versão comercial.","https://www.isdin.com/pt-BR/produto/ureadin/locao-rx"],
- ["Fisiogel AI Loção Cremosa","Fisiogel","Loção","Corpo","Linha para pele seca e sensível; verificar composição da variante.","https://www.farmaconde.com.br/Fisiogel"],
- ["Fisiogel Terapia de Hidratação Diária","Fisiogel","Loção","Corpo","Loção para hidratação diária da pele seca.","https://www.farmaconde.com.br/Fisiogel"],
- ["Fisiogel Creme Hidratante Corporal","Fisiogel","Creme","Corpo, Mãos","Creme corporal hipoalergênico conforme apresentação.","https://www.farmaconde.com.br/Fisiogel"],
- ["Fisiogel AI Creme Facial Diário","Fisiogel","Creme","Face","Versão facial para pele seca e sensível.","https://www.farmaconde.com.br/Fisiogel"],
- ["Epidrat Corpo Intensivo Creme","Mantecorp Skincare","Creme","Corpo","Creme hidratante corporal da Mantecorp; conferir embalagem e ingredientes.","https://www.panvel.com/panvel/espaco-da-marca/mantecorp-skincare/m-11015?descricao_da_categoria_2=creme-hidratante&descricao_da_categoria_3=hidratante-corporal"],
- ["Epidrat Corpo Intensivo Loção","Mantecorp Skincare","Loção","Corpo","Apresentação corporal de textura mais fluida.","https://www.panvel.com/panvel/espaco-da-marca/mantecorp-skincare/m-11015?descricao_da_categoria_2=creme-hidratante&descricao_da_categoria_3=hidratante-corporal"],
- ["Hydraporin AI Loção","Mantecorp Skincare","Loção","Corpo","Linha de emolientes para pele seca e sensível.","https://www.panvel.com/panvel/espaco-da-marca/mantecorp-skincare/m-11015?descricao_da_categoria_2=creme-hidratante&descricao_da_categoria_3=hidratante-corporal"],
- ["Epidrat Calm B5","Mantecorp Skincare","Creme","Face, Áreas ressecadas","Produto reparador concentrado de uso localizado.","https://www.panvel.com/panvel/espaco-da-marca/mantecorp-skincare/m-11015?descricao_da_categoria_2=creme-hidratante&descricao_da_categoria_3=hidratante-corporal"],
- ["Uriage Xémose Creme Emoliente","Uriage","Creme","Corpo, Face","Creme relipidante para pele muito seca; confirmar comercialização brasileira.","https://www.uriage.com/pt/pt/gamas/xemose"],
- ["Uriage Xémose Cérat","Uriage","Bálsamo","Corpo, Face","Cerato nutritivo para xerose intensa; confirmar comercialização brasileira.","https://www.uriage.com/pt/pt/produtos/xemose-cerat"],
- ["Vasenol Geleia de Vaselina Original","Vasenol","Pomada","Mãos, Áreas ressecadas","Petrolato oclusivo 100%, para áreas muito ressecadas.","https://www.vasenol.com.br/p/geleia-vaselina-original.html/07891150029323"],
- ["Vasenol Clinical","Vasenol","Loção","Corpo","Loção corporal para pele extrasseca; verificar fragrância.","https://www.vasenol.com.br/products.html"],
- ["Vasenol Repairing","Vasenol","Loção","Corpo","Loção para xerose; formulação conforme variante.","https://www.vasenol.com.br/products.html"],
- ["Vasenol Calming","Vasenol","Loção","Corpo","Loção corporal com extrato de aveia, verificar fragrância.","https://www.vasenol.com.br/products.html"],
- ["Vasenol Nutrição do Cacau","Vasenol","Loção","Corpo","Hidratante perfumado; pode não ser primeira escolha para pele atópica.","https://www.vasenol.com.br/products.html"],
- ["Aveeno Dermexa","Aveeno","Creme","Corpo","Linha emoliente; disponibilidade brasileira atual a confirmar.","https://www.neutrogena.com.br/cuidado-corporal/hidratacao-corporal"],
- ["Vaselina sólida 100% (petrolato)","Genéricos / farmácias","Pomada","Mãos, Áreas ressecadas","Emoliente oclusivo; verificar pureza, rotulagem e tamanho da embalagem.","https://www.vasenol.com.br/p/geleia-vaselina-original.html/07891150029323"]
+ [
+ "Bepantol Derma Balm Regenerador",
+ "Bepantol",
+ "Bálsamo",
+ "Corpo, Áreas ressecadas",
+ "Textura mais consistente para xerose intensa.",
+ "https://www.bepantol.com.br/nossos-produtos/"
+ ],
+ [
+ "Bepantol Derma Creme Multirrestaurador",
+ "Bepantol",
+ "Creme",
+ "Mãos, Áreas ressecadas",
+ "Dexpantenol e agentes emolientes para áreas localizadas.",
+ "https://www.bepantol.com.br/nossos-produtos/bepantol-derma-creme-multirrestaurador-40g"
+ ],
+ [
+ "Bepantol Derma Restaurador Diário",
+ "Bepantol",
+ "Loção",
+ "Corpo",
+ "Hidratante corporal com dexpantenol, de aplicação diária.",
+ "https://www.bepantol.com.br/nossos-produtos/bepantol-derma-hidratante-restaurador-diario-400ml"
+ ],
+ [
+ "Bepantol Derma Toque Seco",
+ "Bepantol",
+ "Creme",
+ "Mãos, Corpo",
+ "Creme oil-free de rápida absorção.",
+ "https://www.bepantol.com.br/nossos-produtos/"
+ ],
+ [
+ "Bepantol Sensicalm Hidratante",
+ "Bepantol",
+ "Creme",
+ "Corpo, Áreas ressecadas",
+ "Hidratante para pele seca e sensível; consultar idade indicada na embalagem.",
+ "https://www.bepantol.com.br/nossos-produtos/"
+ ],
+ [
+ "Bioderma Atoderm Crème Ultra",
+ "Bioderma",
+ "Creme",
+ "Corpo, Face, Bebê",
+ "Creme nutritivo sem perfume para pele normal a seca.",
+ "https://www.biodermabrasil.com/p/atoderm-creme-ultra"
+ ],
+ [
+ "Bioderma Atoderm Intensive Baume",
+ "Bioderma",
+ "Bálsamo",
+ "Corpo, Face, Bebê",
+ "Bálsamo relipidante para pele muito seca com tendência atópica.",
+ "https://www.biodermabrasil.com/p/atoderm-intensive-baume"
+ ],
+ [
+ "Bioderma Atoderm Intensive Gel-Creme",
+ "Bioderma",
+ "Gel-creme",
+ "Corpo, Face, Bebê",
+ "Textura gel-creme leve para pele muito seca com tendência atópica.",
+ "https://www.biodermabrasil.com/p/atoderm-intensive-gelcreme"
+ ],
+ [
+ "CeraVe Creme Hidratante",
+ "CeraVe",
+ "Creme",
+ "Corpo, Face, Mãos",
+ "Ceramidas, ácido hialurônico e veículo mais espesso.",
+ "https://www.cerave.com.br/todos-os-produtos/creme-hidratante"
+ ],
+ [
+ "CeraVe Creme Reparador para Mãos",
+ "CeraVe",
+ "Creme",
+ "Mãos, Áreas ressecadas",
+ "Cuidado específico para ressecamento das mãos.",
+ "https://www.cerave.com.br/todos-os-produtos/hidratacao"
+ ],
+ [
+ "CeraVe Hidratante Facial Water Gel",
+ "CeraVe",
+ "Gel-creme",
+ "Face",
+ "Textura em gel para quem prefere aplicação facial leve.",
+ "https://www.cerave.com.br/todos-os-produtos/pele-seca"
+ ],
+ [
+ "CeraVe Loção Facial Hidratante",
+ "CeraVe",
+ "Loção",
+ "Face",
+ "Versão facial com ceramidas; verificar a apresentação com ou sem FPS.",
+ "https://www.cerave.com.br/todos-os-produtos/locao-facial-hidratante"
+ ],
+ [
+ "CeraVe Loção Hidratante",
+ "CeraVe",
+ "Loção",
+ "Corpo, Face",
+ "Ceramidas; loção de espalhabilidade elevada.",
+ "https://www.cerave.com.br/todos-os-produtos/locao-hidratante"
+ ],
+ [
+ "CeraVe Loção Hidratante Intensiva Hydro-Urea",
+ "CeraVe",
+ "Loção",
+ "Corpo",
+ "Loção para pele seca a muito seca; confirmar composição antes de usar em pele fissurada.",
+ "https://www.cerave.com.br/todos-os-produtos/locao-hidratante-intensiva-com-hydroureia-cerave"
+ ],
+ [
+ "Cetaphil Advanced Moisturizer Loção",
+ "Cetaphil",
+ "Loção",
+ "Corpo",
+ "Loção hidratante para pele ressecada.",
+ "https://www.cetaphil.com.br/produtos"
+ ],
+ [
+ "Cetaphil Creme Hidratante",
+ "Cetaphil",
+ "Creme",
+ "Corpo, Face, Mãos",
+ "Creme espesso para pele seca e sensível; avaliar tolerância individual.",
+ "https://www.cetaphil.com.br/produtos"
+ ],
+ [
+ "Cetaphil Gel Creme Rápida Absorção",
+ "Cetaphil",
+ "Gel-creme",
+ "Corpo",
+ "Veículo mais leve para hidratação corporal.",
+ "https://www.cetaphil.com.br/produtos/hidratacao-corporal"
+ ],
+ [
+ "Cetaphil Loção Hidratante",
+ "Cetaphil",
+ "Loção",
+ "Corpo, Face",
+ "Loção de uso diário para grandes áreas.",
+ "https://www.cetaphil.com.br/produtos"
+ ],
+ [
+ "Cetaphil Optimal Hydration Water Gel",
+ "Cetaphil",
+ "Gel-creme",
+ "Face",
+ "Opção facial em textura gel.",
+ "https://www.cetaphil.com.br/produtos"
+ ],
+ [
+ "Cetaphil PRO AD Restoraderm Creme",
+ "Cetaphil",
+ "Creme",
+ "Corpo, Face, Bebê",
+ "Linha para pele seca com tendência atópica; confirmar idade indicada no rótulo.",
+ "https://www.cetaphil.com.br/linhas/pro-ad-restoraderm/creme-hidratante-pro-ad-227/3499320015462.html"
+ ],
+ [
+ "Cetaphil PRO AD Restoraderm Loção",
+ "Cetaphil",
+ "Loção",
+ "Corpo, Face, Bebê",
+ "Loção sem fragrância informada pelo fabricante; indicação a partir de três meses conforme produto.",
+ "https://www.cetaphil.com.br/linhas/pro-ad-restoraderm/lo%C3%A7%C3%A3o-hidratante-pro-ad-restoraderm-236ml/7897930775794.html"
+ ],
+ [
+ "Cetaphil PRO Ureia 10% Loção",
+ "Cetaphil",
+ "Loção",
+ "Corpo, Áreas ressecadas",
+ "Contém ureia a 10%; pode causar ardência em pele fissurada.",
+ "https://www.cetaphil.com.br/produtos/hidratacao-corporal"
+ ],
+ [
+ "Dermage Hidracare Creme Corporal",
+ "Dermage",
+ "Creme",
+ "Corpo",
+ "Creme para pele seca a extrasseca com ceramidas e ácido hialurônico.",
+ "https://www.dermage.com.br/hidracare-creme-hidratante-corporal/p"
+ ],
+ [
+ "Dermage Hidracare Loção Corporal",
+ "Dermage",
+ "Loção",
+ "Corpo",
+ "Loção para pele normal a seca.",
+ "https://www.dermage.com.br/hidracare-locao-hidratante-corporal/p"
+ ],
+ [
+ "Dermage Hyaluage Body",
+ "Dermage",
+ "Loção",
+ "Corpo",
+ "Textura hidratante corporal com ácido hialurônico.",
+ "https://www.dermage.com.br/corpo/hidratacao-corporal"
+ ],
+ [
+ "Dermage Regenerage Body",
+ "Dermage",
+ "Loção",
+ "Corpo",
+ "Linha de hidratação e reparação de pele sensível.",
+ "https://www.dermage.com.br/corpo/hidratacao-corporal"
+ ],
+ [
+ "Dermage Ureiactive",
+ "Dermage",
+ "Loção",
+ "Corpo, Áreas ressecadas",
+ "Com ureia; atenção à ardência em fissuras.",
+ "https://www.dermage.com.br/corpo/hidratacao-corporal"
+ ],
+ [
+ "Eucerin Anti-Pigment Loção Corporal",
+ "Eucerin",
+ "Loção",
+ "Corpo",
+ "Hidratação com ativos para uniformização do tom; não é emoliente simples.",
+ "https://www.eucerin.com.br/produtos/anti-pigment/eucerin-anti-pigment-lo%C3%A7%C3%A3o-corporal-hidratante-400ml-"
+ ],
+ [
+ "Eucerin AtopiControl Loção",
+ "Eucerin",
+ "Loção",
+ "Corpo",
+ "Linha para pele com tendência atópica; confirmar oferta local e formulação.",
+ "https://www.eucerin.com.br/"
+ ],
+ [
+ "Eucerin pH5 Loção Hidratante Corporal",
+ "Eucerin",
+ "Loção",
+ "Corpo",
+ "Loção para pele sensível com dexpantenol.",
+ "https://www.eucerin.com.br/produtos/pele-sensivel/ph5-lotion-400ml"
+ ],
+ [
+ "Eucerin UreaRepair Plus 10% Loção",
+ "Eucerin",
+ "Loção",
+ "Corpo, Áreas ressecadas",
+ "Ureia 10% e ceramidas para xerose; pode arder em lesões fissuradas.",
+ "https://www.eucerin.com.br/produtos/urea-repair/urea-repair-plus-locao-hidratante-corporal"
+ ],
+ [
+ "Fisiogel AI Creme Facial Diário",
+ "Fisiogel",
+ "Creme",
+ "Face",
+ "Versão facial para pele seca e sensível.",
+ "https://www.farmaconde.com.br/Fisiogel"
+ ],
+ [
+ "Fisiogel AI Loção Cremosa",
+ "Fisiogel",
+ "Loção",
+ "Corpo",
+ "Linha para pele seca e sensível; verificar composição da variante.",
+ "https://www.farmaconde.com.br/Fisiogel"
+ ],
+ [
+ "Fisiogel Creme Hidratante Corporal",
+ "Fisiogel",
+ "Creme",
+ "Corpo, Mãos",
+ "Creme corporal hipoalergênico conforme apresentação.",
+ "https://www.farmaconde.com.br/Fisiogel"
+ ],
+ [
+ "Fisiogel Terapia de Hidratação Diária",
+ "Fisiogel",
+ "Loção",
+ "Corpo",
+ "Loção para hidratação diária da pele seca.",
+ "https://www.farmaconde.com.br/Fisiogel"
+ ],
+ [
+ "Vaselina sólida 100% (petrolato)",
+ "Genéricos / farmácias",
+ "Pomada",
+ "Mãos, Áreas ressecadas",
+ "Emoliente oclusivo; verificar pureza, rotulagem e tamanho da embalagem.",
+ "https://www.vasenol.com.br/p/geleia-vaselina-original.html/07891150029323"
+ ],
+ [
+ "Granado Bebê Dermocalmante 120 mL",
+ "Granado",
+ "Loção",
+ "Bebê, Corpo",
+ "Com ceramidas e sem perfume informado na página oficial.",
+ "https://www.granado.com.br/granado/loc-o-hidratante-dermocalmante-120ml"
+ ],
+ [
+ "Granado Bebê Dermocalmante 300 mL",
+ "Granado",
+ "Loção",
+ "Bebê, Corpo",
+ "Embalagem maior da linha dermocalmante.",
+ "https://www.granado.com.br/granado/bebe/hidratacao"
+ ],
+ [
+ "Granado Bebê Suave Calêndula",
+ "Granado",
+ "Loção",
+ "Bebê, Corpo",
+ "Linha infantil perfumada; verificar composição e tolerância.",
+ "https://www.granado.com.br/granado/bebe/hidratacao"
+ ],
+ [
+ "Granado Bebê Suave Tradicional",
+ "Granado",
+ "Loção",
+ "Bebê, Corpo",
+ "Linha infantil de uso diário; confirmar fragrância.",
+ "https://www.granado.com.br/granado/bebe/hidratacao"
+ ],
+ [
+ "ISDIN Ureadin Lotion 10",
+ "ISDIN",
+ "Loção",
+ "Corpo, Áreas ressecadas",
+ "Ureia 10% para xerose; evitar aplicação indiscriminada em pele fissurada.",
+ "https://www.isdin.com/pt-BR/produto/ureadin/locao-rx"
+ ],
+ [
+ "ISDIN Ureadin Rx 10",
+ "ISDIN",
+ "Loção",
+ "Corpo, Áreas ressecadas",
+ "Loção com ureia e dexpantenol; conferir versão comercial.",
+ "https://www.isdin.com/pt-BR/produto/ureadin/locao-rx"
+ ],
+ [
+ "Lipikar Baume AP+M",
+ "La Roche-Posay",
+ "Bálsamo",
+ "Corpo, Face, Bebê",
+ "Bálsamo para pele muito seca e com tendência atópica; consultar ingredientes.",
+ "https://www.laroche-posay.com.br/lipikar/baume-ap-m"
+ ],
+ [
+ "Epidrat Calm B5",
+ "Mantecorp Skincare",
+ "Creme",
+ "Face, Áreas ressecadas",
+ "Produto reparador concentrado de uso localizado.",
+ "https://www.panvel.com/panvel/espaco-da-marca/mantecorp-skincare/m-11015?descricao_da_categoria_2=creme-hidratante&descricao_da_categoria_3=hidratante-corporal"
+ ],
+ [
+ "Epidrat Corpo Intensivo Creme",
+ "Mantecorp Skincare",
+ "Creme",
+ "Corpo",
+ "Creme hidratante corporal da Mantecorp; conferir embalagem e ingredientes.",
+ "https://www.panvel.com/panvel/espaco-da-marca/mantecorp-skincare/m-11015?descricao_da_categoria_2=creme-hidratante&descricao_da_categoria_3=hidratante-corporal"
+ ],
+ [
+ "Epidrat Corpo Intensivo Loção",
+ "Mantecorp Skincare",
+ "Loção",
+ "Corpo",
+ "Apresentação corporal de textura mais fluida.",
+ "https://www.panvel.com/panvel/espaco-da-marca/mantecorp-skincare/m-11015?descricao_da_categoria_2=creme-hidratante&descricao_da_categoria_3=hidratante-corporal"
+ ],
+ [
+ "Hydraporin AI Loção",
+ "Mantecorp Skincare",
+ "Loção",
+ "Corpo",
+ "Linha de emolientes para pele seca e sensível.",
+ "https://www.panvel.com/panvel/espaco-da-marca/mantecorp-skincare/m-11015?descricao_da_categoria_2=creme-hidratante&descricao_da_categoria_3=hidratante-corporal"
+ ],
+ [
+ "Mustela Creme Hidratante BIO",
+ "Mustela",
+ "Creme",
+ "Bebê, Corpo, Face",
+ "Versão orgânica; verificar ingredientes e idade recomendada.",
+ "https://www.mustela.com.br/collections/cremes-hidratantes-e-balsamos"
+ ],
+ [
+ "Mustela Hidratante Calmante Schisandra BIO",
+ "Mustela",
+ "Loção",
+ "Bebê, Corpo, Face",
+ "Linha para pele sensível; confirmar veículo e composição.",
+ "https://www.mustela.com.br/collections/hidratacao"
+ ],
+ [
+ "Mustela Hydra Bebê Hidratante Corporal",
+ "Mustela",
+ "Loção",
+ "Bebê, Corpo",
+ "Hidratação infantil de uso diário; conferir fragrância no rótulo.",
+ "https://www.mustela.com.br/collections/hidratacao"
+ ],
+ [
+ "Mustela Stelatopia+ Hidratante Relipidante",
+ "Mustela",
+ "Bálsamo",
+ "Bebê, Corpo, Face",
+ "Produto da linha Stelatopia+ para pele muito seca; conferir faixa etária.",
+ "https://www.mustela.com.br/collections/hidratante"
+ ],
+ [
+ "Neutrogena Body Care Intensive Hidrata & Repara",
+ "Neutrogena",
+ "Loção",
+ "Corpo",
+ "Hidratante corporal; verificar composição da variante.",
+ "https://www.neutrogena.com.br/cuidado-corporal/hidratacao-corporal"
+ ],
+ [
+ "Neutrogena Body Care Intensive Hidrata & Suaviza",
+ "Neutrogena",
+ "Loção",
+ "Corpo",
+ "Loção para uso corporal diário.",
+ "https://www.neutrogena.com.br/cuidado-corporal/hidratacao-corporal"
+ ],
+ [
+ "Neutrogena Hydro Boost Water Gel Corporal",
+ "Neutrogena",
+ "Gel-creme",
+ "Corpo",
+ "Textura leve para uso corporal.",
+ "https://www.neutrogena.com.br/cuidado-corporal/hidratacao-corporal"
+ ],
+ [
+ "Neutrogena Norwegian Com Fragrância",
+ "Neutrogena",
+ "Loção",
+ "Corpo",
+ "Versão perfumada; preferir cautela em peles reativas.",
+ "https://www.neutrogena.com.br/cuidado-corporal/linhas-de-productos/norwegian-formula"
+ ],
+ [
+ "Neutrogena Norwegian Sem Fragrância",
+ "Neutrogena",
+ "Loção",
+ "Corpo",
+ "Versão sem fragrância, para pele seca.",
+ "https://www.neutrogena.com.br/cuidado-corporal/linhas-de-productos/norwegian-formula"
+ ],
+ [
+ "Nivea Creme Lata Azul",
+ "Nivea",
+ "Creme",
+ "Corpo, Mãos, Áreas ressecadas",
+ "Creme oclusivo clássico e perfumado; não escolher automaticamente para pele atópica.",
+ "https://www.nivea.com.br/produtos/nivea-creme-40059004088910033.html"
+ ],
+ [
+ "Nivea Cuida & Repara",
+ "Nivea",
+ "Loção",
+ "Corpo",
+ "Opção corporal para ressecamento; conferir perfume.",
+ "https://careshop.nivea.com.br/beleza-e-perfumaria/corpo/hidratante/NIVEA%20Creme/Unissex/higiene-e-saude/sabonete/intimo"
+ ],
+ [
+ "Nivea Lotion Express",
+ "Nivea",
+ "Loção",
+ "Corpo",
+ "Loção leve de rápida absorção; contém fragrância conforme variante.",
+ "https://www.nivea.com.br/destaques/hidratante-corporal-milk"
+ ],
+ [
+ "Nivea Milk",
+ "Nivea",
+ "Loção",
+ "Corpo",
+ "Loção corporal de textura nutritiva, com fragrância; não indicada pelo fabricante para rosto.",
+ "https://www.nivea.com.br/produtos/nivea-locao-hidratante-milk-pele-seca-a-extrasseca-40058083156970033.html"
+ ],
+ [
+ "Nivea Soft Milk",
+ "Nivea",
+ "Loção",
+ "Corpo",
+ "Loção de uso corporal com absorção mais rápida.",
+ "https://www.nivea.com.br/destaques/hidratante-corporal-milk"
+ ],
+ [
+ "Profuse Nutrel B5",
+ "Profuse",
+ "Creme",
+ "Corpo, Face, Mãos, Áreas ressecadas",
+ "Creme multirreparador com pantenol e emolientes.",
+ "https://www.profuse.com.br/produtos/nutrel-b5/"
+ ],
+ [
+ "Profuse Nutrel Suavizante Balm",
+ "Profuse",
+ "Bálsamo",
+ "Face",
+ "Produto facial para pele sensível; conferir composição.",
+ "https://www.profuse.com.br/linhas/nutrel/"
+ ],
+ [
+ "Uriage Xémose Cérat",
+ "Uriage",
+ "Bálsamo",
+ "Corpo, Face",
+ "Cerato nutritivo para xerose intensa; confirmar comercialização brasileira.",
+ "https://www.uriage.com/pt/pt/produtos/xemose-cerat"
+ ],
+ [
+ "Uriage Xémose Creme Emoliente",
+ "Uriage",
+ "Creme",
+ "Corpo, Face",
+ "Creme relipidante para pele muito seca; confirmar comercialização brasileira.",
+ "https://www.uriage.com/pt/pt/gamas/xemose"
+ ],
+ [
+ "Vasenol Calming",
+ "Vasenol",
+ "Loção",
+ "Corpo",
+ "Loção corporal com extrato de aveia, verificar fragrância.",
+ "https://www.vasenol.com.br/products.html"
+ ],
+ [
+ "Vasenol Clinical",
+ "Vasenol",
+ "Loção",
+ "Corpo",
+ "Loção corporal para pele extrasseca; verificar fragrância.",
+ "https://www.vasenol.com.br/products.html"
+ ],
+ [
+ "Vasenol Geleia de Vaselina Original",
+ "Vasenol",
+ "Pomada",
+ "Mãos, Áreas ressecadas",
+ "Petrolato oclusivo 100%, para áreas muito ressecadas.",
+ "https://www.vasenol.com.br/p/geleia-vaselina-original.html/07891150029323"
+ ],
+ [
+ "Vasenol Nutrição do Cacau",
+ "Vasenol",
+ "Loção",
+ "Corpo",
+ "Hidratante perfumado; pode não ser primeira escolha para pele atópica.",
+ "https://www.vasenol.com.br/products.html"
+ ],
+ [
+ "Vasenol Repairing",
+ "Vasenol",
+ "Loção",
+ "Corpo",
+ "Loção para xerose; formulação conforme variante.",
+ "https://www.vasenol.com.br/products.html"
+ ]
 ];
+
 const icons={
  pill:'<rect x="13" y="24" width="38" height="17" rx="8.5" transform="rotate(-34 32 32.5)" fill="#cdeaf0" stroke="#28677e" stroke-width="2"/><path d="M32 22v20" transform="rotate(-34 32 32)" stroke="#1a7188" stroke-width="2"/><circle cx="49" cy="16" r="4" fill="#d4ac4d"/>',
  skin:'<path d="M12 45c9-19 15-27 24-27 7 0 13 6 16 19" fill="none" stroke="#2d8798" stroke-width="8" stroke-linecap="round"/><path d="M13 49h39" stroke="#d4ac4d" stroke-width="4" stroke-linecap="round"/>',
@@ -203,7 +693,7 @@ function cards(data,id){
   const name=esc(item[0]),brand=esc(item[1]),form=esc(item[2]),tag=esc(item[3]),note=esc(item[4]);
   return '<details class="med-prod" data-hub-medicamento data-item="'+i+'"><summary><span class="med-prod-index">'+String(i+1).padStart(2,'0')+'</span><span class="med-prod-head"><span class="hub-med-nome">'+name+'</span><span class="med-prod-brand">'+brand+'</span></span><span class="med-prod-tag">'+tag+'</span><span class="med-prod-chevron">⌄</span></summary>'+
   '<div class="med-prod-detail"><div><span class="med-mini-label">Apresentações / veículo</span><p>'+form+'</p></div><div><span class="med-mini-label">Orientações clínicas</span><p>'+note+'</p></div>'+
-  '<a href="'+anvisaLink+'" target="_blank" rel="noopener noreferrer">'+anvisaLabel+'</a></div></details>';
+  '<a href="'+anvisaLink+'" target="_blank" rel="noopener noreferrer">'+anvisaLabel+'</a>'+ (id==='hidratantes' && /^https:\/\//.test(item[5]||'')?'<a class="med-brand-source" href="'+esc(item[5])+'" target="_blank" rel="noopener noreferrer">Ver apresentação e ingredientes na fonte consultada</a>':'')+'</div></details>';
  }).join('')+'</div><p class="med-source">Marcas exemplificativas, sem confirmação automática de registro ou disponibilidade. <a href="'+sourceHref(id)+'" target="_blank" rel="noopener noreferrer">'+sourceLabel(id)+'</a>.</p>';
 }
 let initDone=false,moistPrices=new Map(),moistChecked=false,moistBusy=false,moistMessage='';
@@ -219,10 +709,10 @@ function init(){
   if(e.target.matches('[data-med-price-check]')){e.preventDefault();loadMoistPrices(true);}
  });
  root.addEventListener('input',e=>{
-  if(e.target.matches('[data-med-search], [data-med-budget]'))renderCurrent();
+  if(e.target.matches('[data-med-search], [data-med-moist-search], [data-med-budget]'))renderCurrent();
  });
  root.addEventListener('change',e=>{
-  if(e.target.matches('[data-med-texture], [data-med-area]'))renderCurrent();
+  if(e.target.matches('[data-med-texture], [data-med-area], [data-med-brand]'))renderCurrent();
  });
 }
 function openCategory(id,force){
@@ -245,7 +735,7 @@ function openCategory(id,force){
    else body.innerHTML='<p>Catálogo de anti-histamínicos não encontrado.</p>';
   }else{
    const controls=id==='hidratantes'
-    ? '<div class="med-filters"><label>Preço máximo (R$)<input type="number" min="0" step="0.01" inputmode="decimal" data-med-budget placeholder="Ex.: 80"></label><label>Textura<select data-med-texture><option value="">Todas</option><option>Creme</option><option>Loção</option><option>Bálsamo</option><option>Pomada</option></select></label><label>Área corporal<select data-med-area><option value="">Todas</option><option>Corpo</option><option>Face</option><option>Mãos</option><option>Áreas ressecadas</option><option>Bebê</option></select></label></div><div class="med-price-status" data-med-price-status></div><button type="button" class="med-check-prices" data-med-price-check>Verificar preços disponíveis</button>'
+    ? '<div class="med-moist-stats">70 hidratantes • 18 marcas • selecione uma combinação</div><div class="med-filters med-moist-filters"><label>Marca<select data-med-brand><option value="">Todas as marcas</option>'+Array.from(new Set(MOIST.map(x=>x[1]))).sort((a,b)=>a.localeCompare(b,'pt-BR')).map(brand=>'<option value="'+esc(brand)+'">'+esc(brand)+'</option>').join('')+'</select></label><label>Textura<select data-med-texture><option value="">Todas</option><option>Creme</option><option>Loção</option><option>Gel-creme</option><option>Bálsamo</option><option>Pomada</option></select></label><label>Área corporal<select data-med-area><option value="">Todas</option><option>Corpo</option><option>Face</option><option>Mãos</option><option>Áreas ressecadas</option><option>Bebê</option></select></label><label>Preço máximo (R$)<input type="number" min="0" step="0.01" inputmode="decimal" data-med-budget placeholder="Ex.: 80"></label><label class="med-moist-search-label">Pesquisar produto<input type="search" data-med-moist-search autocomplete="off" placeholder="Hidratante, linha, ativo..."></label></div><div class="med-price-status" data-med-price-status></div><button type="button" class="med-check-prices" data-med-price-check>Consultar ofertas verificadas</button>'
     : '<div class="med-filters med-filters-basic"><label>Pesquisar nesta categoria<input type="search" data-med-search autocomplete="off" placeholder="Genérico, marca, classe..."></label></div>';
    body.innerHTML=controls+'<div class="med-list-slot"></div>';
   }
@@ -266,25 +756,27 @@ function renderMoist(sec,slot){
  const area=sec.querySelector('[data-med-area]').value;
  const raw=sec.querySelector('[data-med-budget]').value;
  const budget=raw===''?null:Number(raw);
- const matched=MOIST.filter(x=>(!texture||x[2]===texture)&&(!area||x[3].includes(area)));
+ const brand=sec.querySelector('[data-med-brand]')?.value||'';
+ const query=norm(sec.querySelector('[data-med-moist-search]')?.value||'');
+ const matched=MOIST.filter(x=>(!brand||x[1]===brand)&&(!texture||x[2]===texture)&&(!area||x[3].includes(area))&&(!query||norm([x[0],x[1],x[4]].join(' ')).includes(query)));
  const status=sec.querySelector('[data-med-price-status]');
  if(raw!=='' && (!Number.isFinite(budget)||budget<0)){
   status.textContent='Informe um valor válido em reais.';slot.innerHTML='';return;
  }
  if(budget===null){
-  status.textContent='Digite um preço máximo para filtrar por ofertas verificadas. Sem preço informado, a seleção considera textura e área. Preços não são estimados.';
+  status.textContent=matched.length+' produtos encontrados. Filtre por marca, textura, área ou nome. O preço só aparece quando existe oferta verificável.';
   slot.innerHTML=cards(matched,'hidratantes');return;
  }
  const prices=matched.map(x=>({item:x,offers:(moistPrices.get(x[0])||[]).filter(o=>o.price<=budget)}));
  const affordable=prices.filter(x=>x.offers.length).sort((a,b)=>Math.min(...a.offers.map(o=>o.price))-Math.min(...b.offers.map(o=>o.price)));
  const unknown=matched.filter(x=>!moistPrices.has(x[0])||!moistPrices.get(x[0]).length);
- if(!moistChecked&&!moistBusy)loadMoistPrices(false);
+ // A consulta é iniciada somente por clique para evitar dezenas de solicitações desnecessárias.
  const verified=affordable.map(({item,offers})=>{
   const min=Math.min(...offers.map(o=>o.price));
   const best=offers.reduce((a,b)=>Number(a.price)<=Number(b.price)?a:b);
   return '<div class="med-price-result">'+cards([item],'hidratantes')+'<div class="med-price-proof">Menor oferta verificada: '+fmt(min)+' · '+esc(best.pharmacy)+' · '+offers.length+' oferta(s) dentro do orçamento. <a href="'+esc(best.url)+'" target="_blank" rel="noopener noreferrer">Conferir oferta e embalagem</a></div></div>';
  }).join('');
- status.textContent=moistBusy?'Consultando fontes integradas para as ofertas atuais…':moistMessage||
+ status.textContent=moistBusy?'Consultando ofertas dos produtos filtrados…':moistMessage||
  (affordable.length?'Exibindo apenas ofertas verificadas dentro do valor informado.':'Nenhuma oferta verificada disponível dentro do limite informado.');
  slot.innerHTML=(verified||'<p class="med-empty">Nenhuma oferta de hidratante com preço confirmado até '+fmt(budget)+'. A ausência de oferta não significa que o produto custe mais.</p>')+
  (unknown.length?'<details class="med-uncoted"><summary>'+unknown.length+' opção(ões) sem preço integrado — consultar manualmente</summary>'+cards(unknown,'hidratantes')+'</details>':'');
@@ -298,9 +790,15 @@ async function loadMoistPrices(force){
   const lr=await fetch('/api/farmacias-localizacao',{cache:'no-store',credentials:'same-origin'});
   if(lr.ok){const p=await lr.json();city=String(p.city||'').slice(0,100);uf=String(p.uf||'').slice(0,2);}
  }catch(_){}
- const requests=MOIST.map(x=>x[0]);let counter=0,configured=false;
+ const sec=document.querySelector('#medApp [data-med-category="hidratantes"]');
+ const brand=sec?.querySelector('[data-med-brand]')?.value||'';
+ const texture=sec?.querySelector('[data-med-texture]')?.value||'';
+ const area=sec?.querySelector('[data-med-area]')?.value||'';
+ const q=norm(sec?.querySelector('[data-med-moist-search]')?.value||'');
+ const eligible=MOIST.filter(x=>(!brand||x[1]===brand)&&(!texture||x[2]===texture)&&(!area||x[3].includes(area))&&(!q||norm([x[0],x[1],x[4]].join(' ')).includes(q)));
+ const requests=eligible.map(x=>x[0]);let counter=0,configured=false,disabled=false;
  async function worker(){
-  while(counter<requests.length){
+  while(counter<requests.length&&!disabled){
    const name=requests[counter++];
    try{
     const res=await fetch('/api/farmacias-precos',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({medication:name,city,uf})});
@@ -308,13 +806,13 @@ async function loadMoistPrices(force){
     const data=await res.json();if(data.configured)configured=true;
     const offers=(Array.isArray(data.offers)?data.offers:[]).filter(o=>o.verified===true&&Number(o.price)>0&&Number.isFinite(Number(o.price))&&/^https:\/\//.test(o.url||''));
     moistPrices.set(name,offers);
-    if(data.configured===false){break;}
+    if(data.configured===false){disabled=true;break;}
    }catch(_){moistPrices.set(name,[]);}
   }
  }
  await Promise.all([worker(),worker(),worker()]);
  moistBusy=false;moistChecked=true;
- moistMessage=configured?'Consulta concluída. Resultados dependem de ofertas verificadas retornadas pelo fornecedor.':'Integração de preços ainda não configurada. As opções clínicas continuam disponíveis, mas o filtro por preço não pode confirmar produtos abaixo do valor.';
+ moistMessage=configured?'Consulta concluída para '+eligible.length+' produtos filtrados. Os valores dependem das ofertas reais disponíveis no fornecedor.':'Integração de preços não configurada. Os hidratantes permanecem no catálogo, mas ainda não é possível filtrá-los por preço de venda.';
  renderCurrent();
 }
 window.medsInit=init;window.medsOpenCategory=id=>openCategory(id,true);
