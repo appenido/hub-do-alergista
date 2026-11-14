@@ -2,110 +2,117 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 
-const html=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8');
-const ia=fs.readFileSync(new URL('../functions/ia.js',import.meta.url),'utf8');
-const inicio=html.indexOf('/* ── INTERAÇÕES MEDICAMENTOSAS: triagem');
-const fim=html.indexOf('/* ── Endereço completo',inicio);
-assert.ok(inicio>0 && fim>inicio,'Função de interações deve estar disponível');
-const codigo=html.slice(inicio,fim);
+const load=p=>fs.readFileSync(new URL('../'+p,import.meta.url),'utf8');
+const html=load('index.html');
+const script=load('interacoes-clinicas.js');
+const backend=load('functions/interacoes.js');
+const sw=load('sw.js');
+const pagina=html.split('<div class="page" id="page-interacao">')[1].split('<!-- ══ IMUNOGLOBULINAS')[0];
+const fakeAbort=class{signal={};abort(){}};
+const makeResp=(body,status=200)=>new Response(JSON.stringify(body),{status,headers:{'Content-Type':'application/json'}});
 
-function montarConsulta(medicamentos,resposta){
-  let chamadas=0;
-  const resultado={
-    style:{},children:[],innerHTML:'',
-    replaceChildren(){this.children=[];this.innerHTML='';},
-    appendChild(el){this.children.push(el);}
-  };
-  const botao={disabled:false,textContent:'Analisar'};
-  const doc={
-    getElementById(id){return id==='diResultado'?resultado:id==='diVerificarBtn'?botao:null;},
-    createElement(tag){return {tag,style:{},textContent:'',children:[],appendChild(el){this.children.push(el);},addEventListener(){}};}
-  };
-  const mockFetch=async()=>{chamadas++;return resposta;};
-  const executar=new Function(
-    'document','fetch','diColetarMeds','_iaFormatar','abrirMedscapeInteracao',
-    'setTimeout','clearTimeout','AbortController',codigo+'return verificarInteracoes;'
-  )(doc,mockFetch,()=>medicamentos,(x)=>x,()=>{},()=>1,()=>{},class{signal={};abort(){}});
-  return {executar,resultado,botao,get chamadas(){return chamadas;}};
+function fakeServer(meds,forcarStatus=null){
+  let calls=[];
+  const handle=new Function('fetch','Response','setTimeout','clearTimeout','AbortController','caches',
+    backend.replaceAll('export async function','async function')+'return onRequestPost;')(
+      async url=>{
+        calls.push(String(url));
+        if(forcarStatus!==null)return makeResp({error:'service unavailable'},forcarStatus);
+        const nome=new URL(String(url)).searchParams.get('search');
+        if(/dupilumab/i.test(nome))return makeResp({results:[{
+          set_id:'123e4567-e89b-12d3-a456-426614174000',
+          effective_time:'20261010',
+          openfda:{generic_name:['DUPILUMAB'],brand_name:['DUPIXENT']},
+          drug_interactions:['No pharmacokinetic interactions with methotrexate are described in the study.']
+        }]});
+        if(/methotrexate/i.test(nome))return makeResp({results:[{
+          set_id:'123e4567-e89b-12d3-a456-426614174001',
+          effective_time:'20260504',
+          openfda:{generic_name:['METHOTREXATE'],brand_name:['TREXALL']},
+          drug_interactions:['Use caution with interacting drugs.']
+        }]});
+        return makeResp({error:'No matches found'},404);
+      },Response,()=>1,()=>{},fakeAbort,undefined);
+  async function call(med){
+    const req=new Request('https://hubdoalergista.pages.dev/interacoes',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({medicamentos:med})
+    });
+    const res=await handle({request:req,env:{}});
+    return {status:res.status,data:await res.json(),calls};
+  }
+  return call;
 }
 
-test('erro de cota exibe alternativa segura em vez de resultado clínico',async()=>{
-  const c=montarConsulta(['Dupilumabe','Metotrexato'],{
-    ok:false,status:429,json:async()=>({erro:'Serviço sobrecarregado'})
-  });
-  await c.executar();
-  assert.equal(c.resultado.children[0].textContent,'Triagem automatizada indisponível');
-  assert.match(c.resultado.children[1].textContent,/Não foi possível confirmar as combinações informadas/);
-  assert.equal(c.resultado.children.at(-1).tag,'button');
-  assert.equal(c.botao.disabled,false);
+test('interações não usam IA nem fingem que a base do Medscape foi copiada',()=>{
+  assert.match(pagina,/onclick="consultarInteracoesSemIA\(\)"/);
+  assert.match(pagina,/id="diMedscapeBtn"/);
+  assert.doesNotMatch(pagina,/\bpor IA\b|Medscape integrado/i);
+  assert.doesNotMatch(script,/fetch\(['"]\/ia['"]/);
+  assert.doesNotMatch(backend,/GEMINI|OPENAI|generativelanguage\.googleapis\.com/);
+  assert.match(sw,/interacoes-clinicas\.js/);
 });
 
-test('ciclosporina e prednisona retornam conteúdo documental mesmo sem API de IA',async()=>{
-  const c=montarConsulta(['Ciclosporina','Prednisona'],{
-    ok:false,status:429,json:async()=>({erro:'Cota excedida'})
-  });
-  await c.executar();
-  assert.equal(c.chamadas,0,'Pares documentados devem funcionar sem requisitar IA');
-  assert.match(c.resultado.children[0].textContent,/Interações identificadas em bula oficial/);
-  const card=c.resultado.children.find(el=>el.tag==='section');
-  assert.ok(card,'Deve exibir card com a interação');
-  assert.match(card.children[0].textContent,/Ciclosporina \+ Prednisona/);
-  assert.match(card.children[1].textContent,/prednisolona/);
-  const link=card.children.find(el=>el.tag==='a');
-  assert.match(link.href,/dailymed.nlm.nih.gov/);
+test('consulta diretamente a API de bulas e produz menção textual, não confirmação de interação',async()=>{
+  const req=fakeServer();
+  const r=await req(['Dupilumabe','Metotrexato']);
+  assert.equal(r.status,200);
+  assert.equal(r.data.bulas.length,2);
+  assert.equal(r.data.bulas[0].principioAtivo,'dupilumab');
+  assert.equal(r.data.bulas[1].principioAtivo,'methotrexate');
+  assert.equal(r.data.pares[0].mencoes.length,1);
+  assert.match(r.data.aviso,/nao calcula a interacao farmacologica/i);
+  assert.ok(r.calls.every(x=>x.startsWith('https://api.fda.gov/drug/label.json')));
 });
 
-test('falha da IA preserva achado de bula e declara pares não cobertos',async()=>{
-  const c=montarConsulta(['Ciclosporina','Prednisona','Dupilumabe'],{
-    ok:false,status:429,json:async()=>({erro:'Cota excedida'})
-  });
-  await c.executar();
-  assert.equal(c.chamadas,1);
-  assert.match(c.resultado.children[0].textContent,/Interações identificadas em bula oficial/);
-  assert.ok(c.resultado.children.some(el=>/Pares sem cobertura/.test(el.children?.[0]?.textContent||'')));
-  assert.ok(c.resultado.children.some(el=>/limite de cota/.test(el.textContent||'')));
+test('se a FDA não encontra medicamento, não classifica como seguro',async()=>{
+  const req=fakeServer();
+  const r=await req(['Bilastina','Metotrexato']);
+  assert.equal(r.status,200);
+  assert.equal(r.data.bulas[0].status,'nao_encontrado');
+  assert.equal(r.data.pares[0].mencoes.length,0);
+  assert.match(r.data.aviso,/nao comprova seguranca/);
 });
 
-test('sucesso traz aviso explícito de triagem não validada',async()=>{
-  const c=montarConsulta(['Dupilumabe','Metotrexato'],{
-    ok:true,status:200,json:async()=>({resposta:'Avaliação preliminar'})
-  });
-  await c.executar();
-  assert.match(c.resultado.innerHTML,/não validada pelo Medscape/);
-  assert.match(c.resultado.innerHTML,/Avaliação preliminar/);
-  assert.equal(c.botao.disabled,false);
+test('o limite da FDA aparece como falha, sem transformar em resultado negativo',async()=>{
+  const req=fakeServer(null,429);
+  const r=await req(['Dupilumabe','Metotrexato']);
+  assert.equal(r.status,200);
+  assert.ok(r.data.bulas.every(x=>x.status==='limite'));
+  assert.ok(r.data.pares.every(x=>x.mencoes.length===0));
 });
 
-test('um fármaco isolado ou repetido não aciona a IA',async()=>{
-  const c=montarConsulta(['Dupilumabe','dupilumabe'],{
-    ok:true,status:200,json:async()=>({resposta:'Não deveria executar'})
-  });
-  await c.executar();
-  assert.equal(c.chamadas,0);
-  assert.equal(c.resultado.children[0].textContent,'Faltam medicamentos');
+test('entrada é validada; pacientes identificados não devem ser enviados',async()=>{
+  const req=fakeServer();
+  const r=await req(['Dupilumabe','paciente@hospital.com']);
+  assert.equal(r.status,400);
+  assert.equal(r.calls.length,0);
 });
 
-test('interface distingue análise por IA de consulta ao Medscape',()=>{
-  assert.match(html,/id="diMedscapeBtn"/);
-  assert.match(html,/A triagem por IA ocorre no Hub/);
-  assert.doesNotMatch(html,/Medscape integrado|feita integralmente pela base do Medscape/);
+test('scripts e função Cloudflare têm sintaxe válida',()=>{
+  assert.doesNotThrow(()=>new Function(script));
+  assert.doesNotThrow(()=>new Function(backend.replaceAll('export async function','async function')));
 });
 
-test('backend devolve HTTP 429 quando modelos atingem a cota',async()=>{
-  let chamadas=0;
-  const fonte=ia.replaceAll('export async function','async function');
-  const handle=new Function('fetch','Response','setTimeout','clearTimeout','AbortController',
-    fonte+'return onRequestPost;')(
-    async()=>{chamadas++;return {ok:false,status:429};},
-    Response,()=>1,()=>{},class{signal={};abort(){}}
-  );
-  const r=await handle({
-    request:{
-      headers:{get(){return null;}},
-      json:async()=>({pergunta:'Interações entre dupilumabe e metotrexato'})
-    },
-    env:{GEMINI_API_KEY:'mock'}
-  });
-  assert.equal(r.status,429);
-  assert.equal(chamadas,2);
+test('interface faz consulta ao endpoint próprio e restaura o botão em erro',async()=>{
+  let calls=0;
+  const box={style:{},children:[],replaceChildren(...itens){this.children=[...itens];},appendChild(el){this.children.push(el);}};
+  const btn={disabled:false,textContent:'Consultar bulas sem IA'};
+  const doc={
+    getElementById(id){return id==='diResultado'?box:id==='diVerificarBtn'?btn:null;},
+    createElement(tag){
+      return {tag,style:{},children:[],addEventListener(){},appendChild(el){this.children.push(el);}};
+    }
+  };
+  const w={open(){}};
+  new Function('window','document','fetch','diColetarMeds','setTimeout','clearTimeout','AbortController',script)(
+    w,doc,async url=>{
+      calls++;assert.equal(url,'/interacoes');
+      return {ok:false,status:503,json:async()=>({erro:'Fonte indisponível'})};
+    },()=>['Dupilumabe','Metotrexato'],()=>1,()=>{},fakeAbort);
+  await w.consultarInteracoesSemIA();
+  assert.equal(calls,1);
+  assert.equal(btn.disabled,false);
+  assert.match(box.children[0].textContent,/Não foi possível consultar as bulas/);
+  assert.ok(box.children.some(x=>x.tag==='button'));
 });
