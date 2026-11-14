@@ -50,6 +50,7 @@
     // Mesma unidade física (até 180 m) e mesma rede/nome; não serve preço online regional.
     if (haversine(store.lat,store.lon,lat,lon)>0.18) return false;
     const a=normalize(store.name),b=normalize(offer.pharmacy);
+    if (['farmacia','drogaria','drugstore'].includes(a) || !b) return false;
     return a===b || (b.length>4 && a.includes(b)) || (a.length>4 && b.includes(a));
   }
   async function priceAtStore(medicine,city,uf,stores) {
