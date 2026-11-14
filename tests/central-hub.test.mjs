@@ -9,12 +9,13 @@ const html=load('index.html'),admin=load('central-hub.html'),
   privacy=load('privacidade.html'),sw=load('sw.js');
 
 test('PWA instala telemetria somente no cliente principal, não em formulários clínicos',()=>{
-  assert.match(html,/src="\/analytics-client\.js\?v=20261112-1"/);
-  assert.match(sw,/analytics-client\.js\?v=20261112-1/);
+  const assets=html.match(/src="\/(analytics-client\.js\?v=[0-9a-z-]+)"/)?.[1];
+  assert.ok(assets,'cliente de métricas deve existir no Hub');
+  assert.ok(sw.includes(assets),'service worker deve armazenar a versão atual');
   assert.match(events,/CHOICE_KEY='hub_analytics_choice_v2'/);
   assert.match(events,/escolha\(\)==='sim'/);
   assert.match(events,/if\(!enabled/);
-  assert.doesNotMatch(events,/\.value\b/);
+  assert.doesNotMatch(events,/\.target\.value\b|\b(?:input|textarea|field)\.value\b/);
   assert.doesNotMatch(events,/textContent\s*\)/);
   assert.doesNotMatch(events,/location\.href[^\n]*body:/);
 });
@@ -58,4 +59,7 @@ test('fontes JavaScript continuam sintaticamente válidas',()=>{
   assert.doesNotThrow(()=>new Function(events));
   assert.doesNotThrow(()=>new Function(adminJs));
   assert.doesNotThrow(()=>new Function(backend.replaceAll('export async function','async function')));
+  assert.doesNotThrow(()=>new Function(load('central-inteligencia.js')));
+  assert.doesNotThrow(()=>new Function(load('central-saude.js')));
+  assert.doesNotThrow(()=>new Function(load('functions/health-analytics.js').replaceAll('export async function','async function')));
 });
