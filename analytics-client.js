@@ -109,7 +109,9 @@ function startHealth(){
     }
   }
   window.addEventListener('error',ev=>{
-    // Não registrar erro, arquivo, stack trace, conteúdo clínico ou URL.
+    // Ignorar falhas de imagem/recurso: contar somente erros JavaScript globais.
+    // Nunca registrar mensagem, arquivo, stack trace, conteúdo clínico ou URL.
+    if(ev.target!==window||typeof ev.message!=='string')return;
     if(enabled&&healthErrors++<20)sendHealth('js_error',1,false);
   },{capture:true,passive:true});
   window.addEventListener('unhandledrejection',()=>{
