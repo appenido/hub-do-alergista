@@ -71,3 +71,16 @@
 
 /health-analytics
   Cache-Control: no-store
+
+# Notícias e índice clínico: nunca servir dados de uma auditoria anterior por cache.
+/data/hub-novidades.json
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/data/uptodate.json
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/hub-novidades.js
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/uptodate-ui.js
+  Cache-Control: no-cache, max-age=0, must-revalidate
