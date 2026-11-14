@@ -52,3 +52,16 @@
 .hub-language-floating svg{width:17px;height:17px}
 .hub-language-floating .hub-lang-arrow{font-size:13px;opacity:.8}
 .hub-language-floating:focus-within{outline:2px solid #c5a24d;outline-offset:2px}
+
+/* Indicação discreta durante a tradução de conteúdo das telas */
+.hub-language-control.hub-language-loading::after{
+  content:'';position:absolute;top:-3px;right:-3px;width:7px;height:7px;
+  border-radius:50%;background:#d7ae58;border:1px solid #fff;
+  box-shadow:0 0 0 2px rgba(13,31,45,.24);
+  animation:hubLanguagePulse 1.25s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes hubLanguagePulse{0%,100%{opacity:.55;transform:scale(.85)}50%{opacity:1;transform:scale(1.13)}}
+@media(prefers-reduced-motion:reduce){
+  .hub-language-control.hub-language-loading::after{animation:none}
+}
