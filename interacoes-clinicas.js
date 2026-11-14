@@ -27,10 +27,13 @@ function renderizar(box,dados){
     return;
   }
   const identificadas=pares.filter(p=>p.situacao==='identificada').length;
+  const semClassificacao=pares.length-identificadas;
   box.appendChild(el('div','Resultado das interações medicamentosas',
     'font-size:14px;font-weight:800;color:'+COR_TEXTO+';margin-bottom:8px'));
-  box.appendChild(el('div',identificadas+' interação(ões) identificada(s) em '+pares.length+' combinação(ões) avaliadas.',
-    'font-size:12px;color:#506475;line-height:1.5;margin-bottom:12px'));
+  const resumo=identificadas+' combinação(ões) com alerta documentado; '+semClassificacao+
+    ' combinação(ões) sem evidência suficiente para classificação, de '+pares.length+' pesquisada(s).';
+  box.appendChild(el('div',resumo,
+    'font-size:12.5px;color:#506475;line-height:1.6;margin-bottom:12px'));
   pares.forEach(function(p){
     const reconhecida=p.situacao==='identificada';
     const prioridade=p.nivel==='Contraindicada'||p.nivel==='Evitar associação';
@@ -44,25 +47,43 @@ function renderizar(box,dados){
       'display:block;padding-left:17px;font-size:11.5px;font-weight:700;color:'+cor+';margin-top:4px'));
     card.appendChild(titulo);
     const conteudo=el('div',null,'padding:0 14px 14px');
-    if(reconhecida){
-      conteudo.appendChild(linha('Interação',p.efeito||''));
-      conteudo.appendChild(linha('Conduta',p.conduta||''));
-      if(p.fonte&&p.fonte.url){
-        const a=el('a','Referência clínica',
-          'display:inline-block;margin-top:6px;font-size:11.5px;color:#176b91;font-weight:700;text-decoration:underline');
-        a.href=p.fonte.url;a.target='_blank';a.rel='noopener noreferrer';
-        conteudo.appendChild(a);
-      }
-    }else{
-      conteudo.appendChild(linha('Situação','Esta combinação não possui avaliação disponível nesta base.'));
-      conteudo.appendChild(linha('Conduta','Não considerar a associação segura pela ausência de registro. Verificar em fonte farmacológica validada antes da prescrição.'));
+    conteudo.appendChild(linha(reconhecida?'Interação documentada':'Informações disponíveis',p.efeito||
+      'A informação disponível não permite classificar esta combinação.'));
+    conteudo.appendChild(linha('Conduta',p.conduta||'Revisar a associação antes de prescrever.'));
+    if(p.fonte&&p.fonte.url){
+      const a=el('a',p.fonte.nome||'Consultar referência oficial',
+        'display:inline-block;margin:4px 0 8px;font-size:11.5px;color:#176b91;font-weight:700;text-decoration:underline;overflow-wrap:anywhere');
+      a.href=p.fonte.url;a.target='_blank';a.rel='noopener noreferrer';
+      conteudo.appendChild(a);
+    }
+    const docs=Array.isArray(p.documentos)?p.documentos:[];
+    if(docs.length){
+      conteudo.appendChild(el('div','Consulta complementar às fontes públicas',
+        'font-size:11.5px;font-weight:700;color:'+COR_TEXTO+';margin:10px 0 6px'));
+      docs.forEach(function(info){
+        const area=el('div',null,'border-top:1px solid #e8edf2;padding:7px 0;font-size:11.5px;line-height:1.5;color:#516579');
+        const base='Bula FDA: '+(info.fda==='localizado'?'localizada':info.fda==='indisponível'?'consulta indisponível':'não localizada');
+        const identificador='Identificação: '+(info.rxcui?'confirmada (RxCUI '+info.rxcui+')':'não confirmada');
+        area.appendChild(el('div',info.medicamento+' · '+base+' · '+identificador));
+        if(info.linkBula){
+          const a=el('a','Consultar bula original',
+            'display:inline-block;color:#176b91;text-decoration:underline;margin-top:4px');
+          a.href=info.linkBula;a.target='_blank';a.rel='noopener noreferrer';
+          area.appendChild(a);
+        }
+        conteudo.appendChild(area);
+      });
+      conteudo.appendChild(el('div','A localização de uma bula não confirma nem exclui interações entre os medicamentos.',
+        'font-size:11px;color:#7d622e;line-height:1.5;margin-top:5px'));
     }
     card.appendChild(conteudo);box.appendChild(card);
   });
-  if(dados.naoAvaliadas){
-    box.appendChild(el('div',dados.naoAvaliadas+' combinação(ões) sem avaliação nesta base. Ausência de registro não significa ausência de interação.',
+  if(semClassificacao){
+    box.appendChild(el('div',semClassificacao+' combinação(ões) sem classificação clínica. A ausência de registro ou de estudos não significa ausência de interação.',
       'font-size:11.5px;line-height:1.6;color:#73511c;background:#fff8e8;border-radius:9px;padding:10px;margin-top:9px'));
   }
+  box.appendChild(el('div','Fontes: regras clínicas referenciadas, bulas FDA e identificação NIH/RxNorm. Cobertura parcial. Consulta em '+new Date(dados.dataConsulta||Date.now()).toLocaleString('pt-BR')+'.',
+    'font-size:10.5px;line-height:1.5;color:#718096;margin-top:12px'));
 }
 async function verificarInteracoes(){
   const box=document.getElementById('diResultado');
@@ -79,7 +100,7 @@ async function verificarInteracoes(){
     return;
   }
   const controller=new AbortController();
-  const timer=setTimeout(()=>controller.abort(),14000);
+  const timer=setTimeout(()=>controller.abort(),32000);
   btn.disabled=true;
   btn.textContent='Verificando interações…';
   mensagem(box,'Verificando interações','Analisando as combinações informadas.');
