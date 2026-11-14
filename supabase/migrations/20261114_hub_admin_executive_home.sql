@@ -34,7 +34,7 @@ begin
  ),
  features as (
   select feature,count(*)::int as views,count(distinct session_key)::int as sessions
-  from views group by feature order by views desc,sessions desc limit 12
+  from views where feature not in ('dashboard','perfil') group by feature order by views desc,sessions desc limit 12
  ),
  recent as (
   select recorded_at,event_type,feature,action,device,city,region,country
