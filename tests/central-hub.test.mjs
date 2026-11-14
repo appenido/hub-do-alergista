@@ -24,8 +24,12 @@ test('não há token administrativo, senha, service role ou chave secreta no fro
   assert.match(admin,/autocomplete="current-password"/);
   assert.match(adminJs,/hub_admin_roles/);
   assert.match(adminJs,/hub_analytics_report/);
-  assert.match(adminJs,/sessionStorage/);
-  assert.doesNotMatch(adminJs,/service_role|sb_secret_|localStorage/);
+  assert.match(adminJs,/\/central-auth/);
+  assert.match(adminJs,/credentials:'same-origin'/);
+  assert.doesNotMatch(adminJs,/service_role|sb_secret_|localStorage|sessionStorage/);
+  assert.doesNotMatch(adminJs,/refresh_token/);
+  assert.match(load('functions/central-auth.js'),/HttpOnly/);
+  assert.match(load('functions/central-auth.js'),/SameSite=Strict/);
   assert.doesNotMatch(admin,/admin.*password.*value=/i);
 });
 
