@@ -152,3 +152,14 @@ td:last-child,th:last-child{text-align:right}
  #featureMetrics{font-size:12px}
  .quality-item strong{font-size:13px}
 }
+
+/* Saude tecnica */
+.health-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-bottom:17px}
+.health-metrics .panel{margin:0}
+#panel-saude .panel-head span{font-size:12px;color:var(--muted)}
+#panel-saude .table-scroll table{min-width:480px}
+#panel-saude .table-scroll td:nth-child(n+2),#panel-saude .table-scroll th:nth-child(n+2){text-align:right}
+#panel-saude .table-scroll td:first-child{min-width:155px}
+#panel-saude p.muted{font-size:13px;line-height:1.7}
+@media(max-width:1000px){.health-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){.health-metrics{gap:9px}.health-metrics .intel-stat{padding:13px 12px}.health-metrics .intel-stat>strong{font-size:22px}}
