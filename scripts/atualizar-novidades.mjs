@@ -1,10 +1,11 @@
 /**
- * Sincroniza exclusivamente novidades de conteúdo publicado no Hub.
+ * Sincroniza novidades do Hub e títulos inéditos verificados no índice público UpToDate.
  * Roda no GitHub Actions; não usa notícias externas nem cria publicações artificiais.
  * Preferência editorial: commits "novidade(secao): Título | Descrição".
  * Suporte adicional: commits com criação/adição explícita de conteúdo clínico.
  */
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -102,7 +103,40 @@ function localDate(isoDate) {
   }).format(new Date(isoDate));
 }
 
-export function updateFeed(feed, commits, head, checkedAt) {
+/**
+ * UpToDate é a única fonte externa aceita no sino: somente títulos realmente
+ * identificados pela primeira vez na verificação do próprio dia.
+ * Uma consulta sem alterações jamais gera uma novidade.
+ */
+export function newUpToDateItems(radar, checkedAt) {
+  if (!radar || radar.checkedAt !== checkedAt || !Array.isArray(radar.items) ||
+      !/^https:\/\/(?:ff\.|www\.)?uptodate\.com\/contents\/whats-new-in-allergy-and-immunology/.test(radar.source || '')) return [];
+  const visited = new Set();
+  return radar.items.flatMap(entry => {
+    if (!entry || entry.firstSeenAt !== checkedAt || typeof entry.title !== 'string') return [];
+    const original = entry.title.trim();
+    const title = String(entry.titlePt || original).trim().slice(0, 130);
+    if (original.length < 12 || title.length < 8) return [];
+    const key = original.normalize('NFKC').toLowerCase().replace(/\s+/g, ' ');
+    if (visited.has(key)) return [];
+    visited.add(key);
+    const hash = createHash('sha1').update(key).digest('hex').slice(0, 12);
+    const topic = typeof entry.topic === 'string' && entry.topic.length < 80 ? entry.topic : 'Alergia e Imunologia';
+    return [{
+      id: checkedAt + '-uptodate-' + hash,
+      date: checkedAt,
+      category: 'UpToDate',
+      icon: 'U',
+      title,
+      description: ('Novo título identificado no índice público do UpToDate (' + topic +
+        '). Confira a fonte original antes de alterar condutas clínicas.').slice(0, 300),
+      section: 'artigos',
+      source: 'uptodate'
+    }];
+  });
+}
+
+export function updateFeed(feed, commits, head, checkedAt, radar = null) {
   const existing = new Set(feed.items.map(item => item.id));
   const added = [];
   for (const commit of commits) {
@@ -117,6 +151,11 @@ export function updateFeed(feed, commits, head, checkedAt) {
       icon: SECTIONS[content.section].icon, title: content.title,
       description: content.description, section: content.section
     });
+  }
+  for (const item of newUpToDateItems(radar, checkedAt)) {
+    if (existing.has(item.id)) continue;
+    existing.add(item.id);
+    added.push(item);
   }
   const items = [...added, ...feed.items]
     .sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id))
@@ -147,7 +186,8 @@ function main() {
     files: git('diff-tree', '--no-commit-id', '--name-only', '-r', sha).split('\n').filter(Boolean)
   }));
   const checkedAt = localDate(new Date().toISOString());
-  const updated = updateFeed(feed, commits, head, checkedAt);
+  const radar = JSON.parse(readFileSync('data/uptodate.json', 'utf8'));
+  const updated = updateFeed(feed, commits, head, checkedAt, radar);
   if (JSON.stringify(feed) !== JSON.stringify(updated)) {
     writeFileSync(FEED, JSON.stringify(updated, null, 2) + '\n');
   }
