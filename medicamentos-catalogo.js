@@ -13,7 +13,7 @@ const CATS=[
  {id:'topicos',name:'Corticoides tópicos',sub:'Potência por princípio ativo, concentração e veículo',icon:'skin'},
  {id:'olhos',name:'Colírios',sub:'Anti-histamínicos e lubrificantes',icon:'eye'},
  {id:'nasais',name:'Corticoides nasais',sub:'Monoterapias e associações',icon:'nose'},
- {id:'inalatoria',name:'Terapia inalatória',sub:'DCI, marcas, dispositivos e classes',icon:'lungs'},
+ {id:'inalatoria',name:'Terapia inalatória',sub:'Asma: desenhos de inaladores, doses, máximos e MART',icon:'lungs'},
  {id:'ibps',name:'IBPs',sub:'Inibidores da bomba de prótons',icon:'stomach'},
  {id:'hidratantes',name:'Cremes hidratantes',sub:'Seleção por orçamento, textura e área corporal',icon:'drop'},
  {id:'formulas',name:'Fórmulas infantis',sub:'Categorias nutricionais e APLV',icon:'baby'}
@@ -199,6 +199,7 @@ function renderCategory(id){
  const sec=document.querySelector('#medApp [data-med-category="'+id+'"]'),slot=sec&&sec.querySelector('.med-list-slot');if(!slot)return;
  if(id==='hidratantes')return renderMoist(sec,slot);
  const q=norm(sec.querySelector('[data-med-search]')?.value);
+ if(id==='inalatoria' && typeof window.hubAsmaRender==='function') return window.hubAsmaRender(slot,q);
  const filtered=(DB[id]||[]).filter(x=>!q||norm(x.join(' ')).includes(q));
  slot.innerHTML=filtered.length?cards(filtered,id):'<p class="med-empty">Nenhum medicamento encontrado para esta pesquisa.</p>';
 }
