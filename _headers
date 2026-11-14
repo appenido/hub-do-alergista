@@ -40,8 +40,16 @@
 
 /central-hub.html
   Cache-Control: no-store
-  Referrer-Policy: strict-origin-when-cross-origin
+  Referrer-Policy: no-referrer
   X-Robots-Tag: noindex, nofollow, noarchive
+  Cross-Origin-Opener-Policy: same-origin
+  Content-Security-Policy: default-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https://tile.openstreetmap.org https://cdn.jsdelivr.net; connect-src 'self' https://jpdtqtenlivxgjkyizcg.supabase.co; font-src 'self' data:; frame-ancestors 'none'; object-src 'none'; base-uri 'none'; form-action 'self'
+
+/central-auth
+  Cache-Control: no-store, private, max-age=0
+  Referrer-Policy: no-referrer
+  X-Robots-Tag: noindex, nofollow, noarchive
+  X-Frame-Options: DENY
 
 /central-hub.js
   Cache-Control: no-cache, max-age=0, must-revalidate
