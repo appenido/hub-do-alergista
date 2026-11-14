@@ -10,7 +10,7 @@
 <link rel="icon" href="/favicon-32.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
-<link rel="stylesheet" href="/central-hub.css?v=20261114-executive1">
+<link rel="stylesheet" href="/central-hub.css?v=20261114-private1">
 </head>
 <body>
 <header class="top" id="header">
@@ -18,7 +18,7 @@
     <div class="logo-mark logo-symbol"><img src="/logo-premium-192.png" alt="" width="42" height="42"></div>
     <div><span class="eyebrow">HUB DO ALERGISTA</span><div class="brand-title">Central de acessos</div></div>
   </div>
-  <div class="top-right"><span class="private"><span class="dot"></span>Acesso restrito</span><button class="logout" id="logout" hidden>Sair</button></div>
+  <div class="top-right"><span class="private"><span class="dot"></span>Acesso exclusivo</span><button class="logout" id="logout" title="Encerrar esta sessão e desautorizar o navegador" hidden>Sair deste dispositivo</button></div>
 </header>
 <main>
   <section class="auth-wrap" id="authPanel">
@@ -26,7 +26,7 @@
       <div class="auth-illustration"><div class="auth-mark">H</div></div>
       <p class="eyebrow">ACESSO EXCLUSIVO</p>
       <h1>Central de acessos</h1>
-      <p class="muted">Os dados só podem ser consultados pela conta administradora autorizada. Não existe acesso público aos relatórios.</p>
+      <p class="muted">Apenas a conta administradora autorizada pode visualizar estes relatórios. Novos dispositivos precisam de senha. Após o primeiro acesso, este navegador pode entrar automaticamente por até 30 dias.</p>
       <form id="loginForm" autocomplete="on">
         <label for="email">E-mail da conta administradora</label>
         <input id="email" type="email" autocomplete="username" required placeholder="seu@email.com">
@@ -35,7 +35,7 @@
         <button id="loginButton" type="submit" class="primary block">Acessar central</button>
       </form>
       <p class="auth-alert" role="alert" id="loginError"></p>
-      <small>Autenticação Supabase. A página não armazena senha.</small>
+      <small>Autenticação protegida. A senha não é armazenada; a sessão é renovada por cookie seguro e privativo do navegador. Em dispositivo compartilhado, use “Sair”.</small>
     </div>
   </section>
   <section id="dashboard" hidden>
@@ -304,7 +304,7 @@
 </main>
 <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous" defer></script>
-<script src="/central-hub.js?v=20261114-executive1" defer></script>
+<script src="/central-hub.js?v=20261114-private1" defer></script>
 <script src="/central-inteligencia.js?v=20261114-geo-accuracy1" defer></script>
 <script src="/central-saude.js?v=20261113-health1" defer></script>
 <script src="/central-home.js?v=20261114-executive2" defer></script>
