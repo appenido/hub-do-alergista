@@ -5,7 +5,7 @@
 
 #page-imuno .bio-grid,
 #page-imunoglobulinas .igcat-grid,
-#page-antihistaminicos .ah-grid {
+:is(#page-antihistaminicos,#page-medicamentos) .ah-grid {
   min-width:0!important;
   box-sizing:border-box!important;
   align-items:start!important;
@@ -468,36 +468,36 @@
 }
 
 /* OUTRAS TELAS: a ficha de anti-histamínico não invade toda a grade. */
-#page-antihistaminicos .ah-grid {
+:is(#page-antihistaminicos,#page-medicamentos) .ah-grid {
   grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))!important;
 }
-#page-antihistaminicos .ah-card-wrap,
-#page-antihistaminicos .ah-card-wrap-active {
+:is(#page-antihistaminicos,#page-medicamentos) .ah-card-wrap,
+:is(#page-antihistaminicos,#page-medicamentos) .ah-card-wrap-active {
   grid-column:auto!important;
   grid-row:auto!important;
   align-self:start!important;
   min-width:0!important;
   height:auto!important;
 }
-#page-antihistaminicos .ah-card-wrap-active > .ah-card {
+:is(#page-antihistaminicos,#page-medicamentos) .ah-card-wrap-active > .ah-card {
   height:auto!important;
   min-height:88px!important;
 }
-#page-antihistaminicos .ah-card-wrap-active .ah-detail {
+:is(#page-antihistaminicos,#page-medicamentos) .ah-card-wrap-active .ah-detail {
   min-width:0!important;
   max-width:100%!important;
   box-sizing:border-box!important;
   overflow-x:hidden!important;
 }
-#page-antihistaminicos .ah-detail :is(img,svg,table) {max-width:100%;}
-#page-antihistaminicos .ah-detail table {
+:is(#page-antihistaminicos,#page-medicamentos) .ah-detail :is(img,svg,table) {max-width:100%;}
+:is(#page-antihistaminicos,#page-medicamentos) .ah-detail table {
   display:block;
   overflow-x:auto;
   -webkit-overflow-scrolling:touch;
 }
 
 /* Regras comuns de segurança para Safari iOS e Chrome Android. */
-#page-imuno, #page-imunoglobulinas, #page-antihistaminicos,
+#page-imuno, #page-imunoglobulinas, :is(#page-antihistaminicos,#page-medicamentos),
 #page-imunizacoes, #page-scores, #page-eaaci {
   min-width:0!important;
   max-width:100%!important;
@@ -505,7 +505,7 @@
 }
 #page-imuno :is(.bio-body,.bio-section),
 #page-imunoglobulinas :is(.igmain-detail,.igcalc-section),
-#page-antihistaminicos :is(.ah-detail,.ah-card-wrap) {min-width:0;}
+:is(#page-antihistaminicos,#page-medicamentos) :is(.ah-detail,.ah-card-wrap) {min-width:0;}
 #page-imunizacoes :is(.vac-grid,.vac-card,.vac-header),
 #page-eaaci :is(.eaaci-grid,.eaaci-card),
 #page-scores :is(.score-grid,.score-pill) {
@@ -524,7 +524,7 @@
 @media(max-width:759px) {
   #page-imuno .bio-grid,
   #page-imunoglobulinas .igcat-grid,
-  #page-antihistaminicos .ah-grid {
+  :is(#page-antihistaminicos,#page-medicamentos) .ah-grid {
     grid-template-columns:minmax(0,1fr)!important;
     gap:11px!important;
   }
@@ -579,17 +579,17 @@
   }
   #page-imunoglobulinas .igcalc-field input,
   #page-imuno :is(input,select,textarea),
-  #page-antihistaminicos :is(input,select,textarea),
+  :is(#page-antihistaminicos,#page-medicamentos) :is(input,select,textarea),
   #page-imunizacoes :is(input,select,textarea) {
     font-size:16px!important;
   }
-  #page-antihistaminicos .ah-toolbar {flex-direction:column;gap:9px;}
-  #page-antihistaminicos .ah-search {width:100%;min-width:0!important;box-sizing:border-box;}
-  #page-antihistaminicos .ah-tabs {
+  :is(#page-antihistaminicos,#page-medicamentos) .ah-toolbar {flex-direction:column;gap:9px;}
+  :is(#page-antihistaminicos,#page-medicamentos) .ah-search {width:100%;min-width:0!important;box-sizing:border-box;}
+  :is(#page-antihistaminicos,#page-medicamentos) .ah-tabs {
     width:100%;min-width:0;overflow-x:auto;
     box-sizing:border-box;
   }
-  #page-antihistaminicos .ah-tab {flex:1 1 auto;white-space:nowrap;}
+  :is(#page-antihistaminicos,#page-medicamentos) .ah-tab {flex:1 1 auto;white-space:nowrap;}
   /* Botão do assistente: fica acima da navegação e fora da primeira linha do catálogo. */
   #auriReabrir {
     left:auto!important;
@@ -619,7 +619,7 @@
 @media(prefers-reduced-motion:reduce) {
   #page-imuno .bio-grid > .bio-card,
   #page-imunoglobulinas .igcat-item,
-  #page-antihistaminicos .ah-card {transition:none!important;}
+  :is(#page-antihistaminicos,#page-medicamentos) .ah-card {transition:none!important;}
 }
 
 
@@ -701,7 +701,7 @@
   /* Catálogos clínicos têm prioridade de leitura: nenhum botão flutuante por cima. */
   body:has(#page-imuno.active) #auriReabrir,
   body:has(#page-imunoglobulinas.active) #auriReabrir,
-  body:has(#page-antihistaminicos.active) #auriReabrir,
+  body:has(:is(#page-antihistaminicos,#page-medicamentos).active) #auriReabrir,
   body:has(#page-imunizacoes.active) #auriReabrir {
     display:none!important;
   }
