@@ -234,6 +234,8 @@ function pontoSessao(r){
   }
   return null;
 }
+window.hubCentralPontoSessao=pontoSessao;
+window.hubCentralLocalNome=localNome;
 function normalizarBusca(str){
   return String(str||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 }
@@ -360,9 +362,11 @@ async function carregarMapa(){
     // session_start é único por sessão; não multiplicar visualizações e cliques.
     mapSessions=rows;
     atualizarMapa();
+    window.dispatchEvent(new CustomEvent('hub:central-map',{detail:{rows:mapSessions,days}}));
     if(offset>=100000)texto('mapNotice','Exibidas as 100 mil sessões mais recentes. Reduza o período para consultar mais acessos.');
   }catch(err){
     mapSessions=[];atualizarMapa();
+    window.dispatchEvent(new CustomEvent('hub:central-map',{detail:{rows:[],days,error:true}}));
     texto('mapNotice','Não foi possível consultar as localizações: '+(err.message||'erro desconhecido'));
   }
 }
