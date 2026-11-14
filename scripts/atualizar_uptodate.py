@@ -21,6 +21,8 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "data" / "uptodate.json"
 SOURCES = (
     "https://ff.uptodate.com/contents/whats-new-in-allergy-and-immunology",
+    "https://ff.uptodate.com/contents/whats-new-in-allergy-and-immunology/print",
+    "https://www.uptodate.com/contents/whats-new-in-allergy-and-immunology",
     "https://www.uptodate.com/contents/whats-new-in-allergy-and-immunology/print",
 )
 MONTHS = {
@@ -139,7 +141,7 @@ def download():
         req = urllib.request.Request(
             url,
             headers={
-                "User-Agent": "Mozilla/5.0 (compatible; HubAlergista-WhatsNew/1.0; public-headlines-only)",
+                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36",
                 "Accept": "text/html,application/xhtml+xml",
                 "Accept-Language": "en-US,en;q=0.9",
             },
