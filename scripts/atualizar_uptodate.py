@@ -23,6 +23,8 @@ SOURCES = (
     "https://ff.uptodate.com/contents/whats-new-in-allergy-and-immunology",
     "https://ff.uptodate.com/contents/whats-new-in-allergy-and-immunology/print",
     "https://www.uptodate.com/contents/whats-new-in-allergy-and-immunology",
+    "https://sso.uptodate.com/contents/whats-new-in-allergy-and-immunology/print",
+    "https://www.uptodate.cn/contents/whats-new-in-allergy-and-immunology/print",
     "https://www.uptodate.com/contents/whats-new-in-allergy-and-immunology/print",
 )
 MONTHS = {
@@ -147,7 +149,7 @@ def download():
             },
         )
         try:
-            with urllib.request.urlopen(req, timeout=25) as response:
+            with urllib.request.urlopen(req, timeout=12) as response:
                 data = response.read(3_000_000)
                 encoding = response.headers.get_content_charset() or "utf-8"
                 text = data.decode(encoding, errors="replace")
@@ -156,6 +158,20 @@ def download():
         except (urllib.error.URLError, TimeoutError, UnicodeError, ValueError) as exc:
             errors.append(f"{url}: {exc}")
     raise RuntimeError("Nenhuma fonte pública disponível. " + " | ".join(errors))
+
+
+def atomic_save(result):
+    """Publicar metadados sem deixar arquivo parcial se o acesso falhar."""
+    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp_path = tempfile.mkstemp(prefix=".uptodate-", suffix=".json", dir=OUTPUT.parent)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as out:
+            json.dump(result, out, ensure_ascii=False, indent=2)
+            out.write("\\n")
+        os.replace(tmp_path, OUTPUT)
+    finally:
+        if os.path.exists(tmp_path):
+            os.unlink(tmp_path)
 
 
 def main():
@@ -172,10 +188,20 @@ def main():
         re.sub(r"\W+", "", str(x.get("title", "")).lower()): x
         for x in prior.get("items", [])
     }
-    extracted, source_date = download()
-    if source_date and prior.get("sourceUpdatedAt") and source_date < prior["sourceUpdatedAt"]:
-        raise RuntimeError("A fonte disponível é mais antiga que o índice já publicado; dados preservados.")
     checked_at = dt.datetime.now(dt.timezone.utc).date().isoformat()
+    try:
+        extracted, source_date = download()
+        if source_date and prior.get("sourceUpdatedAt") and source_date < prior["sourceUpdatedAt"]:
+            raise RuntimeError("Índice público retornou edição anterior à já publicada")
+    except Exception as exc:
+        # Diferenciar tentativa diária da confirmação efetiva do conteúdo oficial.
+        # O dashboard nunca deve afirmar que a fonte foi verificada sem sucesso real.
+        prior["lastAttemptAt"] = checked_at
+        prior["checkStatus"] = "unavailable"
+        prior["checkMessage"] = "Fonte pública temporariamente indisponível para leitura automática"
+        atomic_save(prior)
+        print("AVISO: a consulta automática foi tentada, mas não validou novos dados: " + str(exc), file=sys.stderr)
+        raise
     # Títulos antigos descobertos após melhora do extrator não são novos lançamentos.
     old_checked_at = prior.get("checkedAt") or prior.get("sourceUpdatedAt") or "1970-01-01"
     source_is_new = bool(source_date and source_date > (prior.get("sourceUpdatedAt") or "0000-00-00"))
@@ -197,18 +223,11 @@ def main():
         "source": SOURCES[0],
         "sourceUpdatedAt": source_date or prior.get("sourceUpdatedAt"),
         "checkedAt": checked_at,
+        "lastAttemptAt": checked_at,
+        "checkStatus": "verified",
         "items": new_items,
     }
-    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    fd, tmp_path = tempfile.mkstemp(prefix=".uptodate-", suffix=".json", dir=OUTPUT.parent)
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8") as out:
-            json.dump(result, out, ensure_ascii=False, indent=2)
-            out.write("\n")
-        os.replace(tmp_path, OUTPUT)
-    finally:
-        if os.path.exists(tmp_path):
-            os.unlink(tmp_path)
+    atomic_save(result)
     print(f"Verificação concluída: {len(new_items)} atualizações públicas; "
           f"edição {result['sourceUpdatedAt']}; checagem {result['checkedAt']}")
 
