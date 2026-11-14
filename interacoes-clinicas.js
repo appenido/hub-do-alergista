@@ -1,163 +1,113 @@
-/* Hub do Alergista - verificacao documental SEM inteligencia artificial.
-   Dados de bula por /interacoes (openFDA SPL); Medscape abre site original. */
+/* Interações medicamentosas: exibição de pares, em português brasileiro. */
 (function(){
 'use strict';
-const AZUL='#1e5490', BORDA='#dce6f0';
-function criar(tag,texto,estilo){
-  const el=document.createElement(tag);
-  if(texto!==undefined&&texto!==null)el.textContent=texto;
-  if(estilo)el.style.cssText=estilo;
-  return el;
-}
-function botaoMedscape(){
-  const b=criar('button','Conferir combinações no Medscape ↗',
-    'background:#eaf3fc;color:#1e5490;border:1px solid #a9c7e9;border-radius:10px;padding:12px;font:700 12.5px Manrope,sans-serif;width:100%;cursor:pointer;margin-top:12px');
-  b.type='button';
-  b.addEventListener('click',function(){
-    if(typeof abrirMedscapeInteracao==='function')abrirMedscapeInteracao();
-    else window.open('https://reference.medscape.com/drug-interactionchecker','_blank','noopener,noreferrer');
-  });
-  return b;
+const COR_TEXTO='#17374d';
+function el(tag,texto,css){
+  const e=document.createElement(tag);
+  if(texto!==undefined&&texto!==null)e.textContent=texto;
+  if(css)e.style.cssText=css;
+  return e;
 }
 function mensagem(box,titulo,descricao){
   box.style.display='block';box.style.whiteSpace='normal';box.replaceChildren();
-  box.appendChild(criar('div',titulo,'font-size:14px;font-weight:800;margin-bottom:7px'));
-  box.appendChild(criar('p',descricao,'font-size:12px;color:#52677a;line-height:1.55'));
-  box.appendChild(botaoMedscape());
+  box.appendChild(el('div',titulo,'font-size:13px;font-weight:800;color:'+COR_TEXTO+';margin-bottom:6px'));
+  box.appendChild(el('div',descricao,'font-size:12.5px;line-height:1.6;color:#506475'));
 }
-function dataFDA(yyyymmdd){
-  if(!/^\d{8}$/.test(yyyymmdd||''))return 'Data não informada';
-  return yyyymmdd.slice(6,8)+'/'+yyyymmdd.slice(4,6)+'/'+yyyymmdd.slice(0,4);
+function linha(rotulo,conteudo){
+  const w=el('div',null,'margin:8px 0;line-height:1.65;font-size:12.5px;color:#334d5e');
+  w.appendChild(el('div',rotulo,'font-size:11.5px;font-weight:800;color:'+COR_TEXTO+';margin-bottom:2px'));
+  w.appendChild(el('div',conteudo));
+  return w;
 }
-function linkOficial(link,texto){
-  const a=criar('a',texto||'Ver bula original ↗',
-    'display:inline-block;color:#176b91;font-size:11.5px;font-weight:800;text-decoration:underline;margin-top:8px;overflow-wrap:anywhere');
-  a.href=link;a.target='_blank';a.rel='noopener noreferrer';a.referrerPolicy='no-referrer';
-  return a;
-}
-function avisoTexto(p){
-  return criar('p',p,'font-size:12px;color:#506475;line-height:1.55;margin:8px 0');
-}
-function renderizar(box,d){
+function renderizar(box,dados){
   box.style.display='block';box.style.whiteSpace='normal';box.replaceChildren();
-  const bulas=Array.isArray(d.bulas)?d.bulas:[];
-  const pares=Array.isArray(d.pares)?d.pares:[];
-  box.appendChild(criar('div','Consulta documental de interações',
-    'font-size:15px;font-weight:800;color:#102f45;margin-bottom:5px'));
-  box.appendChild(avisoTexto('Fontes: FDA/openFDA (bulas) + NIH/RxNorm (nomes e identificadores). Consulta sem IA em '+new Date(d.dataConsulta||Date.now()).toLocaleString('pt-BR')+'. Os textos originais das bulas estão em inglês.'));
-  const encontrados=bulas.filter(x=>x.status==='encontrado').length;
-  const padronizados=bulas.filter(x=>x.rxnorm&&x.rxnorm.status==='identificado').length;
-  box.appendChild(criar('div','FDA: '+encontrados+'/'+bulas.length+' bulas · RxNorm: '+padronizados+'/'+bulas.length+' medicamentos identificados',
-    'font-size:12px;font-weight:700;color:#285a78;margin-bottom:14px'));
-  const aviso=criar('div','Esta ferramenta não determina que um par é seguro ou contraindicado. Ela localiza menções nas bulas; a ausência de menção não exclui interação.',
-    'font-size:12px;line-height:1.6;padding:11px;background:#fff6e6;border-left:3px solid #bb8722;border-radius:8px;color:#79571e;margin-bottom:14px');
-  box.appendChild(aviso);
-  if(pares.length){
-    box.appendChild(criar('div','Combinações informadas','font-size:13px;font-weight:800;margin:7px 0 10px'));
-    pares.forEach(function(p){
-      const qtd=Array.isArray(p.mencoes)?p.mencoes.length:0;
-      const card=criar('details',undefined,
-        'border:1px solid '+BORDA+';border-radius:11px;margin-bottom:9px;background:#fff;overflow:hidden');
-      const sum=criar('summary',undefined,
-        'list-style-position:inside;cursor:pointer;padding:13px;font-size:12.5px;font-weight:800;color:#1a3f54;line-height:1.6');
-      sum.textContent=(p.par||[]).join(' + ');
-      const st=criar('div',qtd?'Menção textual encontrada em bula':'Sem menção explícita na seção consultada',
-        'padding:0 13px 11px;font-size:11.5px;color:'+(qtd?'#73521b':'#66788a'));
-      card.appendChild(sum);card.appendChild(st);
-      const body=criar('div',undefined,'padding:0 13px 13px;line-height:1.65;font-size:12px;color:#425769');
-      if(qtd){
-        body.appendChild(avisoTexto('Menção textual não equivale, isoladamente, à confirmação de interação clínica.'));
-        p.mencoes.forEach(function(m){
-          const trecho=criar('div',undefined,'border-top:1px solid #e5ebf0;padding:10px 0');
-          trecho.appendChild(criar('div','Bula: '+m.medicamento,
-            'font-size:11px;font-weight:800;color:#1b506c;margin-bottom:4px'));
-          trecho.appendChild(criar('div',m.trecho,'font-size:11.5px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere'));
-          trecho.appendChild(linkOficial(m.link));
-          body.appendChild(trecho);
-        });
-      }else{
-        body.appendChild(avisoTexto('Não foi localizada uma menção direta entre estes nomes nas seções retornadas. Isso NÃO significa ausência de interação. Uma bula ausente ou uma interação descrita somente por classe farmacológica pode não ser identificada.'));
-      }
-      card.appendChild(body);box.appendChild(card);
-    });
+  const pares=Array.isArray(dados.pares)?dados.pares:[];
+  if(!pares.length){
+    mensagem(box,'Nenhuma combinação disponível','Informe dois ou mais medicamentos diferentes.');
+    return;
   }
-  box.appendChild(criar('div','Bulas consultadas — expanda para ler','font-size:13px;font-weight:800;margin:18px 0 9px'));
-  bulas.forEach(function(b){
-    const card=criar('details',undefined,'border:1px solid '+BORDA+';border-radius:11px;margin-bottom:9px;background:#fbfcff;overflow:hidden');
-    const sum=criar('summary',b.medicamento+(b.status==='encontrado'?' · '+(b.nome||'bula'):' · não localizada'),
-      'cursor:pointer;padding:13px;font-size:12px;font-weight:800;color:#1b415c;overflow-wrap:anywhere');
-    card.appendChild(sum);
-    const cont=criar('div',undefined,'padding:0 13px 15px');
-    if(b.rxnorm&&b.rxnorm.status==='identificado'){
-      cont.appendChild(avisoTexto('NIH/RxNorm: '+b.rxnorm.nomePadronizado+' · RxCUI '+b.rxnorm.rxcui+(b.rxnorm.tipo?' · '+b.rxnorm.tipo:'')));
+  const identificadas=pares.filter(p=>p.situacao==='identificada').length;
+  box.appendChild(el('div','Resultado das interações medicamentosas',
+    'font-size:14px;font-weight:800;color:'+COR_TEXTO+';margin-bottom:8px'));
+  box.appendChild(el('div',identificadas+' interação(ões) identificada(s) em '+pares.length+' combinação(ões) avaliadas.',
+    'font-size:12px;color:#506475;line-height:1.5;margin-bottom:12px'));
+  pares.forEach(function(p){
+    const reconhecida=p.situacao==='identificada';
+    const prioridade=p.nivel==='Contraindicada'||p.nivel==='Evitar associação';
+    const cor=reconhecida?(prioridade?'#ae3b35':'#b27b23'):'#64748b';
+    const card=el('details',null,
+      'border:1px solid #d8e2ec;border-left:4px solid '+cor+';border-radius:12px;background:#fff;overflow:hidden;margin-bottom:10px');
+    const titulo=el('summary',null,
+      'cursor:pointer;padding:13px 14px;list-style-position:inside;font-size:13px;font-weight:800;line-height:1.55;color:'+COR_TEXTO);
+    titulo.appendChild(document.createTextNode((p.par||[]).join(' + ')));
+    titulo.appendChild(el('span',p.nivel||'Não avaliada',
+      'display:block;padding-left:17px;font-size:11.5px;font-weight:700;color:'+cor+';margin-top:4px'));
+    card.appendChild(titulo);
+    const conteudo=el('div',null,'padding:0 14px 14px');
+    if(reconhecida){
+      conteudo.appendChild(linha('Interação',p.efeito||''));
+      conteudo.appendChild(linha('Conduta',p.conduta||''));
+      if(p.fonte&&p.fonte.url){
+        const a=el('a','Referência clínica',
+          'display:inline-block;margin-top:6px;font-size:11.5px;color:#176b91;font-weight:700;text-decoration:underline');
+        a.href=p.fonte.url;a.target='_blank';a.rel='noopener noreferrer';
+        conteudo.appendChild(a);
+      }
     }else{
-      cont.appendChild(avisoTexto('NIH/RxNorm: '+(b.rxnorm&&b.rxnorm.status==='indisponivel'?'consulta temporariamente indisponível':'sem correspondência exata/normalizada confirmada')+'.'));
+      conteudo.appendChild(linha('Situação','Esta combinação não possui avaliação disponível nesta base.'));
+      conteudo.appendChild(linha('Conduta','Não considerar a associação segura pela ausência de registro. Verificar em fonte farmacológica validada antes da prescrição.'));
     }
-    if(b.status==='encontrado'){
-      cont.appendChild(avisoTexto((b.marca?'Marca: '+b.marca+' · ':'')+'Atualização da bula: '+dataFDA(b.atualizado)));
-      if(b.temSecao){
-        const sec=criar('div',b.secaoInteracoes,
-          'font-size:11.5px;white-space:pre-wrap;line-height:1.65;color:#32495c;overflow-wrap:anywhere;max-height:420px;overflow-y:auto;border:1px solid #e4eaf0;border-radius:8px;padding:12px;background:#fff');
-        cont.appendChild(sec);
-        if(b.secaoTruncada)cont.appendChild(avisoTexto('Texto parcial devido ao limite de exibição. Consulte a bula integral.'));
-      }else cont.appendChild(avisoTexto('O registro foi localizado, mas não apresenta uma seção estruturada de interações medicamentosas na resposta consultada.'));
-      cont.appendChild(linkOficial(b.link));
-    }else{
-      const falha=b.status==='limite'?'Limite temporário da fonte pública atingido.':
-        b.status==='indisponivel'?'Não foi possível consultar a fonte pública.':
-        'Sem correspondência confirmada na base norte-americana.';
-      cont.appendChild(avisoTexto(falha+' Não se pode inferir ausência de interação.'));
-    }
-    const ref=criar('div',undefined,'display:flex;gap:14px;flex-wrap:wrap;margin-top:9px');
-    ref.appendChild(linkOficial('https://www.ema.europa.eu/en/medicines','Consultar EMA ↗'));
-    ref.appendChild(linkOficial('https://www.gov.br/anvisa/pt-br/sistemas/bulario-eletronico','Consultar Bulário Anvisa ↗'));
-    cont.appendChild(ref);
-    card.appendChild(cont);box.appendChild(card);
+    card.appendChild(conteudo);box.appendChild(card);
   });
-  box.appendChild(botaoMedscape());
-  box.appendChild(avisoTexto('EMA e Anvisa: consultas externas complementares, não verificação automática neste módulo. A ferramenta não classifica gravidade, não recomenda condutas terapêuticas e pode deixar de identificar interações importantes.'));
-  box.appendChild(avisoTexto('Este produto utiliza dados públicos da U.S. National Library of Medicine (NLM), NIH/HHS. A NLM não é responsável pelo produto e não o endossa nem recomenda.'));
+  if(dados.naoAvaliadas){
+    box.appendChild(el('div',dados.naoAvaliadas+' combinação(ões) sem avaliação nesta base. Ausência de registro não significa ausência de interação.',
+      'font-size:11.5px;line-height:1.6;color:#73511c;background:#fff8e8;border-radius:9px;padding:10px;margin-top:9px'));
+  }
 }
-async function consultarInteracoesSemIA(){
+async function verificarInteracoes(){
   const box=document.getElementById('diResultado');
   const btn=document.getElementById('diVerificarBtn');
   if(!box||!btn)return;
   let nomes=typeof diColetarMeds==='function'?diColetarMeds():[];
-  const conhecidos=new Set();
-  nomes=nomes.filter(function(n){
-    const key=n.toLocaleLowerCase('pt-BR').trim();
-    if(conhecidos.has(key))return false;
-    conhecidos.add(key);return true;
-  });
-  if(nomes.length<2){mensagem(box,'Informe pelo menos dois medicamentos','Insira dois princípios ativos diferentes para consultar as bulas.');return;}
-  if(nomes.length>12){mensagem(box,'Limite de medicamentos','Consulte até 12 medicamentos por vez. Para listas maiores, divida a consulta em grupos.');return;}
-  const ac=new AbortController();
-  const timer=setTimeout(function(){ac.abort();},55000);
+  nomes=nomes.map(n=>String(n).trim()).filter(Boolean);
+  if(nomes.length<2){
+    mensagem(box,'Medicamentos insuficientes','Informe pelo menos dois medicamentos.');
+    return;
+  }
+  if(nomes.length>12){
+    mensagem(box,'Limite excedido','Informe no máximo 12 medicamentos por consulta.');
+    return;
+  }
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),14000);
   btn.disabled=true;
-  btn.textContent='Consultando FDA + RxNorm…';
-  box.style.display='block';
-  box.style.whiteSpace='normal';
-  box.replaceChildren(criar('div','Consultando openFDA e NIH/RxNorm…',
-    'color:#23435b;font-size:13px;font-weight:700;padding:8px 0'));
+  btn.textContent='Verificando interações…';
+  mensagem(box,'Verificando interações','Analisando as combinações informadas.');
   try{
-    const r=await fetch('/interacoes',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({medicamentos:nomes}),cache:'no-store',signal:ac.signal
+    const response=await fetch('/interacoes',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({medicamentos:nomes}),
+      cache:'no-store',
+      signal:controller.signal
     });
-    const d=await r.json().catch(function(){return null;});
-    if(!r.ok||!d||!Array.isArray(d.bulas)){
-      mensagem(box,'Não foi possível consultar as bulas',
-        (d&&d.erro?d.erro+' ':'')+'Não há resultado de interação confirmado. Use a consulta especializada do Medscape.');
-      return;
+    const dados=await response.json().catch(()=>null);
+    if(!response.ok||!dados||!Array.isArray(dados.pares)){
+      mensagem(box,'Não foi possível verificar as interações',
+        (dados&&dados.erro?dados.erro:'A consulta não foi concluída.')+' Não interprete como ausência de interação.');
+    }else{
+      renderizar(box,dados);
     }
-    renderizar(box,d);
-  }catch(e){
-    mensagem(box,'Fonte pública temporariamente indisponível',
-      e&&e.name==='AbortError'?'A consulta excedeu o tempo limite. Nenhuma interação foi descartada.':
-        'Falha de comunicação com a base de bulas. Nenhuma interação foi descartada.');
+  }catch(erro){
+    mensagem(box,'Não foi possível verificar as interações',
+      erro&&erro.name==='AbortError'?
+        'A consulta excedeu o tempo limite. Tente novamente.':
+        'Falha na comunicação. Tente novamente.');
   }finally{
-    clearTimeout(timer);btn.disabled=false;btn.textContent='Consultar FDA + RxNorm';
+    clearTimeout(timer);
+    btn.disabled=false;
+    btn.textContent='Verificar interações';
   }
 }
-window.consultarInteracoesSemIA=consultarInteracoesSemIA;
+window.verificarInteracoes=verificarInteracoes;
 })();
