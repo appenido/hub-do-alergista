@@ -10,12 +10,12 @@
 <link rel="icon" href="/favicon-32.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous">
-<link rel="stylesheet" href="/central-hub.css?v=20261114-geo-accuracy1">
+<link rel="stylesheet" href="/central-hub.css?v=20261114-executive1">
 </head>
 <body>
 <header class="top" id="header">
   <div class="brand"><a href="/" class="back" aria-label="Voltar ao Hub">‹</a>
-    <div class="logo-mark">H</div>
+    <div class="logo-mark logo-symbol"><img src="/logo-premium-192.png" alt="" width="42" height="42"></div>
     <div><span class="eyebrow">HUB DO ALERGISTA</span><div class="brand-title">Central de acessos</div></div>
   </div>
   <div class="top-right"><span class="private"><span class="dot"></span>Acesso restrito</span><button class="logout" id="logout" hidden>Sair</button></div>
@@ -58,18 +58,8 @@
       </div>
     </div>
     <div class="status-line"><span id="status">Consultando dados…</span><span id="updated"></span></div>
-    <div class="kpis">
-      <article class="kpi"><span>Sessões medidas</span><div id="kSessions">—</div><small>Não corresponde a pessoas únicas</small></article>
-      <article class="kpi"><span>Visualizações de áreas</span><div id="kViews">—</div><small>Aberturas das telas internas</small></article>
-      <article class="kpi"><span>Cliques registrados</span><div id="kClicks">—</div><small>Interações em controles e links</small></article>
-      <article class="kpi"><span>Tempo visível total</span><div id="kTime">—</div><small>Estimativa das telas ativas</small></article>
-      <article class="kpi"><span>Eventos coletados</span><div id="kEvents">—</div><small>Somente após autorização</small></article>
-      <article class="kpi"><span>Atividade nos últimos 15 min</span><div id="kActive15">—</div><small>Sessões com evento recente, não usuários on-line</small></article>
-      <article class="kpi"><span>Sessões engajadas</span><div id="kEngagement">—</div><small>10 s, 2 áreas ou 1 interação</small></article>
-      <article class="kpi"><span>Tempo visível por sessão</span><div id="kAverage">—</div><small>Média estimada de tempo em tela</small></article>
-    </div>
     <nav class="tabs" aria-label="Áreas do painel">
-      <button class="tab active" data-tab="resumo">Visão geral</button>
+      <button class="tab active" data-tab="resumo">Home</button>
       <button class="tab" data-tab="inteligencia">Inteligência de uso</button>
       <button class="tab" data-tab="ferramentas">Funcionalidades</button>
       <button class="tab" data-tab="jornadas">Jornadas</button>
@@ -82,6 +72,75 @@
       <button class="tab" data-tab="privacidade">Privacidade</button>
     </nav>
     <section class="panel-group active" id="panel-resumo">
+    <div class="exec-hero">
+      <div class="exec-hero-content"><div class="exec-mark"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg></div>
+        <p class="eyebrow">CENTRAL DE INTELIGÊNCIA · HUB DO ALERGISTA</p>
+        <h2>Seu Hub, em números.</h2>
+        <p>Acompanhe os acessos e descubra como as funcionalidades estão sendo utilizadas. Somente sessões com coleta autorizada.</p>
+      </div>
+      <div class="exec-hero-side"><span class="exec-live"><i aria-hidden="true"></i> Painel atualizado automaticamente</span><span id="homeUpdated">Carregando dados…</span></div>
+    </div>
+    <div class="exec-kpi-grid">
+      <button class="exec-kpi" type="button" data-home-go="inteligencia" aria-label="Acessos hoje: abrir relatório detalhado">
+        <span class="exec-kpi-top"><span class="exec-icon"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/><path d="m8 15 2 2 4-4"/></svg></span><span class="exec-kpi-arrow" aria-hidden="true">↗</span></span>
+        <span class="exec-kpi-number" id="homeToday">—</span>
+        <span class="exec-kpi-title">Acessos hoje</span>
+        <small id="homeTodayNote">Sessões iniciadas no dia, horário de Brasília</small>
+      </button>
+      <button class="exec-kpi" type="button" data-home-go="atividades" aria-label="Última hora: abrir relatório detalhado">
+        <span class="exec-kpi-top"><span class="exec-icon"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/></svg></span><span class="exec-kpi-arrow" aria-hidden="true">↗</span></span>
+        <span class="exec-kpi-number" id="homeHour">—</span>
+        <span class="exec-kpi-title">Última hora</span>
+        <small id="">Sessões iniciadas nos últimos 60 minutos</small>
+      </button>
+      <button class="exec-kpi" type="button" data-home-go="inteligencia" aria-label="No período selecionado: abrir relatório detalhado">
+        <span class="exec-kpi-top"><span class="exec-icon"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 2 5-7"/></svg></span><span class="exec-kpi-arrow" aria-hidden="true">↗</span></span>
+        <span class="exec-kpi-number" id="homePeriod">—</span>
+        <span class="exec-kpi-title">No período selecionado</span>
+        <small id="homePeriodNote">Sessões com início no intervalo filtrado</small>
+      </button>
+      <button class="exec-kpi" type="button" data-home-go="atividades" aria-label="Atividade na última hora: abrir relatório detalhado">
+        <span class="exec-kpi-top"><span class="exec-icon"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3-6 4 12 3-6h4"/></svg></span><span class="exec-kpi-arrow" aria-hidden="true">↗</span></span>
+        <span class="exec-kpi-number" id="homeHourActivity">—</span>
+        <span class="exec-kpi-title">Atividade na última hora</span>
+        <small id="">Sessões com algum evento nos últimos 60 minutos</small>
+      </button>
+    </div>
+    <div class="exec-content-grid">
+      <article class="panel exec-panel exec-chart-panel">
+        <div class="exec-panel-title"><div class="exec-panel-icon"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg></div><div><h2>Acessos por dia</h2><p>Sessões iniciadas · horário de Brasília</p></div><button type="button" class="exec-more" data-home-go="inteligencia">Ver detalhes <span aria-hidden="true">›</span></button></div>
+        <div id="homeDayChart" class="home-day-chart" role="region" aria-label="Acessos diários em gráfico de barras"></div>
+        <p id="homeDayCaption" class="exec-footnote">Carregando série diária…</p>
+      </article>
+      <article class="panel exec-panel exec-map-panel">
+        <div class="exec-panel-title"><div class="exec-panel-icon"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></div><div><h2>Mapa de localização</h2><p>Cidades e estados aproximados</p></div><button type="button" class="exec-more" data-home-go="mapa">Mapa completo <span aria-hidden="true">›</span></button></div>
+        <div id="homeAccessMap" class="home-access-map" role="region" aria-label="Mapa resumido de localidades de acesso"></div>
+        <div class="exec-map-footer"><span id="homeMapStatus">Consultando localizações…</span><small>Posição aproximada pela rede, sem GPS</small></div>
+      </article>
+    </div>
+    <div class="exec-content-grid">
+      <article class="panel exec-panel">
+        <div class="exec-panel-title"><div class="exec-panel-icon"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h14M4 12h10M4 17h16"/><circle cx="21" cy="7" r="1"/></svg></div><div><h2>Funcionalidades mais acessadas</h2><p>Ranking por aberturas de áreas</p></div><button type="button" class="exec-more" data-home-go="ferramentas">Todas <span aria-hidden="true">›</span></button></div>
+        <div id="homeTopFeatures" class="exec-feature-list"></div>
+      </article>
+      <article class="panel exec-panel">
+        <div class="exec-panel-title"><div class="exec-panel-icon"><svg viewBox="0 0 24 24" width="23" height="23" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg></div><div><h2>Atividades recentes</h2><p>Últimos eventos registrados, sem identidade pessoal</p></div><button type="button" class="exec-more" data-home-go="atividades">Ver atividades <span aria-hidden="true">›</span></button></div>
+        <div id="homeActivity" class="exec-activity-list"></div>
+      </article>
+    </div>
+    <details class="exec-legacy" id="homeMore">
+      <summary>Exibir indicadores e relatórios complementares <span>Expandir</span></summary>
+      <div class="exec-legacy-content">
+    <div class="kpis">
+      <article class="kpi"><span>Sessões medidas</span><div id="kSessions">—</div><small>Não corresponde a pessoas únicas</small></article>
+      <article class="kpi"><span>Visualizações de áreas</span><div id="kViews">—</div><small>Aberturas das telas internas</small></article>
+      <article class="kpi"><span>Cliques registrados</span><div id="kClicks">—</div><small>Interações em controles e links</small></article>
+      <article class="kpi"><span>Tempo visível total</span><div id="kTime">—</div><small>Estimativa das telas ativas</small></article>
+      <article class="kpi"><span>Eventos coletados</span><div id="kEvents">—</div><small>Somente após autorização</small></article>
+      <article class="kpi"><span>Atividade nos últimos 15 min</span><div id="kActive15">—</div><small>Sessões com evento recente, não usuários on-line</small></article>
+      <article class="kpi"><span>Sessões engajadas</span><div id="kEngagement">—</div><small>10 s, 2 áreas ou 1 interação</small></article>
+      <article class="kpi"><span>Tempo visível por sessão</span><div id="kAverage">—</div><small>Média estimada de tempo em tela</small></article>
+    </div>
       <div class="two-cols">
         <article class="panel large"><div class="panel-head"><h2>Evolução de uso</h2><span>Sessões e visualizações por dia</span></div><div id="trend" class="chart"></div></article>
         <article class="panel"><div class="panel-head"><h2>Horários de maior uso</h2><span>Horário de Brasília</span></div><div id="hours" class="bars"></div></article>
@@ -90,6 +149,8 @@
         <article class="panel"><div class="panel-head"><h2>Funcionalidades em destaque</h2><span>Eventos por área</span></div><div id="topFeatures" class="bars"></div></article>
         <article class="panel"><div class="panel-head"><h2>Origem dos acessos</h2><span>Referência de tráfego por domínio</span></div><div id="topSources" class="bars"></div></article>
       </div>
+      </div>
+    </details>
     </section>
     <section class="panel-group" id="panel-inteligencia">
       <div class="intel-topline"><h2>Inteligência de acessos</h2><span id="intelStatus" role="status">Aguardando consulta autenticada</span></div>
@@ -246,5 +307,6 @@
 <script src="/central-hub.js?v=20261114-geo-accuracy1" defer></script>
 <script src="/central-inteligencia.js?v=20261114-geo-accuracy1" defer></script>
 <script src="/central-saude.js?v=20261113-health1" defer></script>
+<script src="/central-home.js?v=20261114-executive1" defer></script>
 </body>
 </html>
