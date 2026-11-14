@@ -54,7 +54,11 @@ function render(dados){
   var ultimaTentativa=dados.lastAttemptAt?new Date(dados.lastAttemptAt+'T12:00:00Z'):ultimaValida;
   var acessoRecente=ultimaTentativa&&!Number.isNaN(ultimaTentativa.getTime())&&
     (Date.now()-ultimaTentativa.getTime())<2*86400000;
-  if(dados.checkStatus==='unavailable'){
+  if(dados.checkStatus==='verified_manual' || 
+     (dados.checkMethod==='revisao-manual-indice-publico' && dados.checkedAt===dados.lastAttemptAt)){
+    txt+=' · Conferência pública: '+dataBrasil(dados.checkedAt);
+    if(dados.autoCheckStatus==='unavailable')txt+=' · Consulta automática indisponível';
+  }else if(dados.checkStatus==='unavailable'){
     txt+=' · Consulta automática sem confirmação: '+dataBrasil(dados.lastAttemptAt);
     txt+=' · Última conferência válida: '+dataBrasil(dados.checkedAt);
   }else if(acessoRecente){
