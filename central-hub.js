@@ -94,11 +94,14 @@ async function login(e){
   }finally{btn.disabled=false;btn.textContent='Acessar central';}
 }
 async function sair(){
-  // A requisição encerra a sessão no provedor e apaga o cookie do navegador.
-  try{await autenticacao('logout');}
-  catch(_){/* A tela é bloqueada mesmo se a rede falhar. */}
-  limpar();
-  el('email').value='';
+  // Não anunciar saída concluída sem o servidor apagar o cookie HttpOnly.
+  try{
+    await autenticacao('logout');
+    limpar();
+    el('email').value='';
+  }catch(_){
+    texto('status','Não foi possível encerrar a sessão neste dispositivo. Verifique a conexão e tente novamente.');
+  }
 }
 function texto(id,value){el(id).textContent=value;}
 function dataFormat(iso){
