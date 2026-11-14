@@ -46,6 +46,12 @@
 /central-hub.js
   Cache-Control: no-cache, max-age=0, must-revalidate
 
+/central-home.js
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/central-hub.css
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
 /central-inteligencia.js
   Cache-Control: no-cache, max-age=0, must-revalidate
 
