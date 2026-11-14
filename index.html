@@ -3788,34 +3788,52 @@ window._bloquearApp=function(){};
 
     <!-- ══ INTERAÇÃO MEDICAMENTOSA ══ -->
   <div class="page" id="page-interacao">
-  <section style="max-width:760px;margin:0 auto;padding:22px 16px 30px">
-    <h2 style="font-size:21px;line-height:1.3;color:var(--navy);margin:0 0 8px">Interações medicamentosas</h2>
-    <p style="font-size:13px;line-height:1.65;color:var(--gray-500);margin:0 0 18px">A consulta será realizada diretamente em um verificador especializado, fora do Hub.</p>
-    <div style="background:linear-gradient(135deg,#245d99,#163d6e);border-radius:18px;padding:20px;color:#fff;box-shadow:0 8px 24px rgba(20,60,110,.13)">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-        <span aria-hidden="true" style="width:45px;height:45px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);border-radius:14px">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="27" height="27" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
-        </span>
-        <div><div style="font-size:16px;font-weight:800">Verificador de interações</div>
-        <div style="font-size:12px;opacity:.88;margin-top:4px">Consulta gratuita • Drugs.com</div></div>
+    <div style="padding:16px 16px 8px">
+      <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px">
+        <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
+        Interações medicamentosas
       </div>
-      <p style="font-size:13px;line-height:1.65;color:rgba(255,255,255,.94);margin:0 0 17px">Informe os medicamentos no site externo e consulte os possíveis riscos, a gravidade e as orientações.</p>
-      <a id="diAbrirExterno" href="https://www.drugs.com/drug_interactions.html" target="_blank" rel="noopener noreferrer external" referrerpolicy="no-referrer" style="display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;border-radius:12px;background:#fff;color:#20558b;text-decoration:none;font-size:15px;font-weight:800;line-height:1.35;padding:12px;box-sizing:border-box;text-align:center">
-        Verificar interações
-        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/></svg>
-      </a>
-      <p style="font-size:11.5px;line-height:1.55;color:rgba(255,255,255,.83);margin:12px 0 0">O serviço abre em outra aba e está em inglês. Os medicamentos não são enviados pelo Hub; digite-os no verificador.</p>
+      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Digite os princípios ativos. Marcas conhecidas também são aceitas.</div>
     </div>
-    <details style="background:#fff;border:1px solid #dce5ee;border-radius:15px;margin-top:15px;overflow:hidden">
-      <summary style="padding:17px;font-size:13.5px;font-weight:800;line-height:1.5;color:var(--navy);cursor:pointer">Alternativa em português — interações graves</summary>
-      <div style="padding:0 17px 17px;font-size:12.5px;line-height:1.6;color:var(--gray-500)">
-        <p style="margin:0 0 13px">O Detecta Interações, da UFSJ com apoio do CRF-MG, apresenta interações graves selecionadas e orientações validadas. Sua cobertura é limitada; não contempla necessariamente medicamentos biológicos.</p>
-        <a href="https://imses.crfmg.org.br/receita.php" target="_blank" rel="noopener noreferrer external" referrerpolicy="no-referrer" style="display:flex;align-items:center;justify-content:center;text-align:center;min-height:48px;background:#eef5fb;border:1px solid #d0e1f0;border-radius:11px;padding:11px;color:#1c5589;text-decoration:none;font-size:13px;font-weight:800;box-sizing:border-box">Abrir Detecta Interações (CRF-MG/UFSJ) ↗</a>
+
+    <div style="padding:0 16px 24px;display:flex;flex-direction:column;gap:14px">
+
+      <!-- Verificação das combinações de medicamentos -->
+      <div style="background:linear-gradient(135deg,#2a6ebb,#1e5490);border-radius:16px;padding:20px;color:#fff">
+        <div style="font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.5;margin-bottom:16px">Informe de 2 a 12 medicamentos.</div>
+
+        <div id="diCampos">
+          <div style="margin-bottom:9px"><label for="diMed1" style="font-size:11px;font-weight:700;color:rgba(255,255,255,.9);display:block;margin-bottom:5px">Medicamento 1</label><input type="text" id="diMed1" autocomplete="off" spellcheck="false" maxlength="80" placeholder="Ex.: dipirona" style="border:none;border-radius:10px;padding:12px 13px;font-family:'Manrope',sans-serif;font-size:16px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box"></div>
+          <div style="margin-bottom:9px"><label for="diMed2" style="font-size:11px;font-weight:700;color:rgba(255,255,255,.9);display:block;margin-bottom:5px">Medicamento 2</label><input type="text" id="diMed2" autocomplete="off" spellcheck="false" maxlength="80" placeholder="Ex.: ciclosporina" style="border:none;border-radius:10px;padding:12px 13px;font-family:'Manrope',sans-serif;font-size:16px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box"></div>
+          <div style="margin-bottom:9px"><label for="diMed3" style="font-size:11px;font-weight:700;color:rgba(255,255,255,.9);display:block;margin-bottom:5px">Medicamento 3 <span style="color:rgba(255,255,255,.55);font-weight:400">(opcional)</span></label><input type="text" id="diMed3" autocomplete="off" spellcheck="false" maxlength="80" placeholder="Ex.: prednisona" style="border:none;border-radius:10px;padding:12px 13px;font-family:'Manrope',sans-serif;font-size:16px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box"></div>
+          <div style="margin-bottom:9px"><label for="diMed4" style="font-size:11px;font-weight:700;color:rgba(255,255,255,.9);display:block;margin-bottom:5px">Medicamento 4 <span style="color:rgba(255,255,255,.55);font-weight:400">(opcional)</span></label><input type="text" id="diMed4" autocomplete="off" spellcheck="false" maxlength="80" placeholder="Ex.: claritromicina" style="border:none;border-radius:10px;padding:12px 13px;font-family:'Manrope',sans-serif;font-size:16px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box"></div>
+        </div>
+
+        <button id="diAddCampo" type="button" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:10px;padding:10px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;width:100%;margin-bottom:10px">+ Adicionar outro medicamento</button>
+
+        <button id="diVerificarBtn" type="button" onclick="verificarInteracoes()" style="background:#fff;color:#2a6ebb;border:none;border-radius:11px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;width:100%">Verificar interações</button>
       </div>
-    </details>
-    <p style="font-size:11.5px;line-height:1.6;color:var(--gray-500);margin:17px 3px 0">Ausência de alerta em qualquer fonte não garante ausência de interação. Avalie dose, função renal e hepática e demais condições do paciente.</p>
-  </section>
-</div>
+
+      <div id="diResultado" aria-live="polite" style="display:none;background:#fff;border:1px solid var(--gray-100);border-radius:13px;padding:15px;font-size:13px;color:var(--navy);line-height:1.6;white-space:pre-wrap"></div>
+
+      <!-- Atalhos por classe -->
+      <div>
+        <div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:8px;padding-left:2px">Atalhos — preencher rapidamente</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <div class="di-chip-add" data-drug="Omalizumabe" style="background:#fff;border:1px solid var(--gray-100);border-radius:20px;padding:8px 14px;font-size:12px;font-weight:700;color:var(--teal-mid);cursor:pointer">+ Omalizumabe</div>
+          <div class="di-chip-add" data-drug="Dupilumabe" style="background:#fff;border:1px solid var(--gray-100);border-radius:20px;padding:8px 14px;font-size:12px;font-weight:700;color:var(--teal-mid);cursor:pointer">+ Dupilumabe</div>
+          <div class="di-chip-add" data-drug="Mepolizumabe" style="background:#fff;border:1px solid var(--gray-100);border-radius:20px;padding:8px 14px;font-size:12px;font-weight:700;color:var(--teal-mid);cursor:pointer">+ Mepolizumabe</div>
+          <div class="di-chip-add" data-drug="Ciclosporina" style="background:#fff;border:1px solid var(--gray-100);border-radius:20px;padding:8px 14px;font-size:12px;font-weight:700;color:var(--teal-mid);cursor:pointer">+ Ciclosporina</div>
+          <div class="di-chip-add" data-drug="Metotrexato" style="background:#fff;border:1px solid var(--gray-100);border-radius:20px;padding:8px 14px;font-size:12px;font-weight:700;color:var(--teal-mid);cursor:pointer">+ Metotrexato</div>
+          <div class="di-chip-add" data-drug="Prednisona" style="background:#fff;border:1px solid var(--gray-100);border-radius:20px;padding:8px 14px;font-size:12px;font-weight:700;color:var(--teal-mid);cursor:pointer">+ Prednisona</div>
+          <div class="di-chip-add" data-drug="Hidroxizina" style="background:#fff;border:1px solid var(--gray-100);border-radius:20px;padding:8px 14px;font-size:12px;font-weight:700;color:var(--teal-mid);cursor:pointer">+ Hidroxizina</div>
+          <div class="di-chip-add" data-drug="Teofilina" style="background:#fff;border:1px solid var(--gray-100);border-radius:20px;padding:8px 14px;font-size:12px;font-weight:700;color:var(--teal-mid);cursor:pointer">+ Teofilina</div>
+        </div>
+      </div>
+
+      <div style="font-size:11px;color:var(--gray-500);line-height:1.5">Fonte integrada: <a href="https://sede.aemps.gob.es/datos-abiertos/" target="_blank" rel="noopener noreferrer">AEMPS/CIMA · dados abertos</a>.</div>
+    </div>
+  </div>
 
   <!-- ══ IMUNOGLOBULINAS — CALCULADORA INTEGRADA À PÁGINA ══ -->
   <div class="page" id="page-imunoglobulinas">
@@ -7472,7 +7490,7 @@ function navTo(page){
   document.querySelectorAll('[data-nav]').forEach(function(n){n.classList.remove('active');});
   var pg=document.getElementById('page-'+page);
   if(pg)pg.classList.add('active');
-  if(page === 'dashboard') { var chatAuri=document.getElementById('chatPanel'); if(chatAuri) chatAuri.classList.remove('open'); }
+  if(page === 'dashboard' || page === 'interacao') { var chatAuri=document.getElementById('chatPanel'); if(chatAuri) chatAuri.classList.remove('open'); }
   if(page === 'crm' && typeof window.crmInit === 'function') window.crmInit();
   if(page === 'imunizacoes' && typeof window.vacShowHub === 'function') vacShowHub();
   if(page === 'antihistaminicos' && typeof window.ahInit === 'function') window.ahInit();
@@ -10396,6 +10414,50 @@ document.addEventListener('submit', function(eC){
 
 /* Interações: links externos sem transmissão de medicamentos. */
 
+/* Leitura dos medicamentos para verificação de interações. */
+function diColetarMeds(){
+  var meds = [];
+  var campos = document.querySelectorAll('#diCampos input');
+  for(var i=0;i<campos.length;i++){
+    var v = (campos[i].value || '').trim();
+    if(v) meds.push(v);
+  }
+  return meds;
+}
+
+/* adiciona um medicamento no primeiro campo vazio (chips) */
+function diPreencherChip(nome){
+  var campos = document.querySelectorAll('#diCampos input');
+  for(var i=0;i<campos.length;i++){
+    if(!(campos[i].value || '').trim()){ campos[i].value = nome; return; }
+  }
+  // se todos preenchidos, adiciona novo campo
+  diAdicionarCampo(nome);
+}
+
+/* adiciona um novo campo de medicamento */
+function diAdicionarCampo(valor){
+  var box = document.getElementById('diCampos');
+  if(!box) return;
+  var n = box.querySelectorAll('input').length + 1;
+  if(n > 12) return;
+  var wrap = document.createElement('div');
+  wrap.style.marginBottom = '9px';
+  wrap.innerHTML = '<label for="diMed' + n + '" style="font-size:11px;font-weight:700;color:rgba(255,255,255,.9);display:block;margin-bottom:5px">Medicamento ' + n + ' <span style="color:rgba(255,255,255,.55);font-weight:400">(opcional)</span></label>' +
+    '<input type="text" id="diMed' + n + '" autocomplete="off" spellcheck="false" maxlength="80" placeholder="Ex.: outro fármaco" style="border:none;border-radius:10px;padding:12px 13px;font-family:Manrope,sans-serif;font-size:16px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box">';
+  box.appendChild(wrap);
+  if(valor){ wrap.querySelector('input').value = valor; }
+  else { wrap.querySelector('input').focus(); }
+  if(n === 12) document.getElementById('diAddCampo').hidden = true;
+}
+
+document.addEventListener('click', function(eM){
+  if(!eM.target.closest) return;
+  if(eM.target.closest('#diAddCampo')){ diAdicionarCampo(''); return; }
+  var chip = eM.target.closest('.di-chip-add');
+  if(chip){ diPreencherChip(chip.getAttribute('data-drug') || ''); }
+});
+
 /* estado inicial da navegação */
 navTo('dashboard'); // estado inicial
 filtrarHomeArtigos(); // artigos recentes conforme as áreas de interesse
@@ -10608,9 +10670,10 @@ document.addEventListener('DOMContentLoaded', function(){
   box-shadow:0 4px 16px rgba(13,31,45,.3);transition:transform .18s;-webkit-tap-highlight-color:transparent}
 #auriReabrir:active{transform:scale(.92)}
 #auriReabrir:focus-visible{outline:2px solid var(--teal-mid);outline-offset:3px}
-/* Na Home, não exibir o robô/tira-dúvidas flutuante. */
 body:has(#page-dashboard.active) #auriReabrir,
-body:has(#page-dashboard.active) #chatPanel{display:none!important;}
+body:has(#page-dashboard.active) #chatPanel,
+body:has(#page-interacao.active) #auriReabrir,
+body:has(#page-interacao.active) #chatPanel{display:none!important;}
 .chat-avatar{width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.75);flex-shrink:0}
 .chat-hdr-l{display:flex;align-items:center;gap:9px}
 #chatPanel{position:fixed;bottom:calc(var(--bottomnav-h) + 72px);left:12px;right:12px;max-width:420px;margin:0 auto;
@@ -11310,6 +11373,7 @@ function chatToggle(){
 <script src="/hub-novidades.js?v=20261112-auto-1" defer></script>
 <script src="/alergo-news-premium.js?v=20261109-1" defer></script>
 <script src="/artigos-resumo-fix.js?v=20261112-2" defer></script>
+<script src="/interacoes-clinicas.js?v=20261114-cima-1"></script>
 <script src="/protocolos-bolso-condutas-20261114.js?v=20261114-9"></script>
 
 <script id="hub-home-label-fit-20261114">
