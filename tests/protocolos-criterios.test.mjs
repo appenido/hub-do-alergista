@@ -71,3 +71,12 @@ test('posologia e referências continuam no fluxo e todas as expansões apontam 
     }
   }
 });
+test('EoE exige opções iniciais equivalentes, sem IBP preferencial universal',()=>{
+  const eoe=protocols['15'];
+  assert.ok(eoe.flow.includes('decisão compartilhada'));
+  assert.ok(eoe.flow.includes('corticosteroide deglutido'));
+  assert.ok(eoe.flow.includes('dieta de eliminação'));
+  assert.ok(!eoe.steps.some(([title])=>/IBP como primeira opção/iu.test(title)));
+  for(const i of [1,2,3])assert.ok(/opção inicial/iu.test(eoe.steps[i][0]));
+  assert.ok(eoe.refs.some(([title])=>title.includes('FBG')));
+});
