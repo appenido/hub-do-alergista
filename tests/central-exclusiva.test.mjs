@@ -41,7 +41,8 @@ test('Central mantém apenas token curto em memória, com login automático por 
  assert.match(browser,/autenticacao\('logout'\)/);
  assert.match(browser,/credentials:'same-origin'/);
  assert.match(browser,/sessionStorage\.removeItem\('hub_secure_auth'\)/);
- assert.doesNotMatch(browser,/sessionStorage\.(?:getItem|setItem)|localStorage|document\.cookie|refresh_token|grant_type=password/);
+ assert.match(browser,/localStorage\.setItem\('hub_analytics_owner_excluded_v1','1'\)/);
+ assert.doesNotMatch(browser,/sessionStorage\.(?:getItem|setItem)|localStorage\.setItem\('hub_secure_auth'|document\.cookie|refresh_token|grant_type=password/);
  assert.match(markup,/Acesso exclusivo/);
 });
 test('acesso correto em navegador novo cria cookie HttpOnly, Secure e SameSite Strict',async()=>{
@@ -57,6 +58,8 @@ test('acesso correto em navegador novo cria cookie HttpOnly, Secure e SameSite S
  assert.match(cookie,/Secure/);
  assert.match(cookie,/SameSite=Strict/);
  assert.match(cookie,/Max-Age=2592000/);
+ assert.match(cookie,/__Host-hub_admin_notrack=1/);
+ assert.match(cookie,/Max-Age=31536000/);
 });
 test('senha incorreta não permite acessar a Central',async()=>{
  const handler=initServer(async(url)=>url.includes('grant_type=password')?
@@ -73,6 +76,7 @@ test('conta autenticada sem papel de administrador não recebe cookie de login',
  const response=await handler.onRequestPost({request:request({action:'login',email:'user@example.com',password:'teste12345'}),env:{}});
  assert.equal(response.status,403);
  assert.match(response.headers.get('set-cookie'),/Max-Age=0/);
+ assert.doesNotMatch(response.headers.get('set-cookie'),/__Host-hub_admin_notrack=/);
 });
 test('reconhecimento de navegador renovado exige papel administrativo novamente',async()=>{
  const handler=initServer(authMock);
@@ -81,6 +85,7 @@ test('reconhecimento de navegador renovado exige papel administrativo novamente'
  });
  assert.equal(response.status,200);
  assert.match(response.headers.get('set-cookie'),/next-token/);
+ assert.match(response.headers.get('set-cookie'),/__Host-hub_admin_notrack=1/);
  const body=await response.json();
  assert.ok(body.access_token);
  assert.ok(!('refresh_token' in body));
