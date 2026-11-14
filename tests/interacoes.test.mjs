@@ -9,47 +9,21 @@ const cliente=carregar('interacoes-clinicas.js');
 const servidor=carregar('functions/interacoes.js');
 const cima=carregar('interacoes-cima.mjs');
 const sw=carregar('sw.js');
+const indice=JSON.parse(carregar('data/interacoes-cima.json'));
 const secao=html.split('<div class="page" id="page-interacao">')[1]
   .split('<!-- ══ IMUNOGLOBULINAS')[0];
-const catalogo={
-  dupilumab:'10101', ciclosporina:'10102', metotrexato:'10103',
-  omalizumab:'10104', clopidogrel:'10105', pantoprazol:'10106',
-  cetirizina:'10107', sertralina:'10108', hidroclorotiazida:'10109', ibuprofeno:'10110'
+const arquivoLocal=async function(request){
+  assert.equal(new URL(request.url).pathname,'/data/interacoes-cima.json');
+  assert.equal(request.method,'GET');
+  return Response.json(indice);
 };
-const secoes={
-  '10105':'Estos resultados indican que clopidogrel puede administrarse con pantoprazol.',
-  '10110':'Se debe tener precaución con el dexibuprofeno.'
-};
-const chamadaExterna=async function(input,opcoes){
-  const u=new URL(String(input));
-  assert.equal(u.origin,'https://cima.aemps.es');
-  if(u.pathname.endsWith('/medicamentos')){
-    const ativo=u.searchParams.get('practiv1');
-    assert.equal(opcoes.headers.Accept,'application/json');
-    const nregistro=catalogo[ativo];
-    const resultados=nregistro?[{
-      nregistro:'20202',vtm:{nombre:`${ativo} + otro principio activo`},docs:[{tipo:1,secc:true,fecha:9999}]
-    },{
-      nregistro,vtm:{nombre:ativo},viasAdministracion:[{id:48}],docs:[{tipo:1,secc:true,fecha:500}]
-    }]:[];
-    return Response.json({resultados});
-  }
-  if(u.pathname.endsWith('/docSegmentado/contenido/1')){
-    assert.equal(u.searchParams.get('seccion'),'4.5');
-    assert.equal(opcoes.headers.Accept,'text/plain');
-    const reg=u.searchParams.get('nregistro');
-    assert.notEqual(reg,'20202','Uma apresentação combinada não corresponde a um único ativo');
-    return new Response(secoes[reg]||'No se han realizado estudios formales de interacciones.');
-  }
-  assert.fail(`Rota inesperada: ${u.pathname}`);
-};
-async function consultar(t,medicamentos,externa=chamadaExterna){
-  const acesso=t.mock.method(globalThis,'fetch',externa);
+async function consultar(t,medicamentos,arquivo=arquivoLocal){
+  const acesso=t.mock.fn(arquivo);
   const request=new Request('https://hubdoalergista.pages.dev/interacoes',{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({medicamentos})
   });
-  const response=await onRequestPost({request});
+  const response=await onRequestPost({request,env:{ASSETS:{fetch:acesso}}});
   return {status:response.status,corpo:await response.json(),acesso};
 }
 
@@ -64,6 +38,7 @@ test('a seção contém apenas a verificação de interações em português',()
   assert.doesNotMatch(cliente,/NIH\/RxNorm|Bula FDA:|Consulta complementar/);
   assert.doesNotMatch(cliente,/fetch\(['"]\/ia['"]/);
   assert.match(cima,/https:\/\/cima\.aemps\.es/);
+  assert.doesNotMatch(servidor,/\bfetch\(new URL\('https:\/\//);
   const versao=html.match(/interacoes-clinicas\.js\?v=([\w-]+)/)?.[0];
   assert.ok(versao && sw.includes(versao));
 });
@@ -79,6 +54,14 @@ test('dipirona e ciclosporina retornam mecanismo e conduta, inclusive com nomes 
   assert.match(corpo.pares[0].fonte.url,/novalgina\.com\.br/);
   assert.ok(corpo.pares[0].referencias.some(f=>f.url.includes('cima.aemps.es')));
   assert.equal(acesso.mock.callCount(),0);
+});
+
+test('índice CIMA contém a origem e uma referência verificável para dipirona e ciclosporina',()=>{
+  assert.match(indice.origem,/AEMPS\/CIMA/);
+  assert.ok(Object.keys(indice.ativos).length>1000);
+  const [,data,termos]=indice.ativos.metamizol;
+  assert.match(data,/^\d{4}-\d{2}-\d{2}/);
+  assert.ok(termos.includes('ciclosporina'));
 });
 
 test('interação entre ciclosporina e metotrexato é identificada com conduta',async t=>{
@@ -103,13 +86,13 @@ test('interação contraindicada aparece antes de combinações não avaliadas',
 });
 
 test('associação não registrada nunca é declarada segura',async t=>{
-  const {corpo,acesso}=await consultar(t,['Dupilumabe','Metotrexato']);
+  const {corpo,acesso}=await consultar(t,['Dipirona','Cetirizina']);
   assert.equal(corpo.pares[0].situacao,'nao_avaliada');
   assert.match(corpo.pares[0].efeito,/não trazem menção nominal/);
   assert.match(corpo.aviso,/sem confirmação de segurança/);
   assert.equal(corpo.identificadas,0);
   assert.equal(corpo.naoAvaliadas,1);
-  assert.equal(acesso.mock.callCount(),4);
+  assert.equal(acesso.mock.callCount(),1);
 });
 
 test('omalizumabe e ciclosporina têm evidência insuficiente e fonte oficial, nunca falso negativo',async t=>{
@@ -126,12 +109,22 @@ test('a CIMA encontra menção real ao par sem convertê-la em alerta clínico a
   assert.equal(corpo.identificadas,0);
   assert.equal(corpo.pares[0].situacao,'mencao_documental');
   assert.equal(corpo.pares[0].nivel,'Menção em ficha técnica');
-  assert.match(corpo.pares[0].fonte.url,/FT_10105\.html#4\.5$/);
+  assert.match(corpo.pares[0].fonte.url,/cima\.aemps\.es\/.*#4\.5$/);
+  assert.match(corpo.pares[0].fonte.atualizada,/^\d{4}-\d{2}-\d{2}$/);
   assert.doesNotMatch(JSON.stringify(corpo),/Estos resultados/);
 });
 
+test('a cobertura se estende a medicamentos fora das regras clínicas originais',async t=>{
+  const {corpo}=await consultar(t,['Sertralina','Carbamazepina']);
+  assert.equal(corpo.pares[0].situacao,'mencao_documental');
+  assert.ok(corpo.pares[0].referencias.length>0);
+});
+
 test('uma ocorrência parcial dentro de outro nome não gera menção',async t=>{
-  const {corpo}=await consultar(t,['Ibuprofeno','Clopidogrel']);
+  const {corpo}=await consultar(t,['Ibuprofeno','Dipirona'],async()=>Response.json({ativos:{
+    metamizol:['90011','2026-10-03',['dexibuprofeno']],
+    ibuprofeno:['90012','2026-10-03',[]]
+  }}));
   assert.equal(corpo.pares[0].situacao,'nao_avaliada');
   assert.doesNotMatch(JSON.stringify(corpo),/dexibuprofeno/);
 });
@@ -140,8 +133,7 @@ test('a pesquisa de fichas inclui todos os medicamentos, mesmo acima de seis',as
   const {corpo,acesso}=await consultar(t,['Dupilumabe','Metotrexato','Cetirizina','Sertralina','Hidroclorotiazida','Omalizumabe','Pantoprazol','Clopidogrel']);
   assert.equal(corpo.pares.length,28);
   assert.equal(corpo.pares.find(p=>p.par.join('|')==='Pantoprazol|Clopidogrel').situacao,'mencao_documental');
-  const buscas=acesso.mock.calls.map(({arguments:[url]})=>new URL(url).searchParams.get('practiv1')).filter(Boolean);
-  assert.equal(buscas.length,8);
+  assert.equal(acesso.mock.callCount(),1);
 });
 
 test('falha na fonte vira consulta incompleta e preserva alertas documentados',async t=>{

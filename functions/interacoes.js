@@ -1,5 +1,5 @@
 // Interações medicamentosas com regras referenciadas e consulta à seção 4.5 da AEMPS.
-import { consultarCima, citaMedicamento, normalizar } from '../interacoes-cima.mjs';
+import { obterFicha, citaMedicamento, normalizar } from '../interacoes-cima.mjs';
 
 const CABECALHOS={
   'Content-Type':'application/json; charset=utf-8',
@@ -47,6 +47,7 @@ const SINONIMOS={
   'valproato':'acido valproico','valproato de sodio':'acido valproico',
   'linezolid':'linezolida',
   'sildenafilo':'sildenafila','viagra':'sildenafila','apixaban':'apixabana','eliquis':'apixabana',
+  'zocor':'sinvastatina','procoralan':'ivabradina',
   'rivaroxaban':'rivaroxabana','xarelto':'rivaroxabana','verapamilo':'verapamil',
   'duplixent':'dupilumabe','dupixent':'dupilumabe','dupilumab':'dupilumabe',
   'omalizumab':'omalizumabe','xolair':'omalizumabe',
@@ -91,7 +92,8 @@ const FONTES={
   },
   metamizol:{
     nome:'Ficha técnica de metamizol — AEMPS/CIMA, seção 4.5',
-    url:'https://cima.aemps.es/cima/dochtml/ft/47633/FT_47633.html#4.5'
+    url:'https://cima.aemps.es/cima/dochtml/ft/47633/FT_47633.html#4.5',
+    atualizada:'2024-12-18'
   },
   tizanidina:{
     nome:'Ficha técnica de tizanidina — AEMPS/CIMA, seção 4.5',
@@ -124,6 +126,14 @@ const FONTES={
   dipironaCiclosporina:{
     nome:'Estudo de farmacocinética de dipirona e ciclosporina — Caraco et al.',
     url:'https://pubmed.ncbi.nlm.nih.gov/10492062/'
+  },
+  sinvastatina:{
+    nome:'Bula de sinvastatina — DailyMed, seções 4 e 7',
+    url:'https://www.dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b9c315ff-cec9-8b75-e053-2995a90aa204'
+  },
+  ivabradina:{
+    nome:'Ficha técnica de ivabradina — AEMPS/CIMA, seções 4.3 e 4.5',
+    url:'https://cima.aemps.es/cima/dochtml/ft/05316013/FT_05316013.html#4.5'
   }
 };
 const REGRAS=new Map();
@@ -234,6 +244,19 @@ inserir('sertralina',['linezolida'],{
   conduta:'Selecionar alternativa quando possível. Se a linezolida for imprescindível em situação urgente, definir manejo e monitorização com a equipe responsável.',
   fonte:FONTES.sertralina
 });
+inserir('sertralina',['pimozida'],{
+  nivel:'Contraindicada',
+  efeito:'A sertralina pode aumentar a exposição à pimozida, que tem margem terapêutica estreita.',
+  conduta:'Evitar o uso concomitante. Escolher uma alternativa para um dos medicamentos.',
+  fonte:FONTES.sertralina
+});
+inserir('ivabradina',['diltiazem','verapamil'],{
+  nivel:'Contraindicada',
+  efeito:'A combinação aumenta a exposição à ivabradina e potencializa a redução da frequência cardíaca.',
+  mecanismo:'Inibição do CYP3A4 e efeito aditivo sobre a frequência cardíaca.',
+  conduta:'Selecionar uma alternativa. A ficha técnica contraindica a administração concomitante.',
+  fonte:FONTES.ivabradina
+});
 inserir('tacrolimo',['rifampicina','rifabutina'],{
   nivel:'Interação importante',
   efeito:'A associação pode reduzir os níveis de tacrolimo sistêmico e comprometer a imunossupressão.',
@@ -269,7 +292,12 @@ inserir('ciclosporina',['digoxina'],
    efeito:'Pode reduzir a depuração de digoxina e provocar toxicidade digitálica importante.',
    conduta:'Evitar quando houver opção mais segura; se associadas, acompanhar concentrações de digoxina, função renal e sinais de toxicidade.',
    fonte:FONTES.ciclosporina});
-inserir('ciclosporina',['sinvastatina','lovastatina','atorvastatina','rosuvastatina','pravastatina'],
+inserir('ciclosporina',['sinvastatina'],
+  {nivel:'Contraindicada',
+   efeito:'A associação aumenta o risco de miopatia e rabdomiólise.',
+   conduta:'Selecionar uma estatina compatível com a ciclosporina e conferir o limite de dose específico.',
+   fonte:FONTES.sinvastatina});
+inserir('ciclosporina',['lovastatina','atorvastatina','rosuvastatina','pravastatina'],
   {nivel:'Interação importante',
    efeito:'Pode aumentar a exposição a estatinas e o risco de miopatia e rabdomiólise; restrições variam conforme a estatina.',
    conduta:'Conferir contraindicação e limites de dose específicos da estatina; preferir alternativa compatível e investigar sintomas musculares.',
@@ -376,7 +404,7 @@ function complementarComCima(registro, fichas){
     const ficha=fichas.get(ativo);
     return citaMedicamento(ficha,ativos[1-i]) ? [{
       nome:`Ficha técnica de ${registro.par[i]} — AEMPS/CIMA, seção 4.5`,
-      url:ficha.fonte.url
+      ...ficha.fonte
     }] : [];
   });
   if(referencias.length){
@@ -388,13 +416,13 @@ function complementarComCima(registro, fichas){
       fonte,referencias:adicionais
     };
   }
-  if(registro.situacao==='dados_insuficientes')return registro;
   const situacoes=ativos.map(ativo=>fichas.get(ativo)?.situacao);
   if(situacoes.includes('indisponivel'))return {
     ...registro,situacao:'consulta_incompleta',nivel:'Consulta incompleta',
     efeito:'A fonte oficial ficou indisponível para pelo menos um medicamento.',
     conduta:'Tente novamente para completar a busca.'
   };
+  if(registro.situacao==='dados_insuficientes')return registro;
   if(situacoes.every(s=>s==='sem_ficha'))return {
     ...registro,nivel:'Cobertura indisponível para este par',
     efeito:'A busca pelo princípio ativo não encontrou ficha técnica para os medicamentos informados.',
@@ -408,10 +436,20 @@ function complementarComCima(registro, fichas){
   };
 }
 
+async function carregarIndice(env, request){
+  try{
+    const url=new URL('/data/interacoes-cima.json',request.url);
+    const resposta=await env.ASSETS.fetch(new Request(url));
+    if(!resposta.ok)return null;
+    const {ativos}=await resposta.json();
+    return ativos&&typeof ativos==='object'&&!Array.isArray(ativos)?ativos:null;
+  }catch(_){return null;}
+}
+
 export async function onRequestOptions(){
   return new Response(null,{status:204,headers:{...CABECALHOS,Allow:'POST, OPTIONS'}});
 }
-export async function onRequestPost({request}){
+export async function onRequestPost({request,env={}}){
   const origem=request.headers.get('Origin');
   if(origem&&origem!==new URL(request.url).origin)return responder({erro:'Origem não autorizada.'},403);
   if(Number(request.headers.get('Content-Length')||0)>4000)return responder({erro:'Requisição muito extensa.'},413);
@@ -433,9 +471,11 @@ export async function onRequestPost({request}){
   for(let i=0;i<nomes.length;i++)
     for(let j=i+1;j<nomes.length;j++)pares.push(registro(nomes[i],nomes[j]));
   const pendentes=[...new Set(pares.filter(p=>p.situacao!=='identificada').flatMap(p=>p.par.map(principio)))];
-  const signal=AbortSignal.timeout(25000);
-  const fichas=new Map(await Promise.all(pendentes.map(async ativo=>[ativo,await consultarCima(ativo,signal)])));
-  pares=pares.map(p=>p.situacao==='identificada'?p:complementarComCima(p,fichas));
+  if(pendentes.length){
+    const indice=await carregarIndice(env,request);
+    const fichas=new Map(pendentes.map(ativo=>[ativo,obterFicha(indice,ativo)]));
+    pares=pares.map(p=>p.situacao==='identificada'?p:complementarComCima(p,fichas));
+  }
   const prioridade={
     'Contraindicada':0,'Evitar associação':1,'Interação importante':2,'Requer monitorização':3,
     'Requer cautela':4,'Menção em ficha técnica':5,'Evidência clínica limitada':6,'Consulta incompleta':7

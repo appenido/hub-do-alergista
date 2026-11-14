@@ -63,6 +63,10 @@ function renderizar(box,dados){
         'display:block;margin:6px 0;font-size:11.5px;color:#176b91;text-decoration:underline;overflow-wrap:anywhere');
       a.href=fonte.url;a.target='_blank';a.rel='noopener noreferrer';
       conteudo.appendChild(a);
+      if(fonte.atualizada){
+        const data=fonte.atualizada.split('-').reverse().join('/');
+        conteudo.appendChild(el('div','Atualização da ficha em '+data,'font-size:10.5px;color:#506475;margin-top:-4px'));
+      }
     });
     card.appendChild(conteudo);box.appendChild(card);
   });
