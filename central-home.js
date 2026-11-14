@@ -7,6 +7,15 @@ const fmt=n=>new Intl.NumberFormat('pt-BR').format(Number(n)||0);
 const DAY_MS=86400000,fmtDate=new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'2-digit',timeZone:'UTC'});
 const fmtTime=new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit',timeZone:'America/Sao_Paulo'});
 const LABELS={session_start:'Nova sessão',page_view:'Área visualizada',click:'Clique em controle',feature_open:'Funcionalidade aberta',screen_time:'Tempo de uso'};
+const FEATURE_NAMES={
+ imuno:'Terapias alvo',scores:'Scores clínicos',eaaci:'EAACI',artigos:'Artigos científicos',
+ antihistaminicos:'Anti-histamínicos',imunoglobulinas:'Imunoglobulinas',imunizacoes:'Imunizações',
+ laboratorio:'Laboratório',guidelines:'Diretrizes',educacao:'Educação',
+ interacao:'Interações medicamentosas',jornal:'Alergo News',favoritos:'Favoritos',
+ assistente:'Assistente',prompts:'Prompts',congresso:'Congresso'
+};
+function featureName(name){return FEATURE_NAMES[name]||String(name||'Área não informada').replace(/[-_]/g,' ');}
+
 const n=x=>Number.isFinite(Number(x))?Number(x):0;
 let snapshot=null,map=null,mapLayer=null,lastRows=[],seq=0,lastDays=30;
 function text(id,s){if($(id))$(id).textContent=String(s);}
@@ -70,7 +79,7 @@ function topFeatures(data){
  data.slice(0,7).forEach((r,i)=>{
   const row=make('div','exec-feature-row');
   const top=make('div','exec-feature-top');
-  top.append(make('span','exec-feature-name',String(i+1)+'. '+String(r.feature||'Área não informada').replace(/[-_]/g,' ')));
+  top.append(make('span','exec-feature-name',String(i+1)+'. '+featureName(r.feature)));
   top.append(make('span','exec-feature-count',fmt(r.views)+' aberturas'));
   const rail=make('div','exec-feature-track'),fill=make('div','exec-feature-fill');
   fill.style.width=(n(r.views)/highest*100)+'%';rail.append(fill);row.append(top,rail);root.append(row);
@@ -85,7 +94,7 @@ function recent(data){
   const marker=make('span','exec-activity-dot');
   const content=make('div','exec-activity-text');
   const title=make('span','exec-activity-title',LABELS[r.event_type]||'Atividade registrada');
-  const details=[r.feature&&r.feature!=='dashboard'?r.feature.replace(/[-_]/g,' '):'Página inicial',r.device].filter(Boolean).join(' · ');
+  const details=[r.feature&&r.feature!=='dashboard'?featureName(r.feature):'Página inicial',r.device].filter(Boolean).join(' · ');
   const desc=make('span','exec-activity-description',details);
   content.append(title,desc);
   let date='Data não disponível';
