@@ -2,6 +2,7 @@
 // Métricas técnicas sem URL, mensagem/stack de erro, IP ou dados digitados.
 const API='https://jpdtqtenlivxgjkyizcg.supabase.co';
 const PUBLIC_KEY='sb_publishable_CzAI8BUm2Po7CfobLlxv8A_NtuTil8j';
+const EXCLUSION_COOKIE='__Host-hub_admin_notrack';
 const ALLOWED=new Set(['ttfb_ms','dom_ready_ms','lcp_ms','cls_score','interaction_latency_ms','js_error','offline']);
 const UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const SAFE=/^[a-zA-Z0-9_.:-]{1,64}$/;
@@ -11,6 +12,8 @@ function reply(code,msg){
  });
 }
 export async function onRequestPost({request,env}){
+ // Não receber nenhuma métrica técnica quando o dispositivo é do administrador.
+ if((request.headers.get('Cookie')||'').split(';').some(part=>part.trim()===EXCLUSION_COOKIE+'=1'))return reply(204);
  const url=new URL(request.url);
  const origin=request.headers.get('Origin'),fetchSite=request.headers.get('Sec-Fetch-Site');
  if((origin&&origin!==url.origin)||(fetchSite&&!['same-origin','none'].includes(fetchSite)))return reply(403,'Origem inválida');
