@@ -476,6 +476,8 @@ function abas(){
   }));
 }
 function init(){
+  // Apaga tokens antigos gravados em versões anteriores. O novo login nunca os utiliza.
+  try{sessionStorage.removeItem('hub_secure_auth');}catch(_){}
   el('loginForm').addEventListener('submit',login);
   el('logout').addEventListener('click',sair);
   el('period').addEventListener('change',e=>{days=Number(e.target.value)||30;carregar();});
