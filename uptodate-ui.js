@@ -85,18 +85,128 @@ function instalarEstilos(){
   if(document.getElementById('uptodate-legibilidade-styles'))return;
   var style=el('style');
   style.id='uptodate-legibilidade-styles';
-  style.textContent=[
-    '#utdHighlights.utd-highlights{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;}',
-    '#utdHighlights .utd-item{padding:16px!important;gap:9px!important;border-radius:13px!important;}',
-    '#utdHighlights .utd-title-row{display:flex;align-items:flex-start;gap:10px;min-width:0;width:100%;}',
-    '#utdHighlights .utd-title-row h3{flex:1;min-width:0;font-size:16px!important;line-height:1.5!important;font-weight:800!important;display:block!important;-webkit-line-clamp:unset!important;overflow:visible!important;overflow-wrap:break-word!important;letter-spacing:0!important;text-align:left!important;}',
-    '#utdHighlights .utd-source-mark{display:inline-flex;flex:0 0 36px;width:36px;height:36px;align-items:center;justify-content:center;border:1px solid #bbdfcd;border-radius:9px;background:#e9f6ee;color:#157544;font:800 22px/1 Manrope,Arial,sans-serif;}',
-    '#utdHighlights .utd-meta{font-size:12px!important;line-height:1.45!important;white-space:normal!important;overflow:visible!important;text-overflow:clip!important;}',
-    '#utdHighlights .utd-item p{font-size:13.5px!important;line-height:1.65!important;display:block!important;-webkit-line-clamp:unset!important;overflow:visible!important;text-align:left!important;}',
-    '#utdHighlights .utd-item a{font-size:12.5px!important;line-height:1.45!important;}',
-    '#utdHighlights .utd-more{font-size:13px!important;padding:8px!important;}',
-    '@media(max-width:720px){#utdHighlights.utd-highlights{grid-template-columns:minmax(0,1fr)!important;grid-auto-flow:row!important;grid-auto-columns:auto!important;overflow-x:visible!important;scroll-snap-type:none!important;}#utdHighlights .utd-item{scroll-snap-align:none!important;padding:14px!important;}#utdHighlights .utd-title-row h3{font-size:16px!important;}#utdHighlights .utd-item p{font-size:13.5px!important;}}'
-  ].join(' ');
+  // CSS isolado: jamais combinar grid-auto-flow horizontal com grid-template-columns no celular.
+  // Flex vertical é intencional até 899px, independente das regras antigas do índice.
+  style.textContent=`
+    #page-artigos #utdPanel{
+      box-sizing:border-box;min-width:0;max-width:calc(100% - 24px);
+      overflow-wrap:break-word;
+    }
+    #page-artigos #utdPanel .utd-head{
+      display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px 12px;
+      min-width:0;max-width:100%;
+    }
+    #page-artigos #utdPanel .utd-head > div{
+      flex:1 1 210px;min-width:0;max-width:100%;
+    }
+    #page-artigos #utdPanel .utd-head h2{
+      font-size:clamp(15px,3.6vw,19px)!important;line-height:1.3!important;
+      overflow-wrap:break-word;
+    }
+    #page-artigos #utdHighlights.utd-highlights{
+      display:flex!important;flex-direction:column!important;
+      grid-template-columns:none!important;grid-auto-columns:auto!important;
+      grid-auto-flow:row!important;grid-template-rows:none!important;
+      gap:9px!important;width:100%!important;max-width:100%!important;
+      min-width:0!important;box-sizing:border-box!important;
+      overflow-x:hidden!important;overflow-y:visible!important;
+      scroll-snap-type:none!important;scroll-behavior:auto!important;
+      padding:0!important;margin:0!important;
+    }
+    #page-artigos #utdHighlights > .utd-item{
+      display:flex!important;flex-direction:column!important;
+      position:relative!important;flex:0 0 auto!important;
+      grid-column:auto!important;grid-row:auto!important;
+      width:100%!important;min-width:0!important;max-width:100%!important;
+      min-height:0!important;max-height:none!important;height:auto!important;
+      box-sizing:border-box!important;margin:0!important;padding:12px 13px!important;
+      gap:7px!important;transform:none!important;scroll-snap-align:none!important;
+      border-radius:12px!important;overflow:visible!important;
+    }
+    #page-artigos #utdHighlights .utd-title-row{
+      display:flex!important;align-items:flex-start!important;flex-direction:row!important;
+      gap:9px!important;width:100%!important;max-width:100%!important;
+      min-width:0!important;box-sizing:border-box!important;
+    }
+    #page-artigos #utdHighlights .utd-title-row h3{
+      display:block!important;flex:1 1 auto!important;
+      min-width:0!important;max-width:100%!important;
+      margin:0!important;font-size:15px!important;line-height:1.43!important;
+      font-weight:800!important;letter-spacing:0!important;
+      white-space:normal!important;word-break:normal!important;
+      overflow-wrap:anywhere!important;overflow:visible!important;
+      -webkit-line-clamp:unset!important;text-overflow:clip!important;
+      text-align:left!important;
+    }
+    #page-artigos #utdHighlights .utd-source-mark{
+      display:inline-flex!important;flex:0 0 30px!important;
+      width:30px!important;height:30px!important;
+      align-items:center!important;justify-content:center!important;
+      box-sizing:border-box!important;border:1px solid #b9dcc9!important;
+      border-radius:8px!important;background:#e7f5ee!important;color:#167443!important;
+      font:800 19px/1 Manrope,Arial,sans-serif!important;
+    }
+    #page-artigos #utdHighlights .utd-meta{
+      display:block!important;max-width:100%!important;
+      white-space:normal!important;overflow:visible!important;
+      text-overflow:clip!important;overflow-wrap:break-word!important;
+      font-size:11px!important;line-height:1.4!important;
+    }
+    #page-artigos #utdHighlights .utd-item p{
+      display:block!important;margin:0!important;
+      font-size:13px!important;line-height:1.55!important;font-weight:400!important;
+      white-space:normal!important;overflow:visible!important;
+      overflow-wrap:break-word!important;-webkit-line-clamp:unset!important;
+      text-align:left!important;
+    }
+    #page-artigos #utdHighlights .utd-item a{
+      display:inline-block!important;align-self:flex-start!important;
+      margin-top:3px!important;max-width:100%!important;
+      font-size:11.5px!important;line-height:1.45!important;
+      font-weight:700!important;white-space:normal!important;
+      overflow-wrap:break-word!important;
+    }
+    #page-artigos #utdHighlights > .utd-more{
+      display:block!important;flex:none!important;
+      grid-column:auto!important;grid-row:auto!important;
+      align-self:stretch!important;justify-self:stretch!important;
+      box-sizing:border-box!important;width:100%!important;max-width:100%!important;
+      min-width:0!important;margin:0!important;padding:10px 12px!important;
+      text-align:left!important;white-space:normal!important;
+      overflow-wrap:break-word!important;font-size:12px!important;line-height:1.4!important;
+      color:#12677e!important;background:#f1f8fa!important;
+      border:1px solid #d9e9ed!important;border-radius:9px!important;
+    }
+    #page-artigos #utdPanel .utd-foot{
+      display:flex!important;flex-wrap:wrap!important;align-items:flex-start!important;
+      gap:8px!important;min-width:0!important;max-width:100%!important;
+      font-size:10px!important;line-height:1.5!important;
+    }
+    #page-artigos #utdPanel #utdStatus{
+      flex:1 1 220px;min-width:0;overflow-wrap:break-word;
+    }
+    #page-artigos #utdPanel .utd-foot button{
+      flex:0 0 auto;font-size:10.5px!important;line-height:1.4!important;
+      padding:6px 9px!important;
+    }
+    #page-artigos #utdPanel .utd-note{
+      font-size:10px!important;line-height:1.5!important;
+    }
+    @media(min-width:900px){
+      #page-artigos #utdHighlights.utd-highlights{
+        display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+        grid-auto-flow:row!important;align-items:stretch!important;
+      }
+      #page-artigos #utdHighlights > .utd-more{grid-column:1/-1!important;}
+    }
+    @media(max-width:420px){
+      #page-artigos #utdPanel{margin-left:12px!important;margin-right:12px!important;padding:12px!important;}
+      #page-artigos #utdHighlights .utd-title-row h3{font-size:14px!important;}
+      #page-artigos #utdHighlights .utd-item p{font-size:12.5px!important;}
+      #page-artigos #utdHighlights > .utd-item{padding:11px!important;}
+      #page-artigos #utdPanel .utd-source{font-size:10px!important;white-space:normal!important;}
+    }
+  `;
   document.head.appendChild(style);
 }
 function iniciar(){
