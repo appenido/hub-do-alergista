@@ -9,8 +9,26 @@ const servidor=carregar('functions/interacoes.js');
 const sw=carregar('sw.js');
 const secao=html.split('<div class="page" id="page-interacao">')[1]
   .split('<!-- ══ IMUNOGLOBULINAS')[0];
-const iniciar=new Function('Response',servidor.replaceAll('export async function','async function')+
-  'return onRequestPost;')(Response);
+// Os testes não acessam a internet: as respostas públicas são simuladas.
+const chamadaExterna=async function(input){
+  const u=new URL(String(input));
+  if(u.hostname==='rxnav.nlm.nih.gov'){
+    const name=u.searchParams.get('name');
+    return new Response(JSON.stringify({idGroup:{rxnormId:['omalizumab','cyclosporine','dupilumab','methotrexate'].includes(name)?['12345']:[]}}),{status:200});
+  }
+  if(u.hostname==='api.fda.gov'){
+    const busca=u.searchParams.get('search')||'';
+    const nome=/omalizumab|cyclosporine|dupilumab|methotrexate/.exec(busca)?.[0]||'';
+    return new Response(JSON.stringify({results:[{
+      set_id:'7f6a2191-adfb-48b9-9bfa-0d9920479f0d',
+      effective_time:'20260813',
+      openfda:{generic_name:[nome]},drug_interactions:['No formal drug interaction studies have been performed.']
+    }]}),{status:200});
+  }
+  throw Error('Fonte não autorizada no teste');
+};
+const iniciar=new Function('Response','fetch',servidor.replaceAll('export async function','async function')+
+  'return onRequestPost;')(Response,chamadaExterna);
 async function consultar(medicamentos){
   const request=new Request('https://hubdoalergista.pages.dev/interacoes',{
     method:'POST',headers:{'Content-Type':'application/json'},
@@ -27,8 +45,9 @@ test('a seção contém apenas a verificação de interações em português',()
   assert.doesNotMatch(secao,/Medscape|RxNorm|openFDA|\bIA\b|bula oficial|NIH/i);
   assert.doesNotMatch(cliente,/Medscape|RxNorm|openFDA/i);
   assert.doesNotMatch(cliente,/fetch\(['"]\/ia['"]/);
-  assert.doesNotMatch(servidor,/fetch\(/);
-  assert.match(sw,/interacoes-clinicas\.js\?v=20261114-interacoes-pt-1/);
+  assert.match(servidor,/rxnav\.nlm\.nih\.gov/);
+  assert.match(servidor,/api\.fda\.gov/);
+  assert.match(sw,/interacoes-clinicas\.js\?v=20261114-interacoes-fda-corrigidas-2/);
 });
 
 test('interação entre ciclosporina e metotrexato é identificada com conduta',async()=>{
@@ -57,6 +76,24 @@ test('associação não registrada nunca é declarada segura',async()=>{
   assert.equal(corpo.pares[0].situacao,'nao_avaliada');
   assert.match(corpo.pares[0].conduta,/Não conclua/);
   assert.equal(corpo.identificadas,0);
+  assert.equal(corpo.naoAvaliadas,1);
+  assert.equal(corpo.consultas.length,2);
+  assert.equal(corpo.consultas[0].rxnorm,'identificado');
+});
+
+test('omalizumabe e ciclosporina têm evidência insuficiente e fonte oficial, nunca falso negativo',async()=>{
+  const {corpo}=await consultar(['Omalizumabe','Ciclosporina']);
+  assert.equal(corpo.pares[0].situacao,'dados_insuficientes');
+  assert.equal(corpo.naoAvaliadas,1);
+  assert.equal(corpo.identificadas,0);
+  assert.match(corpo.pares[0].efeito,/não foram realizados estudos formais/i);
+  assert.match(corpo.pares[0].fonte.url,/dailymed\.nlm\.nih\.gov/);
+  assert.equal(corpo.pares[0].documentos.length,2);
+});
+
+test('resumo da interface não declara 0 interações em pares sem avaliação',()=>{
+  assert.doesNotMatch(cliente,/interação\(ões\) identificada\(s\) em .*avaliadas/);
+  assert.match(cliente,/sem evidência suficiente para classificação/);
 });
 
 test('medicamentos repetidos não criam interações inexistentes',async()=>{
@@ -67,7 +104,8 @@ test('medicamentos repetidos não criam interações inexistentes',async()=>{
 test('o endpoint bloqueia conteúdo indevido e não acessa rede externa',async()=>{
   const {status}=await consultar(['Ciclosporina','paciente@hospital.com']);
   assert.equal(status,400);
-  assert.doesNotMatch(servidor,/https:\/\/api\.fda\.gov|https:\/\/rxnav\.nlm\.nih\.gov/);
+  assert.match(servidor,/api\.fda\.gov/);
+  assert.match(servidor,/rxnav\.nlm\.nih\.gov/);
 });
 
 test('JavaScript de consulta e função do servidor são sintaticamente válidos',()=>{
