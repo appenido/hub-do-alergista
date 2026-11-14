@@ -3712,18 +3712,18 @@ window._bloquearApp=function(){};
         <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
         Interações medicamentosas
       </div>
-      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Fontes oficiais: openFDA + NIH/RxNorm, com consulta complementar à EMA e Anvisa</div>
+      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">Informe os medicamentos para verificar possíveis interações</div>
     </div>
 
     <div style="padding:0 16px 24px;display:flex;flex-direction:column;gap:14px">
 
-      <!-- Card Medscape com múltiplos campos -->
+      <!-- Verificação das combinações de medicamentos -->
       <div style="background:linear-gradient(135deg,#2a6ebb,#1e5490);border-radius:16px;padding:20px;color:#fff">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
           <span style="font-size:22px">💊</span>
-          <div style="font-size:16px;font-weight:800">Verificador de interações</div>
+          <div style="font-size:16px;font-weight:800">Interação medicamentosa</div>
         </div>
-        <div style="font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.5;margin-bottom:16px">Informe os princípios ativos para identificar medicamentos pela NIH/RxNorm e consultar bulas FDA. Este módulo não classifica a gravidade de interações. Consulte também EMA e Anvisa nos links oficiais.</div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.5;margin-bottom:16px">Informe pelo menos dois medicamentos. O resultado de cada combinação será exibido logo abaixo.</div>
 
         <div id="diCampos">
           <div style="margin-bottom:9px"><label style="font-size:11px;font-weight:700;color:rgba(255,255,255,.9);display:block;margin-bottom:5px">Medicamento 1</label><input type="text" id="diMed1" placeholder="Ex: omalizumabe" style="border:none;border-radius:10px;padding:12px 13px;font-family:'Manrope',sans-serif;font-size:16px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box"></div>
@@ -3734,13 +3734,10 @@ window._bloquearApp=function(){};
 
         <button id="diAddCampo" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:10px;padding:10px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;width:100%;margin-bottom:10px">+ Adicionar outro medicamento</button>
 
-        <button id="diVerificarBtn" type="button" onclick="consultarInteracoesSemIA()" style="background:#fff;color:#2a6ebb;border:none;border-radius:11px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;width:100%">Consultar FDA + RxNorm</button>
-        <button id="diMedscapeBtn" type="button" style="background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:11px;padding:12px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;width:100%;margin-top:9px">Conferir na base do Medscape ↗</button>
-        <div style="font-size:10.5px;color:rgba(255,255,255,.78);text-align:center;margin-top:9px;line-height:1.45">Pesquisa documental via FDA e NIH/RxNorm, sem IA e sem contratação. Medscape é serviço externo; confira também as bulas brasileiras.</div>
+        <button id="diVerificarBtn" type="button" onclick="verificarInteracoes()" style="background:#fff;color:#2a6ebb;border:none;border-radius:11px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;width:100%">Verificar interações</button>
       </div>
 
       <div id="diResultado" style="display:none;background:#fff;border:1px solid var(--gray-100);border-radius:13px;padding:15px;font-size:13px;color:var(--navy);line-height:1.6;white-space:pre-wrap"></div>
-      <div id="diLista" style="display:none"></div>
 
       <!-- Atalhos por classe -->
       <div>
@@ -3757,7 +3754,7 @@ window._bloquearApp=function(){};
         </div>
       </div>
 
-      <div style="font-size:10.5px;color:var(--gray-300);font-style:italic;line-height:1.5">FDA: seções de bulas. NIH/RxNorm: identificação farmacológica. EMA e Anvisa: consulta documental externa. Ausência de menção não significa ausência de interação.</div>
+      <div style="font-size:10.5px;color:var(--gray-300);font-style:italic;line-height:1.5">A base possui cobertura parcial. Uma combinação não avaliada não deve ser considerada segura.</div>
     </div>
   </div>
 
@@ -4491,7 +4488,7 @@ window._bloquearApp=function(){};
       <div class="guide-card" data-nav="educacao" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🎓</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Educação Continuada</div><div style="font-size:11.5px;color:var(--gray-500)">ASBAI · EAACI Nexus · UCARE LevelUp</div></div></div></div>
       <div class="guide-card" data-nav="imuno" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💉</span><div><div style="font-size:14px;font-weight:800;color:var(--navy);text-align:center">Terapias Alvo</div><div style="font-size:10px;color:var(--gray-500);text-align:center">Mabs, i-JAK, iBTK</div></div></div></div>
       <div class="guide-card" data-nav="antihistaminicos" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">💊</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Anti-histamínicos</div><div style="font-size:11.5px;color:var(--gray-500)">1ª e 2ª gerações · apresentações · calculadoras</div></div></div></div>
-      <div class="guide-card" data-nav="interacao" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">⚕️</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Interação Medicamentosa</div><div style="font-size:11.5px;color:var(--gray-500)">Bulas FDA · consulta no Medscape</div></div></div></div>
+      <div class="guide-card" data-nav="interacao" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">⚕️</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Interação Medicamentosa</div><div style="font-size:11.5px;color:var(--gray-500)">Verificação de interações</div></div></div></div>
       <div class="guide-card" data-nav="favoritos" style="cursor:pointer"><div style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🔖</span><div><div style="font-size:13.5px;font-weight:700;color:var(--navy)">Favoritos</div><div style="font-size:11.5px;color:var(--gray-500)">Artigos, scores e outros conteúdos salvos</div></div></div></div>
     </div>
     <div style="margin:16px 16px 0;background:#f8fafc;border:1px solid var(--gray-100);border-radius:13px;padding:14px 16px">
@@ -5056,8 +5053,8 @@ function _iaFormatar(texto){
 }
 
 /* ── INTERAÇÕES MEDICAMENTOSAS ──
-   Consulta documental sem IA em interacoes-clinicas.js.
-   Nenhuma requisição a /ia; sem extração ou reprodução da base Medscape. */
+   Verificação de pares em interacoes-clinicas.js.
+   Apenas interações medicamentosas e condutas em português. */
 
 /* ── Endereço completo ───────────────────────────── */
 function _cepMascara(el){
@@ -10325,14 +10322,7 @@ document.addEventListener('submit', function(eC){
 /* ── ABRIR LINK: usa <a> real (evita bloqueio/confirmação de popup) ── */
 /* ── NAVIGATION ── */
 
-/* ══ INTERAÇÕES → MEDSCAPE ══ */
-
-
-
-
-/* ══ INTERAÇÕES → MEDSCAPE (múltiplos medicamentos, sempre limpo) ══ */
-var MEDSCAPE_URL = 'https://reference.medscape.com/drug-interactionchecker';
-
+/* Leitura dos medicamentos para verificação de interações. */
 function diColetarMeds(){
   var meds = [];
   var campos = document.querySelectorAll('#diCampos input');
@@ -10341,35 +10331,6 @@ function diColetarMeds(){
     if(v) meds.push(v);
   }
   return meds;
-}
-
-function abrirMedscapeInteracao(){
-  var meds = diColetarMeds();
-  var lista = document.getElementById('diLista');
-
-  // Mostra os medicamentos digitados para inserir no Medscape
-  if(lista){
-    if(meds.length){
-      var itens = '';
-      for(var i=0;i<meds.length;i++){
-        itens += '<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--gray-50)"><span style="width:20px;height:20px;border-radius:50%;background:var(--teal-mid);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">' + (i+1) + '</span><span style="font-size:13px;color:var(--navy);font-weight:600">' + _diEsc(meds[i]) + '</span></div>';
-      }
-      lista.innerHTML = '<div style="background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:14px 16px">' +
-        '<div style="font-size:11px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Insira estes no Medscape:</div>' +
-        itens +
-        '<div style="font-size:11px;color:var(--gray-500);margin-top:10px;line-height:1.4">Digite cada nome no campo de busca do Medscape e adicione ao verificador.</div></div>';
-      lista.style.display = 'block';
-    } else {
-      lista.style.display = 'none';
-    }
-  }
-
-  // SEMPRE abre o Medscape limpo (sem busca anterior)
-  abrirLink(MEDSCAPE_URL);
-}
-
-function _diEsc(s){
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
 /* adiciona um medicamento no primeiro campo vazio (chips) */
@@ -10397,7 +10358,6 @@ function diAdicionarCampo(valor){
 
 document.addEventListener('click', function(eM){
   if(!eM.target.closest) return;
-  if(eM.target.closest('#diMedscapeBtn')){ abrirMedscapeInteracao(); return; }
   if(eM.target.closest('#diAddCampo')){ diAdicionarCampo(''); return; }
   var chip = eM.target.closest('.di-chip-add');
   if(chip){ diPreencherChip(chip.getAttribute('data-drug') || ''); }
@@ -10746,7 +10706,7 @@ var CHAT_FAQ = [
   {k:['crm','consultar medico','cfm'],
    r:'Em Consultar CRM você pesquisa por número e UF ou por nome, direto na base do CFM.'},
   {k:['interac','medicament','medicamento junto'],
-   r:'Em Interações medicamentosas há acesso direto às bulas da FDA e ao verificador do Medscape, sem IA.'},
+   r:'Em Interações medicamentosas você verifica combinações de medicamentos e recebe orientações clínicas quando há uma interação documentada.'},
   {k:['offline','sem internet','instalar','pwa','app','icone','tela inicial'],
    r:'O Hub é um PWA: dá para instalar na tela inicial (no Chrome, menu ⋮ → Instalar aplicativo; no iPhone, Compartilhar → Adicionar à Tela de Início). Depois de instalado, as telas já visitadas funcionam offline.'},
   {k:['senha','login','entrar','cadastr','conta','esqueci','nao consigo'],
@@ -11293,7 +11253,7 @@ function chatToggle(){
 <script src="/scores-qr-medico.js?v=20261111-qr-revisao-1"></script>
 <script src="/congresso-assistente.js?v=20261109-3"></script>
 <script src="/comparador-reatividade-alimentar.js?v=20261109-5"></script>
-<script src="/interacoes-clinicas.js?v=20261114-fda-rxnorm-1"></script>
+<script src="/interacoes-clinicas.js?v=20261114-interacoes-pt-1"></script>
 <script src="/analytics-client.js?v=20261113-health1"></script>
 <script src="/filter-chips-drag.js?v=20261109-1"></script>
 <script src="/quick-access-premium.js?v=20261112-firstpaint-1" defer></script>
