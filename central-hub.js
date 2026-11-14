@@ -195,11 +195,28 @@ function paisNome(code){
   try{return /^[A-Z]{2}$/.test(code||'')?(geoNames?.of(code)||code):'País não informado';}
   catch(_){return code||'País não informado';}
 }
+const NOMES_UF={
+ AC:'Acre',AL:'Alagoas',AP:'Amapá',AM:'Amazonas',BA:'Bahia',CE:'Ceará',DF:'Distrito Federal',
+ ES:'Espírito Santo',GO:'Goiás',MA:'Maranhão',MT:'Mato Grosso',MS:'Mato Grosso do Sul',
+ MG:'Minas Gerais',PA:'Pará',PB:'Paraíba',PR:'Paraná',PE:'Pernambuco',PI:'Piauí',
+ RJ:'Rio de Janeiro',RN:'Rio Grande do Norte',RS:'Rio Grande do Sul',RO:'Rondônia',
+ RR:'Roraima',SC:'Santa Catarina',SP:'São Paulo',SE:'Sergipe',TO:'Tocantins'
+};
+function regiaoNome(country,region){
+  const code=String(region||'').trim();
+  if(!code)return '';
+  if(country==='BR')return NOMES_UF[code.toUpperCase()]||code;
+  if(country==='PY'&&code==='10')return 'Alto Paraná';
+  return code;
+}
+window.hubCentralRegiaoNome=regiaoNome;
 function localNome(r){
   const country=String(r.country||'');
-  const region=String(r.region||'');
-  const place=country==='PY'&&region==='10'?'Alto Paraná':region;
-  return [r.city||'',place,paisNome(country)].filter(Boolean).join(' · ');
+  const place=regiaoNome(country,r.region);
+  if(r.city&&String(r.city).trim())
+    return [String(r.city).trim(),place,paisNome(country)].filter(Boolean).join(' · ');
+  const readable=[place,paisNome(country)].filter(Boolean).join(' · ');
+  return readable+(place?' (cidade não registrada)':' (localidade sem precisão municipal)');
 }
 function pontoSessao(r){
   if(r.geo_lat!==null&&r.geo_lon!==null&&r.geo_lat!==undefined&&r.geo_lon!==undefined){
@@ -318,7 +335,10 @@ function atualizarMapa(){
   mapPage=0;listarSessoes();
   const positioned=mapFiltered.filter(r=>pontoSessao(r)).length;
   texto('mapSummary',fmt(positioned)+' de '+fmt(mapFiltered.length)+' sessões localizadas');
-  texto('mapNotice',fmt(mapGroups.length)+' localidades representadas. A posição é aproximada e não representa o endereço de nenhum visitante.');
+  const onlyRegion=mapFiltered.filter(r=>!r.city&&r.region).length;
+  texto('mapNotice',fmt(mapGroups.length)+' localidades representadas. '+
+    (onlyRegion?fmt(onlyRegion)+' sessões exibidas apenas por estado ou região, pois a cidade não foi coletada. ':'')+
+    'Os pontos são aproximados e não representam endereços de visitantes.');
   desenharMapa();
 }
 async function carregarMapa(){
