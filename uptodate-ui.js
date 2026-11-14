@@ -1,4 +1,4 @@
-/* Radar UpToDate · apenas títulos públicos e resumos independentes.
+/* Radar UpToDate · cartões compactos com títulos públicos completos.
    JSON atualizado diariamente via GitHub Actions, sem conteúdo restrito ou dados de pacientes. */
 (function(){
 'use strict';
@@ -21,21 +21,15 @@ function mesBrasil(anoMes){
   return Number.isNaN(d.getTime())?'Data não informada':d.toLocaleDateString('pt-BR',{month:'long',year:'numeric',timeZone:'UTC'});
 }
 function montarItem(item,posicao){
-  var card=el('article','utd-item'+(posicao===0?' utd-feature':''));
-  card.appendChild(el('div','utd-meta',(item.topic||'Alergia e Imunologia')+' · '+mesBrasil(item.month)));
-  var titleRow=el('div','utd-title-row');
-  var sourceMark=el('span','utd-source-mark','U');
-  sourceMark.setAttribute('aria-label','Fonte: UpToDate');
-  sourceMark.title='UpToDate';
-  titleRow.appendChild(sourceMark);
-  titleRow.appendChild(el('h3','',item.titlePt||item.title||'Atualização clínica'));
-  card.appendChild(titleRow);
-  if(item.summary)card.appendChild(el('p','',item.summary));
-  else card.appendChild(el('p','','Nova atualização identificada no índice oficial. Consulte o conteúdo na fonte antes de alterar condutas.'));
-  var a=el('a','', 'Abrir índice geral de novidades do UpToDate ↗');
-  a.href=ORIGEM; a.target='_blank'; a.rel='noopener noreferrer';
-  a.setAttribute('aria-label','Abrir índice geral de novidades do UpToDate; não é um link direto para '+(item.title||item.titlePt||'esta atualização'));
-  card.appendChild(a);
+  // O cartão mostra apenas o título integral: compacto, sem resumo, metadados ou texto truncado.
+  var titulo=String(item.titlePt||item.title||'Atualização clínica');
+  var card=el('a','utd-item'+(posicao===0?' utd-feature':''));
+  card.href=ORIGEM;
+  card.target='_blank';
+  card.rel='noopener noreferrer';
+  card.title='Consultar novidades do UpToDate na fonte oficial';
+  card.setAttribute('aria-label',titulo+'. Abrir o índice oficial do UpToDate.');
+  card.appendChild(el('h3','',titulo));
   return card;
 }
 function render(dados){
@@ -85,128 +79,7 @@ function instalarEstilos(){
   if(document.getElementById('uptodate-legibilidade-styles'))return;
   var style=el('style');
   style.id='uptodate-legibilidade-styles';
-  // CSS isolado: jamais combinar grid-auto-flow horizontal com grid-template-columns no celular.
-  // Flex vertical é intencional até 899px, independente das regras antigas do índice.
-  style.textContent=`
-    #page-artigos #utdPanel{
-      box-sizing:border-box;min-width:0;max-width:calc(100% - 24px);
-      overflow-wrap:break-word;
-    }
-    #page-artigos #utdPanel .utd-head{
-      display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px 12px;
-      min-width:0;max-width:100%;
-    }
-    #page-artigos #utdPanel .utd-head > div{
-      flex:1 1 210px;min-width:0;max-width:100%;
-    }
-    #page-artigos #utdPanel .utd-head h2{
-      font-size:clamp(15px,3.6vw,19px)!important;line-height:1.3!important;
-      overflow-wrap:break-word;
-    }
-    #page-artigos #utdHighlights.utd-highlights{
-      display:flex!important;flex-direction:column!important;
-      grid-template-columns:none!important;grid-auto-columns:auto!important;
-      grid-auto-flow:row!important;grid-template-rows:none!important;
-      gap:9px!important;width:100%!important;max-width:100%!important;
-      min-width:0!important;box-sizing:border-box!important;
-      overflow-x:hidden!important;overflow-y:visible!important;
-      scroll-snap-type:none!important;scroll-behavior:auto!important;
-      padding:0!important;margin:0!important;
-    }
-    #page-artigos #utdHighlights > .utd-item{
-      display:flex!important;flex-direction:column!important;
-      position:relative!important;flex:0 0 auto!important;
-      grid-column:auto!important;grid-row:auto!important;
-      width:100%!important;min-width:0!important;max-width:100%!important;
-      min-height:0!important;max-height:none!important;height:auto!important;
-      box-sizing:border-box!important;margin:0!important;padding:12px 13px!important;
-      gap:7px!important;transform:none!important;scroll-snap-align:none!important;
-      border-radius:12px!important;overflow:visible!important;
-    }
-    #page-artigos #utdHighlights .utd-title-row{
-      display:flex!important;align-items:flex-start!important;flex-direction:row!important;
-      gap:9px!important;width:100%!important;max-width:100%!important;
-      min-width:0!important;box-sizing:border-box!important;
-    }
-    #page-artigos #utdHighlights .utd-title-row h3{
-      display:block!important;flex:1 1 auto!important;
-      min-width:0!important;max-width:100%!important;
-      margin:0!important;font-size:15px!important;line-height:1.43!important;
-      font-weight:800!important;letter-spacing:0!important;
-      white-space:normal!important;word-break:normal!important;
-      overflow-wrap:anywhere!important;overflow:visible!important;
-      -webkit-line-clamp:unset!important;text-overflow:clip!important;
-      text-align:left!important;
-    }
-    #page-artigos #utdHighlights .utd-source-mark{
-      display:inline-flex!important;flex:0 0 30px!important;
-      width:30px!important;height:30px!important;
-      align-items:center!important;justify-content:center!important;
-      box-sizing:border-box!important;border:1px solid #b9dcc9!important;
-      border-radius:8px!important;background:#e7f5ee!important;color:#167443!important;
-      font:800 19px/1 Manrope,Arial,sans-serif!important;
-    }
-    #page-artigos #utdHighlights .utd-meta{
-      display:block!important;max-width:100%!important;
-      white-space:normal!important;overflow:visible!important;
-      text-overflow:clip!important;overflow-wrap:break-word!important;
-      font-size:11px!important;line-height:1.4!important;
-    }
-    #page-artigos #utdHighlights .utd-item p{
-      display:block!important;margin:0!important;
-      font-size:13px!important;line-height:1.55!important;font-weight:400!important;
-      white-space:normal!important;overflow:visible!important;
-      overflow-wrap:break-word!important;-webkit-line-clamp:unset!important;
-      text-align:left!important;
-    }
-    #page-artigos #utdHighlights .utd-item a{
-      display:inline-block!important;align-self:flex-start!important;
-      margin-top:3px!important;max-width:100%!important;
-      font-size:11.5px!important;line-height:1.45!important;
-      font-weight:700!important;white-space:normal!important;
-      overflow-wrap:break-word!important;
-    }
-    #page-artigos #utdHighlights > .utd-more{
-      display:block!important;flex:none!important;
-      grid-column:auto!important;grid-row:auto!important;
-      align-self:stretch!important;justify-self:stretch!important;
-      box-sizing:border-box!important;width:100%!important;max-width:100%!important;
-      min-width:0!important;margin:0!important;padding:10px 12px!important;
-      text-align:left!important;white-space:normal!important;
-      overflow-wrap:break-word!important;font-size:12px!important;line-height:1.4!important;
-      color:#12677e!important;background:#f1f8fa!important;
-      border:1px solid #d9e9ed!important;border-radius:9px!important;
-    }
-    #page-artigos #utdPanel .utd-foot{
-      display:flex!important;flex-wrap:wrap!important;align-items:flex-start!important;
-      gap:8px!important;min-width:0!important;max-width:100%!important;
-      font-size:10px!important;line-height:1.5!important;
-    }
-    #page-artigos #utdPanel #utdStatus{
-      flex:1 1 220px;min-width:0;overflow-wrap:break-word;
-    }
-    #page-artigos #utdPanel .utd-foot button{
-      flex:0 0 auto;font-size:10.5px!important;line-height:1.4!important;
-      padding:6px 9px!important;
-    }
-    #page-artigos #utdPanel .utd-note{
-      font-size:10px!important;line-height:1.5!important;
-    }
-    @media(min-width:900px){
-      #page-artigos #utdHighlights.utd-highlights{
-        display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
-        grid-auto-flow:row!important;align-items:stretch!important;
-      }
-      #page-artigos #utdHighlights > .utd-more{grid-column:1/-1!important;}
-    }
-    @media(max-width:420px){
-      #page-artigos #utdPanel{margin-left:12px!important;margin-right:12px!important;padding:12px!important;}
-      #page-artigos #utdHighlights .utd-title-row h3{font-size:14px!important;}
-      #page-artigos #utdHighlights .utd-item p{font-size:12.5px!important;}
-      #page-artigos #utdHighlights > .utd-item{padding:11px!important;}
-      #page-artigos #utdPanel .utd-source{font-size:10px!important;white-space:normal!important;}
-    }
-  `;
+  style.textContent="\n#page-artigos #utdPanel{\n  box-sizing:border-box!important;min-width:0!important;\n  max-width:calc(100% - 24px)!important;\n  padding:12px 13px!important;\n  overflow-wrap:break-word!important;\n}\n#page-artigos #utdPanel .utd-head{\n  display:flex!important;align-items:center!important;flex-wrap:wrap!important;\n  gap:8px 12px!important;min-width:0!important;margin-bottom:9px!important;\n}\n#page-artigos #utdPanel .utd-head > div{\n  flex:1 1 205px!important;min-width:0!important;\n}\n#page-artigos #utdPanel .utd-brand{\n  display:inline-flex!important;align-items:center!important;\n  gap:5px!important;color:#135f8a!important;\n  font:800 16px/1.15 Manrope,Arial,sans-serif!important;\n  letter-spacing:-.02em!important;margin-left:7px!important;\n  vertical-align:middle!important;white-space:nowrap!important;\n}\n#page-artigos #utdPanel .utd-brand svg{\n  display:inline-block!important;width:1em!important;height:1em!important;\n  flex:0 0 1em!important;vertical-align:middle!important;\n  border-radius:3px!important;\n}\n#page-artigos #utdPanel .utd-eyebrow{\n  font-size:10px!important;line-height:1.3!important;\n  letter-spacing:.055em!important;\n}\n#page-artigos #utdPanel .utd-head h2{\n  font-size:14px!important;line-height:1.35!important;\n  margin:4px 0 0!important;overflow-wrap:break-word!important;\n}\n#page-artigos #utdPanel .utd-head p{display:none!important;}\n#page-artigos #utdPanel .utd-source{\n  flex:0 0 auto!important;white-space:nowrap!important;\n  font-size:10px!important;padding:6px 9px!important;\n}\n#page-artigos #utdHighlights.utd-highlights{\n  display:flex!important;flex-direction:column!important;\n  grid-template-columns:none!important;grid-template-rows:none!important;\n  grid-auto-flow:row!important;grid-auto-columns:auto!important;\n  gap:6px!important;width:100%!important;max-width:100%!important;\n  min-width:0!important;box-sizing:border-box!important;\n  padding:0!important;margin:0!important;\n  overflow-x:hidden!important;overflow-y:visible!important;\n  scroll-snap-type:none!important;scroll-behavior:auto!important;\n}\n#page-artigos #utdHighlights > .utd-item{\n  display:block!important;flex:0 0 auto!important;position:static!important;\n  grid-column:auto!important;grid-row:auto!important;\n  box-sizing:border-box!important;width:100%!important;\n  max-width:100%!important;min-width:0!important;\n  height:auto!important;min-height:0!important;max-height:none!important;\n  padding:9px 11px!important;margin:0!important;border-radius:9px!important;\n  border:1px solid #dce8ec!important;background:#f8fbfc!important;\n  overflow:visible!important;transform:none!important;\n  scroll-snap-align:none!important;text-decoration:none!important;\n}\n#page-artigos #utdHighlights > .utd-item:hover,\n#page-artigos #utdHighlights > .utd-item:focus-visible{\n  background:#eaf5f8!important;border-color:#87b6c3!important;\n}\n#page-artigos #utdHighlights > .utd-item h3{\n  display:block!important;box-sizing:border-box!important;width:100%!important;\n  max-width:100%!important;min-width:0!important;\n  padding:0!important;margin:0!important;\n  color:#17384b!important;font-size:13px!important;line-height:1.4!important;\n  letter-spacing:0!important;font-weight:750!important;text-align:left!important;\n  white-space:normal!important;word-break:normal!important;\n  overflow-wrap:break-word!important;overflow:visible!important;\n  text-overflow:clip!important;-webkit-line-clamp:unset!important;\n  -webkit-box-orient:initial!important;\n}\n#page-artigos #utdHighlights > .utd-more{\n  display:block!important;grid-column:auto!important;grid-row:auto!important;\n  align-self:flex-start!important;flex:none!important;\n  min-width:0!important;max-width:100%!important;\n  padding:6px 9px!important;margin:1px 0 0!important;\n  background:#eef7f9!important;border:1px solid #d7e8ed!important;\n  border-radius:8px!important;color:#12677e!important;\n  font:700 11px/1.35 Manrope,Arial,sans-serif!important;\n  text-align:left!important;white-space:normal!important;\n  overflow-wrap:break-word!important;\n}\n#page-artigos #utdPanel .utd-foot{\n  display:flex!important;flex-wrap:wrap!important;align-items:center!important;\n  gap:6px 10px!important;min-width:0!important;\n  margin-top:8px!important;font-size:9.5px!important;line-height:1.4!important;\n}\n#page-artigos #utdPanel #utdStatus{\n  flex:1 1 200px!important;min-width:0!important;overflow-wrap:break-word!important;\n}\n#page-artigos #utdPanel .utd-foot button{\n  flex:0 0 auto!important;font-size:9.5px!important;padding:5px 8px!important;\n}\n#page-artigos #utdPanel .utd-note{\n  font-size:9.5px!important;line-height:1.45!important;\n  margin-top:8px!important;\n}\n@media(min-width:780px){\n  #page-artigos #utdHighlights.utd-highlights{\n    display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;\n    grid-auto-flow:row!important;align-items:stretch!important;\n  }\n  #page-artigos #utdHighlights > .utd-more{grid-column:1/-1!important;}\n}\n@media(min-width:1180px){\n  #page-artigos #utdHighlights.utd-highlights{\n    grid-template-columns:repeat(3,minmax(0,1fr))!important;\n  }\n}\n@media(max-width:420px){\n  #page-artigos #utdPanel{\n    margin-left:12px!important;margin-right:12px!important;\n    padding:11px!important;\n  }\n  #page-artigos #utdPanel .utd-head{gap:7px!important;}\n  #page-artigos #utdPanel .utd-brand{font-size:14px!important;margin-left:5px!important;}\n  #page-artigos #utdHighlights > .utd-item h3{font-size:12.8px!important;}\n  #page-artigos #utdHighlights > .utd-item{padding:8px 10px!important;}\n}\n";
   document.head.appendChild(style);
 }
 function iniciar(){
