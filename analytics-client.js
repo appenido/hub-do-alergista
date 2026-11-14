@@ -166,23 +166,11 @@ window.hubPreferenciasMetricas=function(){
   if(ownerExcluded()){disableOwnerAnalytics();return;}
   salvar('');enabled=false;aviso();
 };
-function linkCentral(){
-  // O link é visível em Preferências; todos os dados continuam protegidos
-  // pela autenticação Supabase, pelo papel de administrador e por RLS.
-  const perfil=D.getElementById('page-perfil');
-  if(!perfil||D.getElementById('hubLinkCentral'))return;
-  const a=D.createElement('a');
-  a.id='hubLinkCentral';a.href='/central-hub.html';
-  a.setAttribute('aria-label','Abrir Central de acessos — login administrativo obrigatório');
-  a.style.cssText='display:flex;align-items:center;gap:12px;margin:16px 16px 0;padding:15px 16px;background:#fff;border:1px solid #d7e2ec;border-radius:14px;color:#173c61;text-decoration:none;box-shadow:0 3px 14px #123a6310;font:inherit;min-width:0';
-  a.innerHTML='<span aria-hidden="true" style="display:grid;place-items:center;width:43px;height:43px;flex:none;border-radius:13px;background:linear-gradient(145deg,#123a63,#27749b);color:white;box-shadow:0 5px 12px #123a6326"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 16 4-4 3 2 5-7"/><path d="M16 7h3v3"/></svg></span><span style="display:flex;flex-direction:column;gap:3px;flex:1;min-width:0"><span style="font-weight:750;font-size:14px;color:#123a63">Central de acessos</span><span style="font-size:11.5px;line-height:1.4;color:#64788c">Relatórios de visitas e funcionalidades · login restrito</span></span><span aria-hidden="true" style="color:#8ca1b5;font-size:22px">›</span>';
-  perfil.insertBefore(a,perfil.lastElementChild);
-}
 function principal(){
-  if(ownerExcluded()){disableOwnerAnalytics();linkCentral();return;}
+  if(ownerExcluded()){disableOwnerAnalytics();return;}
   if(escolha()==='sim')iniciar();
   else if(escolha()!=='nao')aviso();
-  linkCentral();
+
 }
 // Uma autenticação válida em outra aba interrompe a coleta na aba já aberta.
 window.addEventListener('storage',event=>{
