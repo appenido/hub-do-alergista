@@ -39,3 +39,16 @@
   .topbar .tb-search{padding:6px}
   .topbar .hub-language-control{min-width:49px}
 }
+
+/* Páginas independentes (termos, privacidade, instalação e questionários) */
+.hub-language-floating{
+  position:fixed;right:14px;top:max(10px,env(safe-area-inset-top));z-index:10002;
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  min-width:64px;height:38px;padding:0 10px;box-sizing:border-box;
+  background:#12314a;color:#fff;border:1px solid rgba(255,255,255,.28);
+  border-radius:12px;box-shadow:0 5px 18px rgba(12,29,48,.24);
+  font:700 12px/1 'Manrope',Arial,sans-serif;letter-spacing:.03em
+}
+.hub-language-floating svg{width:17px;height:17px}
+.hub-language-floating .hub-lang-arrow{font-size:13px;opacity:.8}
+.hub-language-floating:focus-within{outline:2px solid #c5a24d;outline-offset:2px}
