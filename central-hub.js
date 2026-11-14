@@ -391,9 +391,9 @@ function apresentar(){
   barras('systems',report.operating_systems,it=>it.name,it=>it.sessions,8);
   barras('browsers',report.browsers,it=>it.name,it=>it.sessions,8);
   tabela('actionsTable',report.actions,[r=>r.feature,r=>r.action,r=>fmt(r.count)]);
-  tabela('locationsTable',report.locations,[r=>r.country,r=>r.region,r=>fmt(r.sessions)]);
+  tabela('locationsTable',report.locations,[r=>paisNome(r.country),r=>regiaoNome(r.country,r.region)||'Região não registrada',r=>fmt(r.sessions)]);
   tabela('recentTable',report.recent,[
-    r=>dataFormat(r.at),r=>r.type,r=>r.feature,r=>r.action,r=>r.device,r=>[r.region,r.country].filter(Boolean).join(' / ')||'—'
+    r=>dataFormat(r.at),r=>r.type,r=>r.feature,r=>r.action,r=>r.device,r=>[regiaoNome(r.country,r.region),paisNome(r.country)].filter(Boolean).join(' / ')||'—'
   ]);
 }
 async function carregar(){
