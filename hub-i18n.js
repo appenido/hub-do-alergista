@@ -237,6 +237,7 @@
   function applyLanguage(){
     syncControls();
     translateSubtree(document.body);
+    window.dispatchEvent(new Event('resize'));
     document.dispatchEvent(new CustomEvent('hub:languagechange',{detail:{language:language}}));
   }
   function setLanguage(next){
