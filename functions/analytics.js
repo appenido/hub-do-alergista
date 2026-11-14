@@ -2,6 +2,7 @@
 // Registro mínimo de eventos; não recebe texto livre, IP, identificadores de paciente ou de conta.
 const SB = 'https://jpdtqtenlivxgjkyizcg.supabase.co';
 const PUBLIC_KEY = 'sb_publishable_CzAI8BUm2Po7CfobLlxv8A_NtuTil8j';
+const EXCLUSION_COOKIE='__Host-hub_admin_notrack';
 const JSON_HEADERS = {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'};
 const EVENTOS = new Set(['session_start','page_view','click','feature_open','screen_time']);
 const IDENTIFICADOR = /^[a-zA-Z0-9_.:-]{1,80}$/;
@@ -18,6 +19,9 @@ function ambiente(ua){
   return {device,os,browser};
 }
 export async function onRequestPost({request,env}){
+  // Excluir sempre as solicitações do próprio administrador, independentemente do consentimento.
+  // A marca é emitida apenas após login administrativo válido; não registra IP ou identidade.
+  if((request.headers.get('Cookie')||'').split(';').some(part=>part.trim()===EXCLUSION_COOKIE+'=1'))return retorno(204);
   const url=new URL(request.url);
   const origin=request.headers.get('Origin');
   const site=request.headers.get('Sec-Fetch-Site');
