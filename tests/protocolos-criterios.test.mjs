@@ -50,6 +50,10 @@ test('posologia e referências continuam no fluxo e todas as expansões apontam 
     for(const [step,items] of Object.entries(steps)){
       assert.ok(protocols[id]&&Number(step)>=1&&Number(step)<=protocols[id].steps.length);
       for(const item of items){
+        assert.equal(item.length,4,'Todo medicamento deve ter referência posológica específica');
+        assert.ok(Array.isArray(item[3])&&item[3].length===2,'Referência posológica deve estar vinculada');
+        assert.match(item[3][1],/^https:\/\//,'A fonte deve conter URL válida');
+        assert.doesNotMatch(item[1],/\\b(?:conforme|verificar|sem dose|avaliar)\\b/iu,'Dose genérica não permitida');
         assert.ok(item.length===3||item.length===4,'Medicamento precisa de nome, dose, observação e fonte opcional');
         assert.ok(item.slice(0,3).every(x=>typeof x==='string'&&x.trim().length>0));
         if(item[3]){
