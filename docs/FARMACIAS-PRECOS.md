@@ -25,3 +25,39 @@ precisam de confirmação no checkout. Verificar requisitos da LGPD para contrat
 
 Antes de liberar os preços, testar apresentações distintas, medicamentos hospitalares,
 produtos sem oferta, CEP sem rede, indisponibilidade do feed, mobile e desktop.
+
+## Farmácias próximas: implementação 14/11/2026
+
+- O cifrão também aparece nas fichas da aba Medicamentos; ao clicar,
+  abre a área de preços no mesmo cartão, mantendo o cartão em expansão.
+- A área "Mais perto de você" lista estabelecimentos identificados por
+  coordenadas, ordenados por distância geográfica em linha reta. O visitante
+  pode autorizar o GPS uma única vez durante a sessão, sem persistência do
+  GPS. Sem autorização, usa coordenadas aproximadas da Cloudflare quando
+  a cidade identificada corresponde à cidade exibida; caso contrário,
+  disponibiliza pesquisa no Google Maps.
+- `GOOGLE_MAPS_PLACES_API_KEY` é opcional para usar a Places API Nearby New
+  (requer habilitação, chave e faturamento na Google Cloud). Sem chave,
+  a API consulta OpenStreetMap/Overpass com cache aproximado para reduzir
+  a carga. Atribuição OpenStreetMap deve permanecer visível.
+- O usuário pode abrir Google Maps para cada filial e Google Search com
+  medicamento + farmácia + cidade. Resultado de busca NÃO é dado de preço
+  de loja, e nenhum preço numérico é inferido do texto da busca.
+- O feed do fornecedor só atribui preço à filial quando informa
+  `storeLat`, `storeLon`, nome da rede e `updatedAt` atualizado nas últimas
+  24 horas, com proximidade da filial de até 180 metros. Ofertas sem filial
+  validada não devem ser apresentadas como preço da farmácia mais próxima.
+- O endpoint de preços também admite `storeId`, `storeAddress` e EAN. Produto
+  com igual princípio ativo mas concentração/quantidade diferente não deve
+  ser anunciado como a mesma apresentação.
+- Google Custom Search JSON API foi encerrada para novos clientes e tem
+  data de descontinuação prevista para 01/01/2027. Não depender de scraping
+  de páginas ou trechos de resultados do Google para calcular preços.
+- Testar com fornecedor de preço local real antes de prometer valores
+  numéricos; sem feed, a interface sinaliza "Preço nesta unidade: não
+  confirmado" e oferece pesquisa no Google.
+
+Fontes de documentação:
+- https://developers.google.com/maps/documentation/places/web-service/nearby-search
+- https://developers.google.com/custom-search/v1/overview
+- https://wiki.openstreetmap.org/wiki/Overpass_API
