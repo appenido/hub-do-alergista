@@ -118,7 +118,7 @@ export function newUpToDateItems(radar, checkedAt) {
   const minMonth = minDate.toISOString().slice(0, 7);
   return radar.items.flatMap(entry => {
     if (!entry || entry.firstSeenAt !== checkedAt || typeof entry.title !== 'string') return [];
-    if (/^\\d{4}-\\d{2}$/.test(entry.month || '') && entry.month < minMonth) return [];
+    if (/^\d{4}-\d{2}$/.test(entry.month || '') && entry.month < minMonth) return [];
     const original = entry.title.trim();
     const title = String(entry.titlePt || original).trim().slice(0, 130);
     if (original.length < 12 || title.length < 8) return [];
