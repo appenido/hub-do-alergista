@@ -1,40 +1,51 @@
-/* Central administrativa: nenhuma informação é carregada sem JWT + RLS de administrador. */
+/* Central administrativa: login no servidor, token curto em memória, refresh em cookie HttpOnly.
+   Dados só aparecem após confirmação de administrador pelo Auth e RLS Supabase. */
 (function(){
 'use strict';
 const SB='https://jpdtqtenlivxgjkyizcg.supabase.co';
 const KEY='sb_publishable_CzAI8BUm2Po7CfobLlxv8A_NtuTil8j';
-const AUTH='hub_secure_auth';
 const d=document;
 const el=id=>d.getElementById(id);
 const fmt=n=>new Intl.NumberFormat('pt-BR').format(Number(n||0));
 let report=null,days=30,loading=false,admin=false;
-function credenciais(){try{return JSON.parse(sessionStorage.getItem(AUTH)||'{}');}catch(_){return {};}}
-function gravarAuth(result){
-  const parts=String(result.access_token||'').split('.');
-  let exp=Date.now()+1800000;
-  try{exp=JSON.parse(atob(parts[1].replace(/-/g,'+').replace(/_/g,'/'))).exp*1000;}catch(_){}
-  sessionStorage.setItem(AUTH,JSON.stringify({access:result.access_token,refresh:result.refresh_token,exp}));
+let access=null,expiresAt=0,refreshPromise=null;
+function gravarAuth(data){
+  if(!data?.access_token||!Number.isFinite(Number(data.expires_in)))throw new Error('Sessão inválida.');
+  access=data.access_token;
+  expiresAt=Date.now()+Math.max(30,Number(data.expires_in))*1000;
 }
 function limpar(){
-  sessionStorage.removeItem(AUTH);
+  access=null;expiresAt=0;refreshPromise=null;
   admin=false;report=null;mapSessions=[];mapFiltered=[];mapGroups=[];
   delete window.hubCentralRequest;
   window.dispatchEvent(new CustomEvent('hub:central-logout'));
   if(geoMap){geoMap.remove();geoMap=null;mapLayer=null;}
   el('dashboard').hidden=true;el('authPanel').hidden=false;el('logout').hidden=true;
 }
-async function token(){
-  const a=credenciais();
-  if(a.access&&a.exp>Date.now()+40000)return a.access;
-  if(!a.refresh)throw new Error('Entre com sua conta administradora.');
-  const resp=await fetch(SB+'/auth/v1/token?grant_type=refresh_token',{
-    method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},
-    body:JSON.stringify({refresh_token:a.refresh})
+async function autenticacao(action,fields={}){
+  const response=await fetch('/central-auth',{
+    method:'POST',credentials:'same-origin',cache:'no-store',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({action,...fields})
   });
-  const data=await resp.json().catch(()=>({}));
-  if(!resp.ok||!data.access_token){limpar();throw new Error('Sessão expirada. Faça login novamente.');}
-  gravarAuth(data);
-  return data.access_token;
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok){
+    const message=String(data.erro||'Falha de autenticação.');
+    const error=new Error(message);
+    error.status=response.status;throw error;
+  }
+  return data;
+}
+async function token(){
+  if(access&&expiresAt>Date.now()+45000)return access;
+  if(!refreshPromise){
+    refreshPromise=(async()=>{
+      const result=await autenticacao('resume');
+      gravarAuth(result);
+      return access;
+    })().finally(()=>{refreshPromise=null;});
+  }
+  return refreshPromise;
 }
 async function supa(path,method,body,repeat){
   const jwt=await token();
@@ -45,7 +56,7 @@ async function supa(path,method,body,repeat){
     cache:'no-store'
   });
   if(resp.status===401&&!repeat){
-    const a=credenciais();a.exp=0;sessionStorage.setItem(AUTH,JSON.stringify(a));
+    access=null;expiresAt=0;
     return supa(path,method,body,true);
   }
   if(!resp.ok){
@@ -58,11 +69,12 @@ async function verificar(){
   const user=await supa('/auth/v1/user');
   if(!user?.id)throw new Error('Sessão inválida.');
   const roles=await supa('/rest/v1/hub_admin_roles?select=user_id&user_id=eq.'+encodeURIComponent(user.id)+'&limit=1');
-  if(!Array.isArray(roles)||roles.length!==1)throw new Error('Esta conta não possui autorização para consultar a central.');
+  if(!Array.isArray(roles)||roles.length!==1||roles[0].user_id!==user.id)
+    throw new Error('Esta conta não possui autorização para consultar a central.');
   admin=true;
-  // Interface adicional usa a mesma sessao e a mesma verificacao RLS.
   window.hubCentralRequest=supa;
   el('authPanel').hidden=true;el('dashboard').hidden=false;el('logout').hidden=false;
+  el('loginError').textContent='';
   await carregar();
 }
 async function login(e){
@@ -70,18 +82,23 @@ async function login(e){
   el('loginError').textContent='';
   const btn=el('loginButton');btn.disabled=true;btn.textContent='Autenticando…';
   try{
-    const resp=await fetch(SB+'/auth/v1/token?grant_type=password',{
-      method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({email:el('email').value.trim(),password:el('password').value})
+    const data=await autenticacao('login',{
+      email:el('email').value.trim(),password:el('password').value
     });
-    const data=await resp.json().catch(()=>({}));
-    if(!resp.ok||!data.access_token)throw new Error('Não foi possível autenticar. Confira sua conta e sua senha.');
-    gravarAuth(data);el('password').value='';
+    gravarAuth(data);
+    el('password').value='';
     await verificar();
   }catch(err){
-    el('loginError').textContent=err.message||'Falha de autenticação.';
     limpar();
+    el('loginError').textContent=err.message||'Falha de autenticação.';
   }finally{btn.disabled=false;btn.textContent='Acessar central';}
+}
+async function sair(){
+  // A requisição encerra a sessão no provedor e apaga o cookie do navegador.
+  try{await autenticacao('logout');}
+  catch(_){/* A tela é bloqueada mesmo se a rede falhar. */}
+  limpar();
+  el('email').value='';
 }
 function texto(id,value){el(id).textContent=value;}
 function dataFormat(iso){
@@ -457,7 +474,7 @@ function abas(){
 }
 function init(){
   el('loginForm').addEventListener('submit',login);
-  el('logout').addEventListener('click',()=>{limpar();el('email').value='';});
+  el('logout').addEventListener('click',sair);
   el('period').addEventListener('change',e=>{days=Number(e.target.value)||30;carregar();});
   el('reload').addEventListener('click',carregar);
   // Central aberta: atualiza métricas e mapa sem exigir recarregar a página.
@@ -479,9 +496,14 @@ function init(){
     if(btn)abrirSessaoNoMapa(Number(btn.dataset.mapIndex));
   });
   abas();
-  if(credenciais().access){
-    verificar().catch(e=>{limpar();el('loginError').textContent=e.message||'É necessário entrar novamente.';});
-  }
+  // Navegadores já autenticados retomam a sessão automaticamente via cookie protegido.
+  // Um navegador novo não possui cookie e continua exigindo senha.
+  token().then(verificar).catch(e=>{
+    limpar();
+    if(e.status!==401)el('loginError').textContent=e.status===503?
+      'Serviço temporariamente indisponível. Tente novamente.':
+      (e.status===403?'Acesso negado.':'Entre com sua conta para continuar.');
+  });
 }
 if(d.readyState==='loading')d.addEventListener('DOMContentLoaded',init);else init();
 })();
