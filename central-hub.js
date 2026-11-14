@@ -72,6 +72,12 @@ async function verificar(){
   if(!Array.isArray(roles)||roles.length!==1||roles[0].user_id!==user.id)
     throw new Error('Esta conta não possui autorização para consultar a central.');
   admin=true;
+  // Exclusão permanente de métricas neste navegador após verificar a única conta administradora.
+  // É somente um marcador booleano; token e senha continuam exclusivamente fora do storage.
+  try{
+    localStorage.setItem('hub_analytics_owner_excluded_v1','1');
+    localStorage.setItem('hub_analytics_choice_v2','nao');
+  }catch(_){}
   window.hubCentralRequest=supa;
   el('authPanel').hidden=true;el('dashboard').hidden=false;el('logout').hidden=false;
   el('loginError').textContent='';
