@@ -3,6 +3,9 @@
 (function(){
 'use strict';
 if(!window.crypto||!crypto.randomUUID)return;
+// Central administrativa é um painel privado e não é instrumentada.
+if(/^\/central-hub(?:\.html)?\/?$/.test(location.pathname)||
+   document.querySelector('meta[name="hub-analytics"][content="disabled"]'))return;
 const CHOICE_KEY='hub_analytics_choice_v2';
 const OWNER_EXCLUSION_KEY='hub_analytics_owner_excluded_v1';
 function ownerExcluded(){
