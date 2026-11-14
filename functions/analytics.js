@@ -7,6 +7,23 @@ const JSON_HEADERS = {'Content-Type':'application/json; charset=utf-8','Cache-Co
 const EVENTOS = new Set(['session_start','page_view','click','feature_open','screen_time']);
 const IDENTIFICADOR = /^[a-zA-Z0-9_.:-]{1,80}$/;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+// O próprio administrador e a Central nunca produzem métricas do Hub.
+// Cookies protegidos são emitidos após autenticação; ignorar também o token
+// administrativo em navegadores com versões antigas da marca de exclusão.
+function requisicaoAdministrativa(request){
+  const cookie=request.headers.get('Cookie')||'';
+  const parts=cookie.split(';').map(x=>x.trim());
+  if(parts.some(x=>x===EXCLUSION_COOKIE+'=1'||/^__Host-hub_admin_rt=.+/.test(x)))return true;
+  // Defesa em profundidade: a Central é um painel de consulta, não um visitante.
+  const ref=request.headers.get('Referer')||'';
+  if(ref){
+    try{
+      const from=new URL(ref),to=new URL(request.url);
+      if(from.origin===to.origin&&/^\/central-hub(?:\.html)?\/?$/.test(from.pathname))return true;
+    }catch(_){}
+  }
+  return false;
+}
 function retorno(status, erro){
   return new Response(erro?JSON.stringify({erro}):null,{status,headers:JSON_HEADERS});
 }
@@ -21,7 +38,7 @@ function ambiente(ua){
 export async function onRequestPost({request,env}){
   // Excluir sempre as solicitações do próprio administrador, independentemente do consentimento.
   // A marca é emitida apenas após login administrativo válido; não registra IP ou identidade.
-  if((request.headers.get('Cookie')||'').split(';').some(part=>part.trim()===EXCLUSION_COOKIE+'=1'))return retorno(204);
+  if(requisicaoAdministrativa(request))return retorno(204);
   const url=new URL(request.url);
   const origin=request.headers.get('Origin');
   const site=request.headers.get('Sec-Fetch-Site');
