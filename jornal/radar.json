@@ -1,61 +1,45 @@
 {
- "ultimaTentativa": "2026-11-14T16:49:37.072Z",
- "atualizadoEm": "2026-11-14T16:49:37.072Z",
+ "ultimaTentativa": "2026-11-15T17:31:57.550Z",
+ "atualizadoEm": "2026-11-15T17:31:57.550Z",
  "status": "ok",
  "totalCandidatos": 60,
- "totalVerificados": 5,
+ "totalVerificados": 3,
  "totalPendentes": 4,
- "totalExcluidos": 51,
+ "totalExcluidos": 53,
  "falhasFonte": [],
  "itens": [
   {
    "status": "verificado",
-   "titulo": "Mãe de jovem que teve reação alérgica grave após cheirar pimenta revela que nem sempre consegue ser forte: 'Mantendo viva a esperança'",
+   "titulo": "Menino alérgico morreu após colega jogar queijo nele em escola",
+   "fonte": "iG Último Segundo",
+   "data": "2026-11-15T09:00:00.000Z",
+   "url": "https://ultimosegundo.ig.com.br/2026-11-15/menino-alergico-morreu-apos-colega-jogar-queijo-nele-em-escola.html",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Tosse e falta de ar frequentes podem indicar asma ou pneumonia; entenda",
+   "fonte": "CNN Brasil",
+   "data": "2026-11-13T07:35:01.000Z",
+   "url": "https://www.cnnbrasil.com.br/saude/tosse-e-falta-de-ar-frequentes-podem-indicar-asma-ou-pneumonia-entenda/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Mãe faz desabafo quase quatro anos após jovem ter reação alérgica grave ao cheirar pimenta: 'Sinto falta de tudo que éramos'",
    "fonte": "G1",
-   "data": "2026-11-13T14:27:23.696Z",
-   "url": "https://g1.globo.com/go/goias/noticia/2026/11/13/mae-de-jovem-que-teve-reacao-alergica-grave-apos-cheirar-pimenta-revela-que-nem-sempre-consegue-ser-forte-mantendo-viva-a-esperanca.ghtml",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Mãe da jovem que teve alergia grave à pimenta emociona com desabafo: 'Nem sempre sou forte'",
-   "fonte": "Terra",
-   "data": "2026-11-13T12:17:03.000Z",
-   "url": "https://www.terra.com.br/noticias/brasil/mae-da-jovem-que-teve-alergia-grave-a-pimenta-emociona-com-desabafo-nem-sempre-sou-forte,c744e0354fd3144221d0776b4c5a1cf287r1492w.html",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Mãe faz desabafo quase quatro anos após jovem ter reação alérgica",
-   "fonte": "G1",
-   "data": "2026-11-12T23:36:33.000Z",
-   "url": "https://g1.globo.com/go/goias/video/mae-faz-desabafo-quase-quatro-anos-apos-jovem-ter-reacao-alergica-15183806.ghtml",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Abacaxi causa reação alérgica na ex-BBB Cacau Colucci após pegar fruta em supermercado",
-   "fonte": "Terra",
-   "data": "2026-11-11T13:06:16.000Z",
-   "url": "https://www.terra.com.br/diversao/gente/abacaxi-causa-reacao-alergica-na-ex-bbb-cacau-colucci-apos-pegar-fruta-em-supermercado,486573532135cd1478e0d7c483681f18nc0qbwd6.html",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Amiga de Janaína Barbosa homenageia a apresentadora, que faria 49 anos e morreu de choque anafilático",
-   "fonte": "Globo",
-   "data": "2026-11-08T17:08:36.982Z",
-   "url": "https://revistaquem.globo.com/noticias/noticia/2026/11/amiga-de-janaina-barbosa-homenageia-a-apresentadora-no-dia-em-que-ela-faria-49-anos.ghtml",
+   "data": "2026-11-12T20:48:14.312Z",
+   "url": "https://g1.globo.com/go/goias/noticia/2026/11/12/mae-faz-desabafo-quase-quatro-anos-apos-jovem-ter-reacao-alergica-grave-ao-cheirar-pimenta-ainda-sinto-falta-de-tudo-que-eramos.ghtml",
    "verificado": true
   }
  ],
  "pendentes": [
   {
    "status": "pendente",
-   "titulo": "Ex-BBB Cacau Colucci: é possível ter alergia ao abacaxi só tocando nele?",
-   "fonte": "O GLOBO",
-   "url": "https://oglobo.globo.com/saude/noticia/2026/11/11/ex-bbb-cacau-colucci-e-possivel-ter-alergia-com-abacaxi-so-tocando-nele.ghtml",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+   "titulo": "Homem é preso após enviar amendoim a mulher com alergia nos EUA",
+   "fonte": "UOL Notícias",
+   "url": "https://noticias.uol.com.br/internacional/ultimas-noticias/2026/11/14/homem-e-preso-apos-enviar-amendoim-a-mulher-com-alergia-nos-eua.ghtm",
+   "motivo": "página retornou HTTP 403"
   },
   {
    "status": "pendente",
@@ -80,13 +64,6 @@
   }
  ],
  "excluidos": [
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Tosse e falta de ar frequentes podem indicar asma ou pneumonia",
-   "fonte": "oacreagora.com",
-   "url": "https://oacreagora.com/tosse-e-falta-de-ar-frequentes-podem-indicar-asma-ou-pneumonia/"
-  },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
@@ -125,30 +102,9 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Ex-BBB Cacau Colucci descobre alergia rara ao encostar em fruta no supermercado",
-   "fonte": "Jornal Correio",
-   "url": "https://www.correio24horas.com.br/em-alta/ex-bbb-cacau-colucci-descobre-alergia-rara-ao-encostar-em-fruta-no-supermercado-1126"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Floração do caju: ventos fortes aumentam risco de rinite alérgica no Ceará",
    "fonte": "OpiniãoCE",
    "url": "https://www.opiniaoce.com.br/ceara/2026/11/11/floracao-do-caju-ventos-fortes-aumentam-risco-de-rinite-alergica-no-ceara/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Reação alérgica grave pode causar falta de ar e levar à morte; veja os sinais",
-   "fonte": "Folha do ES",
-   "url": "https://folhadoes.com/anafilaxia-reacao-alergica-grave-pode-levar-a-morte/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Anafilaxia: o que é e como reconhecer os sinais de uma alergia que se espalha pelo corpo",
-   "fonte": "Tua Saúde",
-   "url": "https://www.tuasaude.com/news/2026/11/10/anafilaxia-o-que-e-e-como-reconhecer-os-sinais-de-uma-alergia-que-se-espalha-pelo-corpo/"
   },
   {
    "status": "excluido",
@@ -159,45 +115,17 @@
   },
   {
    "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Anafilaxia pode matar em minutos; saiba reconhecer os sinais",
-   "fonte": "ES Hoje",
-   "url": "https://eshoje.com.br/saude/2026/11/anafilaxia-pode-matar/"
+   "motivo": "veículo estrangeiro",
+   "titulo": "Asma no outono: porque aumentam as crises e que sinais não deve ignorar",
+   "fonte": "SIC Notícias",
+   "url": "https://sicnoticias.pt/saude-e-bem-estar/2026-11-09-asma-no-outono-os-fatores-que-podem-agravar-a-doenca-e-os-cuidados-a-ter-d8a6a3f3"
   },
   {
    "status": "excluido",
    "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "Por que o Brasil ainda não tem canetas de adrenalina para tratar choque anafilático? | Veja Saúde",
+   "titulo": "Morte de Janaína Barbosa: o que pode causar um choque anafilático e como acontece?",
    "fonte": "Assine Abril",
-   "url": "https://saude.abril.com.br/medicina/por-que-o-brasil-ainda-nao-tem-canetas-de-adrenalina-para-tratar-choque-anafilatico/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "Caminhar 7.500 passos por dia ajuda a controlar os sintomas da asma",
-   "fonte": "Terra",
-   "url": "https://www.terra.com.br/vida-e-estilo/caminhar-7500-passos-por-dia-ajuda-a-controlar-os-sintomas-da-asma,c6790b6ac36bdce92d285a6f775c9f9fse06gvht.html"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "O que é choque anafilático, causa da morte de Janaína Barbosa? Entenda",
-   "fonte": "viva.com.br",
-   "url": "https://viva.com.br/saude-e-bem-estar/o-que-e-choque-anafilatico-causa-da-morte-de-janaina-barbosa-entenda.html"
-  },
-  {
-   "status": "excluido",
-   "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "Choque anafilático: possível caso de Janaína Barbosa, Clara Nunes e outros famosos mostram como uma alergia pode ser fatal",
-   "fonte": "Terra",
-   "url": "https://www.terra.com.br/vida-e-estilo/saude/choque-anafilatico-possivel-caso-de-janaina-barbosa-clara-nunes-e-outros-famosos-mostram-como-uma-alergia-pode-ser-fatal,92b53b647746d936b581e9c118bb7891bjw5yukn.html"
-  },
-  {
-   "status": "excluido",
-   "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "O que é choque anafilático que causou a morte de Janaína Barbosa? Entenda",
-   "fonte": "Terra",
-   "url": "https://www.terra.com.br/vida-e-estilo/saude/o-que-e-choque-anafilatico-que-causou-a-morte-de-janaina-barbosa-entenda,25f9d65ba6ebfbc56d66903f6cbcb01byqakf65k.html"
+   "url": "https://saude.abril.com.br/medicina/morte-de-janaina-barbosa-o-que-pode-causar-um-choque-anafilatico-e-como-acontece/"
   },
   {
    "status": "excluido",
@@ -209,16 +137,72 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Ex-apresentadora do TV Fama, Janaína Barbosa morre aos 48 anos após choque anafilático",
-   "fonte": "Tribuna do Norte",
-   "url": "https://tribunadonorte.com.br/brasil/ex-apresentadora-do-tv-fama-janaina-barbosa-morre-aos-48-anos-apos-choque-anafilatico-entenda/"
+   "titulo": "O que é choque anafilático, causa da morte de Janaína Barbosa?",
+   "fonte": "98FM Curitiba",
+   "url": "https://www.98fmcuritiba.com.br/posts/o-que-e-choque-anafilatico-causa-da-morte-de-janaina-barbosa"
   },
   {
    "status": "excluido",
    "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "Adeus a Janaína Barbosa, ex-apresentadora do 'TV Fama' aos 48 anos: após morte em decorrência de choque anafilático, família toma decisão sobre velório da jornalista. Saiba o que causa a reação alérgica grave",
+   "titulo": "O que se sabe sobre a morte de Janaína Barbosa, ex-apresentadora que sofreu choque anafilático por medicação",
+   "fonte": "G1",
+   "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/05/o-que-se-sabe-sobre-a-morte-de-janaina-barbosa-ex-apresentadora-que-sofreu-choque-anafilatico-por-medicacao.ghtml"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Janaína Barbosa x choque anafilático: alergista alerta para reação fatal",
+   "fonte": "Metrópoles",
+   "url": "https://www.metropoles.com/colunas/fabia-oliveira/janaina-barbosa-x-choque-anafilatico-alergista-alerta-para-reacao-fatal"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Janaína Barbosa sofreu choque anafilático: entenda a reação alérgica extrema que pode ser provocada por um remédio",
+   "fonte": "G1",
+   "url": "https://g1.globo.com/saude/noticia/2026/11/04/janaina-barbosa-sofreu-choque-anafilatico-entenda-a-reacao-alergica-extrema-que-pode-ser-provocada-por-um-remedio.ghtml"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "O que é choque anafilático, apontado como causa da morte de Janaína Barbosa",
+   "fonte": "Estadão",
+   "url": "https://www.estadao.com.br/pulsa/medicina-e-estudos/o-que-e-choque-anafilatico-apontado-como-causa-da-morte-de-janaina-barbosa/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Janaína Barbosa morreu de choque anafilático, confirma assessoria; entenda o que é a reação",
    "fonte": "Terra",
-   "url": "https://www.terra.com.br/diversao/gente/adeus-a-janaina-barbosa-ex-apresentadora-do-tv-fama-aos-48-anos-apos-morte-em-decorrencia-de-choque-anafilatico-familia-toma-decisao-sobre-velorio-da-jornalista-saiba-o-que-causa-a-reacao-alergica-grave,e8d95693f467913d18a7272ebb96bdaftymhj4tu.html"
+   "url": "https://www.terra.com.br/vida-e-estilo/saude/janaina-barbosa-morreu-de-choque-anafilatico-confirma-assessoria-entenda-o-que-e-a-reacao,99121058157d7b93d9f53538fa217594xt19bn9c.html"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Janaína Barbosa: anafilaxia pode evoluir para choque anafilático em minutos",
+   "fonte": "Metrópoles",
+   "url": "https://www.metropoles.com/saude/janaina-barbosa-anafilaxia-pode-evoluir-para-choque-anafilatico-em-minutos"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Janaína Barbosa morreu após choque anafilático, diz amiga",
+   "fonte": "Estadão",
+   "url": "https://www.estadao.com.br/emais/gente/janaina-barbosa-morreu-apos-choque-anafilatico-revela-amiga-nprec/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "O que é choque anafilático, reação apontada na morte de Janaína Barbosa?",
+   "fonte": "UOL",
+   "url": "https://www.uol.com.br/vivabem/noticias/redacao/2026/11/04/o-que-e-choque-anafilatico-reacao-apontada-na-morte-de-janaina-barbosa.ghtm"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Ex-apresentadora Janaína Barbosa morreu após choque anafilático, diz amiga",
+   "fonte": "G1",
+   "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/04/ex-apresentadora-janaina-barbosa-morreu-apos-choque-anafilatico-diz-amiga.ghtml"
   }
  ]
 }
