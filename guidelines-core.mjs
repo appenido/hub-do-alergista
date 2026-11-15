@@ -1,5 +1,5 @@
 // Uma publicação é identificada pelo PMID; título, DOI e data vêm do mesmo registro.
-export const SCHEMA = 3;
+export const SCHEMA = 4;
 export const JOURNALS = [
   'J Allergy Clin Immunol', 'J Allergy Clin Immunol Pract', 'Allergy',
   'Clin Exp Allergy', 'Pediatr Allergy Immunol', 'Ann Allergy Asthma Immunol',
@@ -43,13 +43,30 @@ export function documentKind(title, types = []) {
   if (types.includes('Editorial')) return 'Editorial';
   return 'Artigo de orientação clínica';
 }
+
+// Apenas diretrizes clínicas oficiais ou parâmetros de prática com função equivalente.
+// A menção à palavra "guideline" em um artigo não o transforma em diretriz.
+export function isOfficialClinicalGuideline(title, types = []) {
+  const t = String(title || '').trim();
+  if (!t) return false;
+  const p = (Array.isArray(types) ? types : []).map(x => String(x).trim());
+  if (/\b(?:systematic review|scoping review|umbrella review|meta.analysis|narrative review|literature review|executive summary|summary of (?:the )?guidelines?|expert opinion)\b/i.test(t)) return false;
+  if (/\b(?:review of|analysis of|evaluation of|comparison of|comparing|adherence to|compliance with|implementation of|uptake of|knowledge of|attitudes toward|impact of|quality of|appraisal of|critique of)\b.{0,80}\b(?:guidelines?|practice parameters?)\b/i.test(t)) return false;
+  if (/\b(?:guidelines?|practice parameters?)\b.{0,30}\b(?:adherence|compliance|implementation|impact|uptake|quality|evaluation|appraisal)\b/i.test(t)) return false;
+  if (p.some(x => /^(?:Practice )?Guideline$/i.test(x))) return true;
+  if (p.some(x => /^(?:Review|Systematic Review|Meta-Analysis|Clinical Trial|Randomized Controlled Trial|Case Reports|Editorial|Letter|Comment|Observational Study|Evaluation Study)$/i.test(x))) return false;
+  const explicit = /\b(?:guidelines?|practice parameters?)\b/i.test(t);
+  const official = /\b(?:EAACI|AAAAI|ACAAI|WAO|ARIA|GINA|ACG|ESCD|BSACI|ERS|ATS|ESPGHAN|IUIS|ASBAI|GA2LEN|EuroGuiDerm|World Allergy Organization|Joint Task Force|American Academy|American College|European Academy|international guideline|clinical practice guideline|practice parameter update)\b/i.test(t);
+  return explicit && official;
+}
+
 export function searchQuery(topic = 'all') {
   const terms = topic === 'all' ? [...new Set(Object.values(TOPICS).flat())] : TOPICS[topic];
   if (!terms) throw new Error('Tema inválido');
   const disease = '(' + terms.map(t => '"' + t + '"[ti]').join(' OR ') + ')';
   const journals = '(' + JOURNALS.map(t => '"' + t + '"[jour]').join(' OR ') + ')';
-  // Inclui documentos equivalentes e revisões sem exigir "guideline" no título.
-  const orientation = '(guideline[pt] OR "practice guideline"[pt] OR guideline*[ti] OR consensus[ti] OR recommendation*[ti] OR "practice parameter"[ti] OR "practice parameters"[ti] OR "position paper"[ti] OR "position statement"[ti] OR statement[ti] OR guidance[ti] OR "expert opinion"[ti] OR algorithm*[ti] OR "task force"[ti] OR "work group"[ti] OR "clinical update"[ti] OR "diagnosis and management"[ti] OR "diagnosis and treatment"[ti] OR "management of"[ti] OR review[pt] OR "systematic review"[ti] OR "meta-analysis"[pt])';
+  // Busca restrita a diretrizes; a elegibilidade ainda é validada em cada PMID.
+  const orientation = '(guideline[pt] OR "practice guideline"[pt] OR guidelines[ti] OR guideline[ti] OR "practice parameter"[ti] OR "practice parameters"[ti])';
   return disease + ' AND ' + journals + ' AND ' + orientation + ' NOT (published erratum[pt] OR retracted publication[pt] OR retraction of publication[pt] OR editorial[pt] OR letter[pt])';
 }
 const MONTHS = {jan:'01',feb:'02',mar:'03',apr:'04',may:'05',jun:'06',jul:'07',aug:'08',sep:'09',oct:'10',nov:'11',dec:'12'};
@@ -79,12 +96,12 @@ export function normalizeRecord(record, expectedId, today) {
   if (pubmed && String(pubmed.value) !== pmid) return null;
   const topics = topicsFor(title);
   const date = publishedDate(record, today);
-  if (!topics.length || !date || (record.pubtype || []).some(t => /erratum|retract/i.test(t))) return null;
+  if (!topics.length || !date || (record.pubtype || []).some(t => /erratum|retract/i.test(t)) || !isOfficialClinicalGuideline(title, record.pubtype || [])) return null;
   const doi = String(articleids.find(i => i.idtype === 'doi')?.value || '').trim();
   const pmcid = String(articleids.find(i => i.idtype === 'pmc')?.value || '').trim();
   return {
     pmid, title, journal, date, year: parsePublicationDate(record.pubdate).slice(0,4) || date.slice(0,4),
-    topics, kind: documentKind(title, record.pubtype || []),
+    topics, kind: 'Diretriz clínica',
     doi: /^10\.\d{4,9}\/\S+$/i.test(doi) ? doi : '',
     pmcid: /^PMC\d+$/.test(pmcid) ? pmcid : '',
     url: 'https://pubmed.ncbi.nlm.nih.gov/' + pmid + '/'
