@@ -57,16 +57,22 @@
     source: ['Bula profissional, seção 8', 'Professional label, section 8', 'Ficha técnica, sección 8'],
     patientLabel: ['Bula do produto, seção 6', 'Patient leaflet, section 6', 'Prospecto del producto, sección 6'],
     labelDosing: ['Bula da apresentação, seção de posologia', 'Product label dosing section', 'Prospecto de la presentación, sección de posología'],
+    sbpFebre: ['SBP 2025, Quadro 1', 'SBP 2025, Table 1', 'SBP 2025, Cuadro 1'],
+    emaDipirona: ['EMA, posologia, seção 4.2', 'EMA, dosing, section 4.2', 'EMA, posología, sección 4.2'],
     reviewed: ['Fonte conferida em %1', 'Source checked on %1', 'Fuente revisada el %1'],
-    result: ['Por administração', 'Per administration', 'Por administración'],
+    result: ['Dose por administração', 'Dose per administration', 'Dosis por administración'],
+    initialDose: ['Dose inicial por administração', 'Starting dose per administration', 'Dosis inicial por administración'],
     total: ['Total em 24 h', 'Total in 24 hours', 'Total en 24 h'],
     frequency: ['Frequência', 'Frequency', 'Frecuencia'],
     dailyFrequency: ['1 vez ao dia', 'Once daily', 'Una vez al día'],
     multipleFrequency: ['%1 vezes ao dia', '%1 times daily', '%1 veces al día'],
-    asNeededFrequency: ['Até %1 vezes em 24 h, se necessário', 'Up to %1 times in 24 hours as needed', 'Hasta %1 veces en 24 h, si es necesario'],
-    doseRange: ['%1 a %2', '%1 to %2', '%1 a %2'],
+    asNeededFrequency: ['A cada %1 h, se necessário. Até %2 vezes em 24 h.', 'Every %1 hours as needed. Up to %2 times in 24 hours.', 'Cada %1 h si es necesario. Hasta %2 veces en 24 h.'],
+    maxCalculatedDaily: ['Máximo em 24 h com esta dose', '24-hour maximum with this dose', 'Máximo en 24 h con esta dosis'],
     oralInterval: ['A cada %1 h', 'Every %1 hours', 'Cada %1 h'],
     perKg: ['%1 mg/kg por dose', '%1 mg/kg per dose', '%1 mg/kg por dosis'],
+    weightCalculation: ['Cálculo inicial com %1 kg × %2 mg/kg.', 'Starting calculation with %1 kg × %2 mg/kg.', 'Cálculo inicial con %1 kg × %2 mg/kg.'],
+    labelMinimumApplied: ['Aplicada a menor dose da bula para o peso informado.', 'Used the lowest label dose for the entered weight.', 'Se aplicó la dosis mínima de la ficha para el peso indicado.'],
+    wholeDropApplied: ['Ajustada para gota inteira dentro dos limites da apresentação.', 'Adjusted to a whole drop within the limits for this product.', 'Se ajustó a una gota entera dentro de los límites de la presentación.'],
     capped: ['Resultado limitado pelo teto informado.', 'The entered maximum limited this result.', 'El límite introducido acotó el resultado.'],
     manualResult: ['Calculado com a posologia informada.', 'Calculated from the entered regimen.', 'Calculado con la pauta introducida.'],
     manualVolume: ['Volume calculado pela concentração informada.', 'Volume calculated from the entered concentration.', 'Volumen calculado con la concentración introducida.'],
@@ -102,8 +108,9 @@
     maintenanceOnly: ['Manutenção da asma. Para crises, siga o plano de ação do paciente.', 'Asthma maintenance. For attacks, follow the patient’s action plan.', 'Mantenimiento del asma. En las crisis, siga el plan de acción del paciente.'],
     refluxReassess: ['Reavalie após 4 semanas. A bula limita o tratamento a 8 semanas dos 12 aos 18 anos.', 'Reassess after 4 weeks. The label limits treatment to 8 weeks from ages 12 to 18.', 'Reevalúe tras 4 semanas. La ficha limita el tratamiento a 8 semanas entre los 12 y los 18 años.'],
     montelukast: ['Na asma, administrar à noite. Oriente sobre possíveis eventos neuropsiquiátricos.', 'For asthma, give in the evening. Counsel about possible neuropsychiatric effects.', 'En asma, administre por la noche e informe sobre posibles efectos neuropsiquiátricos.'],
-    dipyroneLiquid: ['A tabela pediátrica usa as faixas de peso da bula, de 5 a 53 kg, entre 3 meses e 15 anos. A idade de cada linha é uma média. A faixa adulta automática exige mais de 15 anos e mais de 53 kg.', 'Use the label’s pediatric weight bands from 5 to 53 kg between age 3 months and 15 years. Ages shown in each row are averages. Automatic adult dosing requires age over 15 years and weight over 53 kg.', 'La tabla pediátrica usa los rangos de peso de la ficha, de 5 a 53 kg, entre los 3 meses y los 15 años. La edad de cada fila es una media. La pauta automática de adultos exige más de 15 años y más de 53 kg.'],
-    dipyroneAdult: ['O esquema adulto da calculadora exige idade acima de 15 anos e peso acima de 53 kg.', 'The calculator’s adult regimen requires age over 15 years and weight over 53 kg.', 'La pauta de adultos de la calculadora exige más de 15 años y más de 53 kg.'],
+    dipyroneLiquid: ['Esquema pediátrico de 3 meses a menos de 15 anos, com peso de 5 a 53 kg. Esquema adulto a partir de 15 anos, com peso acima de 53 kg.', 'Pediatric regimen from 3 months to under 15 years at 5 to 53 kg. Adult regimen from age 15 at over 53 kg.', 'Pauta pediátrica de 3 meses a menos de 15 años, con peso de 5 a 53 kg. Pauta de adultos desde los 15 años, con peso superior a 53 kg.'],
+    dipyroneAdult: ['O esquema desta apresentação exige idade a partir de 15 anos e peso acima de 53 kg.', 'This product’s regimen requires age 15 or older and weight over 53 kg.', 'La pauta de esta presentación exige al menos 15 años y un peso superior a 53 kg.'],
+    dipyroneMeasure: ['A dose mensurável fica fora dos limites desta apresentação para o peso informado. Confira a bula e a formulação.', 'The measurable dose falls outside this product’s limits for the entered weight. Check the label and formulation.', 'La dosis medible queda fuera de los límites de esta presentación para el peso indicado. Consulte la ficha y la formulación.'],
     nostril: ['em cada narina', 'in each nostril', 'en cada fosa nasal'],
     eye: ['em cada olho afetado', 'in each affected eye', 'en cada ojo afectado'],
     twoNostrils: ['(duas narinas)', '(both nostrils)', '(ambas fosas nasales)'],
@@ -148,7 +155,7 @@
     dermatitis: ['Dermatite atópica', 'Atopic dermatitis', 'Dermatitis atópica'],
     gerd: ['DRGE sintomática sem esofagite', 'Symptomatic GERD without esophagitis', 'ERGE sintomática sin esofagitis'],
     erosiveGerd: ['Esofagite de refluxo erosiva', 'Erosive reflux esophagitis', 'Esofagitis erosiva por reflujo'],
-    painFever: ['Dor ou febre', 'Pain or fever', 'Dolor o fiebre'],
+    painFever: ['Febre ou dor leve a moderada', 'Fever or mild to moderate pain', 'Fiebre o dolor leve a moderado'],
     anti: ['Anti-histamínicos', 'Antihistamines', 'Antihistamínicos'],
     topicos: ['Corticoides tópicos', 'Topical corticosteroids', 'Corticoides tópicos'],
     olhos: ['Colírios', 'Eye drops', 'Colirios'],
@@ -402,8 +409,12 @@
       else control.selectedIndex = options.length === 1 ? 1 : 0;
     }
 
+    function referenceLink(key, label) {
+      return '<a href="' + escape(sources[key]) + '" target="_blank" rel="noopener noreferrer">' + escape(t(label)) + '</a>';
+    }
+
     function sourceLink(product) {
-      return '<a href="' + escape(sources[product.source]) + '" target="_blank" rel="noopener noreferrer">' + escape(t(product.sourceSection || 'source')) + '</a>';
+      return referenceLink(product.source, product.sourceSection || 'source');
     }
 
     function renderIndications() {
@@ -569,25 +580,26 @@
         minAge: number('minAge'), maxAge: number('maxAge')
       });
       if (result.error) return showError(result.error, product);
-      const { amount, minAmount, times, ml, minMl, tablets, minTablets, drops, minDrops, daily, maxDaily, maxDose, perKg, site, capped, asNeeded } = result;
+      const { amount, times, ml, tablets, drops, daily, maxDaily, maxDose, perKg, site, capped, asNeeded, intervalHours, guidance } = result;
       const unit = fromLabel ? result.unit : controls.unit.value;
-      const range = (min, max, unitName) => min != null
-        ? t('doseRange', format(min), measure(max, unitName))
-        : measure(max, unitName, capped);
-      const amountLabel = range(minAmount, amount, unit) + (site ? ' ' + t(site) : '');
-      const administered = drops != null ? range(minDrops, drops, 'drop')
-        : tablets != null ? range(minTablets, tablets, 'tabletCount') : ml != null ? range(minMl, ml, 'mL') : '';
-      const schedule = asNeeded ? t('asNeededFrequency', format(times))
+      const amountLabel = measure(amount, unit, capped) + (site ? ' ' + t(site) : '');
+      const administered = drops != null ? measure(drops, 'drop')
+        : tablets != null ? measure(tablets, 'tabletCount') : ml != null ? measure(ml, 'mL', capped) : '';
+      const schedule = asNeeded ? t('asNeededFrequency', format(intervalHours), format(times))
         : product?.note === 'patanolTiming' ? t('patanolTiming')
         : times === 1 ? t('dailyFrequency')
         : fromLabel ? t('oralInterval', format(24 / times)) : t('multipleFrequency', format(times));
       const limitSite = site === 'nostril' ? ' ' + t('twoNostrils') : site === 'eye' ? ' ' + t('bothEyes') : '';
       const dailyMetric = daily == null ? '' : metric(t('total'), measure(daily, unit, capped) + limitSite);
-      const dailyMaxMetric = maxDaily == null ? '' : metric(t('maxDaily', plural[unit] ? t(plural[unit]) : displayUnit(unit)), measure(maxDaily, unit) + limitSite);
+      const dailyMaxLabel = asNeeded ? t('maxCalculatedDaily') : t('maxDaily', plural[unit] ? t(plural[unit]) : displayUnit(unit));
+      const dailyMaxMetric = maxDaily == null ? '' : metric(dailyMaxLabel, measure(maxDaily, unit) + limitSite);
       const doseMaxMetric = maxDose == null ? '' : metric(t('maxDose', displayUnit(unit)), measure(maxDose, unit));
-      const reference = product ? sourceLink(product) + '<span> · ' + escape(t('reviewed', dateLabel(reviewedOn))) + '</span>' : '';
+      const reference = product ? [sourceLink(product), guidance && referenceLink(guidance, guidance),
+        escape(t('reviewed', dateLabel(reviewedOn)))].filter(Boolean).join(' · ') : '';
       const notes = [
-        perKg != null && t('perKg', format(perKg)),
+        perKg != null && (asNeeded ? t('weightCalculation', format(kg), format(perKg)) : t('perKg', format(perKg))),
+        result.labelMinimumApplied && t('labelMinimumApplied'),
+        result.wholeDropApplied && t('wholeDropApplied'),
         product?.note && product.note !== 'patanolTiming' && t(product.note),
         !fromLabel && t('manualResult'),
         !fromLabel && ml != null && t('manualVolume'),
@@ -599,7 +611,7 @@
         name + ' · ' + (selected?.product ? presentation(selected.product) :
           selected?.raw ? showRegistryPresentation(selected) : controls.customPresentation.value.trim());
       output.innerHTML = '<p class="med-dose-context">' + escape(context) + '</p>' +
-        '<p class="med-dose-result-title">' + escape(t('result')) + '</p>' +
+        '<p class="med-dose-result-title">' + escape(t(asNeeded ? 'initialDose' : 'result')) + '</p>' +
         '<p class="med-dose-amount">' + escape(administered || amountLabel) + '</p>' +
         (administered ? '<p class="med-dose-amount-alt">' + escape(amountLabel) + '</p>' : '') +
         '<dl>' + metric(t('frequency'), schedule) + dailyMetric + dailyMaxMetric + doseMaxMetric + '</dl>' +

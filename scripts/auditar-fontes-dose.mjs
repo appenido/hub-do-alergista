@@ -33,7 +33,9 @@ export async function auditarFontesDose() {
   const results = [];
 
   async function check([key, url]) {
-    const names = [...new Set(Object.values(products).filter(product => product.source === key).map(product => product.brand))];
+    const names = [...new Set(Object.values(products)
+      .filter(product => product.source === key || product.bands.some(row => row.guidance === key))
+      .map(product => product.brand))];
     const entry = { key, url, name: names.join(' / ') };
     try {
       const { stdout } = await runFile('curl', [

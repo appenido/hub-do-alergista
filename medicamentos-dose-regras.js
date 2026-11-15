@@ -26,7 +26,9 @@
     singulair: 'https://www.organon.com/brazil/wp-content/uploads/sites/33/2023/06/singulair_bula_profissional.pdf',
     novalginaSolucao: 'https://www.novalgina.com.br/dam/jcr%3Ae7d8abe2-f90e-4ea9-b498-2c5c8d874580/bula_sol_oral.pdf',
     novalginaGotas: 'https://www.novalgina.com.br/dam/jcr%3A500f2f54-73af-4785-a006-5ee50b70c92a/Bula%20Novalgina%20Gotas.pdf',
-    novalginaComprimidos: 'https://www.novalgina.com.br/dam/jcr%3Ae555a18f-8827-4522-a99e-6a36d1c2e4dc/Bula%20Novalgina%20Comprimido%201g_500mg.pdf'
+    novalginaComprimidos: 'https://www.novalgina.com.br/dam/jcr%3Ae555a18f-8827-4522-a99e-6a36d1c2e4dc/Bula%20Novalgina%20Comprimido%201g_500mg.pdf',
+    sbpFebre: 'https://www.sbp.com.br/fileadmin/user_upload/sbp/2025/maio/16/24896f-DC_-Abordag_Febre_Aguda_em_Pediatria_e_Reflexoes_VIRTUAL.pdf',
+    emaDipirona: 'https://www.ema.europa.eu/en/documents/referral/metamizole-article-31-referral-annex-iii_en.pdf'
   };
 
   const rhinitis = ['rhinitis'];
@@ -46,9 +48,9 @@
   const novalgina = {
     group: 'outros', drug: 'Dipirona', brand: 'Novalgina',
     aliases: ['Dipirona monoidratada', 'Dipirona sódica', 'Metamizol', 'Dipyrone'], uses: ['painFever'],
-    sourceSection: 'labelDosing', asNeeded: true
+    sourceSection: 'labelDosing', asNeeded: true, intervalHours: 6
   };
-  // A tabela da bula usa o peso e apresenta a idade média de cada grupo.
+  // Doses por faixa de peso das bulas das duas apresentações, em mg.
   const novalginaWeightRanges = [
     { minKg: 5, maxKg: 8, solution: [62.5, 125], drops: [50, 125] },
     { minKg: 9, maxKg: 15, solution: [125, 250], drops: [75, 250] },
@@ -57,18 +59,22 @@
     { minKg: 31, maxKg: 45, solution: [375, 750], drops: [250, 750] },
     { minKg: 46, maxKg: 53, solution: [437.5, 875], drops: [375, 875] }
   ];
-  const adultNovalgina = band(181, Infinity, 1000, 4, { minDose: 500, aboveKg: 53, maxDaily: 4000 });
+  // EMA, anexo III, seção 4.2, e bula: menor dose inicial da apresentação no esquema adulto.
+  const adultNovalgina = band(180, Infinity, 500, 4, { aboveKg: 53, maxDaily: 4000, guidance: 'emaDipirona' });
   function novalginaLiquidBands(form) {
-    return novalginaWeightRanges.map(({ minKg, maxKg, [form]: [minDose, dose] }) =>
-      band(3, 181, dose, 4, { minKg, maxKg, minDose, maxDaily: dose * 4 })
+    // SBP, quadro 1: iniciar no limite inferior de 10 mg/kg e respeitar os limites da bula.
+    return novalginaWeightRanges.map(({ minKg, maxKg, [form]: [minDose, maxDose] }) =>
+      band(3, 180, 10, 4, {
+        perKg: true, minKg, maxKg, minDose, maxDose, maxMgPerKg: 16, maxDaily: maxDose * 4, guidance: 'sbpFebre'
+      })
     ).concat(adultNovalgina);
   }
 
   const products = {
     'novalgina-solucao': { ...novalgina, form: 'oralSolution', strength: '50 mg/mL', concentration: 50,
-      source: 'novalginaSolucao', note: 'dipyroneLiquid', outside: 'dipyroneLiquid', bands: novalginaLiquidBands('solution') },
+      source: 'novalginaSolucao', outside: 'dipyroneLiquid', bands: novalginaLiquidBands('solution') },
     'novalgina-gotas': { ...novalgina, form: 'oralDrops', strength: '500 mg/mL', concentration: 500, dropsPerMl: 20,
-      source: 'novalginaGotas', note: 'dipyroneLiquid', outside: 'dipyroneLiquid', bands: novalginaLiquidBands('drops') },
+      source: 'novalginaGotas', outside: 'dipyroneLiquid', bands: novalginaLiquidBands('drops') },
     'novalgina-500': { ...novalgina, form: 'tablet', strength: '500 mg', unitSize: 500,
       source: 'novalginaComprimidos', outside: 'dipyroneAdult', bands: [adultNovalgina] },
     'novalgina-1g': { ...novalgina, form: 'tablet', strength: '1 g', unitSize: 1000,
@@ -124,29 +130,53 @@
     return Number.isInteger(ageMonths) && ageMonths >= 0 && ageMonths <= 1440 && Number.isFinite(kg) && kg > 0;
   }
 
+  function betweenNovalginaWeightBands(bands, kg) {
+    // Nos decimais entre duas faixas inteiras, usar somente os limites em comum.
+    const lower = bands.find(b => b.perKg && kg > b.maxKg && kg < b.maxKg + 1);
+    if (!lower) return undefined;
+    const upper = bands.find(b => b.perKg && b.minKg === lower.maxKg + 1);
+    if (!upper) return undefined;
+    return {
+      ...lower,
+      minDose: Math.max(lower.minDose, upper.minDose),
+      maxDose: Math.min(lower.maxDose, upper.maxDose),
+      maxDaily: Math.min(lower.maxDaily, upper.maxDaily)
+    };
+  }
+
+  function startingWeightDose(product, row, kg, base) {
+    const starting = Math.max(base, row.minDose);
+    const mgPerDrop = product.dropsPerMl ? product.concentration / product.dropsPerMl : 0;
+    const drops = mgPerDrop ? starting / mgPerDrop : 0;
+    const amount = mgPerDrop ? Math.ceil(drops - Number.EPSILON * drops) * mgPerDrop : starting;
+    if (amount > Math.min(row.maxDose, row.maxMgPerKg * kg)) return { error: 'dipyroneMeasure' };
+    return { amount, labelMinimumApplied: starting > base, wholeDropApplied: amount > starting };
+  }
+
   function automatic(product, use, ageMonths, kg) {
     if (!validPatient(ageMonths, kg)) return { error: 'patientInvalid' };
     if (!product || !product.uses.includes(use)) return { error: 'selectScheme' };
     const eligible = product.bands.filter(b => ageMonths >= b.from && ageMonths < b.before && (b.only == null || b.only === use));
     const row = eligible.find(b =>
       (b.minKg == null || kg >= b.minKg) && (b.maxKg == null || kg <= b.maxKg) &&
-      (b.aboveKg == null || kg > b.aboveKg) && (b.belowKg == null || kg < b.belowKg));
-    if (!row) return { error: eligible.length && product.outside ? product.outside : 'noBand' };
-    const amount = row.dose * (row.perKg ? kg : 1);
-    const minAmount = row.minDose;
+      (b.aboveKg == null || kg > b.aboveKg) && (b.belowKg == null || kg < b.belowKg)) ||
+      (product.asNeeded ? betweenNovalginaWeightBands(eligible, kg) : undefined);
+    if (!row) return { error: (eligible.length || product.asNeeded) && product.outside ? product.outside : 'noBand' };
+    const base = row.dose * (row.perKg ? kg : 1);
+    const dosage = row.maxMgPerKg ? startingWeightDose(product, row, kg, base) : { amount: base };
+    if (dosage.error) return dosage;
+    const { amount } = dosage;
     if (!Number.isFinite(amount) || amount <= 0) return { error: 'quantityInvalid' };
     const ml = product.concentration && amount / product.concentration;
-    const minMl = minAmount && product.concentration && minAmount / product.concentration;
     if (ml != null && (!Number.isFinite(ml) || ml <= 0)) return { error: 'quantityInvalid' };
     return {
-      amount, minAmount, ml, minMl, unit: product.unit || 'mg', times: row.times, site: product.site,
-      asNeeded: product.asNeeded,
+      ...dosage, ml, unit: product.unit || 'mg', times: row.times, site: product.site,
+      asNeeded: product.asNeeded, intervalHours: product.intervalHours, guidance: row.guidance,
       daily: product.asNeeded || product.site === 'eye' ? undefined : amount * row.times * (product.dailySites || 1),
-      maxDaily: row.maxDaily, perKg: row.perKg ? row.dose : undefined,
+      maxDaily: product.asNeeded ? Math.min(row.maxDaily, amount * row.times) : row.maxDaily,
+      perKg: row.perKg ? row.dose : undefined,
       tablets: product.unitSize ? amount / product.unitSize : undefined,
-      minTablets: minAmount && product.unitSize && minAmount / product.unitSize,
-      drops: product.dropsPerMl ? Math.round(ml * product.dropsPerMl) : undefined,
-      minDrops: minMl && product.dropsPerMl && Math.round(minMl * product.dropsPerMl)
+      drops: product.dropsPerMl ? Math.round(ml * product.dropsPerMl) : undefined
     };
   }
 
