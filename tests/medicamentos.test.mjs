@@ -17,13 +17,18 @@ test('Home oferece Medicamentos sem atalho isolado de Anti-histamínicos',()=>{
  assert.match(html,/<script src="\/medicamentos-catalogo\.js\?v=/);
  assert.match(html,/<link rel="stylesheet" href="\/medicamentos-catalogo\.css\?v=/);
 });
-test('Oito categorias obrigatórias e catálogo anti-H1 preservado',()=>{
+test('Cálculo de dose abre no cartão e preserva as oito categorias anteriores',()=>{
  const block=js.split('const CATS=[')[1].split('];')[0];
- for(const id of ['anti','topicos','olhos','nasais','inalatoria','ibps','hidratantes','formulas'])
+ for(const id of ['dose','anti','topicos','olhos','nasais','inalatoria','ibps','hidratantes','formulas'])
   assert.match(block,new RegExp("id:'"+id+"'"));
- assert.equal((block.match(/\{id:'/g)||[]).length,8);
+ assert.equal((block.match(/\{id:'/g)||[]).length,9);
  assert.match(html,/id="page-antihistaminicos"><section id="ahApp"/);
  assert.match(js,/body\.appendChild\(original\)/);
+ assert.match(js,/hubDoseMount\(body,doseCatalog\(\)\)/);
+ for (const asset of ['medicamentos-dose.js', 'medicamentos-dose-regras.js']) {
+  assert.ok(html.includes('/'+asset+'?v='));
+  assert.ok(read('sw.js').includes(asset+'?v='));
+ }
 });
 test('Preços não são inventados: somente oferta verificada',()=>{
  assert.match(js,/verified===true/);

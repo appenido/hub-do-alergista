@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { auditarFontesDose } from './auditar-fontes-dose.mjs';
 
 const root=process.cwd();
 const source=readFileSync(resolve(root,'protocolos-bolso-condutas-20261114.js'),'utf8');
@@ -43,12 +44,16 @@ const original=new Set(baseline.entries);
 const currentKeys=new Set(issues.map(x=>x.key));
 const newIssues=issues.filter(x=>!original.has(x.key));
 const resolved=baseline.entries.filter(k=>!currentKeys.has(k));
+const verificaBulas = ['schedule', 'workflow_dispatch'].includes(process.env.GITHUB_EVENT_NAME) || process.argv.includes('--verificar-bulas');
+const fontesDose = verificaBulas ? await auditarFontesDose() : [];
+const pendenciasBulas = fontesDose.filter(fonte => fonte.status !== 'inalterada');
 const summary={
  date:new Date().toISOString(),
  protocols:Object.keys(data).length,
  clinicalSteps:Object.values(data).reduce((v,x)=>v+x.steps.length,0),
  therapeuticOptions:Object.values(meds).reduce((v,x)=>v+Object.values(x).reduce((n,y)=>n+y.length,0),0),
- outstanding:issues.length, newIssues:newIssues.length, resolved:resolved.length
+ outstanding:issues.length+pendenciasBulas.length, newIssues:newIssues.length, resolved:resolved.length,
+ ...(verificaBulas ? { bulasConsultadas: fontesDose.length, pendenciasBulas: pendenciasBulas.length } : {})
 };
 const header='# Auditoria automática — protocolos clínicos\n\n'+
  'Executada em '+summary.date+' (UTC). Esta etapa é uma análise estática do código. NÃO valida atualização científica, registro Anvisa, cobertura ANS nem funcionamento visual em produção.\n\n'+
@@ -62,12 +67,16 @@ const header='# Auditoria automática — protocolos clínicos\n\n'+
 const detail=issues.length
  ? issues.map((x,i)=>(i+1)+'. ['+x.priority+'] '+(x.drug||'Critério')+' · protocolo '+x.protocol+' · etapa '+(x.step||'-')+' · '+(x.topic||'—')+'\n   Campo: '+(x.dose||'—')+'\n   Pendência: '+x.description).join('\n\n')
  : 'Nenhuma expressão genérica identificada pelo detector estático.';
-const report=header+'## Pendências\n\n'+detail+'\n\n## Política de resolução\n\n'+
+const bulasReport = verificaBulas ? '\n\n## Fontes do cálculo de dose\n\n'+
+ 'Documentos inalterados: '+(fontesDose.length-pendenciasBulas.length)+' de '+fontesDose.length+
+ '. Arquivos alterados ou indisponíveis entram em revisão, e a calculadora mantém a última posologia conferida.\n\n'+
+ pendenciasBulas.map(fonte => '- ['+fonte.name+']('+fonte.url+') · '+fonte.status).join('\n') : '';
+const report=header+'## Pendências\n\n'+detail+bulasReport+'\n\n## Política de resolução\n\n'+
  'A substituição exige bula/registro Anvisa e/ou diretriz específica, indicação e idade/peso, posologia completa, fonte e revisão clínica. Não preencher automaticamente lacunas com doses inferidas. Conferir o prompt AUDITORIA-CLINICA-PROMPT-MESTRE.md.\n';
 const output=resolve(root,'audit-output');
 mkdirSync(output,{recursive:true});
 writeFileSync(resolve(output,'relatorio-clinico.md'),report);
-writeFileSync(resolve(output,'relatorio-clinico.json'),JSON.stringify({summary,issues,newIssues,resolved},null,2)+'\n');
+writeFileSync(resolve(output,'relatorio-clinico.json'),JSON.stringify({summary,issues,newIssues,resolved,fontesDose},null,2)+'\n');
 process.stdout.write(JSON.stringify(summary)+'\n');
 if(process.argv.includes('--fail-on-new')&&newIssues.length>0){
  console.error('BLOQUEIO: foram introduzidas novas pendências clínicas sem resolução.');

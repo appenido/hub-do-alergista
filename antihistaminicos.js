@@ -218,6 +218,7 @@ function calculate(){
   '<p style="margin-top:8px">Apresentação selecionada: '+escapeHtml(form.t)+'.</p>'+
   (d.caution?'<p style="margin-top:7px;color:#86572e">'+escapeHtml(d.caution)+'</p>':'');
 }
+window.hubAntihistamineCatalog=ITEMS.map(({n,b})=>({group:'anti',name:n,brand:b}));
 window.ahInit=init;
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){if(document.querySelector('#page-antihistaminicos.active'))init();});
 else if(document.querySelector('#page-antihistaminicos.active'))init();

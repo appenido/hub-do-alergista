@@ -9,6 +9,7 @@ const FONTES={
   formulas:'https://www.sbp.com.br/fileadmin/user_upload/Manual_de_atualidades_em_Nutrologia_2021_-_SBP_SITE.pdf'
 };
 const CATS=[
+ {id:'dose',name:'Cálculo de dose',sub:'Medicamento, idade e peso',icon:'calculator'},
  {id:'anti',name:'Anti-histamínicos',sub:'Catálogo original · oral, nasal, ocular e injetável',icon:'pill'},
  {id:'topicos',name:'Corticoides tópicos',sub:'Potência por princípio ativo, concentração e veículo',icon:'skin'},
  {id:'olhos',name:'Colírios',sub:'Anti-histamínicos e lubrificantes',icon:'eye'},
@@ -671,6 +672,7 @@ const MOIST=[
 ];
 
 const icons={
+ calculator:'<defs><linearGradient id="med-dose-icon-ink" x2="1" y2="1"><stop stop-color="#377b90"/><stop offset="1" stop-color="#15394f"/></linearGradient><linearGradient id="med-dose-icon-gold" x2="1" y2="1"><stop stop-color="#ffe8a2"/><stop offset="1" stop-color="#bf9039"/></linearGradient></defs><rect x="15" y="8" width="34" height="48" rx="9" fill="#143c4d" opacity=".13" transform="translate(1 2)"/><rect x="15" y="7" width="34" height="48" rx="9" fill="url(#med-dose-icon-ink)" stroke="#17465a" stroke-width="1.4"/><rect x="21" y="14" width="22" height="11" rx="3" fill="#d9f3f3"/><path d="M25 20h14" stroke="#76b7c0" stroke-width="1.5" stroke-linecap="round"/><rect x="21" y="31" width="9" height="7" rx="2" fill="#a3dce0"/><rect x="21" y="42" width="9" height="7" rx="2" fill="#a3dce0"/><rect x="34" y="31" width="9" height="18" rx="2" fill="url(#med-dose-icon-gold)"/><path d="M36.5 38h4m-4 3h4" stroke="#654c24" stroke-linecap="round"/>',
  pill:'<rect x="13" y="24" width="38" height="17" rx="8.5" transform="rotate(-34 32 32.5)" fill="#cdeaf0" stroke="#28677e" stroke-width="2"/><path d="M32 22v20" transform="rotate(-34 32 32)" stroke="#1a7188" stroke-width="2"/><circle cx="49" cy="16" r="4" fill="#d4ac4d"/>',
  skin:'<path d="M12 45c9-19 15-27 24-27 7 0 13 6 16 19" fill="none" stroke="#2d8798" stroke-width="8" stroke-linecap="round"/><path d="M13 49h39" stroke="#d4ac4d" stroke-width="4" stroke-linecap="round"/>',
  eye:'<path d="M5 32c8-12 17-17 27-17s19 5 27 17c-8 12-17 17-27 17S13 44 5 32z" fill="#e2eff3" stroke="#246b80" stroke-width="2"/><circle cx="32" cy="32" r="11" fill="#61bac6"/><circle cx="32" cy="32" r="5" fill="#16465c"/><circle cx="35" cy="27" r="2.5" fill="#fff"/>',
@@ -684,6 +686,14 @@ function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,x=>({'&':'&amp;',
 function norm(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
 function catIcon(id){return '<svg viewBox="0 0 64 64" width="38" height="38" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#f0f8f9"/>'+icons[id]+'</svg>';}
 function fmt(value){return Number(value).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
+function doseCatalog(){
+ const catalog=Object.entries(DB).filter(([group])=>group!=='formulas').flatMap(([group,items])=>
+  items.map(([name,brand])=>({group,name,brand})));
+ return catalog.concat(
+  window.hubAntihistamineCatalog||[],
+  (window.hubAsmaDataset?.products||[]).map(({name,brand})=>({group:'inalatoria',name,brand}))
+ );
+}
 function sourceHref(id){return id==='topicos'?FONTES.pele:id==='inalatoria'?FONTES.asma:id==='formulas'?FONTES.formulas:id==='hidratantes'?'https://www.gov.br/anvisa/pt-br/sistemas/sistema-de-consultas/':ANVISA;}
 function sourceLabel(id){return id==='topicos'?'Ministério da Saúde — potência':id==='inalatoria'?'GINA 2026':id==='formulas'?'SBP — Nutrologia':id==='hidratantes'?'Sistema de Consultas Anvisa':'Bulário eletrônico Anvisa';}
 function cards(data,id){
@@ -701,7 +711,7 @@ function init(){
  const root=document.getElementById('medApp');if(!root || initDone)return;
  initDone=true;
  root.innerHTML='<div class="med-intro"><div class="med-eyebrow">CATÁLOGO FARMACOLÓGICO</div><h1>Medicamentos</h1><p>Selecione uma classe. Cada ficha expande no próprio cartão, com nomes genéricos, marcas, apresentações, indicações e cuidados.</p></div>'+
- '<div class="med-categories">'+CATS.map(c=>'<section class="med-category" data-med-category="'+c.id+'"><button type="button" class="med-category-toggle" aria-expanded="false"><span class="med-category-icon">'+catIcon(c.icon)+'</span><span class="med-category-copy"><span class="med-category-name">'+esc(c.name)+'</span><span class="med-category-sub">'+esc(c.sub)+'</span></span><span class="med-category-arrow" aria-hidden="true">⌄</span></button><div class="med-category-body" hidden></div></section>').join('')+'</div>'+
+ '<div class="med-categories">'+CATS.map(c=>'<section class="med-category" data-med-category="'+c.id+'"><button type="button" class="med-category-toggle" aria-expanded="false" aria-controls="med-category-'+c.id+'"><span class="med-category-icon">'+catIcon(c.icon)+'</span><span class="med-category-copy"><span class="med-category-name">'+esc(c.name)+'</span><span class="med-category-sub">'+esc(c.sub)+'</span></span><span class="med-category-arrow" aria-hidden="true">⌄</span></button><div id="med-category-'+c.id+'" class="med-category-body" hidden></div></section>').join('')+'</div>'+
  '<p class="med-endnote">Dados editoriais com revisão em 14/11/2026. Uma marca ou forma descrita não confirma registro ativo. Consulte a apresentação exata no <a href="'+ANVISA+'" target="_blank" rel="noopener noreferrer">Bulário da Anvisa</a>. Atualizações clínicas e comerciais dependem de nova verificação documentada.</p>';
  root.addEventListener('click',e=>{
   const toggle=e.target.closest('.med-category-toggle');
@@ -729,7 +739,13 @@ function openCategory(id,force){
  const body=section.querySelector('.med-category-body');
  if(!body.dataset.ready){
   body.dataset.ready='1';
-  if(id==='anti'){
+  if(id==='dose'){
+   if(typeof window.hubDoseMount==='function')window.hubDoseMount(body,doseCatalog());
+   else{
+    body.innerHTML='<p class="med-empty">A calculadora não carregou. Atualize a página para tentar novamente.</p>';
+    delete body.dataset.ready;
+   }
+  }else if(id==='anti'){
    const original=document.querySelector('#page-antihistaminicos #ahApp');
    if(original){body.appendChild(original);if(typeof window.ahInit==='function')window.ahInit();}
    else body.innerHTML='<p>Catálogo de anti-histamínicos não encontrado.</p>';
@@ -740,7 +756,7 @@ function openCategory(id,force){
    body.innerHTML=controls+'<div class="med-list-slot"></div>';
   }
  }
- if(id!=='anti')renderCategory(id);
+ if(id!=='anti' && id!=='dose')renderCategory(id);
 }
 function renderCurrent(){const active=document.querySelector('#medApp .med-category.is-open');if(active)renderCategory(active.dataset.medCategory);}
 function renderCategory(id){

@@ -66,6 +66,8 @@
     ['Interação medicamentosa','Drug interaction','Interacción farmacológica'],
     ['Imunoglobulinas','Immunoglobulins','Inmunoglobulinas'],
     ['Anti-histamínicos','Antihistamines','Antihistamínicos'],
+    ['Cálculo de dose','Dose calculator','Cálculo de dosis'],
+    ['Medicamento, idade e peso','Medication, age and weight','Medicamento, edad y peso'],
     ['Imunizações','Immunizations','Inmunizaciones'],
     ['Vacinas','Vaccines','Vacunas'],
     ['Consultar CRM','Verify medical registration','Consultar registro médico'],
