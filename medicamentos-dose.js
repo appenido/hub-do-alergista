@@ -3,9 +3,16 @@
   'use strict';
   const { products, sources, reviewedOn, automatic, manual } = window.HubDoseRules;
   const BULAS = 'https://consultas.anvisa.gov.br/#/bulario/';
+  const CMED = 'https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/cmed/precos';
+  let registryRequest;
   const copy = {
     search: ['Buscar por nome ou marca', 'Search by generic name or brand', 'Buscar por nombre o marca'],
-    searchHint: ['Ex.: desloratadina ou Desalex', 'E.g. desloratadine or Desalex', 'Ej.: desloratadina o Desalex'],
+    searchHint: ['Dipirona ou Novalgina', 'Dipyrone or Novalgina', 'Dipirona o Novalgina'],
+    searchButton: ['Buscar', 'Search', 'Buscar'],
+    searchPending: ['Buscando medicamentos e apresentações…', 'Searching for medications and strengths…', 'Buscando medicamentos y presentaciones…'],
+    searchRequired: ['Digite o princípio ativo ou a marca para buscar.', 'Enter a generic name or brand to search.', 'Escriba el principio activo o la marca para buscar.'],
+    searchOffline: ['A lista da CMED está indisponível. A busca consultou o catálogo do Hub.', 'The CMED list is unavailable. Search used the Hub catalog.', 'La lista de CMED está indisponible. La búsqueda consultó el catálogo del Hub.'],
+    refine: ['Use um nome mais específico para ver mais resultados.', 'Use a more specific name to narrow the results.', 'Use un nombre más específico para acotar los resultados.'],
     medicine: ['Medicamento', 'Medication', 'Medicamento'],
     selectDrug: ['Selecione um medicamento', 'Select a medication', 'Seleccione un medicamento'],
     select: ['Selecione', 'Select', 'Seleccione'],
@@ -22,7 +29,13 @@
     manual: ['Cálculo manual', 'Manual calculation', 'Cálculo manual'],
     manualOnly: ['Cálculo manual disponível. Insira a posologia da bula ou do protocolo para a apresentação escolhida.', 'Manual calculation is available. Enter the label or protocol dose for the selected product.', 'Cálculo manual disponible. Introduzca la posología de la ficha técnica o del protocolo de la presentación.'],
     manualIntro: ['Use a posologia já definida para a idade, a indicação e a via.', 'Use a regimen already established for the age, indication and route.', 'Use la pauta ya definida para la edad, la indicación y la vía.'],
-    presentation: ['Apresentação', 'Product and strength', 'Presentación'],
+    presentation: ['Apresentação e concentração', 'Product and strength', 'Presentación y concentración'],
+    otherPresentation: ['Informar outra apresentação', 'Enter another product or strength', 'Indicar otra presentación'],
+    exactPresentation: ['Forma e concentração ou dosagem', 'Dosage form and strength', 'Forma y concentración o dosis'],
+    exactPresentationHint: ['Solução oral 50 mg/mL', 'Oral solution 50 mg/mL', 'Solución oral 50 mg/mL'],
+    confirmPresentation: ['Usar esta apresentação', 'Use this product and strength', 'Usar esta presentación'],
+    cmedList: ['Apresentações da CMED', 'CMED product listings', 'Presentaciones de CMED'],
+    cmedSource: ['Lista da CMED, versão de %1', 'CMED list dated %1', 'Lista de CMED del %1'],
     indication: ['Indicação', 'Indication', 'Indicación'],
     basis: ['Base da posologia', 'Dose basis', 'Base de la posología'],
     unit: ['Unidade da dose', 'Dose unit', 'Unidad de dosis'],
@@ -43,12 +56,15 @@
     anvisa: ['Consultar Bulário da Anvisa', 'Consult Anvisa’s drug label database', 'Consultar el vademécum de Anvisa'],
     source: ['Bula profissional, seção 8', 'Professional label, section 8', 'Ficha técnica, sección 8'],
     patientLabel: ['Bula do produto, seção 6', 'Patient leaflet, section 6', 'Prospecto del producto, sección 6'],
+    labelDosing: ['Bula da apresentação, seção de posologia', 'Product label dosing section', 'Prospecto de la presentación, sección de posología'],
     reviewed: ['Fonte conferida em %1', 'Source checked on %1', 'Fuente revisada el %1'],
     result: ['Por administração', 'Per administration', 'Por administración'],
     total: ['Total em 24 h', 'Total in 24 hours', 'Total en 24 h'],
     frequency: ['Frequência', 'Frequency', 'Frecuencia'],
     dailyFrequency: ['1 vez ao dia', 'Once daily', 'Una vez al día'],
     multipleFrequency: ['%1 vezes ao dia', '%1 times daily', '%1 veces al día'],
+    asNeededFrequency: ['Até %1 vezes em 24 h, se necessário', 'Up to %1 times in 24 hours as needed', 'Hasta %1 veces en 24 h, si es necesario'],
+    doseRange: ['%1 a %2', '%1 to %2', '%1 a %2'],
     oralInterval: ['A cada %1 h', 'Every %1 hours', 'Cada %1 h'],
     perKg: ['%1 mg/kg por dose', '%1 mg/kg per dose', '%1 mg/kg por dosis'],
     capped: ['Resultado limitado pelo teto informado.', 'The entered maximum limited this result.', 'El límite introducido acotó el resultado.'],
@@ -86,6 +102,8 @@
     maintenanceOnly: ['Manutenção da asma. Para crises, siga o plano de ação do paciente.', 'Asthma maintenance. For attacks, follow the patient’s action plan.', 'Mantenimiento del asma. En las crisis, siga el plan de acción del paciente.'],
     refluxReassess: ['Reavalie após 4 semanas. A bula limita o tratamento a 8 semanas dos 12 aos 18 anos.', 'Reassess after 4 weeks. The label limits treatment to 8 weeks from ages 12 to 18.', 'Reevalúe tras 4 semanas. La ficha limita el tratamiento a 8 semanas entre los 12 y los 18 años.'],
     montelukast: ['Na asma, administrar à noite. Oriente sobre possíveis eventos neuropsiquiátricos.', 'For asthma, give in the evening. Counsel about possible neuropsychiatric effects.', 'En asma, administre por la noche e informe sobre posibles efectos neuropsiquiátricos.'],
+    dipyroneLiquid: ['A tabela pediátrica usa as faixas de peso da bula, de 5 a 53 kg, entre 3 meses e 15 anos. A idade de cada linha é uma média. A faixa adulta automática exige mais de 15 anos e mais de 53 kg.', 'Use the label’s pediatric weight bands from 5 to 53 kg between age 3 months and 15 years. Ages shown in each row are averages. Automatic adult dosing requires age over 15 years and weight over 53 kg.', 'La tabla pediátrica usa los rangos de peso de la ficha, de 5 a 53 kg, entre los 3 meses y los 15 años. La edad de cada fila es una media. La pauta automática de adultos exige más de 15 años y más de 53 kg.'],
+    dipyroneAdult: ['O esquema adulto da calculadora exige idade acima de 15 anos e peso acima de 53 kg.', 'The calculator’s adult regimen requires age over 15 years and weight over 53 kg.', 'La pauta de adultos de la calculadora exige más de 15 años y más de 53 kg.'],
     nostril: ['em cada narina', 'in each nostril', 'en cada fosa nasal'],
     eye: ['em cada olho afetado', 'in each affected eye', 'en cada ojo afectado'],
     twoNostrils: ['(duas narinas)', '(both nostrils)', '(ambas fosas nasales)'],
@@ -113,6 +131,10 @@
     dryPowder: ['pó para inalação', 'dry powder inhaler', 'polvo para inhalación'],
     gastroResistant: ['comprimido gastrorresistente', 'gastro-resistant tablet', 'comprimido gastrorresistente'],
     cream: ['creme dermatológico', 'topical cream', 'crema dermatológica'],
+    injection: ['solução injetável', 'solution for injection', 'solución inyectable'],
+    effervescent: ['comprimido efervescente', 'effervescent tablet', 'comprimido efervescente'],
+    suppository: ['supositório', 'suppository', 'supositorio'],
+    capsule: ['cápsula', 'capsule', 'cápsula'],
     rhinitis: ['Rinite alérgica', 'Allergic rhinitis', 'Rinitis alérgica'],
     seasonalRhinitis: ['Rinite alérgica sazonal', 'Seasonal allergic rhinitis', 'Rinitis alérgica estacional'],
     rhinoconjunctivitis: ['Rinoconjuntivite alérgica', 'Allergic rhinoconjunctivitis', 'Rinoconjuntivitis alérgica'],
@@ -126,6 +148,7 @@
     dermatitis: ['Dermatite atópica', 'Atopic dermatitis', 'Dermatitis atópica'],
     gerd: ['DRGE sintomática sem esofagite', 'Symptomatic GERD without esophagitis', 'ERGE sintomática sin esofagitis'],
     erosiveGerd: ['Esofagite de refluxo erosiva', 'Erosive reflux esophagitis', 'Esofagitis erosiva por reflujo'],
+    painFever: ['Dor ou febre', 'Pain or fever', 'Dolor o fiebre'],
     anti: ['Anti-histamínicos', 'Antihistamines', 'Antihistamínicos'],
     topicos: ['Corticoides tópicos', 'Topical corticosteroids', 'Corticoides tópicos'],
     olhos: ['Colírios', 'Eye drops', 'Colirios'],
@@ -136,7 +159,7 @@
   };
   const categories = ['anti', 'topicos', 'olhos', 'nasais', 'inalatoria', 'ibps', 'outros'];
   const plural = { spray: 'sprays', drop: 'drops', inhalation: 'inhalations', tabletCount: 'tabletCounts', application: 'applications' };
-  const normalize = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  const normalize = value => String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
   const escape = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 
   function parseDecimal(value) {
@@ -145,21 +168,68 @@
     return /^(?:\d+([.,]\d+)?|[.,]\d+)$/.test(text) ? Number(text.replace(',', '.')) : NaN;
   }
 
-  function catalog(entries) {
+  async function loadRegistry() {
+    if (!registryRequest) {
+      registryRequest = fetch('/data/medicamentos-apresentacoes.json', {
+        credentials: 'omit', signal: AbortSignal.timeout?.(4500)
+      }).then(response => {
+        if (!response.ok) throw new Error('CMED indisponível');
+        return response.json();
+      }).then(data => {
+        if (!Array.isArray(data.items) || !/^\d{4}-\d{2}-\d{2}$/.test(data.date)) throw new Error('CMED inválida');
+        return data;
+      }).catch(() => {
+        registryRequest = undefined;
+        return null;
+      });
+    }
+    return registryRequest;
+  }
+
+  function catalog(entries, registry = []) {
     const map = new Map();
-    const add = (group, name, brand, productId) => {
+    const aliases = new Map();
+    const add = (group, name, brand) => {
       const key = normalize(name);
-      if (!map.has(key)) map.set(key, { key, group, name, brands: new Set(), presentations: [] });
+      if (!map.has(key)) map.set(key, { key, group, name, brands: new Set(), aliases: new Set(), presentations: [], registered: [] });
       const item = map.get(key);
       if (brand) item.brands.add(brand);
-      if (productId) {
-        item.group = group;
-        item.presentations.push(productId);
-      }
+      return item;
     };
     entries.forEach(item => add(item.group, item.name, item.brand));
-    Object.entries(products).forEach(([id, item]) => add(item.group, item.drug, item.brand, id));
-    return [...map.values()].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
+    Object.entries(products).forEach(([id, product]) => {
+      const item = add(product.group, product.drug, product.brand);
+      item.group = product.group;
+      item.presentations.push(id);
+      product.aliases?.forEach(alias => {
+        item.aliases.add(alias);
+        aliases.set(normalize(alias), item);
+      });
+    });
+    for (const [active, brand, forms] of registry) {
+      const item = aliases.get(normalize(active)) || add('outros', active, brand);
+      item.brands.add(brand);
+      forms.forEach(raw => item.registered.push({ brand, raw }));
+    }
+    return [...map.values()].map(item => {
+      const keywords = new Set([item.key, ...[...item.aliases, ...item.brands].map(normalize)]);
+      return { ...item, keywords, terms: [...keywords].join(' ') };
+    });
+  }
+
+  const registryForms = {
+    'SOL OR GOTAS': 'oralDrops', 'SOL OR': 'oralSolution', 'SUS OR': 'oralSuspension',
+    XPE: 'syrup', 'SOL INJ': 'injection', COM: 'tablet', 'COM EFEV': 'effervescent',
+    'SUP RET': 'suppository', 'CAP DURA': 'capsule'
+  };
+  function registryPresentation(raw) {
+    const parts = raw.match(/^(.+?)\s+(SOL OR GOTAS|SOL OR|SUS OR|XPE|SOL INJ|COM EFEV|COM|SUP RET|CAP DURA)$/);
+    if (!parts) return { strength: raw };
+    const strength = parts[1].replace(/\bMG\s*\/\s*ML\b/gi, 'mg/mL').replace(/\bMG\b/g, 'mg').replace(/\bG\b/g, 'g');
+    const exactLiquid = ['SOL OR GOTAS', 'SOL OR', 'SUS OR', 'XPE', 'SOL INJ'].includes(parts[2])
+      ? strength.match(/^(\d+(?:[,.]\d+)?)\s*mg\/mL$/i)
+      : null;
+    return { strength, form: registryForms[parts[2]], concentration: exactLiquid ? parseDecimal(exactLiquid[1]) : undefined };
   }
 
   function mount(container, entries) {
@@ -172,10 +242,20 @@
 
     container.innerHTML =
       '<form class="med-dose" data-hub-i18n-skip data-analytics-ignore autocomplete="off" novalidate>' +
-      '<div class="med-dose-grid">' +
-      field('search', '<input type="search" name="search" data-dose-placeholder="searchHint" maxlength="100">', true) +
+      '<div class="med-dose-search-line">' +
+      field('search', '<input type="search" name="search" enterkeyhint="search" data-dose-placeholder="searchHint" maxlength="100">') +
+      '<button type="button" class="med-dose-calculate" data-dose-search>' + label('searchButton') + '</button></div>' +
+      '<p class="med-dose-note" data-dose-search-status role="status" hidden></p>' +
+      '<div class="med-dose-grid med-dose-selection" data-dose-selection hidden>' +
       field('medicine', '<select name="medicine"></select>', true) +
-      '</div><p class="med-dose-note" data-dose-search-status role="status" hidden></p>' +
+      '<div class="med-dose-wide" data-dose-presentation hidden>' +
+      field('presentation', '<select name="presentation"></select>') +
+      '<p class="med-dose-note" data-dose-picked-presentation hidden></p>' +
+      '<p class="med-dose-note" data-dose-registry-source hidden></p></div>' +
+      '<div class="med-dose-wide med-dose-custom" data-dose-custom hidden>' +
+      '<label class="med-dose-wide" data-dose-custom-name hidden>' + label('drugName') + '<input type="text" name="customName" maxlength="100"></label>' +
+      field('exactPresentation', '<input type="text" name="customPresentation" maxlength="120" data-dose-placeholder="exactPresentationHint">') +
+      '<button type="button" class="med-dose-calculate" data-dose-confirm>' + label('confirmPresentation') + '</button></div></div>' +
       '<div data-dose-patient hidden><div class="med-dose-grid">' +
       '<div class="med-dose-age">' + field('age', input('age', 'numeric')) +
       '<label class="med-dose-age-unit">' + label('ageUnit') + selects('ageUnit', [['years', true], ['months', true]]) + '</label></div>' +
@@ -183,11 +263,9 @@
       field('mode', selects('mode', [['auto', true], ['manual', true]]), true) +
       '</div><p class="med-dose-note" data-dose-manual-only hidden>' + label('manualOnly') + '</p>' +
       '<fieldset data-dose-auto hidden><div class="med-dose-grid">' +
-      field('presentation', '<select name="presentation"></select>') +
-      field('indication', '<select name="indication"></select>') +
+      field('indication', '<select name="indication"></select>', true) +
       '</div><div class="med-dose-note" data-dose-applicability></div></fieldset>' +
       '<fieldset data-dose-manual hidden><div class="med-dose-grid">' +
-      '<label class="med-dose-wide" data-dose-custom hidden>' + label('drugName') + '<input type="text" name="customName" maxlength="100"></label>' +
       '<p class="med-dose-note med-dose-wide">' + label('manualIntro') + '</p>' +
       field('basis', selects('basis', [['kgDose', true], ['kgDay', true], ['fixedDose', true], ['fixedDay', true]])) +
       field('unit', selects('unit', [['mg'], ['µg'], ['g'], ['UI']])) +
@@ -207,12 +285,26 @@
     const patient = form.querySelector('[data-dose-patient]');
     const autoFields = form.querySelector('[data-dose-auto]');
     const manualFields = form.querySelector('[data-dose-manual]');
-    const customName = form.querySelector('[data-dose-custom]');
+    const selection = form.querySelector('[data-dose-selection]');
+    const presentationField = form.querySelector('[data-dose-presentation]');
+    const customPresentation = form.querySelector('[data-dose-custom]');
+    const customName = form.querySelector('[data-dose-custom-name]');
+    const confirmPresentation = form.querySelector('[data-dose-confirm]');
+    const pickedPresentation = form.querySelector('[data-dose-picked-presentation]');
+    const registryNote = form.querySelector('[data-dose-registry-source]');
     const manualOnly = form.querySelector('[data-dose-manual-only]');
     const searchStatus = form.querySelector('[data-dose-search-status]');
     const hint = form.querySelector('[data-dose-applicability]');
     const output = form.querySelector('[data-dose-result]');
-    const medicines = catalog(entries);
+    const localCatalog = catalog(entries);
+    let fullCatalog;
+    let shown = [];
+    let activeQuery = '';
+    let statusKey = '';
+    let requestNumber = 0;
+    let registryDate;
+    let presentationOptions = new Map();
+    let customConfirmed = false;
     let messageIndex = 0;
     let locale = 'pt-BR';
 
@@ -229,30 +321,67 @@
     const ageLabel = months => months % 12 === 0 && months > 0
       ? t(months === 12 ? 'yearAge' : 'yearsAge', format(months / 12))
       : t(months === 1 ? 'monthAge' : 'monthsAge', format(months));
-    const current = () => medicines.find(item => item.key === controls.medicine.value);
+    const current = () => shown.find(item => item.key === controls.medicine.value);
     const chosenProduct = () => products[controls.presentation.value];
+    const chosenPresentation = () => presentationOptions.get(controls.presentation.value);
     const number = name => parseDecimal(controls[name].value);
+    const dateLabel = date => new Intl.DateTimeFormat(locale, { timeZone: 'UTC' }).format(new Date(date));
 
     function clearResult() {
       output.hidden = true;
       output.replaceChildren();
     }
 
-    function renderMedicines() {
+    function setSearchStatus(key) {
+      statusKey = key;
+      searchStatus.hidden = !key;
+      searchStatus.textContent = key ? t(key) : '';
+    }
+
+    function renderMedicines(selectDefault = false) {
       const keep = controls.medicine.value;
-      const words = normalize(controls.search.value).trim().split(/\s+/).filter(Boolean);
-      const matches = medicines.filter(item => {
-        const terms = normalize([item.name, ...item.brands].join(' '));
-        return words.every(word => terms.includes(word));
-      });
-      const groups = categories.filter(key => matches.some(item => item.group === key));
+      const groups = categories.filter(key => shown.some(item => item.group === key));
       controls.medicine.innerHTML = option('', t('selectDrug')) + groups.map(group =>
-        '<optgroup label="' + escape(t(group)) + '">' + matches.filter(item => item.group === group)
+        '<optgroup label="' + escape(t(group)) + '">' + shown.filter(item => item.group === group)
           .map(item => option(item.key, item.name)).join('') + '</optgroup>').join('') + option('custom', t('custom'));
-      controls.medicine.value = keep === 'custom' || matches.some(item => item.key === keep) ? keep : '';
-      searchStatus.hidden = matches.length > 0;
-      searchStatus.textContent = matches.length ? '' : t('unknown');
-      return controls.medicine.value !== keep;
+      if (selectDefault) {
+        const exact = shown.filter(item => item.keywords.has(activeQuery));
+        controls.medicine.value = shown.length === 1 ? shown[0].key : exact.length === 1 ? exact[0].key : '';
+      } else {
+        controls.medicine.value = keep === 'custom' || shown.some(item => item.key === keep) ? keep : '';
+      }
+    }
+
+    function clearSearch() {
+      requestNumber++;
+      activeQuery = '';
+      shown = [];
+      selection.hidden = true;
+      controls.medicine.value = '';
+      setSearchStatus('');
+      renderSelection(true);
+    }
+
+    async function search() {
+      const query = normalize(controls.search.value);
+      clearSearch();
+      if (!query) return setSearchStatus('searchRequired');
+      const request = requestNumber;
+      setSearchStatus('searchPending');
+      const registry = await loadRegistry();
+      if (request !== requestNumber) return;
+      if (registry && !fullCatalog) fullCatalog = catalog(entries, registry.items);
+      if (registry) registryDate = registry.date;
+      const words = query.split(' ');
+      const rank = item => item.keywords.has(query) ? 0 : item.key.startsWith(query) ? 1 : 2;
+      const matches = (fullCatalog || localCatalog).filter(item => words.every(word => item.terms.includes(word)))
+        .sort((a, b) => rank(a) - rank(b) || a.name.localeCompare(b.name, 'pt-BR'));
+      activeQuery = query;
+      shown = matches.slice(0, 60);
+      selection.hidden = false;
+      setSearchStatus(!registry ? 'searchOffline' : !shown.length ? 'unknown' : matches.length > shown.length ? 'refine' : '');
+      renderMedicines(true);
+      renderSelection(true);
     }
 
     function presentation(product) {
@@ -260,6 +389,10 @@
       if (product.unit === 'spray') strength += ' ' + t('perSpray');
       if (product.unit === 'inhalation') strength += ' ' + t('perInhalation');
       return product.brand + ' · ' + t(product.form) + ' ' + strength;
+    }
+
+    function showRegistryPresentation(item) {
+      return item.brand + ' · ' + (item.form ? t(item.form) + ' ' : '') + item.strength;
     }
 
     function fillChoices(control, options) {
@@ -283,6 +416,10 @@
       const product = chosenProduct();
       hint.replaceChildren();
       if (!product) return;
+      if (product.asNeeded) {
+        hint.innerHTML = escape(t(product.outside)) + ' ' + sourceLink(product);
+        return;
+      }
       const ranges = product.bands.filter(b => !b.only || b.only === controls.indication.value).map(b => {
         const age = Number.isFinite(b.before)
           ? t('ageRange', ageLabel(b.from), ageLabel(b.before))
@@ -303,20 +440,94 @@
       manualFields.disabled = manualFields.hidden = !isManual;
     }
 
-    function renderSelection(resetMode) {
-      const item = current();
-      const custom = controls.medicine.value === 'custom';
-      const available = item?.presentations || [];
-      patient.hidden = !item && !custom;
-      manualOnly.hidden = !item || !!available.length;
-      controls.mode.options[0].disabled = !available.length;
-      if (resetMode || !available.length) controls.mode.value = available.length ? 'auto' : 'manual';
-      controls.mode.closest('label').hidden = !available.length;
-      customName.hidden = !custom;
-      controls.customName.disabled = !custom;
-      fillChoices(controls.presentation, available.map(key => option(key, presentation(products[key]))));
+    function setConcentration() {
+      const selected = chosenPresentation();
+      const typed = customConfirmed ? controls.customPresentation.value.match(/^[\p{L}\s-]*(\d+(?:[,.]\d+)?)\s*mg\s*\/\s*mL\s*$/iu) : null;
+      const typedMgPerMl = typed ? parseDecimal(typed[1]) : undefined;
+      const mgPerMl = selected?.product?.concentration ?? selected?.concentration ?? (typedMgPerMl > 0 ? typedMgPerMl : undefined);
+      const scale = { mg: 1, 'µg': 1000, g: 0.001 }[controls.unit.value];
+      controls.concentration.readOnly = mgPerMl != null && scale != null;
+      controls.concentration.value = controls.concentration.readOnly ? format(mgPerMl * scale) : '';
+    }
+
+    function renderPresentation(resetMode) {
+      const selected = chosenPresentation();
+      const product = selected?.product;
+      const entered = controls.presentation.value === 'custom';
+      const customDrug = controls.medicine.value === 'custom';
+      customPresentation.hidden = !entered;
+      customName.hidden = !customDrug;
+      controls.customName.disabled = !customDrug;
+      const ready = !!selected || (entered && customConfirmed);
+      patient.hidden = !ready;
+      manualOnly.hidden = !ready || !!product;
+      controls.mode.options[0].disabled = !product;
+      if (resetMode || !product) controls.mode.value = product ? 'auto' : 'manual';
+      controls.mode.closest('label').hidden = !product;
+      const completeLabel = product ? presentation(product) : selected?.raw ? showRegistryPresentation(selected) : '';
+      pickedPresentation.hidden = completeLabel.length < 38;
+      pickedPresentation.textContent = pickedPresentation.hidden ? '' : completeLabel;
+      registryNote.hidden = !selected?.raw || !registryDate;
+      registryNote.innerHTML = registryNote.hidden ? '' :
+        '<a href="' + CMED + '" target="_blank" rel="noopener noreferrer">' + escape(t('cmedSource', dateLabel(registryDate))) + '</a>';
       renderIndications();
       renderMode();
+      if (resetMode) setConcentration();
+    }
+
+    function clearRegimen() {
+      manualFields.querySelectorAll('input').forEach(el => { el.value = ''; });
+    }
+
+    function renderSelection(reset) {
+      const item = current();
+      const custom = controls.medicine.value === 'custom';
+      const keep = reset ? '' : controls.presentation.value;
+      if (reset) {
+        customConfirmed = false;
+        controls.customName.value = custom ? controls.search.value.trim() : '';
+        controls.customPresentation.value = '';
+        controls.customName.setCustomValidity('');
+        controls.customPresentation.setCustomValidity('');
+        controls.age.value = controls.weight.value = '';
+        clearRegimen();
+      }
+      presentationField.hidden = !item && !custom;
+      presentationOptions = new Map();
+      if (item) {
+        const genericTerms = [item.key, ...[...item.aliases].map(normalize)];
+        const brandTerms = activeQuery.split(' ').filter(word => !genericTerms.some(name => name.includes(word)));
+        const matchingBrand = brand => brandTerms.every(word => normalize(brand).includes(word));
+        const verified = item.presentations.filter(id => matchingBrand(products[id].brand));
+        for (const id of verified) presentationOptions.set(id, { product: products[id] });
+        const seen = new Set();
+        item.registered.forEach(({ brand, raw }, index) => {
+          if (!matchingBrand(brand)) return;
+          const identity = brand + '\u0000' + raw;
+          if (seen.has(identity)) return;
+          seen.add(identity);
+          const registered = { brand, raw, ...registryPresentation(raw) };
+          const duplicate = verified.some(id => {
+            const product = products[id];
+            return normalize(brand) === normalize(product.brand) && registered.form === product.form &&
+              normalize(registered.strength) === normalize(product.strength);
+          });
+          if (!duplicate) presentationOptions.set('cmed-' + index, registered);
+        });
+        const curatedOptions = verified.map(id => option(id, presentation(products[id])));
+        const listedOptions = [...presentationOptions].filter(([, item]) => item.raw)
+          .map(([id, value]) => option(id, showRegistryPresentation(value)));
+        controls.presentation.innerHTML = option('', t('select')) +
+          (curatedOptions.length ? '<optgroup label="' + escape(t('auto')) + '">' + curatedOptions.join('') + '</optgroup>' : '') +
+          (listedOptions.length ? '<optgroup label="' + escape(t('cmedList')) + '">' + listedOptions.join('') + '</optgroup>' : '') +
+          option('custom', t('otherPresentation'));
+      } else {
+        controls.presentation.innerHTML = option('custom', t('otherPresentation'));
+      }
+      controls.presentation.value = keep && (keep === 'custom' || presentationOptions.has(keep)) ? keep :
+        (!presentationOptions.size && (item || custom)) ? 'custom' :
+          presentationOptions.size === 1 ? presentationOptions.keys().next().value : '';
+      renderPresentation(reset);
     }
 
     function updateUnits() {
@@ -358,19 +569,23 @@
         minAge: number('minAge'), maxAge: number('maxAge')
       });
       if (result.error) return showError(result.error, product);
-      const { amount, times, ml, tablets, drops, daily, maxDaily, maxDose, perKg, site, capped } = result;
+      const { amount, minAmount, times, ml, minMl, tablets, minTablets, drops, minDrops, daily, maxDaily, maxDose, perKg, site, capped, asNeeded } = result;
       const unit = fromLabel ? result.unit : controls.unit.value;
-      const amountLabel = measure(amount, unit, capped) + (site ? ' ' + t(site) : '');
-      const administered = drops != null ? measure(drops, 'drop')
-        : tablets != null ? measure(tablets, 'tabletCount') : ml != null ? measure(ml, 'mL', capped) : '';
-      const schedule = product?.note === 'patanolTiming' ? t('patanolTiming')
+      const range = (min, max, unitName) => min != null
+        ? t('doseRange', format(min), measure(max, unitName))
+        : measure(max, unitName, capped);
+      const amountLabel = range(minAmount, amount, unit) + (site ? ' ' + t(site) : '');
+      const administered = drops != null ? range(minDrops, drops, 'drop')
+        : tablets != null ? range(minTablets, tablets, 'tabletCount') : ml != null ? range(minMl, ml, 'mL') : '';
+      const schedule = asNeeded ? t('asNeededFrequency', format(times))
+        : product?.note === 'patanolTiming' ? t('patanolTiming')
         : times === 1 ? t('dailyFrequency')
         : fromLabel ? t('oralInterval', format(24 / times)) : t('multipleFrequency', format(times));
       const limitSite = site === 'nostril' ? ' ' + t('twoNostrils') : site === 'eye' ? ' ' + t('bothEyes') : '';
       const dailyMetric = daily == null ? '' : metric(t('total'), measure(daily, unit, capped) + limitSite);
       const dailyMaxMetric = maxDaily == null ? '' : metric(t('maxDaily', plural[unit] ? t(plural[unit]) : displayUnit(unit)), measure(maxDaily, unit) + limitSite);
       const doseMaxMetric = maxDose == null ? '' : metric(t('maxDose', displayUnit(unit)), measure(maxDose, unit));
-      const reference = product ? sourceLink(product) + '<span> · ' + escape(t('reviewed', new Intl.DateTimeFormat(locale, { timeZone: 'UTC' }).format(new Date(reviewedOn)))) + '</span>' : '';
+      const reference = product ? sourceLink(product) + '<span> · ' + escape(t('reviewed', dateLabel(reviewedOn))) + '</span>' : '';
       const notes = [
         perKg != null && t('perKg', format(perKg)),
         product?.note && product.note !== 'patanolTiming' && t(product.note),
@@ -379,7 +594,11 @@
         capped && t('capped')
       ].filter(Boolean);
       output.classList.remove('is-error');
-      output.innerHTML = '<p class="med-dose-context">' + escape(product ? presentation(product) + ' · ' + t(use) : name) + '</p>' +
+      const selected = chosenPresentation();
+      const context = product ? presentation(product) + ' · ' + t(use) :
+        name + ' · ' + (selected?.product ? presentation(selected.product) :
+          selected?.raw ? showRegistryPresentation(selected) : controls.customPresentation.value.trim());
+      output.innerHTML = '<p class="med-dose-context">' + escape(context) + '</p>' +
         '<p class="med-dose-result-title">' + escape(t('result')) + '</p>' +
         '<p class="med-dose-amount">' + escape(administered || amountLabel) + '</p>' +
         (administered ? '<p class="med-dose-amount-alt">' + escape(amountLabel) + '</p>' : '') +
@@ -395,6 +614,7 @@
       form.querySelectorAll('[data-dose-copy]').forEach(el => { el.textContent = t(el.dataset.doseCopy); });
       form.querySelectorAll('[data-dose-placeholder]').forEach(el => { el.placeholder = t(el.dataset.dosePlaceholder); });
       controls.unit.options[3].textContent = displayUnit('UI');
+      setSearchStatus(statusKey);
       renderMedicines();
       renderSelection(false);
       updateUnits();
@@ -403,24 +623,32 @@
 
     form.addEventListener('input', event => {
       clearResult();
-      if (event.target === controls.search && renderMedicines()) renderSelection(true);
-      if (event.target === controls.customName) controls.customName.setCustomValidity('');
+      if (event.target === controls.search) clearSearch();
+      if (event.target === controls.customName || event.target === controls.customPresentation) {
+        event.target.setCustomValidity('');
+        if (customConfirmed) {
+          customConfirmed = false;
+          clearRegimen();
+          renderPresentation(true);
+        }
+      }
     });
     form.addEventListener('change', event => {
       clearResult();
-      if (event.target === controls.medicine) {
-        manualFields.querySelectorAll('input').forEach(el => { el.value = ''; });
-        controls.customName.setCustomValidity('');
-        renderSelection(true);
-      }
+      if (event.target === controls.medicine) renderSelection(true);
       if (event.target === controls.mode) renderMode();
       if (event.target === controls.ageUnit) controls.age.value = '';
-      if (event.target === controls.presentation) renderIndications();
+      if (event.target === controls.presentation) {
+        customConfirmed = false;
+        clearRegimen();
+        renderPresentation(true);
+      }
       if (event.target === controls.indication) renderApplicability();
       if (event.target === controls.unit || event.target === controls.basis) {
         controls.quantity.value = '';
         if (event.target === controls.unit) {
-          for (const key of ['concentration', 'maxDose', 'maxDaily']) controls[key].value = '';
+          for (const key of ['maxDose', 'maxDaily']) controls[key].value = '';
+          setConcentration();
         }
         updateUnits();
       }
@@ -428,6 +656,25 @@
     form.addEventListener('submit', event => {
       event.preventDefault();
       calculate();
+    });
+    form.querySelector('[data-dose-search]').addEventListener('click', search);
+    controls.search.addEventListener('keydown', event => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        search();
+      }
+    });
+    confirmPresentation.addEventListener('click', () => {
+      if (controls.medicine.value === 'custom' && !controls.customName.value.trim()) {
+        controls.customName.setCustomValidity(t('drugName'));
+        return controls.customName.reportValidity();
+      }
+      if (!controls.customPresentation.value.trim()) {
+        controls.customPresentation.setCustomValidity(t('exactPresentation'));
+        return controls.customPresentation.reportValidity();
+      }
+      customConfirmed = true;
+      renderPresentation(true);
     });
     document.addEventListener('hub:languagechange', localize);
     localize();

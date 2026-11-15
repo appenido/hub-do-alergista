@@ -18,9 +18,49 @@ test('Cada apresentação tem fonte e regras de idade, frequência e indicação
         const overlapAge = row.from < next.before && next.from < row.before;
         const overlapUse = !row.only || !next.only || row.only === next.only;
         const sameBoundary = row.belowKg != null && row.belowKg === next.aboveKg;
-        assert.ok(!overlapAge || !overlapUse || sameBoundary, id);
+        const separateWeights = row.maxKg != null && next.minKg != null && row.maxKg < next.minKg;
+        assert.ok(!overlapAge || !overlapUse || sameBoundary || separateWeights, id);
       }
     }
+  }
+});
+
+test('Dipirona usa a faixa da apresentação escolhida, incluindo unidades e teto diário', () => {
+  const oral = dose('novalgina-solucao', 'painFever', 180, 25);
+  const drops = dose('novalgina-gotas', 'painFever', 180, 25);
+  assert.equal(oral.minMl, 5);
+  assert.equal(oral.ml, 10);
+  assert.equal(oral.minAmount, 250);
+  assert.equal(drops.minDrops, 8);
+  assert.equal(drops.drops, 20);
+  assert.equal(drops.minAmount, 200);
+  for (const result of [oral, drops]) {
+    assert.equal(result.amount, 500);
+    assert.equal(result.times, 4);
+    assert.equal(result.asNeeded, true);
+    assert.equal(result.daily, undefined);
+    assert.equal(result.maxDaily, 2000);
+  }
+});
+
+test('Dipirona respeita elegibilidade, peso entre faixas e a fração de comprimido', () => {
+  assert.equal(dose('novalgina-gotas', 'painFever', 2, 6).error, 'noBand');
+  assert.equal(dose('novalgina-gotas', 'painFever', 3, 4.99).error, 'dipyroneLiquid');
+  assert.equal(dose('novalgina-gotas', 'painFever', 36, 15.5).error, 'dipyroneLiquid');
+  assert.equal(dose('novalgina-gotas', 'painFever', 220, 25).error, 'dipyroneLiquid');
+  assert.equal(dose('novalgina-500', 'painFever', 180, 55).error, 'noBand');
+  const adult = dose('novalgina-1g', 'painFever', 192, 55);
+  assert.equal(adult.minTablets, 0.5);
+  assert.equal(adult.tablets, 1);
+  assert.equal(adult.maxDaily, 4000);
+});
+
+test('A lista da CMED conserva apresentações distintas do mesmo produto', () => {
+  const { date, items } = JSON.parse(readFileSync(new URL('../data/medicamentos-apresentacoes.json', import.meta.url), 'utf8'));
+  assert.match(date, /^\d{4}-\d{2}-\d{2}$/);
+  const [, , forms] = items.find(([active, name]) => active === 'DIPIRONA MONOIDRATADA' && name === 'NOVALGINA');
+  for (const strength of ['50 MG/ML SOL OR', '500 MG/ML SOL OR GOTAS', '500 MG/ML SOL INJ', '500 MG COM', '1 G COM']) {
+    assert.ok(forms.includes(strength), strength);
   }
 });
 

@@ -23,7 +23,10 @@
     patanolS: 'https://www.pro.novartis.com/br-pt/sites/pro_novartis_com_br/files/2026-01/Bula-PATANOL-S-Solucao-Oftalmica-Esteril-Medico.pdf',
     seretide: 'https://br.gsk.com/media/e1apjdob/seretide-diskus-l1711-master.pdf',
     nexium: 'https://www.azmed.com.br/content/dam/multibrand/br/pt/azmed-2022/home/bulas-profissionais/bulas/Nexium_Bula_Profissional.pdf',
-    singulair: 'https://www.organon.com/brazil/wp-content/uploads/sites/33/2023/06/singulair_bula_profissional.pdf'
+    singulair: 'https://www.organon.com/brazil/wp-content/uploads/sites/33/2023/06/singulair_bula_profissional.pdf',
+    novalginaSolucao: 'https://www.novalgina.com.br/dam/jcr%3Ae7d8abe2-f90e-4ea9-b498-2c5c8d874580/bula_sol_oral.pdf',
+    novalginaGotas: 'https://www.novalgina.com.br/dam/jcr%3A500f2f54-73af-4785-a006-5ee50b70c92a/Bula%20Novalgina%20Gotas.pdf',
+    novalginaComprimidos: 'https://www.novalgina.com.br/dam/jcr%3Ae555a18f-8827-4522-a99e-6a36d1c2e4dc/Bula%20Novalgina%20Comprimido%201g_500mg.pdf'
   };
 
   const rhinitis = ['rhinitis'];
@@ -40,7 +43,36 @@
     return { from, before, dose, times, ...criteria };
   }
 
+  const novalgina = {
+    group: 'outros', drug: 'Dipirona', brand: 'Novalgina',
+    aliases: ['Dipirona monoidratada', 'Dipirona sódica', 'Metamizol', 'Dipyrone'], uses: ['painFever'],
+    sourceSection: 'labelDosing', asNeeded: true
+  };
+  // A tabela da bula usa o peso e apresenta a idade média de cada grupo.
+  const novalginaWeightRanges = [
+    { minKg: 5, maxKg: 8, solution: [62.5, 125], drops: [50, 125] },
+    { minKg: 9, maxKg: 15, solution: [125, 250], drops: [75, 250] },
+    { minKg: 16, maxKg: 23, solution: [187.5, 375], drops: [125, 375] },
+    { minKg: 24, maxKg: 30, solution: [250, 500], drops: [200, 500] },
+    { minKg: 31, maxKg: 45, solution: [375, 750], drops: [250, 750] },
+    { minKg: 46, maxKg: 53, solution: [437.5, 875], drops: [375, 875] }
+  ];
+  const adultNovalgina = band(181, Infinity, 1000, 4, { minDose: 500, aboveKg: 53, maxDaily: 4000 });
+  function novalginaLiquidBands(form) {
+    return novalginaWeightRanges.map(({ minKg, maxKg, [form]: [minDose, dose] }) =>
+      band(3, 181, dose, 4, { minKg, maxKg, minDose, maxDaily: dose * 4 })
+    ).concat(adultNovalgina);
+  }
+
   const products = {
+    'novalgina-solucao': { ...novalgina, form: 'oralSolution', strength: '50 mg/mL', concentration: 50,
+      source: 'novalginaSolucao', note: 'dipyroneLiquid', outside: 'dipyroneLiquid', bands: novalginaLiquidBands('solution') },
+    'novalgina-gotas': { ...novalgina, form: 'oralDrops', strength: '500 mg/mL', concentration: 500, dropsPerMl: 20,
+      source: 'novalginaGotas', note: 'dipyroneLiquid', outside: 'dipyroneLiquid', bands: novalginaLiquidBands('drops') },
+    'novalgina-500': { ...novalgina, form: 'tablet', strength: '500 mg', unitSize: 500,
+      source: 'novalginaComprimidos', outside: 'dipyroneAdult', bands: [adultNovalgina] },
+    'novalgina-1g': { ...novalgina, form: 'tablet', strength: '1 g', unitSize: 1000,
+      source: 'novalginaComprimidos', outside: 'dipyroneAdult', bands: [adultNovalgina] },
     'desalex-xarope': { group: 'anti', drug: 'Desloratadina', brand: 'Desalex', form: 'syrup', strength: '0,5 mg/mL', concentration: 0.5, source: 'desalex', uses: rhinitisUrticaria,
       bands: [band(6, 12, 1), band(12, 72, 1.25), band(72, 144, 2.5), band(144, Infinity, 5)] },
     'desalex-comprimido': { group: 'anti', drug: 'Desloratadina', brand: 'Desalex', form: 'tablet', strength: '5 mg', unitSize: 5, source: 'desalex', uses: rhinitisUrticaria,
@@ -101,15 +133,20 @@
       (b.aboveKg == null || kg > b.aboveKg) && (b.belowKg == null || kg < b.belowKg));
     if (!row) return { error: eligible.length && product.outside ? product.outside : 'noBand' };
     const amount = row.dose * (row.perKg ? kg : 1);
+    const minAmount = row.minDose;
     if (!Number.isFinite(amount) || amount <= 0) return { error: 'quantityInvalid' };
     const ml = product.concentration && amount / product.concentration;
+    const minMl = minAmount && product.concentration && minAmount / product.concentration;
     if (ml != null && (!Number.isFinite(ml) || ml <= 0)) return { error: 'quantityInvalid' };
     return {
-      amount, ml, unit: product.unit || 'mg', times: row.times, site: product.site,
-      daily: product.site === 'eye' ? undefined : amount * row.times * (product.dailySites || 1),
+      amount, minAmount, ml, minMl, unit: product.unit || 'mg', times: row.times, site: product.site,
+      asNeeded: product.asNeeded,
+      daily: product.asNeeded || product.site === 'eye' ? undefined : amount * row.times * (product.dailySites || 1),
       maxDaily: row.maxDaily, perKg: row.perKg ? row.dose : undefined,
       tablets: product.unitSize ? amount / product.unitSize : undefined,
-      drops: product.dropsPerMl ? Math.round(ml * product.dropsPerMl) : undefined
+      minTablets: minAmount && product.unitSize && minAmount / product.unitSize,
+      drops: product.dropsPerMl ? Math.round(ml * product.dropsPerMl) : undefined,
+      minDrops: minMl && product.dropsPerMl && Math.round(minMl * product.dropsPerMl)
     };
   }
 
