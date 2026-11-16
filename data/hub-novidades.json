@@ -1,7 +1,16 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-13",
+  "updatedAt": "2026-11-16",
   "items": [
+    {
+      "id": "2026-11-16-imunizacoes-00c67c704175",
+      "date": "2026-11-16",
+      "category": "Imunizações",
+      "icon": "💉",
+      "title": "Calendário de vacinação contra COVID-19 do PNI às Imunizações",
+      "description": "Novo conteúdo disponibilizado na seção Imunizações.",
+      "section": "imunizacoes"
+    },
     {
       "id": "2026-11-13-vpc20-risco",
       "date": "2026-11-13",
@@ -75,6 +84,6 @@
       "section": "antihistaminicos"
     }
   ],
-  "checkedAt": "2026-11-15",
-  "lastScannedCommit": "61a4e9182f9f47a2dd236ed854765e312e3b86bf"
+  "checkedAt": "2026-11-16",
+  "lastScannedCommit": "ef187b553878257204072042d84c34e0287a0678"
 }
