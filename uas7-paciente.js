@@ -71,5 +71,59 @@
       message("Diário indisponível", error.message);
     }
   }
+  el("formDiario").addEventListener("submit", async event => {
+    event.preventDefault();
+    const warning = el("avisoFormulario");
+    warning.textContent = "";
+    const papulas = document.querySelector('input[name="papulas"]:checked');
+    const prurido = document.querySelector('input[name="prurido"]:checked');
+    if (!papulas || !prurido) {
+      warning.textContent = "Selecione uma opção para pápulas e uma para coceira.";
+      return;
+    }
+    const data = {papulas: Number(papulas.value), prurido: Number(prurido.value)};
+    if (!latest || !latest.cadastrado) {
+      const nome = el("pacienteNome").value.trim();
+      const cidade = el("pacienteCidade").value.trim();
+      const rawAge = el("pacienteIdade").value;
+      const idade = Number(rawAge);
+      if (nome.length < 3 || cidade.length < 2 || rawAge === "" ||
+          !Number.isInteger(idade) || idade < 0 || idade > 120) {
+        warning.textContent = "Informe seu nome, idade e cidade de origem.";
+        return;
+      }
+      if (!el("consentimento").checked) {
+        warning.textContent = "Confirme a autorização antes de enviar.";
+        return;
+      }
+      Object.assign(data, {nome, cidade, idade, consentimento: true});
+    }
+    const submit = el("enviar");
+    submit.disabled = true;
+    submit.textContent = "Salvando resposta…";
+    try {
+      const saved = await api("submit", data);
+      el("formDiario").reset();
+      show(Object.assign({}, saved, {cadastrado: true}));
+      window.scrollTo({top: 0, behavior: "smooth"});
+    } catch (error) {
+      warning.textContent = error.message || "Não foi possível salvar.";
+    } finally {
+      submit.disabled = false;
+      submit.textContent = "Salvar resposta de hoje";
+    }
+  });
+  el("excluir").addEventListener("click", async () => {
+    if (!confirm("Deseja excluir este acompanhamento e todas as respostas definitivamente?")) return;
+    try {
+      await api("delete", {tipo: "paciente"});
+      el("formDiario").hidden = true;
+      el("painelProgresso").hidden = true;
+      el("excluir").hidden = true;
+      message("Dados excluídos", "O acompanhamento foi apagado do servidor.");
+    } catch (error) {
+      message("Falha na exclusão", error.message);
+    }
+  });
   load();
 })();
