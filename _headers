@@ -84,3 +84,12 @@
 
 /uptodate-ui.js
   Cache-Control: no-cache, max-age=0, must-revalidate
+
+/data/hub-i18n-en.json
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/data/hub-i18n-es.json
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/hub-i18n.js
+  Cache-Control: no-cache, max-age=0, must-revalidate

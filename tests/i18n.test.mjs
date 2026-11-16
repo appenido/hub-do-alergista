@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {dirname,resolve} from 'node:path';
+import {onRequestPost} from '../functions/api/traduzir.js';
 
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const read=(p)=>readFileSync(resolve(ROOT,p),'utf8');
@@ -28,7 +29,8 @@ test('todas as 24 telas internas são observáveis após a navegação',()=>{
   assert.ok(ids.includes('page-medicamentos'));
   assert.ok(ids.includes('page-imunizacoes'));
   assert.ok(ids.includes('page-laboratorio'));
-  assert.match(script,/attributeFilter:\['placeholder','aria-label','title','class'\]/);
+  assert.match(script,/attributeFilter:\[\.\.\.translatedAttributes,'class'\]/);
+  assert.match(script,/target\.classList\.contains\('active'\)/);
   assert.match(script,/\.page:not\(\.active\)/);
   assert.match(script,/translateSubtree/);
 });
@@ -56,11 +58,46 @@ test('tradução clínica rejeita alterações de números ou doses',async()=>{
   assert.equal(module.safeTranslation('Redução 12,5%','Reduction 12.5%'),false);
 });
 
-test('preserva privacidade e só solicita traduções de conteúdo catalogado',()=>{
-  const endpoint=read('functions/api/traduzir.js');
-  assert.match(endpoint,/allowed\.has\(s\)/);
-  assert.match(endpoint,/hasIdentifier/);
-  assert.match(script,/catalog\.has\(source\)/);
+test('tradução no navegador carrega somente os catálogos estáticos, sem enviar conteúdo de campos',()=>{
+  assert.match(script,/fetch\('\/data\/hub-i18n-'\+next/);
+  assert.doesNotMatch(script,/api\/traduzir|method:\s*['"]POST/);
   assert.match(script,/\[data-hub-i18n-skip\]/);
   assert.match(script,/contenteditable/);
+});
+
+test('as duas versões traduzem conteúdo interno e conservam quantidades clínicas literais',()=>{
+  const keys=[
+    'Selecione uma classe. Cada ficha expande no próprio cartão, com nomes genéricos, marcas, apresentações, indicações e cuidados.',
+    'Primeira linha na anafilaxia. Aplicar IM na face anterolateral da coxa, concentração 1 mg/mL; repetir em 5–15 minutos se resposta inadequada.',
+    'Consulta por idade e condições clínicas, sem identificação ou cadastro do paciente.',
+    'Para que serve: Estratifica o risco de alergia à penicilina em adultos.',
+    'Formulário clínico desativado'
+  ];
+  for(const language of ['en','es']){
+    const translations=JSON.parse(read('data/hub-i18n-'+language+'.json'));
+    for(const key of keys){
+      assert.ok(translations[key]&&translations[key]!==key,language+': '+key);
+      const quantities=text=>text.match(/\d+(?:[.,]\d+)*/g)||[];
+      assert.deepEqual(quantities(translations[key]),quantities(key));
+    }
+    assert.ok(read('sw.js').includes('hub-i18n-'+language+'.json'));
+  }
+});
+
+test('a rota legada consulta só os arquivos publicados e rejeita identificadores',async()=>{
+  const makeRequest=texts=>new Request('https://hubdoalergista.pages.dev/api/traduzir',{
+    method:'POST',body:JSON.stringify({language:'en',texts})
+  });
+  const env={ASSETS:{fetch(request){
+    assert.equal(new URL(request.url).pathname,'/data/hub-i18n-en.json');
+    return new Response(read('data/hub-i18n-en.json'));
+  }}};
+  const source='Formulário clínico desativado';
+  const response=await onRequestPost({request:makeRequest([source,'frase de teste ausente do catálogo publico']),env});
+  const {translations}=await response.json();
+  assert.notEqual(translations[0],source);
+  assert.ok(translations[0]);
+  assert.equal(translations[1],null);
+  const blocked=await onRequestPost({request:makeRequest(['teste@example.test']),env:{}});
+  assert.equal(blocked.status,400);
 });

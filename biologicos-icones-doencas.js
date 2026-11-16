@@ -60,12 +60,12 @@
   function update(){
     document.querySelectorAll('.bio-section').forEach(function(section){
       var label=section.querySelector(':scope > .bio-label');
-      if(!label||label.textContent.trim().toLowerCase()!=='posologia e dose por doença')return;
+      if(!label||(window.HubI18n?.sourceText(label)||label.textContent).trim().toLowerCase()!=='posologia e dose por doença')return;
       var content=section.querySelector(':scope > .bio-value');
       if(!content)return;
       content.querySelectorAll('div[style*="font-weight:800"][style*="font-size:12.5px"]').forEach(function(heading){
         if(heading.classList.contains('bio-doenca-titulo'))return;
-        var name=heading.textContent.trim();
+        var name=(window.HubI18n?.sourceText(heading)||heading.textContent).trim();
         if(!name)return;
         var icon=document.createElement('span');
         icon.className='bio-doenca-icone';

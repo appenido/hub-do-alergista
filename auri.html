@@ -169,7 +169,11 @@ var TEMAS = [
 ];
 
 var EMERGENCIA = ["anafilax","choque","desmai","garganta fech","lingua inchada","língua inchada","nao consigo respirar","não consigo respirar","falta de ar grave","engasg"];
-var SAUDACOES = ["oi","ola","olá","bom dia","boa tarde","boa noite","e ai","eai","hey"];
+var SAUDACOES = ["oi","ola","olá","bom dia","boa tarde","boa noite","e ai","eai","hey","hello","hi","hola","buenos dias","buenas tardes","buenas noches"];
+var SINAIS_LOCALIZADOS = {
+  en:["anaphylax","fainting","throat closing","swollen tongue","cannot breathe","can't breathe","trouble breathing","choking"],
+  es:["anafilax","desmayo","garganta se cierra","lengua hinchada","no puedo respirar","dificultad para respirar","atragantamiento"]
+};
 
 var TXT_EMERGENCIA = "⚠️ Os sinais que você descreveu podem indicar uma reação alérgica grave (anafilaxia).\n\nProcure atendimento de emergência agora — SAMU 192 ou o pronto-socorro mais próximo. Se você tem adrenalina autoinjetável prescrita, use conforme orientado e vá ao hospital mesmo que melhore.\n\nNão espere os sintomas passarem sozinhos.";
 var TXT_PADRAO = "Posso explicar sobre rinite, asma, urticária, dermatite atópica, alergia alimentar, alergia a medicamentos, imunobiológicos, vacinas, testes alérgicos e agendamento.\n\nEscolha um tema abaixo ou descreva com suas palavras o que está sentindo — respondo de forma educativa, sem substituir a consulta.";
@@ -181,11 +185,14 @@ function normalizar(s){
 /* Escolhe a resposta por correspondência de palavras-chave. */
 function responder(entrada){
   var t = normalizar(entrada);
-  for(var i=0;i<EMERGENCIA.length;i++){ if(t.indexOf(normalizar(EMERGENCIA[i]))>=0) return TXT_EMERGENCIA; }
+  var lingua=window.HubI18n?.getLanguage();
+  var sinais=EMERGENCIA.concat(SINAIS_LOCALIZADOS[lingua]||[]);
+  if(sinais.some(function(s){return t.includes(normalizar(s));}))return TXT_EMERGENCIA;
   var melhor=null, pontos=0;
   TEMAS.forEach(function(tema){
     var p=0;
-    tema.chaves.forEach(function(k){ if(t.indexOf(normalizar(k))>=0) p++; });
+    var rotulo=window.HubI18n?.translate(tema.rotulo)||tema.rotulo;
+    tema.chaves.concat(rotulo).forEach(function(k){ if(t.indexOf(normalizar(k))>=0) p++; });
     if(p>pontos){ pontos=p; melhor=tema; }
   });
   if(melhor) return melhor.txt;
@@ -505,7 +512,7 @@ function Janela(props){
     ),
     h("div",{className:"fluxo",ref:fluxoRef},
       props.msgs.map(function(m,i){
-        return h("div",{key:i,className:"msg "+(m.de==="bot"?"bot":"eu")},m.txt);
+        return h("div",{key:i,className:"msg "+(m.de==="bot"?"bot":"eu"),"data-hub-i18n-skip":m.de==="eu"?"":undefined},m.txt);
       }),
       props.digitando ? h("div",{className:"digita","aria-label":"AURI está digitando"},
         h("span",{className:"ponto"}),h("span",{className:"ponto"}),h("span",{className:"ponto"})) : null
@@ -654,6 +661,6 @@ if(typeof React==="undefined" || typeof ReactDOM==="undefined"){
 }
 })();
 </script>
-<script src="/hub-i18n.js?v=20261114-5" defer></script>
+<script src="/hub-i18n.js?v=20261115-traducao" defer></script>
 </body>
 </html>

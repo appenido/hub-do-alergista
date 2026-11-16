@@ -30,7 +30,7 @@ test('tema exige palavras clínicas completas e admite mais de um tema',()=>{
   assert.deepEqual(topicsFor('Omalizumab for food allergy: consensus guidance'),['aa']);
   assert.deepEqual(topicsFor('Skin tests for drug hypersensitivity'),['medicam']);
 });
-test('sinônimos de guideline e revisões são aceitos sem alterar o tipo real',()=>{
+test('classificação preserva o tipo real e a busca do feed exige diretriz',()=>{
   assert.equal(documentKind('Algorithm for venom immunotherapy'),'Algoritmo clínico');
   assert.equal(documentKind('EUFOREA consensus paper'),'Consenso');
   assert.equal(documentKind('Drug allergy: A practice parameter update'),'Parâmetro de prática');
@@ -39,7 +39,8 @@ test('sinônimos de guideline e revisões são aceitos sem alterar o tipo real',
   assert.equal(documentKind('Quality of allergy guidelines: A Systematic Review',['Review']),'Revisão sistemática / metanálise');
   assert.equal(documentKind('Drug hypersensitivity: A WAO Statement',['Review']),'Posicionamento');
   const query=searchQuery('all');
-  for(const term of ['consensus[ti]','recommendation*[ti]','algorithm*[ti]','review[pt]','"J Allergy Clin Immunol"[jour]'])assert.ok(query.includes(term),term);
+  for(const term of ['guideline[pt]','"practice guideline"[pt]','"practice parameter"[ti]','"J Allergy Clin Immunol"[jour]'])assert.ok(query.includes(term),term);
+  for(const term of ['consensus[ti]','recommendation*[ti]','algorithm*[ti]','review[pt]'])assert.ok(!query.includes(term),term);
 });
 test('fonte fora das revistas e publicações retratadas são descartadas',()=>{
   assert.equal(normalizeRecord({...summary,source:'Veterinary Journal'},summary.uid,'2026-11-04'),null);

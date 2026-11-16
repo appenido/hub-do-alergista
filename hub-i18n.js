@@ -1,6 +1,4 @@
-/* Hub do Alergista — seletor de idioma e localizacao da interface (PT/EN/ES).
-   Termos medicos, doses, nomes comerciais e conteudo cientifico sem traducao
-   revisada permanecem inalterados, para nao alterar orientacoes clinicas. */
+/* Idiomas do Hub. Os catálogos acompanham os arquivos públicos do app. */
 (function(){
   'use strict';
   var KEY='hub_locale';
@@ -170,275 +168,415 @@
     ['Indefinido','Undefined','Indefinido'],
     ['Ver protocolo','View protocol','Ver protocolo'],
     ['Ver medicamentos','View medications','Ver medicamentos'],
-    ['Quais medicamentos?','Which medications?','¿Qué medicamentos?']
+    ['Quais medicamentos?','Which medications?','¿Qué medicamentos?'],
+    ['Medicamentos','Medications','Medicamentos'],
+    ['Catálogo de medicamentos','Medication catalog','Catálogo de medicamentos'],
+    ['CATÁLOGO FARMACOLÓGICO','MEDICATION CATALOG','CATÁLOGO FARMACOLÓGICO'],
+    ['Conduta','Clinical management','Conducta clínica'],
+    ['Dose / esquema','Dose / regimen','Dosis / pauta'],
+    ['Calendários vacinais','Vaccination schedules','Calendarios de vacunación'],
+    ['Vacinas disponíveis no Brasil','Vaccines available in Brazil','Vacunas disponibles en Brasil'],
+    ['Vacinas por população','Vaccines by population','Vacunas por población'],
+    ['Recolher recuperação de doses','Collapse catch-up vaccination','Contraer vacunación de rescate'],
+    ['Posologia e dose por doença','Dosing by condition','Posología por enfermedad'],
+    ['Asma grave não controlada','Uncontrolled severe asthma','Asma grave no controlada'],
+    ['Adrenalina IM','IM epinephrine','Adrenalina IM'],
+    ['Termos de uso','Terms of use','Términos de uso'],
+    ['Política de privacidade','Privacy policy','Política de privacidad'],
+    ['Colírios','Eye drops','Colirios'],
+    ['Terapia inalatória','Inhaled therapy','Terapia inhalada'],
+    ['Corticoides tópicos','Topical corticosteroids','Corticoides tópicos'],
+    ['Corticoides nasais','Intranasal corticosteroids','Corticoides nasales'],
+    ['Inibidores da bomba de prótons','Proton pump inhibitors','Inhibidores de la bomba de protones'],
+    ['Hidratantes','Moisturizers','Hidratantes'],
+    ['Fórmulas infantis','Infant formulas','Fórmulas infantiles'],
+    ['Pesquisar nesta categoria','Search this category','Buscar en esta categoría'],
+    ['Genérico, marca, classe...','Generic name, brand, class...','Principio activo, marca, clase...'],
+    ['Gratuito','Free','Gratuito'],
+    ['Tipo','Type','Tipo'],
+    ['Atenuada','Live attenuated','Atenuada'],
+    ['Inativada','Inactivated','Inactivada'],
+    ['ou','or','o'],
+    ['via','route','vía'],
+    ['Informações','Information','Información'],
+    ['Resultados de busca','Search results','Resultados de búsqueda'],
+    ['Lembrete','Reminder','Recordatorio'],
+    ['Verificar interações no Medscape','Check interactions on Medscape','Verificar interacciones en Medscape'],
+    ['Alergia Alimentar','Food Allergy','Alergia Alimentaria'],
+    ['Dermatite Atópica','Atopic Dermatitis','Dermatitis Atópica'],
+    ['SCORES E CALCULADORAS','SCORES AND CALCULATORS','ESCALAS Y CALCULADORAS'],
+    ['Preenchimento pelo paciente via QR Code','Patient access via QR code','Acceso del paciente mediante código QR'],
+    ['Gerar novo QR Code','Generate a new QR code','Generar un nuevo código QR'],
+    ['Pesquisar produto','Search product','Buscar producto'],
+    ['Genéricos e similares','Generics and similar medicines','Genéricos y medicamentos similares'],
+    ['Áreas ressecadas','Dry areas','Zonas secas'],
+    ['Não incorporado','Not incorporated','No incorporado'],
+    ['Fora do Rol','Not listed for coverage','Fuera de la lista de cobertura'],
+    ['Intravenosas (IGIV)','Intravenous (IVIG)','Intravenosas (IGIV)'],
+    ['Subcutâneas (IGSC)','Subcutaneous (SCIG)','Subcutáneas (IGSC)'],
+    ['Solução oral','Oral solution','Solución oral'],
+    ['Ausente','Absent','Ausente'],
+    ['Leve','Mild','Leve'],
+    ['Moderado','Moderate','Moderado'],
+    ['Intenso','Severe','Intenso'],
+    ['Ministério da Saúde / SUS','Ministry of Health / SUS','Ministerio de Salud / SUS'],
+    ['Pop. SUS','SUS population','Pobl. del SUS'],
+    ['Intravenosa','Intravenous','Intravenosa'],
+    ['Subcutânea','Subcutaneous','Subcutánea'],
+    ['diretriz','guideline','guía'],
+    ['metanálise','meta-analysis','metaanálisis'],
+    ['revisão','review','revisión'],
+    ['coorte','cohort','cohorte'],
+    ['extensão','extension','extensión'],
+    ['classificação','classification','clasificación'],
+    ['consenso','consensus','consenso'],
+    ['consenso nacional','national consensus','consenso nacional'],
+    ['posição','position statement','posicionamiento'],
+    ['fase 2','phase 2','fase 2'],
+    ['fase II','phase II','fase II'],
+    ['fase III','phase III','fase III'],
+    ['fase IV','phase IV','fase IV'],
+    ['RCT fase 3','phase 3 RCT','ECA de fase 3'],
+    ['Monitorizar SpO₂, pressão e pulso','Monitor SpO₂, blood pressure and pulse','Monitorizar la SpO₂, la presión arterial y el pulso'],
+    ['Adiar se asma não controlada, doença aguda ou risco clínico desproporcional.','Postpone if asthma is uncontrolled, if there is an acute illness or if the clinical risk is disproportionate.','Aplazar en caso de asma no controlada, enfermedad aguda o riesgo clínico desproporcionado.'],
+    ['Asma não controlada exige atenção especial devido ao risco da AIT; seguir critérios e contraindicações específicos.','Uncontrolled asthma requires special attention because of the risk of AIT; follow the specific criteria and contraindications.','El asma no controlada requiere especial atención por el riesgo de la AIT; seguir los criterios y las contraindicaciones específicos.'],
+    ['Asma eosinofílica não alérgica em mulher','Nonallergic eosinophilic asthma in a woman','Asma eosinofílica no alérgica en una mujer'],
+    ['Associação, não corticoide isolado; idade/posologia conforme bula.','Combination therapy, not a corticosteroid alone; use the age and dosage specified in the prescribing information.','Tratamiento combinado, no corticoide aislado; edad y posología conforme a la ficha técnica.'],
+    ['Avaliar possibilidade de anafilaxia, asma não controlada ou dermatografismo.','Assess for possible anaphylaxis, uncontrolled asthma or dermatographism.','Valorar la posibilidad de anafilaxia, asma no controlada o dermografismo.'],
+    ['Equipe treinada e adrenalina à mão; risco maior se anafilaxia prévia importante, asma não controlada ou extrato relacionado a alimento de alto risco.','Have trained staff and epinephrine available; risk is higher with a history of significant anaphylaxis, uncontrolled asthma or an extract related to a high-risk food.','Contar con personal capacitado y adrenalina disponible; el riesgo es mayor con antecedentes de anafilaxia importante, asma no controlada o un extracto de un alimento de alto riesgo.'],
+    ['Febre, infecção aguda, exercício intenso próximo da dose, estômago vazio e asma não controlada podem aumentar reações.','Fever, acute infection, vigorous exercise around dosing, an empty stomach and uncontrolled asthma can increase reactions.','La fiebre, la infección aguda, el ejercicio intenso en torno a la dosis, el estómago vacío y el asma no controlada pueden aumentar las reacciones.'],
+    ['História remota e vaga, exantema benigno remoto ou sintomas não sugestivos: considerar provocação oral direta com amoxicilina sob observação, dose única ou graduada conforme protocolo do serviço','For a remote, unclear history, a remote benign rash or symptoms that do not suggest allergy: consider a direct oral amoxicillin challenge under observation, with a single or graded dose according to the local protocol','Ante antecedentes remotos e imprecisos, exantema benigno remoto o síntomas poco sugestivos: considerar una provocación oral directa con amoxicilina bajo observación, en dosis única o escalonada según el protocolo local'],
+    ['Não iniciar sem equipe experiente e família capaz de seguir protocolo; asma não controlada e EoE ativa são fortes restrições.','Do not start without an experienced team and a family able to follow the protocol; uncontrolled asthma and active EoE are major restrictions.','No iniciar sin un equipo experimentado y una familia capaz de seguir el protocolo; el asma no controlada y la EoE activa son restricciones importantes.'],
+    ['Suspender possíveis agentes desencadeantes, comunicar equipe e tratar anafilaxia imediatamente com adrenalina e suporte hemodinâmico/respiratório','Stop possible triggering agents, notify the team and treat anaphylaxis immediately with epinephrine and hemodynamic and respiratory support','Suspender los posibles desencadenantes, avisar al equipo y tratar la anafilaxia de inmediato con adrenalina y soporte hemodinámico y respiratorio'],
+    ['asma não controlada apesar de CI + LABA;','uncontrolled asthma despite ICS + LABA;','asma no controlada a pesar de CI + LABA;'],
+    ['se moderada/grave não controlada, terapia sistêmica direcionada.','if moderate or severe and uncontrolled, use targeted systemic therapy.','si es moderada o grave y no está controlada, usar tratamiento sistémico dirigido.'],
+    ['3 doses aos 2, 4 e 6 m (intervalo 60 dias; mín. 30). Reforços com DTP aos 15 m e 4 anos.','3 doses at 2, 4 and 6 months (60-day interval; minimum 30). DTP boosters at 15 months and 4 years.','3 dosis a los 2, 4 y 6 meses (intervalo de 60 días; mínimo 30). Refuerzos con DTP a los 15 meses y a los 4 años.'],
+    ['Bexsero: 2 m — 3+1; 3–5 m — 2+1; ≥11 anos — 2 doses. Trumenba: ≥10 anos — 2–3 doses.','Bexsero: 2 months — 3+1; 3–5 months — 2+1; ≥11 years — 2 doses. Trumenba: ≥10 years — 2–3 doses.','Bexsero: 2 meses — 3+1; 3–5 meses — 2+1; ≥11 años — 2 dosis. Trumenba: ≥10 años — 2–3 dosis.'],
+    ['Rotina infantil do SUS durante transição de produtos; esquema de rotina 2+1 conforme idade e vacinação já recebida.','Routine pediatric SUS schedule during the product transition; routine 2+1 regimen according to age and prior vaccination.','Calendario infantil habitual del SUS durante la transición de productos; pauta habitual 2+1 según la edad y las dosis ya recibidas.'],
+    ['Adultos: 1 flaconete 1–2 vezes/dia; crianças: ½ flaconete 1–2 vezes/dia.','Adults: 1 unit-dose vial 1–2 times/day; children: ½ unit-dose vial 1–2 times/day.','Adultos: 1 ampolla monodosis 1–2 veces/día; niños: ½ ampolla monodosis 1–2 veces/día.'],
+    ['Bula: adulto/adolescente até 4 jatos 12/12h temporariamente (=8/dia); criança máximo 4 jatos/dia.','Label: adults and adolescents up to 4 puffs every 12 h temporarily (=8/day); children maximum 4 puffs/day.','Ficha técnica: adultos y adolescentes hasta 4 pulsaciones cada 12 h temporalmente (=8/día); niños máximo 4 pulsaciones/día.'],
+    ['Bula: máximo 2 inalações 12/12h (4/dia) temporariamente; NÃO aplicar limite MART de 12.','Label: maximum 2 inhalations every 12 h (4/day) temporarily; do NOT use the MART limit of 12.','Ficha técnica: máximo 2 inhalaciones cada 12 h (4/día) temporalmente; NO aplicar el límite MART de 12.'],
+    ['Imunização passiva, não vacina. Na estratégia especial do SUS: prematuros com idade gestacional até 36 semanas e 6 dias e menos de seis meses; ou menores de 24 meses com condições de risco definidas.','Passive immunization, not a vaccine. Under the special SUS strategy: infants born preterm at up to 36 weeks and 6 days of gestation who are under six months old; or children under 24 months with specified risk conditions.','Inmunización pasiva, no vacuna. En la estrategia especial del SUS: prematuros de hasta 36 semanas y 6 días de edad gestacional y menores de seis meses; o menores de 24 meses con factores de riesgo definidos.']
   ];
-  var translations=Object.create(null);
-  entries.forEach(function(e){translations[e[0]]={'en':e[1],'es':e[2]};});
-  var nodes=new WeakMap();
-  var attrs=new WeakMap();
-  var selected=[];
-  var observer;
-  var scheduled=false;
+  var labels=Object.create(null);
+  entries.forEach(function(entry){labels[entry[0]]={en:entry[1],es:entry[2]};});
+  var numberPattern=/\d+(?:[.,:/–-]\d+)*/g;
+  var templates=[
+    ['{0} resultados encontrados','{0} results found','{0} resultados encontrados'],
+    ['{0} medicamento(s) encontrado(s)','{0} medication(s) found','{0} medicamento(s) encontrado(s)'],
+    ['{0} apresentações','{0} strengths and forms','{0} presentaciones'],
+    ['{0} itens','{0} items','{0} elementos'],
+    ['{0} exames','{0} tests','{0} pruebas'],
+    ['{0} artigos','{0} articles','{0} artículos'],
+    ['{0} referências','{0} references','{0} referencias'],
+    ['{0} vacinas','{0} vaccines','{0} vacunas'],
+    ['{0} resultados','{0} results','{0} resultados'],
+    ['{0} protocolos','{0} protocols','{0} protocolos'],
+    ['{0} de {1}','{0} of {1}','{0} de {1}'],
+    ['Pergunta {0} de {1}','Question {0} of {1}','Pregunta {0} de {1}'],
+    ['Etapa {0} de {1}','Step {0} of {1}','Paso {0} de {1}'],
+    ['Ver medicamentos indicados ({0})','View indicated medications ({0})','Ver medicamentos indicados ({0})'],
+    ['Última atualização: {0}','Last update: {0}','Última actualización: {0}'],
+    ['Última verificação: {0}','Last checked: {0}','Última verificación: {0}'],
+    ['Fonte verificada em {0}','Source checked on {0}','Fuente revisada el {0}'],
+    ['Verificação diária concluída em {0}','Daily check completed on {0}','Verificación diaria completada el {0}'],
+    ['{0} fármacos em ordem alfabética','{0} drugs in alphabetical order','{0} fármacos en orden alfabético'],
+    ['{0} novos conteúdos','{0} new updates','{0} novedades'],
+    ['Novidades do Hub: {0} conteúdo(s) novo(s)','Hub updates: {0} new item(s)','Novedades del Hub: {0} elemento(s) nuevo(s)'],
+    ['{0} hidratantes • {1} marcas • selecione uma combinação','{0} moisturizers • {1} brands • select a combination','{0} hidratantes • {1} marcas • selecciona una combinación'],
+    ['Ex: {0}','E.g. {0}','P. ej. {0}'],
+    ['{0} ano','{0} year','{0} año'],
+    ['{0} anos','{0} years','{0} años'],
+    ['{0} mês','{0} month','{0} mes'],
+    ['{0} meses','{0} months','{0} meses'],
+    ['{0} dia','{0} day','{0} día'],
+    ['{0} dias','{0} days','{0} días'],
+    ['{0} semana','{0} week','{0} semana'],
+    ['{0} semanas','{0} weeks','{0} semanas'],
+    ['{0} resposta','{0} reply','{0} respuesta'],
+    ['{0} respostas','{0} replies','{0} respuestas'],
+    ['{0} dose','{0} dose','{0} dosis'],
+    ['{0} doses','{0} doses','{0} dosis'],
+    ['{0} pontos','{0} points','{0} puntos'],
+    ['Revisado em {0}','Reviewed on {0}','Revisado el {0}'],
+    ['Atualizado em {0}','Updated on {0}','Actualizado el {0}']
+  ];
+  var templateLabels=Object.create(null);
+  templates.forEach(function(entry){templateLabels[entry[0]]={en:entry[1],es:entry[2]};});
+  var namedLabels=[
+    [/^Consultar preços de (.+) nas farmácias$/, 'Check pharmacy prices for {name}', 'Consultar precios de {name} en farmacias'],
+    [/^Abrir ou fechar ficha de (.+)$/, 'Open or close {name} details', 'Abrir o cerrar la ficha de {name}'],
+    [/^Abrir informações: (.+)$/, 'Open {name} information', 'Abrir información de {name}'],
+    [/^Logomarca (.+)$/, '{name} logo', 'Logotipo de {name}'],
+    [/^Identidade visual do Hub: (.+)$/, 'Hub visual identity: {name}', 'Identidad visual del Hub: {name}']
+  ];
+  var publicationMonths={
+    jan:['Jan','ene'],fev:['Feb','feb'],mar:['Mar','mar'],abr:['Apr','abr'],
+    mai:['May','may'],jun:['Jun','jun'],jul:['Jul','jul'],ago:['Aug','ago'],
+    set:['Sep','sep'],out:['Oct','oct'],nov:['Nov','nov'],dez:['Dec','dic']
+  };
+  var catalogs=Object.create(null);
+  var requests=Object.create(null);
+  var failed=Object.create(null);
+  var textRecords=new WeakMap();
+  var attributeRecords=new WeakMap();
+  var controls=[];
   var pending=new Set();
-  // A seleção de idioma vale para todas as páginas, não somente para a Home.
-  var catalog=null;
-  var translationsCache=Object.create(null);
-  var workQueue=new Set();
-  var inflight=new Set();
-  var failed=new Set();
-  var queueTimer=null;
-  var processing=false;
-  var storageKey='hub_i18n_translations_v2';
-  try{
-    var stored=JSON.parse(localStorage.getItem(storageKey)||'{}');
-    if(stored&&typeof stored==='object'&&!Array.isArray(stored))translationsCache=stored;
-  }catch(_){}
-  function normalizeText(s){return String(s||'').replace(/\s+/g,' ').trim();}
-  function cacheKey(locale,source){return locale+'\u0000'+source;}
-  function saveCache(){
-    try{
-      var keys=Object.keys(translationsCache);
-      if(keys.length>1000){
-        keys.slice(0,keys.length-950).forEach(function(k){delete translationsCache[k];});
-      }
-      localStorage.setItem(storageKey,JSON.stringify(translationsCache));
-    }catch(_){}
-  }
-  function scheduleRemote(source){
-    if(!catalog||!catalog.has(source)||language==='pt-BR'||serviceUnavailable)return;
-    if(source.length<3||source.length>1600)return;
-    var key=cacheKey(language,source);
-    if(translationsCache[key]||failed.has(key)||inflight.has(key))return;
-    workQueue.add(key);
-    translationStatus();
-    if(!processing&&!queueTimer){
-      queueTimer=setTimeout(function(){queueTimer=null;processQueue();},160);
+  var scheduled=false;
+  var originalTitle;
+  var translatedAttributes=['placeholder','aria-label','aria-description','aria-valuetext','alt','title','label','value'];
+  var skip='script,style,noscript,pre,code,[data-hub-i18n-skip],[contenteditable]:not([contenteditable="false"]),.page:not(.active)';
+  var statusCopy={
+    'pt-BR':['Idioma da interface','',''],
+    en:['Interface language','Loading translations…','Translations could not load. Try again when connected.'],
+    es:['Idioma de la interfaz','Cargando traducciones…','No se pudieron cargar las traducciones. Inténtalo de nuevo al conectarte.']
+  };
+
+  function normalize(value){return value.replace(/\s+/g,' ').trim();}
+
+  function translatedPhrase(source){
+    var label=labels[source];
+    var catalog=catalogs[language];
+    if(label)return label[language];
+    for(var labelPattern of namedLabels){
+      var match=source.match(labelPattern[0]);
+      if(match)return labelPattern[language==='en'?1:2].replace('{name}',function(){return match[1];});
     }
+    var date=source.match(/^(jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)\/(\d{4})$/i);
+    if(date)return publicationMonths[date[1].toLowerCase()][language==='en'?0:1]+'/'+date[2];
+    var numbers=[];
+    var template=source.replace(numberPattern,function(value){numbers.push(value);return '{'+(numbers.length-1)+'}';});
+    var translations=templateLabels[template];
+    if(translations)return translations[language].replace(/\{(\d+)\}/g,function(_,index){return numbers[index];});
+    return catalog&&Object.hasOwn(catalog,source)?catalog[source]:source;
   }
-  var serviceUnavailable=false;
-  function translationStatus(){
-    var box=document.getElementById('hubLanguageControl');
-    if(box){
-      box.classList.toggle('hub-language-loading',language!=='pt-BR'&&(workQueue.size>0||inflight.size>0)&&!serviceUnavailable);
-      box.setAttribute('title',serviceUnavailable?'Tradução automática temporariamente indisponível':'Idioma da interface');
+
+  function translate(value){
+    if(language==='pt-BR'||typeof value!=='string'||!value.trim())return value;
+    var leading=value.match(/^\s*/)[0];
+    var trailing=value.match(/\s*$/)[0];
+    var source=normalize(value);
+    if(value.trim().includes('\n\n')){
+      return value.split(/(\n\n+)/).map(function(paragraph){return paragraph.trim()?translate(paragraph):paragraph;}).join('');
     }
-    var label=document.getElementById('hubTranslationStatus');
-    if(label)label.textContent=serviceUnavailable?
-      (language==='en'?'Automatic translation is temporarily unavailable. Original Portuguese text is displayed.':
-       language==='es'?'La traducción automática no está disponible temporalmente. Se muestra el texto original en portugués.':''):
-      (workQueue.size||inflight.size?
-        (language==='en'?'Translating this page…':language==='es'?'Traduciendo esta página…':''):'');
-  }
-  async function processQueue(){
-    if(processing||!workQueue.size||serviceUnavailable)return;
-    processing=true;
-    async function worker(){
-      while(workQueue.size&&!serviceUnavailable){
-        var first=workQueue.values().next().value;
-        var locale=first.split('\u0000')[0];
-        var batch=[],total=0;
-        for(var k of workQueue){
-          var parts=k.split('\u0000');
-          if(parts[0]!==locale)continue;
-          var source=parts.slice(1).join('\u0000');
-          if(batch.length>=24||total+source.length>8100)break;
-          batch.push(source);total+=source.length;
-          workQueue.delete(k);inflight.add(k);
-        }
-        if(!batch.length){workQueue.delete(first);continue;}
-        var ok=false;
-        try{
-          var response=await fetch('/api/traduzir',{
-            method:'POST',credentials:'same-origin',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({language:locale,texts:batch})
-          });
-          if(!response.ok){
-            if(response.status===503){serviceUnavailable=true;workQueue.clear();}
-            throw new Error('translation service unavailable');
-          }
-          var payload=await response.json();
-          var results=payload&&payload.translations;
-          if(!Array.isArray(results)||results.length!==batch.length)throw new Error('invalid translation response');
-          batch.forEach(function(src,i){
-            var key=cacheKey(locale,src);
-            var translated=results[i];
-            if(typeof translated==='string'&&translated.trim()){
-              translationsCache[key]=translated.trim();
-            }else failed.add(key);
-          });
-          ok=true;saveCache();
-        }catch(_){
-          batch.forEach(function(src){failed.add(cacheKey(locale,src));});
-        }finally{
-          batch.forEach(function(src){inflight.delete(cacheKey(locale,src));});
-        }
-        if(ok&&language===locale)applyLanguage();
-        translationStatus();
-      }
+    var result=translatedPhrase(source);
+    // Dates, source names and short status labels are often joined in a single text node.
+    if(result===source&&source.includes(' · ')){
+      result=source.split(' · ').map(translatedPhrase).join(' · ');
     }
-    try{await Promise.all([worker(),worker()]);}
-    finally{processing=false;translationStatus();}
+    return result===source?value:leading+result+trailing;
   }
-  function loadCatalog(){
-    fetch('/data/hub-i18n-catalog.json?v=20261114-3',{cache:'force-cache',credentials:'same-origin'})
-      .then(function(r){if(!r.ok)throw new Error('catalogue');return r.json();})
-      .then(function(obj){
-        catalog=new Set((obj.strings||[]).map(normalizeText));
-        if(language!=='pt-BR')applyLanguage();
-        // Notícias e novidades mudam diariamente: sincronizar o texto público atual.
-        function insertPublic(value){
-          if(typeof value==='string'){
-            var phrase=normalizeText(value);
-            if(phrase.length>=3&&phrase.length<=1600)catalog.add(phrase);
-          }else if(Array.isArray(value))value.forEach(insertPublic);
-          else if(value&&typeof value==='object')Object.keys(value).forEach(function(k){insertPublic(value[k]);});
-        }
-        Promise.all(['/data/uptodate.json','/data/hub-novidades.json'].map(function(path){
-          return fetch(path,{cache:'no-store',credentials:'same-origin'})
-            .then(function(r){return r.ok?r.json():null;})
-            .then(insertPublic)
-            .catch(function(){});
-        })).then(function(){if(language!=='pt-BR')applyLanguage();});
-      })
-      .catch(function(){catalog=new Set();});
+
+  function recordFor(record,current){
+    return record&&record.rendered===current?record:{original:current,rendered:current};
   }
-  function sourceOrNew(record,current){
-    if(!record || record.rendered!==current)return {original:current,rendered:current};
-    return record;
-  }
-  function translateString(value){
-    if(language==='pt-BR')return value;
-    var m=/^(\s*)([\s\S]*?)(\s*)$/.exec(value);
-    if(!m)return value;
-    var original=normalizeText(m[2]);
-    var t=translations[original];
-    var result=t&&t[language]||translationsCache[cacheKey(language,original)];
-    if(!result){scheduleRemote(original);return value;}
-    return m[1]+result+m[3];
-  }
-  function allowed(node){
-    var el=node.nodeType===1?node:node.parentElement;
-    if(!el)return false;
-    // Não traduzir campos digitados, respostas privadas ou telas ainda invisíveis.
-    return !el.closest('script,style,noscript,textarea,pre,code,[data-hub-i18n-skip],[contenteditable="true"],.page:not(.active)');
-  }
+
   function translateText(node){
-    if(!allowed(node))return;
     var current=node.nodeValue;
-    if(!current || !current.trim())return;
-    var rec=sourceOrNew(nodes.get(node),current);
-    var next=translateString(rec.original);
-    rec.rendered=next; nodes.set(node,rec);
-    if(current!==next)node.nodeValue=next;
+    if(!current||!current.trim()||node.parentElement?.tagName==='TEXTAREA')return;
+    var record=recordFor(textRecords.get(node),current);
+    var next=translate(record.original);
+    record.rendered=next;
+    textRecords.set(node,record);
+    if(current===next)return;
+    var option=node.parentElement;
+    if(option?.tagName==='OPTION'&&!option.hasAttribute('value')){
+      option.value=option.value;
+    }
+    node.nodeValue=next;
   }
-  function translateAttributes(el){
-    if(!allowed(el))return;
-    var values=attrs.get(el)||{};
-    ['placeholder','aria-label','title','value'].forEach(function(key){
-      if(key==='value' && !(el.tagName==='INPUT' && /^(button|submit|reset)$/i.test(el.type)))return;
-      if(!el.hasAttribute(key))return;
+
+  function sourceText(node){
+    if(!node)return '';
+    if(node.nodeType===Node.TEXT_NODE)return recordFor(textRecords.get(node),node.nodeValue).original;
+    return Array.from(node.childNodes,sourceText).join('');
+  }
+
+  function translateAttributes(el,keys){
+    var records=attributeRecords.get(el);
+    for(var key of keys){
+      if(key==='value'&&!(el.tagName==='INPUT'&&/^(button|submit|reset)$/i.test(el.type)))continue;
+      if(!el.hasAttribute(key))continue;
+      if(!records){
+        records=Object.create(null);
+        attributeRecords.set(el,records);
+      }
       var current=el.getAttribute(key);
-      var rec=sourceOrNew(values[key],current);
-      var next=translateString(rec.original);
-      rec.rendered=next; values[key]=rec;
+      var record=recordFor(records[key],current);
+      var next=translate(record.original);
+      record.rendered=next;
+      records[key]=record;
       if(current!==next)el.setAttribute(key,next);
-    });
-    attrs.set(el,values);
-  }
-  function translateSubtree(root){
-    if(root.nodeType===3){translateText(root);return;}
-    if(root.nodeType!==1 && root.nodeType!==9 && root.nodeType!==11)return;
-    if(root.nodeType===1 && !allowed(root))return;
-    if(root.nodeType===1)translateAttributes(root);
-    var walker=document.createTreeWalker(root,NodeFilter.SHOW_ELEMENT|NodeFilter.SHOW_TEXT);
-    var next;
-    while((next=walker.nextNode())){
-      if(next.nodeType===3)translateText(next);
-      else if(next.nodeType===1)translateAttributes(next);
     }
   }
+
+  function translateSubtree(root){
+    if(!root.isConnected||![Node.ELEMENT_NODE,Node.TEXT_NODE].includes(root.nodeType))return;
+    var el=root.nodeType===Node.ELEMENT_NODE?root:root.parentElement;
+    if(!el||el.closest(skip))return;
+    if(root.nodeType===Node.TEXT_NODE){
+      translateText(root);
+      return;
+    }
+    translateAttributes(root,translatedAttributes);
+    var walker=document.createTreeWalker(root,NodeFilter.SHOW_ELEMENT|NodeFilter.SHOW_TEXT,{
+      acceptNode:function(node){
+        return node.nodeType===Node.ELEMENT_NODE&&node.matches(skip)?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    for(var node=walker.nextNode();node;node=walker.nextNode()){
+      if(node.nodeType===Node.TEXT_NODE)translateText(node);
+      else translateAttributes(node,translatedAttributes);
+    }
+  }
+
   function syncControls(){
-    selected.forEach(function(s){if(s.isConnected)s.value=language;});
+    var copy=statusCopy[language];
+    controls.forEach(function(control){
+      control.value=language;
+      control.setAttribute('aria-label',copy[0]);
+    });
+    var control=document.getElementById('hubLanguageControl');
     var code=document.getElementById('hubLangCode');
     if(code)code.textContent=codes[language];
-    document.documentElement.lang=language;
-    translationStatus();
+    var loading=language!=='pt-BR'&&!catalogs[language]&&!failed[language];
+    if(control){
+      control.classList.toggle('hub-language-loading',loading);
+      control.title=failed[language]?copy[2]:copy[0];
+      control.setAttribute('aria-busy',String(loading));
+    }
+    var status=document.getElementById('hubTranslationStatus');
+    if(status)status.textContent=failed[language]?copy[2]:loading?copy[1]:'';
   }
-  var originalDocumentTitle=null;
+
   function applyLanguage(){
+    document.documentElement.lang=language;
+    document.title=translate(originalTitle);
+    document.head.querySelectorAll('meta[name="description"],meta[property="og:title"],meta[property="og:description"],meta[name="twitter:title"],meta[name="twitter:description"]').forEach(function(el){
+      translateAttributes(el,['content']);
+    });
     syncControls();
-    if(originalDocumentTitle!==null)document.title=translateString(originalDocumentTitle);
     translateSubtree(document.body);
     window.dispatchEvent(new Event('resize'));
+  }
+
+  function loadLanguage(next){
+    if(next==='pt-BR'||catalogs[next]||requests[next])return;
+    delete failed[next];
+    requests[next]=fetch('/data/hub-i18n-'+next+'.json?v=20261115-traducao',{
+      cache:'no-cache',credentials:'same-origin'
+    }).then(function(response){
+      if(!response.ok)throw new Error('Catalogue unavailable');
+      return response.json();
+    }).then(function(catalog){
+      if(!catalog||typeof catalog!=='object'||Array.isArray(catalog))throw new Error('Invalid catalogue');
+      catalogs[next]=catalog;
+    }).catch(function(){failed[next]=true;}).finally(function(){
+      delete requests[next];
+      if(language===next)applyLanguage();
+    });
+  }
+
+  function selectLanguage(next){
+    if(!SUPPORTED.includes(next))return;
+    language=next;
+    if(originalTitle===undefined)return;
+    loadLanguage(next);
+    applyLanguage();
     document.dispatchEvent(new CustomEvent('hub:languagechange',{detail:{language:language}}));
   }
+
   function setLanguage(next){
-    if(SUPPORTED.indexOf(next)<0)return;
-    language=next;
+    if(!SUPPORTED.includes(next))return;
     try{localStorage.setItem(KEY,next);}catch(e){}
-    applyLanguage();
+    selectLanguage(next);
   }
+
   function makeSelect(cssClass){
-    var s=document.createElement('select');
-    s.className=cssClass;
-    s.setAttribute('aria-label','Idioma da interface');
-    s.setAttribute('data-hub-i18n-skip','');
+    var control=document.createElement('select');
+    control.className=cssClass;
+    control.setAttribute('data-hub-i18n-skip','');
     [['pt-BR','Português'],['en','English'],['es','Español']].forEach(function(pair){
-      var o=document.createElement('option');o.value=pair[0];o.textContent=pair[1];s.appendChild(o);
+      var option=new Option(pair[1],pair[0]);
+      option.lang=pair[0];
+      control.appendChild(option);
     });
-    s.value=language;
-    s.addEventListener('change',function(){setLanguage(s.value);});
-    selected.push(s);
-    return s;
+    control.addEventListener('change',function(){setLanguage(control.value);});
+    controls.push(control);
+    return control;
   }
+
+  function queueChanges(records){
+    records.forEach(function(record){
+      var target=record.target;
+      if(record.type==='childList'){
+        record.addedNodes.forEach(function(node){pending.add(node);});
+      }else if(record.type==='characterData'){
+        if(textRecords.get(target)?.rendered!==target.nodeValue)pending.add(target);
+      }else if(record.attributeName==='class'){
+        if(target.classList.contains('page')&&target.classList.contains('active'))pending.add(target);
+      }else if(attributeRecords.get(target)?.[record.attributeName]?.rendered!==target.getAttribute(record.attributeName)){
+        pending.add(target);
+      }
+    });
+    if(scheduled||!pending.size)return;
+    scheduled=true;
+    requestAnimationFrame(function(){
+      scheduled=false;
+      var work=Array.from(pending);
+      pending.clear();
+      work.forEach(translateSubtree);
+    });
+  }
+
   function install(){
     if(document.getElementById('hubLanguageControl'))return;
-    originalDocumentTitle=document.title;
+    originalTitle=document.title;
     var bar=document.querySelector('.topbar');
     var shell=document.createElement('div');
     shell.className=bar?'hub-language-control':'hub-language-control hub-language-floating';
     shell.id='hubLanguageControl';
-    shell.setAttribute('title','Idioma da interface');
     shell.setAttribute('data-hub-i18n-skip','');
     shell.innerHTML='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c-5 5-5 13 0 18M12 3c5 5 5 13 0 18"/></svg><span id="hubLangCode">PT</span><span class="hub-lang-arrow" aria-hidden="true">⌄</span>';
     shell.appendChild(makeSelect('hub-language-native'));
     var profileBtn=document.getElementById('btnPerfil');
-    if(bar)bar.insertBefore(shell,profileBtn||null);
-    else document.body.insertBefore(shell,document.body.firstChild);
+    if(bar)bar.insertBefore(shell,bar.contains(profileBtn)?profileBtn:null);
+    else document.body.prepend(shell);
     var profile=document.getElementById('page-perfil');
     if(profile){
       var panel=document.createElement('section');
-      panel.id='hubLanguagePreferences';
       panel.className='hub-language-preferences';
-      panel.innerHTML='<label for="hubLanguageSelectSettings" class="hub-language-label">Idioma da interface</label><p class="hub-language-description">Português, English, Español</p>';
-      var pselect=makeSelect('hub-language-settings-select');
-      pselect.id='hubLanguageSelectSettings';
-      panel.appendChild(pselect);
-      var status=document.createElement('p');status.id='hubTranslationStatus';status.style.cssText='margin:9px 0 0;font-size:11px;color:#65798a;line-height:1.5';status.setAttribute('aria-live','polite');panel.appendChild(status);
-      var blocks=profile.children;
-      profile.insertBefore(panel,blocks.length>1?blocks[1]:null);
+      panel.innerHTML='<label for="hubLanguageSelectSettings" class="hub-language-label">Idioma da interface</label>';
+      var settings=makeSelect('hub-language-settings-select');
+      settings.id='hubLanguageSelectSettings';
+      panel.appendChild(settings);
+      var status=document.createElement('p');
+      status.id='hubTranslationStatus';
+      status.className='hub-language-description';
+      status.setAttribute('aria-live','polite');
+      status.setAttribute('data-hub-i18n-skip','');
+      panel.appendChild(status);
+      profile.insertBefore(panel,profile.children[1]||null);
     }
-    observer=new MutationObserver(function(records){
-      records.forEach(function(r){
-        if(r.type==='childList')r.addedNodes.forEach(function(n){pending.add(n);});
-        else if(r.type==='characterData')pending.add(r.target);
-        else if(r.type==='attributes')pending.add(r.target);
-      });
-      if(scheduled)return;
-      scheduled=true;
-      requestAnimationFrame(function(){
-        scheduled=false;
-        var work=Array.from(pending);pending.clear();
-        work.forEach(translateSubtree);
-      });
+    new MutationObserver(queueChanges).observe(document.body,{
+      subtree:true,childList:true,characterData:true,attributes:true,
+      attributeFilter:[...translatedAttributes,'class']
     });
-    observer.observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['placeholder','aria-label','title','class']});
-    applyLanguage();
-    loadCatalog();
-    window.addEventListener('storage',function(e){if(e.key===KEY && SUPPORTED.indexOf(e.newValue)>=0 && e.newValue!==language){language=e.newValue;applyLanguage();}});
+    selectLanguage(language);
+    window.addEventListener('online',function(){
+      if(failed[language]){loadLanguage(language);syncControls();}
+    });
+    window.addEventListener('storage',function(event){
+      if(event.key===KEY&&event.newValue!==language)selectLanguage(event.newValue||'pt-BR');
+    });
   }
-  window.HubI18n={getLanguage:function(){return language;},setLanguage:setLanguage};
+
+  window.HubI18n={
+    getLanguage:function(){return language;},
+    setLanguage:setLanguage,
+    translate:translate,
+    sourceText:sourceText
+  };
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',install,{once:true});
   else install();
 })();

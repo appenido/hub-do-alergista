@@ -6319,8 +6319,10 @@ function _glValido(i){
     i.kind==='Diretriz clínica' && typeof i.journal==='string' && /^\d{4}(?:-\d{2})?(?:-\d{2})?$/.test(i.date) && i.date<=_glHoje();
 }
 function _glEstaticaEhDiretriz(c){
-  var categoria=(c.querySelector('.gc-soc')||{}).textContent||'';
-  var titulo=(c.querySelector('.gc-original')||{}).textContent||'';
+  var label=c.querySelector('.gc-soc');
+  var original=c.querySelector('.gc-original');
+  var categoria=window.HubI18n?.sourceText(label)||label?.textContent||'';
+  var titulo=window.HubI18n?.sourceText(original)||original?.textContent||'';
   return /·\s*(?:Diretriz(?: histórica)?|Parâmetro de prática)\s*$/i.test(categoria)
     && /\b(?:guidelines?|practice parameters?)\b/i.test(titulo)
     && !/\b(?:executive summary|systematic review|meta.analysis)\b/i.test(titulo);
@@ -10556,7 +10558,7 @@ document.addEventListener('DOMContentLoaded', function(){
               <input type="text" id="relMedCidade" placeholder="Cidade (ex: Belo Horizonte)" style="border:1.5px solid var(--gray-100);border-radius:10px;padding:10px 12px;font-family:'Manrope',sans-serif;font-size:16px;color:var(--navy);background:#fff;outline:none;width:100%;box-sizing:border-box">
             </div>
           </details>
-          <div id="relResult" style="display:none;background:var(--navy);border-radius:13px;padding:18px;font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.75;white-space:pre-wrap"></div>
+          <div id="relResult" data-hub-i18n-skip style="display:none;background:var(--navy);border-radius:13px;padding:18px;font-size:12.5px;color:rgba(255,255,255,.85);line-height:1.75;white-space:pre-wrap"></div>
           <button onclick="gerarRelatorio()" style="background:linear-gradient(135deg,var(--teal-mid),var(--teal-light));color:#fff;border:none;border-radius:13px;padding:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif">📝 Gerar relatório</button>
           <button id="relCopiar" onclick="copiarRelatorio()" style="display:none;background:var(--gray-50);border:1.5px solid var(--gray-100);border-radius:13px;padding:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;color:var(--teal-mid)">📋 Copiar relatório</button>
           <div style="font-size:10px;color:var(--gray-300);font-style:italic;line-height:1.5">⚠️ Este relatório é um modelo estruturado de apoio. Revise, complete com dados clínicos individuais e assine antes de enviar ao plano de saúde. Não substitui julgamento clínico.</div>
@@ -10868,6 +10870,7 @@ function _chatAdd(texto, quem){
   var body = document.getElementById('chatBody');
   var d = document.createElement('div');
   d.className = 'chat-msg ' + (quem==='user' ? 'chat-user' : 'chat-bot');
+  if(quem==='user')d.setAttribute('data-hub-i18n-skip','');
   d.textContent = texto;
   body.appendChild(d);
   body.scrollTop = body.scrollHeight;
@@ -11001,7 +11004,7 @@ function chatToggle(){
   }
   function _save(a){ try{ localStorage.setItem(_key(), JSON.stringify(a)); }catch(e){} }
   function _slug(t){ return (t||'').toLowerCase().replace(/\s+/g,' ').trim().slice(0,120); }
-  function _txt(el,sel){ var n=el.querySelector(sel); return n? n.textContent.trim() : ''; }
+  function _txt(el,sel){ var n=el.querySelector(sel); return n? (window.HubI18n?.sourceText(n)||n.textContent).trim() : ''; }
 
   function conteudoSalvo(card){
     var copia=card.cloneNode(true);
@@ -11383,7 +11386,7 @@ function chatToggle(){
 <script src="/vacinas-cards-fixos.js?v=20261111-2"></script>
 <script src="/vacinas-criterios.js?v=20261113-1"></script>
 <script src="/home-heading-icons.js?v=20261114-medicamentos1" defer></script>
-<script src="/biologicos-icones-doencas.js?v=20261109-1" defer></script>
+<script src="/biologicos-icones-doencas.js?v=20261115-traducao" defer></script>
 <script src="/hub-novidades.js?v=20261114-legivel-2" defer></script>
 <script src="/alergo-news-premium.js?v=20261109-1" defer></script>
 <script src="/artigos-resumo-fix.js?v=20261112-2" defer></script>
@@ -11430,7 +11433,7 @@ function chatToggle(){
   }else{start();}
 })();
 </script>
-<script src="/hub-i18n.js?v=20261115-dose1" defer></script>
+<script src="/hub-i18n.js?v=20261115-traducao" defer></script>
 <script src="/asma-dispositivos.js?v=20261114-2" defer></script>
 <script src="/medicamentos-dose-regras.js?v=20261115-dose3" defer></script>
 <script src="/medicamentos-dose.js?v=20261115-dose3" defer></script>
