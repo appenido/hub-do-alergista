@@ -22,12 +22,14 @@ EDITORIAL = {
 }
 # Preserve literal quantities, units, inequalities, links and publication identifiers.
 NUMBER = r"\d+(?:[.,:/–−-]\d+)*"
-UNITS = r"(?:mL|L|mg|mcg|[µμ]g|g|kg|kU|IU|UI|U|cm|mm|min|h)"
+UNITS = r"(?:mL|L|mg|mcg|[µμ]g|g|kg|kU|IU|UI|U|[µμ]L|cm|mm|min|h)"
 PROTECTED = re.compile(
     rf"https?://[^\s<>\"”]+|\b10\.\d{{4,9}}/[^\s<>\"”]+"
     rf"|(?:[<>≤≥≈=±+−-]\s*)?{NUMBER}"
-    rf"(?:\s*(?:%|{UNITS}(?:/(?:{UNITS}|[µμ]L|dose)){{0,3}}\b))?"
-    r"|(?<!\w)(?:IM|IV|SC|VO|IgE|IgG|FeNO|GINA|WAO|EAACI|AAAAI|ASBAI|ANVISA|Anvisa|ANS|SBIm|SUS|PNI|CONITEC|Conitec|CRIE|UpToDate)(?!\w)"
+    rf"(?:\s*(?:%|{UNITS}(?:/(?:{UNITS}|dose)){{0,3}}\b|/[µμ]L\b))?"
+    r"|(?<!\w)(?:IM|IV|SC|VO|IgE|IgG|FeNO|GINA|WAO|EAACI|AAAAI|ASBAI|ANVISA|Anvisa|ANS|SBIm|SUS|PNI|CONITEC|Conitec|CRIE|PMID|DOI|UpToDate)(?!\w)"
+    r"|Hub do Alergista|Alergo News|Mabs, i-JAK, iBTK"
+    r"|[⁰¹²³⁴⁵⁶⁷⁸⁹½¼¾·|˜~≈±≤≥µμ×°®™]"
 )
 SENTENCES = re.compile(r"(;\s+|(?<=[.!?])\s+(?=[A-ZÀ-Ý¿¡]))")
 RESTRICTED = re.compile(r"<\/?(?:script|style|iframe|svg|div|span)\b", re.I)
@@ -96,7 +98,9 @@ def restore(text, parts):
 
 
 def validated(source, translation, language):
-    if not translation or RESTRICTED.search(translation) or FORBIDDEN[language].search(translation):
+    if not translation or any(marker in translation for marker in ("⁇", "�", "<unk>")):
+        return False
+    if RESTRICTED.search(translation) or FORBIDDEN[language].search(translation):
         return False
     if not 0.52 <= len(translation) / len(source) <= 2.6:
         return False

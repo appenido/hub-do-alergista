@@ -480,7 +480,7 @@
   function loadLanguage(next){
     if(next==='pt-BR'||catalogs[next]||requests[next])return;
     delete failed[next];
-    requests[next]=fetch('/data/hub-i18n-'+next+'.json?v=20261115-traducao',{
+    requests[next]=fetch('/data/hub-i18n-'+next+'.json?v=20261115-traducao3',{
       cache:'no-cache',credentials:'same-origin'
     }).then(function(response){
       if(!response.ok)throw new Error('Catalogue unavailable');

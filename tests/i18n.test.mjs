@@ -75,6 +75,7 @@ test('as duas versões traduzem conteúdo interno e conservam quantidades clíni
   ];
   for(const language of ['en','es']){
     const translations=JSON.parse(read('data/hub-i18n-'+language+'.json'));
+    assert.ok(Object.values(translations).every(text=>!/[⁇�]|<unk>/.test(text)),language);
     for(const key of keys){
       assert.ok(translations[key]&&translations[key]!==key,language+': '+key);
       const quantities=text=>text.match(/\d+(?:[.,]\d+)*/g)||[];
