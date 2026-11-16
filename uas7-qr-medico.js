@@ -48,7 +48,7 @@ async function refresh(token,gen){
       });table.append(tr);
     }
     content.append(table);
-    const heading=document.createElement("h4");heading.textContent="Resultados por semana";heading.style.cssText="font-size:13px;color:#14546b;margin:14px 0 9px";content.prepend(heading);
+    const weeklyHeading=document.createElement("h4");weeklyHeading.textContent="Resultados por semana";weeklyHeading.style.cssText="font-size:13px;color:#14546b;margin:14px 0 9px";content.append(weeklyHeading);
     const weekly=document.createElement("div");
     for(const week of data.semanas.slice().reverse()){
       const section=document.createElement("details");section.className="uas-week-history";
