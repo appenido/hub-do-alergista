@@ -1,0 +1,95 @@
+/* UAS7 no modal de Scores: QR dedicado, acompanhamento de sete dias. */
+(function () {
+"use strict";
+const API="https://jpdtqtenlivxgjkyizcg.supabase.co/functions/v1/uas7-diario";
+const BASE="https://hubdoalergista.pages.dev/";
+const $=id=>document.getElementById(id);
+let doctorKey="",generation=0,refreshTimer=null;
+async function api(action,extras){
+ const response=await fetch(API,{method:"POST",headers:{"content-type":"application/json"},
+  body:JSON.stringify(Object.assign({action},extras||{})),cache:"no-store",credentials:"omit"});
+ const body=await response.json().catch(()=>({}));
+ if(!response.ok||!body.ok)throw Error(body.erro||"Falha no serviço UAS7.");
+ return body;
+}
+function stop(){
+ generation++;doctorKey="";
+ if(refreshTimer){clearInterval(refreshTimer);refreshTimer=null;}
+}
+function status(t){const node=$("uas7-qr-status");if(node)node.textContent=t;}
+function makeButton(id,label){const b=document.createElement("button");b.type="button";b.id=id;b.className="btn btn-sm";b.textContent=label;return b;}
+async function refresh(token,gen){
+ if(gen!==generation||!doctorKey)return;
+ try {
+  const data=await api("professional-status",{token});
+  if(gen!==generation)return;
+  const node=$("uas7-qr-andamento");if(!node)return;
+  const name=data.paciente?.nome||"Aguardando cadastro";
+  node.textContent=name+" · "+data.respondidos+"/7 noites · "+(data.completo?"UAS7 "+data.total+"/42":data.encerrado?"Semana incompleta":"Parcial "+data.parcial+" pontos");
+ }catch(e){if(gen===generation)status("Consulta ao histórico indisponível: "+e.message);}
+}
+async function create(gen){
+ const area=$("uas7-qr-image");
+ if(!area)return;
+ const button=$("uas7-qr-generate");button.disabled=true;
+ area.replaceChildren();status("Gerando acompanhamento individual…");
+ try{
+  const data=await api("create");
+  if(gen!==generation)return;
+  doctorKey=data.tokenProfissional;
+  const patientUrl=BASE+"uas7-paciente.html#p="+data.tokenPaciente;
+  const privateUrl=BASE+"uas7-profissional.html#k="+doctorKey;
+  const link=$("uas7-qr-link");link.href=patientUrl;link.textContent="Abrir site do paciente";
+  const doctor=$("uas7-qr-doctor");doctor.href=privateUrl;doctor.textContent="Abrir acompanhamento profissional";
+  $("uas7-qr-copy-patient").disabled=false;$("uas7-qr-copy-doctor").disabled=false;
+  $("uas7-qr-copy-patient").onclick=()=>navigator.clipboard.writeText(patientUrl).then(()=>status("Link do paciente copiado."),()=>status("Copie o link do site do paciente."));
+  $("uas7-qr-copy-doctor").onclick=()=>navigator.clipboard.writeText(privateUrl).then(()=>status("Link profissional copiado. Guarde em local protegido."),()=>status("Copie o link exclusivo do profissional."));
+  if(window.QRCode){
+   new window.QRCode(area,{text:patientUrl,width:220,height:220,colorDark:"#0d2636",colorLight:"#ffffff",correctLevel:window.QRCode.CorrectLevel.M});
+  }else status("QR Code indisponível no navegador. Utilize o link do paciente.");
+  $("uas7-qr-refresh").disabled=false;
+  $("uas7-qr-refresh").onclick=()=>refresh(doctorKey,gen);
+  await refresh(doctorKey,gen);
+  if(gen!==generation)return;
+  if(!refreshTimer)refreshTimer=setInterval(()=>refresh(doctorKey,gen),45000);
+  status("QR Code ativo. Salve o acesso profissional para consultar as respostas depois.");
+ }catch(e){if(gen===generation)status(e.message||"Falha ao gerar QR Code.");}
+ finally{if(gen===generation&&$("uas7-qr-generate"))button.disabled=false;}
+}
+function render(){
+ const fields=$("mFields");if(!fields)return;
+ const box=document.createElement("section");
+ box.id="uas7-qr-panel";box.className="uas-qr-wrap";
+ const head=document.createElement("h3");head.textContent="Diário do paciente por QR Code";head.style.cssText="font-size:16px;color:#14364c;margin:0 0 7px";
+ const intro=document.createElement("p");intro.textContent="O paciente abre este site e responde todas as noites, durante sete dias. Nome, idade e cidade são informados apenas no primeiro dia.";intro.style.cssText="color:#416477;font-size:12px;line-height:1.55;margin:6px 0";
+ const qr=document.createElement("div");qr.id="uas7-qr-image";qr.className="uas-qr-inner";
+ const links=document.createElement("div");links.style.cssText="display:flex;flex-direction:column;gap:8px;margin-bottom:10px";
+ const link=document.createElement("a");link.id="uas7-qr-link";link.target="_blank";link.rel="noopener noreferrer";links.append(link);
+ const doctor=document.createElement("a");doctor.id="uas7-qr-doctor";doctor.target="_blank";doctor.rel="noopener noreferrer";links.append(doctor);
+ const actions=document.createElement("div");actions.className="uas-actions";
+ const generate=makeButton("uas7-qr-generate","Gerar novo QR Code");
+ const cp=makeButton("uas7-qr-copy-patient","Copiar link do paciente");cp.disabled=true;
+ const cd=makeButton("uas7-qr-copy-doctor","Copiar acesso profissional");cd.disabled=true;
+ const rb=makeButton("uas7-qr-refresh","Atualizar respostas");rb.disabled=true;
+ actions.append(generate,cp,cd,rb);
+ const warning=document.createElement("p");warning.className="uas-note";
+ warning.textContent="O link profissional é confidencial e diferente do QR do paciente. Copie e guarde antes de fechar. Não compartilhe com o paciente.";
+ const progress=document.createElement("p");progress.id="uas7-qr-andamento";progress.style.cssText="font-size:12px;color:#274d65;margin-top:11px";
+ const stat=document.createElement("p");stat.id="uas7-qr-status";stat.className="uas-status";stat.setAttribute("role","status");
+ box.append(head,intro,qr,links,actions,warning,progress,stat);
+ fields.prepend(box);
+ generate.addEventListener("click",()=>{if(doctorKey&&!confirm("Gerar um novo QR Code inicia outro acompanhamento. Você guardou o link profissional anterior?"))return;stop();create(generation);});
+ create(generation);
+}
+const previous=window.openScore;if(typeof previous!=="function")return;
+window.openScore=function(key){
+ stop();
+ const result=previous.apply(this,arguments);
+ if(key==="uas")render();
+ return result;
+};
+const overlay=$("overlay");
+if(overlay)new MutationObserver(()=>{
+ if(!overlay.classList.contains("open")&&doctorKey)stop();
+}).observe(overlay,{attributes:true,attributeFilter:["class"]});
+})();
