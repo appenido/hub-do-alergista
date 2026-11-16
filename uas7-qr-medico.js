@@ -26,6 +26,30 @@ async function refresh(token,gen){
   const node=$("uas7-qr-andamento");if(!node)return;
   const name=data.paciente?.nome||"Aguardando cadastro";
   node.textContent=name+" · "+data.respondidos+"/7 noites · "+(data.completo?"UAS7 "+data.total+"/42":data.encerrado?"Semana incompleta":"Parcial "+data.parcial+" pontos");
+  const details=$("uas7-qr-details");
+  if(details){
+    const content=$("uas7-qr-details-content");content.replaceChildren();
+    const person=document.createElement("p");
+    person.style.cssText="font-size:12px;color:#31566a";
+    person.textContent=data.paciente?("Paciente: "+data.paciente.nome+" · "+data.paciente.idade+" anos · "+data.paciente.cidade):"Paciente ainda não identificado.";
+    content.append(person);
+    const table=document.createElement("table");
+    table.style.cssText="width:100%;font-size:12px;border-collapse:collapse";
+    const heading=document.createElement("tr");
+    ["Data","Pápulas","Prurido","Total"].forEach(x=>{
+      const h=document.createElement("th");h.textContent=x;h.style.cssText="padding:6px 3px;border-bottom:1px solid #dbe6eb;text-align:left";heading.append(h);
+    });table.append(heading);
+    for(const item of data.registros){
+      const tr=document.createElement("tr");
+      [item.data,item.papulas,item.prurido,item.pontos+"/6"].forEach(x=>{
+        const td=document.createElement("td");td.textContent=String(x);
+        td.style.cssText="padding:7px 3px;border-bottom:1px solid #e5edf1;text-align:left";
+        tr.append(td);
+      });table.append(tr);
+    }
+    content.append(table);
+    details.hidden=false;
+  }
  }catch(e){if(gen===generation)status("Consulta ao histórico indisponível: "+e.message);}
 }
 async function create(gen){
@@ -76,7 +100,13 @@ function render(){
  warning.textContent="O link profissional é confidencial e diferente do QR do paciente. Copie e guarde antes de fechar. Não compartilhe com o paciente.";
  const progress=document.createElement("p");progress.id="uas7-qr-andamento";progress.style.cssText="font-size:12px;color:#274d65;margin-top:11px";
  const stat=document.createElement("p");stat.id="uas7-qr-status";stat.className="uas-status";stat.setAttribute("role","status");
- box.append(head,intro,qr,links,actions,warning,progress,stat);
+ const details=document.createElement("details");details.id="uas7-qr-details";
+ details.style.cssText="background:#fff;border:1px solid #dae9ed;border-radius:10px;text-align:left;padding:10px;margin:9px 0";
+ details.hidden=true;
+ const summary=document.createElement("summary");summary.textContent="Ver respostas e ficha do paciente";summary.style.cssText="font-size:12px;font-weight:750;cursor:pointer;color:#14546b";
+ const detailContent=document.createElement("div");detailContent.id="uas7-qr-details-content";
+ details.append(summary,detailContent);
+ box.append(head,intro,qr,links,actions,warning,progress,details,stat);
  fields.prepend(box);
  generate.addEventListener("click",()=>{if(doctorKey&&!confirm("Gerar um novo QR Code inicia outro acompanhamento. Você guardou o link profissional anterior?"))return;stop();create(generation);});
  create(generation);
