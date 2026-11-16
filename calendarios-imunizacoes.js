@@ -202,6 +202,50 @@
   var fonte='sbim', selecionado=null;
   var currentDoc=null;
 
+  var COVID_MS='https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/c/covid-19';
+  var COVID_GUIA='https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/guias-e-manuais/2025/guia-rapido-de-vacinacao-contra-a-covid-19/view';
+  var COVID_PNI=GOV+'publicacoes/instrucao-normativa-que-instrui-o-calendario-nacional-de-vacinacao-2026.pdf/view';
+
+  function prepararCalendarioCovid(menu){
+    if(!menu||get('vac-cal-covid'))return;
+    var pni=menu.querySelector('button[onclick="vacAbrirCalendarios(\'pni\')"]');
+    if(!pni)return;
+
+    var card=document.createElement('details');
+    card.id='vac-cal-covid';
+    card.className='vac-nat-shell';
+    card.innerHTML=
+      '<summary class="vac-covid-summary">'+
+        '<span class="vac-covid-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 10h18m-12 5 2 2 4-4"/></svg></span>'+
+        '<span><span class="vac-covid-title">Calendário de vacinação contra COVID-19</span>'+
+        '<span class="vac-covid-subtitle">Ministério da Saúde / PNI · Doses e intervalos no SUS</span></span>'+
+        '<span class="vac-covid-chevron" aria-hidden="true">›</span>'+
+      '</summary>'+
+      '<div class="vac-nat-body vac-covid-body">'+
+        viewGroup('Vacinação de rotina',[
+          ['Crianças de 6 meses a menores de 5 anos','Comirnaty (Pfizer): 3 doses aos 6, 7 e 9 meses. Spikevax (Moderna): esquema de 2 doses aos 6 e 7 meses, conforme disponibilidade e histórico.',
+           'Comirnaty: 4 semanas entre a 1ª e a 2ª dose e 8 semanas entre a 2ª e a 3ª. Spikevax: 4 semanas entre as doses. Em atraso, conferir a caderneta e completar até 4 anos, 11 meses e 29 dias, conforme o produto. Crianças saudáveis com esquema completo dispensam doses periódicas de rotina. Crianças com comorbidades, indígenas, quilombolas ou ribeirinhas recebem 1 dose anual após o esquema básico, com intervalo mínimo de 6 meses desde a última dose. Em caso de imunocomprometimento, consultar o esquema especial abaixo.'],
+          ['Gestantes','1 dose por gestação, em qualquer idade gestacional.',
+           'Se houver dose prévia contra COVID-19, aguardar pelo menos 6 meses desde a última dose.'],
+          ['Pessoas a partir de 60 anos','1 dose a cada 6 meses.',
+           'Contar 6 meses desde a última dose, independentemente do total de doses anteriores.']
+        ])+
+        viewGroup('Vacinação especial e atualização da caderneta',[
+          ['Pessoas imunocomprometidas a partir de 6 meses','Esquema inicial com Comirnaty: 3 doses. Após completar, 1 dose a cada 6 meses.',
+           'Respeitar 4 semanas entre a 1ª e a 2ª dose e 8 semanas entre a 2ª e a 3ª. Usar a apresentação indicada para a idade. Contar pelo menos 6 meses desde a última dose para a vacinação periódica.'],
+          ['Demais grupos especiais a partir de 5 anos','1 dose anual enquanto persistir a indicação.',
+           'Inclui pessoas com comorbidades (intervalo mínimo de 6 meses desde a última dose), deficiência permanente, indígenas dentro ou fora de terras indígenas, ribeirinhos, quilombolas, profissionais de saúde, residentes e trabalhadores de instituições de longa permanência, pessoas em situação de rua, pessoas privadas de liberdade e funcionários do sistema prisional, adolescentes e jovens em medidas socioeducativas e trabalhadores dos Correios. Puérperas são elegíveis se não vacinadas na gestação.'],
+          ['População geral de 5 a 59 anos','1 dose para quem nunca recebeu vacina contra COVID-19.',
+           'Usar o imunizante disponível e indicado para a idade. A revacinação periódica segue os critérios dos grupos elegíveis.']
+        ])+
+        '<div class="vac-nat-footer">Fontes oficiais consultadas em 16/11/2026.'+
+        '<a class="vac-nat-source" href="'+COVID_MS+'" target="_blank" rel="noopener noreferrer">COVID-19 no Ministério da Saúde</a>'+
+        '<a class="vac-nat-source" href="'+COVID_PNI+'" target="_blank" rel="noopener noreferrer">Instrução Normativa do PNI 2026 · seção 12</a>'+
+        '<a class="vac-nat-source" href="'+COVID_GUIA+'" target="_blank" rel="noopener noreferrer">Guia Rápido de Vacinação contra a COVID-19</a></div>'+
+      '</div>';
+    pni.after(card);
+  }
+
   function preparar(){
     if(!get('vac-sub-calendarios'))return;
     if(!get('vac-nativo-css')){
@@ -234,6 +278,21 @@
        '.vac-nat-footer{padding:12px;border-top:1px solid #e2e8f0;margin-top:15px;font-size:11.5px;line-height:1.55;color:#64748b}' +
        '.vac-nat-source{display:block;width:fit-content;max-width:100%;margin-top:10px;color:#1f6980;text-decoration:underline;font-weight:700;overflow-wrap:anywhere}' +
        '.vac-nat-back{border:1px solid #c8e2e9;background:#eef8fb;color:#155c70;border-radius:8px;padding:7px 10px;font:700 11px Manrope,sans-serif;cursor:pointer}' +
+       '#vac-cal-covid{min-height:0;border:1.5px solid var(--gray-100);border-radius:14px}' +
+       '#vac-cal-covid[open]{border-color:#2d8fa8}' +
+       '.vac-covid-summary{min-height:88px;box-sizing:border-box;display:flex;align-items:center;gap:14px;padding:14px 16px;cursor:pointer;list-style:none}' +
+       '.vac-covid-summary::-webkit-details-marker{display:none}' +
+       '.vac-covid-summary:focus-visible{outline:3px solid #2d8fa8;outline-offset:-3px}' +
+       '.vac-covid-icon{display:grid;place-items:center;flex:0 0 28px;width:28px;height:32px;border-radius:8px;background:linear-gradient(145deg,#eefbfa,#dceef6);color:#1f6980}' +
+       '.vac-covid-title,.vac-covid-subtitle{display:block;line-height:1.45}' +
+       '.vac-covid-title{color:var(--navy);font-size:13.5px;font-weight:800}' +
+       '.vac-covid-subtitle{color:var(--gray-500);font-size:11.5px;margin-top:2px}' +
+       '.vac-covid-chevron{margin-left:auto;color:var(--gray-500);font-size:18px}' +
+       '#vac-cal-covid[open]>.vac-covid-summary{background:#effafb}' +
+       '#vac-cal-covid[open] .vac-covid-chevron{transform:rotate(90deg)}' +
+       '#vac-cal-covid>.vac-covid-body{padding:12px}' +
+       '#vac-cal-covid:not([open])>.vac-covid-body{display:none}' +
+       '@media(max-width:390px){.vac-covid-summary{min-height:96px}}' +
        '@media(min-width:750px){.vac-nat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.vac-nat-shell{min-height:138px}.vac-nat-shell:not(.open)>.vac-nat-card{min-height:135px}}';
       document.head.appendChild(style);
     }
@@ -247,6 +306,7 @@
       var pane=document.createElement('div');pane.id='vacNativeContent';sec.appendChild(pane);
     }
     var menu=get('vac-menu-hub');
+    prepararCalendarioCovid(menu);
     if(menu)Array.prototype.forEach.call(menu.querySelectorAll('button'),function(b){if(b.getAttribute('onclick')==="vacShowSub('atraso')")b.remove();});
     var at=get('vac-sub-atraso');
     if(at && !at.dataset.nativeIntegrated){
@@ -480,6 +540,8 @@
   if(typeof velhaMostrarHub==='function'){
     window.vacShowHub=function(){
       velhaMostrarHub.apply(this,arguments);
+      var covid=get('vac-cal-covid');
+      if(covid)covid.open=false;
       resetMenuExpanded();
       closeNative();
     };
