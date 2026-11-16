@@ -49,18 +49,45 @@ async function doctorRow(db,token) {
   return data;
 }
 async function entries(db,id) {
-  const {data,error}=await db.from("uas7_respostas_diarias").select("data_ref,papulas,prurido,registrado_em").eq("acompanhamento_id",id).order("data_ref",{ascending:true});
-  if (error) throw error;
-  return (data||[]).map(x=>({data:x.data_ref,papulas:x.papulas,prurido:x.prurido,pontos:x.papulas+x.prurido}));
+  // PostgREST limita respostas por página: paginar para preservar todas as semanas.
+  const all=[];
+  for(let from=0; from<20000; from+=500) {
+    const {data,error}=await db.from("uas7_respostas_diarias")
+      .select("data_ref,papulas,prurido,registrado_em")
+      .eq("acompanhamento_id",id).order("data_ref",{ascending:true}).range(from,from+499);
+    if(error)throw error;
+    all.push(...(data||[]));
+    if(!data||data.length<500)break;
+  }
+  return all.map(x=>({data:x.data_ref,papulas:x.papulas,prurido:x.prurido,pontos:x.papulas+x.prurido}));
+}
+function addDays(date,n) {
+  const d=new Date(date+"T12:00:00Z");
+  d.setUTCDate(d.getUTCDate()+n);
+  return d.toISOString().slice(0,10);
 }
 function stats(row,list) {
-  const hoje=dateInBrazil();
-  const dias=row.inicio_em ? daysBetween(row.inicio_em,hoje)+1:0;
-  const complete=row.inicio_em && list.length===7 && list.every((x,i)=>daysBetween(row.inicio_em,x.data)===i);
-  return {hoje,inicio:row.inicio_em||null,diaAtual:row.inicio_em?Math.max(1,dias):null,
-    registros:list,respondidos:list.length,parcial:list.reduce((n,x)=>n+x.pontos,0),
-    completo:!!complete,total:complete?list.reduce((n,x)=>n+x.pontos,0):null,
-    encerrado:!!row.inicio_em && dias>7, expiraEm:row.expira_link_paciente_em};
+  // Semanas fixas de 7 dias, ancoradas na primeira resposta, mesmo se houver lacunas.
+  const hoje=dateInBrazil(),inicio=row.inicio_em||null;
+  const elapsed=inicio?Math.max(0,daysBetween(inicio,hoje)):0;
+  const semanaAtual=inicio?Math.floor(elapsed/7)+1:1;
+  const diaAtual=inicio?(elapsed%7)+1:1;
+  const semanas=[];
+  for(let i=0;i<semanaAtual;i++){
+    const semanaInicio=inicio?addDays(inicio,i*7):null;
+    const semanaFim=semanaInicio?addDays(semanaInicio,6):null;
+    const respostas=semanaInicio?list.filter(x=>x.data>=semanaInicio&&x.data<=semanaFim):[];
+    const completo=respostas.length===7&&respostas.every((x,j)=>x.data===addDays(semanaInicio,j));
+    const parcial=respostas.reduce((n,x)=>n+x.pontos,0);
+    semanas.push({numero:i+1,inicio:semanaInicio,fim:semanaFim,respondidos:respostas.length,
+      registros:respostas,parcial,completo,total:completo?parcial:null,
+      encerrada:i+1<semanaAtual||i+1===semanaAtual&&diaAtual===7&&respostas.some(x=>x.data===hoje)});
+  }
+  const atual=semanas[semanas.length-1]||{};
+  return {hoje,inicio,semanaAtual,diaAtual,semanaInicio:atual.inicio||null,semanaFim:atual.fim||null,
+    registros:atual.registros||[],respondidos:atual.respondidos||0,parcial:atual.parcial||0,
+    completo:!!atual.completo,total:atual.total??null,encerrado:false,
+    todasAsRespostas:list,semanas,expiraEm:row.expira_link_paciente_em};
 }
 function clean(s,max) {
   return typeof s==="string"?s.replace(/[\u0000-\u001f\u007f]/g," ").replace(/\s+/g," ").trim().slice(0,max):"";
@@ -80,7 +107,7 @@ Deno.serve(async req => {
       const tokenPaciente=randomToken(),tokenProfissional=randomToken();
       const {error}=await db.from("uas7_acompanhamentos").insert({token_paciente_sha:await sha(tokenPaciente),token_profissional_sha:await sha(tokenProfissional)});
       if(error)throw error;
-      return send(origin,200,{ok:true,tokenPaciente,tokenProfissional,expiraEmDias:45});
+      return send(origin,200,{ok:true,tokenPaciente,tokenProfissional,expiraSemAtividadeEmDias:45});
     }
     if(action==="patient-status"){
       const row=await patientRow(db,body.token);
@@ -103,8 +130,8 @@ Deno.serve(async req => {
       const p=body.papulas, i=body.prurido;
       if(!Number.isInteger(p)||p<0||p>3||!Number.isInteger(i)||i<0||i>3)
         return send(origin,400,{erro:"Selecione uma opção válida para pápulas e prurido."});
-      const hoje=dateInBrazil(), inicio=row.inicio_em||hoje, n=daysBetween(inicio,hoje);
-      if(n<0||n>6)return send(origin,409,{erro:"O período de sete dias já terminou. Solicite um novo QR Code."});
+      const hoje=dateInBrazil(), inicio=row.inicio_em||hoje;
+      // O mesmo QR Code segue válido por semanas sucessivas; não há limite de sete dias.
       if(!row.consentimento_em){
         const nome=clean(body.nome,100),cidade=clean(body.cidade,100),idade=body.idade;
         if(nome.length<3||cidade.length<2||!Number.isInteger(idade)||idade<0||idade>120||body.consentimento!==true)
@@ -122,8 +149,15 @@ Deno.serve(async req => {
         if(error.code==="23505")return send(origin,409,{erro:"A resposta de hoje já foi registrada. Volte amanhã à noite."});
         throw error;
       }
+      // Renovação deslizante: o link não expira enquanto o diário for usado periodicamente.
+      const novoPrazo=new Date(Date.now()+45*86400000).toISOString();
+      const {error:renewError}=await db.from("uas7_acompanhamentos")
+        .update({expira_link_paciente_em:novoPrazo,atualizado_em:new Date().toISOString()})
+        .eq("id",row.id);
+      if(renewError)console.error("uas7 renewal failed",renewError.code);
       const list=await entries(db,row.id);
-      return send(origin,200,{ok:true,registradoHoje:true,...stats({...row,inicio_em:inicio},list)});
+      return send(origin,200,{ok:true,registradoHoje:true,cadastrado:true,
+        ...stats({...row,inicio_em:inicio,expira_link_paciente_em:renewError?row.expira_link_paciente_em:novoPrazo},list)});
     }
     if(action==="delete"){
       const row=await (validToken(body.token)?(body.tipo==="profissional"?doctorRow(db,body.token):patientRow(db,body.token)):Promise.resolve(null));
