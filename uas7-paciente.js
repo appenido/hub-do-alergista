@@ -31,16 +31,18 @@
     latest = response;
     el("mensagem").hidden = true;
     el("painelProgresso").hidden = false;
-    el("subProgresso").textContent = response.respondidos + " de 7 dias registrados";
+    el("subProgresso").textContent = "Semana " + response.semanaAtual + " · " + response.respondidos + " de 7 dias registrados";
     el("pontuacao").textContent = response.completo ?
        "UAS7: " + response.total + "/42" : "Parcial: " + response.parcial + " pontos";
-    el("detalheProgresso").textContent = response.completo ? "Sete dias consecutivos completos." :
-      "Os dias não respondidos não entram como zero.";
+    el("detalheProgresso").textContent = response.completo
+      ? "Semana " + response.semanaAtual + " concluída · UAS7 calculado. A próxima semana abre automaticamente no dia seguinte."
+      : "Semana " + response.semanaAtual + " · " + (response.semanaInicio || "Primeiro registro") + " a " +
+        (response.semanaFim || "7 dias após o início") + ". Respostas ausentes não valem zero.";
     const days = el("diasProgresso");
     days.replaceChildren();
     const logged = new Set(response.registros.map(item => item.data));
     for (let index = 0; index < 7; index++) {
-      const when = response.inicio ? addDay(response.inicio, index) : null;
+      const when = response.semanaInicio ? addDay(response.semanaInicio, index) : null;
       const div = document.createElement("div");
       div.className = "uas-day" + (logged.has(when) ? " done" : when === response.hoje ? " today" : when && when < response.hoje ? " missed" : "");
       div.textContent = (index + 1) + (logged.has(when) ? " ✓" : "");
@@ -52,15 +54,36 @@
     line.className = "uas-muted";
     line.textContent = response.registros.map(item => item.data + ": " + item.pontos + "/6").join(" · ");
     list.append(line);
+    const previous = (response.semanas || []).filter(x => x.numero < response.semanaAtual).reverse();
+    if (previous.length) {
+      const title=document.createElement("h3");
+      title.textContent="Histórico das semanas anteriores";
+      title.style.cssText="font-size:15px;margin:20px 0 9px;color:#153d57";
+      list.append(title);
+      for (const week of previous) {
+        const details=document.createElement("details");
+        details.className="uas-week-history";
+        const summary=document.createElement("summary");
+        summary.textContent="Semana "+week.numero+" · "+week.inicio+" a "+week.fim+" · "+
+          (week.completo ? "UAS7 "+week.total+"/42" : "Incompleta ("+week.respondidos+"/7)");
+        details.append(summary);
+        const txt=document.createElement("p");
+        txt.className="uas-muted";
+        txt.textContent=week.registros.length
+          ? week.registros.map(x=>x.data+" · pápulas "+x.papulas+" · prurido "+x.prurido+" · "+x.pontos+"/6").join(" | ")
+          : "Nenhum registro nesta semana.";
+        details.append(txt);
+        list.append(details);
+      }
+    }
     const answered = logged.has(response.hoje);
     el("formDiario").hidden = answered || response.encerrado;
     el("cadastro").hidden = response.cadastrado;
     el("blocoConsentimento").hidden = response.cadastrado;
-    el("etapaAtual").textContent = response.inicio ? "Dia " + Math.min(response.diaAtual, 7) : "Dia 1";
-    if (answered) message("Resposta salva", "Volte amanhã à noite usando este mesmo link.");
-    if (response.encerrado) message(response.completo ? "Diário concluído" : "Período encerrado",
-       response.completo ? "Seu resultado está disponível ao profissional." :
-       "Há dias sem resposta. Solicite um novo acompanhamento.");
+    el("etapaAtual").textContent = "Semana " + response.semanaAtual + " · Dia " + response.diaAtual + " de 7";
+    if (answered) message("Resposta salva", response.diaAtual===7
+      ? "A Semana " + (response.semanaAtual+1) + " será aberta automaticamente amanhã, no mesmo link."
+      : "Volte amanhã à noite usando este mesmo link. Todos os resultados anteriores continuam salvos.");
   }
   async function load() {
     try {
@@ -125,5 +148,19 @@
       message("Falha na exclusão", error.message);
     }
   });
+  // A passagem da meia-noite em Sao Paulo renova a tela sem substituir o link.
+  function todayBrazil() {
+    const fields=Object.fromEntries(new Intl.DateTimeFormat("en-US", {
+      timeZone:"America/Sao_Paulo",year:"numeric",month:"2-digit",day:"2-digit"
+    }).formatToParts(new Date()).map(x=>[x.type,x.value]));
+    return fields.year+"-"+fields.month+"-"+fields.day;
+  }
+  function refreshIfNewDay() {
+    if(latest && todayBrazil()!==latest.hoje)load();
+  }
+  document.addEventListener("visibilitychange",()=>{
+    if(!document.hidden)refreshIfNewDay();
+  });
+  setInterval(refreshIfNewDay,60000);
   load();
 })();
