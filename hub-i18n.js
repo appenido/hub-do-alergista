@@ -275,6 +275,279 @@
     ['Bula: máximo 2 inalações 12/12h (4/dia) temporariamente; NÃO aplicar limite MART de 12.','Label: maximum 2 inhalations every 12 h (4/day) temporarily; do NOT use the MART limit of 12.','Ficha técnica: máximo 2 inhalaciones cada 12 h (4/día) temporalmente; NO aplicar el límite MART de 12.'],
     ['Imunização passiva, não vacina. Na estratégia especial do SUS: prematuros com idade gestacional até 36 semanas e 6 dias e menos de seis meses; ou menores de 24 meses com condições de risco definidas.','Passive immunization, not a vaccine. Under the special SUS strategy: infants born preterm at up to 36 weeks and 6 days of gestation who are under six months old; or children under 24 months with specified risk conditions.','Inmunización pasiva, no vacuna. En la estrategia especial del SUS: prematuros de hasta 36 semanas y 6 días de edad gestacional y menores de seis meses; o menores de 24 meses con factores de riesgo definidos.']
   ];
+  // Guia ilustrado de instalação: inclui os textos dentro dos desenhos.
+  entries.push(...[
+  [
+    "Guia ilustrado para instalar o Hub do Alergista no Android, iPhone ou iPad, com imagens de cada etapa.",
+    "Illustrated guide to install Hub do Alergista on Android, iPhone or iPad, with an image for each step.",
+    "Guía ilustrada para instalar Hub do Alergista en Android, iPhone o iPad, con imágenes de cada paso."
+  ],
+  [
+    "Instalar aplicativo — Hub do Alergista",
+    "Install app — Hub do Alergista",
+    "Instalar aplicación — Hub do Alergista"
+  ],
+  [
+    "Voltar ao Hub do Alergista",
+    "Return to Hub do Alergista",
+    "Volver a Hub do Alergista"
+  ],
+  [
+    "Acesso rápido no celular",
+    "Quick access on your phone",
+    "Acceso rápido en el móvil"
+  ],
+  [
+    "Escolha seu dispositivo e acompanhe as imagens. As setas e os contornos dourados mostram onde tocar em cada etapa.",
+    "Choose your device and follow the images. The arrows and gold outlines show where to tap at each step.",
+    "Elige tu dispositivo y sigue las imágenes. Las flechas y los contornos dorados indican dónde tocar en cada paso."
+  ],
+  [
+    "Orientações de instalação",
+    "Installation instructions",
+    "Instrucciones de instalación"
+  ],
+  [
+    "Sistema operacional",
+    "Operating system",
+    "Sistema operativo"
+  ],
+  [
+    "Instalar no Android",
+    "Install on Android",
+    "Instalar en Android"
+  ],
+  [
+    "Instalar no iPhone ou iPad",
+    "Install on iPhone or iPad",
+    "Instalar en iPhone o iPad"
+  ],
+  [
+    "Abra o Hub no Google Chrome e siga as 4 etapas.",
+    "Open the Hub in Google Chrome and follow the 4 steps.",
+    "Abre el Hub en Google Chrome y sigue los 4 pasos."
+  ],
+  [
+    "Abra o Hub no Safari e siga as 4 etapas.",
+    "Open the Hub in Safari and follow the 4 steps.",
+    "Abre el Hub en Safari y sigue los 4 pasos."
+  ],
+  [
+    "Chrome com os três pontos do menu destacados no canto superior direito.",
+    "Chrome with the three-dot menu highlighted in the upper-right corner.",
+    "Chrome con el menú de tres puntos resaltado en la esquina superior derecha."
+  ],
+  [
+    "Abra o menu do Chrome",
+    "Open the Chrome menu",
+    "Abre el menú de Chrome"
+  ],
+  [
+    "Acesse",
+    "Go to",
+    "Accede a"
+  ],
+  [
+    "no Chrome. Toque nos três pontos (⋮), no canto superior direito.",
+    "in Chrome. Tap the three dots (⋮) in the upper-right corner.",
+    "en Chrome. Toca los tres puntos (⋮) en la esquina superior derecha."
+  ],
+  [
+    "Menu do Chrome com a opção Instalar e criar atalho destacada.",
+    "Chrome menu with Install and create shortcut highlighted.",
+    "Menú de Chrome con Instalar y crear acceso directo resaltado."
+  ],
+  [
+    "Instalar e criar atalho",
+    "Install and create shortcut",
+    "Instalar y crear acceso directo"
+  ],
+  [
+    "Escolha a instalação",
+    "Choose installation",
+    "Elige la instalación"
+  ],
+  [
+    "Toque em Instalar e criar atalho e depois em Instalar. Em outras versões, a opção aparece como Instalar app ou Adicionar à tela inicial.",
+    "Tap Install and create shortcut, then Install. In other versions, the option may appear as Install app or Add to Home screen.",
+    "Toca Instalar y crear acceso directo y después Instalar. En otras versiones puede aparecer como Instalar aplicación o Añadir a la pantalla de inicio."
+  ],
+  [
+    "Confirmação de instalação do Hub com o botão Instalar destacado.",
+    "Hub installation confirmation with the Install button highlighted.",
+    "Confirmación de instalación del Hub con el botón Instalar resaltado."
+  ],
+  [
+    "Confirme no celular",
+    "Confirm on your phone",
+    "Confirma en el móvil"
+  ],
+  [
+    "Toque em Instalar para confirmar. Se aparecer a criação de um atalho, toque em Adicionar.",
+    "Tap Install to confirm. If a shortcut prompt appears, tap Add.",
+    "Toca Instalar para confirmar. Si aparece la creación de un acceso directo, toca Añadir."
+  ],
+  [
+    "Tela inicial do celular com o ícone do Hub do Alergista destacado.",
+    "Phone home screen with the Hub do Alergista icon highlighted.",
+    "Pantalla de inicio del móvil con el icono de Hub do Alergista resaltado."
+  ],
+  [
+    "Abra pelo ícone do Hub",
+    "Open using the Hub icon",
+    "Abre desde el icono del Hub"
+  ],
+  [
+    "Procure o ícone do Hub na tela inicial ou na lista de aplicativos e toque nele para abrir.",
+    "Find the Hub icon on the home screen or in the app list and tap it to open.",
+    "Busca el icono del Hub en la pantalla de inicio o en la lista de aplicaciones y tócalo para abrir."
+  ],
+  [
+    "Instalar diretamente no Android",
+    "Install directly on Android",
+    "Instalar directamente en Android"
+  ],
+  [
+    "Se abriu pelo WhatsApp, Instagram ou outro aplicativo, use o menu desse aplicativo para abrir o link no Chrome. Se o botão de instalação direta aparecer acima, você também pode usá-lo.",
+    "If you opened this from WhatsApp, Instagram or another app, use that app’s menu to open the link in Chrome. If the direct installation button appears above, you can also use it.",
+    "Si abriste el enlace desde WhatsApp, Instagram u otra aplicación, usa su menú para abrirlo en Chrome. Si aparece arriba el botón de instalación directa, también puedes usarlo."
+  ],
+  [
+    "Safari com o botão Compartilhar, um quadrado com seta para cima, destacado.",
+    "Safari with the Share button, a square with an upward arrow, highlighted.",
+    "Safari con el botón Compartir, un cuadrado con una flecha hacia arriba, resaltado."
+  ],
+  [
+    "Toque em Compartilhar",
+    "Tap Share",
+    "Toca Compartir"
+  ],
+  [
+    "no Safari. Toque no quadrado com seta para cima. Em alguns layouts, abra primeiro o menu da página e escolha Compartilhar.",
+    "in Safari. Tap the square with the upward arrow. In some layouts, open the page menu first and choose Share.",
+    "en Safari. Toca el cuadrado con la flecha hacia arriba. En algunos diseños, abre primero el menú de la página y elige Compartir."
+  ],
+  [
+    "Menu Compartilhar do Safari com Adicionar à Tela de Início destacado.",
+    "Safari Share menu with Add to Home Screen highlighted.",
+    "Menú Compartir de Safari con Añadir a pantalla de inicio resaltado."
+  ],
+  [
+    "Adicionar à Tela de Início",
+    "Add to Home Screen",
+    "Añadir a pantalla de inicio"
+  ],
+  [
+    "Adicione à Tela de Início",
+    "Add to the Home Screen",
+    "Añade a la pantalla de inicio"
+  ],
+  [
+    "Role a lista de opções e toque em Adicionar à Tela de Início. Se não encontrar, vá até Editar Ações e inclua essa opção.",
+    "Scroll through the options and tap Add to Home Screen. If it is missing, go to Edit Actions and add that option.",
+    "Desplázate por las opciones y toca Añadir a pantalla de inicio. Si no aparece, ve a Editar acciones e incluye esa opción."
+  ],
+  [
+    "Confirmação do Safari com Abrir como App da Web ativado e o botão Adicionar destacado.",
+    "Safari confirmation with Open as Web App enabled and the Add button highlighted.",
+    "Confirmación de Safari con Abrir como app web activado y el botón Añadir resaltado."
+  ],
+  [
+    "Adicionar",
+    "Add",
+    "Añadir"
+  ],
+  [
+    "Abrir como App da Web",
+    "Open as Web App",
+    "Abrir como app web"
+  ],
+  [
+    "Confirme em Adicionar",
+    "Confirm with Add",
+    "Confirma con Añadir"
+  ],
+  [
+    "Quando a opção estiver disponível, ative Abrir como App da Web. Depois, toque em Adicionar, no canto superior direito.",
+    "When the option is available, turn on Open as Web App. Then tap Add in the upper-right corner.",
+    "Cuando esté disponible, activa Abrir como app web. Después, toca Añadir en la esquina superior derecha."
+  ],
+  [
+    "Tela de Início do iPhone com o ícone do Hub do Alergista destacado.",
+    "iPhone Home Screen with the Hub do Alergista icon highlighted.",
+    "Pantalla de inicio del iPhone con el icono de Hub do Alergista resaltado."
+  ],
+  [
+    "Volte à Tela de Início e toque no ícone do Hub do Alergista para abrir o aplicativo.",
+    "Return to the Home Screen and tap the Hub do Alergista icon to open the app.",
+    "Vuelve a la pantalla de inicio y toca el icono de Hub do Alergista para abrir la aplicación."
+  ],
+  [
+    "No iPad, o botão Compartilhar pode ficar na parte superior do Safari. Se abriu o link dentro de outro aplicativo, abra primeiro no Safari.",
+    "On iPad, the Share button may be at the top of Safari. If the link opened inside another app, open it in Safari first.",
+    "En el iPad, el botón Compartir puede estar en la parte superior de Safari. Si el enlace se abrió dentro de otra aplicación, ábrelo primero en Safari."
+  ],
+  [
+    "Imagens ilustrativas. Os menus podem variar conforme a versão do navegador.",
+    "Illustrative images. Menus may vary depending on your browser version.",
+    "Imágenes ilustrativas. Los menús pueden variar según la versión del navegador."
+  ],
+  [
+    "Pronto: o Hub fica acessível pelo ícone no celular, sem precisar da Play Store ou da App Store.",
+    "All set: access the Hub from its icon on your phone, without the Play Store or App Store.",
+    "Listo: accede al Hub desde su icono en el móvil, sin necesidad de Play Store ni App Store."
+  ],
+  [
+    "O conteúdo é atualizado quando há conexão e uma nova versão é publicada.",
+    "Content updates when connected and a new version is published.",
+    "El contenido se actualiza cuando hay conexión y se publica una nueva versión."
+  ],
+  [
+    "Voltar ao Hub",
+    "Back to the Hub",
+    "Volver al Hub"
+  ],
+  [
+    "Orientações oficiais:",
+    "Official instructions:",
+    "Instrucciones oficiales:"
+  ],
+  [
+    "Instalação concluída.",
+    "Installation complete.",
+    "Instalación completada."
+  ],
+  [
+    "Para instalar, siga as instruções do Chrome acima.",
+    "To install, follow the Chrome instructions above.",
+    "Para instalar, sigue las instrucciones de Chrome anteriores."
+  ],
+  [
+    "Instalação solicitada. Confira a tela inicial.",
+    "Installation requested. Check your home screen.",
+    "Instalación solicitada. Revisa la pantalla de inicio."
+  ],
+  [
+    "Instalação não confirmada. Você pode usar o menu do Chrome.",
+    "Installation was not confirmed. You can use the Chrome menu.",
+    "La instalación no se confirmó. Puedes usar el menú de Chrome."
+  ],
+  [
+    "Não foi possível abrir a instalação direta. Use o menu do Chrome.",
+    "Direct installation could not open. Use the Chrome menu.",
+    "No se pudo abrir la instalación directa. Usa el menú de Chrome."
+  ],
+  [
+    "Android",
+    "Android",
+    "Android"
+  ],
+  [
+    "Apple",
+    "Apple",
+    "Apple"
+  ]
+]);
   var labels=Object.create(null);
   entries.forEach(function(entry){labels[entry[0]]={en:entry[1],es:entry[2]};});
   var numberPattern=/\d+(?:[.,:/–-]\d+)*/g;
