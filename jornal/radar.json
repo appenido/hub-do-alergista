@@ -1,18 +1,21 @@
 {
- "ultimaTentativa": "2026-11-16T20:46:28.191Z",
- "atualizadoEm": "2026-11-16T20:46:28.191Z",
+ "ultimaTentativa": "2026-11-17T19:30:53.900Z",
+ "atualizadoEm": "2026-11-17T19:30:53.900Z",
  "status": "ok",
  "totalCandidatos": 60,
- "totalVerificados": 5,
- "totalPendentes": 17,
- "totalExcluidos": 38,
- "falhasFonte": [
-  "https://news.google.com/rss/search?q=anafilaxia%20OR%20%22choque%20anafil%C3%A1tico%22&hl=pt-BR&gl=BR&ceid=BR:pt-419 HTTP 429",
-  "https://news.google.com/rss/search?q=imunodefici%C3%AAncia%20OR%20%22erros%20inatos%20da%20imunidade%22%20OR%20imunoglobulina&hl=pt-BR&gl=BR&ceid=BR:pt-419 HTTP 429",
-  "https://news.google.com/rss/search?q=%22alergia%20alimentar%22%20OR%20%22alergia%20a%20medicamento%22&hl=pt-BR&gl=BR&ceid=BR:pt-419 HTTP 429",
-  "https://news.google.com/rss/search?q=%22esofagite%20eosinof%C3%ADlica%22%20OR%20%22p%C3%B3lipos%20nasais%22%20OR%20rinossinusite&hl=pt-BR&gl=BR&ceid=BR:pt-419 HTTP 429"
- ],
+ "totalVerificados": 8,
+ "totalPendentes": 21,
+ "totalExcluidos": 31,
+ "falhasFonte": [],
  "itens": [
+  {
+   "status": "verificado",
+   "titulo": "Homem é preso após enviar cartão com pasta de amendoim a amiga da ex-esposa que tem alergia grave nos EUA",
+   "fonte": "Rede Atlântida",
+   "data": "2026-11-17T18:27:01.000Z",
+   "url": "https://atl.clicrbs.com.br/humor/noticia/2026/11/homem-e-preso-apos-enviar-cartao-com-pasta-de-amendoim-a-amiga-da-ex-esposa-que-tem-alergia-grave-nos-eua-cmwl0y0bt009501cxnf6sfktu.html",
+   "verificado": true
+  },
   {
    "status": "verificado",
    "titulo": "EUA avalia 1º tratamento para edição genética diretamente dentro do corpo",
@@ -31,14 +34,6 @@
   },
   {
    "status": "verificado",
-   "titulo": "Ataque de abelhas causa urticária, inchaço e tremores em quatro pessoas em MT; veja o que fazer nestes casos",
-   "fonte": "G1",
-   "data": "2026-11-16T16:50:12.242Z",
-   "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/16/ataque-de-abelhas-causa-urticaria-inchaco-e-tremores-em-quatro-pessoas-em-mt-veja-o-que-fazer-nestes-casos.ghtml",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
    "titulo": "Tosse e falta de ar frequentes podem indicar asma ou pneumonia; entenda",
    "fonte": "CNN Brasil",
    "data": "2026-11-13T07:35:01.000Z",
@@ -47,40 +42,64 @@
   },
   {
    "status": "verificado",
-   "titulo": "Abacaxi causa reação alérgica na ex-BBB Cacau Colucci após pegar fruta em supermercado",
-   "fonte": "Terra",
-   "data": "2026-11-11T13:06:16.000Z",
-   "url": "https://www.terra.com.br/diversao/gente/abacaxi-causa-reacao-alergica-na-ex-bbb-cacau-colucci-apos-pegar-fruta-em-supermercado,486573532135cd1478e0d7c483681f18nc0qbwd6.html",
+   "titulo": "Mãe faz desabafo quase quatro anos após jovem ter reação alérgica grave ao cheirar pimenta: 'Sinto falta de tudo que éramos'",
+   "fonte": "G1",
+   "data": "2026-11-12T20:48:14.312Z",
+   "url": "https://g1.globo.com/go/goias/noticia/2026/11/12/mae-faz-desabafo-quase-quatro-anos-apos-jovem-ter-reacao-alergica-grave-ao-cheirar-pimenta-ainda-sinto-falta-de-tudo-que-eramos.ghtml",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Alergia a abacaxi? Médica explica o que pode ter provocado reação em ex-BBB",
+   "fonte": "Notícias da TV",
+   "data": "2026-11-11T23:03:00.000Z",
+   "url": "https://noticiasdatv.uol.com.br/noticia/atitude/alergia-a-abacaxi-medica-explica-o-que-pode-ter-provocado-reacao-em-ex-bbb-159332",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "TV FAMA",
+   "fonte": "RedeTV!",
+   "data": "2026-11-11T17:50:00.000Z",
+   "url": "https://www.redetv.uol.com.br/tvfama/blog/celebridades/ex-bbb-cacau-colucci-sofre-reacao-alergica-ao-tocar-em-fruta-em-mercado",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Ex-BBB tem reação alérgica após encostar em fruta em supermercado",
+   "fonte": "UOL",
+   "data": "2026-11-11T11:44:01.000Z",
+   "url": "https://www.uol.com.br/splash/noticias/2026/11/11/ex-bbb-relata-reacao-alergica-apos-pegar-abacaxi-em-supermercado.ghtm",
    "verificado": true
   }
  ],
  "pendentes": [
   {
    "status": "pendente",
-   "titulo": "Homem é preso após enviar carta com pasta de amendoim para mulher alérgica nos Estados Unidos",
-   "fonte": "Portal do Zacarias",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQRDhiVElXbzRiM3B4R055ektkS1UzTEVETU9HbGR4X0dIVEFwZnA0VGRVWlBNdG9Qb1ZRcDFtWWUydlVPSEhwTV85OXpVMUpSa21McmN0QnIzcGlPT3hTNWdQTXFFdlp6UmxWNWt3Y05rWTZUMzI2QUpGT0NWVnNHS3hEczVlZ2FiVk55MXV3NFFfaVVqTEp0eWJDMm01UU13SUhERHlmYVF5QUs3T3B0SWJmdzJXcERfR0c0OUtFYkJnb25qalZ1VktpNm14dU9lR1kwcWRB?oc=5",
+   "titulo": "Uma única vacina tem resultados promissores contra múltiplas alergias alimentares",
+   "fonte": "O GLOBO",
+   "url": "https://oglobo.globo.com/saude/noticia/2026/11/17/uma-unica-vacina-tem-resultados-promissores-contra-multiplas-alergias-alimentares.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Movido por vingança: homem é preso nos EUA acusado de enviar cartão com amendoim a mulher com alergia grave",
+   "fonte": "O GLOBO",
+   "url": "https://oglobo.globo.com/mundo/epoca/noticia/2026/11/17/movido-por-vinganca-homem-e-preso-nos-eua-acusado-de-enviar-cartao-com-amendoim-a-mulher-com-alergia-grave.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Ataque de abelhas causa urticária, inchaço e tremores em quatro pessoas em MT; veja o que fazer nestes casos",
+   "fonte": "G1",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxQVFJpSUVlMkdBRHFESUVDUFFhYkpnSWs2dmRVVGg1N2pULXkwOVZENWl6RTBnRjhDbVN4QkNVTjhUT1pxMkI3MnpCVUo3am5zMjJwdkt0TVRfZGdsZTZqWktpa1M3clo3ZHo0eGhmNFE4c3Rid1lxcXZLVnJyQ1M4blFSYlhoYjlSYnJNcmN6NHduZU9JZnV5VEdHVzhuMy1EWFZZVWF1aUo4X3pzUVExbU9lQm55RV9RdDUxTkdhNnRNOVZ4b3VuX18xSnZEQXpDM1M5aTBqWUFDTUl5eS1rYWtleGo2S1ZSdGpCQzFFVUI5cUhLaGpHNEdoNNIBigJBVV95cUxORjVfM2MyMmZRc21sbjlyMTRGUnd0ZVVaMlBITDdwbURhSE5YU3RRbnRCZ3dmdjFNUndIOHpJNWpabDh2MW1MRE5RYVgxcXdjZk5rY2g4NjNGQ21sVjQtMy1TLWhRTno1WnlkZ0tmUE5XalNqeWRrdlB2dHdwWXpGTF9DQ0JoWEs1Mk11U2VyV2Z3OTBtQ3pwR3RfY01YV3BuWGxOMkIta2ROVllCTnpxQnQ0WjgybXcwemxWRGtDUXVBcGRJa2dLamtQTzA4Z25IMzJVTjdZclNtQ2FURFB5clNpdXRRbFpaVzBBVGM4REl2SHlKVXVscUZPeXZ2bFNPQ0U2OWktMHhKUQ?oc=5",
    "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
   },
   {
    "status": "pendente",
-   "titulo": "Aluna com asma passa mal em escola sem ar-condicionado e recebe atendimento do Samu",
-   "fonte": "Folha BV",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOYURRdmxEaVNSaGp1RlhRc2R5S3ZhNGduWG1wN29TYWVyRXhpTVFPclZJY29adzdINWthcXVEUks5MGVOV2ZCSWs0WnJJSlZWYWtoekQxVVpfdGF3YXFYYWFuZlpOX29STjBTZjhRaXBTQWpQaGxMZENfVVNocWpVY0lEX3p0OGxTUmh4YWhOb1MyWTAtLWtHbXdMSnhNWTJrelhXSDNjRzVfS0ZkMnJIWDRMU0JoemVf?oc=5",
-   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
-  },
-  {
-   "status": "pendente",
-   "titulo": "A urticária do meu dia a dia",
-   "fonte": "Portal Making Of",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1wcFRjTWJkVU5aSmlmdk9XdE9FekhaTzVKMDdrVVByV1ZxUnR4TTRBejdoYld1VU1YTEVYMGpYTnJGVXh4V3dQZHR5dHE5cWF1bEtzc3hBVjY3d0JWN2JVOTBR?oc=5",
-   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Pacientes e especialistas apresentam o primeiro consenso para a abordagem integral da urticária crônica na Espanha",
-   "fonte": "Demócrata",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQcDdjVU5HS0tDLVFKMURsempzbVhEbVZPd21TTVo3bUh2cUFTTXRrMl9LeDB5SWlaOWV5WTRMVEdjWi1jMksxakpGQmFQV0hJX25wWTdtYXJyR1hOZHFpOHVlOFpiM1l0YnhuNHNzbFdJWDgxT2VfYm9mV0s2dTduR1c2TUpVYmsyVXluT0RZejlvWXdkRUVCR2JESndlV3pyTzZWTTZqVWhGVVd6aVdxaDh3NDhYc0ZPY1FRN3pQQktuN2VRcDJsNGUyNC1nZzBHRXkzNk5hdEFLLXZ5QzgyZzhxZ9IB6AFBVV95cUxOU2g1YnpKcU5xQ1NFdktsaGluQlpkaFlWNVBtVlBVODMwel9wZFYtLWdJb00xV2xkWURfeWhhcDR0TVVFcWsxTGFOWk15aWZXRm9EZU5uV2VZM2dTOC0wTENIME84MFhuWkxYbjVya2VkYWpiYUQ3Z2VYNUlWd3hHOXhtcW9QaGh0bTE2dzlKNHE2bmRaQjBGckVRV2xLM1VzNVM3UGNoaG9LN2N6YWVDWjhnaldrT1R1RTlWWmNLemktWVhQN1MyWWZaYWJXM0hMakxrV1AwRGxuZlRYcUNpUlUyQXJKM1Fo?oc=5",
+   "titulo": "Envia manteiga de amendoim a amiga com alergia para se vingar de divórcio",
+   "fonte": "Notícias ao Minuto",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNeEpsa19oN2xJeUFUZmZXYUQxOXF0QVh1aVliX2JUSEkyNmxodUFoRTE2RUFXWU9fQ1czUlgzZzgzSlNzUHViWFhwbjJTa1Q0alhKVUtORmNzQ2xpb3EzeTAxNnF5R0FVckVpVmI3akQ2UnpLd1pKMU9wRDhvYTN4em04NGxaMnNtcXM4ZF9QQXc4RW1lUG9YZTdxbzVQY1lFaFRHY2lKVDcxMVFsaEVxci1vSFBUdVYzSFhtcQ?oc=5",
    "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
   },
   {
@@ -92,6 +111,13 @@
   },
   {
    "status": "pendente",
+   "titulo": "Ex-BBB Cacau Colucci tem reação alérgica na pele após tocar em abacaxi; médica explica quando se preocupar",
+   "fonte": "Gshow",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxQZDMwb1pIOHVJLWRFZ0lPWThIcEsxSUN1RXpCT25ocDVrdi05QndLa2pVVVlQc2tYVlNMQUFOZ2tGem5TZ1IwNnJnRGhlQm82RFZPVUMydGc1blZ2Y3J4a1d6dTRSa21HZURPeUZJUm1TY0RzVjNUOTJ1RWx3VlMxQ2N4ZEsweXpaYXU3Wnk4TVdyTzJXUmdBbG9xVDRwVUt3bjBlZzRjTGc3dF9XQTRIbDNaUk5lZ1ZNMzhBLUYxaGtWUmw0eDZEeFZXSEwwZ0JmbkxmZXBZRXZiV3JGVlRmNm1YME1nRlRfSUFqUTNDd1hybHE2VlHSAYQCQVVfeXFMUGltYS1kT0pSamVYdkg3SXpvV20tRlk0R181Unk1RTFYNkVRUEtrUTRvVS1NZGpTV1U2SlFhaXN3Rm9uLXFOZWxTTkpWLWJrTkhwTDRueVRQOUJDRTFRWHZ3dWZCdnFJNWtHeDloeTAyaGdjUVVmakhzT0xBZDdhRUlaRzhaS2M2MmV4c1YwQ29DZU1PTk5kZ18xX2czOGV5Y2dLdkZFTmpGaDFQbk8xVHduZjFBSjNsd0NCOXdxZ2V3b1ZpNmZrSEV3ZlRFOXZHdU8wU1dRazBDaFJEQll4VS1lbUt5WkgxR09Dd2JCNjRFMmp4TXhhSG9tcU5vcmFTWUktMTA?oc=5",
+   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
+  },
+  {
+   "status": "pendente",
    "titulo": "Ex-BBB Cacau Colucci: é possível ter alergia ao abacaxi só tocando nele?",
    "fonte": "O GLOBO",
    "linkGoogle": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNMGxoclVtenNxTU81cmp4MDVyNDR2UjljZ0pRV0xzZkhZNmVqNGItQmZtVmVNTVpSdXNhMlRVWUV3NW5abHFiUVd5ZXBjdURLNFV2ZEtiRC1nQjhmZ1BNc2pkQjdxVHpQVjJMSk5oRms1dWhVdlA5NWY3a3VNMWVLSEVCZ3VTcFY1YUJyTnpTcTQ0TEl5eFNmWno5T0JOVndsclJGN0VISGFKWFZBYW1zU2FhNDJxMDNrV211N09PcTY5WnFRdEHSAdQBQVVfeXFMTzVOSDJPbE4weHFDNzJzYVlaUW00dlBWNWRzaUEyZlBlOGpuZllsQ21EOVhoZjBCOWVOWE9STEFHejVSaG9idnJINTVjaXk4XzluSWkzcVFBM3N3cHhlUGVERFJlV0ZxVERWaWFBYmIwa1VyZzQ5LXFieV9jZ2MwWlNiZ0JzMkdfdHh3elk3LUNyZXFBMm5PZGx5aUJDTVlqYk1SM2ZrcU5JUGlvdENXX25TcjVKYjBrTUhfRmxmT3pIU0FIUUVfNG15azVXQUZaSzE5T0w?oc=5",
@@ -99,103 +125,124 @@
   },
   {
    "status": "pendente",
-   "titulo": "Asma no outono: porque aumentam as crises e que sinais não deve ignorar",
-   "fonte": "SIC Notícias",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPWUhPcms2ODZWTmxwY1JSNU9wUVBHcUthTUlVOUJwY3ZGcVlaOTk5Nng5U2F5Z0E1dF9MSUhMWEJ6YURUWF9kM193dy1hdXFLMkR2aUtwQnJYYlZWeGtLTENNdVk5LW5kTkQ4dzVrMzJNRVdZNVRYdkJyOVJmbnFDMmJqRk5tai12NGxCelg4WnM1WENKWEN4eXRUanJwLVhiMmpSdTQ4eUdVUmFsTzdSYnRyakxROEg0RkdfZ0tEM0lyOEItaTNLcGxRWUtUQQ?oc=5",
+   "titulo": "Ex-BBB Cacau Colucci descobre alergia ao pegar fruta em supermercado",
+   "fonte": "Globo",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNUmVFTE5kZS1wRFM3WXZxNVlSSG5IaU9keWp6eGRJWExEdHFwWXU0OC1tUkFTRVFnZUgzeWpmTWQ2UUhRbVMxX1lqUW51V3Q5aVNQZmVIZzJkRXc3Ukpqdmk1RjRnN1A5UEN3OE41SUlkWWdjRXZIWWQycFJsMEVCWm9UR3g3U25pMUFvTHVPV2ViaWhqdEM0bXNFZHVhR3V4LVcxdHJLbEg1Y2d3OHBGdnNXQVVUbXNXNm1nSlVIYWtQdlRzeXJmYlN6MjBORi1BaDBaZtIB4wFBVV95cUxQSTJCQ1hyZC1Da1hsUDJGYUoxMHdyWndsN09iTk4xek91cVJiYVVtTTdNRFRCVEs5eG1aSk0zX08xajhTN1Z0UlJsQ2dyNC1CUnNnUXgydGtpZHJMcFA4OFNnMVRXNHlCdkZtVmlfQ3ZxZ1dBN3VoclBDNFRVX3Z5VUxybXRpenlKQjB0a256Ml9YWnZ4RmlBenlYSHRWMkZZYjU0eU4ybXlYNWozdmFIUEgxeWFJR0JINU4zcUFnSWhhaUNJQTl2RFM2ckEtOU8zMTRDWW5GczlqeWtvSFpxbzF6aw?oc=5",
+   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Viúvo de enfermeira que morreu após reação alérgica em Portugal faz homenagem um mês após casamento",
+   "fonte": "Terra",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMilAJBVV95cUxOSEh1M3B4VDRTa1pqRG54bTltYXlBVzBsZWpCSmh0SGNJamlsS0dnYUpvYUYzTzVFU3U3TFI5UEFaT21OdzAwYi1SZlhoVnV1Y2hoRmxxRHJJZ0dsdVM0bWkyUXVydnBuTTYyLVVMN3VzZ0NYMXp0UlJBcXlubGEtaWtGblF1c3otdnktbFZsZzJsSFJORXh5b3RPVXIzam1tUlFQTkVTblBYRGJoQnI5UHZ1RE52V1dLVWF3TlJPenVMS0ZPaHE1eTJYT2JoalpNdlp6RGpxQVV6b0Q3bmVISDNMT3l3V2cxLTF4TTdSTzlTX255a05ZRnhldXNjZ1o1MzdJazRWM2RPOTNYMTZGWldtTmc?oc=5",
    "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
   },
   {
    "status": "pendente",
    "titulo": "Estudo aponta que um em cada três bebês diagnosticados com alergia a amendoim não tem a condição",
    "fonte": "O GLOBO",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQNlcwLVlwVzJIS3lBU1pDcDJyUElYTXdvbWpBVjdDRV9TOHhhT081akZJVGFUM2tjSUZPQ1JlOFlyeTJKVjNOeFJDcGtxNXRBbHZrNFBjWGM2TnF5Mi11MTdzVlJxRHpSVlNFTjRnS2ttMkw1LW9zbk1oLXZPRmZwT3hwM0pkOHRWQjU3WlJfa1E5YmZSeTdfbUswQ3hEYkt6UnlVNVQwOUlmS1lSOHRDcWg0S0JkbUNHTGQ2YnctbDBhNUdhQ2VPbjNVRUdiOExwal9mRTFaOHJQMzhVSzlfQmZnUW5HajDSAfYBQVVfeXFMTUl0TjlJa1NwWmt2a28wLVFHeWM4TzFYbEtDYzVma19QcDV0bXowTnVIUXV4cndkYnZqeVpINGk2U0hMcjFHZGhXNWxMQ1JDWlh3Z1BRNzBsX3NBdjhCa0pMektZeGVrcXh0SnhJT21JbjlCajNVSzlSaXY5VjdjOWlsdGZ6Q3gwRmltSXFPUkktUHNVNTlCaU55azBqNmNQdVRlYWJ6TjZoTjZOVmNQbUo1SGRMbFA4cDlvaU5QNERYTUg2U0RMQXZkTmlYUE1yb3BIRlR6M2NiNkd0dmN5N0gyUkRBc25UVEhFVXVvTEEyRmFIMEl3?oc=5",
-   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
+   "url": "https://oglobo.globo.com/saude/noticia/2026/11/06/estudo-aponta-que-um-em-cada-tres-bebes-diagnosticados-com-alergia-a-amendoim-nao-tem-a-condicao.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   },
   {
    "status": "pendente",
    "titulo": "Apresentadora Janaína Barbosa morreu após choque anafilático; entenda a reação alérgica",
    "fonte": "O GLOBO",
-   "url": "https://oglobo.globo.com/saude/noticia/2026/11/05/apresentadora-janaina-barbosa-morreu-apos-choque-anafilatico-entenda-a-reacao-alergica.ghtml",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Morte em lua de mel por alergia a frutos do mar: por que é possível morrer comendo camarão e como se prevenir",
-   "fonte": "G1",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxOdHhsRU5uekFQNFRnTEduak1XT1BsRTQxU1g0bm1DOUZiRGd6dFBWb29QUDcteTc4MlY5M0RSOG9Ga1dUOXdkZW1tWnJtaFZLVC03ei1sbjVSdVF5RFVRbDNPUnlid1F2SlE4dzE0TTV1X3BGMk9zODk3ZnVpR1N2OElfNW15T1hhV3Jma3JIYnUyUmxhaUVYaW9Kd21sS0RyQldrd0JFVDZaNm1aNFoydFpabHhxbE1rZjVCaDVGN0J6VlBJeTdrZUN6WGJ1dXdwTGNPT1dfSnFxaFk2OFk4UFFERVVkeFQxb3hVUlJYQkJyUdIBgAJBVV95cUxPdG9MYTJhNXlWcllMQVlwVFNBa3VuYi10MUJoNXVESmZOQTN6SThfZkFJX3lGeWlQZ1VYaU5ncUc2Yk53YS02ZUFUcXEwS29VeUJza1FYZnlQdzhLcG9sSVdaekhFNC01bmFMRGdtNTI2cWZYRDF0OUFkUFJHMVdHR0xZS0VtX3N1dzE5cjFWZ2VJMm5STUZUOFN5Nk5NbEh6MkdXX2t6S0RmLWRNM0RPQkY3WlB6QVBvd1I4azZwNzlrVlVJUndGalUyU0c1M2h1V2FZaWhpakxNc25aTWhrNFh5U01sSF9DX2xrMWNITnNRYmFGcmNENjd2U0RJY01n?oc=5",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxQUnZnWV83SFplVURkcHdxb0ctOWsxalVvTVdpa1ozSHUtUzRxZ1FkZ1N0ZGFTX0hzazFfN0NaMkxLdjdNX0E3dFdDUWhPejhRMkhHQUZBLThFT0lVSWg0RmFTdVVPMkNGMElLTmQ5VDllYnd6eV9ZQ1F0TDFPWEJfcWpSY1l5OUFaYlVZZWdVSFg0dy1GQVJUeUxMWmZubGt2dnpsS1R1a1Q0azA2cU13TkpVSVpZaU10WWJ1a3o3d1ZaVUlITERxekdqQjZTMEt6aEpWbHFyN3lfUdIB6AFBVV95cUxNanpWbUFEOTRiOFBSTkJXNl92RC1QT3VBSV84WFBNZEVPYTNXbWR3ZTRvQXBGREJpdXRJdmE1dGM3Wmh0X2JhYUxTZWhJY3RRcEJwb2JIZVNndVhjcjB1NVlpME1JQTMzYWo0eTF4anQ4dk5pT3pwcDhoQW9iU3lpYWg2UHVIc1drcnk2b3JXaFlUOFdBbkVRZ0FrMVVtdmpJdzB5SEo2dWRNYmdmV2dWNVNmbWtMbnZmcDJKeVpCdjBkd0JycEhfUFd5R0JhSmI3VDQ1RTRKTVJQSVFSZTJpdU5SMnhNdDRI?oc=5",
    "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
   },
   {
    "status": "pendente",
-   "titulo": "Quando controlar as lesões não é suficiente na dermatite atópica",
-   "fonte": "Medscape",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNbGhtQzZsZlFJZi1XOGtyVWdEMFlJWmJUaFMtSWY2WGJzaTVzbG9rZEdHaXR6UktLS2RlSUN1NC1RamZma1lpWWZwZ0VkNVlFelhsTG5TMmM5dTUxTEF6REdzX3o1MGloa3BrX3l2cHBBNUhWU3ZDZWNIX3g2c2ZPazdKZTNTT2J4YWFJejlkbmhxZHlmclVUUDlCLTRRalZEQ1RDWFVhMEF4MXB0VEw2d3hzSi0?oc=5",
+   "titulo": "Janaína Barbosa x choque anafilático: alergista alerta para reação fatal",
+   "fonte": "Metrópoles",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOTk4tM3YxT3JtVHRob2RoSHBTYTJETkphYWt0RVZQdWRhSG9QcEpOUWFhLTkybjNUWTBOREpTaWI0YVhGRjNFYUtCUHBNblcyRVJYbmI3V2xHVlFKZWJpTDdoMW9rZkJpRWFrZFBDSjg3cHEzTlU2eS1oeHRJVDk3cGp1MmdKZHJENVpubDVHNjZwSU01dElFbnFNUjVVMmx4UXU4ZndWbDQ0aWtISjhFU2dQYkZCTldsdjFQdFV3?oc=5",
    "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
   },
   {
    "status": "pendente",
-   "titulo": "Anti-histamínicos no tratamento da Rinite alérgica e Urticária em crianças e adolescentes: farmacocinética, farmacodinâmica, segurança e efeitos adversos",
+   "titulo": "Morte de Janaína Barbosa: o que se sabe sobre a reação alérgica fatal",
+   "fonte": "Portal UAI",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxPTWhfMEU1blpVVjVodlR0a1FLRnNEeUlLdmpDSVdwbHlwUExsNXNhc2dWQ3FUejdUUUdwSWlpWFdPZ0xyQXRGc2hZTlkyN1ZKdDF3VlFXc25sSGxRczJUNDFyT0hOdllnNEsxM0gxSnFQS0VZN0x1Yzl0N2F5aWw0YXNPXzI4UmY5d0NSVkt5Q0xDNjRQdGZKRHhTNTlLNHV5OGtsMWtYSTlfcjdrT0hFQmJLYlZYem9oMmxRdFA4U3RPTG9FUDR6LXMyMmxvUy1MSU9EcHdtdDRJUFB6TFQtMm5DbUlZcWp5dEHSAeoBQVVfeXFMUG1mRzJhZXNtWUpKV0RkUG9uaFV2ZUdfWkRjbG1ET2JXRG1oeWZNZV9XTzZ1dmZwMFJGN2g3cHJBQW9lM2czcXZGT3hqRG9qaE0yNFB4S0lzdk9UUnpDMGl3NksxdFZkZ3Ezc0thQXF3dzhpNkdRQlRrRWxqaWs4dExQamJObXVMdXk3OWVpdjZKWDRQWE54c09NNDJnZmtZblFDdGZzNTNod1J3MjRFelJxWXNBcGdxSlVUa29FSWF4MVl0MDB2ekZnQlFLY2VBZ0JGM05PQzlHeUQwaTNfZ1FHaXg1cWEtUmV3?oc=5",
+   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Choque anafilático: entenda quadro apontado como causa da morte de Janaína Barbosa",
+   "fonte": "UOL",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBWSWxZLWFxcEFpcGNtYUJEMGFCaEV5bFhkbDE5WU5XRTFlNEpZdmZ1NU5QcWNpdm9JRUxtbWUwUExEdWlSZVUxS0NoMW9EZVdNMkdoRWZyeURtQ1ZSeFlxdlJIR3IxYjQ?oc=5",
+   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
+  },
+  {
+   "status": "pendente",
+   "titulo": "O que é choque anafilático, apontado como causa da morte de Janaína Barbosa",
+   "fonte": "Estadão",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNdEZRSUsyZldHbWU3Y0cxLXZDLVhBNHdQNmxOdmpoTl9vWkZfMFg0djJQNkFOanMwUnFuS0tlNEZacnVXMWp3UzNuYm5ER3lkVW9faFF0ZElMOGJ5OHlFVjk5UVljLW5wSXZOSkhCOTd4bU94THhJbmZDV3VKeGdoRDdQSkQtempyei1EQVUwYXE3SDFUT2NkeVd4SlFLRy1oOE1iaU1OUmJjb1czNDk5ME9uVlNsT044bFh1ODAyNXpGUGhBZmfSAcsBQVVfeXFMT0xTMGpUVVdYUGNXVTlpTzZ6dXliVnFuSVZzZU9DeEcwY1R4SFBjcmxBeVRXYk5PeXROa1p0aU5IbTFOVTRuWnR5VzYzTUJGZjlpaHI5TWo3YmRYZnBVNV83TE9Qa0J0LUctWUFoeGZtOFRKZXNibDlkeWNQWnIyMDlGUUJfZ1Bfb2poUVBvVEFlNTdUd3RBS3FkQzhEXzk4bkxRVzNuSV9lcWtIMmFEM2t3OThhc0lBVXlxWnhOYVJkT3Jtb3M2enhsVmM?oc=5",
+   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Janaína Barbosa morreu após choque anafilático, diz amiga",
+   "fonte": "Estadão",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOaDFoOTdlal9JNkdyUGtGQVRUZkdNWGhLR01fUk9SRV8xYlpNQ2c2ZVpnak5wcVJkdC13TXk2RHZNblZQVURQcnNoQWc3R0xNVzJiWkRzcXQ5dDQ2UzB6ZmZYZExrYWY1R1VxQmRYNGpIWDc4akgyMktDcTVNZjhMZWdRQlh2TE9CdXFGUU1sUjUxbWJuY2FLNXB1ZDgwMndBMmpIeU9GNlbSAa4BQVVfeXFMTWRlM0NGSmVMTk9KR29mSDg4dnptaENGUjJKYVoyMllvOGUzWnVlbElMb2UtLVhXaU1jakhQd3U1YXZKUjFPeC1Nb3QtV3JWLUp0ODd5anpaREVvMGhRQmVyNlVGNEVJZnN1UzFaYnkwSEVnVlRRZFV4bG8zR2h0OUxYRHFTTTVpaFJlQzMtdDdvU2g2UlFnSVJuLXhDY1pPV1ZHejFXbVpDSW9Vd3lB?oc=5",
+   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
+  },
+  {
+   "status": "pendente",
+   "titulo": "O que é choque anafilático, reação apontada na morte de Janaína Barbosa?",
+   "fonte": "UOL",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQLTh4WVBWZnJiX2hoRGYwVFJfVkZKVlJDdkU3ZnJIZF9tYWgzc09Xa2FEUnVGRjZYcXJyZjd4NUJEem0wSXdqNDAtaFdUX1VvdHk3ZnVWSTBMWUlmc0Y1aXZ0S1ZxYTRxeXJvVHVDd3NIdncwMy03c1UxZ01mR3lXQ091NlJvQTB2ZHRxMWRoWHF3S3E5RG95VE04V1lwNWpkVjlqcC1zTEY3SXZuR01BRmpQUkJ6ZjN0YXltQlEyeEQ1LVE1ekRaajNzWGJ6SE0?oc=5",
+   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
+  },
+  {
+   "status": "pendente",
+   "titulo": "SBPCast: \"Esofagite eosinofílica\"",
    "fonte": "Sociedade Brasileira de Pediatria",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMigwJBVV95cUxOWVJRNHliX1dwZDJCUkdGOHh3REtzQTJzNHBmOWh3UklMbk9QU2d1dlA2ZHNsSE1SUEJ5cWVUaTlwNjhYSTFpYVRnaG9rdkdhREJWZnQ3Ym9yM19NWW9IQmZRbDJYSFBUbUN2dnNVS3RjYkRiY0hrdE5lYm5QVV9oejJjQkFwM09TT2NzdUFfMmxCVURmdHlySXFiWm51NnkzOUtRd0lXRUFYcTkxTHluWXVMR0EwY0hKZE5WOGlSX1N4MkNQWWRpdHZlaHd0T3pzOF8ydkkxQlZrRC1mMGZNMkJJOWVRbG1uRGpaTjgzdHhmLUN2aHh3NmFTbnkwU3QxN3Zn?oc=5",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE1nbVI1bmZLNWh3YzE3NzN3QmtjVTczUC1rNy05NVhHSFd4aFp4T3NXemY4M3RyN1pnSmRqUUF1c3puVDNiZ3R6SUhLLU5jOHQ5QnRra0NKM0xUdzROdEd2VXFPekk?oc=5",
    "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
   },
   {
    "status": "pendente",
-   "titulo": "Inverno pode trazer gatilhos para crises de asma e requer cuidados",
-   "fonte": "Agência Brasil",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQZGRhZzhTMGVLTGljdFFIc0dpbzlxRTR1OTE1OFZBZ2lMVThOZGhRWGVPbmd1eElOSXhUWVJOQld0dXAwSG9ZTGg1SzMzaVNrRUdVWHQ3UFB1WEdsbHhxV3hkeEFaa0tLRlRSRV9EbUphYUxuVE1fQ0FOUnBUeDNwSXpvLThTeDZSUHMtOHhYNG40aVppMlhKb1pHX2NQNHR0T1NlNnlDTzE5NUpJV00xZzg5TlBQWTcyMG5wYmpR?oc=5",
+   "titulo": "Conversa Saudável debate anafilaxia e a importância do atendimento imediato",
+   "fonte": "Assembleia Legislativa do Paraná",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOSUNhU3VXam1nVG1HSlFnMTd2RV9SQ2xkTWR3cVBmMy1kMTk0SDhobS1WWFJ0bndWOHVCTU9ZUG5MUEQ4S0lZVS15OUhVS19yRE9qeEtWMDJBVDlSODdOY3A4MVQ5U2szUHF5NzVvT0wxRDEtcE1pVEpITTRwNWhJeUJnZUhPWGEtQWc0b3RvcDVnQWxNX3JrM3RkXzBkQ2Z6UkE4OE5GMFMzZTItdzJGMFlzTWc?oc=5",
    "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
   },
   {
    "status": "pendente",
-   "titulo": "Médico do Hospital Dr. Ib Gatto alerta para controle da asma e cuidados para prevenir crises respiratórias",
-   "fonte": "Secretaria de Estado da Saúde de Alagoas",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMiywFBVV95cUxONkR2OG5McGxndzFUZUNXN2FFbFNYTy1veEhSTERDVjRvNnp3al9oTmhnRC1vZ2VzRXpwbEFMODYxblZoLTd2T1lxb1dyVlFvZzNUUVhSZGFpRERFODdqODc1ZFgwRVRsZjlGZVpnRXRlNy00dm1HX1NiZlhVcV9GMUg2OEU2aHBKN0RjbDRaSGFfYjFZZjEwbXRkcmNvblV0cmE5UGR0T0w0Ul9sMERNUzNabkpmcG1YUGhiMDRhU192ZmpGNXFuNE9tQQ?oc=5",
-   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Tratamentos inadequados podem agravar asma em adultos, mostra estudo",
-   "fonte": "Agência Brasil",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQNU5Td25wSjc2X0RGQ3AtZ0k4LTFYaTk2czFlUk9MSkNvOWZqVVBza2xUMEZFVVp2ZHQ4aXRPMEJmbHZNa3kxMVBsdlJrZW52VTU0NVNORzlPVWRaeVZTXzM0a0o5TkVqc1JaSVY5aXQyLUhyR29SZ0VpQWFRa1FaM2JvVmF1MDNPRWNiTWs3TlF5R3RDQ0c0UUdzRk0tQy15bnBfQ3o0OXFPUlc3YnZ2VWhzY1hfNC0wcGhQQ0ppOA?oc=5",
-   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
-  },
-  {
-   "status": "pendente",
-   "titulo": "AAD lança primeiras diretrizes para o tratamento da dermatite atópica em crianças",
-   "fonte": "Medscape",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPOUkySjNJRG9OWk0tZXJsb0tFck5lcU9peUdJeE1IRDVPNHR0YlA3UE9HRjVOdEczWEdoTWNsRmhHZGdYZ25hSGdjWUtPOVltbExrdURUZHNJTnVCbFhvd2JhTk5SLS1oVWpINllTOUUzV3A5YmNlRVpkNUY0dlhtVnZ3X1FiQ2VLbVIzVHhMOWVuQlpaZnNfbzJuZ21ZTDFpM0pQVHRyWi02blJhSk9BazJn?oc=5",
-   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Fabricante não responde por alergia se cosméticos não têm defeito",
-   "fonte": "Consultor Jurídico",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOTThNWUZQQVI3Nm01WmpnZGJ0S003V3hsdFI5TFhJeFZibkNYaW1XamdJZVl4NVl0LXd3c3I5ME04RU4tUjNkb2lpMFk1a3o0RXFqSmczRHc3SUMwMWZ2NXBtbVo2VEJsTjY1djgydlVBM0dUMGg0YWhUN1JxZmhlY3NDUlNRTEEwRmNkRHZTRWQzVFFmSGZEeWl4NU1URHJUbEtITA?oc=5",
+   "titulo": "Justiça condena município de Ilhota após criança ter reação alérgica em creche",
+   "fonte": "Tribunal de Justiça de Santa Catarina",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQTjEyblA3RlNodTNnN0V4TW91WjcxaFA3aHdmem5yWDJwMXFhX0xiNzY2MC12bjg4OVVvTXRpd0hBVDNHQWV2SGg5UElLZDdWQUVKTlNNOXF3Y3RvcHFBU1I0LWp0WmtvSDhqcEJEWFVUVF9YZGd0bDZ6Mnd3TkpjN013SWlBOExZMmQ5SmdYMG1rX0U5Y3B3REhUc0p1S0IwQVhSV0N5eU9CVXp2ck5jN2FHSHp3LTZqOFE?oc=5",
    "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
   }
  ],
  "excluidos": [
   {
    "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Homem é preso após enviar carta com manteiga de amendoim para matar mulher alérgica - PAIPEE -",
-   "fonte": "PAIPEE -",
-   "url": "https://br.paipee.com/2026/11/16/homem-e-preso-apos-enviar-carta-com-manteiga-de-amendoim-para-matar-mulher-alergica/"
+   "motivo": "veículo estrangeiro",
+   "titulo": "Mais da metade dos pacientes com dermatite atópica moderada sofre uma deterioração da qualidade de vida semelhante à dos casos graves",
+   "fonte": "Demócrata",
+   "url": "https://www.democrata.es/pt/saude/mais-da-metade-dos-pacientes-com-dermatite-atopica-moderada-sofre-uma-deterioracao-da-qualidade-de-vida-semelhante-a-dos-casos-graves/"
   },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Pastor testemunha cura para a asma após 40 anos: “Deus é capaz”",
-   "fonte": "Jornal Impresso Brasil",
-   "url": "https://jornalimpressobrasil.com.br/2026/11/16/pastor-testemunha-cura-para-a-asma-apos-40-anos-deus-e-capaz/"
+   "titulo": "O que muda no tratamento da dermatite atópica com os novos medicamentos tópicos",
+   "fonte": "Medscape",
+   "url": "https://portugues.medscape.com/viewarticle/muda-tratamento-dermatite-at%C3%B3pica-novos-medicamentos-2026a10018q7"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Esofagite eosinofílica: uma abordagem integrada da seleção dos doentes à gestão a longo prazo",
+   "fonte": "Médico News",
+   "url": "https://mediconews.pt/esofagite-eosinofilica-uma-abordagem-integrada-da-selecao-dos-doentes-a-gestao-a-longo-prazo/"
   },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Envia manteiga de amendoim a amiga com alergia para se vingar de divórcio",
-   "fonte": "Notícias ao Minuto",
-   "url": "https://www.noticiasaominuto.com/mundo/3084668/envia-manteiga-de-amendoim-a-amiga-com-alergia-para-se-vingar-de-divorcio"
+   "titulo": "A urticária do meu dia a dia",
+   "fonte": "Portal Making Of",
+   "url": "https://portalmakingof.com.br/multimidia-16-11-2026/"
   },
   {
    "status": "excluido",
@@ -207,30 +254,9 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Calor pode agravar dermatite atópica em crianças; especialista cita cuidados",
-   "fonte": "Gazeta de Alagoas",
-   "url": "https://www.gazetadealagoas.com.br/mare/948332/calor-pode-agravar-dermatite-atopica-em-criancas-especialista-cita-cuidados"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Quando a garganta parece fechar: anafilaxia é um sinal de alergia que pode colocar sua vida em risco",
    "fonte": "Rede D'Or",
    "url": "https://www.rededorsaoluiz.com.br/noticias/artigo/quando-a-garganta-parece-fechar-anafilaxia-e-um-sinal-de-alergia-que-pode-colocar-sua-vida-em-risco"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Primavera e El Niño aumentam crises de rinite alérgica",
-   "fonte": "SATC",
-   "url": "https://unisatc.com.br/primavera-e-el-nino-aumentam-crises-de-rinite-alergica/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Ex-BBB Cacau Colucci descobre alergia rara ao encostar em fruta no supermercado",
-   "fonte": "Jornal Correio",
-   "url": "https://www.correio24horas.com.br/em-alta/ex-bbb-cacau-colucci-descobre-alergia-rara-ao-encostar-em-fruta-no-supermercado-1126"
   },
   {
    "status": "excluido",
@@ -242,16 +268,23 @@
   {
    "status": "excluido",
    "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "O que se sabe sobre a morte de Janaína Barbosa, ex-apresentadora que sofreu choque anafilático por medicação",
-   "fonte": "G1",
-   "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/05/o-que-se-sabe-sobre-a-morte-de-janaina-barbosa-ex-apresentadora-que-sofreu-choque-anafilatico-por-medicacao.ghtml"
+   "titulo": "Morte de Janaína Barbosa: o que pode causar um choque anafilático e como acontece?",
+   "fonte": "Assine Abril",
+   "url": "https://saude.abril.com.br/medicina/morte-de-janaina-barbosa-o-que-pode-causar-um-choque-anafilatico-e-como-acontece/"
   },
   {
    "status": "excluido",
    "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "Janaína Barbosa x choque anafilático: alergista alerta para reação fatal",
-   "fonte": "Metrópoles",
-   "url": "https://www.metropoles.com/colunas/fabia-oliveira/janaina-barbosa-x-choque-anafilatico-alergista-alerta-para-reacao-fatal"
+   "titulo": "Janaína Barbosa: o que é o choque anafilático que teria causado a morte da ex-apresentadora?",
+   "fonte": "Exame",
+   "url": "https://exame.com/ciencia/janaina-barbosa-o-que-e-o-choque-anafilatico-que-teria-causado-a-morte-da-ex-apresentadora/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "O que é choque anafilático, causa da morte de Janaína Barbosa?",
+   "fonte": "98FM Curitiba",
+   "url": "https://www.98fmcuritiba.com.br/posts/o-que-e-choque-anafilatico-causa-da-morte-de-janaina-barbosa"
   },
   {
    "status": "excluido",
@@ -263,9 +296,37 @@
   {
    "status": "excluido",
    "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Janaína Barbosa morreu de choque anafilático, confirma assessoria; entenda o que é a reação",
+   "fonte": "Terra",
+   "url": "https://www.terra.com.br/vida-e-estilo/saude/janaina-barbosa-morreu-de-choque-anafilatico-confirma-assessoria-entenda-o-que-e-a-reacao,99121058157d7b93d9f53538fa217594xt19bn9c.html"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Ex-apresentadora Janaína Barbosa morreu após choque anafilático, diz amiga",
+   "fonte": "G1",
+   "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/04/ex-apresentadora-janaina-barbosa-morreu-apos-choque-anafilatico-diz-amiga.ghtml"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
    "titulo": "Janaína Barbosa: anafilaxia pode evoluir para choque anafilático em minutos",
    "fonte": "Metrópoles",
    "url": "https://www.metropoles.com/saude/janaina-barbosa-anafilaxia-pode-evoluir-para-choque-anafilatico-em-minutos"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Morte de Janaína Barbosa: entenda o que é o choque anafilático e quais são os sintomas",
+   "fonte": "Jornal Correio",
+   "url": "https://www.correio24horas.com.br/saude/morte-de-janaina-barbosa-entenda-o-que-e-o-choque-anafilatico-e-quais-sao-os-sintomas-1126"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Janaína Barbosa morreu após sofrer choque anafilático, diz amiga",
+   "fonte": "Metrópoles",
+   "url": "https://www.metropoles.com/celebridades/janaina-barbosa-morreu-apos-sofrer-choque-anafilatico-diz-amiga"
   },
   {
    "status": "excluido",
@@ -283,38 +344,17 @@
   },
   {
    "status": "excluido",
-   "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "Dermatite atópica impacta pele, sono e autoestima: saiba como tratar",
-   "fonte": "Agência Brasil",
-   "url": "https://agenciabrasil.ebc.com.br/saude/noticia/2026-09/dermatite-atopica-impacta-pele-sono-e-autoestima-saiba-como-tratar"
-  },
-  {
-   "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Justiça condena município de Ilhota após criança ter reação alérgica em creche",
-   "fonte": "Tribunal de Justiça de Santa Catarina",
-   "url": "https://www.tjsc.jus.br/web/imprensa/-/justica-condena-municipio-de-ilhota-apos-crianca-ter-reacao-alergica-em-creche-"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "STF mantém decisão que obriga município pernambucano a fornecer tratamento contra alergia grave",
-   "fonte": "stf noticias",
-   "url": "https://noticias.stf.jus.br/postsnoticias/stf-mantem-decisao-que-obriga-municipio-pernambucano-a-fornecer-tratamento-contra-alergia-grave/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Dieta rica em açúcar pode agravar a asma já no curto prazo",
-   "fonte": "Agência FAPESP",
-   "url": "https://agencia.fapesp.br/dieta-rica-em-acucar-pode-agravar-a-asma-ja-no-curto-prazo/58845"
+   "titulo": "Paciente vítima de choque anafilático em Montes Claros deve ser indenizado",
+   "fonte": "Portal TJMG",
+   "url": "https://www.tjmg.jus.br/portal-tjmg/noticias/paciente-vitima-de-choque-anafilatico-em-montes-claros-deve-ser-indenizado-8ACC82BBA13D254E01A1449CBDF25121-00.htm"
   },
   {
    "status": "excluido",
    "motivo": "fonte institucional/científica, não jornalística",
-   "titulo": "Dermatite atópica: clima frio pode agravar sintomas",
-   "fonte": "Prefeitura de São Paulo",
-   "url": "https://prefeitura.sp.gov.br/web/hospital_do_servidor_publico_municipal/w/dermatite-at%C3%B3pica-clima-frio-pode-agravar-sintomas"
+   "titulo": "Brasil firma acordo para ampliar produção de imunoglobulina, medicamento para doenças do sangue",
+   "fonte": "GOV.BR",
+   "url": "https://www.gov.br/saude/pt-br/assuntos/noticias/2026/outubro/brasil-firma-acordo-para-ampliar-producao-de-imunoglobulina-medicamento-para-doencas-do-sangue"
   }
  ]
 }
