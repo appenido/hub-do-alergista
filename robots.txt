@@ -1,0 +1,5 @@
+# Hub do Alergista — páginas públicas
+User-agent: *
+Allow: /
+
+Sitemap: https://hubdoalergista.pages.dev/sitemap.xml
