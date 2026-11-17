@@ -37,17 +37,17 @@ input[type=range]{width:100%;accent-color:var(--teal)}
 <body class="hub-score-patient-page">
 <header>Hub do Alergista · Questionário</header>
 <main>
-<section id="intro"><h1 id="titulo">Questionário</h1><p id="descricao"></p><p class="small">Não informe nome, CPF, prontuário, telefone ou outros dados que identifiquem você. As respostas serão transmitidas apenas para a sessão temporária aberta pelo profissional.</p></section>
+<section id="intro"><h1 id="titulo">Questionário</h1><p id="descricao"></p><p class="small">Não informe nome, CPF, prontuário, telefone ou outros dados que identifiquem você. O QR Code vale 15 minutos. As respostas ficam protegidas temporariamente no servidor para recuperação pelo profissional por até 7 dias; o último resultado pode permanecer no navegador dele até que seja apagado.</p></section>
 <div id="progress" hidden><span id="progresstexto">0 respostas</span><div id="progressbar"><div id="progressfill"></div></div></div>
 <form id="form" hidden novalidate>
   <div id="questions"></div>
   <section>
-    <label class="consent"><input type="checkbox" id="consentimento" required> <span>Concordo em enviar minhas respostas de saúde ao profissional que apresentou este QR Code. Não há identificação ou histórico no Hub.</span></label>
+    <label class="consent"><input type="checkbox" id="consentimento" required> <span>Concordo em enviar minhas respostas de saúde ao profissional que apresentou este QR Code. Não será solicitado seu nome. As respostas são armazenadas temporariamente para permitir a entrega ao profissional, inclusive quando ele sair da tela.</span></label>
     <div id="aviso" role="alert" aria-live="assertive"></div>
     <button id="enviar" type="submit">Enviar respostas ao médico</button>
   </section>
 </form>
-<section id="success" role="status"><h2>Respostas enviadas</h2><p>Seu resultado foi transmitido à sessão do profissional. Você já pode fechar esta página.</p><p id="resultado"></p></section>
+<section id="success" role="status"><h2>Respostas enviadas</h2><p>Suas respostas foram enviadas. O profissional poderá consultar o último resultado mesmo depois de sair e voltar à tela. Você já pode fechar esta página.</p><p id="resultado"></p></section>
 <section id="error" hidden><h2>Não foi possível abrir o questionário</h2><p id="error-msg">Solicite ao profissional um novo QR Code.</p></section>
 </main>
 <script src="/scores-qr-data.js?v=20261108-1"></script>
