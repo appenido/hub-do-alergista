@@ -98,13 +98,17 @@ Deno.serve(async req=>{
         expires_at:new Date(Date.now()+7*86400000).toISOString()})
     });
     if(!saved.ok)return result(req,{error:"Não foi possível guardar as respostas para entrega. Tente novamente."},503);
+    let realtimeOk=false;
+    try{
     const delivery=await fetch(SB+"/realtime/v1/api/broadcast/"+encodeURIComponent(topic)+"/events/score-result?private=false",{
       method:"POST",
       headers:{"apikey":SERVICE,"Authorization":"Bearer "+SERVICE,"Content-Type":"application/json"},
       body:JSON.stringify({score,values:val,total,max,submittedAt:timestampNow})
     });
+    realtimeOk=delivery.ok;
+    }catch(_){/* O resultado já está salvo e será recuperado no retorno. */}
     // Mesmo sem canal conectado, o profissional receberá o último resultado ao retornar.
-    return result(req,{ok:true,score,total,max,deliveredRealtime:delivery.ok});
+    return result(req,{ok:true,score,total,max,deliveredRealtime:realtimeOk});
   }
   return result(req,{error:"Ação não reconhecida."},400);
 });
