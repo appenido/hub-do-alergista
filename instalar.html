@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0d1f2d">
-<meta name="description" content="Como instalar o Hub do Alergista no Android ou no iPhone e iPad.">
+<meta name="description" content="Guia ilustrado para instalar o Hub do Alergista no Android, iPhone ou iPad, com imagens de cada etapa.">
 <title>Instalar aplicativo — Hub do Alergista</title>
 <link rel="manifest" href="./manifest.json?v=20261112-premium-1">
 <link rel="icon" href="./logo-premium-192.png?v=20261112-premium-1">
@@ -18,22 +18,46 @@ main{width:min(100% - 32px,620px);margin:34px auto 50px}.eyebrow{text-transform:
 .platforms{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:5px 0 22px}.platform{border:1px solid var(--line);background:#f8fafb;color:var(--navy);border-radius:12px;padding:14px 10px;cursor:pointer;text-align:center;font-size:14px;font-weight:750;font-family:inherit}
 .platform .brand-icon{display:block;width:30px;height:30px;margin:0 auto 5px}.platform .brand-android{fill:#3DDC84}.platform .brand-apple{fill:#0d1f2d}.platform[aria-selected=true]{border-color:var(--blue);background:#e8f7f9;box-shadow:inset 0 0 0 1px var(--blue)}.platform:focus-visible,.action:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 .guide[hidden],.action[hidden]{display:none!important}.guide h2{margin:0 0 5px;font-size:20px}.guide p{font-size:13px;margin-bottom:14px}
-ol{margin:0;padding-left:23px}li{padding:0 0 14px 5px;font-size:14px}li::marker{font-weight:800;color:var(--blue)}li:last-child{padding-bottom:3px}
+.illustration-defs{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
+.visual-steps{list-style:none;display:grid;grid-template-columns:1fr;gap:16px;margin:0;padding:0;counter-reset:install-step}
+.visual-step{counter-increment:install-step;min-width:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+.step-image{display:block;width:100%;height:auto;aspect-ratio:320/250;background:linear-gradient(145deg,#eaf3f6,#f8fafb);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.step-image text,.illustration-defs text{fill:#243e4e;font-size:12px;font-weight:500}.step-image .screen-title,.illustration-defs .screen-title{fill:#fff;font-size:15px;font-weight:600}.step-image .screen-small,.illustration-defs .screen-small{font-size:10px;fill:#526978}.step-image .screen-label,.illustration-defs .screen-label{font-size:14px}.step-image .screen-button,.illustration-defs .screen-button{fill:#fff;font-size:13px}.step-image .screen-accent,.illustration-defs .screen-accent{fill:#1f6980;font-size:13px}
+.step-copy{position:relative;padding:16px 16px 17px 54px}.step-copy::before{content:counter(install-step) / "";position:absolute;left:15px;top:16px;display:grid;place-items:center;width:27px;height:27px;border-radius:9px;background:var(--navy);color:#efd899;font-size:14px;font-weight:700}
+.step-copy h3{font-size:16px;line-height:1.35;margin:2px 0 7px}.guide .step-copy p{font-size:14px;line-height:1.6;margin:0}.step-copy a{color:var(--blue);text-underline-offset:3px;overflow-wrap:anywhere}
+.illustration-note{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12px;margin:14px 0 0}.illustration-note svg{width:17px;height:17px;flex:none}
+.install-ready{display:flex;align-items:center;gap:12px;margin-top:16px;padding:13px 15px;background:#edf8f4;border-radius:11px;color:#245e4b;font-size:13px}.install-ready svg{width:26px;height:26px;flex:none}
+.install-sources{margin-top:16px;font-size:12px;color:var(--muted)}.install-sources a{color:var(--blue);text-underline-offset:3px}
 .note{margin-top:18px;padding:12px 14px;background:#f3f8fa;border-left:3px solid var(--gold);border-radius:8px;font-size:12px;color:#425a68}
 .action{margin-top:20px;padding:12px 18px;background:var(--blue);border:0;border-radius:10px;color:white;font:700 14px inherit;cursor:pointer;width:100%;font-family:inherit}
 #androidStatus{font-size:12px;min-height:18px;margin:10px 0 0}
 .footer{display:flex;flex-wrap:wrap;gap:14px;margin-top:20px;align-items:center;justify-content:space-between;font-size:12px;color:var(--muted)}.footer a{color:var(--blue);font-weight:700}
 @media(max-width:400px){.panel{padding:15px}.platform{padding:11px 7px}}
+@media(min-width:680px){.visual-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 <link rel="stylesheet" href="desktop-universal.css?v=20261109-2">
 <link rel="stylesheet" href="/hub-i18n.css?v=20261114-5">
 </head>
 <body class="hub-install-page">
+<!-- Desenhos vetoriais do guia: os textos permanecem acessíveis e traduzíveis. -->
+<svg class="illustration-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+<defs>
+<linearGradient id="install-device" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#355468"/><stop offset="1" stop-color="#0d1f2d"/></linearGradient>
+<linearGradient id="install-home" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#193e55"/><stop offset="1" stop-color="#2d8fa8"/></linearGradient>
+<filter id="install-shadow" x="-15%" y="-15%" width="130%" height="140%"><feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#0d1f2d" flood-opacity=".14"/></filter>
+<marker id="install-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1l7 4-7 4" fill="none" stroke="#b0862f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker>
+<symbol id="install-frame" viewBox="0 0 320 250"><rect x="17" y="12" width="286" height="226" rx="21" fill="url(#install-device)" filter="url(#install-shadow)"/><rect x="22" y="17" width="276" height="216" rx="16" fill="#f3f7f9"/></symbol>
+<symbol id="install-brand" viewBox="0 0 276 140"><rect width="276" height="51" fill="#0d1f2d"/><image href="./logo-premium-192.png?v=20261112-premium-1" x="13" y="9" width="32" height="32"/><text x="54" y="31" class="screen-title" style="fill:#fff">Hub do Alergista</text><rect x="13" y="66" width="250" height="17" rx="7" fill="#dce9ee"/><rect x="13" y="95" width="76" height="38" rx="9" fill="#e3eef2"/><rect x="100" y="95" width="76" height="38" rx="9" fill="#e3eef2"/><rect x="187" y="95" width="76" height="38" rx="9" fill="#e3eef2"/></symbol>
+<symbol id="install-share" viewBox="0 0 24 24"><path d="M7 9H4v12h16V9h-3M12 15V2m-4 4 4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="install-check" viewBox="0 0 28 28"><circle cx="14" cy="14" r="13" fill="#e5f5ee" stroke="#65a58b"/><path d="m8 14 4 4 8-9" fill="none" stroke="#267356" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="install-home-screen" viewBox="0 0 320 250"><use href="#install-frame"/><rect x="22" y="17" width="276" height="216" rx="16" fill="url(#install-home)"/><circle cx="282" cy="217" r="99" fill="#8bd2d0" opacity=".12"/><rect x="44" y="43" width="40" height="40" rx="11" fill="#fff" opacity=".22"/><rect x="107" y="43" width="40" height="40" rx="11" fill="#fff" opacity=".22"/><rect x="170" y="43" width="40" height="40" rx="11" fill="#fff" opacity=".22"/><rect x="233" y="43" width="40" height="40" rx="11" fill="#fff" opacity=".22"/><rect x="37" y="107" width="77" height="95" rx="14" fill="#fff" fill-opacity=".12" stroke="#efd899" stroke-width="2"/><image href="./logo-premium-192.png?v=20261112-premium-1" x="48" y="117" width="55" height="55"/><text x="75" y="190" text-anchor="middle" class="screen-title" style="font-size:11px;fill:#fff">HubAlergista</text><path d="M242 160H132" fill="none" stroke="#efd899" stroke-width="3" marker-end="url(#install-arrow)"/><use href="#install-check" x="222" y="113" width="28" height="28"/></symbol>
+</defs>
+</svg>
 <header><a href="./" aria-label="Voltar ao Hub do Alergista"><img src="./logo-premium-192.png?v=20261112-premium-1" alt="">Hub do Alergista</a></header>
 <main>
 <div class="eyebrow">Acesso rápido no celular</div>
 <h1>Instalar aplicativo</h1>
-<p>Escolha o sistema do seu dispositivo e siga as orientações. O Hub pode ser aberto pela tela inicial, sem precisar da Play Store ou da App Store.</p>
+<p>Escolha seu dispositivo e acompanhe as imagens. As setas e os contornos dourados mostram onde tocar em cada etapa.</p>
 <section class="panel" aria-label="Orientações de instalação">
 <div class="platforms" role="tablist" aria-label="Sistema operacional">
 <button id="tabAndroid" type="button" class="platform" role="tab" aria-selected="false" aria-controls="guideAndroid"><svg class="brand-icon brand-android" aria-hidden="true" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.4395 5.5586c-.675 1.1664-1.352 2.3318-2.0274 3.498-.0366-.0155-.0742-.0286-.1113-.043-1.8249-.6957-3.484-.8-4.42-.787-1.8551.0185-3.3544.4643-4.2597.8203-.084-.1494-1.7526-3.021-2.0215-3.4864a1.1451 1.1451 0 0 0-.1406-.1914c-.3312-.364-.9054-.4859-1.379-.203-.475.282-.7136.9361-.3886 1.5019 1.9466 3.3696-.0966-.2158 1.9473 3.3593.0172.031-.4946.2642-1.3926 1.0177C2.8987 12.176.452 14.772 0 18.9902h24c-.119-1.1108-.3686-2.099-.7461-3.0683-.7438-1.9118-1.8435-3.2928-2.7402-4.1836a12.1048 12.1048 0 0 0-2.1309-1.6875c.6594-1.122 1.312-2.2559 1.9649-3.3848.2077-.3615.1886-.7956-.0079-1.1191a1.1001 1.1001 0 0 0-.8515-.5332c-.5225-.0536-.9392.3128-1.0488.5449zm-.0391 8.461c.3944.5926.324 1.3306-.1563 1.6503-.4799.3197-1.188.0985-1.582-.4941-.3944-.5927-.324-1.3307.1563-1.6504.4727-.315 1.1812-.1086 1.582.4941zM7.207 13.5273c.4803.3197.5506 1.0577.1563 1.6504-.394.5926-1.1038.8138-1.584.4941-.48-.3197-.5503-1.0577-.1563-1.6504.4008-.6021 1.1087-.8106 1.584-.4941z"/></svg>Android</button>
@@ -41,31 +65,69 @@ ol{margin:0;padding-left:23px}li{padding:0 0 14px 5px;font-size:14px}li::marker{
 </div>
 <section id="guideAndroid" class="guide" role="tabpanel" aria-labelledby="tabAndroid" hidden>
 <h2>Instalar no Android</h2>
-<p>Recomendado pelo Google Chrome.</p>
-<ol>
-<li>Abra o <a href="./">Hub do Alergista</a> no Google Chrome.</li>
-<li>Toque nos três pontos <strong>⋮</strong>, no canto superior direito.</li>
-<li>Escolha <strong>Instalar app</strong> ou <strong>Adicionar à tela inicial</strong>.</li>
-<li>Confirme. O ícone do Hub aparecerá na tela inicial do celular.</li>
+<p>Abra o Hub no Google Chrome e siga as 4 etapas.</p>
+<ol class="visual-steps" role="list">
+<li class="visual-step">
+<svg class="step-image" viewBox="0 0 320 250" role="img" aria-labelledby="android-image-1" xmlns="http://www.w3.org/2000/svg"><title id="android-image-1">Chrome com os três pontos do menu destacados no canto superior direito.</title>
+<use href="#install-frame"/><rect x="22" y="17" width="276" height="40" rx="16" fill="#fff"/><rect x="34" y="27" width="212" height="22" rx="11" fill="#edf2f5"/><text x="43" y="42" class="screen-small">hubdoalergista.pages.dev</text><circle cx="275" cy="31" r="1.8" fill="#243e4e"/><circle cx="275" cy="38" r="1.8" fill="#243e4e"/><circle cx="275" cy="45" r="1.8" fill="#243e4e"/><circle cx="275" cy="38" r="17" fill="none" stroke="#c9a84c" stroke-width="2.5"/><use href="#install-brand" x="22" y="59" width="276" height="140"/><path d="M241 214q35-35 35-151" fill="none" stroke="#b0862f" stroke-width="3" marker-end="url(#install-arrow)"/>
+</svg>
+<div class="step-copy"><h3>Abra o menu do Chrome</h3><p>Acesse <a href="./">hubdoalergista.pages.dev</a> no Chrome. Toque nos três pontos (⋮), no canto superior direito.</p></div>
+</li>
+<li class="visual-step">
+<svg class="step-image" viewBox="0 0 320 250" role="img" aria-labelledby="android-image-2" xmlns="http://www.w3.org/2000/svg"><title id="android-image-2">Menu do Chrome com a opção Instalar e criar atalho destacada.</title>
+<use href="#install-frame"/><use href="#install-brand" x="22" y="31" width="276" height="140"/><rect x="22" y="17" width="276" height="216" rx="16" fill="#0d1f2d" opacity=".15"/><rect x="48" y="28" width="240" height="190" rx="13" fill="#fff" filter="url(#install-shadow)"/><path d="M65 52h104M65 78h144M65 104h111" stroke="#dce7eb" stroke-width="6" stroke-linecap="round"/><rect x="55" y="124" width="226" height="50" rx="8" fill="#faf5e7" stroke="#c9a84c" stroke-width="2"/><path d="M73 136v15m-5-5 5 5 5-5m-11 12h12" fill="none" stroke="#1f6980" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><text x="89" y="154" class="screen-label" textLength="166" lengthAdjust="spacingAndGlyphs">Instalar e criar atalho</text><path d="M65 195h120" stroke="#dce7eb" stroke-width="6" stroke-linecap="round"/>
+</svg>
+<div class="step-copy"><h3>Escolha a instalação</h3><p>Toque em Instalar e criar atalho e depois em Instalar. Em outras versões, a opção aparece como Instalar app ou Adicionar à tela inicial.</p></div>
+</li>
+<li class="visual-step">
+<svg class="step-image" viewBox="0 0 320 250" role="img" aria-labelledby="android-image-3" xmlns="http://www.w3.org/2000/svg"><title id="android-image-3">Confirmação de instalação do Hub com o botão Instalar destacado.</title>
+<use href="#install-frame"/><use href="#install-brand" x="22" y="38" width="276" height="140"/><rect x="22" y="17" width="276" height="216" rx="16" fill="#0d1f2d" opacity=".2"/><rect x="39" y="49" width="242" height="151" rx="16" fill="#fff" filter="url(#install-shadow)"/><image href="./logo-premium-192.png?v=20261112-premium-1" x="56" y="67" width="44" height="44"/><text x="111" y="85" class="screen-label">Hub do Alergista</text><text x="56" y="134" class="screen-small">hubdoalergista.pages.dev</text><rect x="160" y="151" width="104" height="34" rx="17" fill="#1f6980"/><rect x="155" y="146" width="114" height="44" rx="21" fill="none" stroke="#c9a84c" stroke-width="2"/><text x="212" y="173" text-anchor="middle" class="screen-button">Instalar</text>
+</svg>
+<div class="step-copy"><h3>Confirme no celular</h3><p>Toque em Instalar para confirmar. Se aparecer a criação de um atalho, toque em Adicionar.</p></div>
+</li>
+<li class="visual-step">
+<svg class="step-image" viewBox="0 0 320 250" role="img" aria-labelledby="android-image-4" xmlns="http://www.w3.org/2000/svg"><title id="android-image-4">Tela inicial do celular com o ícone do Hub do Alergista destacado.</title><use href="#install-home-screen"/></svg>
+<div class="step-copy"><h3>Abra pelo ícone do Hub</h3><p>Procure o ícone do Hub na tela inicial ou na lista de aplicativos e toque nele para abrir.</p></div>
+</li>
 </ol>
 <button id="androidInstall" type="button" class="action" hidden>Instalar diretamente no Android</button>
 <p id="androidStatus" role="status" aria-live="polite"></p>
-<div class="note">Se o navegador mostrar o comando de instalação direta, use o botão acima. Se não mostrar, siga os passos pelo menu do Chrome. Em navegadores internos de aplicativos, abra primeiro o link no Chrome.</div>
+<div class="note">Se abriu pelo WhatsApp, Instagram ou outro aplicativo, use o menu desse aplicativo para abrir o link no Chrome. Se o botão de instalação direta aparecer acima, você também pode usá-lo.</div>
 </section>
 <section id="guideApple" class="guide" role="tabpanel" aria-labelledby="tabApple" hidden>
 <h2>Instalar no iPhone ou iPad</h2>
-<p>Utilize o Safari para adicionar o Hub como aplicativo web.</p>
-<ol>
-<li>Abra o <a href="./">Hub do Alergista</a> no <strong>Safari</strong>.</li>
-<li>Toque no botão <strong>Compartilhar</strong> (quadrado com seta para cima). Dependendo da versão do Safari, toque primeiro no menu da página e depois em Compartilhar.</li>
-<li>Role as opções e selecione <strong>Adicionar à Tela de Início</strong>. Se não encontrar, escolha <strong>Editar Ações</strong> para incluir essa opção.</li>
-<li>Quando disponível, ative <strong>Abrir como App Web</strong> e toque em <strong>Adicionar</strong>.</li>
-<li>O ícone do Hub aparecerá na Tela de Início e abrirá como aplicativo.</li>
+<p>Abra o Hub no Safari e siga as 4 etapas.</p>
+<ol class="visual-steps" role="list">
+<li class="visual-step">
+<svg class="step-image" viewBox="0 0 320 250" role="img" aria-labelledby="apple-image-1" xmlns="http://www.w3.org/2000/svg"><title id="apple-image-1">Safari com o botão Compartilhar, um quadrado com seta para cima, destacado.</title>
+<use href="#install-frame"/><use href="#install-brand" x="22" y="28" width="276" height="140"/><rect x="33" y="166" width="254" height="27" rx="13" fill="#e4edf1"/><text x="160" y="184" text-anchor="middle" class="screen-small">hubdoalergista.pages.dev</text><path d="m49 204-6 6 6 6m41-12 6 6-6 6" fill="none" stroke="#1f6980" stroke-width="2" stroke-linecap="round"/><use href="#install-share" x="148" y="198" width="24" height="24" style="color:#1f6980"/><circle cx="160" cy="210" r="19" fill="none" stroke="#c9a84c" stroke-width="2.5"/><path d="M249 147q-61-4-79 39" fill="none" stroke="#b0862f" stroke-width="3" marker-end="url(#install-arrow)"/><rect x="224" y="202" width="16" height="16" rx="3" fill="none" stroke="#1f6980" stroke-width="1.5"/>
+</svg>
+<div class="step-copy"><h3>Toque em Compartilhar</h3><p>Acesse <a href="./">hubdoalergista.pages.dev</a> no Safari. Toque no quadrado com seta para cima. Em alguns layouts, abra primeiro o menu da página e escolha Compartilhar.</p></div>
+</li>
+<li class="visual-step">
+<svg class="step-image" viewBox="0 0 320 250" role="img" aria-labelledby="apple-image-2" xmlns="http://www.w3.org/2000/svg"><title id="apple-image-2">Menu Compartilhar do Safari com Adicionar à Tela de Início destacado.</title>
+<use href="#install-frame"/><rect x="22" y="17" width="276" height="216" rx="16" fill="#e3ecef"/><rect x="28" y="31" width="264" height="196" rx="15" fill="#fff" filter="url(#install-shadow)"/><rect x="134" y="38" width="52" height="4" rx="2" fill="#c1cfd7"/><image href="./logo-premium-192.png?v=20261112-premium-1" x="42" y="54" width="28" height="28"/><text x="80" y="73" class="screen-label">Hub do Alergista</text><path d="M45 105h111m-111 23h150" stroke="#dce7eb" stroke-width="6" stroke-linecap="round"/><rect x="36" y="146" width="248" height="43" rx="8" fill="#faf5e7" stroke="#c9a84c" stroke-width="2"/><text x="47" y="172" textLength="198" lengthAdjust="spacingAndGlyphs">Adicionar à Tela de Início</text><rect x="255" y="160" width="15" height="15" rx="3" fill="none" stroke="#1f6980" stroke-width="1.5"/><path d="M262.5 163.5v8m-4-4h8" stroke="#1f6980" stroke-width="1.5"/><path d="M45 209h122" stroke="#dce7eb" stroke-width="6" stroke-linecap="round"/>
+</svg>
+<div class="step-copy"><h3>Adicione à Tela de Início</h3><p>Role a lista de opções e toque em Adicionar à Tela de Início. Se não encontrar, vá até Editar Ações e inclua essa opção.</p></div>
+</li>
+<li class="visual-step">
+<svg class="step-image" viewBox="0 0 320 250" role="img" aria-labelledby="apple-image-3" xmlns="http://www.w3.org/2000/svg"><title id="apple-image-3">Confirmação do Safari com Abrir como App da Web ativado e o botão Adicionar destacado.</title>
+<use href="#install-frame"/><text x="35" y="48" class="screen-accent">Cancelar</text><rect x="195" y="26" width="94" height="32" rx="9" fill="#faf5e7" stroke="#c9a84c" stroke-width="2"/><text x="242" y="47" text-anchor="middle" class="screen-accent">Adicionar</text><image href="./logo-premium-192.png?v=20261112-premium-1" x="44" y="76" width="47" height="47"/><text x="105" y="96" class="screen-label">Hub do Alergista</text><text x="44" y="146" class="screen-small">hubdoalergista.pages.dev</text><rect x="34" y="163" width="252" height="49" rx="10" fill="#fff"/><text x="44" y="192" textLength="168" lengthAdjust="spacingAndGlyphs">Abrir como App da Web</text><rect x="230" y="176" width="44" height="25" rx="12.5" fill="#31a873"/><circle cx="261" cy="188.5" r="10" fill="#fff"/><path d="M160 76q30-7 42-15" fill="none" stroke="#b0862f" stroke-width="2.5" marker-end="url(#install-arrow)"/>
+</svg>
+<div class="step-copy"><h3>Confirme em Adicionar</h3><p>Quando a opção estiver disponível, ative Abrir como App da Web. Depois, toque em Adicionar, no canto superior direito.</p></div>
+</li>
+<li class="visual-step">
+<svg class="step-image" viewBox="0 0 320 250" role="img" aria-labelledby="apple-image-4" xmlns="http://www.w3.org/2000/svg"><title id="apple-image-4">Tela de Início do iPhone com o ícone do Hub do Alergista destacado.</title><use href="#install-home-screen"/></svg>
+<div class="step-copy"><h3>Abra pelo ícone do Hub</h3><p>Volte à Tela de Início e toque no ícone do Hub do Alergista para abrir o aplicativo.</p></div>
+</li>
 </ol>
-<div class="note">No iPhone e no iPad a instalação é feita pelo menu Compartilhar do Safari. Não é necessário procurar o Hub na App Store.</div>
+<div class="note">No iPad, o botão Compartilhar pode ficar na parte superior do Safari. Se abriu o link dentro de outro aplicativo, abra primeiro no Safari.</div>
 </section>
+<p class="illustration-note"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 9v5m0-8v.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg><span>Imagens ilustrativas. Os menus podem variar conforme a versão do navegador.</span></p>
+<div class="install-ready"><svg aria-hidden="true" viewBox="0 0 28 28"><use href="#install-check"/></svg><span>Pronto: o Hub fica acessível pelo ícone no celular, sem precisar da Play Store ou da App Store.</span></div>
 </section>
 <div class="footer"><span>O conteúdo é atualizado quando há conexão e uma nova versão é publicada.</span><a href="./">Voltar ao Hub</a></div>
+<div class="install-sources"><span>Orientações oficiais:</span> <a href="https://support.google.com/chrome/answer/9658361?co=GENIE.Platform%3DAndroid&amp;hl=pt-BR" target="_blank" rel="noopener noreferrer">Google Chrome</a> · <a href="https://support.apple.com/pt-br/guide/iphone/iphea86e5236/ios" target="_blank" rel="noopener noreferrer">Apple Safari</a></div>
 </main>
 <script>
 (function(){
@@ -79,11 +141,19 @@ function select(which){
 var a=which==='android';
 android.setAttribute('aria-selected',String(a));
 apple.setAttribute('aria-selected',String(!a));
+android.tabIndex=a?0:-1;
+apple.tabIndex=a?-1:0;
 document.getElementById('guideAndroid').hidden=!a;
 document.getElementById('guideApple').hidden=a;
 }
 android.addEventListener('click',function(){select('android')});
 apple.addEventListener('click',function(){select('apple')});
+[android,apple].forEach(function(tab){tab.addEventListener('keydown',function(e){
+if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;
+e.preventDefault();
+var target=e.key==='Home'?android:e.key==='End'?apple:tab===android?apple:android;
+select(target===android?'android':'apple');target.focus();
+});});
 var ua=navigator.userAgent||'';
 select(/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)?'apple':'android');
 window.addEventListener('beforeinstallprompt',function(e){
@@ -100,6 +170,6 @@ catch(e){status.textContent='Não foi possível abrir a instalação direta. Use
 });
 })();
 </script>
-<script src="/hub-i18n.js?v=20261115-traducao3" defer></script>
+<script src="/hub-i18n.js?v=20261117-instalacao1" defer></script>
 </body>
 </html>
