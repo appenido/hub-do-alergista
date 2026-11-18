@@ -27,7 +27,7 @@
     if(!t)return false;
     var pt=(t.match(/\b(?:de|do|da|dos|das|para|com|em|por|sobre|uma|um|entre|após|tratamento|diagnóstico|diretriz|recomendações|ensaio|estudo|alérgica|grave|terapia|resumo|atualização|eficácia|segurança|manejo|rinite|urticária|asma|esofagite)\b/g)||[]).length;
     var en=/\b(?:the|with|of|for|after|among|study|trial|guideline|guidelines|randomized|clinical|management|diagnosis|treatment|patients|recommendations|efficacy|safety|outcomes|review)\b/.test(t);
-    return (pt>=2&&!en)||(pt>=1&&!en&&/[ãõçáéíóú]/.test(t));
+    return (!en && /\b(?:diretriz|diretrizes|consenso|ensaio|estudo|diagnóstico|tratamento|asma|rinite|urticária|esofagite|vacinação|recomendações|resumo|atualização)\b/.test(t)) || (pt>=2&&!en)||(pt>=1&&!en&&/[ãõçáéíóú]/.test(t));
   }
   function onlyTitle(el){
     if(el.matches('#heroInteresses > div > div:nth-child(2)')){
@@ -68,6 +68,11 @@
     var original=el.getAttribute('data-hub-original-title');
     if(!original)return;
     var known=translations[original]||previous[original];
+    var visible=clean(el.textContent);
+    if(!known && visible!==original && looksPortuguese(visible) &&
+      !/^(Traduzindo título|Título em português temporariamente)/.test(visible)){
+      cachePut(original,visible);update(el,visible);return;
+    }
     if(known&&looksPortuguese(known)){
       cachePut(original,known);
       update(el,known);
