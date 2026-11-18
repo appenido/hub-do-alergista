@@ -1,0 +1,275 @@
+/* Hub do Alergista | Proporcionalidade desktop Windows/macOS | 18/11/2026
+   Camada final de layout. Ajusta apenas dimensões disponíveis no navegador,
+   sem detectar SO, modificar dados, navegação ou expansão de fichas.
+   Todas as larguras são em pixels CSS: zoom, monitores HiDPI e janelas
+   divididas seguem os mesmos pontos de quebra. */
+
+@media (min-width: 760px) {
+  :root {
+    --hub-desk-width: 1240px;
+    --hub-desk-gutter: clamp(18px, 2.2vw, 28px);
+    --hub-desk-gap: clamp(12px, 1.4vw, 18px);
+  }
+
+  html { width: 100%; }
+  body {
+    width: 100%;
+    max-width: none !important; /* desfaz os limites divergentes 1280/1760/1920 */
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* A barra superior ocupa a janela; seus elementos alinham com o conteúdo. */
+  .topbar {
+    width: 100%;
+    min-width: 0;
+    padding-left: max(var(--hub-desk-gutter), calc((100% - var(--hub-desk-width)) / 2 + var(--hub-desk-gutter))) !important;
+    padding-right: max(var(--hub-desk-gutter), calc((100% - var(--hub-desk-width)) / 2 + var(--hub-desk-gutter))) !important;
+    gap: clamp(9px, 1vw, 16px) !important;
+  }
+  .topbar .tb-logo { flex: 0 0 auto; min-width: 0; }
+  .topbar .tb-name { white-space: nowrap; }
+  .topbar .tb-search {
+    min-width: 100px;
+    max-width: 660px;
+    flex: 1 1 auto;
+    margin-left: auto;
+    margin-right: 0;
+  }
+  .topbar .tb-search input {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    text-overflow: ellipsis;
+  }
+  .topbar :is(.tb-back, .tb-bell, .tb-user) { flex-shrink: 0; }
+
+  /* Um eixo central único para o Hub, inclusive em telas ultrawide. */
+  .scroll-area {
+    width: min(100%, var(--hub-desk-width)) !important;
+    max-width: var(--hub-desk-width) !important;
+    margin: 0 auto !important;
+    min-width: 0;
+    padding-bottom: 48px;
+  }
+  .scroll-area > .page {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+  }
+  .page :is(.quick-grid, .score-grid, .bio-grid, .vac-grid, .igcat-grid,
+    .ah-grid, .home-favs-grid, .ige-workspace, .ige-results, .vsd-grid,
+    .ig-grid, .vac-nat-grid, .med-categories, .med-filters, .gap-list) {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .page :is(.qcard, .score-pill, .bio-card, .vac-card, .igcat-item,
+    .guide-card, .med-category, .med-prod, .ah-card-wrap, .home-fav-card) {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .page :is(img, svg, canvas, video, iframe) { max-width: 100%; }
+  .page :is(input, select, textarea) { min-width: 0; max-width: 100%; }
+  .page :is(.bio-body, .vac-body, .igmain-detail, .igcat-detail,
+    .med-category-body, .ah-detail, .guide-body, .lab-pane) {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: break-word;
+    box-sizing: border-box;
+  }
+  .page :is(.bio-body, .vac-body, .igmain-detail, .igcat-detail,
+    .med-category-body, .ah-detail) :is(table, pre) {
+    max-width: 100%;
+  }
+
+  /* Home editorial proporcional. Os três atalhos por linha são mantidos. */
+  #page-dashboard {
+    width: min(100%, 1100px) !important;
+    max-width: 1100px !important;
+    margin: 0 auto !important;
+  }
+  #page-dashboard > .sec-hdr {
+    padding-left: var(--hub-desk-gutter) !important;
+    padding-right: var(--hub-desk-gutter) !important;
+  }
+  #page-dashboard .quick-grid {
+    width: 100%;
+    max-width: none !important;
+    margin: 0 !important;
+    padding-left: var(--hub-desk-gutter) !important;
+    padding-right: var(--hub-desk-gutter) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: var(--hub-desk-gap) !important;
+    align-items: stretch;
+  }
+  #page-dashboard .quick-grid > .qcard {
+    min-width: 0;
+    min-height: 148px;
+    height: auto;
+    padding: 15px 12px;
+    gap: 9px;
+    border-radius: 17px;
+  }
+  #page-dashboard .quick-grid > .qcard .qi {
+    flex: 0 0 58px;
+    width: 58px;
+    min-width: 58px;
+    height: 58px;
+    border-radius: 16px;
+  }
+  #page-dashboard .quick-grid > .qcard .ql {
+    font-size: clamp(13.5px, 1.18vw, 15.5px) !important;
+    line-height: 1.35;
+    overflow-wrap: break-word !important;
+    word-break: normal !important;
+  }
+  #page-dashboard > .alert-bar,
+  #page-dashboard > .padded {
+    max-width: none !important;
+  }
+  #page-dashboard > .alert-bar {
+    width: auto !important;
+    margin-left: var(--hub-desk-gutter) !important;
+    margin-right: var(--hub-desk-gutter) !important;
+  }
+  #page-dashboard > .padded {
+    padding-left: var(--hub-desk-gutter) !important;
+    padding-right: var(--hub-desk-gutter) !important;
+  }
+  #page-dashboard .score-grid,
+  #page-dashboard .home-favs-grid {
+    padding-left: var(--hub-desk-gutter) !important;
+    padding-right: var(--hub-desk-gutter) !important;
+    gap: var(--hub-desk-gap);
+  }
+  /* Histórico clínico compacto, sem virar um banner de largura total. */
+  #page-dashboard #hubAtualizacoes {
+    width: calc(100% - 2 * var(--hub-desk-gutter)) !important;
+    max-width: 760px !important;
+    margin-left: var(--hub-desk-gutter) !important;
+    margin-right: var(--hub-desk-gutter) !important;
+  }
+
+  /* Todos os módulos se ajustam ao espaço, sem repartir uma ficha aberta
+     em outra linha ou transformá-la em janela flutuante. */
+  #page-imuno .bio-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 285px), 1fr)) !important;
+    gap: var(--hub-desk-gap) !important;
+    padding-left: var(--hub-desk-gutter) !important;
+    padding-right: var(--hub-desk-gutter) !important;
+  }
+  #page-imunizacoes #vacListaAll.vac-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)) !important;
+    gap: var(--hub-desk-gap) !important;
+    padding-left: var(--hub-desk-gutter) !important;
+    padding-right: var(--hub-desk-gutter) !important;
+  }
+  #page-imunoglobulinas .igcalc-shell {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: var(--hub-desk-gutter) !important;
+    padding-right: var(--hub-desk-gutter) !important;
+  }
+  #page-imunoglobulinas .igcat-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr)) !important;
+    gap: var(--hub-desk-gap) !important;
+  }
+  :is(#page-antihistaminicos, #page-medicamentos) .ah-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)) !important;
+    gap: var(--hub-desk-gap) !important;
+  }
+
+  #medApp { width: 100%; max-width: 100%; padding: var(--hub-desk-gutter); }
+  #medApp .med-categories { gap: var(--hub-desk-gap); }
+  #medApp .med-category-toggle { min-width: 0; }
+  #medApp .med-category-copy { min-width: 0; }
+  #medApp .med-category-name { overflow-wrap: break-word; }
+
+  #page-scores > .gap-list {
+    width: 100%;
+    max-width: 100%;
+    padding-left: var(--hub-desk-gutter);
+    padding-right: var(--hub-desk-gutter);
+    gap: var(--hub-desk-gap);
+  }
+  #page-scores > .sec-hdr {
+    width: 100%;
+    padding-left: var(--hub-desk-gutter);
+    padding-right: var(--hub-desk-gutter);
+  }
+
+  #page-laboratorio .ige-workspace,
+  #page-laboratorio .ige-search-hero,
+  #page-laboratorio .ige-results { max-width: 100%; min-width: 0; }
+  #page-laboratorio .ige-workspace.note-open {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 33%) !important;
+  }
+
+  /* Não quebrar a navegação, títulos, barras de filtro nem os cards densos. */
+  .page :is(.sec-hdr, .lab-tabs, .filter-chips, .hscroll) {
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .page :is(.filter-chips, .hscroll, .overflow-table, .table-wrap) {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+  .page :is(.sec-hdr, .lab-tabs) { gap: 10px; }
+  .page :is(.sec-hdr h2, .gc-name, .pc-title, .med-category-name) {
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
+}
+
+@media (min-width: 760px) and (max-width: 1023px) {
+  :root { --hub-desk-gutter: 18px; --hub-desk-gap: 12px; }
+  .topbar .tb-name { font-size: 16px !important; }
+  .topbar .tb-search { max-width: 510px; }
+  #page-dashboard .quick-grid > .qcard { min-height: 145px; padding: 12px 8px; }
+  #page-dashboard .quick-grid > .qcard .qi {
+    flex-basis: 55px; width: 55px; min-width: 55px; height: 55px;
+  }
+  #page-scores > .gap-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #medApp .med-categories { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #page-laboratorio .ige-workspace.note-open { grid-template-columns: minmax(0, 1fr) !important; }
+}
+
+@media (min-width: 1024px) {
+  .topbar .tb-search { min-height: 44px; }
+  .topbar :is(.tb-back, .tb-bell, .tb-user) { width: 42px; height: 42px; }
+  #page-dashboard .quick-grid > .qcard { min-height: 154px; }
+  /* Dimensão dos títulos/corpos permanece legível sem exagero em 4K. */
+  .page > .sec-hdr h2 { font-size: clamp(19px, 1.5vw, 22px) !important; }
+  #page-imuno .bio-grid .bio-header .bio-name {
+    font-size: clamp(15px, 1.1vw, 17px) !important;
+  }
+  #page-imuno .bio-grid .bio-header .bio-comercial {
+    font-size: clamp(12px, .9vw, 13.5px) !important;
+  }
+  #page-imunizacoes #vacListaAll.vac-grid .vac-header .vac-name {
+    font-size: clamp(14px, 1.05vw, 16px) !important;
+  }
+  #medApp .med-category-sub { font-size: clamp(12px, .9vw, 13.5px) !important; }
+}
+
+@media (min-width: 1024px) and (max-width: 1180px) {
+  /* Notebooks com zoom de 110-125%: catálogos sem cartões comprimidos. */
+  #page-imuno .bio-grid,
+  #page-imunizacoes #vacListaAll.vac-grid,
+  #page-imunoglobulinas .igcat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  #page-laboratorio .ige-workspace.note-open {
+    grid-template-columns: minmax(0, 1fr) minmax(270px, 32%) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #page-dashboard .quick-grid > .qcard { transition: none; }
+}
