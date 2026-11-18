@@ -351,3 +351,120 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+
+
+/* 18/11/2026 — Home densa e didática: corrigir cards superdimensionados.
+   O desktop usa ícone à esquerda, texto à direita, mantendo toda a
+   largura da janela; touch/celular permanece com três ícones por linha. */
+@media (min-width:760px) {
+  #page-dashboard .quick-grid {
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:clamp(10px,1vw,15px) !important;
+    align-items:stretch !important;
+    padding-inline:var(--hub-desk-gutter) !important;
+    width:100% !important;
+    max-width:none !important;
+    margin-inline:0 !important;
+  }
+  #page-dashboard .quick-grid > .qcard,
+  #page-dashboard .quick-grid > .hub-install-card {
+    box-sizing:border-box !important;
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    text-align:left !important;
+    width:100% !important;
+    min-width:0 !important;
+    min-height:96px !important;
+    height:auto !important;
+    max-height:none !important;
+    aspect-ratio:auto !important;
+    gap:12px !important;
+    padding:13px 15px !important;
+    border-radius:15px !important;
+  }
+  #page-dashboard .quick-grid > .qcard .qi,
+  #page-dashboard .quick-grid > .qcard .qi-teal,
+  #page-dashboard .quick-grid > .qcard .qi-gold,
+  #page-dashboard .quick-grid > .qcard .qi-navy,
+  #page-dashboard .quick-grid > .qcard .qi-green {
+    box-sizing:border-box !important;
+    flex:0 0 49px !important;
+    width:49px !important;
+    min-width:49px !important;
+    max-width:49px !important;
+    height:49px !important;
+    min-height:49px !important;
+    border-radius:13px !important;
+    padding:5px !important;
+    margin:0 !important;
+  }
+  #page-dashboard .quick-grid > .qcard .ql,
+  #page-dashboard .quick-grid > .qcard[data-nav] .ql {
+    box-sizing:border-box !important;
+    display:block !important;
+    width:auto !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    flex:1 1 0 !important;
+    text-align:left !important;
+    text-wrap:pretty !important;
+    white-space:normal !important;
+    overflow-wrap:break-word !important;
+    word-break:normal !important;
+    font-size:clamp(13px,1vw,15px) !important;
+    line-height:1.35 !important;
+    letter-spacing:-.012em !important;
+  }
+  #page-dashboard .quick-grid .qcard .ql > span {
+    max-width:100%;
+    overflow-wrap:break-word;
+  }
+  #page-dashboard .quick-grid .qcard[data-nav="imuno"] .ql > span:first-child,
+  #page-dashboard .quick-grid .qcard[data-nav="imuno"] .ql > span:last-child {
+    white-space:normal !important;
+  }
+  #page-dashboard .quick-grid .qcard[data-nav="imuno"] .ql > span:last-child {
+    display:block;
+    margin-top:3px;
+    font-size:10.5px !important;
+    line-height:1.3 !important;
+    letter-spacing:0 !important;
+  }
+  #page-dashboard > .sec-hdr {
+    padding-top:17px !important;
+    padding-bottom:11px !important;
+  }
+  #page-dashboard > .sec-hdr h2 {
+    font-size:19px !important;
+    line-height:1.35 !important;
+  }
+  /* Conteúdos subsequentes passam a aparecer acima da dobra. */
+  #page-dashboard .quick-grid + .sec-hdr { padding-top:20px !important; }
+}
+@media (min-width:1024px) {
+  #page-dashboard .quick-grid {grid-template-columns:repeat(4,minmax(0,1fr)) !important;}
+}
+@media (min-width:1280px) {
+  #page-dashboard .quick-grid {grid-template-columns:repeat(5,minmax(0,1fr)) !important;}
+}
+@media (min-width:1600px) {
+  #page-dashboard .quick-grid {grid-template-columns:repeat(6,minmax(0,1fr)) !important;}
+}
+@media (min-width:2050px) {
+  #page-dashboard .quick-grid {grid-template-columns:repeat(7,minmax(0,1fr)) !important;}
+}
+@media (min-width:2450px) {
+  #page-dashboard .quick-grid {grid-template-columns:repeat(8,minmax(0,1fr)) !important;}
+}
+@media (min-width:760px) and (max-width:900px) {
+  #page-dashboard .quick-grid > .qcard {
+    padding:11px 10px !important;
+    gap:9px !important;
+  }
+  #page-dashboard .quick-grid > .qcard .qi {flex-basis:45px !important;width:45px !important;min-width:45px !important;height:45px !important;}
+  #page-dashboard .quick-grid > .qcard .ql,
+  #page-dashboard .quick-grid > .qcard[data-nav] .ql {font-size:13px !important;}
+}
