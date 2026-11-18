@@ -3,6 +3,15 @@
   "updatedAt": "2026-11-18",
   "items": [
     {
+      "id": "95da550816e0",
+      "date": "2026-11-18",
+      "publishedAt": "2026-11-18T11:29:30.000Z",
+      "type": "Novidade",
+      "category": "Alergo News",
+      "section": "jornal",
+      "title": "Adicionar quadro de atualizações do app abaixo do Alergo News"
+    },
+    {
       "id": "ae85ae386bc6",
       "date": "2026-11-18",
       "publishedAt": "2026-11-18T11:02:12.000Z",
@@ -1558,15 +1567,6 @@
       "category": "Aplicativo",
       "section": "dashboard",
       "title": "Criar home executiva com acessos por dia e hora, mapa, funcionalidades e atividades"
-    },
-    {
-      "id": "8246f5a7ddc6",
-      "date": "2026-11-14",
-      "publishedAt": "2026-11-14T12:37:48.000Z",
-      "type": "Melhoria",
-      "category": "Aplicativo",
-      "section": "dashboard",
-      "title": "Publicar apresentação do Hub do Alergista"
     },
     {
       "id": "bd6503306921",
