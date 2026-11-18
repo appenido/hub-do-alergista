@@ -6,8 +6,8 @@
 
 @media (min-width: 760px) {
   :root {
-    --hub-desk-width: 1240px;
-    --hub-desk-gutter: clamp(18px, 2.2vw, 28px);
+    --hub-desk-width: 100%;
+    --hub-desk-gutter: clamp(14px, 1.4vw, 28px);
     --hub-desk-gap: clamp(12px, 1.4vw, 18px);
   }
 
@@ -19,12 +19,12 @@
     box-shadow: none !important;
   }
 
-  /* A barra superior ocupa a janela; seus elementos alinham com o conteúdo. */
+  /* Largura total da janela; pequenas margens preservam o respiro de leitura. */
   .topbar {
     width: 100%;
     min-width: 0;
-    padding-left: max(var(--hub-desk-gutter), calc((100% - var(--hub-desk-width)) / 2 + var(--hub-desk-gutter))) !important;
-    padding-right: max(var(--hub-desk-gutter), calc((100% - var(--hub-desk-width)) / 2 + var(--hub-desk-gutter))) !important;
+    padding-left: var(--hub-desk-gutter) !important;
+    padding-right: var(--hub-desk-gutter) !important;
     gap: clamp(9px, 1vw, 16px) !important;
   }
   .topbar .tb-logo { flex: 0 0 auto; min-width: 0; }
@@ -44,11 +44,11 @@
   }
   .topbar :is(.tb-back, .tb-bell, .tb-user) { flex-shrink: 0; }
 
-  /* Um eixo central único para o Hub, inclusive em telas ultrawide. */
+  /* Sem coluna central estreita: cada página ocupa 100% da área útil. */
   .scroll-area {
-    width: min(100%, var(--hub-desk-width)) !important;
-    max-width: var(--hub-desk-width) !important;
-    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
     min-width: 0;
     padding-bottom: 48px;
   }
@@ -89,9 +89,9 @@
 
   /* Home editorial proporcional. Os três atalhos por linha são mantidos. */
   #page-dashboard {
-    width: min(100%, 1100px) !important;
-    max-width: 1100px !important;
-    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
   }
   #page-dashboard > .sec-hdr {
     padding-left: var(--hub-desk-gutter) !important;
@@ -272,4 +272,82 @@
 
 @media (prefers-reduced-motion: reduce) {
   #page-dashboard .quick-grid > .qcard { transition: none; }
+}
+
+/* Expansão integral em monitores 16:9, ultrawide e janelas maximizadas. */
+@media (min-width: 760px) {
+  html, body, .scroll-area, .scroll-area > .page.active {
+    width: 100% !important;
+    max-width: none !important;
+  }
+  .scroll-area > .page.active { margin: 0 !important; }
+
+  /* Não permitir que os blocos editoriais reintroduzam uma coluna central. */
+  #page-dashboard,
+  #page-dashboard .quick-grid,
+  #page-dashboard .home-favs-grid,
+  #page-dashboard .score-grid,
+  #page-scores > .gap-list,
+  #page-jornal #jornalCorpo,
+  #page-medicamentos #medApp,
+  #page-imunoglobulinas .igcalc-shell {
+    width: 100% !important;
+    max-width: none !important;
+    box-sizing: border-box;
+  }
+
+  #page-dashboard .quick-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    justify-content: stretch !important;
+    justify-items: stretch !important;
+  }
+  #page-dashboard .quick-grid > .qcard {
+    width: 100%;
+    max-width: none;
+  }
+  #page-dashboard :is(.home-favs-grid, .score-grid) {
+    width: 100%;
+    max-width: none !important;
+  }
+  #page-dashboard .hub-share-home {
+    width: auto;
+    max-width: none !important;
+    margin-inline: var(--hub-desk-gutter);
+  }
+
+  /* Grades internas ocupam a largura restante, mantendo cards expansíveis. */
+  #page-scores > .gap-list {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+  }
+  #page-jornal #jornalCorpo { padding-inline: var(--hub-desk-gutter); }
+  #page-imuno .bio-grid,
+  #page-imunizacoes #vacListaAll.vac-grid {
+    width: 100% !important;
+    max-width: none !important;
+  }
+  #page-imunoglobulinas .igcat-grid,
+  #page-antihistaminicos .ah-grid {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  /* Filtros e tabelas: rolagem local quando a coluna não comportar conteúdo. */
+  .scroll-area .page :is(.table-wrap, .overflow-table) {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+@media (min-width: 1500px) {
+  #medApp .med-categories {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  #page-dashboard .quick-grid > .qcard {
+    min-height: clamp(160px, 11vw, 204px);
+  }
+}
+@media (min-width: 2100px) {
+  #medApp .med-categories {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
