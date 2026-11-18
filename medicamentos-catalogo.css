@@ -102,7 +102,7 @@
 }
 
 /* Cálculo de dose no próprio cartão. */
-#medApp .med-dose{font:500 13px/1.48 Manrope,Arial,sans-serif;color:#234b61;min-width:0}
+#medApp .med-dose{font:500 13px/1.48 Manrope,Arial,sans-serif;color:#234b61;min-width:0;max-width:680px;margin:0 auto}
 #medApp .med-dose [hidden]{display:none!important}
 #medApp .med-dose-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;min-width:0}
 #medApp .med-dose-wide{grid-column:1/-1}
@@ -120,6 +120,8 @@
 #medApp .med-dose :is(input,select,button,summary,a):focus-visible{outline:2px solid #137c90;outline-offset:2px}
 #medApp .med-dose [data-dose-patient]{margin-top:14px}
 #medApp .med-dose fieldset{min-width:0;margin:14px 0 0;padding:13px 0 0;border:0;border-top:1px solid #dce9ed}
+#medApp .med-dose fieldset[data-dose-auto]{margin:0;padding:0;border:0}
+#medApp .med-dose-patient-grid{margin-top:12px}
 #medApp .med-dose-note{margin:8px 0 0;font-size:12px;line-height:1.55;color:#4a6676;overflow-wrap:anywhere}
 #medApp .med-dose-note.med-dose-wide{margin:0}
 #medApp .med-dose a{color:#126578;text-decoration:underline;text-underline-offset:3px}
@@ -143,6 +145,9 @@
 #medApp .med-dose-result dt{color:#4e6978;font-size:11px}
 #medApp .med-dose-result dd{margin:2px 0 0;color:#173f55;font-weight:700}
 #medApp .med-dose-reference{margin:12px 0 0;font-size:11px;color:#4a6676}
+#medApp .med-dose-references{margin-top:12px;padding-top:10px;border-top:1px solid #e1ebef}
+#medApp .med-dose-references summary{width:fit-content;cursor:pointer;font-size:12px;color:#426473}
+#medApp .med-dose-prescribed{display:block;margin-top:10px;padding:8px 10px;border:1px solid #d6c1a2;border-radius:8px;background:#fff;color:inherit;font:inherit;cursor:pointer}
 #medApp .med-dose-result.is-error{background:#fff8ef;border-color:#e8cfad;color:#714a20}
 #medApp .med-dose-result.is-error p{margin:0 0 4px}
 #medApp .med-dose-footer{padding-top:11px;margin-top:14px;border-top:1px solid #e1ebef}

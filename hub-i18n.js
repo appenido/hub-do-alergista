@@ -65,7 +65,7 @@
     ['Imunoglobulinas','Immunoglobulins','Inmunoglobulinas'],
     ['Anti-histamínicos','Antihistamines','Antihistamínicos'],
     ['Cálculo de dose','Dose calculator','Cálculo de dosis'],
-    ['Medicamento, idade e peso','Medication, age and weight','Medicamento, edad y peso'],
+    ['Pediatria · líquidos orais em mg/mL','Pediatrics · oral liquids in mg/mL','Pediatría · líquidos orales en mg/mL'],
     ['Imunizações','Immunizations','Inmunizaciones'],
     ['Vacinas','Vaccines','Vacunas'],
     ['Consultar CRM','Verify medical registration','Consultar registro médico'],

@@ -9,7 +9,7 @@ const FONTES={
   formulas:'https://www.sbp.com.br/fileadmin/user_upload/Manual_de_atualidades_em_Nutrologia_2021_-_SBP_SITE.pdf'
 };
 const CATS=[
- {id:'dose',name:'Cálculo de dose',sub:'Medicamento, idade e peso',icon:'calculator'},
+ {id:'dose',name:'Cálculo de dose',sub:'Pediatria · líquidos orais em mg/mL',icon:'calculator'},
  {id:'anti',name:'Anti-histamínicos',sub:'Catálogo original · oral, nasal, ocular e injetável',icon:'pill'},
  {id:'topicos',name:'Corticoides tópicos',sub:'Potência por princípio ativo, concentração e veículo',icon:'skin'},
  {id:'olhos',name:'Colírios',sub:'Anti-histamínicos e lubrificantes',icon:'eye'},
