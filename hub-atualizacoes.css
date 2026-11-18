@@ -37,3 +37,23 @@
 #hubAtualizacoes .hau-empty{font-size:12px;line-height:1.7;color:#627181;margin:8px 0 15px}
 @media(max-width:480px){#hubAtualizacoes .hau-head{padding:12px 12px 9px;gap:9px}#hubAtualizacoes h2{font-size:14px}#hubAtualizacoes .hau-subtitle{font-size:10.5px}#hubAtualizacoes .hau-icon{width:35px;height:35px;border-radius:10px}#hubAtualizacoes .hau-preview{padding:0 12px}#hubAtualizacoes .hau-disclosure{margin:0 12px}#hubAtualizacoes .hau-tools{grid-template-columns:1fr}#hubAtualizacoes :is(input,select){font-size:16px}#hubAtualizacoes .hau-title{font-size:11.5px}}
 @media(prefers-reduced-motion:reduce){#hubAtualizacoes .hau-chevron{transition:none}}
+
+/* Quadro compacto junto aos artigos, sem ampliar a faixa da Home. */
+#page-dashboard #hubAtualizacoes{width:calc(100% - 32px);max-width:680px;margin:12px 16px 4px;border-radius:11px;box-shadow:none}
+#page-dashboard #hubAtualizacoes .hau-head{padding:9px 11px 6px;gap:8px}
+#page-dashboard #hubAtualizacoes .hau-icon{width:28px;height:28px;border-radius:8px}
+#page-dashboard #hubAtualizacoes .hau-icon svg{width:21px;height:21px}
+#page-dashboard #hubAtualizacoes .hau-heading{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 9px}
+#page-dashboard #hubAtualizacoes h2{font-size:13px!important;line-height:1.4}
+#page-dashboard #hubAtualizacoes .hau-subtitle{display:none}
+#page-dashboard #hubAtualizacoes .hau-latest{font-size:10px!important;line-height:1.5;margin:0}
+#page-dashboard #hubAtualizacoes .hau-preview{padding:0 11px}
+#page-dashboard #hubAtualizacoes .hau-preview li{padding:6px 0;gap:7px;font-size:11px!important;line-height:1.5}
+#page-dashboard #hubAtualizacoes .hau-preview span{font-size:11px!important;line-height:1.5}
+#page-dashboard #hubAtualizacoes .hau-preview time{font-size:10px!important}
+#page-dashboard #hubAtualizacoes .hau-disclosure{margin:0 11px}
+#page-dashboard #hubAtualizacoes summary{padding:6px 0;min-height:36px;font-size:10.5px!important;line-height:1.5}
+#page-dashboard #hubAtualizacoes .hau-chevron{width:14px;height:14px}
+#page-dashboard #hubAtualizacoes .hau-count,#page-dashboard #hubAtualizacoes .hau-footnote{font-size:10.5px!important}
+#page-dashboard #hubAtualizacoes .hau-title{font-size:12px!important;line-height:1.65}
+@media(pointer:coarse){#page-dashboard #hubAtualizacoes summary{min-height:44px}}

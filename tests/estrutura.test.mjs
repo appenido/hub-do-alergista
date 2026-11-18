@@ -20,7 +20,7 @@ test('busca do cabeçalho usa formulário próprio e desativa o preenchimento au
 
 test('Scores permanecem primeiro botão e Favoritos último botão da Home, sem quadro de Favoritos', () => {
   const home = html.slice(html.indexOf('id="page-dashboard"'), html.indexOf('id="page-artigos"'));
-  const quick = home.match(/<div class="quick-grid">([\s\S]*?)<\/div>\s*<div class="sec-hdr"/)?.[1] || '';
+  const quick = home.match(/<div class="quick-grid">([\s\S]*?)<\/div>\s*(?:<section\b[^>]*\bid="hubAtualizacoes"|<div class="sec-hdr")/)?.[1] || '';
   const buttons = [...quick.matchAll(/<div class="qcard" data-nav="([^"]+)"/g)].map(m => m[1]);
   assert.equal(buttons[0], 'scores', 'Scores deve ser o primeiro botão');
   assert.equal(buttons.at(-1), 'favoritos', 'Favoritos deve ser o último botão');
@@ -81,3 +81,4 @@ test('recursos básicos usados no cabeçalho existem no repositório', () => {
     assert.doesNotThrow(() => readFileSync(new URL(file, root)), 'Recurso ausente: ' + file);
   }
 });
+

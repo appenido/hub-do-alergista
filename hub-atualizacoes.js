@@ -75,7 +75,7 @@
 
     function refreshPreview() {
       preview.textContent = '';
-      items.slice(0, 3).forEach(function (item) {
+      items.slice(0, 1).forEach(function (item) {
         var row = element('li');
         var time = element('time', '', dateLabel(item.date, true));
         time.dateTime = item.date;
