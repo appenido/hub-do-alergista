@@ -29,6 +29,13 @@
     var en=/\b(?:the|with|of|for|after|among|study|trial|guideline|guidelines|randomized|clinical|management|diagnosis|treatment|patients|recommendations|efficacy|safety|outcomes|review)\b/.test(t);
     return (!en && /\b(?:diretriz|diretrizes|consenso|ensaio|estudo|diagnóstico|tratamento|asma|rinite|urticária|esofagite|vacinação|recomendações|resumo|atualização)\b/.test(t)) || (pt>=2&&!en)||(pt>=1&&!en&&/[ãõçáéíóú]/.test(t));
   }
+  function numberSignature(value){
+    return (String(value).match(/\d+(?:[.,]\d+)*/g)||[]).sort().join('|');
+  }
+  function validTitle(source,pt){
+    return looksPortuguese(pt)&&numberSignature(source)===numberSignature(pt) &&
+      pt.length<=Math.max(source.length*2.5,160);
+  }
   function onlyTitle(el){
     if(el.matches('#heroInteresses > div > div:nth-child(2)')){
       var parent=el.parentElement;
@@ -50,6 +57,7 @@
     return out;
   }
   function cachePut(source,pt){
+    if(!validTitle(source,pt))return;
     translations[source]=pt;
     var keys=Object.keys(translations);
     if(keys.length>1000)keys.slice(0,keys.length-900).forEach(function(k){delete translations[k];});
@@ -69,11 +77,11 @@
     if(!original)return;
     var known=translations[original]||previous[original];
     var visible=clean(el.textContent);
-    if(!known && visible!==original && looksPortuguese(visible) &&
+    if(!known && visible!==original && validTitle(original,visible) &&
       !/^(Traduzindo título|Título em português temporariamente)/.test(visible)){
       cachePut(original,visible);update(el,visible);return;
     }
-    if(known&&looksPortuguese(known)){
+    if(known&&validTitle(original,known)){
       cachePut(original,known);
       update(el,known);
       return;
@@ -179,7 +187,7 @@
         for(var i=0;i<titles.length;i++){
           var source=titles[i];
           var translated=answers&&typeof answers[i]==='string'?clean(answers[i]):'';
-          if(translated&&looksPortuguese(translated)){
+          if(translated&&validTitle(source,translated)){
             cachePut(source,translated);
           }else{
             failed.set(source,Date.now());
