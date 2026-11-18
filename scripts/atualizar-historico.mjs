@@ -1,4 +1,4 @@
-/** Histórico público do aplicativo: novidades, correções, melhorias e remoções.
+/** Histórico público de atualizações de conteúdo clínico.
  * Usa somente títulos de alterações concluídas; não publica autores, corpos de
  * commits, dados de pacientes ou detalhes da Central administrativa.
  */
@@ -27,7 +27,7 @@ export function sectionFor(subject) {
   return ['dashboard', 'Aplicativo'];
 }
 
-export function isPublicUpdate(subject) {
+function isPublicChange(subject) {
   const text = normalize(subject);
   if (!text || /^(merge |revert |test\b|ci(?:\(|:)|build(?:\(|:)|docs(?:\(|:))/.test(text)) return false;
   if (/^(?:chore(?:\([^)]*\))?:|sw\s*v?\d|update sw\.|bust pwa|bump |trigger |deploy |upload |create (?:index|sw)\.|delete .+\.[a-z]{2,4})/.test(text)) return false;
@@ -39,10 +39,34 @@ export function isPublicUpdate(subject) {
   return true;
 }
 
+
+/** Publica somente alterações de conhecimento clínico; manutenção e interface
+ * permanecem fora do histórico, mesmo quando citam medicamentos ou doses. */
+export function isPublicUpdate(subject, title = subject) {
+  if (!isPublicChange(subject)) return false;
+  const raw = normalize(subject);
+  const text = normalize(subject + ' ' + title);
+  const change = raw.replace(/^(?:feat|fix|novidade|content|conteudo)(?:\([^)]*\))?:\s*/, '');
+  if (/^(?:load|render|enable)\b|medscape|consulta.*(?:bula.*fda|intera)|identifica revisoes.*tipo de publicacao/.test(change)) return false;
+  if (/medscape|consulta.*bula.*fda|drug label.*lookup|labeling lookup/.test(text)) return false;
+  if (/^(?:style|ui|seo|perf|refactor)(?:\(|:)/.test(raw)) return false;
+  if (/titulo|traduc|traduz|idioma|fonte responsiva|tamanho.*fonte|\bfont\b|layout|\blogo\b|logomarca|icone|ilustrac|pictogram|aparencia|visual|header|heading|padding|typograph|salto vertical|inline|voltar|\bcores?\b|dourad|fabricante.*cor|\bgrid\b|\bgrade\b|coluna|\bcards?\b|cartao|cartoes|quadro|home|dashboard|navega|scroll|rolagem|expan[ds]|clic|botoes|botao|menu|overlay|modal|alinha|espacamento|largura|altura|responsiv|tela|mobile|desktop|windows|\bmac\b|interface|desenho|render|styling|stylesheet|illustrat|responsive|whole words|full.width/.test(text)) return false;
+  if (/qr|diario|cadastro|formulario|registrar.*paciente|deletar|portal|persist|salva|salvamento|armazen|\bapi\b|schema|token|cookie|login|autentic|paciente.*link|link.*paciente|gerador|relatorio|export|csv|progresso|semanas consecutivas|monitoramento semanal/.test(text)) return false;
+  if (/busca|pesquisa|filtro|ordenar|query|queries|rastreamento|rastrear|testa|codigo|code|valida presenca|limites temporarios|adiciona calculo|adicion.*comparador|integrar comparador|reorden|alfabet|seletor|carregar|carregamento|sincroniz|sininho|sino|notifica|anunciar|aviso|verificador|varredura|automatica|conferencia|catalog count|brand count|price|preco|orcamento|oferta/.test(text)) return false;
+  if (sectionFor(title)[0] === 'dashboard') return false;
+  // Alterações objetivas de doses, indicações, esquemas e critérios clínicos.
+  if (/dose|doses|posolog|indicac|contraindic|esquema|comorbidad|diagnostic|criterios? (?:clinicos?|de (?:decisao|indicacao|elegibilidade|profilaxia))|criterios.*vacina|eficacia|infusao|infusion|velocidade|taxa.*manutencao|risco.*profilaxia|tratamento|condutas? (?:clinicas?|detalhadas)|evidencia|referencia|bula|registro.*anvisa|cobertura.*ans/.test(text)) return true;
+  // Novos temas, documentos e conteúdos clínicos explicitamente publicados.
+  const publication = /adicion|inclu|publica|atualiz|revis|corrig|especific|esclarec|detalh|novo|nova|amplia|completa|substitu|integr|\bfeat\b|\bnovidade\b|\bconteudo\b|\bcontent\b|\bexpand\b/;
+  const clinicalContent = /vacina|calendario|nemolizumabe|imunobiolog|anti.histamin|hidratante|moisturizer|diretriz|diretrizes|guideline|consenso|artigo|reatividade.*(?:aliment|molecular)|componentes? molecula|proteinas?|alergenos?|protocolo.*clinico|criterio|escore.*pen.fast/;
+  return publication.test(text) && clinicalContent.test(text);
+}
+
 const TITLES = {
   ae85ae386bc6: 'Títulos de artigos e guidelines mantidos no idioma original',
   '6f51e29b8ab2': 'Cálculo pediátrico organizado por princípio ativo e concentração em mg/mL',
   '5af69e704915': 'Resultado do último paciente preservado ao sair da tela e recuperação de envios por QR Code',
+  cb43a1ed6271: 'Referências clínicas de anti-histamínicos e emolientes atualizadas',
   '635100166d96': 'Recurso complementar para a tradução dos textos do aplicativo',
   '90dd5060d2b3': 'Guidelines restritos a diretrizes clínicas oficiais, com remoção de resultados sem relação',
   '0ddfe4db2cac': 'Busca no PubMed restrita a diretrizes clínicas e parâmetros de prática oficiais',
@@ -116,11 +140,12 @@ export function buildHistory(commits) {
   const seen = new Set();
   const items = [];
   for (const commit of commits) {
-    if (!/^[a-f0-9]{40}$/.test(commit.sha || '') || !isPublicUpdate(commit.subject)) continue;
+    if (!/^[a-f0-9]{40}$/.test(commit.sha || '')) continue;
+    const title = cleanTitle(commit);
+    if (!isPublicUpdate(commit.subject, title)) continue;
     const stamp = new Date(commit.date);
     if (Number.isNaN(stamp.getTime())) continue;
     const date = new Intl.DateTimeFormat('en-CA', {timeZone: 'America/Sao_Paulo', year:'numeric', month:'2-digit', day:'2-digit'}).format(stamp);
-    const title = cleanTitle(commit);
     const key = date + ':' + normalize(title).replace(/[^a-z0-9]/g, '');
     if (seen.has(key) || title.length < 8) continue;
     seen.add(key);
@@ -129,10 +154,10 @@ export function buildHistory(commits) {
     const type = /remov|retir|exclu|elimin/.test(text) ? 'Remoção' :
       /^(fix|corrig)|correc|resolve|restaur|recuper|impedir|prevent/.test(text) ? 'Correção' :
       /^(feat|novidade)|adicion|inclu|\bcria|lancamento|\bnovo|\bnova/.test(text) ? 'Novidade' : 'Melhoria';
-    items.push({id: commit.sha.slice(0, 12), date, publishedAt: stamp.toISOString(), type, category, section, title});
+    items.push({kind: 'content', id: commit.sha.slice(0, 12), date, publishedAt: stamp.toISOString(), type, category, section, title});
   }
   items.sort((a, b) => b.publishedAt.localeCompare(a.publishedAt) || b.id.localeCompare(a.id));
-  return {version: 1, updatedAt: items[0]?.date || null, items};
+  return {version: 1, scope: 'clinical-content', updatedAt: items[0]?.date || null, items};
 }
 
 function main() {
@@ -144,7 +169,7 @@ function main() {
         return {sha, date, subject};
       });
   const feed = buildHistory(commits);
-  if (!feed.items.length) throw new Error('Histórico sem alterações públicas: a publicação foi interrompida.');
+  if (!feed.items.length) throw new Error('Histórico sem atualizações de conteúdo: a publicação foi interrompida.');
   writeFileSync(OUTPUT, JSON.stringify(feed, null, 2) + '\n');
   console.log(`${feed.items.length} atualizações do aplicativo registradas.`);
 }

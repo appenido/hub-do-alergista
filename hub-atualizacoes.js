@@ -17,7 +17,7 @@
     return parts ? parts[3] + '/' + parts[2] + (short ? '' : '/' + parts[1]) : '';
   }
   function valid(item) {
-    return item && /^[a-f0-9]{12}$/.test(item.id || '') && /^\d{4}-\d{2}-\d{2}$/.test(item.date || '') &&
+    return item && item.kind === 'content' && /^[a-f0-9]{12}$/.test(item.id || '') && /^\d{4}-\d{2}-\d{2}$/.test(item.date || '') &&
       typeof item.title === 'string' && item.title.length >= 8 && item.title.length <= 500 &&
       typeof item.category === 'string' && item.category.length <= 80 && SECTIONS.indexOf(item.section) >= 0 &&
       ['Novidade','Correção','Melhoria','Remoção'].indexOf(item.type) >= 0;
@@ -94,7 +94,7 @@
       return fetch('/data/hub-atualizacoes.json', {cache:'no-store', credentials:'same-origin'})
         .then(function (response) { if (!response.ok) throw new Error('Histórico indisponível'); return response.json(); })
         .then(function (data) {
-          if (data.version !== 1 || !Array.isArray(data.items)) throw new Error('Histórico inválido');
+          if (data.version !== 1 || data.scope !== 'clinical-content' || !Array.isArray(data.items)) throw new Error('Histórico inválido');
           var seen = Object.create(null);
           items = data.items.filter(valid).filter(function (item) {
             if (seen[item.id]) return false;
