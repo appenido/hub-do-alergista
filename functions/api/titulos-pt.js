@@ -20,7 +20,7 @@ function likelyPortuguese(value){
   const t=String(value).toLowerCase();
   const pt=(t.match(/\b(?:de|do|da|dos|das|para|com|em|por|sobre|uma|um|entre|após|tratamento|diagnóstico|diretriz|recomendações|ensaio|estudo|alérgica|grave|terapia)\b/g)||[]).length;
   const en=/\b(?:the|with|of|for|after|among|study|trial|guideline|guidelines|randomized|clinical|management|diagnosis|treatment|patients|recommendations|efficacy|safety|outcomes|review)\b/.test(t);
-  return (pt>=2&&!en)||(pt>=1&&!en&&/[ãõçáéíóú]/.test(t));
+  return (!en && /\b(?:diretriz|diretrizes|consenso|ensaio|estudo|diagnóstico|tratamento|asma|rinite|urticária|esofagite|vacinação|recomendações|resumo|atualização)\b/.test(t)) || (pt>=2&&!en)||(pt>=1&&!en&&/[ãõçáéíóú]/.test(t));
 }
 async function sha(source){
   const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('pt-v1\0'+source));
