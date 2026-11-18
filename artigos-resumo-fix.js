@@ -123,7 +123,7 @@
     var titulo=card.getAttribute('data-ai-title') ||
       (ehGuia && card.querySelector('.gc-name')?card.querySelector('.gc-name').textContent:'') ||
       (card.querySelector('.art-title')?card.querySelector('.art-title').textContent:'');
-    var tituloPt=card.querySelector('.art-title-pt')?card.querySelector('.art-title-pt').textContent:titulo;
+    var tituloPt=titulo;
     var journalEl=card.querySelector('.art-journal')||card.querySelector('.gc-year')||card.querySelector('.gc-soc');
     var jornal=journalEl?journalEl.textContent:'';
     var uid=card.getAttribute('data-uid')||'';

@@ -342,7 +342,7 @@
   var scheduled=false;
   var originalTitle;
   var translatedAttributes=['placeholder','aria-label','aria-description','aria-valuetext','alt','title','label','value'];
-  var skip='script,style,noscript,pre,code,[data-hub-i18n-skip],[contenteditable]:not([contenteditable="false"]),.page:not(.active)';
+  var skip='.art-card .art-title,#page-guidelines .gc-name,#page-guidelines .gc-original,.hub-scientific-title,script,style,noscript,pre,code,[data-hub-i18n-skip],[contenteditable]:not([contenteditable="false"]),.page:not(.active)';
   var statusCopy={
     'pt-BR':['Idioma da interface','',''],
     en:['Interface language','Loading translations…','Translations could not load. Try again when connected.'],

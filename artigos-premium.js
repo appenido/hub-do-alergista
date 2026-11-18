@@ -35,7 +35,6 @@
       '#feedChips button{scroll-snap-align:start}',
       '#feedResults .art-card{display:flex;flex-direction:column;gap:4px;border-radius:13px}',
       '#feedResults .art-title{font-size:13px;line-height:1.48}',
-      '#feedResults .art-title-pt{font-size:13px;line-height:1.48}',
       '#feedResults .art-links{display:flex;gap:7px;flex-wrap:wrap}',
       '@media(max-width:360px){#artigosBuscaForm{grid-template-columns:minmax(0,1fr) 76px}#artigosPeriodo{width:98px}#artigosBuscaBotao{padding:0 7px}.hub-artigos-aux label{font-size:10.5px}}'
     ].join('\n');document.head.appendChild(s);
@@ -87,8 +86,7 @@
     return '<article class="art-card" data-topic="'+esc(topic)+'" data-uid="'+a.pmid+'" data-ai-title="'+esc(title)+'" style="margin-bottom:10px">'+
       '<span class="art-journal">'+esc(a.journal||'Revista indexada')+' · '+esc(dt(a.date))+' · PMID '+a.pmid+'</span>'+
       '<div class="art-meta"><span class="tag t-gold">'+esc(topicNames[topic]||topicNames[active])+'</span></div>'+
-      '<div class="art-title-pt" data-original="'+esc(title)+'">'+esc(title)+'</div>'+
-      '<div class="art-title">'+esc(title)+'</div>'+
+      '<div class="art-title" data-hub-i18n-skip translate="no">'+esc(title)+'</div>'+
       (authors?'<div style="font-size:11px;color:var(--gray-500)">'+esc(authors)+'</div>':'')+
       '<div class="art-links" style="margin-top:9px">'+
       '<a class="link-btn pub" href="'+pub+'" target="_blank" rel="noopener noreferrer">Abrir no PubMed</a>'+
@@ -107,7 +105,6 @@
     lastLoaded=Date.now();
     lastKey=JSON.stringify([active,query,days]);
     if(typeof window.favScan==='function')window.favScan(box);
-    if(typeof window._traduzirTitulosFeed==='function')window._traduzirTitulosFeed(box,active);
   }
   function load(topic,force){
     ensureControls();
