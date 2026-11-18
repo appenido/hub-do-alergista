@@ -155,7 +155,27 @@
             if(!Array.isArray(data.titles)||data.titles.length!==titles.length)throw new Error('Resposta inválida');
             answers=data.titles;
           }finally{if(timer)clearTimeout(timer);}
-        }catch(_){}
+        }catch(_){
+          // Compatibilidade: aproveita o tradutor educacional existente se a
+          // rota especializada ainda não estiver disponível no deploy.
+          answers=new Array(titles.length).fill(null);
+          for(var start=0;start<titles.length;start+=4){
+            var part=titles.slice(start,start+4);
+            try{
+              var prompt='Traduza para português brasileiro os '+part.length+
+                ' títulos científicos a seguir. Preserve doses, siglas, números e nomes de ensaios. '+
+                'Responda EXATAMENTE com '+part.length+' linhas na mesma ordem, somente os títulos traduzidos, sem numeração.\n\n'+part.join('\n');
+              var legacy=await fetch('/ia',{method:'POST',credentials:'same-origin',
+                headers:{'Content-Type':'application/json'},body:JSON.stringify({pergunta:prompt})});
+              if(!legacy.ok)continue;
+              var legacyData=await legacy.json();
+              var lines=String(legacyData.resposta||'').split('\n')
+                .map(function(line){return line.trim().replace(/^\d+[\).:\-]\s*/,'').replace(/^["'“”]+|["'“”]+$/g,'');})
+                .filter(Boolean);
+              if(lines.length===part.length)lines.forEach(function(line,j){answers[start+j]=line;});
+            }catch(_){}
+          }
+        }
         for(var i=0;i<titles.length;i++){
           var source=titles[i];
           var translated=answers&&typeof answers[i]==='string'?clean(answers[i]):'';
