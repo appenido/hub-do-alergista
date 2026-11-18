@@ -1,0 +1,39 @@
+/* Histórico da Home, restrito ao próprio quadro. */
+#hubAtualizacoes{margin:12px 16px 4px;border:1px solid #dbe4eb;border-radius:15px;background:linear-gradient(125deg,#fff 65%,#f6f9fb);box-shadow:0 3px 14px rgba(13,31,45,.035);color:#0d1f2d;min-width:0;overflow:hidden;text-align:left;font-family:'Manrope',sans-serif}
+#hubAtualizacoes [hidden]{display:none!important}
+#hubAtualizacoes .hau-head{display:flex;align-items:center;gap:11px;padding:14px 15px 10px}
+#hubAtualizacoes .hau-icon{width:39px;height:39px;flex:none;display:grid;place-items:center;border:1px solid #cfb36c;border-radius:12px;background:linear-gradient(145deg,#214d66,#102b41);box-shadow:inset 0 1px 1px #ffffff24,0 2px 5px #102b4114}
+#hubAtualizacoes .hau-icon svg{display:block;width:29px;height:29px}
+#hubAtualizacoes .hau-heading{min-width:0;flex:1}
+#hubAtualizacoes h2{margin:0;color:#173b52;font:500 16px/1.35 'Manrope',sans-serif;letter-spacing:-.02em}
+#hubAtualizacoes .hau-subtitle{margin:3px 0 0;font-size:11px;line-height:1.5;color:#627181}
+#hubAtualizacoes .hau-latest{display:block;font-size:10.5px;line-height:1.5;color:#6a5a31;margin-top:3px}
+#hubAtualizacoes .hau-preview{padding:0 15px;list-style:none;margin:0}
+#hubAtualizacoes .hau-preview li{border-top:1px solid #edf1f4;padding:9px 0;display:flex;gap:9px;align-items:baseline}
+#hubAtualizacoes .hau-preview time{flex:none;font-size:10.5px;color:#76828e;font-variant-numeric:tabular-nums}
+#hubAtualizacoes .hau-preview span{min-width:0;font-size:11.5px;line-height:1.6;color:#30495c;overflow-wrap:break-word}
+#hubAtualizacoes .hau-disclosure{border-top:1px solid #e8eef2;margin:0 15px}
+#hubAtualizacoes summary{display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;list-style:none;min-height:44px;padding:10px 0;color:#1f6980;font-size:11.5px;line-height:1.5;font-weight:500;-webkit-tap-highlight-color:transparent}
+#hubAtualizacoes summary::-webkit-details-marker{display:none}
+#hubAtualizacoes .hau-chevron{width:17px;height:17px;flex:none;transition:transform .16s ease}
+#hubAtualizacoes details[open] .hau-chevron{transform:rotate(180deg)}
+#hubAtualizacoes :is(summary,button,input,select):focus-visible{outline:2px solid #227d97;outline-offset:3px}
+#hubAtualizacoes .hau-tools{display:grid;grid-template-columns:minmax(0,1fr) minmax(140px,.6fr);gap:9px;padding:2px 0 11px}
+#hubAtualizacoes .hau-tools label{display:flex;flex-direction:column;gap:5px;min-width:0;color:#627181;font-size:10.5px}
+#hubAtualizacoes :is(input,select){width:100%;min-width:0;border:1px solid #dbe4eb;border-radius:9px;min-height:41px;background:#fff;padding:9px 10px;color:#173b52;font:400 12px/1.5 'Manrope',sans-serif}
+#hubAtualizacoes .hau-count{font-size:10.5px;line-height:1.5;color:#6b7a87;margin:0 0 10px}
+#hubAtualizacoes .hau-day{margin:0;padding:2px 0 5px;font-size:11px;line-height:1.6;color:#776033;font-weight:500}
+#hubAtualizacoes .hau-entry{border-left:2px solid #d7e3eb;margin:0 0 11px 3px;padding:1px 0 3px 11px;min-width:0}
+#hubAtualizacoes .hau-meta{display:flex;flex-wrap:wrap;align-items:center;gap:5px 8px;margin-bottom:5px;color:#74818d;font-size:9.5px;line-height:1.5}
+#hubAtualizacoes .hau-type{border-radius:5px;background:#ecf4f5;color:#287080;padding:2px 6px}
+#hubAtualizacoes .hau-type[data-type="Correção"]{background:#f6f0df;color:#7b632f}
+#hubAtualizacoes .hau-type[data-type="Remoção"]{background:#f1f0f5;color:#696077}
+#hubAtualizacoes .hau-title{margin:0;font:400 12px/1.7 'Manrope',sans-serif;color:#263f52;overflow-wrap:break-word}
+#hubAtualizacoes .hau-footnote{font-size:10px;line-height:1.6;color:#7a8590;border-top:1px solid #edf1f4;padding:10px 0 12px;margin:0}
+#hubAtualizacoes .hau-more,#hubAtualizacoes .hau-retry{border:1px solid #cddfe7;border-radius:9px;background:#f5fafc;color:#1f6980;font:400 11.5px/1.5 'Manrope',sans-serif;min-height:42px;padding:9px 14px;cursor:pointer;margin:0 0 11px}
+#hubAtualizacoes .hau-more{width:100%}
+#hubAtualizacoes .hau-state{font-size:11.5px;line-height:1.7;color:#627181;padding:0 15px 12px;margin:0}
+#hubAtualizacoes .hau-retry{margin-left:15px}
+#hubAtualizacoes .hau-empty{font-size:12px;line-height:1.7;color:#627181;margin:8px 0 15px}
+@media(max-width:480px){#hubAtualizacoes .hau-head{padding:12px 12px 9px;gap:9px}#hubAtualizacoes h2{font-size:14px}#hubAtualizacoes .hau-subtitle{font-size:10.5px}#hubAtualizacoes .hau-icon{width:35px;height:35px;border-radius:10px}#hubAtualizacoes .hau-preview{padding:0 12px}#hubAtualizacoes .hau-disclosure{margin:0 12px}#hubAtualizacoes .hau-tools{grid-template-columns:1fr}#hubAtualizacoes :is(input,select){font-size:16px}#hubAtualizacoes .hau-title{font-size:11.5px}}
+@media(prefers-reduced-motion:reduce){#hubAtualizacoes .hau-chevron{transition:none}}

@@ -93,3 +93,14 @@
 
 /hub-i18n.js
   Cache-Control: no-cache, max-age=0, must-revalidate
+
+
+# Histórico público de mudanças do aplicativo.
+/data/hub-atualizacoes.json
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/hub-atualizacoes.js
+  Cache-Control: no-cache, max-age=0, must-revalidate
+
+/hub-atualizacoes.css
+  Cache-Control: no-cache, max-age=0, must-revalidate

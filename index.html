@@ -1633,6 +1633,7 @@ _marcarGuiasPagas();
 #page-prompts, [data-nav="prompts"] { display:none !important; }
 </style>
 <link rel="stylesheet" href="/alergo-news-premium.css?v=20261110-justificado-4">
+<link rel="stylesheet" href="/hub-atualizacoes.css?v=20261118-1">
 
 <link rel="stylesheet" href="/hub-clinical-responsive.css?v=20261114-medicamentos2">
 <style id="snot22-intro-layout">
@@ -1778,6 +1779,28 @@ window._bloquearApp=function(){};
 
 
 
+
+    <section id="hubAtualizacoes" aria-labelledby="hubAtualizacoesTitulo">
+      <div class="hau-head">
+        <span class="hau-icon" aria-hidden="true"><svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="hauGold" x1="6" y1="4" x2="31" y2="33" gradientUnits="userSpaceOnUse"><stop stop-color="#fff0b8"/><stop offset=".5" stop-color="#e0bd64"/><stop offset="1" stop-color="#ae8036"/></linearGradient></defs><path d="M28.8 15a11.5 11.5 0 1 0 .4 5.2" stroke="url(#hauGold)" stroke-width="2.2" stroke-linecap="round"/><path d="M29 6v9h-9" stroke="url(#hauGold)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="m12.8 18.7 3.5 3.5 7-8" stroke="#edf7fa" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div class="hau-heading"><h2 id="hubAtualizacoesTitulo">Atualizações do app</h2><p class="hau-subtitle">Novidades, correções e melhorias</p><span class="hau-latest"></span></div>
+      </div>
+      <p class="hau-state" role="status">Carregando histórico de atualizações…</p>
+      <button class="hau-retry" type="button" hidden>Tentar novamente</button>
+      <ul class="hau-preview" aria-label="Últimas atualizações"></ul>
+      <details class="hau-disclosure" hidden>
+        <summary><span class="hau-summary-label">Ver histórico completo</span><svg class="hau-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="hau-tools">
+          <label for="hubAtualizacoesBusca">Buscar no histórico<input id="hubAtualizacoesBusca" type="search" placeholder="Ex.: UAS7, doses, vacinas…" autocomplete="off"></label>
+          <label for="hubAtualizacoesSecao">Seção<select id="hubAtualizacoesSecao"><option value="">Todas as seções</option></select></label>
+        </div>
+        <p class="hau-count" role="status" aria-live="polite"></p>
+        <div class="hau-list"></div>
+        <button class="hau-more" type="button" hidden>Mostrar mais atualizações</button>
+        <p class="hau-footnote">Histórico por data. Alterações mais recentes prevalecem sobre as anteriores.</p>
+      </details>
+      <noscript><p class="hau-state">Ative o JavaScript para consultar o histórico.</p></noscript>
+    </section>
 
     <div class="sec-hdr"><h2>Acesso Rápido</h2></div>
     <div class="quick-grid">
@@ -11253,6 +11276,7 @@ function chatToggle(){
 <script src="/home-heading-icons.js?v=20261114-medicamentos1" defer></script>
 <script src="/biologicos-icones-doencas.js?v=20261115-traducao" defer></script>
 <script src="/hub-novidades.js?v=20261114-legivel-2" defer></script>
+<script src="/hub-atualizacoes.js?v=20261118-1" defer></script>
 <script src="/alergo-news-premium.js?v=20261109-1" defer></script>
 <script src="/artigos-resumo-fix.js?v=20261118-titulos-originais" defer></script>
 <script src="/protocolos-bolso-condutas-20261114.js?v=20261114-12"></script>

@@ -1,0 +1,49 @@
+name: Histórico de atualizações do aplicativo
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'data/hub-atualizacoes.json'
+  schedule:
+    # Conferência diária às 04h de Brasília.
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: historico-atualizacoes-do-app
+  cancel-in-progress: false
+
+jobs:
+  historico:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Atualizar o histórico público completo
+        run: node scripts/atualizar-historico.mjs
+      - name: Publicar histórico quando houver alterações
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for tentativa in 1 2 3; do
+            node scripts/atualizar-historico.mjs
+            if git diff --quiet -- data/hub-atualizacoes.json; then
+              echo "Histórico atualizado."
+              exit 0
+            fi
+            git add data/hub-atualizacoes.json
+            git commit -m "chore: publicar atualização do histórico do app"
+            if git push origin HEAD:main; then exit 0; fi
+            git fetch origin main
+            git reset --hard origin/main
+          done
+          echo "::error::Não foi possível publicar o histórico após três tentativas."
+          exit 1
