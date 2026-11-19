@@ -8755,7 +8755,7 @@ document.addEventListener('click', function(e){
   // se href já for PDF/PMC direto, deixa o <a> agir normalmente
 });
 var _ov=document.getElementById('overlay');if(_ov)_ov.addEventListener('click',function(e){if(e.target===this)closeModal();});
-var _mc=document.getElementById('mCalc');if(_mc)_mc.addEventListener('click',doCalc);
+var _mc=document.getElementById('mCalc');if(_mc)_mc.addEventListener('click',function(e){doCalc();if(currentScore==='easi'||currentScore==='nrsda')e.stopPropagation();});
 var _mcl=document.getElementById('mClose');if(_mcl)_mcl.addEventListener('click',closeModal);
 
 
