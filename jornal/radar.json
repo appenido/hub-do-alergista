@@ -1,35 +1,27 @@
 {
- "ultimaTentativa": "2026-11-18T19:13:08.947Z",
- "atualizadoEm": "2026-11-18T19:13:08.947Z",
+ "ultimaTentativa": "2026-11-19T19:18:32.750Z",
+ "atualizadoEm": "2026-11-19T19:18:32.750Z",
  "status": "ok",
  "totalCandidatos": 60,
- "totalVerificados": 8,
- "totalPendentes": 5,
- "totalExcluidos": 47,
+ "totalVerificados": 5,
+ "totalPendentes": 3,
+ "totalExcluidos": 52,
  "falhasFonte": [],
  "itens": [
+  {
+   "status": "verificado",
+   "titulo": "Você tem alergia ao suor?",
+   "fonte": "G1",
+   "data": "2026-11-19T15:44:01.000Z",
+   "url": "https://g1.globo.com/pe/pernambuco/ne1/video/voce-tem-alergia-ao-suor-15263695.ghtml",
+   "verificado": true
+  },
   {
    "status": "verificado",
    "titulo": "Médico salva vida de comissária que sofreu reação alérgica grave durante voo internacional",
    "fonte": "R7",
    "data": "2026-11-18T11:47:31.813Z",
    "url": "https://noticias.r7.com/prisma/luiz-fara-monteiro/medico-salva-vida-de-comissaria-que-sofreu-reacao-alergica-grave-durante-voo-internacional-18112026/",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Homem é preso após enviar cartão com pasta de amendoim a amiga da ex-esposa que tem alergia grave nos EUA",
-   "fonte": "Rede Atlântida",
-   "data": "2026-11-17T18:27:01.000Z",
-   "url": "https://atl.clicrbs.com.br/humor/noticia/2026/11/homem-e-preso-apos-enviar-cartao-com-pasta-de-amendoim-a-amiga-da-ex-esposa-que-tem-alergia-grave-nos-eua-cmwl0y0bt009501cxnf6sfktu.html",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "EUA avalia 1º tratamento para edição genética diretamente dentro do corpo",
-   "fonte": "metropoles.com",
-   "data": "2026-11-16T19:01:00.000Z",
-   "url": "https://www.metropoles.com/saude/eua-avalia-1o-tratamento-para-edicao-genetica-diretamente-dentro-do-corpo",
    "verificado": true
   },
   {
@@ -42,51 +34,28 @@
   },
   {
    "status": "verificado",
+   "titulo": "Ataque de abelhas causa urticária, inchaço e tremores em quatro pessoas em MT; veja o que fazer nestes casos",
+   "fonte": "G1",
+   "data": "2026-11-16T16:50:12.242Z",
+   "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/16/ataque-de-abelhas-causa-urticaria-inchaco-e-tremores-em-quatro-pessoas-em-mt-veja-o-que-fazer-nestes-casos.ghtml",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
    "titulo": "Tosse e falta de ar frequentes podem indicar asma ou pneumonia; entenda",
    "fonte": "CNN Brasil",
    "data": "2026-11-13T07:35:01.000Z",
    "url": "https://www.cnnbrasil.com.br/saude/tosse-e-falta-de-ar-frequentes-podem-indicar-asma-ou-pneumonia-entenda/",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Mãe entrega laudo de alergia alimentar do filho à escola pública, mas recebe orientação para mandar comida de casa todos os dias e descobre que o cardápio escolar não foi adaptado mesmo após três meses de solicitações",
-   "fonte": "Correio Braziliense",
-   "data": "2026-11-12T10:10:00.000Z",
-   "url": "https://www.correiobraziliense.com.br/cbradar/mae-entrega-laudo-de-alergia-alimentar-do-filho-a-escola-publica-mas-recebe-orientacao-para-mandar-comida-de-casa-todos-os-dias-e-descobre-que-o-cardapio-escolar-nao-foi-adaptado-mesmo-apos-tres-mese/",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Ex-BBB Cacau Colucci tem reação alérgica na pele após tocar em abacaxi; médica explica quando se preocupar",
-   "fonte": "Gshow",
-   "data": "2026-11-12T08:00:01.102Z",
-   "url": "https://gshow.globo.com/comportamento/saude/noticia/ex-bbb-cacau-colucci-tem-reacao-alergica-na-pele-apos-tocar-em-abacaxi-medica-explica-quando-se-preocupar.ghtml",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Alergia a abacaxi? Médica explica o que pode ter provocado reação em ex-BBB",
-   "fonte": "Notícias da TV",
-   "data": "2026-11-11T23:03:00.000Z",
-   "url": "https://noticiasdatv.uol.com.br/noticia/atitude/alergia-a-abacaxi-medica-explica-o-que-pode-ter-provocado-reacao-em-ex-bbb-159332",
    "verificado": true
   }
  ],
  "pendentes": [
   {
    "status": "pendente",
-   "titulo": "Movido por vingança: homem é preso nos EUA acusado de enviar cartão com amendoim a mulher com alergia grave",
+   "titulo": "Uma única vacina tem resultados promissores contra múltiplas alergias alimentares",
    "fonte": "O GLOBO",
-   "url": "https://oglobo.globo.com/mundo/epoca/noticia/2026/11/17/movido-por-vinganca-homem-e-preso-nos-eua-acusado-de-enviar-cartao-com-amendoim-a-mulher-com-alergia-grave.ghtml",
+   "url": "https://oglobo.globo.com/saude/noticia/2026/11/17/uma-unica-vacina-tem-resultados-promissores-contra-multiplas-alergias-alimentares.ghtml",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Homem é preso após enviar amendoim a mulher com alergia nos EUA",
-   "fonte": "UOL Notícias",
-   "url": "https://noticias.uol.com.br/internacional/ultimas-noticias/2026/11/14/homem-e-preso-apos-enviar-amendoim-a-mulher-com-alergia-nos-eua.ghtm",
-   "motivo": "página retornou HTTP 403"
   },
   {
    "status": "pendente",
@@ -101,29 +70,36 @@
    "fonte": "O GLOBO",
    "url": "https://oglobo.globo.com/saude/noticia/2026/11/05/apresentadora-janaina-barbosa-morreu-apos-choque-anafilatico-entenda-a-reacao-alergica.ghtml",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Choque anafilático: entenda quadro apontado como causa da morte de Janaína Barbosa",
-   "fonte": "UOL",
-   "url": "https://www.uol.com.br/flash/?c=6aeb968a2058660afc0048e2",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   }
  ],
  "excluidos": [
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Após sintomas serem confundidos com alergia, casos de sarna humana sobem para 11 em Nova Andradina",
-   "fonte": "Midiamax",
-   "url": "https://midiamax.com.br/cotidiano/2026/apos-sintomas-serem-confundidos-alergia-casos-sarna-humana-sobem-11-nova-andradina/"
+   "titulo": "Asma pode ser grave e exige cuidado contínuo, não somente em períodos de crise",
+   "fonte": "A Tribuna Regional",
+   "url": "https://atribunaregional.com.br/asma-pode-ser-grave-e-exige-cuidado-continuo-nao-somente-em-periodos-de-crise/"
   },
   {
    "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Psicóloga alerta para o impacto emocional profundo da dermatite atópica",
-   "fonte": "Demócrata",
-   "url": "https://www.democrata.es/pt/saude/psicologa-alerta-para-o-impacto-emocional-profundo-da-dermatite-atopica/"
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Homem de 68 anos é preso após enviar cartão de felicitações coberto de pasta de amendoim a mulher com alergia grave",
+   "fonte": "Diário do Litoral",
+   "url": "https://www.diariodolitoral.com.br/mundo/homem-de-68-anos-e-preso-apos-enviar-cartao-de-felicitacoes-coberto-de-pasta-de-amendoim-a-mulher-com-alergia-grave/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Cochrane compara tratamentos tópicos para dermatite atópica",
+   "fonte": "Afya | Home",
+   "url": "https://portal.afya.com.br/dermatologia/cochrane-compara-tratamentos-topicos-para-dermatite-atopica"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Após sintomas serem confundidos com alergia, casos de sarna humana sobem para 11 em Nova Andradina",
+   "fonte": "Midiamax",
+   "url": "https://midiamax.com.br/cotidiano/2026/apos-sintomas-serem-confundidos-alergia-casos-sarna-humana-sobem-11-nova-andradina/"
   },
   {
    "status": "excluido",
@@ -135,16 +111,9 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Casos de alergia grave aumentam no Brasil: saiba como agir na hora",
-   "fonte": "bra1.com.br",
-   "url": "https://www.bra1.com.br/geral/id-728020/casos_de_alergia_grave_aumentam_no_brasil__saiba_como_agir_na_hora"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Envio inusitado! Homem é acusado de enviar carta com pasta de amendoim para amiga alérgica da ex",
-   "fonte": "Banda B",
-   "url": "https://www.bandab.com.br/internacional/homem-e-acusado-de-enviar-pasta-de-amendoim-a-mulher-alergica/"
+   "titulo": "Enquanto avião desviava em emergência, médico ajudava a salvar comissário que sofreu reação alérgica grave a bordo",
+   "fonte": "AEROIN",
+   "url": "https://aeroin.net/enquanto-aviao-desviava-em-emergencia-medico-ajudava-a-salvar-comissario-que-sofreu-reacao-alergica-grave-a-bordo/"
   },
   {
    "status": "excluido",
@@ -152,34 +121,6 @@
    "titulo": "JP1: Cientistas testam vacina contra múltiplas alergias alimentares",
    "fonte": "sampi.net.br",
    "url": "https://sampi.net.br/piracicaba/noticias/3019425/cidade/2026/11/cientistas-testam-vacina-contra-multiplas-alergias-alimentares-"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Paraná amplia exames de asma e DPOC via telessaúde no SUS",
-   "fonte": "Agora Litoral",
-   "url": "https://agoralitoral.com.br/2026/11/17/parana-amplia-exames-de-asma-e-dpoc-via-telessaude-no-sus/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "EAACI Pede a Inclusão de Alergias e Saúde Respiratória na Ação Climática na COP31",
-   "fonte": "Arena de Notícias",
-   "url": "https://arenadenoticias.com.br/noticia/185948/eaaci-pede-a-inclusao-de-alergias-e-saude-respiratoria-na-acao-climatica-na-cop31"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Uma única vacina tem resultados promissores contra múltiplas alergias alimentares",
-   "fonte": "InfoMoney",
-   "url": "https://www.infomoney.com.br/saude/uma-unica-vacina-tem-resultados-promissores-contra-multiplas-alergias-alimentares/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Mais da metade dos pacientes com dermatite atópica moderada sofre uma deterioração da qualidade de vida semelhante à dos casos graves",
-   "fonte": "Demócrata",
-   "url": "https://www.democrata.es/pt/saude/mais-da-metade-dos-pacientes-com-dermatite-atopica-moderada-sofre-uma-deterioracao-da-qualidade-de-vida-semelhante-a-dos-casos-graves/"
   },
   {
    "status": "excluido",
@@ -198,23 +139,44 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "A urticária do meu dia a dia",
-   "fonte": "Portal Making Of",
-   "url": "https://portalmakingof.com.br/multimidia-16-11-2026/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Envia manteiga de amendoim a amiga com alergia para se vingar de divórcio",
-   "fonte": "Notícias ao Minuto",
-   "url": "https://www.noticiasaominuto.com/mundo/3084668/envia-manteiga-de-amendoim-a-amiga-com-alergia-para-se-vingar-de-divorcio"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Quando a garganta parece fechar: anafilaxia é um sinal de alergia que pode colocar sua vida em risco",
    "fonte": "Rede D'Or",
    "url": "https://www.rededorsaoluiz.com.br/noticias/artigo/quando-a-garganta-parece-fechar-anafilaxia-e-um-sinal-de-alergia-que-pode-colocar-sua-vida-em-risco"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Primavera e El Niño aumentam crises de rinite alérgica",
+   "fonte": "SATC",
+   "url": "https://unisatc.com.br/primavera-e-el-nino-aumentam-crises-de-rinite-alergica/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Ex-BBB Cacau Colucci descobre alergia rara ao encostar em fruta no supermercado",
+   "fonte": "Jornal Correio",
+   "url": "https://www.correio24horas.com.br/em-alta/ex-bbb-cacau-colucci-descobre-alergia-rara-ao-encostar-em-fruta-no-supermercado-1126"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Mãe entrega laudo de alergia alimentar do filho à escola pública, mas recebe orientação para mandar comida de casa todos os dias e descobre que o cardápio escolar não foi adaptado mesmo após três meses de solicitações",
+   "fonte": "Correio Braziliense",
+   "url": "https://www.correiobraziliense.com.br/cbradar/mae-entrega-laudo-de-alergia-alimentar-do-filho-a-escola-publica-mas-recebe-orientacao-para-mandar-comida-de-casa-todos-os-dias-e-descobre-que-o-cardapio-escolar-nao-foi-adaptado-mesmo-apos-tres-mese/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Ex-BBB Cacau Colucci tem reação alérgica na pele após tocar em abacaxi; médica explica quando se preocupar",
+   "fonte": "Gshow",
+   "url": "https://gshow.globo.com/comportamento/saude/noticia/ex-bbb-cacau-colucci-tem-reacao-alergica-na-pele-apos-tocar-em-abacaxi-medica-explica-quando-se-preocupar.ghtml"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Alergia a abacaxi? Médica explica o que pode ter provocado reação em ex-BBB",
+   "fonte": "Notícias da TV",
+   "url": "https://noticiasdatv.uol.com.br/noticia/atitude/alergia-a-abacaxi-medica-explica-o-que-pode-ter-provocado-reacao-em-ex-bbb-159332"
   },
   {
    "status": "excluido",
@@ -226,7 +188,14 @@
   {
    "status": "excluido",
    "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "Morte de Janaína Barbosa: o que pode causar um choque anafilático e como acontece?",
+   "titulo": "O que se sabe sobre a morte de Janaína Barbosa, ex-apresentadora que sofreu choque anafilático por medicação",
+   "fonte": "G1",
+   "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/05/o-que-se-sabe-sobre-a-morte-de-janaina-barbosa-ex-apresentadora-que-sofreu-choque-anafilatico-por-medicacao.ghtml"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Morte de Janaína Barbosa: o que pode causar um choque anafilático e como acontece? | Veja Saúde",
    "fonte": "Assine Abril",
    "url": "https://saude.abril.com.br/medicina/morte-de-janaina-barbosa-o-que-pode-causar-um-choque-anafilatico-e-como-acontece/"
   },
@@ -243,13 +212,6 @@
    "titulo": "O que é choque anafilático, causa da morte de Janaína Barbosa?",
    "fonte": "98FM Curitiba",
    "url": "https://www.98fmcuritiba.com.br/posts/o-que-e-choque-anafilatico-causa-da-morte-de-janaina-barbosa"
-  },
-  {
-   "status": "excluido",
-   "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "O que se sabe sobre a morte de Janaína Barbosa, ex-apresentadora que sofreu choque anafilático por medicação",
-   "fonte": "G1",
-   "url": "https://g1.globo.com/sp/sao-paulo/noticia/2026/11/05/o-que-se-sabe-sobre-a-morte-de-janaina-barbosa-ex-apresentadora-que-sofreu-choque-anafilatico-por-medicacao.ghtml"
   }
  ]
 }
