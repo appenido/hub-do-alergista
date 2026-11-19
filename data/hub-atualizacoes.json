@@ -1,28 +1,8 @@
 {
   "version": 1,
   "scope": "clinical-content",
-  "updatedAt": "2026-11-19",
+  "updatedAt": "2026-11-16",
   "items": [
-    {
-      "kind": "content",
-      "id": "scores-easi-dermatite-20261119",
-      "date": "2026-11-19",
-      "publishedAt": "2026-11-19T11:59:00.000Z",
-      "type": "Novidade",
-      "category": "Scores",
-      "section": "scores",
-      "title": "EASI da dermatite atópica: mapa corporal ilustrado, sinais clínicos e cálculo pediátrico e adulto"
-    },
-    {
-      "kind": "content",
-      "id": "scores-nrs-prurido-da-20261119",
-      "date": "2026-11-19",
-      "publishedAt": "2026-11-19T11:59:00.000Z",
-      "type": "Novidade",
-      "category": "Scores",
-      "section": "scores",
-      "title": "NRS de prurido na dermatite atópica: intensidade máxima nas últimas 24 horas, escala de 0 a 10"
-    },
     {
       "kind": "content",
       "id": "ef187b553878",
