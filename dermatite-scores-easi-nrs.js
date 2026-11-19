@@ -151,7 +151,7 @@
     } else {
       shapes.trunk.push('<path d="M83 132 L97 132 L90 146 Z"/>');
     }
-    var markup = '<div class="da-map"><div class="da-map-label">' + (back ? 'VISTA POSTERIOR' : 'VISTA ANTERIOR') + '</div><svg viewBox="30 0 120 241" role="img" aria-label="Mapa corporal interativo, ' + (back ? 'costas' : 'frente') + '">';
+    var markup = '<div class="da-map"><div class="da-map-label">' + (back ? 'VISTA POSTERIOR' : 'VISTA ANTERIOR') + '</div><svg viewBox="30 0 120 241" role="group" aria-label="Mapa corporal interativo, ' + (back ? 'costas' : 'frente') + '">';
     REGIONS.forEach(function (r) {
       markup += '<g class="da-piece" data-easi-region="' + r.id + '" role="button" tabindex="0" aria-label="Selecionar ' + r.name + '"><title>' + r.name + '</title>' + shapes[r.id].join('') + '</g>';
     });
@@ -207,7 +207,7 @@
     originalResult.className = 'score-result';
     originalResult.style.display = 'none';
 
-    f.addEventListener('click', function (event) {
+    f.onclick = function (event) {
       var button = event.target.closest('button[data-easi-age],button[data-easi-percent],button[data-easi-pick],button[data-easi-tab],button[data-easi-grade],button[data-easi-restart]');
       if (!button) return;
       if (button.hasAttribute('data-easi-age')) {
@@ -228,7 +228,7 @@
       } else if (button.hasAttribute('data-easi-restart')) {
         renderEasi();
       }
-    });
+    };
     f.querySelectorAll('[data-easi-region]').forEach(function (el) {
       function activate() { selected = el.dataset.easiRegion; updateArea(); updateSigns(); }
       el.addEventListener('click', activate);
@@ -388,12 +388,12 @@
       '<p class="da-alert" id="da-nrs-alert" role="alert"></p>' +
       '<div id="da-nrs-results"></div>' +
       '<p class="da-reference">Referências: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6850643/" target="_blank" rel="noopener noreferrer">Peak Pruritus NRS, validação clínica</a> · <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8359383/" target="_blank" rel="noopener noreferrer">Consenso HOME VII</a>. Não confundir NRS (escolha de número inteiro) com VAS (posição em escala contínua).</p></div>';
-    f.addEventListener('click', function (e) {
+    f.onclick = function (e) {
       var b = e.target.closest('[data-nrs-choice],[data-nrs-restart]');
       if (!b) return;
       if (b.hasAttribute('data-nrs-restart')) { renderNrs(); return; }
       setNrs(Number(b.dataset.nrsChoice));
-    });
+    };
     f.querySelector('#da-nrs-range').addEventListener('input', function (e) { setNrs(Number(e.target.value)); });
   }
 
@@ -440,7 +440,7 @@
     nrsValue = null;
     stage = 0;
     var f = root();
-    if (f) f.replaceChildren();
+    if (f) { f.onclick = null; f.replaceChildren(); }
     byId('overlay').classList.remove('hub-da-modal');
     var calc = byId('mCalc');
     if (calc) calc.style.display = '';
