@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { auditarFontesDose } from './auditar-fontes-dose.mjs';
+import { createRequire } from 'node:module';
 
 const root=process.cwd();
 const source=readFileSync(resolve(root,'protocolos-bolso-condutas-20261114.js'),'utf8');
@@ -18,6 +19,21 @@ const criteria=parseObject('HUB_EXPLICIT_CRITERIA');
 const refs=parseObject('HUB_CRITERIA_REFERENCES');
 const generic=/(?:\bconforme\b|\bverificar\b|\bsem dose\b|\bavaliar\b|\bdose alta otimizada\b|\bposologia conforme\b)/iu;
 const issues=[];
+// As fichas de provocação integram a mesma auditoria diária dos protocolos.
+// Uma validação estática não altera a data da revisão científica.
+const uci=createRequire(import.meta.url)('../urticarias-induziveis.js');
+for(const subtype of uci.subtypes){
+ for(const [index,method] of subtype.tests.entries()){
+  const key='uci:'+subtype.id+':'+index;
+  for(const field of ['material','site','reading','positive','threshold','negative','safety']){
+   if(!method[field]?.trim())issues.push({key:key+':'+field,priority:'P0',protocol:'UCInd',topic:subtype.title,description:'Ficha de provocação sem '+field});
+  }
+  if(!method.steps?.length)issues.push({key:key+':steps',priority:'P0',protocol:'UCInd',topic:subtype.title,description:'Teste sem execução explícita'});
+  if(!method.references?.length||method.references.some(id=>!uci.references[id]?.url?.startsWith('https://'))){
+   issues.push({key:key+':source',priority:'P1',protocol:'UCInd',topic:subtype.title,description:'Teste sem referência verificável'});
+  }
+ }
+}
 for(const [pid,steps] of Object.entries(meds)){
  for(const [step,items] of Object.entries(steps)){
   const topic=data[pid]?.steps?.[Number(step)-1]?.[0]||'Etapa não identificada';
@@ -49,7 +65,10 @@ const fontesDose = verificaBulas ? await auditarFontesDose() : [];
 const pendenciasBulas = fontesDose.filter(fonte => fonte.status !== 'inalterada');
 const summary={
  date:new Date().toISOString(),
- protocols:Object.keys(data).length,
+ protocols:Object.keys(data).length+1,
+ provocationSubtypes:uci.subtypes.length,
+ provocationMethods:uci.subtypes.reduce((sum,subtype)=>sum+subtype.tests.length,0),
+ provocationReviewedAt:uci.reviewedAt,
  clinicalSteps:Object.values(data).reduce((v,x)=>v+x.steps.length,0),
  therapeuticOptions:Object.values(meds).reduce((v,x)=>v+Object.values(x).reduce((n,y)=>n+y.length,0),0),
  outstanding:issues.length+pendenciasBulas.length, newIssues:newIssues.length, resolved:resolved.length,
@@ -59,6 +78,8 @@ const header='# Auditoria automática — protocolos clínicos\n\n'+
  'Executada em '+summary.date+' (UTC). Esta etapa é uma análise estática do código. NÃO valida atualização científica, registro Anvisa, cobertura ANS nem funcionamento visual em produção.\n\n'+
  '| Indicador | Resultado |\n|---|---:|\n'+
  '| Protocolos | '+summary.protocols+' |\n'+
+ '| Subtipos / métodos de provocação UCInd | '+summary.provocationSubtypes+' / '+summary.provocationMethods+' |\n'+
+ '| Última revisão científica das fichas UCInd | '+summary.provocationReviewedAt+' |\n'+
  '| Etapas clínicas | '+summary.clinicalSteps+' |\n'+
  '| Opções de medicamentos/classes | '+summary.therapeuticOptions+' |\n'+
  '| Pendências em aberto | '+summary.outstanding+' |\n'+

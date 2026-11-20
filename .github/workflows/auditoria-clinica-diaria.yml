@@ -7,12 +7,16 @@ on:
   pull_request:
     paths:
       - 'protocolos-bolso-condutas-20261114.js'
+      - 'urticarias-induziveis.js'
+      - 'tests/urticarias-induziveis.test.mjs'
       - 'scripts/auditar-protocolos.mjs'
       - 'data/baseline-lacunas-clinicas.json'
   push:
     branches: [main]
     paths:
       - 'protocolos-bolso-condutas-20261114.js'
+      - 'urticarias-induziveis.js'
+      - 'tests/urticarias-induziveis.test.mjs'
       - 'scripts/auditar-protocolos.mjs'
       - 'data/baseline-lacunas-clinicas.json'
       - 'AUDITORIA-CLINICA-PROMPT-MESTRE.md'

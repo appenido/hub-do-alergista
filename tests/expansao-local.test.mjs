@@ -11,7 +11,7 @@ test('Protocolos de bolso expandem junto ao cartão, sem scrollIntoView',()=>{
   assert.ok(script.includes("q.setAttribute('aria-expanded','true')"));
   assert.doesNotMatch(script,/scrollIntoView|scrollTo\s*\(/);
   assert.match(html,/#eaaci-btnrow>\.eaaci-card\.sel\{grid-column:1\/-1/);
-  assert.equal([...html.matchAll(/<details class="eaaci-card" id="eaaci-\d+"/g)].length,16);
+  assert.equal([...html.matchAll(/<details class="eaaci-card" id="eaaci-\d+"/g)].length,17);
 });
 
 test('Comentários de vacinas abrem na própria linha da tabela',()=>{
