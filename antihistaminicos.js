@@ -78,7 +78,7 @@ function init(){
   var tab=e.target.closest('[data-ah-route]');
   if(tab){state.route=tab.dataset.ahRoute;state.selected=null;render();return;}
   var card=e.target.closest('[data-ah-id]');
-  if(card){var id=card.dataset.ahId;state.selected=state.selected===id?null:id;renderCards();renderDetail();if(state.selected){var opened=root.querySelector('.ah-card-wrap-active');if(opened)opened.scrollIntoView({block:'nearest',behavior:'smooth'});}return;}
+  if(card){openPage(card.dataset.ahId);return;}
   if(e.target.closest('[data-ah-close]')){var selectedId=state.selected;state.selected=null;renderCards();renderDetail();var target=Array.from(root.querySelectorAll('[data-ah-id]')).find(function(el){return el.dataset.ahId===selectedId;});if(target)target.focus({preventScroll:true});return;}
   if(e.target.closest('[data-ah-calc]')){calculate();return;}
  });
@@ -219,6 +219,13 @@ function calculate(){
   (d.caution?'<p style="margin-top:7px;color:#86572e">'+escapeHtml(d.caution)+'</p>':'');
 }
 window.hubAntihistamineCatalog=ITEMS.map(({n,b})=>({group:'anti',name:n,brand:b}));
+function openPage(id){
+ init();state.selected=id;renderCards();renderDetail();
+ var panel=document.getElementById('ahDetail');
+ if(panel){panel.dataset.hubAntiKey=id;if(window.HubPages)window.HubPages.open(panel,get(id)?.n,{kind:'anti',key:id});}
+}
+window.ahOpenPage=openPage;
+window.ahClosePage=function(){state.selected=null;renderCards();};
 window.ahInit=init;
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){if(document.querySelector('#page-antihistaminicos.active'))init();});
 else if(document.querySelector('#page-antihistaminicos.active'))init();

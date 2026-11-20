@@ -1552,7 +1552,7 @@ _marcarGuiasPagas();
 <link rel="stylesheet" href="/quick-access-premium.css?v=20261112-home-tres-colunas-1">
 <link rel="stylesheet" href="antihistaminicos.css?v=20261114-medicamentos1">
 <link rel="stylesheet" href="antihistaminicos-mecanismo.css?v=20261114-medicamentos1">
-<script src="antihistaminicos.js?v=20261115-dose1" defer></script>
+<script src="antihistaminicos.js?v=20261119-paginas1" defer></script>
 <script src="antihistaminicos-mecanismo.js?v=20261111-3d1" defer></script>
 
 <style id="hub-compact-footnotes">
@@ -1739,6 +1739,7 @@ _marcarGuiasPagas();
 #page-guidelines .gc-original{display:none!important}
 </style>
 <link rel="stylesheet" href="/desktop-layout-coerente.css?v=20261118-compact-home-3">
+<link rel="stylesheet" href="/hub-paginas.css?v=20261119-1">
 </head>
 <body>
 
@@ -5019,6 +5020,7 @@ function _abrirInteressesArtigos(area,btn){
   if(abrir){
     _renderInteressesArtigos(area);
     painel.hidden=false;
+    if(window.HubPages)window.HubPages.open(painel,'Áreas de interesse',{kind:'conteudo',key:painel.id});
     if(btn)btn.setAttribute('aria-expanded','true');
   }
 }
@@ -5726,6 +5728,7 @@ function atrRender(){
 function atrAbreCom(n, origem){
   var d=document.getElementById('atr-com-'+n);
   if(!d) return;
+  if(window.HubPages){window.HubPages.open(d, 'Comentário '+n, {kind:'conteudo',key:d.id});return;}
   var row=origem && origem.closest ? origem.closest('tr') : null;
   if(!row){ d.open=!d.open; return; }
   var antigo=document.querySelector('#atrTabela .atr-inline-row');
@@ -7707,6 +7710,7 @@ function _hubSubstituirEntrada(atual){
 }
 var _hubNavPendente=null;
 function _hubRegistrar(forcar){
+  if(window.HubPages)return;
   if(_hubRestaurando || _hubPendingBrowserBack)return;
   var atual=_hubTela();
   if(!_hubScreens.length){_hubScreens.push(atual);return;}
@@ -7762,6 +7766,7 @@ function _hubRegistrar(forcar){
   }catch(e){}
 }
 function _hubAgendar(forcar){
+  if(window.HubPages)return;
   if(_hubRestaurando)return;
   if(forcar)_hubForcarNovo=true;
   if(_hubAgenda!==null)return;
@@ -7908,6 +7913,7 @@ document.addEventListener('toggle',function(event){
 },true);
 
 window.addEventListener('popstate',function(event){
+  if(window.HubPages)return;
   var destino=event.state&&event.state.hubNav;
   var proximaTela=_hubNavPendente;
   _hubNavPendente=null;
@@ -9439,7 +9445,7 @@ function imprimirIgOrientacao(){
     '<div style="margin-left:auto;font-size:10px;color:#999">'+ new Date().toLocaleDateString('pt-BR')+'</div></div>'+
     card.innerHTML+
     '<div style="margin-top:18px;font-size:10px;color:#999;border-top:1px solid #e5e7eb;padding-top:8px">Hub do Alergista — ferramenta de apoio ao médico prescritor. Confirmar velocidades na bula do produto.</div>'+
-    '<script>window.onload=function(){setTimeout(function(){window.print();},400);}<\/script></body></html>');
+    '<script>window.onload=function(){setTimeout(function(){window.print();},400);}<\/script><\/body><\/html>');
   win.document.close();
 }
 
@@ -10859,7 +10865,7 @@ function chatToggle(){
 </script>
 
 <script>
-/* -- PROTOCOLOS DE BOLSO: expansão junto ao cartão, sem rolagem automática -- */
+/* -- PROTOCOLOS DE BOLSO: índice e páginas de conteúdo -- */
 (function(){
   var grid=document.getElementById('eaaci-btnrow');
   var lista=document.getElementById('eaaci-list');
@@ -10892,13 +10898,7 @@ function chatToggle(){
       var aberto=card && card.classList.contains('sel');
       clearSel();
       if(!card || aberto) return;
-      // Coloca o conteúdo abaixo da linha do cartão selecionado.
-      var botoes=Array.from(grid.children).filter(function(el){return el.classList.contains('eaaci-q') && el.offsetParent!==null;});
-      var indice=botoes.indexOf(q);
-      var colunas=Math.max(1,getComputedStyle(grid).gridTemplateColumns.trim().split(/\s+/).length);
-      var ultima=Math.min(botoes.length-1,Math.ceil((indice+1)/colunas)*colunas-1);
-      var ancora=botoes[ultima] || q;
-      ancora.after(card);
+      if(window.HubPages){window.HubPages.open(card,q.textContent,{kind:'conteudo',key:card.id});return;}
       card.classList.add('sel'); card.open=true;
       q.classList.add('on'); q.setAttribute('aria-expanded','true');
       return;
@@ -11097,6 +11097,13 @@ function chatToggle(){
       openScore(score);
       return;
     }
+    if(card && window.HubPages){
+      var destino=card.classList.contains('bio-card')
+        ? {kind:'bio',key:card.id.replace(/^bio-/, '')}
+        : {kind:'conteudo',key:card.id || card.dataset.hubPageId};
+      window.HubPages.open(card,it.titulo,destino.key?destino:undefined);
+      return;
+    }
     var painel=document.createElement('section');
     painel.className='fav-detail'; painel.id='favDetalhe';
     painel.setAttribute('role','region'); painel.setAttribute('aria-label',it.titulo);
@@ -11136,7 +11143,10 @@ function chatToggle(){
       }
     }
     botao.setAttribute('aria-expanded','true');
-    botao.closest('.fav-row').after(painel);
+    if(window.HubPages){
+      document.getElementById('page-favoritos').appendChild(painel);
+      window.HubPages.open(painel,it.titulo,{kind:'favorito',key:it.id});
+    } else botao.closest('.fav-row').after(painel);
   }
 
   document.addEventListener('keydown',function(ev){
@@ -11293,7 +11303,7 @@ function chatToggle(){
 <script src="lgpd-runtime.js?v=20261104-8"></script>
 <script src="calendarios-imunizacoes.js?v=20261113-vpc20-2"></script>
 <script src="uptodate-ui.js?v=20261114-conferencia-6"></script>
-<script src="imunoglobulinas-calculadora.js?v=20261109-6"></script>
+<script src="imunoglobulinas-calculadora.js?v=20261119-paginas1"></script>
 <!-- Questionários QR: criptografia da sessão na função Edge, resposta temporária por Realtime -->
 <script src="/qrcode.min.js?v=20261108-1"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.91.0" referrerpolicy="no-referrer"></script>
@@ -11317,7 +11327,7 @@ function chatToggle(){
 <script src="/alergo-news-premium.js?v=20261109-1" defer></script>
 <script src="/artigos-resumo-fix.js?v=20261118-titulos-originais" defer></script>
 <script src="/protocolos-bolso-condutas-20261114.js?v=20261114-12"></script>
-<script src="/urticarias-induziveis.js?v=20261118-1"></script>
+<script src="/urticarias-induziveis.js?v=20261119-paginas1"></script>
 
 <script id="hub-home-label-fit-20261114">
 (function(){
@@ -11364,9 +11374,10 @@ function chatToggle(){
 <script src="/asma-dispositivos.js?v=20261114-2" defer></script>
 <script src="/medicamentos-dose-regras.js?v=20261115-dose3" defer></script>
 <script src="/medicamentos-dose.js?v=20261117-dose-pediatrica1" defer></script>
-<script src="/medicamentos-catalogo.js?v=20261117-dose-pediatrica1" defer></script>
+<script src="/medicamentos-catalogo.js?v=20261119-paginas1" defer></script>
 
 
+<script src="/hub-paginas.js?v=20261119-1" defer></script>
 </body>
 </html>
 

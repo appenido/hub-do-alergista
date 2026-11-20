@@ -62,7 +62,7 @@ test('contato mantém quatro técnicas e não transforma sensibilização em cau
   assert.match(scratch.positive,/Não transportar automaticamente/);
   assert.match(scratch.safety,/Não é alternativa mais segura/);
 });
-test('aba e seus recursos estão integrados à versão instalada, com expansões nativas',()=>{
+test('aba e seus recursos estão integrados à versão instalada, com páginas de grupo e subtipo',()=>{
   const index=readFileSync(new URL('../index.html',import.meta.url),'utf8');
   const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
   const source=readFileSync(new URL('../urticarias-induziveis.js',import.meta.url),'utf8');
@@ -72,7 +72,8 @@ test('aba e seus recursos estão integrados à versão instalada, com expansões
     assert.ok(index.includes(file)); assert.ok(sw.includes(file));
   }
   assert.match(source,/el\('details', 'uci-card'\)/);
-  assert.match(source,/panel.hidden = index !== 0/);
+  assert.match(source,/panel.hidden = true/);
+  assert.match(source,/HubPages.open\(panels\[index\]/);
   assert.match(source,/ArrowRight/);
   assert.match(uci.reportTemplate,/CRM-MG 59\.766 \| RQE 48\.720/);
   assert.match(uci.reportTemplate,/inconclusivo/);

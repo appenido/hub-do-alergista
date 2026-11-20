@@ -710,7 +710,7 @@ let initDone=false,moistPrices=new Map(),moistChecked=false,moistBusy=false,mois
 function init(){
  const root=document.getElementById('medApp');if(!root || initDone)return;
  initDone=true;
- root.innerHTML='<div class="med-intro"><div class="med-eyebrow">CATÁLOGO FARMACOLÓGICO</div><h1>Medicamentos</h1><p>Selecione uma classe. Cada ficha expande no próprio cartão, com nomes genéricos, marcas, apresentações, indicações e cuidados.</p></div>'+
+ root.innerHTML='<div class="med-intro"><div class="med-eyebrow">CATÁLOGO FARMACOLÓGICO</div><h1>Medicamentos</h1><p>Selecione uma classe. Cada ficha abre em uma página própria, com nomes genéricos, marcas, apresentações, indicações e cuidados.</p></div>'+
  '<div class="med-categories">'+CATS.map(c=>'<section class="med-category" data-med-category="'+c.id+'"><button type="button" class="med-category-toggle" aria-expanded="false" aria-controls="med-category-'+c.id+'"><span class="med-category-icon">'+catIcon(c.icon)+'</span><span class="med-category-copy"><span class="med-category-name">'+esc(c.name)+'</span><span class="med-category-sub">'+esc(c.sub)+'</span></span><span class="med-category-arrow" aria-hidden="true">⌄</span></button><div id="med-category-'+c.id+'" class="med-category-body" hidden></div></section>').join('')+'</div>'+
  '<p class="med-endnote">Dados editoriais com revisão em 14/11/2026. Uma marca ou forma descrita não confirma registro ativo. Consulte a apresentação exata no <a href="'+ANVISA+'" target="_blank" rel="noopener noreferrer">Bulário da Anvisa</a>. Atualizações clínicas e comerciais dependem de nova verificação documentada.</p>';
  root.addEventListener('click',e=>{
@@ -757,6 +757,7 @@ function openCategory(id,force){
   }
  }
  if(id!=='anti' && id!=='dose')renderCategory(id);
+ if(window.HubPages)window.HubPages.open(body,CATS.find(c=>c.id===id)?.name,{kind:'categoria',key:id});
 }
 function renderCurrent(){const active=document.querySelector('#medApp .med-category.is-open');if(active)renderCategory(active.dataset.medCategory);}
 function renderCategory(id){

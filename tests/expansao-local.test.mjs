@@ -4,19 +4,18 @@ import {readFileSync} from 'node:fs';
 
 const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 
-test('Protocolos de bolso expandem junto ao cartão, sem scrollIntoView',()=>{
+test('Protocolos de bolso abrem em páginas próprias e mantêm o índice separado',()=>{
   const script=html.match(/\/\* -- PROTOCOLOS DE BOLSO:[\s\S]*?<\/script>/)?.[0] || '';
-  assert.ok(script.includes('ancora.after(card)'),'O painel deve permanecer na grade, após a linha escolhida');
-  assert.ok(script.includes("grid.querySelectorAll('.eaaci-q')"));
-  assert.ok(script.includes("q.setAttribute('aria-expanded','true')"));
-  assert.doesNotMatch(script,/scrollIntoView|scrollTo\s*\(/);
-  assert.match(html,/#eaaci-btnrow>\.eaaci-card\.sel\{grid-column:1\/-1/);
+  assert.ok(script.includes('window.HubPages.open(card'));
+  assert.doesNotMatch(script,/ancora\.after\(card\)/);
+  assert.match(html,/<script src="\/hub-paginas\.js\?v=/);
   assert.equal([...html.matchAll(/<details class="eaaci-card" id="eaaci-\d+"/g)].length,17);
 });
 
-test('Comentários de vacinas abrem na própria linha da tabela',()=>{
+test('Comentários de vacinas priorizam uma página própria',()=>{
   const bloco=html.match(/function atrAbreCom\(n, origem\)[\s\S]*?\n\}/)?.[0] || '';
-  assert.ok(bloco.includes('row.after(nova)'));
+  assert.ok(bloco.includes('window.HubPages.open(d'));
+  assert.ok(bloco.indexOf('window.HubPages.open(d')<bloco.indexOf('row.after(nova)'));
   assert.ok(bloco.includes("origem.setAttribute('aria-expanded','true')"));
   assert.doesNotMatch(bloco,/scrollIntoView|scrollTo\s*\(/);
   assert.match(html,/atrAbreCom\('\+r\[1\]\+',this\)/);

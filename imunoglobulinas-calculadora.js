@@ -301,7 +301,7 @@ function build(){
       btn.setAttribute('aria-pressed','false');
       btn.setAttribute('aria-expanded','false');
       btn.setAttribute('aria-controls','igcalcDetail');
-      btn.setAttribute('aria-label','Abrir ou fechar ficha de '+p.nome);
+      btn.setAttribute('aria-label','Abrir ficha de '+p.nome);
       var icon=el('span',null,'igcat-icon'),source=(typeof IG_LOGO!=='undefined'&&IG_LOGO[key]||''),src=(typeof IG_LOGO_IMG!=='undefined'&&IG_LOGO_IMG[source]||''),maker=(typeof IG_FABRICANTE!=='undefined'&&IG_FABRICANTE[key]||'');
       if(src){
         var im=el('img');im.src=src;im.alt='Logomarca '+maker;im.loading='lazy';im.decoding='async';
@@ -311,7 +311,7 @@ function build(){
       btn.appendChild(icon);
       var txt=el('span',null,'igcat-copy');txt.appendChild(el('span',p.nome,'igcat-name'));txt.appendChild(el('span',maker,'igcat-maker'));txt.appendChild(el('span',(via==='IV'?'Intravenosa':'Subcutânea')+' · '+p.conc,'igcat-route'));btn.appendChild(txt);
       btn.addEventListener('click',function(){
-        var mesmo=current===key;
+        var mesmo=!window.HubPages&&current===key;
         // O mesmo cartão funciona como liga/desliga. Uma nova marca fecha a anterior.
         current=mesmo?null:key;
         box.querySelectorAll('.igcat-item').forEach(function(card){
@@ -325,10 +325,11 @@ function build(){
         });
         var panel=get('igcalcDetail');
         if(!mesmo&&panel){
-          // A ficha é filha do próprio quadrado da marca, sem painel no rodapé.
-          item.appendChild(panel);
+          get('page-imunoglobulinas').querySelector('.igcalc-shell').appendChild(panel);
+          panel.dataset.hubIgKey=key;
         }
         render();
+        if(!mesmo&&panel&&window.HubPages)window.HubPages.open(panel,p.nome,{kind:'ig',key:key});
       });
       item.appendChild(btn);
       grid.appendChild(item);
@@ -346,5 +347,7 @@ function init(){
   input.addEventListener('change',render);
   render();
 }
+window.igOpenPage=function(key){get('igCatalogProducts')?.querySelector('[data-ig-key="'+key+'"]')?.click();};
+window.igClosePage=function(){current=null;render();get('igCatalogProducts')?.querySelectorAll('[data-ig-key]').forEach(function(b){b.setAttribute('aria-expanded','false');b.setAttribute('aria-pressed','false');});};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();

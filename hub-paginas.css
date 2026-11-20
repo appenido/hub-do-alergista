@@ -1,0 +1,75 @@
+/* Navegação por páginas: mantém os elementos e seus eventos no módulo de origem. */
+.hub-route-hidden { display: none !important; }
+.hub-page-dormant:not(.hub-route-target) { display: none !important; }
+#hubPageHeader[hidden] { display: none !important; }
+#hubPageHeader {
+  padding: 18px clamp(16px, 2vw, 30px) 14px;
+  background: #fff;
+  border-bottom: 1px solid #dce6ec;
+  color: var(--navy, #17394e);
+}
+.hub-page-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin-bottom: 10px; font-size: 14px; line-height: 1.5; }
+.hub-page-crumbs button, .hub-page-back {
+  border: 1px solid #dce6ec; border-radius: 9px; background: #f7fafc;
+  padding: 8px 12px; color: #225d73; font: inherit; cursor: pointer;
+  min-height: 42px;
+}
+.hub-page-crumbs span { color: #5b6f7f; }
+#hubPageTitle { margin: 0; font-size: clamp(20px, 2.1vw, 28px); line-height: 1.35; font-weight: 600; overflow-wrap: anywhere; outline: none; }
+.hub-page-back { margin-top: 14px; font-size: 14px; }
+.hub-page-crumbs button:focus-visible, .hub-page-back:focus-visible { outline: 3px solid #248498; outline-offset: 3px; }
+body.hub-content-page { overflow: auto !important; height: auto !important; }
+body.hub-content-page .hub-route-ancestor {
+  display: block !important; position: static !important; inset: auto !important;
+  width: 100% !important; max-width: none !important; min-width: 0 !important;
+  height: auto !important; max-height: none !important; min-height: 0 !important;
+  margin: 0 !important; padding: 0 !important; overflow: visible !important;
+  transform: none !important; border: 0 !important; border-radius: 0 !important;
+  box-shadow: none !important; background: transparent !important;
+}
+body.hub-content-page .hub-route-ancestor > :not(.hub-route-ancestor):not(.hub-route-target):not(.igmain-controls):not(script):not(style) { display: none !important; }
+body.hub-content-page .hub-route-target {
+  display: block !important; position: static !important; inset: auto !important;
+  width: 100% !important; max-width: none !important; min-width: 0 !important;
+  height: auto !important; max-height: none !important;
+  margin: 0 !important; padding: clamp(14px, 1.7vw, 26px) !important;
+  overflow: visible !important; transform: none !important;
+  border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
+  background: #fff !important; opacity: 1 !important; visibility: visible !important;
+  box-sizing: border-box !important; animation: none !important;
+}
+body.hub-content-page .hub-route-target > summary,
+body.hub-content-page .hub-route-target > .bio-header,
+body.hub-content-page .hub-route-target > .fav-detail-head,
+body.hub-content-page .hub-route-target > .pg-back,
+body.hub-content-page .hub-route-target .modal-handle,
+body.hub-content-page .hub-route-target .ai-sheet-handle,
+body.hub-content-page .hub-route-target .modal-hdr,
+body.hub-content-page .hub-route-target .ai-sheet-hdr,
+body.hub-content-page .hub-route-target .vsd-close-inline,
+body.hub-content-page .hub-route-target .ah-close,
+body.hub-content-page #layerBack { display: none !important; }
+body.hub-content-page .hub-route-target > .bio-body,
+body.hub-content-page .hub-route-target > .vac-body {
+  display: block !important; position: static !important; inset: auto !important;
+  width: 100% !important; max-height: none !important; margin: 0 !important;
+  overflow: visible !important; box-sizing: border-box !important;
+}
+body.hub-content-page .hub-route-target :is(.modal, .ai-sheet-inner, .ai-sheet-body, .igchat-msgs, .chat-body) {
+  position: static !important; transform: none !important; inset: auto !important;
+  width: 100% !important; max-width: none !important; height: auto !important;
+  max-height: none !important; overflow: visible !important;
+  border-radius: 0 !important; box-shadow: none !important; margin: 0 !important;
+}
+body.hub-content-page .hub-route-target :is(table, pre) { max-width: 100%; }
+body.hub-content-page .hub-route-target img { max-width: 100%; height: auto; }
+body.hub-content-page .hub-route-target :is(.med-prod-detail, .uci-card-body, .ah-detail) { width: 100%; box-sizing: border-box; }
+body.hub-content-page .hub-route-target .bio-section { overflow-wrap: break-word; }
+#mResult.hub-route-target .res-desc { font-size: 16px; line-height: 1.65; max-width: 85ch; margin: 16px auto 0; }
+@media (max-width: 600px) {
+  #hubPageHeader { padding-top: 14px; }
+  .hub-page-crumbs { font-size: 13px; }
+}
+@media print {
+  .topbar, #hubPageHeader .hub-page-crumbs, #hubPageHeader .hub-page-back { display: none !important; }
+}

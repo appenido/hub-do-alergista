@@ -304,7 +304,7 @@
     root.replaceChildren();
     root.append(el('p', 'uci-review', 'Revisão do conteúdo: 18/11/2026 · UCARE como referência principal; ASBAI, EAACI e AAAAI/ACAAI como complementares.'));
     const lead = el('div', 'uci-lead');
-    lead.append(el('p', '', 'Selecione o grupo e toque no subtipo. Material, execução, leitura, resultado e limiar se expandem no próprio card.'), el('p', 'uci-care-lead', 'Provocações supervisionadas, com suporte para anafilaxia. Uma provocação negativa sob tratamento não exclui UCInd.'));
+    lead.append(el('p', '', 'Selecione o grupo e toque no subtipo. Material, execução, leitura, resultado e limiar abrem em páginas próprias.'), el('p', 'uci-care-lead', 'Provocações supervisionadas, com suporte para anafilaxia. Uma provocação negativa sob tratamento não exclui UCInd.'));
     root.append(lead);
     const prep = el('details', 'uci-preparation');
     prep.append(el('summary', '', 'Antes de começar — preparo, medicamentos e segurança'));
@@ -320,15 +320,16 @@
     groups.forEach(function (group, index) {
       const button = el('button', 'uci-tab'); button.type = 'button'; button.id = 'uci-tab-' + group.id;
       button.setAttribute('role', 'tab'); button.setAttribute('aria-controls', 'uci-panel-' + group.id);
-      button.setAttribute('aria-selected', String(index === 0)); button.tabIndex = index === 0 ? 0 : -1;
+      button.setAttribute('aria-selected', 'false'); button.tabIndex = 0;
       button.append(el('span', '', group.title), el('span', 'uci-tab-count', group.note));
       const panel = el('section', 'uci-panel'); panel.id = 'uci-panel-' + group.id;
-      panel.setAttribute('role', 'tabpanel'); panel.setAttribute('aria-labelledby', button.id); panel.hidden = index !== 0;
+      panel.setAttribute('role', 'tabpanel'); panel.setAttribute('aria-labelledby', button.id); panel.hidden = true;
       UCI.subtypes.filter(function (subtype) { return subtype.group === group.id; }).forEach(function (subtype) { panel.append(subtypeCard(subtype)); });
       buttons.push(button); panels.push(panel); tabs.append(button);
     });
     function select(index, focus) {
       buttons.forEach(function (button, i) { button.setAttribute('aria-selected', String(i === index)); button.tabIndex = i === index ? 0 : -1; panels[i].hidden = i !== index; });
+      if (window.HubPages) window.HubPages.open(panels[index], groups[index].title, {kind: 'aba', key: panels[index].id});
       if (focus) buttons[index].focus();
     }
     buttons.forEach(function (button, index) {
