@@ -21,6 +21,7 @@ const HUB_STEP_MEDS={"0":{"2":[["Adrenalina","0,01 mg/kg IM; máximo 0,5 mg/dose
      style.textContent += "\n#page-eaaci .eaaci-body .hub-criteria-title{line-height:1.5!important;font-size:12.5px!important;padding:0 8px 9px!important;text-align:center!important}\n";
      style.textContent += "#page-eaaci .eaaci-body .hub-med-source{display:inline-block;color:#146987;font-weight:750;text-decoration:underline;font-size:11px;margin-top:3px;line-height:1.45;text-align:center}\n";
      style.textContent += "\n#page-eaaci .eaaci-body .hub-med-dose{width:100%;max-width:620px;text-align:center;background:#fff9e9;border-color:#e6cb91}\n#page-eaaci .eaaci-body .hub-med-dose-line{display:block!important;margin:0!important;padding:7px 3px!important;font-size:clamp(12px,1.1vw,14px);font-variant-numeric:tabular-nums;line-height:1.6;overflow-wrap:break-word}\n#page-eaaci .eaaci-body .hub-med-dose-line + .hub-med-dose-line{border-top:1px solid #ecd7a7}\n#page-eaaci .eaaci-body .hub-med-source{overflow-wrap:anywhere}\n";
+     style.textContent += "\n/* Leitura clínica: uma coluna vertical e alinhamento à esquerda em todas as etapas. */\n#page-eaaci .eaaci-body .hub-flow small,\n#page-eaaci .eaaci-body .hub-clinical-heading,\n#page-eaaci .eaaci-body .hub-criteria-title,\n#page-eaaci .eaaci-body .hub-criteria-ref {text-align:left!important}\n#page-eaaci .eaaci-body .hub-flow-node{justify-content:flex-start!important;align-items:flex-start!important;text-align:left!important}\n#page-eaaci .eaaci-body .hub-clinical-steps .eaaci-conduta-titulo{text-align:left!important;margin:0!important}\n#page-eaaci .eaaci-body .hub-clinical-steps .eaaci-conduta-titulo::after{margin:8px 0 0!important}\n#page-eaaci .eaaci-card .eaaci-body > ol.hub-clinical-steps > li{max-width:940px!important;text-align:left!important}\n#page-eaaci .eaaci-body .hub-clinical-field{align-items:stretch!important;text-align:left!important}\n#page-eaaci .eaaci-body .hub-field-label,\n#page-eaaci .eaaci-body .hub-field-text{text-align:left!important;max-width:none!important;margin:0!important}\n#page-eaaci .eaaci-body .hub-field-text{hyphens:none!important;word-break:normal!important;overflow-wrap:break-word!important}\n#page-eaaci .eaaci-body .hub-field-text .hub-line{display:block!important;width:100%!important;margin:0!important}\n#page-eaaci .eaaci-body .hub-field-text .hub-line + .hub-line{margin-top:10px!important;padding-top:10px}\n#page-eaaci .eaaci-body .hub-dose,\n#page-eaaci .eaaci-body .hub-field-text .hub-dose{display:inline!important;background:transparent!important;border:0!important;border-bottom:2px solid #d5a24b!important;border-radius:0!important;padding:0 1px!important;box-decoration-break:clone;white-space:normal!important;font-weight:800!important;color:#64420c!important}\n#page-eaaci .eaaci-body .hub-meds-panel > summary{justify-content:flex-start!important;text-align:left!important}\n#page-eaaci .eaaci-body .hub-med-card{align-items:stretch!important;text-align:left!important}\n#page-eaaci .eaaci-body .hub-med-name{align-self:flex-start}\n#page-eaaci .eaaci-body .hub-med-dose{max-width:none!important;text-align:left!important}\n#page-eaaci .eaaci-body .hub-med-note,\n#page-eaaci .eaaci-body .hub-med-source,\n#page-eaaci .eaaci-body .hub-criteria-ref{text-align:left!important}\n#page-eaaci .eaaci-body .hub-dose-summary{width:100%;display:flex;flex-direction:column;gap:0;min-width:0;border:1px solid #ead5aa;border-left:4px solid #be9040;border-radius:11px;background:#fffaf1;overflow:hidden}\n#page-eaaci .eaaci-body .hub-dose-row{display:flex;flex-direction:column;align-items:stretch;gap:3px;padding:11px 14px;min-width:0}\n#page-eaaci .eaaci-body .hub-dose-row + .hub-dose-row{border-top:1px solid #eee3cb}\n#page-eaaci .eaaci-body .hub-dose-row-label{font-size:10.5px;line-height:1.4;text-transform:uppercase;letter-spacing:.04em;color:#80652d;font-weight:800;text-align:left}\n#page-eaaci .eaaci-body .hub-dose-row-value{font-size:clamp(13px,1.1vw,15px);line-height:1.55;font-weight:650;color:#273e4e;text-align:left;overflow-wrap:break-word;hyphens:none}\n#page-eaaci .eaaci-body .hub-dose-alert{background:#fff4ee}\n#page-eaaci .eaaci-body .hub-dose-alert .hub-dose-row-label{color:#aa5634}\n#page-eaaci .eaaci-body .hub-criteria-title{padding-left:0!important;padding-right:0!important}\n@media(max-width:640px){\n #page-eaaci .eaaci-body .hub-dose-row{padding:10px 12px}\n #page-eaaci .eaaci-body .hub-clinical-field{padding:11px!important}\n #page-eaaci .eaaci-body .hub-flow-node{min-height:0}\n #page-eaaci .eaaci-body .hub-criteria{padding:10px!important}\n}\n";
      document.head.appendChild(style);
    }
    // Posologias destacadas; exames e biomarcadores permanecem sem marcador.
@@ -107,6 +108,35 @@ const HUB_STEP_MEDS={"0":{"2":[["Adrenalina","0,01 mg/kg IM; máximo 0,5 mg/dose
      });
      flush();
    }
+   // Dose em campos verticais para evitar a fragmentação da prescrição em chips no celular.
+   // Extrai os números do texto clínico existente: se o conteúdo mudar, usa o modo comum.
+   function appendStructuredAdrenalineDose(parent,text){
+     const m=/Use solução\s+([^,]+),\s*([0-9.,]+\s*mg\/kg)\s+IM\s+na\s+face\s+anterolateral\s+da\s+coxa\s+\(([0-9.,]+\s*mL\/kg)\),\s*máximo\s+([0-9.,]+\s*mg)\s+por\s+dose\.\s*(Repetir em [^.]+)\.\s*(Registrar horários);\s*(evitar via subcutânea)\./iu.exec(text);
+     if(!m)return false;
+     const section=document.createElement('section');
+     section.className='hub-dose-summary';
+     section.setAttribute('aria-label','Esquema de adrenalina intramuscular');
+     const entries=[
+       ['Apresentação',m[1]],
+       ['Dose por peso',m[2]+' IM'],
+       ['Volume correspondente',m[3]],
+       ['Via e local','Intramuscular — face anterolateral da coxa'],
+       ['Dose máxima',m[4]+' por dose'],
+       ['Repetição',m[5]],
+       ['Registro',m[6]],
+       ['Atenção','Evitar via subcutânea']
+     ];
+     entries.forEach(function(entry,i){
+       const row=document.createElement('div');
+       row.className='hub-dose-row'+(i===7?' hub-dose-alert':'');
+       const label=document.createElement('span');label.className='hub-dose-row-label';label.textContent=entry[0];
+       const value=document.createElement('div');value.className='hub-dose-row-value';
+       appendClinicalText(value,entry[1]);
+       row.append(label,value);section.appendChild(row);
+     });
+     parent.appendChild(section);
+     return true;
+   }
    function appendMedicines(parent,items){
      if(!items||!items.length)return;
      const panel=document.createElement('details');
@@ -153,9 +183,10 @@ const HUB_STEP_MEDS={"0":{"2":[["Adrenalina","0,01 mg/kg IM; máximo 0,5 mg/dose
      if(!items||!items.length)return;
      const wrap=document.createElement('section');wrap.className='hub-criteria';
      const header=document.createElement('div');header.className='hub-criteria-title';
-     header.textContent='Critérios clínicos — '+items[0];
+     const duplicateDose=protocolId==='0' && stepIndex===1 && items[0]==='Dose operacional';
+     header.textContent='Critérios clínicos — '+(duplicateDose?'Segurança da apresentação':items[0]);
      wrap.appendChild(header);
-     items.slice(1).forEach(function(value){
+     (duplicateDose?items.slice(2):items.slice(1)).forEach(function(value){
        const line=document.createElement('div');line.className='hub-criterion';appendClinicalText(line,value);
        wrap.appendChild(line);
      });
@@ -197,7 +228,7 @@ const HUB_STEP_MEDS={"0":{"2":[["Adrenalina","0,01 mg/kg IM; máximo 0,5 mg/dose
        const li=document.createElement('li');
        const title=document.createElement('strong');title.className='eaaci-conduta-titulo';appendClinicalText(title,pair[0]);
        const fields=document.createElement('div');fields.className='hub-step-fields';
-       appendOrganizedFields(fields,pair[1]);
+       if(!(id==='0' && index===1 && appendStructuredAdrenalineDose(fields,pair[1]))) appendOrganizedFields(fields,pair[1]);
        li.append(title,fields);
        appendExplicitCriteria(li,id,index);
        const meds=(HUB_STEP_MEDS[id]||{})[String(index+1)];
