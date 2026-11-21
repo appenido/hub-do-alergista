@@ -31,7 +31,16 @@ for(const f of ['uct-paciente.html','snot22-paciente.html','uas7-paciente.html']
 }
 assert(read('uct-paciente.html').includes('Formulário clínico desativado'),'UCT público deve permanecer desativado');
 assert(read('snot22-paciente.html').includes('Formulário clínico desativado'),'SNOT-22 público deve permanecer desativado');
-assert(read('uas7-paciente.html').includes('Formulário clínico desativado'),'UAS7 público deve permanecer desativado');
+// UAS7 é a exceção identificada e consentida: não confundir com formulários antigos desativados.
+const uas=read('uas7-paciente.html');
+const edge=read('supabase/functions/uas7-diario/index.ts');
+assert(uas.includes('id="consentimento"') && uas.includes('privacidade.html'),'UAS7 deve informar a finalidade e solicitar autorização antes do envio');
+assert(uas.includes('no-referrer') && uas.includes('noindex'),'UAS7 deve restringir indexação e envio do referer');
+assert(edge.includes('token_paciente_sha') && edge.includes('token_profissional_sha'),'UAS7 exige segredos separados por perfil');
+assert(edge.includes('crypto.getRandomValues') && edge.includes('SHA-256'),'UAS7 deve usar chaves aleatórias fortes e salvar apenas hashes');
+assert(edge.includes('APP_ORIGINS.has(origin)') && edge.includes('Cache-Control'),'UAS7 precisa restringir CORS e desabilitar cache');
+assert(edge.includes('action==="delete"') && edge.includes('consentimento!==true'),'UAS7 deve exigir autorização e oferecer exclusão');
+console.warn('ATENÇÃO LGPD: análise estática não valida rate limit, identidade profissional, retenção, RLS nem autorização de produção. Auditoria operacional obrigatória.');
 for(const [i,s] of [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)].entries()){
  new vm.Script(s[1],{filename:'inline-script-'+i});
 }
