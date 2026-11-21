@@ -11,6 +11,7 @@
   const savedPositions = new Map();
   let scrollSequence = 0;
   let restorationTicket = 0;
+  let clickOrigin = null;
   // Alguns módulos antigos usam !important. As alterações abaixo são transitórias
   // e reversíveis, para que o índice e os formulários mantenham seus estilos.
   const flat = {display: 'block', position: 'static', inset: 'auto', width: '100%', 'max-width': 'none', 'min-width': '0', height: 'auto', 'max-height': 'none', 'min-height': '0', margin: '0', padding: '0', overflow: 'visible', transform: 'none', border: '0', 'border-radius': '0', 'box-shadow': 'none', background: 'transparent'};
@@ -113,7 +114,12 @@
   }
   function remember() {
     if (!current) return;
-    current.position = capturePosition();
+    // Alguns módulos reposicionam a página antes de chamar a navegação.
+    // Usar a captura anterior ao clique impede que esse salto sobrescreva a posição.
+    const origin = clickOrigin;
+    current.position = origin?.route === url(current) && Date.now() - origin.at < 800
+      ? origin.position : capturePosition();
+    clickOrigin = null;
     current.scroll = current.position.pageY || current.position.areaY;
     savedPositions.set(url(current), current.position);
     history.replaceState({hubPage: current}, '', url(current));
@@ -373,6 +379,7 @@
     const trigger = event.target.closest('button,a,summary,[role="button"],.bio-header');
     if (!trigger) return;
     lastTrigger = trigger;
+    if (current) clickOrigin = {route: url(current), position: capturePosition(), at: Date.now()};
     if (trigger.matches('#mCalc')) byId('mResult')?.classList.remove('show');
     if (trigger.matches('#mCalc,[data-ah-calc],#fxCompare,.gbi-btn[type="submit"]') || trigger.getAttribute('onclick')?.startsWith('vacGerarCalendario')) setTimeout(showResult);
     const close = trigger.closest('#tbBack,.pg-back,.btn-back,[data-eclose],[data-ah-close],.vsd-close-inline,.fav-detail-close,.atr-inline-close,#resumoSheetClose,#aiSheetClose,#mbeSheetClose,#relatorioClose,#matCartClose');
