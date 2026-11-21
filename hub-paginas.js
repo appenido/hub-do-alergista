@@ -7,6 +7,10 @@
   let current = null, applying = false, pending = false, header, titleNode, crumbs;
   let masked = [], ancestors = [], projected = null, lastTrigger = null;
   let styles = [];
+  // Rolagem independente por rota e por elemento; evita voltar ao início da página.
+  const savedPositions = new Map();
+  let scrollSequence = 0;
+  let restorationTicket = 0;
   // Alguns módulos antigos usam !important. As alterações abaixo são transitórias
   // e reversíveis, para que o índice e os formulários mantenham seus estilos.
   const flat = {display: 'block', position: 'static', inset: 'auto', width: '100%', 'max-width': 'none', 'min-width': '0', height: 'auto', 'max-height': 'none', 'min-height': '0', margin: '0', padding: '0', overflow: 'visible', transform: 'none', border: '0', 'border-radius': '0', 'box-shadow': 'none', background: 'transparent'};
@@ -70,10 +74,86 @@
       return {page, steps, index: 0, scroll: 0};
     } catch (_) { return null; }
   }
+  function scrollKey(node) {
+    if (node.id) return 'id:' + node.id;
+    if (!node.dataset.hubScrollId) node.dataset.hubScrollId = 'scroll-' + (++scrollSequence);
+    return 'scroll:' + node.dataset.hubScrollId;
+  }
+  function findScrollNode(key) {
+    if (!key) return null;
+    if (key.startsWith('id:')) return byId(key.slice(3));
+    if (key.startsWith('scroll:')) return d.querySelector('[data-hub-scroll-id="' + CSS.escape(key.slice(7)) + '"]');
+    return null;
+  }
+  function capturePosition() {
+    const area = d.querySelector('.scroll-area');
+    const position = {
+      pageY: Math.max(0, window.scrollY || d.scrollingElement?.scrollTop || 0),
+      areaY: Math.max(0, area?.scrollTop || 0),
+      nested: []
+    };
+    const scope = projected || d.querySelector('.page.active');
+    if (scope) {
+      for (const node of scope.querySelectorAll('*')) {
+        if (position.nested.length >= 32) break;
+        if (node === area || (!node.scrollTop && !node.scrollLeft)) continue;
+        const overflow = getComputedStyle(node).overflowY;
+        if (!/(auto|scroll|overlay)/.test(overflow) || node.scrollHeight <= node.clientHeight + 2) continue;
+        position.nested.push({key: scrollKey(node), top: node.scrollTop, left: node.scrollLeft});
+      }
+    }
+    const trigger = lastTrigger;
+    if (trigger?.isConnected && scope?.contains(trigger) && trigger.getClientRects().length) {
+      const top = trigger.getBoundingClientRect().top;
+      if (Number.isFinite(top) && Math.abs(top) < window.innerHeight * 2) {
+        position.anchor = {key: identify(trigger), top};
+      }
+    }
+    return position;
+  }
   function remember() {
     if (!current) return;
-    current.scroll = window.scrollY || d.querySelector('.scroll-area')?.scrollTop || 0;
+    current.position = capturePosition();
+    current.scroll = current.position.pageY || current.position.areaY;
+    savedPositions.set(url(current), current.position);
     history.replaceState({hubPage: current}, '', url(current));
+  }
+  function restorePosition(state, restoring) {
+    const ticket = ++restorationTicket;
+    const area = d.querySelector('.scroll-area');
+    const position = restoring ? state.position || savedPositions.get(url(state)) : null;
+    const pageY = restoring ? Math.max(0, position?.pageY ?? state.scroll ?? 0) : 0;
+    const areaY = restoring ? Math.max(0, position?.areaY ?? 0) : 0;
+    const targetUrl = url(state);
+    // Rolagem não é aplicada enquanto a estrutura projetada ainda está mudando.
+    function apply() {
+      if (ticket !== restorationTicket || url(current) !== targetUrl) return;
+      window.scrollTo(0, pageY);
+      if (area) area.scrollTop = areaY;
+      if (position?.nested) {
+        position.nested.forEach(item => {
+          const node = findScrollNode(item.key);
+          if (node) { node.scrollTop = item.top; node.scrollLeft = item.left; }
+        });
+      }
+      // Compensa a variação de altura de conteúdo acima do botão usado na navegação.
+      if (restoring && position?.anchor) {
+        const anchor = locate(position.anchor.key);
+        if (anchor?.isConnected && anchor.getClientRects().length) {
+          const delta = anchor.getBoundingClientRect().top - position.anchor.top;
+          if (Math.abs(delta) > 2 && Math.abs(delta) < window.innerHeight * 2) {
+            if (pageY > 0 || !area || area.scrollHeight <= area.clientHeight + 2) {
+              window.scrollTo(0, Math.max(0, window.scrollY + delta));
+            } else {
+              area.scrollTop = Math.max(0, area.scrollTop + delta);
+            }
+          }
+        }
+      }
+    }
+    // Duas passagens: primeiro layout e depois estabilização de cards dinâmicos.
+    apply();
+    requestAnimationFrame(() => requestAnimationFrame(apply));
   }
   function unproject() {
     styles.slice().reverse().forEach(([node, property, value, priority]) => {
@@ -232,8 +312,7 @@
       if (!node) d.title = moduleTitle(current.page) + ' | Hub do Alergista';
       const backButton = byId('tbBack');
       backButton?.classList.toggle('visible', !!current.steps.length || current.page !== 'dashboard');
-      window.scrollTo(0, restoreScroll ? current.scroll || 0 : 0);
-      const scroll = d.querySelector('.scroll-area'); if (scroll) scroll.scrollTop = 0;
+      restorePosition(current, restoreScroll);
       if (node && !restoreScroll) titleNode.focus({preventScroll: true});
       if (restoreScroll && current.focus) locate(current.focus)?.focus({preventScroll: true});
     } finally { applying = false; }
@@ -241,8 +320,11 @@
   function navigate(next, replace) {
     if (applying) return;
     remember();
-    const destination = {...next, index: replace ? current.index : current.index + 1, scroll: 0};
-    transition(destination, false);
+    const saved = savedPositions.get(url(next));
+    const destination = {...next, index: replace ? current.index : current.index + 1,
+      scroll: saved ? saved.pageY || saved.areaY : 0,
+      position: saved || undefined};
+    transition(destination, !!saved);
     history[replace ? 'replaceState' : 'pushState']({hubPage: current}, '', url(current));
   }
   function open(node, title, descriptor) {
@@ -327,6 +409,8 @@
     if (fav) setTimeout(() => { if (byId('favDetalhe')) open(byId('favDetalhe'), clean(fav.textContent), {kind: 'favorito', key: fav.dataset.favOpen}); });
   }
   function start() {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.addEventListener('pagehide', remember);
     header = d.createElement('section'); header.id = 'hubPageHeader'; header.hidden = true;
     crumbs = d.createElement('nav'); crumbs.className = 'hub-page-crumbs'; crumbs.setAttribute('aria-label', 'Caminho da página');
     titleNode = d.createElement('h1'); titleNode.id = 'hubPageTitle'; titleNode.tabIndex = -1;
