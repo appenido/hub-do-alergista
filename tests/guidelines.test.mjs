@@ -55,7 +55,7 @@ test('as referências têm identidades únicas, URLs exatas e todos os temas',as
     assert.match(i.doi,/^10\.\d+\//);assert.ok(html.includes('data-pmid="'+i.pmid+'"'));
     assert.ok(html.includes('https://pubmed.ncbi.nlm.nih.gov/'+i.pmid+'/'));
   }
-  assert.equal(topics.size,11);assert.equal(ids.size,25);
+  assert.equal(topics.size,12);assert.ok(topics.has('aeh'));assert.ok(topics.has('urticaria'));assert.equal(ids.size,25);
   const section=html.slice(html.indexOf('id="page-guidelines"'),html.indexOf('<!-- ══ PROTOCOLOS EAACI'));
   for(const wrong of ['PMC9898518','PMC9546417','PMC10637984','S2213219824001975','AGREE 2024'])assert.ok(!section.includes(wrong));
 });
