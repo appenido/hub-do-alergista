@@ -170,21 +170,51 @@ function salvar(obj){
   fs.writeFileSync(SAIDA, JSON.stringify(obj, null, 1));
 }
 
+const aguardar = ms => new Promise(resolve => setTimeout(resolve, ms));
+const HTTP_TRANSITORIOS = new Set([429, 500, 502, 503, 504]);
+async function consultarFeedComRetentativa(url) {
+  let ultimoErro = 'sem resposta';
+  for (let tentativa = 0; tentativa < 3; tentativa++) {
+    try {
+      const resposta = await fetch(url, { headers: UA, signal: AbortSignal.timeout(12000) });
+      if (resposta.ok) return {ok:true, xml:await resposta.text()};
+      ultimoErro = 'HTTP ' + resposta.status;
+      if (!HTTP_TRANSITORIOS.has(resposta.status)) break;
+      const retryAfter = resposta.headers.get('Retry-After');
+      const segundos = retryAfter && /^\d+$/.test(retryAfter) ? Number(retryAfter) : 0;
+      if (segundos > 12) break;
+      if (tentativa < 2) await aguardar(Math.max(1500 * (2 ** tentativa), segundos * 1000) + Math.floor(Math.random()*400));
+    } catch (e) {
+      ultimoErro = e.name === 'TimeoutError' ? 'tempo limite' : (e.message || 'erro de rede');
+      if (tentativa < 2) await aguardar(1500 * (2 ** tentativa) + Math.floor(Math.random()*400));
+    }
+  }
+  return {ok:false, motivo:ultimoErro};
+}
+
 const run = async () => {
   const agora = new Date().toISOString();
   const anterior = carregarAnterior();
 
   const brutos = [];
   const falhasFonte = [];
-  await Promise.all(FONTES.map(async (u) => {
-    try {
-      const r = await fetch(u, { headers: UA });
-      if (!r.ok) { falhasFonte.push(u + ' HTTP ' + r.status); return; }
-      const achados = itensDoRss(await r.text());
-      console.log('FONTE ' + u + ' -> ' + achados.length + ' candidatos');
-      brutos.push(...achados);
-    } catch(e) { falhasFonte.push(u + ' erro ' + e.message); console.log('FONTE ' + u + ' erro ' + e.message); }
-  }));
+  // Limitar concorrência evita um pico simultâneo de requisições a Google Notícias.
+  for (let inicio = 0; inicio < FONTES.length; inicio += 3) {
+    await Promise.all(FONTES.slice(inicio, inicio + 3).map(async (u) => {
+      const r = await consultarFeedComRetentativa(u);
+      if (!r.ok) {
+        falhasFonte.push(u + ' ' + r.motivo);
+        console.warn('FONTE indisponível: ' + u + ' ' + r.motivo);
+        return;
+      }
+      try {
+        const achados = itensDoRss(r.xml);
+        console.log('FONTE ' + u + ' -> ' + achados.length + ' candidatos');
+        brutos.push(...achados);
+      } catch(e) { falhasFonte.push(u + ' parsing: ' + e.message); }
+    }));
+    if (inicio + 3 < FONTES.length) await aguardar(500);
+  }
 
   brutos.sort((a, b) => (Date.parse(b.dataFeed)||0) - (Date.parse(a.dataFeed)||0));
 
