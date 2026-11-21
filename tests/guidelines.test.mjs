@@ -104,3 +104,21 @@ test('cache de tradução antigo não altera títulos nem links dos cards',async
   assert.ok(!box.innerHTML.includes('example.com'));
   assert.ok(!code.includes("fetch('/ia'"));
 });
+
+test('angioedema hereditário possui tema próprio e filtro correspondente',async()=>{
+  assert.deepEqual(topicsFor('2025 WAO Guidelines for Hereditary Angioedema'),['aeh']);
+  assert.deepEqual(topicsFor('Chronic spontaneous urticaria and angioedema'),['urticaria']);
+  const catalog=JSON.parse(await readFile(new URL('../guidelines-referencias.json',import.meta.url),'utf8'));
+  for(const pmid of ['42990719','42165046','41606636','35497649']){
+    const entry=catalog.itens.find(i=>i.pmid===pmid);
+    assert.ok(entry,'Documento ausente: '+pmid);
+    assert.deepEqual(entry.topics,['aeh']);
+  }
+  const html=await readFile(new URL('../index.html',import.meta.url),'utf8');
+  assert.match(html,/data-gfilter="aeh"/);
+  for(const pmid of ['42990719','42165046','41606636','35497649']){
+    const card=html.match(new RegExp('data-guide="pmid-'+pmid+'"[^>]*>'));
+    assert.ok(card,'Cartão não encontrado: '+pmid);
+    assert.match(card[0],/data-topic="aeh" data-topics="aeh"/);
+  }
+});
