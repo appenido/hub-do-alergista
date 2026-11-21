@@ -1,5 +1,5 @@
 // Uma publicação é identificada pelo PMID; título, DOI e data vêm do mesmo registro.
-export const SCHEMA = 4;
+export const SCHEMA = 5;
 export const JOURNALS = [
   'J Allergy Clin Immunol', 'J Allergy Clin Immunol Pract', 'Allergy',
   'Clin Exp Allergy', 'Pediatr Allergy Immunol', 'Ann Allergy Asthma Immunol',
@@ -10,7 +10,8 @@ export const JOURNALS = [
 const TOPICS = {
   asma: ['asthma', 'asthmatic', 'bronchopulmonary aspergillosis', 'airway diseases'],
   da: ['atopic dermatitis', 'atopic eczema', 'eczema', 'contact dermatitis'],
-  urticaria: ['urticaria', 'angioedema'],
+  urticaria: ['urticaria'],
+  aeh: ['hereditary angioedema', 'hereditary angio-oedema', 'c1 inhibitor deficiency'],
   anafilaxia: ['anaphylaxis', 'anaphylactic', 'epinephrine autoinjector', 'adrenaline autoinjector'],
   himen: ['hymenoptera', 'venom allergy', 'venom immunotherapy', 'insect sting', 'bee sting', 'wasp sting'],
   rinite: ['rhinitis', 'rhinosinusitis', 'nasal polyps', 'nasal polyp', 'airway diseases'],
