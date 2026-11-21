@@ -140,7 +140,7 @@
 #medApp .med-dose-result-title{margin:0;font-size:12px;color:#426473}
 #medApp .med-dose-amount{margin:0;color:#15394f;font-size:clamp(21px,3vw,30px);line-height:1.24;font-weight:800}
 #medApp .med-dose-amount-alt{margin:4px 0 0;font-size:14px}
-#medApp .med-dose-result dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0 0}
+#medApp .med-dose-result dl{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;margin:12px 0 0}
 #medApp .med-dose-result dl>div{padding:8px 10px;border-radius:8px;background:#ffffffb8}
 #medApp .med-dose-result dt{color:#4e6978;font-size:11px}
 #medApp .med-dose-result dd{margin:2px 0 0;color:#173f55;font-weight:700}
