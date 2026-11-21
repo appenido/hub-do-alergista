@@ -73,3 +73,88 @@ body.hub-content-page .hub-route-target .bio-section { overflow-wrap: break-word
 @media print {
   .topbar, #hubPageHeader .hub-page-crumbs, #hubPageHeader .hub-page-back { display: none !important; }
 }
+
+
+/* Padrão universal de leitura de consultas — 21/11/2026.
+   Mantém grades de navegação intactas; fichas e resultados usam fluxo vertical. */
+.page :is(.bio-value,.vac-body,.eaaci-body,.guide-body,.uci-card-body,.igmain-detail,.ah-detail,.med-prod-detail,.med-dose-result,.hub-clinical-field) {
+  min-width:0;
+  max-width:100%;
+  box-sizing:border-box;
+  text-align:left;
+  overflow-wrap:break-word;
+  word-break:normal;
+  hyphens:none;
+}
+.page :is(.bio-value,.vac-body,.eaaci-body,.guide-body,.uci-card-body,.igmain-detail,.ah-detail,.med-prod-detail) :is(p,li,dd) {
+  text-align:left;
+  line-height:1.65;
+  hyphens:none;
+}
+body.hub-content-page .hub-route-target :is(.bio-body,.vac-body,.eaaci-body,.guide-body,.igmain-detail,.igcat-detail,.ah-detail,.med-prod-detail,.uci-card-body) {
+  min-width:0!important;
+  width:100%!important;
+  max-width:960px!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  box-sizing:border-box!important;
+  overflow-wrap:break-word;
+  hyphens:none;
+  text-align:left!important;
+}
+body.hub-content-page .hub-route-target :is(.bio-section,.vac-section,.guide-section,.med-prod-detail>div,.igcalc-section) {
+  min-width:0;
+  max-width:100%;
+  box-sizing:border-box;
+  text-align:left!important;
+}
+body.hub-content-page .hub-route-target :is(.bio-label,.bio-value,.vac-label,.vac-value,.guide-label,.guide-body,.igcalc-section,.uci-method-title,.uci-quick,.uci-value) {
+  text-align:left!important;
+  overflow-wrap:break-word;
+  hyphens:none!important;
+}
+body.hub-content-page .hub-route-target :is(.bio-section,.vac-section,.guide-section) > :is(.bio-label,.vac-label,.guide-label) {
+  display:block;
+  width:100%;
+  margin-bottom:6px;
+}
+body.hub-content-page .hub-route-target :is(.bio-body,.vac-body,.guide-body,.igmain-detail,.ah-detail,.med-prod-detail,.uci-card-body) > :is(p,ul,ol,dl,section) {
+  max-width:100%;
+  margin-left:0;
+  margin-right:0;
+}
+body.hub-content-page .hub-route-target :is(.bio-value,.vac-body,.guide-body,.ah-detail,.med-prod-detail,.uci-card-body) :is(a,span,strong) {
+  overflow-wrap:break-word;
+}
+body.hub-content-page .hub-route-target :is(.bio-body,.vac-body,.guide-body,.igmain-detail,.ah-detail,.med-prod-detail,.uci-card-body) :is(input,select,textarea,button) {
+  max-width:100%;
+  box-sizing:border-box;
+}
+body.hub-content-page .hub-route-target :is(.med-dose-result dl,.bio-dose-grid,.igcalc-sections) {
+  min-width:0;
+}
+#page-eaaci #uci-root .uci-quick,
+#page-eaaci #uci-root .uci-method-title {text-align:left!important}
+@media (max-width:720px) {
+  body.hub-content-page .hub-route-target {
+    padding:14px 12px 22px!important;
+  }
+  body.hub-content-page .hub-route-target :is(.bio-body,.vac-body,.eaaci-body,.guide-body,.igmain-detail,.igcat-detail,.ah-detail,.med-prod-detail,.uci-card-body) {
+    padding-left:0!important;
+    padding-right:0!important;
+  }
+  body.hub-content-page .hub-route-target :is(.bio-dose-grid,.med-dose-grid,.med-dose-result dl,.igcalc-sections,.uci-field-grid) {
+    display:grid;
+    grid-template-columns:minmax(0,1fr)!important;
+    align-items:stretch;
+    gap:10px;
+  }
+  body.hub-content-page .hub-route-target :is(.bio-section,.vac-section,.guide-section) {
+    padding-left:0;
+    padding-right:0;
+  }
+  body.hub-content-page .hub-route-target :is(.med-prod-detail,.uci-card-body) {
+    font-size:14px;
+    line-height:1.6;
+  }
+}
