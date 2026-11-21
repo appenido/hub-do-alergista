@@ -1,8 +1,18 @@
 {
   "version": 1,
   "scope": "clinical-content",
-  "updatedAt": "2026-11-16",
+  "updatedAt": "2026-11-21",
   "items": [
+    {
+      "kind": "content",
+      "id": "6a537eb5adfb",
+      "date": "2026-11-21",
+      "publishedAt": "2026-11-21T07:12:10.000Z",
+      "type": "Correção",
+      "category": "Guidelines",
+      "section": "guidelines",
+      "title": "Guidelines: classificar quatro publicações WAO/EAACI de AEH em tema próprio"
+    },
     {
       "kind": "content",
       "id": "ef187b553878",
