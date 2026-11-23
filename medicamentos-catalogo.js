@@ -11,7 +11,7 @@ const FONTES={
 const CATS=[
  {id:'dose',name:'Cálculo de dose',sub:'Pediatria · líquidos orais em mg/mL',icon:'calculator'},
  {id:'anti',name:'Anti-histamínicos',sub:'Catálogo original · oral, nasal, ocular e injetável',icon:'pill'},
- {id:'topicos',name:'Corticoides tópicos',sub:'Potência por princípio ativo, concentração e veículo',icon:'skin'},
+ {id:'topicos',name:'Corticoides tópicos',sub:'Idade mínima, creme ou pomada e potência de cada veículo',icon:'skin'},
  {id:'olhos',name:'Colírios',sub:'Anti-histamínicos e lubrificantes',icon:'eye'},
  {id:'nasais',name:'Corticoides nasais',sub:'Monoterapias e associações',icon:'nose'},
  {id:'inalatoria',name:'Terapia inalatória',sub:'Asma: desenhos de inaladores, doses, máximos e MART',icon:'lungs'},
@@ -24,10 +24,10 @@ const DB={
  topicos:[
  ['Hidrocortisona 1%','Berlison; genéricos','Creme, pomada','Baixa','Potência depende da concentração e do veículo. Áreas delicadas exigem uso restrito.'],
  ['Dexametasona 0,1%','Genéricos; marcas variáveis','Creme','Baixa','Verificar associação com antimicrobianos e a composição da apresentação.'],
- ['Desonida 0,05%','Desonol; Adinos','Creme, loção, gel-creme','Baixa–média','Classificações variam entre referências e veículos; consultar a bula da formulação.'],
- ['Clobetasona 0,05%','Eumovate','Creme','Média','Não confundir clobetasona com clobetasol.'],
+ ['Desonida 0,05%','Desonol (descontinuado); Adinos; genéricos','Creme, loção, gel-creme','Baixa–média','Classificações variam entre referências e veículos; consultar a bula da formulação.'],
+ ['Clobetasona 0,05%','Eumovate (referência internacional)','Creme','Média','Não confundir clobetasona com clobetasol.'],
  ['Furoato de mometasona 0,1%','Elocom; genéricos','Creme, pomada, loção','Média','Pomada pode apresentar maior efeito clínico que creme; evitar uso indiscriminado em face/dobras.'],
- ['Acetonido de triancinolona 0,1%','Genéricos; associações','Creme, pomada','Média','Em associações com antibiótico/antifúngico, o risco e a indicação são diferentes.'],
+ ['Acetonido de triancinolona 0,1%','Disponibilidade de formulação isolada não confirmada','Creme, pomada','Média','Em associações com antibiótico/antifúngico, o risco e a indicação são diferentes.'],
  ['Aceponato de metilprednisolona 0,1%','Advantan','Creme, pomada e outras formas conforme registro','Média–alta','Potência depende do veículo e da referência; individualizar área e duração.'],
  ['Valerato de betametasona 0,1%','Betnovate','Creme, pomada, loção','Alta','Mais potente; risco de atrofia e efeitos adversos com aplicação extensa ou prolongada.'],
  ['Dipropionato de betametasona 0,05%','Diprosone; genéricos','Creme, pomada','Alta','A potência varia com veículo e formulação; versões otimizadas podem ser muito potentes.'],
@@ -696,6 +696,37 @@ function doseCatalog(){
 }
 function sourceHref(id){return id==='topicos'?FONTES.pele:id==='inalatoria'?FONTES.asma:id==='formulas'?FONTES.formulas:id==='hidratantes'?'https://www.gov.br/anvisa/pt-br/sistemas/sistema-de-consultas/':ANVISA;}
 function sourceLabel(id){return id==='topicos'?'Ministério da Saúde — potência':id==='inalatoria'?'GINA 2026':id==='formulas'?'SBP — Nutrologia':id==='hidratantes'?'Sistema de Consultas Anvisa':'Bulário eletrônico Anvisa';}
+/* Potência relativa (I–VII) por formulação; idade conforme produto e bula da apresentação. */
+const CORTICOIDE_TOPICO={
+ 'Hidrocortisona 1%':['Pediátrico','Uso pediátrico; a bula de Berlison não define uma idade mínima numérica.','Muito baixa (VII)','Muito baixa (VII)','Creme e pomada 1%. Em lactentes, evitar duração prolongada e oclusão por fraldas.','https://bula.com.br/original/berlison'],
+ 'Dexametasona 0,1%':['Pediátrico','Uso pediátrico; a bula consultada do acetato de dexametasona creme não define uma idade mínima numérica.','Muito baixa (VII)',null,'Apresentação cutânea isolada confirmada: creme 1 mg/g; não extrapolar para associações.','https://www.bula.gratis/laboratorio_teuto_brasileiro_s_a/1/acetato_de_dexametasona/profissional'],
+ 'Desonida 0,05%':['Pediátrico','Creme e pomada: uso pediátrico sem limite numérico especificado na bula consultada. Gel-creme: a partir de 3 meses.','Baixa (VI)','Média-baixa (V)','A idade de 3 meses refere-se ao gel-creme. Desonol creme e pomada foram descontinuados; não presumir disponibilidade.','https://consultaremedios.com.br/desonida/bula'],
+ 'Clobetasona 0,05%':['Lactentes (ref. UK)','A referência britânica inclui lactentes, sem idade numérica mínima; registro brasileiro de Eumovate não confirmado.','Média (moderada)','Média (moderada)','Creme e pomada descritos em documentos do Reino Unido; não presumir comercialização no Brasil.','https://www.medicines.org.uk/emc/product/3807/smpc'],
+ 'Furoato de mometasona 0,1%':['≥ 2 anos','A partir de 2 anos (Elocom creme e pomada).','Média (IV)','Alta (II)','Pomada é mais potente que creme nessa classificação; limitar área e duração.','https://erclinic.com.br/v2/bula/elocom-hypermarcas-5378/detalhes'],
+ 'Acetonido de triancinolona 0,1%':['Não definido no BR','Idade mínima não estabelecida para creme/pomada cutâneos isolados com registro brasileiro comprovado nesta revisão.','Média (IV; variável)','Média–alta (III–IV; variável)','Potências farmacológicas da preparação cutânea; apresentação isolada brasileira não confirmada. Não confundir com pomada bucal (orabase) ou associações.','https://www.msdmanuals.com/pt/profissional/multimedia/table/pot%C3%AAncia-relativa-dos-corticoides-t%C3%B3picos-selecionados'],
+ 'Aceponato de metilprednisolona 0,1%':['≥ 4 meses','A partir de 4 meses (Advantan, creme e pomada).','Média-baixa (V)','Média (IV)','Creme, pomada e unguento não são automaticamente intercambiáveis; a base modifica o efeito.','https://para-que-serve-remedio.com/advantan-leo-pharma-ltda-160895/bula-do-profissional-da-saude'],
+ 'Valerato de betametasona 0,1%':['≥ 1 ano','A partir de 1 ano (Betnovate creme e pomada).','Média (V)','Alta (III)','Pomada apresenta maior potência relativa que creme na tabela I–VII.','https://bula.com.br/original/betnovate-pomada'],
+ 'Dipropionato de betametasona 0,05%':['≥ 2 anos','A partir de 2 anos (Diprosone creme e pomada).','Alta (II–III)','Alta a muito alta (I–II)','A classe depende da fórmula: não classificar todo Diprosone pomada automaticamente como I.','https://bula.com.br/original/diprosone-creme'],
+ 'Fludroxicortida 0,0125%':['Pediátrico','Uso pediátrico (Drenison creme/pomada), sem idade mínima numérica na bula consultada.','Baixa (VI; MS)','Baixa (VI; MS)','Concentração 0,125 mg/g. Classificações de potência diferem entre compêndios; aqui é indicada a escala do MS.','https://bula.com.br/original/drenison'],
+ 'Propionato de clobetasol 0,05%':['≥ 1 ano','A partir de 1 ano (Psorex creme e pomada; bula brasileira).','Muito alta (I)','Muito alta (I)','Superpotente nas duas apresentações; em crianças, tratamento curto e monitorado.','https://bula.com.br/original/psorex-pomada']
+};
+function corticoidesTopicosCards(data){
+ const potencia='https://www.msdmanuals.com/pt/profissional/multimedia/table/pot%C3%AAncia-relativa-dos-corticoides-t%C3%B3picos-selecionados';
+ const makeForm=(name,pot)=>'<section class="med-topical-form"><span class="med-topical-form-name">'+name+'</span><span class="med-topical-strength">'+(pot?esc(pot):'Não identificada como apresentação isolada')+'</span></section>';
+ return '<div class="med-results med-results-topicos" aria-live="polite">'+data.map(item=>{
+   const t=CORTICOIDE_TOPICO[item[0]];
+   if(!t)return '';
+   return '<details class="med-prod med-prod-topical" data-hub-medicamento><summary>'
+    +'<span class="med-prod-head"><span class="hub-med-nome">'+esc(item[0])+'</span><span class="med-prod-brand">'+esc(item[1])+'</span></span>'
+    +'<span class="med-prod-tag">Idade: '+esc(t[0])+'</span><span class="med-prod-chevron">⌄</span></summary>'
+    +'<div class="med-prod-detail"><section class="med-topical-age"><span class="med-mini-label">A partir de qual idade?</span><p>'+esc(t[1])+'</p></section>'
+    +'<section class="med-topical-presentations"><span class="med-mini-label">Creme ou pomada: potência específica</span><div class="med-topical-form-grid">'
+    +makeForm('Creme',t[2])+makeForm('Pomada',t[3])+'</div></section>'
+    +'<section class="med-topical-notes"><span class="med-mini-label">Observação clínica</span><p>'+esc(t[4])+'</p></section>'
+    +'<section class="med-topical-sources"><a target="_blank" rel="noopener noreferrer" href="'+esc(t[5])+'">Idade e apresentações</a><a target="_blank" rel="noopener noreferrer" href="'+potencia+'">Tabela de potência</a></section>'
+    +'</div></details>';
+  }).join('')+'</div><p class="med-source">Classificação relativa I–VII por formulação, não equivalente à concentração isoladamente. A idade indicada depende da bula do produto específico; “pediátrico” não significa liberação desde o nascimento. Disponibilidade e registro devem ser avaliados por apresentação.</p>';
+}
 function cards(data,id){
  const anvisaLink=(id==='hidratantes'||id==='formulas')?'https://www.gov.br/anvisa/pt-br/sistemas/sistema-de-consultas/':ANVISA;
  const anvisaLabel=id==='hidratantes'?'Consultar regularização do cosmético':id==='formulas'?'Consultar regularização da fórmula':'Conferir bula e registro na Anvisa';
@@ -766,7 +797,7 @@ function renderCategory(id){
  const q=norm(sec.querySelector('[data-med-search]')?.value);
  if(id==='inalatoria' && typeof window.hubAsmaRender==='function') return window.hubAsmaRender(slot,q);
  const filtered=(DB[id]||[]).filter(x=>!q||norm(x.join(' ')).includes(q));
- slot.innerHTML=filtered.length?cards(filtered,id):'<p class="med-empty">Nenhum medicamento encontrado para esta pesquisa.</p>';
+ slot.innerHTML=filtered.length?(id==='topicos'?corticoidesTopicosCards(filtered):cards(filtered,id)):'<p class="med-empty">Nenhum medicamento encontrado para esta pesquisa.</p>';
 }
 function renderMoist(sec,slot){
  const texture=sec.querySelector('[data-med-texture]').value;
