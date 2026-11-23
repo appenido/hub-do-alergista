@@ -3,11 +3,8 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 import { resolverLinkCandidato } from '../scripts/radar-link.mjs';
-
-async function importarFuncaoCloudflare() {
-  const src = await readFile(new URL('../functions/news.js', import.meta.url), 'utf8');
-  return import('data:text/javascript;base64,' + Buffer.from(src).toString('base64'));
-}
+import { onRequestGet } from '../functions/news.js';
+import { selecionarVerificadas } from '../alergo-news-core.mjs';
 
 test('RSS de veículo brasileiro não deve passar pelo resolvedor do Google', async () => {
   let chamado = false;
@@ -32,7 +29,6 @@ test('não aceitar protocolos potencialmente perigosos nas notícias', async () 
 });
 
 test('/news entrega apenas notícias verificadas, recentes, HTTPS, e em ordem decrescente', async () => {
-  const { onRequestGet } = await importarFuncaoCloudflare();
   const agora = Date.now();
   const noticia = (titulo, dias, status = 'verificado', verific = true, url = 'https://g1.globo.com/exemplo') =>
     ({ titulo, fonte: 'G1', data: new Date(agora - dias * 86400000).toISOString(), status, verificado: verific, url });
@@ -54,7 +50,6 @@ test('/news entrega apenas notícias verificadas, recentes, HTTPS, e em ordem de
 });
 
 test('/news não volta a fontes RSS não verificadas se o arquivo estiver indisponível', async () => {
-  const { onRequestGet } = await importarFuncaoCloudflare();
   const response = await onRequestGet({ request: new Request('https://hubdoalergista.pages.dev/news'), env: {} });
   assert.equal(response.status, 503);
   assert.deepEqual((await response.json()).itens, []);
@@ -98,7 +93,6 @@ test('service worker não intercepta rotas dinâmicas; mantém arquivos estátic
 
 
 test('/news elimina URLs e manchetes duplicadas antes de limitar resultados', async () => {
-  const { onRequestGet } = await importarFuncaoCloudflare();
   const agora = Date.now();
   const noticia = (titulo, url, atraso) => ({
     titulo, fonte: 'G1', url, data: new Date(agora - atraso * 1000).toISOString(),
@@ -117,4 +111,34 @@ test('/news elimina URLs e manchetes duplicadas antes de limitar resultados', as
   });
   assert.equal(resposta.status, 200);
   assert.deepEqual((await resposta.json()).itens.map(i => i.titulo), ['Notícia A', 'Notícia B', 'Notícia C']);
+});
+
+test('o radar preserva as onze últimas reportagens verificadas durante coletas parciais e vazias', () => {
+  const materia = dia => ({
+    titulo: 'Notícia ' + dia, fonte: 'G1', url: 'https://g1.globo.com/noticia-' + dia,
+    data: new Date(Date.UTC(2026, 9, dia)).toISOString(), verificado: true, status: 'verificado'
+  });
+  const historico = Array.from({length: 11}, (_, i) => materia(i + 1));
+  const nova = materia(12);
+  const duplicada = {...nova, url: nova.url + '?utm_source=feed#noticia', titulo: 'Versão do feed'};
+  const pendente = {...materia(13), status: 'pendente'};
+  const agora = Date.UTC(2026, 10, 1);
+  const edicao = selecionarVerificadas([nova, duplicada, pendente, ...historico], {agora});
+  assert.deepEqual(edicao.map(n => n.titulo), historico.slice(1).concat(nova).reverse().map(n => n.titulo));
+  assert.deepEqual(selecionarVerificadas(edicao, {agora: agora + 15 * 86400000}), edicao);
+});
+
+test('a edição entrega uma manchete e dez anteriores mesmo com menos de dez notícias na semana', async () => {
+  const agora = Date.now();
+  const itens = Array.from({length: 15}, (_, i) => ({
+    titulo: 'Notícia ' + i, fonte: 'G1', data: new Date(agora - i * 86400000).toISOString(),
+    url: 'https://g1.globo.com/noticia-' + i, status: 'verificado', verificado: true
+  }));
+  const env = {ASSETS: {fetch: async () => Response.json({itens: itens.slice().reverse()})}};
+  const request = new Request('https://hubdoalergista.pages.dev/news?edicao=1');
+  const edicao = await (await onRequestGet({request, env})).json();
+  assert.deepEqual(edicao.itens.map(n => n.titulo), itens.slice(0, 11).map(n => n.titulo));
+  const semanal = await (await onRequestGet({request: new Request('https://hubdoalergista.pages.dev/news'), env})).json();
+  assert.ok(semanal.itens.length < 10);
+  assert.equal(semanal.itens[0].titulo, edicao.itens[0].titulo);
 });

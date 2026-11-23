@@ -6,6 +6,7 @@ on:
   push:
     branches: [main]
     paths:
+      - 'alergo-news-core.mjs'
       - 'scripts/radar.mjs'
       - 'scripts/radar-link.mjs'
       - '.github/workflows/radar.yml'

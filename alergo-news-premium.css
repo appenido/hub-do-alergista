@@ -235,6 +235,11 @@
 }
 .an-compartilhar:hover { background: #edf5f6; }
 .an-status { color: var(--teal); }
+.an-lista-titulo {
+  margin: 1.1rem .25rem 0;
+  color: var(--teal);
+  font: 600 .9375rem/1.4 'Manrope', Arial, sans-serif;
+}
 .an-lista { display: block; list-style: none; margin: .4rem 0 0; padding: 0; }
 .an-item { padding: .9rem .25rem; border-bottom: 1px solid #d2dde2; }
 .an-item:last-child { border-bottom: 0; }

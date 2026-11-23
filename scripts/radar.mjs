@@ -4,6 +4,7 @@
 // Item que não passa por todo o fluxo vai para "pendentes", nunca para a lista principal.
 // Falha total preserva os resultados verificados anteriores (atualizadoEm não muda).
 import fs from 'node:fs';
+import { selecionarVerificadas, TOTAL_EDICAO } from '../alergo-news-core.mjs';
 import { resolverLinkCandidato } from './radar-link.mjs';
 
 const SAIDA = 'jornal/radar.json';
@@ -228,14 +229,15 @@ const run = async () => {
 
   const verificados = [], pendentes = [], excluidos = [];
   for (const c of candidatosUnicos) {
-    if (verificados.length >= 10) break;
+    if (verificados.length >= TOTAL_EDICAO && selecionarVerificadas(verificados).length === TOTAL_EDICAO) break;
     const r = await verificarCandidato(c);
     if (r.status === 'verificado') { console.log('VERIFICADO: ' + r.titulo.slice(0,60) + ' | ' + r.fonte + ' | ' + r.data); verificados.push(r); }
     else if (r.status === 'pendente') { console.log('PENDENTE: ' + r.titulo.slice(0,60) + ' | motivo: ' + r.motivo); pendentes.push(r); }
     else { console.log('EXCLUÍDO: ' + r.titulo.slice(0,60) + ' | motivo: ' + r.motivo); excluidos.push(r); }
   }
 
-  verificados.sort((a, b) => Date.parse(b.data) - Date.parse(a.data));
+  // Uma coleta pequena ou vazia conserva as reportagens que ainda pertencem às últimas onze.
+  const itens = selecionarVerificadas([...verificados, ...(anterior?.itens || [])]);
 
   const saida = {
     ultimaTentativa: agora,
@@ -246,7 +248,7 @@ const run = async () => {
     totalPendentes: pendentes.length,
     totalExcluidos: excluidos.length,
     falhasFonte,
-    itens: verificados.length ? verificados.slice(0, 10) : (anterior ? anterior.itens || [] : []),
+    itens,
     pendentes: pendentes.slice(0, 20),
     excluidos: excluidos.slice(0, 20)
   };

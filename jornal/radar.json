@@ -27,10 +27,82 @@
   },
   {
    "status": "verificado",
+   "titulo": "Você tem alergia ao suor?",
+   "fonte": "G1",
+   "data": "2026-11-19T15:44:01.000Z",
+   "url": "https://g1.globo.com/pe/pernambuco/ne1/video/voce-tem-alergia-ao-suor-15263695.ghtml",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
    "titulo": "Médico salva vida de comissária que sofreu reação alérgica grave durante voo internacional",
    "fonte": "R7",
    "data": "2026-11-18T11:47:31.813Z",
    "url": "https://noticias.r7.com/prisma/luiz-fara-monteiro/medico-salva-vida-de-comissaria-que-sofreu-reacao-alergica-grave-durante-voo-internacional-18112026/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Homem é preso após enviar cartão com pasta de amendoim a amiga da ex-esposa que tem alergia grave nos EUA",
+   "fonte": "Rede Atlântida",
+   "data": "2026-11-17T18:27:01.000Z",
+   "url": "https://atl.clicrbs.com.br/humor/noticia/2026/11/homem-e-preso-apos-enviar-cartao-com-pasta-de-amendoim-a-amiga-da-ex-esposa-que-tem-alergia-grave-nos-eua-cmwl0y0bt009501cxnf6sfktu.html",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "EUA avalia 1º tratamento para edição genética diretamente dentro do corpo",
+   "fonte": "metropoles.com",
+   "data": "2026-11-16T19:01:00.000Z",
+   "url": "https://www.metropoles.com/saude/eua-avalia-1o-tratamento-para-edicao-genetica-diretamente-dentro-do-corpo",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Homem é preso após enviar carta com amendoim para matar mulher alérgica",
+   "fonte": "Metrópoles",
+   "data": "2026-11-16T18:21:00.000Z",
+   "url": "https://www.metropoles.com/mundo/homem-e-preso-apos-enviar-carta-com-amendoim-para-matar-mulher-alergica",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Ataque de abelhas causa urticária, inchaço e tremores em quatro pessoas em MT; veja o que fazer nestes casos",
+   "fonte": "G1",
+   "data": "2026-11-16T16:50:12.242Z",
+   "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/16/ataque-de-abelhas-causa-urticaria-inchaco-e-tremores-em-quatro-pessoas-em-mt-veja-o-que-fazer-nestes-casos.ghtml",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Menino alérgico morreu após colega jogar queijo nele em escola",
+   "fonte": "iG Último Segundo",
+   "data": "2026-11-15T09:00:00.000Z",
+   "url": "https://ultimosegundo.ig.com.br/2026-11-15/menino-alergico-morreu-apos-colega-jogar-queijo-nele-em-escola.html",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Mãe de jovem que teve reação alérgica grave após cheirar pimenta revela que nem sempre consegue ser forte: 'Mantendo viva a esperança'",
+   "fonte": "G1",
+   "data": "2026-11-13T14:27:23.696Z",
+   "url": "https://g1.globo.com/go/goias/noticia/2026/11/13/mae-de-jovem-que-teve-reacao-alergica-grave-apos-cheirar-pimenta-revela-que-nem-sempre-consegue-ser-forte-mantendo-viva-a-esperanca.ghtml",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Mãe da jovem que teve alergia grave à pimenta emociona com desabafo: 'Nem sempre sou forte'",
+   "fonte": "Terra",
+   "data": "2026-11-13T12:17:03.000Z",
+   "url": "https://www.terra.com.br/noticias/brasil/mae-da-jovem-que-teve-alergia-grave-a-pimenta-emociona-com-desabafo-nem-sempre-sou-forte,c744e0354fd3144221d0776b4c5a1cf287r1492w.html",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Tosse e falta de ar frequentes podem indicar asma ou pneumonia; entenda",
+   "fonte": "CNN Brasil",
+   "data": "2026-11-13T07:35:01.000Z",
+   "url": "https://www.cnnbrasil.com.br/saude/tosse-e-falta-de-ar-frequentes-podem-indicar-asma-ou-pneumonia-entenda/",
    "verificado": true
   }
  ],

@@ -3,6 +3,7 @@
   'use strict';
 
   const cache = 'hub_alergo_news_v2';
+  const totalAnteriores = 10;
   const cincoMinutos = 5 * 60 * 1000;
   const fuso = 'America/Sao_Paulo';
   const formatoDia = new Intl.DateTimeFormat('pt-BR', {timeZone: fuso});
@@ -111,7 +112,7 @@
     const separador = elemento('span', 'an-separador', '·');
     separador.setAttribute('aria-hidden', 'true');
     meta.append(icone, elemento('span', 'an-fonte', item.fonte), separador, data);
-    const titulo = elemento('h2', 'an-titulo');
+    const titulo = elemento(principal ? 'h2' : 'h3', 'an-titulo');
     const link = elemento('a', 'an-link', item.titulo);
     link.href = item.url;
     link.target = '_blank';
@@ -141,13 +142,18 @@
     ultimaExibicao = exibicao;
     const fragmento = document.createDocumentFragment();
     const principal = itens[0]?.data ? itens[0] : null;
-    const anteriores = principal ? itens.slice(1) : itens;
+    const inicio = principal ? 1 : 0;
+    const anteriores = itens.slice(inicio, inicio + totalAnteriores);
     if (principal) fragmento.append(cartao(principal, true));
     if (anteriores.length) {
+      const rotulo = anteriores.length === 1 ? '1 reportagem' : anteriores.length + ' reportagens';
+      const tituloLista = elemento('h2', 'an-lista-titulo', principal
+        ? rotulo + (anteriores.length === 1 ? ' anterior' : ' anteriores') : rotulo);
+      tituloLista.id = 'an-titulo-anteriores';
       const lista = elemento('ol', 'an-lista');
-      lista.setAttribute('aria-label', 'Outras reportagens');
+      lista.setAttribute('aria-labelledby', tituloLista.id);
       for (const item of anteriores) lista.append(cartao(item, false));
-      fragmento.append(lista);
+      fragmento.append(tituloLista, lista);
     }
     if (!itens.length) {
       const mensagem = elemento('p', 'an-mensagem', disponivel
@@ -171,7 +177,7 @@
 
   async function carregar() {
     const [local, radar, feed] = await Promise.all([
-      lerFonte('jornal/edicao.json'), lerFonte('jornal/radar.json'), lerFonte('/news')
+      lerFonte('jornal/edicao.json'), lerFonte('jornal/radar.json'), lerFonte('/news?edicao=1')
     ]);
     const temEdicao = Array.isArray(local?.noticias);
     const temRadar = Array.isArray(radar?.itens);
