@@ -1758,7 +1758,7 @@ window._bloquearApp=function(){};
   </div>
   <form class="tb-search" role="search" autocomplete="off">
     
-    <input id="hubSearchQuery" type="search" autocomplete="off" aria-label="Buscar no Hub" placeholder="Buscar...">
+    <input spellcheck="false" autocapitalize="off" autocorrect="off" id="hubSearchQuery" type="search" autocomplete="off" aria-label="Buscar no Hub" placeholder="Buscar...">
   </form>
   <div class="tb-bell" id="btnNotif">🔔<div class="tb-dot"></div></div>
   <div class="tb-user" id="btnPerfil" title="Preferências" aria-label="Preferências" onclick="navTo('perfil')">⚙</div>
@@ -1816,7 +1816,7 @@ window._bloquearApp=function(){};
       <details class="hau-disclosure" hidden>
         <summary><span class="hau-summary-label">Ver histórico completo</span><svg class="hau-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
         <div class="hau-tools">
-          <label for="hubAtualizacoesBusca">Buscar no histórico<input id="hubAtualizacoesBusca" type="search" placeholder="Ex.: UAS7, doses, vacinas…" autocomplete="off"></label>
+          <label for="hubAtualizacoesBusca">Buscar no histórico<input spellcheck="false" autocapitalize="off" autocorrect="off" id="hubAtualizacoesBusca" type="search" placeholder="Ex.: UAS7, doses, vacinas…" autocomplete="off"></label>
           <label for="hubAtualizacoesSecao">Seção<select id="hubAtualizacoesSecao"><option value="">Todas as seções</option></select></label>
         </div>
         <p class="hau-count" role="status" aria-live="polite"></p>
@@ -3945,7 +3945,7 @@ window._bloquearApp=function(){};
       <p id="vacCalLegenda" class="vac-cal-nota"></p>
       <div style="padding:0 16px 8px">
         <label for="vacCalBusca" style="display:block;font-size:11px;color:var(--gray-500);margin-bottom:5px">Buscar por faixa etária ou grupo</label>
-        <input id="vacCalBusca" type="search" placeholder="Ex.: idosos, prematuro, gestante..." oninput="vacFiltrarCalendarios()" autocomplete="off" style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font:12px Manrope,sans-serif" />
+        <input spellcheck="false" autocapitalize="off" autocorrect="off" id="vacCalBusca" type="search" placeholder="Ex.: idosos, prematuro, gestante..." oninput="vacFiltrarCalendarios()" autocomplete="off" style="width:100%;box-sizing:border-box;padding:10px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font:12px Manrope,sans-serif" />
       </div>
       <div id="vacCalendariosLista" style="padding:0 16px"></div>
       <div id="vacCalPreview" class="vac-cal-visualizador" style="display:none;margin-left:16px;margin-right:16px" aria-live="polite">
@@ -4046,7 +4046,7 @@ window._bloquearApp=function(){};
       </div>
       <div style="padding:0 16px 8px;font-size:11.5px;color:var(--gray-500);line-height:1.5">Pesquise pelo nome, sigla ou marca da vacina e abra a ficha para visualizar indicações, grupos elegíveis, esquema, contraindicações e disponibilidade por rede.</div>
       <div style="padding:0 16px 10px">
-        <input type="text" id="vacBuscaVac" placeholder="Buscar vacina..." oninput="vacRenderVacinas(this.value)"
+        <input spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" type="text" id="vacBuscaVac" placeholder="Buscar vacina..." oninput="vacRenderVacinas(this.value)"
           style="width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-size:13px;font-family:Manrope,sans-serif">
       </div>
 
@@ -4072,7 +4072,7 @@ window._bloquearApp=function(){};
       </div>
 
       <div style="padding:0 16px 10px">
-        <input type="text" id="atrBusca" placeholder="Buscar vacina (ex.: hexa, HPV, pneumo)..." oninput="atrRender()"
+        <input spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" type="text" id="atrBusca" placeholder="Buscar vacina (ex.: hexa, HPV, pneumo)..." oninput="atrRender()"
           style="width:100%;box-sizing:border-box;padding:9px 12px;border:1.5px solid var(--gray-100);border-radius:10px;font-size:13px;font-family:Manrope,sans-serif">
       </div>
 
@@ -4387,7 +4387,7 @@ window._bloquearApp=function(){};
         <label for="igeBusca" class="ige-search-title"><span class="ige-search-heading">Pesquisar IgEs</span><span class="ige-search-caption">Por alérgeno, componente, código ou mistura</span></label>
         <div class="lab-search ige-search-field">
           <span aria-hidden="true">🔍</span>
-          <input id="igeBusca" type="search" aria-label="Buscar IgEs por nome ou código" placeholder="Leite total, ovo total, f245, Ara h 2, mix…" oninput="igeBuscar()" autocomplete="off">
+          <input spellcheck="false" autocapitalize="off" autocorrect="off" id="igeBusca" type="search" aria-label="Buscar IgEs por nome ou código" placeholder="Leite total, ovo total, f245, Ara h 2, mix…" oninput="igeBuscar()" autocomplete="off">
           <button id="igeClear" type="button" aria-label="Limpar busca de IgE" onclick="document.getElementById('igeBusca').value='';igeBuscar();" style="display:none;border:none;background:transparent;font-size:16px;color:var(--gray-500);cursor:pointer">×</button>
         </div>
         <button type="button" id="pedOpenInline" onclick="pedAbrir()" aria-expanded="false" aria-controls="pedDrawer">📝 Ver nota <span class="pf-n">0</span></button>
@@ -11192,6 +11192,7 @@ function chatToggle(){
 
 
 <script src="/hub-paginas.js?v=20261123-formulas-inline1" defer></script>
+<script src="/buscas-antiautofill.js?v=20261123-buscas1" defer></script>
 <script src="/formulas-infantis.js?v=20261123-aplv-1" defer></script>
 </body>
 </html>
