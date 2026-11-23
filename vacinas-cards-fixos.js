@@ -7,7 +7,7 @@
   #page-imunizacoes #vacListaAll.vac-grid {
     display:grid !important;
     grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:10px;
+    gap:clamp(10px,1.2vw,16px);
     align-items:start !important;
     grid-auto-flow:row !important;
     position:relative;
@@ -17,7 +17,7 @@
   }
   @media (min-width:680px) {
     #page-imunizacoes #vacListaAll.vac-grid {
-      grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+      grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr)) !important;
     }
   }
   #page-imunizacoes #vacListaAll.vac-grid > details.vac-card,
@@ -27,9 +27,9 @@
     grid-row:auto !important;
     width:100% !important;
     min-width:0 !important;
-    height:190px !important;
-    min-height:190px !important;
-    max-height:190px !important;
+    height:192px !important;
+    min-height:192px !important;
+    max-height:192px !important;
     align-self:start !important;
     position:relative !important;
     overflow:visible !important;
@@ -54,12 +54,12 @@
     justify-content:flex-start !important;
     align-items:center !important;
     text-align:center !important;
-    gap:6px !important;
+    gap:7px !important;
     width:100% !important;
-    height:188px !important;
-    min-height:188px !important;
-    max-height:188px !important;
-    padding:11px 8px 8px !important;
+    height:190px !important;
+    min-height:190px !important;
+    max-height:190px !important;
+    padding:13px 11px 10px !important;
     overflow:hidden !important;
     box-sizing:border-box !important;
     background:transparent !important;
@@ -75,13 +75,13 @@
     overflow:hidden;
   }
   #page-imunizacoes #vacListaAll .vac-header .vac-name {
-    font-size:12.5px !important;line-height:1.3 !important;
+    font-size:14px !important;font-weight:800 !important;line-height:1.38 !important;
     display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;
     overflow:hidden;overflow-wrap:anywhere;
   }
   #page-imunizacoes #vacListaAll .vac-header .vac-protection,
   #page-imunizacoes #vacListaAll .vac-header .vac-brand {
-    font-size:10px !important;line-height:1.3 !important;
+    font-size:11px !important;line-height:1.42 !important;
     display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;
     overflow:hidden;overflow-wrap:anywhere;
   }
@@ -100,9 +100,9 @@
     width:var(--vac-panel-width,min(440px,calc(100vw - 28px))) !important;
     min-width:0 !important;
     max-width:none !important;
-    max-height:min(62vh,560px) !important;
-    max-height:min(62dvh,560px) !important;
-    padding:12px 14px 15px !important;
+    max-height:min(68vh,660px) !important;
+    max-height:min(68dvh,660px) !important;
+    padding:16px 17px 20px !important;
     box-sizing:border-box !important;
     overflow-y:auto !important;
     overflow-x:hidden !important;
@@ -118,13 +118,13 @@
   }
   #page-imunizacoes #vacListaAll .vac-body table {max-width:100% !important;table-layout:fixed;}
   #page-imunizacoes #vacListaAll .vac-body td {white-space:normal !important;overflow-wrap:anywhere;}
-  #page-imunizacoes #vacListaAll .vac-body td:first-child {width:94px !important;white-space:normal !important;}
+  #page-imunizacoes #vacListaAll .vac-body td:first-child {width:100% !important;white-space:normal !important;}
   #page-imunizacoes #vacListaAll .vac-body a {overflow-wrap:anywhere;}
   @media(max-width:359px) {
     #page-imunizacoes #vacListaAll.vac-grid {gap:7px;padding-left:9px;padding-right:9px;}
-    #page-imunizacoes #vacListaAll .vac-header .vac-name {font-size:11.5px !important;}
+    #page-imunizacoes #vacListaAll .vac-header .vac-name {font-size:12.7px !important;}
     #page-imunizacoes #vacListaAll .vac-header .vac-protection,
-    #page-imunizacoes #vacListaAll .vac-header .vac-brand {font-size:9.5px !important;}
+    #page-imunizacoes #vacListaAll .vac-header .vac-brand {font-size:10px !important;}
     #page-imunizacoes #vacListaAll.vac-grid > details.vac-card[open] > .vac-body {padding:9px 10px !important;}
   }
   @media (prefers-reduced-motion:reduce) {
