@@ -1632,7 +1632,7 @@ _marcarGuiasPagas();
 /* Desativação temporária da biblioteca; conteúdo preservado para revisão. */
 #page-prompts, [data-nav="prompts"] { display:none !important; }
 </style>
-<link rel="stylesheet" href="/alergo-news-premium.css?v=20261110-justificado-4">
+<link rel="stylesheet" href="/alergo-news-premium.css?v=20261123-cronologia1">
 <link rel="stylesheet" href="/hub-atualizacoes.css?v=20261118-compact2">
 
 <link rel="stylesheet" href="/hub-clinical-responsive.css?v=20261114-medicamentos2">
@@ -4577,31 +4577,19 @@ window._bloquearApp=function(){};
     <div style="height:80px"></div>
   </div>
 
-  <!-- ══ PERFIL ══ -->
-
+  <!-- ══ ALERGO NEWS ══ -->
   <div class="page" id="page-jornal">
-    <div style="padding:16px 16px 10px">
-      <div style="padding-bottom:8px;border-bottom:3px double rgba(13,31,45,.38)">
-        <div style="font:400 30px/1.15 'DM Serif Display',Georgia,serif;color:var(--navy);margin-top:5px;display:flex;align-items:center;gap:9px"><svg class="news-paper-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h6v5H7zM16 7h2M16 10h2M7 15h11M7 18h11"/></svg>Alergo News</div>
-        <div id="jornalSub" style="font-size:12px;color:var(--gray-500);margin-top:4px">Notícias verificadas de alergia e imunologia, dos principais veículos do país</div>
-      </div>
-    </div>
-    <div id="jornalCorpo" style="padding:0 16px 24px"><div style="padding:20px 0;font-size:12px;color:var(--gray-500)">Carregando notícias…</div></div>
-    <div style="height:80px"></div>
+    <section id="alergoNewsEdicao" class="an-edicao" aria-labelledby="alergoNewsTitulo">
+      <header class="an-cabecalho">
+        <h1 id="alergoNewsTitulo"><svg class="news-paper-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h6v5H7zM16 7h2M16 10h2M7 15h11M7 18h11"/></svg>Alergo News</h1>
+        <p id="jornalSub">Notícias verificadas de alergia e imunologia, dos principais veículos do país</p>
+      </header>
+      <div id="jornalCorpo"><p class="an-mensagem" role="status">Carregando reportagens…</p></div>
+    </section>
   </div>
+  <div class="page" id="page-alergonews"></div>
 
-  <div class="page" id="page-alergonews">
-    <div style="padding:16px 16px 8px">
-      <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px">
-        <span style="width:3px;height:16px;background:linear-gradient(180deg,var(--aqua),var(--teal-mid));border-radius:2px;display:inline-block"></span>
-        <svg class="news-paper-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h6v5H7zM16 7h2M16 10h2M7 15h11M7 18h11"/></svg>Alergo News
-      </div>
-      <div style="font-size:12px;color:var(--gray-500);margin-top:4px">As 10 notícias mais recentes da mídia brasileira sobre alergia e imunologia</div>
-    </div>
-    <div id="alergoNewsLista" style="padding:4px 16px 24px"></div>
-    <div style="height:80px"></div>
-  </div>
-
+  <!-- ══ PERFIL ══ -->
   <div class="page" id="page-perfil">
     <div style="padding:16px 16px 8px">
       <div style="font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px">
@@ -6236,85 +6224,6 @@ function filtrarHomeArtigos(){
 
 /* O módulo de QR Code de paciente foi desativado; UAS7 mantém cálculo manual. */
 
-/* ── PÁGINA ALERGO NEWS ─────────────────────────── */
-function renderAlergoNews(){
-  var box = document.getElementById('alergoNewsLista');
-  if(!box) return;
-  function cartao(n){
-    var dt = '';
-    try{ if(n.data) dt = new Date(n.data).toLocaleDateString('pt-BR'); }catch(e){}
-    return '<a href="' + _escHtml(/^https:\/\//i.test(n.url||'')?n.url:'#') + '" target="_blank" rel="noopener" style="display:block;text-decoration:none;background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:13px 14px;margin-bottom:9px">' +
-      '<div style="font-size:10px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.04em">' + _escHtml(n.fonte||'Mídia') + (dt ? ' · ' + dt : '') + '</div>' +
-      '<div style="font-size:13px;font-weight:700;color:var(--navy);line-height:1.4;margin-top:4px">' + _escHtml(n.titulo) + '</div>' +
-      '<div style="font-size:11px;color:var(--gray-500);margin-top:6px">Ler a reportagem →</div></a>';
-  }
-  if(_noticiasMidia.length){
-    box.innerHTML = _noticiasMidia.slice(0,10).map(cartao).join('');
-    return;
-  }
-  box.innerHTML = '<div style="font-size:12px;color:var(--gray-500);padding:10px">Carregando notícias…</div>';
-  fetch('/news').then(function(r){ return r.json(); }).then(function(d){
-    _noticiasMidia = (d.itens||[]).filter(function(i){ return i.titulo; });
-    box.innerHTML = _noticiasMidia.length
-      ? _noticiasMidia.slice(0,10).map(cartao).join('')
-      : '<div style="font-size:12px;color:var(--gray-500);padding:10px">Nenhuma notícia da especialidade no momento.</div>';
-  }).catch(function(){
-    box.innerHTML = '<div style="font-size:12px;color:var(--gray-500);padding:10px">Não foi possível carregar as notícias agora.</div>';
-  });
-}
-
-/* ── ALERTA: NOTÍCIAS DA MÍDIA BRASILEIRA ───────── */
-var _noticiasMidia = [], _noticiaIdx = 0, _noticiaTimer = null;
-function _mostrarNoticiaMidia(){
-  var t = document.getElementById('alertaNoticiaTexto');
-  if(!t || !_noticiasMidia.length) return;
-  var n = _noticiasMidia[0];   // sempre a mais recente
-  var dt = '';
-  try{ if(n.data) dt = ' · ' + new Date(n.data).toLocaleDateString('pt-BR'); }catch(e){}
-  t.textContent = (n.fonte ? n.fonte + dt + ': ' : '') + n.titulo;
-}
-function _setAlertaNoticia(html){
-  var texto = String(html||'').replace(/<[^>]*>/g,'');
-  var t = document.getElementById('alertaNoticiaTexto');
-  if(t) t.textContent = texto;
-  try{ localStorage.setItem('hub_alerta_noticia', texto); }catch(e){}
-}
-function carregarNoticiasMidia(){
-  // 1) mostra na hora o que ficou guardado da última visita
-  var cache = '';
-  try{ cache = localStorage.getItem('hub_alerta_noticia') || ''; }catch(e){}
-  var t0 = document.getElementById('alertaNoticiaTexto');
-  if(cache && t0) t0.textContent = String(cache).replace(/<[^>]*>/g,'');
-
-  // 2) manchete da edição local (rápida) enquanto o feed não chega
-  var feedOk = false;
-  if(!cache){
-    fetch('jornal/edicao.json').then(function(r){ return r.json(); }).then(function(e){
-      if(!feedOk) _setAlertaNoticia(_escHtml(e.manchete));
-    }).catch(function(){});
-  }
-
-  // 3) feed ao vivo atualiza em segundo plano
-  fetch('/news').then(function(r){ return r.json(); }).then(function(d){
-    _noticiasMidia = (d.itens||[]).filter(function(i){ return i.titulo; });
-    if(!_noticiasMidia.length) throw new Error('vazio');
-    feedOk = true;
-    var n = _noticiasMidia[0];
-    var dt = '';
-    try{ if(n.data) dt = ' · ' + new Date(n.data).toLocaleDateString('pt-BR'); }catch(e){}
-    _setAlertaNoticia((n.fonte ? '<strong style="color:var(--gold)">' + _escHtml(n.fonte) + dt + ':</strong> ' : '') + _escHtml(n.titulo));
-      }).catch(function(){
-    if(cache || feedOk) return;
-    fetch('jornal/edicao.json').then(function(r){ return r.json(); }).then(function(e){
-      _setAlertaNoticia(_escHtml(e.manchete));
-    }).catch(function(){
-      var t = document.getElementById('alertaNoticiaTexto');
-      if(t) t.textContent = 'Abra o Alergo News desta semana.';
-    });
-  });
-}
-
-
 /* ── DIRETRIZES E EVIDÊNCIAS: identidade por PMID, sem tradução por posição ── */
 var _glCarregado = {};
 var _glRequest = 0;
@@ -6441,102 +6350,7 @@ function carregarCursosLive(){
   });
 }
 
-/* ── ALERGIA NEWS (ex-Jornal da Alergia) ─────────── */
-var _jornalOk = false, _radarAtualizado = '';
 function _jEsc(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function renderJornal(){
-  var box = document.getElementById('jornalCorpo');
-  if(!box || _jornalOk) return;
-  var S = "font-family:'DM Serif Display',serif;";
-  function dominio(u){ try{ return new URL(u).hostname; }catch(e){ return ''; } }
-  function ts(d){ var m=String(d||'').match(/^(\d{2})\/(\d{2})\/(\d{4})$/); return m ? Date.parse(m[3]+'-'+m[2]+'-'+m[1]) : (Date.parse(d)||0); }
-  function dBR(d){ return /^\d{2}\//.test(String(d)) ? d : (d ? new Date(d).toLocaleDateString('pt-BR') : ''); }
-  function veiculo(fonte, url, data){
-    var dom = dominio(url);
-    return '<div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:800;color:var(--teal-mid);text-transform:uppercase;letter-spacing:.04em">' +
-      (dom ? '<img src="https://www.google.com/s2/favicons?domain=' + _jEsc(dom) + '&sz=64" width="16" height="16" alt="" style="border-radius:3px" onerror="this.style.display=\'none\'">' : '') +
-      '<span>' + _jEsc(fonte) + '</span><span style="color:var(--gray-500);font-weight:700">· ' + _jEsc(dBR(data)) + '</span></div>';
-  }
-  function chaveTitulo(t){
-    return String(t||'').toLowerCase()
-      .replace(/\s*[-–|]\s*[^-–|]{1,20}$/,'')   // tira sufixo "- G1", "| UOL" etc
-      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-      .replace(/[^a-z0-9]+/g,' ').trim().slice(0,48);
-  }
-  function montar(e, feed){
-    var itens = e.noticias.map(function(n){
-      return {titulo:n.manchete, fonte:n.fonte.replace(/\s*\(.*\)/,''), data:n.data, url:n.url, resumo:n.resumo, destaque:!!n.destaque, _t:ts(n.data)};
-    });
-    var vistos = {};
-    itens.forEach(function(i){ vistos[i.url]=1; vistos[chaveTitulo(i.titulo)]=1; });
-    (feed||[]).forEach(function(f){
-      if(!f.titulo || !f.url) return;
-      var ck = chaveTitulo(f.titulo);
-      if(vistos[f.url] || vistos[ck]) return;
-      vistos[f.url] = 1; vistos[ck] = 1;
-      itens.push({titulo:f.titulo, fonte:f.fonte||'Mídia', data:f.data, url:f.url, resumo:'', destaque:false, _t:ts(f.data)});
-    });
-    itens.sort(function(a,b){ return b._t - a._t; });
-    itens = itens.slice(0,10);
-    var dest = itens.filter(function(i){ return i.destaque; })[0] || null;
-    var demais = itens.filter(function(i){ return i !== dest; });
-
-    var sub = document.getElementById('jornalSub');
-    if(sub){
-      sub.textContent = _radarAtualizado
-        ? 'Atualizado em ' + new Date(_radarAtualizado).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})
-        : 'Notícias verificadas de alergia e imunologia, dos principais veículos do país';
-    }
-
-    var h = '';
-    if(dest){
-      h += '<a href="' + _jEsc(dest.url) + '" target="_blank" rel="noopener" style="display:block;text-decoration:none;background:#fff;border:1.5px solid var(--gold);border-radius:13px;padding:14px 15px;margin-bottom:10px">' +
-        '<div style="font-size:10px;font-weight:800;color:var(--danger);letter-spacing:.1em;margin-bottom:7px">★ DESTAQUE NACIONAL</div>' +
-        veiculo(dest.fonte, dest.url, dest.data) +
-        '<div style="' + S + 'font-size:21px;line-height:1.22;color:var(--navy);margin-top:7px">' + _jEsc(dest.titulo) + '</div>' +
-        (dest.resumo ? '<div style="font-size:12.5px;line-height:1.6;color:var(--gray-500);margin-top:8px">' + _jEsc(dest.resumo) + '</div>' : '') +
-        '<div style="font-size:11.5px;font-weight:800;color:var(--teal-mid);margin-top:9px">Ler a reportagem →</div></a>';
-    }
-    h += demais.map(function(n){
-      return '<a href="' + _jEsc(n.url) + '" target="_blank" rel="noopener" style="display:block;text-decoration:none;background:#fff;border:1px solid var(--gray-100);border-radius:12px;padding:13px 14px;margin-bottom:9px">' +
-        veiculo(n.fonte, n.url, n.data) +
-        '<div style="' + S + 'font-size:16.5px;line-height:1.28;color:var(--navy);margin-top:5px">' + _jEsc(n.titulo) + '</div>' +
-        (n.resumo ? '<div style="font-size:12px;line-height:1.55;color:var(--gray-500);margin-top:6px">' + _jEsc(n.resumo.split('. ').slice(0,2).join('. ') + '.') + '</div>' : '') +
-        '<div style="font-size:11px;color:var(--teal-mid);font-weight:700;margin-top:6px">Ler a reportagem →</div></a>';
-    }).join('');
-    return h || '<div style="padding:20px 0;font-size:12px;color:var(--gray-500)">Nenhuma notícia verificada no momento.</div>';
-  }
-  function pintar(h){
-    box.innerHTML = h;
-    _jornalOk = true;
-    try{ localStorage.setItem('hub_jornal_html', h); }catch(e){}
-  }
-
-  // 1) última versão guardada aparece na hora
-  try{
-    var cache = localStorage.getItem('hub_jornal_html');
-    if(cache) box.innerHTML = cache;
-  }catch(e){}
-
-  // 2) edição local (rápida) já monta o jornal; 3) feed atualiza depois
-  var _ed = null;
-  fetch('jornal/edicao.json').then(function(r){ return r.json(); }).then(function(e){
-    _ed = e;
-    pintar(montar(e, []));
-    return Promise.all([
-      fetch('jornal/radar.json').then(function(r){ return r.json(); }).catch(function(){ return null; }),
-      fetch('/news').then(function(r){ return r.json(); }).catch(function(){ return {itens:[]}; })
-    ]).then(function(rr){
-      var radar = rr[0], extra = (rr[1].itens||[]);
-      if(radar && radar.itens) extra = radar.itens.concat(extra);
-      _radarAtualizado = radar && radar.atualizadoEm || '';
-      pintar(montar(_ed, extra));
-    }).catch(function(){});
-  }).catch(function(){
-    if(!_jornalOk) box.innerHTML = '<div style="padding:20px;font-size:12px;color:var(--gray-500)">Não foi possível carregar o jornal agora.</div>';
-  });
-}
-document.addEventListener('DOMContentLoaded', carregarNoticiasMidia);
 
 /* ── IA DO HUB (Gemini via /ia) ─────────────────── */
 function _iaHubUsoHoje(){
@@ -7574,8 +7388,7 @@ function navTo(page){
 
   if(page === 'dashboard'){ try{ filtrarHomeArtigos(); }catch(e){} }
   if(page === 'artigos') { try{ ordenarArtigosPorData('artigos-list'); }catch(e){} }
-  if(page === 'alergonews') renderAlergoNews();
-  if(page === 'jornal') renderJornal();
+  if(page === 'jornal' || page === 'alergonews') window.AlergoNews?.abrir(page);
   if(page === 'educacao') carregarCursosLive();
   if(page === 'guidelines'){ ordenarGuidelinesEstaticos(); carregarGuidelinesLive(); }
   if(page === 'perfil') preencherPerfil();
@@ -8103,8 +7916,7 @@ var _BUSCA_PAGINAS = [
   ['material','material do alergista orientacoes folhetos pacientes'],
   ['educacao','cursos educacao aulas congressos eventos'],
   ['crm','crm consultar medico registro cfm'],
-  ['alergonews','noticias alergo news midia'],
-  ['jornal','alergia news jornal da alergia manchete'],
+  ['jornal','alergo news alergonews noticias midia jornal da alergia manchete'],
   ['perfil','perfil conta dados'],
   ['favoritos','favoritos salvos'],
   ['mais','mais menu opcoes']
@@ -11325,7 +11137,7 @@ function chatToggle(){
 <script src="/biologicos-icones-doencas.js?v=20261115-traducao" defer></script>
 <script src="/hub-novidades.js?v=20261114-legivel-2" defer></script>
 <script src="/hub-atualizacoes.js?v=20261118-compact2" defer></script>
-<script src="/alergo-news-premium.js?v=20261109-1" defer></script>
+<script src="/alergo-news-premium.js?v=20261123-cronologia1" defer></script>
 <script src="/artigos-resumo-fix.js?v=20261118-titulos-originais" defer></script>
 <script src="/protocolos-bolso-condutas-20261114.js?v=20261121-sem-box-externo1"></script>
 <script src="/urticarias-induziveis.js?v=20261119-paginas1"></script>

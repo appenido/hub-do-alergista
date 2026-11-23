@@ -1,187 +1,215 @@
-/* Alergo News — cards interativos de reportagens (sem alterar as fontes) */
-(function(){
+/* Alergo News — a Home e as duas rotas do jornal usam a mesma edição. */
+(function () {
   'use strict';
-  var root, observer;
 
-  function classifyCard(a){
-    var parts=Array.prototype.filter.call(a.children,function(x){return x.tagName==='DIV';});
-    if(parts[0]) parts[0].classList.add('an-source');
-    if(parts[1]) parts[1].classList.add('an-title');
-    if(parts.length>3 && parts[2]) parts[2].classList.add('an-description');
-    if(parts.length>2) parts[parts.length-1].classList.add('an-read');
-  }
+  const cache = 'hub_alergo_news_v2';
+  const cincoMinutos = 5 * 60 * 1000;
+  const fuso = 'America/Sao_Paulo';
+  const formatoDia = new Intl.DateTimeFormat('pt-BR', {timeZone: fuso});
+  const formatoAtualizacao = new Intl.DateTimeFormat('pt-BR', {
+    timeZone: fuso, dateStyle: 'short', timeStyle: 'short'
+  });
+  const edicao = document.getElementById('alergoNewsEdicao');
+  const corpo = document.getElementById('jornalCorpo');
+  const sub = document.getElementById('jornalSub');
+  const mancheteHome = document.getElementById('alertaNoticiaTexto');
+  if (!edicao || !corpo || !sub || !mancheteHome) return;
+  const subtituloPadrao = sub.textContent;
+  const manchetePadrao = mancheteHome.textContent;
+  let fontes = {edicao: [], radar: [], feed: [], atualizadoEm: ''};
+  let emAndamento = null;
+  let ultimaConsulta = 0;
+  let ultimaExibicao = '';
 
-  function makeButton(label, content, className){
-    var b=document.createElement('button');
-    b.type='button';
-    b.setAttribute('aria-label',label);
-    if(className) b.className=className;
-    if(content) b.innerHTML=content;
-    return b;
-  }
-
-  function makeCover(n){
-    var cover=document.createElement('div');
-    cover.className='an-story-cover';
-    cover.setAttribute('aria-hidden','true');
-    var marker=document.createElement('span');
-    marker.className='an-cover-mark';
-    marker.innerHTML='<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 6h22v20H5zM10 11h8v8h-8zM21 11h3M21 15h3M10 22h14"/><path d="M2 9v17a3 3 0 0 0 3 3h19"/></svg>';
-    marker.appendChild(document.createTextNode(n===0?'CAPA · REPORTAGEM EM DESTAQUE':'REPORTAGEM EM FOCO'));
-    cover.appendChild(marker);
-    return cover;
-  }
-
-  function enhance(){
-    if(!root || root.querySelector(':scope > .an-feature')) return;
-    var cards=Array.prototype.filter.call(root.children,function(node){
-      return node.tagName==='A' && node.getAttribute('href');
-    });
-    if(!cards.length) return;
-
-    var selected=cards.slice(0,Math.min(3,cards.length));
-    var section=document.createElement('section');
-    section.className='an-feature';
-    section.setAttribute('aria-label','Reportagens em destaque');
-    var header=document.createElement('div');
-    header.className='an-feature-heading';
-    var h=document.createElement('div');
-    h.innerHTML='<span class="an-eyebrow">Seleção editorial</span><div class="an-section-title">Em destaque</div>';
-    var counter=document.createElement('span');
-    counter.className='an-count';
-    counter.setAttribute('aria-live','polite');
-    header.appendChild(h);
-    header.appendChild(counter);
-    section.appendChild(header);
-
-    var stage=document.createElement('div');
-    stage.className='an-stage';
-    stage.id='an-news-stage';
-    stage.tabIndex=0;
-    stage.setAttribute('aria-label','Reportagens em destaque. Use as setas para navegar');
-    var slides=[];
-    selected.forEach(function(a,i){
-      classifyCard(a);
-      a.classList.add('an-story-card');
-      a.insertBefore(makeCover(i),a.firstChild);
-      var slide=document.createElement('div');
-      slide.className='an-slide';
-      slide.setAttribute('role','group');
-      slide.setAttribute('aria-roledescription','slide');
-      slide.setAttribute('aria-label','Reportagem '+(i+1)+' de '+selected.length);
-      slide.appendChild(a);
-      stage.appendChild(slide);
-      slides.push(slide);
-    });
-    section.appendChild(stage);
-
-    var controls=document.createElement('div');
-    controls.className='an-story-controls';
-    var progress=document.createElement('div');
-    progress.className='an-story-progress';
-    progress.setAttribute('role','group');
-    progress.setAttribute('aria-label','Selecionar reportagem');
-    var dots=selected.map(function(a,i){
-      var title=(a.querySelector('.an-title')||a).textContent.trim();
-      var dot=makeButton('Ver reportagem '+(i+1)+': '+title,'','an-story-dot');
-      dot.setAttribute('aria-controls','an-news-stage');
-      progress.appendChild(dot);
-      return dot;
-    });
-    controls.appendChild(progress);
-
-    var actions=document.createElement('div');
-    actions.className='an-story-actions';
-    var prev=makeButton('Reportagem anterior','&#8592;','an-story-prev');
-    var next=makeButton('Próxima reportagem','&#8594;','an-story-next');
-    var share=makeButton('Compartilhar reportagem','<span aria-hidden="true">&#8599;</span><span class="an-share-label">Compartilhar</span>','an-story-share');
-    actions.appendChild(prev);
-    actions.appendChild(next);
-    actions.appendChild(share);
-    controls.appendChild(actions);
-    section.appendChild(controls);
-
-    var status=document.createElement('div');
-    status.className='an-story-status';
-    status.setAttribute('role','status');
-    status.setAttribute('aria-live','polite');
-    section.appendChild(status);
-
-    var current=0, messageTimer=null;
-    function show(i){
-      current=(i+slides.length)%slides.length;
-      slides.forEach(function(s,j){s.hidden=j!==current;});
-      dots.forEach(function(d,j){d.setAttribute('aria-pressed',j===current?'true':'false');});
-      counter.textContent=(current+1)+' / '+slides.length;
-      status.textContent='';
-    }
-    function change(delta){show(current+delta);}
-    prev.addEventListener('click',function(){change(-1);});
-    next.addEventListener('click',function(){change(1);});
-    dots.forEach(function(dot,i){dot.addEventListener('click',function(){show(i);});});
-    stage.addEventListener('keydown',function(e){
-      if(e.key==='ArrowRight'){e.preventDefault();change(1);}
-      if(e.key==='ArrowLeft'){e.preventDefault();change(-1);}
-    });
-    var touchX=0,touchY=0;
-    stage.addEventListener('touchstart',function(e){
-      if(e.touches.length!==1)return;
-      touchX=e.touches[0].clientX;touchY=e.touches[0].clientY;
-    },{passive:true});
-    stage.addEventListener('touchend',function(e){
-      if(!e.changedTouches.length)return;
-      var dx=e.changedTouches[0].clientX-touchX;
-      var dy=e.changedTouches[0].clientY-touchY;
-      if(Math.abs(dx)>48 && Math.abs(dx)>Math.abs(dy)*1.4) change(dx<0?1:-1);
-    },{passive:true});
-
-    function announce(t){
-      clearTimeout(messageTimer);
-      status.textContent=t;
-      messageTimer=setTimeout(function(){status.textContent='';},3200);
-    }
-    share.addEventListener('click',function(){
-      var active=slides[current].querySelector('a');
-      if(!active)return;
-      var link=active.href;
-      var title=(active.querySelector('.an-title')||active).textContent.trim();
-      if(navigator.share){
-        navigator.share({title:title,url:link}).catch(function(){});
-      }else if(navigator.clipboard && navigator.clipboard.writeText){
-        navigator.clipboard.writeText(link).then(function(){announce('Link da reportagem copiado.');})
-          .catch(function(){window.prompt('Copie o link da reportagem:',link);});
-      }else{
-        window.prompt('Copie o link da reportagem:',link);
+  function dataPublicacao(valor) {
+    const texto = String(valor || '').trim();
+    const iso = texto.replace(/^(\d{2})\/(\d{2})\/(\d{4})$/, '$3-$2-$1');
+    if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) {
+      // Uma data sem horário corresponde ao próprio dia de publicação no Brasil.
+      const instante = Date.parse(iso + 'T00:00:00-03:00');
+      if (Number.isFinite(instante) && new Date(instante).toISOString().slice(0, 10) === iso) {
+        return {instante, iso, rotulo: iso.split('-').reverse().join('/')};
       }
-    });
-    show(0);
-    root.insertBefore(section,root.firstChild);
+      return null;
+    }
+    const instante = Date.parse(texto);
+    if (!Number.isFinite(instante)) return null;
+    return {instante, iso: new Date(instante).toISOString(), rotulo: formatoDia.format(instante)};
+  }
 
-    var others=cards.slice(selected.length);
-    if(others.length){
-      var label=document.createElement('div');
-      label.className='an-news-list-heading';
-      label.textContent='Mais notícias';
-      root.appendChild(label);
-      var grid=document.createElement('div');
-      grid.className='an-news-grid';
-      others.forEach(function(a){
-        classifyCard(a);
-        a.classList.add('an-news-card');
-        grid.appendChild(a);
-      });
-      root.appendChild(grid);
+  function noticia(item) {
+    const titulo = String(item?.titulo || item?.manchete || '').trim();
+    if (!titulo) return null;
+    let link;
+    try { link = new URL(item.url); } catch { return null; }
+    if (link.protocol !== 'https:') return null;
+    const url = link.href;
+    link.hash = '';
+    for (const chave of [...link.searchParams.keys()]) {
+      if (/^(utm_|fbclid$|gclid$)/i.test(chave)) link.searchParams.delete(chave);
+    }
+    return {
+      titulo, url, dominio: link.hostname,
+      chaveUrl: link.href.replace(/\/$/, ''),
+      fonte: String(item.fonte || 'Mídia').trim(),
+      data: dataPublicacao(item.data),
+      resumo: String(item.resumo || '').trim()
+    };
+  }
+
+  function reportagens() {
+    const itens = [...fontes.edicao, ...fontes.radar, ...fontes.feed]
+      .map(noticia).filter(Boolean)
+      .sort((a, b) => (b.data?.instante ?? -Infinity) - (a.data?.instante ?? -Infinity));
+    const urls = new Set();
+    const titulos = new Set();
+    return itens.filter(item => {
+      const chave = item.titulo.normalize('NFKD').replace(/\p{M}/gu, '')
+        .toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+      if (urls.has(item.chaveUrl) || titulos.has(chave)) return false;
+      urls.add(item.chaveUrl);
+      titulos.add(chave);
+      return true;
+    });
+  }
+
+  function elemento(tag, classe, texto) {
+    const el = document.createElement(tag);
+    if (classe) el.className = classe;
+    if (texto) el.textContent = texto;
+    return el;
+  }
+
+  async function compartilhar(item, status) {
+    if (navigator.share) {
+      try {
+        await navigator.share({title: item.titulo, url: item.url});
+        return;
+      } catch (erro) {
+        if (erro.name === 'AbortError') return;
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(item.url);
+      status.textContent = 'Link copiado.';
+    } catch {
+      window.prompt('Copie o link da reportagem', item.url);
     }
   }
 
-  function init(){
-    root=document.getElementById('jornalCorpo');
-    if(!root || observer)return;
-    observer=new MutationObserver(enhance);
-    observer.observe(root,{childList:true});
-    enhance();
+  function cartao(item, principal) {
+    const linha = elemento(principal ? 'article' : 'li', principal ? 'an-principal' : 'an-item');
+    const meta = elemento('div', 'an-meta');
+    const icone = elemento('img');
+    icone.alt = '';
+    icone.width = icone.height = 16;
+    icone.loading = 'lazy';
+    icone.addEventListener('error', () => icone.remove(), {once: true});
+    icone.src = 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(item.dominio) + '&sz=32';
+    const data = item.data ? elemento('time', '', item.data.rotulo) : elemento('span', '', 'Data não informada');
+    if (item.data) data.dateTime = item.data.iso;
+    const separador = elemento('span', 'an-separador', '·');
+    separador.setAttribute('aria-hidden', 'true');
+    meta.append(icone, elemento('span', 'an-fonte', item.fonte), separador, data);
+    const titulo = elemento('h2', 'an-titulo');
+    const link = elemento('a', 'an-link', item.titulo);
+    link.href = item.url;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    titulo.append(link);
+    linha.append(meta, titulo);
+    if (item.resumo) linha.append(elemento('p', 'an-resumo', item.resumo));
+    if (principal) {
+      const acoes = elemento('div', 'an-acoes');
+      const ler = elemento('span', 'an-ler', 'Ler reportagem');
+      ler.setAttribute('aria-hidden', 'true');
+      const botao = elemento('button', 'an-compartilhar', 'Compartilhar');
+      const status = elemento('span', 'an-status');
+      status.setAttribute('role', 'status');
+      botao.type = 'button';
+      botao.addEventListener('click', () => compartilhar(item, status));
+      acoes.append(ler, botao, status);
+      linha.append(acoes);
+    }
+    return linha;
   }
 
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
-  else init();
+  function mostrar(disponivel) {
+    const itens = reportagens();
+    const exibicao = JSON.stringify([itens, fontes.atualizadoEm, !itens.length && disponivel]);
+    if (exibicao === ultimaExibicao) return;
+    ultimaExibicao = exibicao;
+    const fragmento = document.createDocumentFragment();
+    const principal = itens[0]?.data ? itens[0] : null;
+    const anteriores = principal ? itens.slice(1) : itens;
+    if (principal) fragmento.append(cartao(principal, true));
+    if (anteriores.length) {
+      const lista = elemento('ol', 'an-lista');
+      lista.setAttribute('aria-label', 'Outras reportagens');
+      for (const item of anteriores) lista.append(cartao(item, false));
+      fragmento.append(lista);
+    }
+    if (!itens.length) {
+      const mensagem = elemento('p', 'an-mensagem', disponivel
+        ? 'Nenhuma reportagem verificada no momento.' : 'Não foi possível carregar as reportagens agora.');
+      mensagem.setAttribute('role', 'status');
+      fragmento.append(mensagem);
+    }
+    corpo.replaceChildren(fragmento);
+    mancheteHome.textContent = principal
+      ? principal.fonte + ' · ' + principal.data.rotulo + ': ' + principal.titulo : manchetePadrao;
+    const atualizado = Date.parse(fontes.atualizadoEm);
+    sub.textContent = Number.isFinite(atualizado) ? 'Atualizado em ' + formatoAtualizacao.format(atualizado) : subtituloPadrao;
+  }
+
+  async function lerFonte(url) {
+    try {
+      const resposta = await fetch(url, {cache: 'no-cache', signal: window.AbortSignal?.timeout?.(8000)});
+      return resposta.ok ? await resposta.json() : null;
+    } catch { return null; }
+  }
+
+  async function carregar() {
+    const [local, radar, feed] = await Promise.all([
+      lerFonte('jornal/edicao.json'), lerFonte('jornal/radar.json'), lerFonte('/news')
+    ]);
+    const temEdicao = Array.isArray(local?.noticias);
+    const temRadar = Array.isArray(radar?.itens);
+    const temFeed = Array.isArray(feed?.itens);
+    if (temEdicao) fontes.edicao = local.noticias;
+    if (temRadar) fontes.radar = radar.itens.filter(i => i?.verificado === true && i.status === 'verificado');
+    if (temFeed) fontes.feed = feed.itens;
+    if (temRadar || temFeed) fontes.atualizadoEm = radar?.atualizadoEm || feed?.atualizadoEm || fontes.atualizadoEm;
+    const disponivel = temEdicao || temRadar || temFeed;
+    if (disponivel) {
+      ultimaConsulta = Date.now();
+      try { localStorage.setItem(cache, JSON.stringify(fontes)); } catch {}
+    }
+    mostrar(disponivel);
+  }
+
+  function atualizar() {
+    if (emAndamento) return emAndamento;
+    if (Date.now() - ultimaConsulta < cincoMinutos) return;
+    emAndamento = carregar().finally(() => { emAndamento = null; });
+    return emAndamento;
+  }
+
+  function abrir(pagina) {
+    // Links já salvos para #/alergonews e #/jornal abrem o mesmo conteúdo.
+    const alvo = document.getElementById('page-' + pagina);
+    if (alvo && edicao.parentElement !== alvo) alvo.append(edicao);
+    return atualizar();
+  }
+
+  try {
+    const anterior = JSON.parse(localStorage.getItem(cache));
+    if (anterior && [anterior.edicao, anterior.radar, anterior.feed].every(Array.isArray)) {
+      fontes = anterior;
+      mostrar(true);
+    }
+  } catch {}
+  window.AlergoNews = {abrir};
+  abrir(document.getElementById('page-alergonews')?.classList.contains('active') ? 'alergonews' : 'jornal');
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) atualizar(); });
 })();
