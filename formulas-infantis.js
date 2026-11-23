@@ -145,7 +145,7 @@
       '<header class="fi-heading"><span class="fi-mark">'+svgIcon+'</span><div><h1>Fórmulas Infantis</h1><p>Alergia à proteína do leite de vaca (APLV) · Danone e Nestlé · 23/11/2026</p></div></header>'+
       '<p class="fi-intro">Catálogo clínico por composição, indicação e diluição. Os nomes comerciais são apresentados com imagem da embalagem e fabricante; toque em uma fórmula para expandir a ficha no próprio card.</p>'+
       '<p class="fi-safety">Fórmulas parcialmente hidrolisadas (HA) não são adequadas para tratar APLV diagnosticada. O tratamento nutricional utiliza, conforme gravidade e resposta, fórmulas extensamente hidrolisadas ou à base de aminoácidos. O aleitamento materno continua prioritário quando possível.</p>'+
-      '<div class="fi-controls"><input class="fi-search" type="search" placeholder="Buscar fórmula, fabricante ou tipo…" aria-label="Buscar fórmulas infantis"><div class="fi-filters" role="group" aria-label="Filtros das fórmulas">'+
+      '<div class="fi-controls"><input class="fi-search" type="search" name="hub_filtro_formulas" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" placeholder="Buscar fórmula, fabricante ou tipo…" aria-label="Buscar fórmulas infantis"><div class="fi-filters" role="group" aria-label="Filtros das fórmulas">'+
       '<button type="button" class="fi-filter is-active" data-filter="todos" aria-pressed="true">Todas</button>'+
       '<button type="button" class="fi-filter" data-filter="extensa" aria-pressed="false">Extensamente hidrolisadas</button>'+
       '<button type="button" class="fi-filter" data-filter="amino" aria-pressed="false">Aminoácidos</button>'+
