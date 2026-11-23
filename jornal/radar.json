@@ -1,6 +1,6 @@
 {
- "ultimaTentativa": "2026-11-23T20:46:41.791Z",
- "atualizadoEm": "2026-11-23T20:46:41.791Z",
+ "ultimaTentativa": "2026-11-23T20:49:45.865Z",
+ "atualizadoEm": "2026-11-23T20:49:45.865Z",
  "status": "ok",
  "totalCandidatos": 60,
  "totalVerificados": 1,
@@ -123,13 +123,6 @@
  "excluidos": [
   {
    "status": "excluido",
-   "motivo": "conteúdo de saúde animal/veterinária, fora do escopo humano",
-   "titulo": "Coceira em cachorro é normal? Veja quando pode ser sintoma de dermatite atópica",
-   "fonte": "Terra",
-   "url": "https://www.terra.com.br/vida-e-estilo/pets/coceira-em-cachorro-e-normal-veja-quando-pode-ser-sintoma-de-dermatite-atopica,1cafc37838509402d30df81591f8502awn3gvt81.html"
-  },
-  {
-   "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Cehub realiza encontro do Clube de Especialidades de Pediatria sobre alergias respiratórias",
    "fonte": "96FM Bauru",
@@ -176,6 +169,13 @@
    "titulo": "Doentes com angioedema hereditário ainda sujeitos a terapêuticas antigas fora dos grandes centros",
    "fonte": "HealthNews",
    "url": "https://healthnews.pt/2026/11/21/doentes-com-angioedema-hereditario-ainda-sujeitos-a-terapeuticas-antigas-fora-dos-grandes-centros/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "conteúdo de saúde animal/veterinária, fora do escopo humano",
+   "titulo": "Coceira em cachorro é normal? Veja quando pode ser sintoma de dermatite atópica",
+   "fonte": "Terra",
+   "url": "https://www.terra.com.br/vida-e-estilo/pets/coceira-em-cachorro-e-normal-veja-quando-pode-ser-sintoma-de-dermatite-atopica,1cafc37838509402d30df81591f8502awn3gvt81.html"
   },
   {
    "status": "excluido",
