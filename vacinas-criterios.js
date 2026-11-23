@@ -65,7 +65,7 @@
     dtpa:['dTpa','tríplice bacteriana acelular'],
     hexa:['hexavalente'],
     dengue_sus:['Qdenga','vacina dengue'],
-    dengue_p:['Qdenga','vacina dengue'],
+    dengue_p:['Dengvaxia','vacina dengue'],
     covid:['covid-19','coronavírus']
   };
   function vaccineNorm(s){
@@ -77,7 +77,17 @@
     var words=vaccineNorm([v.nome,v.prot,v.comercial||'',v.fabricante||''].concat(vaccineAliases[v.id]||[]).join(' '));
     return words.includes(q)||words.replace(/\s/g,'').includes(q.replace(/\s/g,''));
   }
+  function vaccineNameMatch(v,term){
+    var q=vaccineNorm(term);
+    if(!q)return true;
+    var key=vaccineNorm([v.nome,v.comercial||''].concat(vaccineAliases[v.id]||[]).join(' '));
+    return key.includes(q)||key.replace(/\s/g,'').includes(q.replace(/\s/g,''));
+  }
   function vaccineOrder(){return catalog.slice().sort(function(a,b){return a.nome.localeCompare(b.nome,'pt-BR');});}
+  function vaccineCandidates(term){
+    var ordered=vaccineOrder(),nameMatches=ordered.filter(function(v){return vaccineNameMatch(v,term);});
+    return nameMatches.length?nameMatches:ordered.filter(function(v){return vaccineMatch(v,term);});
+  }
   function vaccineRank(v,q){
     q=vaccineNorm(q);
     var name=vaccineNorm(v.nome),names=(vaccineAliases[v.id]||[]).map(vaccineNorm);
@@ -88,20 +98,21 @@
     return 4;
   }
   window.vacBuscarPorNome=function(term){
-    return vaccineOrder().filter(function(v){return vaccineMatch(v,term);})
+    return vaccineCandidates(term)
       .sort(function(a,b){return vaccineRank(a,term)-vaccineRank(b,term)||a.nome.localeCompare(b.nome,'pt-BR');});
   };
   var old=window.vacRenderVacinas;
   window.vacRenderVacinas=function(filtro){
     syncCatalog();
     var ordered=vaccineOrder();
+    var candidates=new Set(vaccineCandidates(filtro).map(function(v){return v.id;}));
     /* O renderizador oficial permanece a fonte única de fichas. */
     var result=old.call(this,'');
     var box=document.getElementById('vacListaAll'),number=0;
     if(!box)return result;
     box.querySelectorAll(':scope > details.vac-card').forEach(function(card,i){
       var v=ordered[i];
-      if(!v||!vaccineMatch(v,filtro)){card.remove();return;}
+      if(!v||!candidates.has(v.id)){card.remove();return;}
       number++;
       card.id='vac-catalogo-'+v.id;
       card.dataset.vacinaId=v.id;
