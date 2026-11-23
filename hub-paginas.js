@@ -392,7 +392,7 @@
     const bio = trigger.closest('.bio-header');
     if (bio && bio.closest('.bio-card')) { event.preventDefault(); event.stopImmediatePropagation(); const card = bio.closest('.bio-card'); open(card, card.querySelector('.bio-name')?.textContent, {kind: 'bio', key: card.id.slice(4)}); return; }
     const summary = trigger.closest('summary');
-    if (summary && summary.parentElement.tagName === 'DETAILS') {
+    if (summary && !summary.closest('#page-formulasInfantis') && summary.parentElement.tagName === 'DETAILS') {
       event.preventDefault(); event.stopImmediatePropagation();
       const details = summary.parentElement; open(details, label(details), {kind: 'conteudo', key: identify(details)}); return;
     }
