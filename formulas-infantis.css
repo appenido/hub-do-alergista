@@ -1,0 +1,53 @@
+
+/* Hub do Alergista — fórmulas para APLV, 23/11/2026 */
+#page-formulasInfantis{padding:clamp(14px,2vw,26px) clamp(14px,2.7vw,32px) 90px;max-width:100%;box-sizing:border-box}
+#page-formulasInfantis *{box-sizing:border-box}
+.fi-heading{display:flex;align-items:center;gap:13px;margin:2px 0 14px}
+.fi-heading .fi-mark{width:48px;height:48px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(145deg,#17415c,#0c6d82);box-shadow:0 6px 14px rgba(10,45,71,.13);flex-shrink:0}
+.fi-heading .fi-mark svg{width:30px;height:30px}
+.fi-heading h1{font-size:clamp(21px,2.2vw,29px);font-weight:800;color:#132d43;margin:0;line-height:1.16;letter-spacing:-.4px}
+.fi-heading p{margin:5px 0 0;font-size:12px;color:#617488}
+.fi-intro{border-left:3px solid #c6a354;padding:11px 14px;margin:0 0 16px;border-radius:0 10px 10px 0;background:#f6f8f9;font-size:13px;line-height:1.65;color:#3c5060}
+.fi-safety{margin:0 0 18px;padding:12px 15px;border:1px solid #e8d7a7;border-radius:12px;background:#fffaf0;font-size:12px;line-height:1.6;color:#66562f}
+.fi-controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 16px}
+.fi-search{flex:1 1 215px;min-height:42px;border:1px solid #cfdee5;border-radius:11px;background:#fff;padding:0 12px;color:#18354b;font-size:13px}
+.fi-search:focus,.fi-filter:focus-visible,.fi-product summary:focus-visible{outline:2px solid #258fa3;outline-offset:2px}
+.fi-filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;padding:3px 0}
+.fi-filter{border:1px solid #d1e0e7;background:#fff;color:#426079;font-size:12px;font-weight:700;padding:8px 11px;border-radius:20px;white-space:nowrap;cursor:pointer}
+.fi-filter.is-active{background:#173e56;color:#fff;border-color:#173e56}
+.fi-subhead{display:flex;justify-content:space-between;gap:8px;align-items:center;margin:24px 0 11px}
+.fi-subhead h2{font-size:15px;font-weight:800;color:#1b3a50;margin:0}
+.fi-subhead span{font-size:12px;color:#687e8b}
+.fi-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:start}
+.fi-product{min-width:0;margin:0;border:1px solid #dce7eb;border-radius:15px;background:white;overflow:hidden;box-shadow:0 2px 9px rgba(19,54,76,.045)}
+.fi-product[open]{grid-column:1 / -1;border-color:#a4cad4;box-shadow:0 9px 26px rgba(21,70,93,.10)}
+.fi-product summary{list-style:none;cursor:pointer;position:relative;display:flex;align-items:center;min-height:155px;gap:12px;padding:16px 33px 16px 14px}
+.fi-product summary::-webkit-details-marker{display:none}
+.fi-product summary:after{content:'⌄';position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:21px;color:#558296;transition:transform .16s}
+.fi-product[open] summary:after{transform:translateY(-50%) rotate(180deg)}
+.fi-photo{width:104px;height:124px;object-fit:contain;flex:0 0 104px;display:block;border-radius:9px;background:#fff}
+.fi-no-photo{width:104px;height:124px;flex:0 0 104px;display:grid;place-items:center;border-radius:9px;background:#eaf3f7;color:#1e6179;font-size:30px;font-weight:800}
+.fi-summary-copy{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:5px}
+.fi-product-name{font-size:15px;line-height:1.25;font-weight:800;color:#182f46;overflow-wrap:anywhere}
+.fi-company{font-size:11px;font-weight:700;color:#667d90}
+.fi-type{font-size:11px;font-weight:700;line-height:1.4;color:#276b80;background:#eaf5f7;border-radius:6px;padding:4px 7px}
+.fi-type[data-tipo="amino"]{background:#f2ebf9;color:#734b97}
+.fi-age{font-size:11px;color:#667b86}
+.fi-product-body{padding:0 17px 18px;border-top:1px solid #e7edf0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.fi-product-body .fi-block{padding:13px 14px;background:#f5f8fa;border:1px solid #e6eff2;border-radius:11px}
+.fi-product-body .fi-block h3{margin:0 0 8px;font-size:12px;letter-spacing:.15px;font-weight:800;color:#17455e}
+.fi-product-body .fi-block p{font-size:12px;line-height:1.6;margin:0;color:#40576a}
+.fi-product-body .fi-block ul{margin:0;padding-left:18px;color:#40576a;font-size:12px;line-height:1.65}
+.fi-product-body .fi-block.fi-full{grid-column:1/-1}
+.fi-product-body .fi-block.fi-important{background:#fff9ed;border-color:#eadab3}
+.fi-product-body .fi-block.fi-important h3{color:#805420}
+.fi-product-body .fi-block.fi-alert{background:#fff2f1;border-color:#edc6c1}
+.fi-product-body .fi-block.fi-alert h3{color:#9d3d32}
+.fi-product-body .fi-link{color:#135d83;text-decoration:underline;text-underline-offset:2px;font-weight:700}
+.fi-empty{padding:24px;text-align:center;border:1px dashed #bbd3de;border-radius:12px;font-size:13px;color:#637989}
+.fi-reference{margin-top:18px;padding:10px 2px;font-size:11px;line-height:1.6;color:#677986}
+#page-dashboard .quick-grid .qcard[data-nav="formulasInfantis"] .qi{background:linear-gradient(145deg,#eef9f9,#dceef1);border:1px solid #d2e7e8}
+#page-dashboard .quick-grid .qcard[data-nav="formulasInfantis"] .qi svg{width:min(66%,58px);height:min(66%,58px)}
+@media(max-width:1000px){.fi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:660px){#page-formulasInfantis{padding:13px 13px 90px}.fi-grid{grid-template-columns:1fr}.fi-product summary{min-height:132px;padding:11px 33px 11px 12px}.fi-photo,.fi-no-photo{width:86px;height:108px;flex-basis:86px}.fi-product-body{grid-template-columns:1fr;padding:0 12px 14px}.fi-subhead{margin-top:18px}.fi-heading .fi-mark{width:42px;height:42px}.fi-filters{width:100%}}
+@media(prefers-reduced-motion:reduce){.fi-product summary:after{transition:none}}
