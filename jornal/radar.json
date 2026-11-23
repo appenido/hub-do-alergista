@@ -1,13 +1,21 @@
 {
- "ultimaTentativa": "2026-11-23T20:49:45.865Z",
- "atualizadoEm": "2026-11-23T20:49:45.865Z",
+ "ultimaTentativa": "2026-11-23T22:24:20.438Z",
+ "atualizadoEm": "2026-11-23T22:24:20.438Z",
  "status": "ok",
  "totalCandidatos": 60,
- "totalVerificados": 1,
- "totalPendentes": 3,
- "totalExcluidos": 56,
+ "totalVerificados": 2,
+ "totalPendentes": 4,
+ "totalExcluidos": 54,
  "falhasFonte": [],
  "itens": [
+  {
+   "status": "verificado",
+   "titulo": "Farmacêutica recomenda ter uma jiboia em casa: \"Para quem tem problema respiratório, como bronquite, rinite e asma\"",
+   "fonte": "Terra",
+   "data": "2026-11-23T18:47:41.000Z",
+   "url": "https://www.terra.com.br/vida-e-estilo/farmaceutica-recomenda-ter-uma-jiboia-em-casa-para-quem-tem-problema-respiratorio-como-bronquite-rinite-e-asma,e58af6350d6c1c09f39e628d28fd405d4lbl6kgl.html",
+   "verificado": true
+  },
   {
    "status": "verificado",
    "titulo": "Anafilaxia na infância: quais sinais exigem atenção?",
@@ -87,14 +95,6 @@
    "data": "2026-11-13T12:17:03.000Z",
    "url": "https://www.terra.com.br/noticias/brasil/mae-da-jovem-que-teve-alergia-grave-a-pimenta-emociona-com-desabafo-nem-sempre-sou-forte,c744e0354fd3144221d0776b4c5a1cf287r1492w.html",
    "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Tosse e falta de ar frequentes podem indicar asma ou pneumonia; entenda",
-   "fonte": "CNN Brasil",
-   "data": "2026-11-13T07:35:01.000Z",
-   "url": "https://www.cnnbrasil.com.br/saude/tosse-e-falta-de-ar-frequentes-podem-indicar-asma-ou-pneumonia-entenda/",
-   "verificado": true
   }
  ],
  "pendentes": [
@@ -117,6 +117,13 @@
    "titulo": "Apresentadora Janaína Barbosa morreu após choque anafilático; entenda a reação alérgica",
    "fonte": "O GLOBO",
    "url": "https://oglobo.globo.com/saude/noticia/2026/11/05/apresentadora-janaina-barbosa-morreu-apos-choque-anafilatico-entenda-a-reacao-alergica.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Dermatite atópica pode ser mais difícil de identificar em peles negras, revela novo estudo",
+   "fonte": "Crescer",
+   "url": "https://revistacrescer.globo.com/saude/noticia/2026/10/dermatite-atopica-pode-ser-mais-dificil-de-identificar-em-peles-negras-revela-novo-estudo.ghtml",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   }
  ],
@@ -174,8 +181,8 @@
    "status": "excluido",
    "motivo": "conteúdo de saúde animal/veterinária, fora do escopo humano",
    "titulo": "Coceira em cachorro é normal? Veja quando pode ser sintoma de dermatite atópica",
-   "fonte": "Terra",
-   "url": "https://www.terra.com.br/vida-e-estilo/pets/coceira-em-cachorro-e-normal-veja-quando-pode-ser-sintoma-de-dermatite-atopica,1cafc37838509402d30df81591f8502awn3gvt81.html"
+   "fonte": "Tribuna do Paraná",
+   "url": "https://www.tribunapr.com.br/variedades/coceira-em-cachorro-e-normal-veja-quando-pode-ser-sintoma-de-dermatite-atopica/"
   },
   {
    "status": "excluido",
@@ -187,9 +194,23 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Dermatite atópica em peles negras: os desafios entre o reconhecimento dos sinais e o diagnóstico",
+   "fonte": "Mundo Negro",
+   "url": "https://mundonegro.inf.br/dermatite-atopica-peles-negras-sinais-diagnostico/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "ATS 2026: Corticoide inalatório de resgate na asma",
    "fonte": "Afya | Home",
    "url": "https://portal.afya.com.br/terapia-intensiva/ats-2026-corticoide-inalatorio-de-resgate-na-asma"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Estudo sobre angioedema hereditário em Portugal alerta para desigualdade no acesso a medicamentos inovadores",
+   "fonte": "Observador",
+   "url": "https://observador.pt/2026/11/20/estudo-sobre-angioedema-hereditario-em-portugal-alerta-para-desigualdade-no-acesso-a-medicamentos-inovadores/"
   },
   {
    "status": "excluido",
@@ -214,6 +235,20 @@
   },
   {
    "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Celldex abandona programa para dermatite atópica após falha em estudo - Investing.com Brasil",
+   "fonte": "Investing.com Brasil - Finanças, Câmbio e Investimentos",
+   "url": "https://br.investing.com/news/company-news/celldex-abandona-programa-para-dermatite-atopica-apos-falha-em-estudo-93CH-2133270"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Cochrane compara tratamentos tópicos para dermatite atópica",
+   "fonte": "Afya | Home",
+   "url": "https://portal.afya.com.br/dermatologia/cochrane-compara-tratamentos-topicos-para-dermatite-atopica"
+  },
+  {
+   "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Após sintomas serem confundidos com alergia, casos de sarna humana sobem para 11 em Nova Andradina",
    "fonte": "Midiamax",
@@ -221,45 +256,17 @@
   },
   {
    "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "O que muda no tratamento da dermatite atópica com os novos medicamentos tópicos",
+   "fonte": "Medscape",
+   "url": "https://portugues.medscape.com/viewarticle/muda-tratamento-dermatite-at%C3%B3pica-novos-medicamentos-2026a10018q7"
+  },
+  {
+   "status": "excluido",
    "motivo": "publicação fora da janela de 7 dias",
    "titulo": "Ataque de abelhas causa urticária, inchaço e tremores em quatro pessoas em MT; veja o que fazer nestes casos",
    "fonte": "G1",
    "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/16/ataque-de-abelhas-causa-urticaria-inchaco-e-tremores-em-quatro-pessoas-em-mt-veja-o-que-fazer-nestes-casos.ghtml"
-  },
-  {
-   "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Esofagite eosinofílica: uma abordagem integrada da seleção dos doentes à gestão a longo prazo",
-   "fonte": "Médico News",
-   "url": "https://mediconews.pt/esofagite-eosinofilica-uma-abordagem-integrada-da-selecao-dos-doentes-a-gestao-a-longo-prazo/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Quando a garganta parece fechar: anafilaxia é um sinal de alergia que pode colocar sua vida em risco",
-   "fonte": "Rede D'Or",
-   "url": "https://www.rededorsaoluiz.com.br/noticias/artigo/quando-a-garganta-parece-fechar-anafilaxia-e-um-sinal-de-alergia-que-pode-colocar-sua-vida-em-risco"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Ex-BBB Cacau Colucci descobre alergia rara ao encostar em fruta no supermercado",
-   "fonte": "Jornal Correio",
-   "url": "https://www.correio24horas.com.br/em-alta/ex-bbb-cacau-colucci-descobre-alergia-rara-ao-encostar-em-fruta-no-supermercado-1126"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Ex-BBB Cacau Colucci descobre alergia ao tocar em abacaxi em mercado e mostra braço tomado por urticária nas redes sociais",
-   "fonte": "Diário do Litoral",
-   "url": "https://www.diariodolitoral.com.br/entretenimento/ex-bbb-cacau-colucci-descobre-alergia-ao-tocar-em-abacaxi-em-mercado-e-mostra-braco-tomado-por-urticaria-nas-redes-sociais/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Caminhar 7.500 passos por dia ajuda a controlar os sintomas da asma",
-   "fonte": "Bons Fluidos",
-   "url": "https://www.bonsfluidos.com.br/movimente-se/caminhar-7-500-passos-por-dia-ajuda-a-controlar-os-sintomas-da-asma.phtml"
   }
  ]
 }
