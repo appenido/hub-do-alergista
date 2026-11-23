@@ -81,8 +81,8 @@
       oferta:'Ofertar em mamadeira ou copo conforme a idade, após preparo higiênico; não modificar a concentração. Conferir rigorosamente o número do lote antes do uso.',
       imagem:'https://drogariaspacheco.vteximg.com.br/arquivos/ids/1343806-1000-1000/494984---Formula-Infantil-Alfamino-HMO-400g_0005_0.png?v=638629562481000000',
       fonte:'https://www.nestlenutre.com.br/alfamino-lata-400g-new',
-      alerta:'ALERTA ANVISA (2026): houve recolhimento de lotes específicos de Alfamino 400 g. NÃO UTILIZAR os lotes 50310017Y2, 51060017Y1, 50720017Y1, 50710017Y4, 50290017Y1, 50280017Y2, 43510017Y1, 43480017Y2, 43110017Y2 e 41730017Y2. Verificar também a lista de lotes da ação sanitária de janeiro de 2026.',
-      alertaFonte:'https://www.gov.br/anvisa/pt-br/assuntos/noticias-anvisa/2026/formulas-infantis-lotes-alfamino-devem-ser-recolhidos-por-excesso-de-selenio-e-iodo/',
+      alerta:'VIGILÂNCIA SANITÁRIA (2026): dez lotes de Alfamino 400 g tiveram recolhimento e suspensão determinados em fevereiro por excesso de selênio e iodo, mas ESSAS MEDIDAS FORAM REVOGADAS pela Resolução-RE Anvisa nº 2.904, de 23/07/2026 (DOU 24/07/2026). Houve também uma ação sanitária distinta em janeiro/2026 por risco de contaminação de lotes específicos. Verificar a situação regulatória atualizada do lote antes de orientar o uso.',
+      alertaFonte:'https://www.sijur.com.br/dou/2026/07/24/resolucao-re-2-904-agencia-nacional-de-vigilancia-sanitaria-parte-2.html',
       alertaFonte2:'https://www.gov.br/anvisa/pt-br/assuntos/noticias-anvisa/2026/proibida-venda-de-formula-infantil-com-risco-de-contaminacao-por-toxina/'
     },
     {
@@ -113,7 +113,7 @@
       '<section class="fi-block"><h3>Diluição padrão — preparo exato</h3><p>'+safe(p.preparo)+'</p></section>'+
       '<section class="fi-block"><h3>Como ofertar</h3><p>'+safe(p.oferta)+'</p></section>'+
       '<section class="fi-block fi-full fi-important"><h3>Segurança no preparo</h3><p>Higienizar mãos, utensílios e superfície; usar água potável previamente fervida na temperatura apropriada ao produto; medir primeiro a água e depois adicionar somente as medidas rasas indicadas. Misturar, resfriar à temperatura de oferta e verificar antes de oferecer. Preparar preferencialmente próximo ao consumo e descartar as sobras da mamada. Não concentrar nem diluir fora do esquema acima.</p></section>';
-    if(p.alerta)body+='<section class="fi-block fi-full fi-alert"><h3>Atenção — recolhimento sanitário de lotes</h3><p>'+safe(p.alerta)+' <a class="fi-link" target="_blank" rel="noopener noreferrer" href="'+safe(p.alertaFonte)+'">Comunicado da Anvisa de fevereiro/2026</a> · <a class="fi-link" target="_blank" rel="noopener noreferrer" href="'+safe(p.alertaFonte2)+'">Comunicado de janeiro/2026</a>.</p></section>';
+    if(p.alerta)body+='<section class="fi-block fi-full fi-alert"><h3>Atenção — recolhimento sanitário de lotes</h3><p>'+safe(p.alerta)+' <a class="fi-link" target="_blank" rel="noopener noreferrer" href="'+safe(p.alertaFonte)+'">Revogação de julho/2026</a> · <a class="fi-link" target="_blank" rel="noopener noreferrer" href="'+safe(p.alertaFonte2)+'">Comunicado de janeiro/2026</a>.</p></section>';
     body+='<section class="fi-block fi-full"><h3>Referência do produto</h3><p><a class="fi-link" href="'+safe(p.fonte)+'" target="_blank" rel="noopener noreferrer">Ficha do fabricante — '+safe(p.fabricante)+'</a>. Revisão de conteúdo: 23/11/2026. Imagem ilustrativa da apresentação comercial, sujeita a atualização.</p></section></div>';
     return '<details class="fi-product" data-classe="'+safe(p.classe)+'" data-fabricante="'+(p.fabricante.indexOf('Danone')>=0?'danone':'nestle')+'" data-search="'+safe(norm(p.nome+' '+p.fabricante+' '+p.classeNome+' '+p.idade))+'">'+
       '<summary aria-label="Expandir ficha de '+safe(p.nome)+'">'+
