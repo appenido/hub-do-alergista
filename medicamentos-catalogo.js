@@ -5,8 +5,7 @@ const ANVISA='https://consultas.anvisa.gov.br/#/bulario/';
 const FONTES={
   pele:'https://bvsms.saude.gov.br/bvs/publicacoes/dermatologia_atencao_basica_p2.pdf',
   asma:'https://ginasthma.org/wp-content/uploads/2026/07/GINA-Summary-Guide-2026-WEB-WMS.pdf',
-  dpoc:'https://storage.googleapis.com/bkpsbpt/arquivos/pdf/SBPT_MANUAL_DPOC_FINAL_25_OUT_2024.pdf',
-  formulas:'https://www.sbp.com.br/fileadmin/user_upload/Manual_de_atualidades_em_Nutrologia_2021_-_SBP_SITE.pdf'
+  dpoc:'https://storage.googleapis.com/bkpsbpt/arquivos/pdf/SBPT_MANUAL_DPOC_FINAL_25_OUT_2024.pdf'
 };
 const CATS=[
  {id:'dose',name:'Cálculo de dose',sub:'Pediatria · líquidos orais em mg/mL',icon:'calculator'},
@@ -16,8 +15,7 @@ const CATS=[
  {id:'nasais',name:'Corticoides nasais',sub:'Monoterapias e associações',icon:'nose'},
  {id:'inalatoria',name:'Terapia inalatória',sub:'Asma: desenhos de inaladores, doses, máximos e MART',icon:'lungs'},
  {id:'ibps',name:'IBPs',sub:'Inibidores da bomba de prótons',icon:'stomach'},
- {id:'hidratantes',name:'Cremes hidratantes',sub:'Seleção por orçamento, textura e área corporal',icon:'drop'},
- {id:'formulas',name:'Fórmulas infantis',sub:'Categorias nutricionais e APLV',icon:'baby'}
+ {id:'hidratantes',name:'Cremes hidratantes',sub:'Seleção por orçamento, textura e área corporal',icon:'drop'}
 ];
 /* Cada ficha: princípio ativo/produto, marcas exemplificativas, apresentação, classificação e observação. */
 const DB={
@@ -94,18 +92,6 @@ const DB={
  ['Lansoprazol','Lanz; genéricos','Cápsula de liberação retardada','IBP','Conferir apresentação e orientação de administração.'],
  ['Rabeprazol','Pariet; genéricos conforme registro','Comprimido gastrorresistente','IBP','Registro e disponibilidade variam.'],
  ['Dexlansoprazol','Dexilant','Cápsula de liberação retardada dual','IBP','Sistema de liberação diferente; não inferir equivalência mg a mg.']
- ],
- formulas:[
- ['Fórmula infantil padrão — etapa 1','NAN Comfor 1; Aptamil Premium 1; Enfamil Premium 1','Leite modificado com proteína íntegra; etapa conforme faixa etária','Padrão','Não indicada como tratamento para APLV. Conferir composição e etapa por idade.'],
- ['Fórmula infantil padrão — etapa 2','NAN Comfor 2; Aptamil Premium 2; Enfamil Premium 2','Fórmulas de seguimento conforme idade','Padrão','Não substitui fórmula específica para APLV.'],
- ['Proteína parcialmente hidrolisada','Linhas HA/Comfort, conforme fabricante','Hidrolisado parcial','Parcialmente hidrolisada','Não é tratamento de APLV confirmada; confirmar indicação rotulada.'],
- ['Proteína extensamente hidrolisada de leite','Pregomin Pepti; Aptamil Pepti; Althéra; Alfaré; Nutramigen','Fórmulas com proteína extensamente hidrolisada','FEH','Primeira opção em muitos casos de APLV; escolher segundo apresentação clínica, tolerância e diretrizes.'],
- ['Fórmula à base de aminoácidos livres','Neocate LCP; Alfamino; Puramino','Fórmulas elementares','FAA','Considerar nas situações indicadas, por exemplo APLV grave ou falha de FEH; exige avaliação especializada.'],
- ['Fórmula à base de proteína de arroz hidrolisada','Marcas variam; verificar produtos registrados','Hidrolisado de arroz','Arroz hidrolisado','Alternativa onde houver fórmula nutricionalmente completa apropriada; não é bebida vegetal comum.'],
- ['Fórmula infantil de soja','NAN Soy; Aptamil Soja','Proteína isolada de soja','Soja','Na APLV, considerar apenas quando apropriado (em geral após 6 meses) e sem contraindicação.'],
- ['Fórmula antirregurgitação','Aptamil AR; NAN AR','Espessada','AR','Não é tratamento de APLV, salvo composição especificamente adequada.'],
- ['Fórmula sem lactose','NAN SL; Aptamil Sem Lactose','Proteína de leite pode permanecer íntegra','Sem lactose','Ausência de lactose NÃO significa ausência de proteína do leite. Não tratar APLV com fórmula comum sem lactose.'],
- ['Fórmula de maior densidade energética','Infatrini; apresentações conforme registro','Fórmula pediátrica hipercalórica','Especializada','Indicação nutricional específica; não assumir adequação para APLV.']
  ]
 };
 const MOIST=[
@@ -687,15 +673,15 @@ function norm(v){return String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/
 function catIcon(id){return '<svg viewBox="0 0 64 64" width="38" height="38" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#f0f8f9"/>'+icons[id]+'</svg>';}
 function fmt(value){return Number(value).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
 function doseCatalog(){
- const catalog=Object.entries(DB).filter(([group])=>group!=='formulas').flatMap(([group,items])=>
+ const catalog=Object.entries(DB).flatMap(([group,items])=>
   items.map(([name,brand])=>({group,name,brand})));
  return catalog.concat(
   window.hubAntihistamineCatalog||[],
   (window.hubAsmaDataset?.products||[]).map(({name,brand})=>({group:'inalatoria',name,brand}))
  );
 }
-function sourceHref(id){return id==='topicos'?FONTES.pele:id==='inalatoria'?FONTES.asma:id==='formulas'?FONTES.formulas:id==='hidratantes'?'https://www.gov.br/anvisa/pt-br/sistemas/sistema-de-consultas/':ANVISA;}
-function sourceLabel(id){return id==='topicos'?'Ministério da Saúde — potência':id==='inalatoria'?'GINA 2026':id==='formulas'?'SBP — Nutrologia':id==='hidratantes'?'Sistema de Consultas Anvisa':'Bulário eletrônico Anvisa';}
+function sourceHref(id){return id==='topicos'?FONTES.pele:id==='inalatoria'?FONTES.asma:id==='hidratantes'?'https://www.gov.br/anvisa/pt-br/sistemas/sistema-de-consultas/':ANVISA;}
+function sourceLabel(id){return id==='topicos'?'Ministério da Saúde — potência':id==='inalatoria'?'GINA 2026':id==='hidratantes'?'Sistema de Consultas Anvisa':'Bulário eletrônico Anvisa';}
 /* Potência relativa (I–VII) por formulação; idade conforme produto e bula da apresentação. */
 const CORTICOIDE_TOPICO={
  'Hidrocortisona 1%':['Pediátrico','Uso pediátrico; a bula de Berlison não define uma idade mínima numérica.','Muito baixa (VII)','Muito baixa (VII)','Creme e pomada 1%. Em lactentes, evitar duração prolongada e oclusão por fraldas.','https://bula.com.br/original/berlison'],
@@ -728,8 +714,8 @@ function corticoidesTopicosCards(data){
   }).join('')+'</div><p class="med-source">Classificação relativa I–VII por formulação, não equivalente à concentração isoladamente. A idade indicada depende da bula do produto específico; “pediátrico” não significa liberação desde o nascimento. Disponibilidade e registro devem ser avaliados por apresentação.</p>';
 }
 function cards(data,id){
- const anvisaLink=(id==='hidratantes'||id==='formulas')?'https://www.gov.br/anvisa/pt-br/sistemas/sistema-de-consultas/':ANVISA;
- const anvisaLabel=id==='hidratantes'?'Consultar regularização do cosmético':id==='formulas'?'Consultar regularização da fórmula':'Conferir bula e registro na Anvisa';
+ const anvisaLink=(id==='hidratantes')?'https://www.gov.br/anvisa/pt-br/sistemas/sistema-de-consultas/':ANVISA;
+ const anvisaLabel=id==='hidratantes'?'Consultar regularização do cosmético':'Conferir bula e registro na Anvisa';
  return '<div class="med-results" aria-live="polite">'+data.map((item,i)=>{
   const name=esc(item[0]),brand=esc(item[1]),form=esc(item[2]),tag=esc(item[3]),note=esc(item[4]);
   return '<details class="med-prod" data-hub-medicamento data-item="'+i+'"><summary><span class="med-prod-index">'+String(i+1).padStart(2,'0')+'</span><span class="med-prod-head"><span class="hub-med-nome">'+name+'</span><span class="med-prod-brand">'+brand+'</span></span><span class="med-prod-tag">'+tag+'</span><span class="med-prod-chevron">⌄</span></summary>'+
