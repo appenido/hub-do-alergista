@@ -142,3 +142,13 @@ test('a edição entrega uma manchete e dez anteriores mesmo com menos de dez no
   assert.ok(semanal.itens.length < 10);
   assert.equal(semanal.itens[0].titulo, edicao.itens[0].titulo);
 });
+
+test('o histórico descarta matérias veterinárias e preserva alergia humana a animais', () => {
+  const base = {fonte: 'Terra', data: '2026-11-21', status: 'verificado', verificado: true};
+  const itens = [
+    {...base, titulo: 'Coceira em cachorro é normal?', url: 'https://www.terra.com.br/saude/coceira'},
+    {...base, titulo: 'O que pode causar dermatite?', url: 'https://www.terra.com.br/vida-e-estilo/pets/dermatite'},
+    {...base, titulo: 'Alergia a cachorro na infância', url: 'https://www.terra.com.br/saude/alergia'}
+  ];
+  assert.deepEqual(selecionarVerificadas(itens, {agora: Date.UTC(2026, 10, 23)}), [itens[2]]);
+});

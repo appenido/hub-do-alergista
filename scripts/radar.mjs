@@ -4,7 +4,7 @@
 // Item que não passa por todo o fluxo vai para "pendentes", nunca para a lista principal.
 // Falha total preserva os resultados verificados anteriores (atualizadoEm não muda).
 import fs from 'node:fs';
-import { selecionarVerificadas, TOTAL_EDICAO } from '../alergo-news-core.mjs';
+import { materiaVeterinaria, selecionarVerificadas, TOTAL_EDICAO } from '../alergo-news-core.mjs';
 import { resolverLinkCandidato } from './radar-link.mjs';
 
 const SAIDA = 'jornal/radar.json';
@@ -134,12 +134,13 @@ async function verificarCandidato(c){
   const res = await resolverLinkCandidato(c.linkGoogle, resolverUrlReal);
   if (!res.ok) return { status: 'pendente', titulo: c.titulo, fonte: c.fonte, linkGoogle: c.linkGoogle, motivo: res.motivo };
 
-  let host = '';
-  try { host = new URL(res.url).hostname.replace(/^www\./, ''); } catch(e) {
+  let endereco;
+  try { endereco = new URL(res.url); } catch(e) {
     return { status: 'pendente', titulo: c.titulo, fonte: c.fonte, linkGoogle: c.linkGoogle, motivo: 'URL do veículo inválida' };
   }
+  const host = endereco.hostname.replace(/^www\./, '');
   if (ESTRANGEIROS.test(host)) return { status: 'excluido', motivo: 'veículo estrangeiro', titulo: c.titulo, fonte: c.fonte, url: res.url };
-  if (VETERINARIO.test(host) || VETERINARIO.test(c.titulo)) return { status: 'excluido', motivo: 'conteúdo de saúde animal/veterinária, fora do escopo humano', titulo: c.titulo, fonte: c.fonte, url: res.url };
+  if (VETERINARIO.test(host) || VETERINARIO.test(c.titulo) || materiaVeterinaria(c.titulo, endereco)) return { status: 'excluido', motivo: 'conteúdo de saúde animal/veterinária, fora do escopo humano', titulo: c.titulo, fonte: c.fonte, url: res.url };
   if (institucional(host))     return { status: 'excluido', motivo: 'fonte institucional/científica, não jornalística', titulo: c.titulo, fonte: c.fonte, url: res.url };
   if (!brasileiro(host))       return { status: 'excluido', motivo: 'domínio fora da lista de mídia brasileira', titulo: c.titulo, fonte: c.fonte, url: res.url };
 

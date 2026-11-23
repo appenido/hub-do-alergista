@@ -3,19 +3,11 @@
  "atualizadoEm": "2026-11-23T20:46:41.791Z",
  "status": "ok",
  "totalCandidatos": 60,
- "totalVerificados": 2,
+ "totalVerificados": 1,
  "totalPendentes": 3,
- "totalExcluidos": 55,
+ "totalExcluidos": 56,
  "falhasFonte": [],
  "itens": [
-  {
-   "status": "verificado",
-   "titulo": "Coceira em cachorro é normal? Veja quando pode ser sintoma de dermatite atópica",
-   "fonte": "Terra",
-   "data": "2026-11-21T11:01:17.000Z",
-   "url": "https://www.terra.com.br/vida-e-estilo/pets/coceira-em-cachorro-e-normal-veja-quando-pode-ser-sintoma-de-dermatite-atopica,1cafc37838509402d30df81591f8502awn3gvt81.html",
-   "verificado": true
-  },
   {
    "status": "verificado",
    "titulo": "Anafilaxia na infância: quais sinais exigem atenção?",
@@ -95,6 +87,14 @@
    "data": "2026-11-13T12:17:03.000Z",
    "url": "https://www.terra.com.br/noticias/brasil/mae-da-jovem-que-teve-alergia-grave-a-pimenta-emociona-com-desabafo-nem-sempre-sou-forte,c744e0354fd3144221d0776b4c5a1cf287r1492w.html",
    "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Tosse e falta de ar frequentes podem indicar asma ou pneumonia; entenda",
+   "fonte": "CNN Brasil",
+   "data": "2026-11-13T07:35:01.000Z",
+   "url": "https://www.cnnbrasil.com.br/saude/tosse-e-falta-de-ar-frequentes-podem-indicar-asma-ou-pneumonia-entenda/",
+   "verificado": true
   }
  ],
  "pendentes": [
@@ -121,6 +121,13 @@
   }
  ],
  "excluidos": [
+  {
+   "status": "excluido",
+   "motivo": "conteúdo de saúde animal/veterinária, fora do escopo humano",
+   "titulo": "Coceira em cachorro é normal? Veja quando pode ser sintoma de dermatite atópica",
+   "fonte": "Terra",
+   "url": "https://www.terra.com.br/vida-e-estilo/pets/coceira-em-cachorro-e-normal-veja-quando-pode-ser-sintoma-de-dermatite-atopica,1cafc37838509402d30df81591f8502awn3gvt81.html"
+  },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
@@ -253,13 +260,6 @@
    "titulo": "Caminhar 7.500 passos por dia ajuda a controlar os sintomas da asma",
    "fonte": "Bons Fluidos",
    "url": "https://www.bonsfluidos.com.br/movimente-se/caminhar-7-500-passos-por-dia-ajuda-a-controlar-os-sintomas-da-asma.phtml"
-  },
-  {
-   "status": "excluido",
-   "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "Choque anafilático: possível caso de Janaína Barbosa, Clara Nunes e outros famosos mostram como uma alergia pode ser fatal",
-   "fonte": "Terra",
-   "url": "https://www.terra.com.br/vida-e-estilo/saude/choque-anafilatico-possivel-caso-de-janaina-barbosa-clara-nunes-e-outros-famosos-mostram-como-uma-alergia-pode-ser-fatal,92b53b647746d936b581e9c118bb7891bjw5yukn.html"
   }
  ]
 }
