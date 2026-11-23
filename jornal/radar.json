@@ -1,22 +1,21 @@
 {
- "ultimaTentativa": "2026-11-22T18:11:37.029Z",
- "atualizadoEm": "2026-11-21T17:51:01.219Z",
- "status": "falha_mantido_anterior",
- "totalCandidatos": 0,
- "totalVerificados": 0,
- "totalPendentes": 0,
- "totalExcluidos": 0,
- "falhasFonte": [
-  "https://news.google.com/rss/search?q=alergia%20OR%20%22rea%C3%A7%C3%A3o%20al%C3%A9rgica%22&hl=pt-BR&gl=BR&ceid=BR:pt-419 HTTP 503",
-  "https://news.google.com/rss/search?q=anafilaxia%20OR%20%22choque%20anafil%C3%A1tico%22&hl=pt-BR&gl=BR&ceid=BR:pt-419 HTTP 503",
-  "https://news.google.com/rss/search?q=asma%20OR%20%22rinite%20al%C3%A9rgica%22&hl=pt-BR&gl=BR&ceid=BR:pt-419 HTTP 503",
-  "https://news.google.com/rss/search?q=%22esofagite%20eosinof%C3%ADlica%22%20OR%20%22p%C3%B3lipos%20nasais%22%20OR%20rinossinusite&hl=pt-BR&gl=BR&ceid=BR:pt-419 HTTP 503",
-  "https://news.google.com/rss/search?q=%22alergia%20alimentar%22%20OR%20%22alergia%20a%20medicamento%22&hl=pt-BR&gl=BR&ceid=BR:pt-419 HTTP 503",
-  "https://news.google.com/rss/search?q=%22dermatite%20at%C3%B3pica%22%20OR%20urtic%C3%A1ria%20OR%20angioedema&hl=pt-BR&gl=BR&ceid=BR:pt-419 HTTP 503",
-  "https://news.google.com/rss/search?q=imunodefici%C3%AAncia%20OR%20%22erros%20inatos%20da%20imunidade%22%20OR%20imunoglobulina&hl=pt-BR&gl=BR&ceid=BR:pt-419 HTTP 503",
-  "https://news.google.com/rss/search?q=imunobiol%C3%B3gico%20alergia%20OR%20%22imunoterapia%20al%C3%A9rgica%22&hl=pt-BR&gl=BR&ceid=BR:pt-419 HTTP 503"
- ],
+ "ultimaTentativa": "2026-11-23T20:46:41.791Z",
+ "atualizadoEm": "2026-11-23T20:46:41.791Z",
+ "status": "ok",
+ "totalCandidatos": 60,
+ "totalVerificados": 2,
+ "totalPendentes": 3,
+ "totalExcluidos": 55,
+ "falhasFonte": [],
  "itens": [
+  {
+   "status": "verificado",
+   "titulo": "Coceira em cachorro é normal? Veja quando pode ser sintoma de dermatite atópica",
+   "fonte": "Terra",
+   "data": "2026-11-21T11:01:17.000Z",
+   "url": "https://www.terra.com.br/vida-e-estilo/pets/coceira-em-cachorro-e-normal-veja-quando-pode-ser-sintoma-de-dermatite-atopica,1cafc37838509402d30df81591f8502awn3gvt81.html",
+   "verificado": true
+  },
   {
    "status": "verificado",
    "titulo": "Anafilaxia na infância: quais sinais exigem atenção?",
@@ -96,16 +95,171 @@
    "data": "2026-11-13T12:17:03.000Z",
    "url": "https://www.terra.com.br/noticias/brasil/mae-da-jovem-que-teve-alergia-grave-a-pimenta-emociona-com-desabafo-nem-sempre-sou-forte,c744e0354fd3144221d0776b4c5a1cf287r1492w.html",
    "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Tosse e falta de ar frequentes podem indicar asma ou pneumonia; entenda",
-   "fonte": "CNN Brasil",
-   "data": "2026-11-13T07:35:01.000Z",
-   "url": "https://www.cnnbrasil.com.br/saude/tosse-e-falta-de-ar-frequentes-podem-indicar-asma-ou-pneumonia-entenda/",
-   "verificado": true
   }
  ],
- "pendentes": [],
- "excluidos": []
+ "pendentes": [
+  {
+   "status": "pendente",
+   "titulo": "Movido por vingança: homem é preso nos EUA acusado de enviar cartão com amendoim a mulher com alergia grave",
+   "fonte": "O GLOBO",
+   "url": "https://oglobo.globo.com/mundo/epoca/noticia/2026/11/17/movido-por-vinganca-homem-e-preso-nos-eua-acusado-de-enviar-cartao-com-amendoim-a-mulher-com-alergia-grave.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Estudo aponta que um em cada três bebês diagnosticados com alergia a amendoim não tem a condição",
+   "fonte": "O GLOBO",
+   "url": "https://oglobo.globo.com/saude/noticia/2026/11/06/estudo-aponta-que-um-em-cada-tres-bebes-diagnosticados-com-alergia-a-amendoim-nao-tem-a-condicao.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Apresentadora Janaína Barbosa morreu após choque anafilático; entenda a reação alérgica",
+   "fonte": "O GLOBO",
+   "url": "https://oglobo.globo.com/saude/noticia/2026/11/05/apresentadora-janaina-barbosa-morreu-apos-choque-anafilatico-entenda-a-reacao-alergica.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+  }
+ ],
+ "excluidos": [
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Cehub realiza encontro do Clube de Especialidades de Pediatria sobre alergias respiratórias",
+   "fonte": "96FM Bauru",
+   "url": "https://96fmbauru.com.br/cehub-realiza-encontro-do-clube-de-especialidades-de-pediatria-sobre-alergias-respiratorias"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Dermatite atópica: mercado pode dobrar até 2036",
+   "fonte": "Guia da Farmácia",
+   "url": "https://guiadafarmacia.com.br/mercado-de-dermatite-atopica/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Dermatite atópica canina: uma abordagem multimodal cada vez mais individualizada",
+   "fonte": "Veterinaria Atual",
+   "url": "https://www.veterinaria-atual.pt/na-pratica/dermatite-atopica-canina-3/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Volante do Remo sofre reação alérgica durante jogo da Série A; saiba detalhes",
+   "fonte": "O Liberal",
+   "url": "https://www.oliberal.com/esportes/remo/volante-do-remo-sofre-reacao-alergica-durante-jogo-da-serie-a-saiba-detalhes-1.1197184"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Edson Fernando sofre reação alérgica durante jogo contra o Athletico-PR, mas passa bem, informa o Remo",
+   "fonte": "RomaNews.com.br",
+   "url": "https://www.romanews.com.br/esportes/edson-fernando-sofre-reacao-alergica-durante-jogo-contra-o-athletico-pr-mas-passa-bem-informa-o-remo-1126"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Rinite alérgica atinge até 40% da população mundial e é a alergia mais frequente",
+   "fonte": "BH 24 Horas",
+   "url": "https://bh24horas.com.br/ciencia/rinite-alergica-atinge-ate-40-da-populacao-mundial-e-e-a-alergia-mais-frequente/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Doentes com angioedema hereditário ainda sujeitos a terapêuticas antigas fora dos grandes centros",
+   "fonte": "HealthNews",
+   "url": "https://healthnews.pt/2026/11/21/doentes-com-angioedema-hereditario-ainda-sujeitos-a-terapeuticas-antigas-fora-dos-grandes-centros/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Por que as crises de rinite aumentam nos dias quentes e como se proteger",
+   "fonte": "Expansão",
+   "url": "https://expansao.co/por-que-as-crises-de-rinite-aumentam-nos-dias-quentes-e-como-se-proteger/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "ATS 2026: Corticoide inalatório de resgate na asma",
+   "fonte": "Afya | Home",
+   "url": "https://portal.afya.com.br/terapia-intensiva/ats-2026-corticoide-inalatorio-de-resgate-na-asma"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Pensava que era uma alergia, mas acabou por descobrir uma doença grave: Catarina luta contra uma doença e precisa de um transplante",
+   "fonte": "TVI",
+   "url": "https://tvi.iol.pt/doisas10/video/pensava-que-era-uma-alergia-mas-acabou-por-descobrir-uma-doenca-grave-catarina-luta-contra-uma-doenca-e-precisa-de-um-transplante/6b0033c20cf22114c91283ea"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Atlético-MG com \"alergia a finais\"? Ídolo do Galo rebate pressão antes de decisão da Sula",
+   "fonte": "Resultados",
+   "url": "https://www.flashscore.com.br/noticias/futebol-copa-sul-americana-atletico-mg-com-alergia-a-finais-idolo-do-galo-rebate-pressao-antes-de-decisao-da-sula/x6yTBSgS/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Sai do calor e entra no ar-condicionado? Mudança de temperatura pode provocar crises de rinite",
+   "fonte": "Jornal Correio",
+   "url": "https://www.correio24horas.com.br/saude/sai-do-calor-e-entra-no-ar-condicionado-mudanca-de-temperatura-pode-provocar-crises-de-rinite-1126"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Após sintomas serem confundidos com alergia, casos de sarna humana sobem para 11 em Nova Andradina",
+   "fonte": "Midiamax",
+   "url": "https://midiamax.com.br/cotidiano/2026/apos-sintomas-serem-confundidos-alergia-casos-sarna-humana-sobem-11-nova-andradina/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Ataque de abelhas causa urticária, inchaço e tremores em quatro pessoas em MT; veja o que fazer nestes casos",
+   "fonte": "G1",
+   "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/16/ataque-de-abelhas-causa-urticaria-inchaco-e-tremores-em-quatro-pessoas-em-mt-veja-o-que-fazer-nestes-casos.ghtml"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Esofagite eosinofílica: uma abordagem integrada da seleção dos doentes à gestão a longo prazo",
+   "fonte": "Médico News",
+   "url": "https://mediconews.pt/esofagite-eosinofilica-uma-abordagem-integrada-da-selecao-dos-doentes-a-gestao-a-longo-prazo/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Quando a garganta parece fechar: anafilaxia é um sinal de alergia que pode colocar sua vida em risco",
+   "fonte": "Rede D'Or",
+   "url": "https://www.rededorsaoluiz.com.br/noticias/artigo/quando-a-garganta-parece-fechar-anafilaxia-e-um-sinal-de-alergia-que-pode-colocar-sua-vida-em-risco"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Ex-BBB Cacau Colucci descobre alergia rara ao encostar em fruta no supermercado",
+   "fonte": "Jornal Correio",
+   "url": "https://www.correio24horas.com.br/em-alta/ex-bbb-cacau-colucci-descobre-alergia-rara-ao-encostar-em-fruta-no-supermercado-1126"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Ex-BBB Cacau Colucci descobre alergia ao tocar em abacaxi em mercado e mostra braço tomado por urticária nas redes sociais",
+   "fonte": "Diário do Litoral",
+   "url": "https://www.diariodolitoral.com.br/entretenimento/ex-bbb-cacau-colucci-descobre-alergia-ao-tocar-em-abacaxi-em-mercado-e-mostra-braco-tomado-por-urticaria-nas-redes-sociais/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Caminhar 7.500 passos por dia ajuda a controlar os sintomas da asma",
+   "fonte": "Bons Fluidos",
+   "url": "https://www.bonsfluidos.com.br/movimente-se/caminhar-7-500-passos-por-dia-ajuda-a-controlar-os-sintomas-da-asma.phtml"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Choque anafilático: possível caso de Janaína Barbosa, Clara Nunes e outros famosos mostram como uma alergia pode ser fatal",
+   "fonte": "Terra",
+   "url": "https://www.terra.com.br/vida-e-estilo/saude/choque-anafilatico-possivel-caso-de-janaina-barbosa-clara-nunes-e-outros-famosos-mostram-como-uma-alergia-pode-ser-fatal,92b53b647746d936b581e9c118bb7891bjw5yukn.html"
+  }
+ ]
 }
