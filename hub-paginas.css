@@ -158,3 +158,268 @@ body.hub-content-page .hub-route-target :is(.med-dose-result dl,.bio-dose-grid,.
     line-height:1.6;
   }
 }
+
+
+/* HUB 23/11/2026 — hierarquia visual universal e fichas vacinais legíveis */
+:root {
+  --hub-surface:#ffffff;
+  --hub-canvas:#f3f7f9;
+  --hub-line:#dce6ed;
+  --hub-text:#173246;
+  --hub-muted:#5d7282;
+  --hub-spacing:clamp(12px,1.3vw,20px);
+}
+body,body.hub-content-page,.scroll-area{background:var(--hub-canvas);}
+.scroll-area>.page.active {
+  background:var(--hub-canvas);
+  color:var(--hub-text);
+  min-height:calc(100dvh - var(--topbar-h,56px) - var(--bottomnav-h,64px));
+  padding-bottom:clamp(18px,2vw,36px);
+}
+.page :is(h1,h2,h3,h4,.sec-hdr h2,.bio-name,.bio-label,.vac-name,.vac-label,.vac-criterios-title,
+  .vac-criterios-sub,.guide-label,.guide-title,.uci-card-title,.uci-method-title,
+  .med-category-name,.hub-med-nome,.vac-nat-title,.vac-covid-title,.vac-cal-title,
+  .igcalc-section h3,.igcalc-section h4,.ah-name,.fc-title,.gc-name,.rel-title) {
+  font-weight:800!important;
+  line-height:1.35;
+  overflow-wrap:break-word;
+}
+.page :is(p,li,dd,.bio-value,.vac-body,.guide-body,.uci-card-body,.igmain-detail,.igcat-detail,.ah-detail,.med-prod-detail){
+  overflow-wrap:break-word;
+  word-break:normal;
+  hyphens:none;
+}
+.page :is(.bio-body,.vac-body,.guide-body,.uci-card-body,.igmain-detail,.igcat-detail,.ah-detail,.med-prod-detail) {
+  line-height:1.6;
+  min-width:0;
+  max-width:100%;
+}
+.page :is(.bio-body,.vac-body,.guide-body,.uci-card-body,.igmain-detail,.igcat-detail,.ah-detail,.med-prod-detail) :is(p,ul,ol,dl){
+  margin-top:0;
+  margin-bottom:10px;
+}
+.page :is(.bio-body,.vac-body,.guide-body,.uci-card-body,.igmain-detail,.igcat-detail,.ah-detail,.med-prod-detail) :is(ul,ol){
+  padding-left:clamp(18px,2vw,25px);
+}
+.page :is(.bio-section,.guide-section,.igcalc-section,.uci-method-section) {
+  padding-block:clamp(11px,1vw,16px);
+  border-bottom:1px solid var(--hub-line);
+  margin:0;
+  background:transparent;
+}
+.page :is(.bio-section,.guide-section,.igcalc-section,.uci-method-section):last-child{border-bottom:0;}
+.page :is(.bio-label,.guide-label,.igcalc-section>h3,.igcalc-section>h4){
+  display:block;
+  margin-bottom:7px;
+  color:#174d65;
+}
+.page :is(.vac-grid,.bio-grid,.igcat-grid,.ah-grid,.med-categories,.score-grid,.vac-nat-grid) {
+  align-items:start;
+  gap:clamp(10px,1.2vw,17px);
+  min-width:0;
+  max-width:100%;
+}
+.page :is(.bio-card,.vac-card,.igcat-item,.guide-card,.med-prod,.ah-card-wrap,.mat-card) {
+  box-sizing:border-box;
+  min-width:0;
+  max-width:100%;
+  border-radius:15px;
+}
+.page :is(.bio-card,.vac-card,.igcat-item,.guide-card,.med-prod,.ah-card-wrap,.mat-card) :is(button,a,summary){
+  -webkit-tap-highlight-color:transparent;
+}
+.page :is(input[type="search"],input[type="text"],input[type="number"],select,textarea){
+  box-sizing:border-box;
+  max-width:100%;
+}
+.page :is(input,select,textarea,button,a,summary):focus-visible,
+#hubPageHeader :is(button,a):focus-visible {
+  outline:2px solid #247e97;
+  outline-offset:3px;
+}
+#hubPageHeader {
+  background:var(--hub-canvas);
+  border-bottom:1px solid var(--hub-line);
+  padding:clamp(14px,1.7vw,22px) clamp(14px,2vw,30px);
+}
+#hubPageTitle {
+  color:var(--hub-text);
+  font-size:clamp(19px,1.75vw,26px);
+  font-weight:800;
+  line-height:1.35;
+  max-width:1100px;
+}
+.hub-page-crumbs {gap:6px 9px;margin-bottom:9px;}
+.hub-page-back {margin-top:10px;min-height:40px;}
+body.hub-content-page .hub-route-target {
+  background:var(--hub-surface)!important;
+  padding:clamp(16px,2vw,30px)!important;
+  border-radius:clamp(0px,.8vw,12px)!important;
+  box-shadow:0 2px 14px rgba(15,54,73,.035)!important;
+}
+body.hub-content-page .hub-route-target :is(.bio-body,.vac-body,.guide-body,.igmain-detail,.igcat-detail,.ah-detail,.med-prod-detail,.uci-card-body) {
+  max-width:980px!important;
+  margin-inline:auto!important;
+  padding-inline:0!important;
+}
+body.hub-content-page .hub-route-target :is(.bio-section,.guide-section,.igcalc-section,.uci-method-section) {
+  display:block;
+  width:100%;
+  margin:0;
+  padding:clamp(12px,1.5vw,19px) 0;
+  border-bottom:1px solid var(--hub-line);
+  text-align:left;
+}
+body.hub-content-page .hub-route-target :is(.bio-section,.guide-section,.igcalc-section,.uci-method-section):last-child{border-bottom:0;}
+/* Catálogo de vacinas: campo de busca e grade sem margens desalinhadas. */
+#page-imunizacoes :is(#vac-sub-vacinas,#vac-sub-calendarios,#vac-sub-novo,#vac-sub-atraso) {
+  box-sizing:border-box;
+  max-width:100%;
+  margin-inline:auto;
+}
+#page-imunizacoes #vac-menu-hub {
+  max-width:1080px;
+  margin-inline:auto;
+  padding:clamp(14px,1.7vw,24px)!important;
+}
+#page-imunizacoes #vac-menu-hub button {
+  min-width:0;
+  border-radius:14px!important;
+}
+#page-imunizacoes #vac-menu-hub button > div {
+  min-width:0;
+  overflow-wrap:break-word;
+}
+#page-imunizacoes #vacBuscaVac,
+#page-imunizacoes #vacCalBusca {
+  width:100%;
+  min-height:44px;
+  font-size:14px!important;
+  background:#fff;
+  color:var(--hub-text);
+  border-color:var(--hub-line)!important;
+}
+#page-imunizacoes #vacBuscaContagem {
+  margin-top:7px;
+  font-size:12px;
+  line-height:1.5;
+  color:var(--hub-muted);
+}
+#page-imunizacoes #vacListaAll .vac-name {
+  font-weight:800!important;
+  color:var(--hub-text);
+  letter-spacing:-.01em;
+}
+#page-imunizacoes #vacListaAll .vac-protection,
+#page-imunizacoes #vacListaAll .vac-brand {
+  color:var(--hub-muted);
+  line-height:1.45!important;
+}
+/* As indicações, condutas e esquemas ficam em seções empilhadas e identificadas. */
+#page-imunizacoes .vac-card > .vac-body {
+  padding-top:clamp(10px,1.1vw,17px)!important;
+  padding-bottom:clamp(14px,1.4vw,22px)!important;
+}
+#page-imunizacoes .vac-card > .vac-body > table {
+  display:block;
+  width:100%!important;
+  border-collapse:separate!important;
+  border-spacing:0;
+  margin-top:12px!important;
+}
+#page-imunizacoes .vac-card > .vac-body > table > tbody,
+#page-imunizacoes .vac-card > .vac-body > table > tbody > tr {
+  display:block;
+  width:100%;
+}
+#page-imunizacoes .vac-card > .vac-body > table > tbody > tr {
+  padding:clamp(11px,1vw,16px) 0;
+  border-bottom:1px solid var(--hub-line);
+}
+#page-imunizacoes .vac-card > .vac-body > table > tbody > tr:last-child {border-bottom:0;}
+#page-imunizacoes .vac-card > .vac-body > table > tbody > tr > td {
+  display:block;
+  width:100%!important;
+  padding:0!important;
+  white-space:normal!important;
+  text-align:left!important;
+  font-size:clamp(13px,1vw,14.5px)!important;
+  line-height:1.62!important;
+  overflow-wrap:break-word!important;
+}
+#page-imunizacoes .vac-card > .vac-body > table > tbody > tr > td:first-child:not([colspan]) {
+  font-weight:800!important;
+  font-size:clamp(12px,.95vw,13px)!important;
+  line-height:1.45!important;
+  color:#17617a!important;
+  margin-bottom:6px;
+}
+#page-imunizacoes .vac-card > .vac-body > table :is(ul,ol) {
+  padding-left:20px;
+  margin:6px 0 0;
+}
+#page-imunizacoes .vac-card > .vac-body > table li {margin:0 0 7px;}
+#page-imunizacoes .vac-criterios-box {
+  border:0!important;
+  border-left:3px solid #26849b!important;
+  border-radius:0!important;
+  background:#f5f9fb!important;
+  padding:clamp(12px,1.3vw,18px)!important;
+  margin:8px 0 12px!important;
+  line-height:1.6!important;
+  font-size:13.5px!important;
+}
+#page-imunizacoes .vac-criterios-title {
+  font-size:clamp(15px,1.1vw,17px)!important;
+  font-weight:800!important;
+  margin-bottom:11px!important;
+}
+#page-imunizacoes .vac-criterios-sub {
+  font-size:13.5px!important;
+  font-weight:800!important;
+  margin-top:14px!important;
+  margin-bottom:7px!important;
+  padding-top:11px;
+  border-top:1px solid var(--hub-line);
+}
+#page-imunizacoes .vac-criterios-box ul {
+  margin:0 0 8px;
+  padding-left:20px;
+}
+#page-imunizacoes .vac-criterios-box li {
+  margin:0 0 8px!important;
+  line-height:1.65!important;
+}
+#page-imunizacoes .vac-criterios-source {
+  margin-top:13px;
+  padding-top:10px;
+}
+#page-imunizacoes #vacCalendariosLista .vac-nat-body,
+#page-imunizacoes #vacNativeContent {
+  color:var(--hub-text);
+  line-height:1.6;
+}
+#page-imunizacoes #vacCalendariosLista .vac-nat-body :is(h2,h3,h4,strong,b),
+#page-imunizacoes #vacNativeContent :is(h2,h3,h4,strong,b) {font-weight:800;}
+#page-imunizacoes #vacCalendariosLista .vac-nat-body :is(p,li),
+#page-imunizacoes #vacNativeContent :is(p,li) {line-height:1.65;margin-block:6px;}
+/* A rolagem lateral deve ficar restrita a tabelas realmente largas. */
+.page :is(.table-wrap,.overflow-table,.vac-cal-table-wrap) {
+  min-width:0;
+  max-width:100%;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+@media (max-width:720px) {
+  #hubPageHeader {padding:13px 12px;}
+  body.hub-content-page .hub-route-target {
+    border-radius:0!important;
+    padding:16px 13px 24px!important;
+  }
+  #page-imunizacoes #vac-menu-hub {padding:14px!important;}
+  #page-imunizacoes .vac-criterios-box {font-size:13px!important;}
+  #page-imunizacoes .vac-card > .vac-body > table > tbody > tr > td {font-size:13.2px!important;}
+}
+@media (prefers-reduced-motion:reduce) {
+  .page.active>*{animation:none!important;}
+}
