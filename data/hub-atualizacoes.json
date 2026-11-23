@@ -1,8 +1,18 @@
 {
   "version": 1,
   "scope": "clinical-content",
-  "updatedAt": "2026-11-21",
+  "updatedAt": "2026-11-23",
   "items": [
+    {
+      "kind": "content",
+      "id": "4536fe784b9d",
+      "date": "2026-11-23",
+      "publishedAt": "2026-11-23T14:19:09.000Z",
+      "type": "Novidade",
+      "category": "Imunizações",
+      "section": "imunizacoes",
+      "title": "Imunizações: localizar vacina pelo nome com indicações clínicas"
+    },
     {
       "kind": "content",
       "id": "6a537eb5adfb",
