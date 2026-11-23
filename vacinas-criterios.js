@@ -45,25 +45,189 @@
     return h+'</section>';
   }
   syncCatalog();
+  /* Pesquisa por nome, sigla e marca usa as indicações clínicas já mantidas no catálogo. */
+  var vaccineAliases={
+    pnc20_sus:['VPC20','VPC 20','PCV20','Pneumo 20','Prevenar 20'],
+    pnc15:['VPC15','VPC 15','PCV15','Vaxneuvance'],
+    pnc10:['VPC10','VPC 10','Synflorix'],
+    vpp23:['VPP23','Pneumo 23','Pneumovax 23'],
+    influenza:['vacina da gripe','gripe'],
+    influenza4:['vacina da gripe','gripe'],
+    herpes:['Shingrix','vacina zóster','zoster'],
+    hpv9:['HPV 9','Gardasil 9','HPV nonavalente'],
+    hpv4:['HPV 4','HPV quadrivalente'],
+    menb:['Men B','Meningo B','Bexsero'],
+    menc:['Men C','Meningo C'],
+    menacwy:['Men ACWY','Meningo ACWY','Nimenrix','Menveo'],
+    vvsr:['VSR gestante','VSR materna','Abrysvo'],
+    nirse:['nirsevimabe','Beyfortus','anticorpo VSR','imunização passiva'],
+    rota:['Rotarix','rotavírus'],
+    dtpa:['dTpa','tríplice bacteriana acelular'],
+    hexa:['hexavalente'],
+    dengue_sus:['Qdenga','vacina dengue'],
+    dengue_p:['Qdenga','vacina dengue'],
+    covid:['covid-19','coronavírus']
+  };
+  function vaccineNorm(s){
+    return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+  }
+  function vaccineMatch(v,term){
+    var q=vaccineNorm(term);
+    if(!q)return true;
+    var words=vaccineNorm([v.nome,v.prot,v.comercial||'',v.fabricante||''].concat(vaccineAliases[v.id]||[]).join(' '));
+    return words.includes(q)||words.replace(/\s/g,'').includes(q.replace(/\s/g,''));
+  }
+  function vaccineOrder(){return catalog.slice().sort(function(a,b){return a.nome.localeCompare(b.nome,'pt-BR');});}
+  function vaccineRank(v,q){
+    q=vaccineNorm(q);
+    var name=vaccineNorm(v.nome),names=(vaccineAliases[v.id]||[]).map(vaccineNorm);
+    if(name===q||names.includes(q))return 0;
+    if(name.startsWith(q)||names.some(function(x){return x.startsWith(q);}))return 1;
+    if(name.includes(q))return 2;
+    if(vaccineNorm(v.comercial).includes(q))return 3;
+    return 4;
+  }
+  window.vacBuscarPorNome=function(term){
+    return vaccineOrder().filter(function(v){return vaccineMatch(v,term);})
+      .sort(function(a,b){return vaccineRank(a,term)-vaccineRank(b,term)||a.nome.localeCompare(b.nome,'pt-BR');});
+  };
   var old=window.vacRenderVacinas;
   window.vacRenderVacinas=function(filtro){
     syncCatalog();
-    var result=old.apply(this,arguments);
-    var f=String(filtro||'').toLowerCase().trim();
-    var ordered=catalog.filter(function(v){return !f||(v.nome+' '+v.prot+' '+(v.comercial||'')+' '+(v.fabricante||'')).toLowerCase().indexOf(f)>=0;})
-      .slice().sort(function(a,b){return a.nome.localeCompare(b.nome,'pt-BR');});
-    var box=document.getElementById('vacListaAll');
+    var ordered=vaccineOrder();
+    /* O renderizador oficial permanece a fonte única de fichas. */
+    var result=old.call(this,'');
+    var box=document.getElementById('vacListaAll'),number=0;
     if(!box)return result;
     box.querySelectorAll(':scope > details.vac-card').forEach(function(card,i){
-      var item=ordered[i];if(!item||!rules[item.id])return;
+      var v=ordered[i];
+      if(!v||!vaccineMatch(v,filtro)){card.remove();return;}
+      number++;
+      card.id='vac-catalogo-'+v.id;
+      card.dataset.vacinaId=v.id;
+      if(!rules[v.id])return;
       var body=card.querySelector(':scope > .vac-body');
       var table=body&&body.querySelector('table');
-      if(!table)return;
-      table.insertAdjacentHTML('beforebegin',infoBox(item.id,false));
-      card.dataset.criteriosVacina=item.id;
+      if(table){
+        table.insertAdjacentHTML('beforebegin',infoBox(v.id,false));
+        card.dataset.criteriosVacina=v.id;
+      }
     });
+    if(!number){
+      var empty=document.createElement('p');
+      empty.className='vac-name-empty';
+      empty.textContent='Nenhuma vacina encontrada. Busque por nome, sigla ou marca.';
+      box.appendChild(empty);
+    }
+    var status=document.getElementById('vacBuscaContagem');
+    if(status)status.textContent=number+' '+(number===1?'resultado':'resultados');
     return result;
   };
+  function vaccineOpen(id){
+    var v=catalog.find(function(item){return item.id===id;});
+    if(!v)return;
+    if(typeof window.vacShowSub==='function')window.vacShowSub('vacinas');
+    var catalogInput=document.getElementById('vacBuscaVac');
+    if(catalogInput)catalogInput.value=v.nome;
+    window.vacRenderVacinas(v.nome);
+    var box=document.getElementById('vacListaAll');
+    var card=box&&Array.from(box.querySelectorAll('details.vac-card')).find(function(n){return n.dataset.vacinaId===id;});
+    if(!card)return;
+    if(window.HubPages&&typeof window.HubPages.open==='function')
+      window.HubPages.open(card,v.nome,{kind:'conteudo',key:card.id});
+    else{card.open=true;card.scrollIntoView({block:'nearest'});}
+  }
+  function vaccineInstallSearch(){
+    var menu=document.getElementById('vac-menu-hub');
+    if(!menu||document.getElementById('vacBuscaNomeHome'))return;
+    var list=Array.from(menu.children).find(function(el){return el.style&&el.style.flexDirection==='column';});
+    if(!list)return;
+    var section=document.createElement('section');
+    section.className='vac-name-search';
+    section.setAttribute('aria-label','Busca de vacinas por nome');
+    section.innerHTML='<label for="vacBuscaNomeHome" class="vac-name-label">Buscar vacina pelo nome</label>'
+      +'<div class="vac-name-input-wrap">'
+      +'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7.5"></circle><path d="m16.6 16.6 4.2 4.2"></path></svg>'
+      +'<input id="vacBuscaNomeHome" type="search" autocomplete="off" aria-controls="vacNomeResultados" placeholder="Ex.: VPC20, HPV, Shingrix, influenza">'
+      +'</div><div class="vac-name-hint">Nome, sigla ou marca. Consulte indicação, idade, grupos de risco e esquema.</div>'
+      +'<div id="vacNomeResultados" class="vac-name-results" role="region" aria-label="Resultados da busca" hidden></div>';
+    menu.insertBefore(section,list);
+    var styles=[
+      '#page-imunizacoes .vac-name-search{border:1px solid #c5dfe7;border-radius:14px;background:linear-gradient(130deg,#f2fafa,#fff);padding:13px;margin:2px 0 15px;box-shadow:0 3px 14px rgba(9,49,74,.045)}',
+      '#page-imunizacoes .vac-name-label{display:block;font:750 12.5px Manrope,sans-serif;color:#153f57;margin-bottom:8px}',
+      '#page-imunizacoes .vac-name-input-wrap{display:flex;align-items:center;gap:9px;border:1px solid #a7ccd8;border-radius:10px;padding:0 11px;background:#fff;color:#2b7186}',
+      '#page-imunizacoes .vac-name-input-wrap:focus-within{border-color:#18728d;outline:2px solid rgba(27,132,159,.17)}',
+      '#page-imunizacoes #vacBuscaNomeHome{border:0;outline:0;background:transparent;width:100%;min-width:0;height:43px;font:12.5px Manrope,sans-serif;color:#133b52}',
+      '#page-imunizacoes #vacBuscaNomeHome::placeholder{color:#688595}',
+      '#page-imunizacoes .vac-name-hint{margin-top:7px;color:#537282;font-size:10.5px;line-height:1.45}',
+      '#page-imunizacoes .vac-name-results{display:grid;gap:7px;margin-top:11px}',
+      '#page-imunizacoes .vac-name-results[hidden]{display:none}',
+      '#page-imunizacoes .vac-name-result{display:flex;gap:10px;align-items:center;justify-content:space-between;width:100%;padding:11px 12px;text-align:left;background:#fff;color:#173e53;border:1px solid #d9e8ed;border-radius:10px;cursor:pointer;font-family:Manrope,sans-serif}',
+      '#page-imunizacoes .vac-name-result:hover,#page-imunizacoes .vac-name-result:focus-visible{border-color:#2187a4;background:#f5fbfd;outline:2px solid rgba(33,135,164,.12)}',
+      '#page-imunizacoes .vac-name-result-main{display:block;min-width:0;flex:1}',
+      '#page-imunizacoes .vac-name-result-title{display:block;font-size:12.5px;font-weight:800;line-height:1.35}',
+      '#page-imunizacoes .vac-name-result-note{display:block;margin-top:3px;color:#547182;font-size:10.8px;line-height:1.4;overflow-wrap:anywhere}',
+      '#page-imunizacoes .vac-name-result-network{display:block;margin-top:5px;font-size:9.8px;font-weight:700;color:#286a79}',
+      '#page-imunizacoes .vac-name-result-arrow{flex:0 0 auto;color:#2d829b;font-size:19px}',
+      '#page-imunizacoes .vac-name-empty{grid-column:1/-1;padding:12px;font-size:12px;color:#587384;line-height:1.5}',
+      '#page-imunizacoes #vacBuscaContagem{font-size:11px;color:#587384;margin:5px 0 7px}',
+      '@media(max-width:480px){#page-imunizacoes .vac-name-search{padding:11px}#page-imunizacoes .vac-name-result{padding:10px}}'
+    ];
+    var style=document.createElement('style');
+    style.id='vac-name-search-style';style.textContent=styles.join('\n');document.head.appendChild(style);
+    var input=section.querySelector('input'),results=section.querySelector('#vacNomeResultados');
+    function draw(){
+      var q=input.value.trim();
+      results.replaceChildren();
+      if(!q){results.hidden=true;return;}
+      results.hidden=false;
+      if(vaccineNorm(q).length<2){
+        var message=document.createElement('div');message.className='vac-name-empty';
+        message.textContent='Digite pelo menos dois caracteres.';results.appendChild(message);return;
+      }
+      var all=window.vacBuscarPorNome(q),found=all.slice(0,8);
+      if(!found.length){
+        var missing=document.createElement('div');missing.className='vac-name-empty';
+        missing.textContent='Nenhuma correspondência. Tente outro nome ou sigla.';
+        results.appendChild(missing);return;
+      }
+      found.forEach(function(v){
+        var btn=document.createElement('button');btn.type='button';btn.className='vac-name-result';btn.dataset.vacSearchId=v.id;
+        var main=document.createElement('span');main.className='vac-name-result-main';
+        var heading=document.createElement('span');heading.className='vac-name-result-title';heading.textContent=v.nome;
+        var note=document.createElement('span');note.className='vac-name-result-note';
+        note.textContent=(rules[v.id]&&rules[v.id].w&&rules[v.id].w[0])||v.pop||v.prot||'Indicações detalhadas na ficha.';
+        var network=document.createElement('span');network.className='vac-name-result-network';
+        network.textContent=(v.id==='nirse'?'Imunização passiva · ':'')+(v.sus&&v.particular?'SUS e rede privada':v.sus?'SUS':v.particular?'Rede privada':'Indicação clínica');
+        var arrow=document.createElement('span');arrow.className='vac-name-result-arrow';arrow.textContent='›';arrow.setAttribute('aria-hidden','true');
+        main.append(heading,note,network);btn.append(main,arrow);results.appendChild(btn);
+      });
+      if(all.length>8){
+        var more=document.createElement('div');more.className='vac-name-hint';
+        more.textContent='Exibindo os oito primeiros resultados. Refine a pesquisa.';results.appendChild(more);
+      }
+    }
+    input.addEventListener('input',draw);
+    input.addEventListener('keydown',function(ev){
+      if(ev.key==='Enter'){
+        var first=results.querySelector('button[data-vac-search-id]');
+        if(first){ev.preventDefault();first.click();}
+      }
+    });
+    results.addEventListener('click',function(ev){
+      var button=ev.target.closest('button[data-vac-search-id]');
+      if(button&&results.contains(button))vaccineOpen(button.dataset.vacSearchId);
+    });
+    var catalogInput=document.getElementById('vacBuscaVac');
+    if(catalogInput){
+      catalogInput.type='search';
+      catalogInput.placeholder='Nome, sigla ou marca (ex.: VPC20, HPV, Shingrix)';
+      catalogInput.setAttribute('aria-label','Buscar vacina por nome, sigla, marca ou proteção');
+      var count=document.createElement('div');count.id='vacBuscaContagem';
+      count.setAttribute('role','status');count.setAttribute('aria-live','polite');
+      catalogInput.insertAdjacentElement('afterend',count);
+    }
+  }
   function catalogIdFor(textValue){
     var t=String(textValue||'').toLowerCase();
     var found=[], patterns=[
@@ -143,6 +307,7 @@
   document.head.appendChild(style);
   function start(){
     enhanceCalendars();
+    vaccineInstallSearch();
     var root=document.getElementById('vacNativeContent');
     if(root){
       var scheduled=false;
