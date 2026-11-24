@@ -3,7 +3,7 @@
 'use strict';
 const API="https://jpdtqtenlivxgjkyizcg.supabase.co/functions/v1/score-qr";
 const KEY="sb_publishable_CzAI8BUm2Po7CfobLlxv8A_NtuTil8j";
-const allowed=["act","uct","dlqi","vasolfato","vasprurido","snot22"];
+const allowed=["act","uct","dlqi","vasolfato","vasprurido","snot22","gad7"];
 const params=new URLSearchParams(location.search), token=params.get("t")||"";
 const code=token.split(".")[0], s=typeof SCORES==="object" ? SCORES[code] : null;
 const intro=document.getElementById("intro"), form=document.getElementById("form");
