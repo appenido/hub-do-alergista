@@ -1739,7 +1739,7 @@ _marcarGuiasPagas();
 #page-guidelines .gc-original{display:none!important}
 </style>
 <link rel="stylesheet" href="/desktop-layout-coerente.css?v=20261118-compact-home-3">
-<link rel="stylesheet" href="/hub-paginas.css?v=20261123-hierarquia-1">
+<link rel="stylesheet" href="/hub-paginas.css?v=20261124-imunizacoes-premium1">
 <link rel="stylesheet" href="/formulas-infantis.css?v=20261123-aplv-1">
 </head>
 <body>
@@ -3904,24 +3904,24 @@ window._bloquearApp=function(){};
       <div style="font-size:12px;color:var(--gray-500);margin-bottom:16px">Calendários oficiais SBIm 2026/2027 e PNI 2026 — recomendações e oferta pelo SUS</div>
       <div style="display:flex;flex-direction:column;gap:10px">
         <button type="button" onclick="vacAbrirCalendarios('sbim')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
-          <span style="font-size:26px">📗</span>
+          <span class="vac-menu-icon" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h13a3 3 0 0 1 3 3v14H7a3 3 0 0 1-3-3V4Zm0 14a3 3 0 0 1 3-3h13M9 8h7m-7 3h4"/></svg></span>
           <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Calendários SBIm 2026/2027</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Todas as idades, gestantes e grupos especiais</div></div>
           <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
         </button>
         <button type="button" onclick="vacAbrirCalendarios('pni')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
-          <span style="font-size:26px">🇧🇷</span>
+          <span class="vac-menu-icon" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m12 8 6 4-6 4-6-4 6-4Z"/><circle cx="12" cy="12" r="2"/></svg></span>
           <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">PNI — Calendário Nacional 2026</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Vacinas do SUS, faixas etárias e normativa</div></div>
           <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
         </button>
 
         <button onclick="vacShowSub('vacinas')" style="display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--gray-100);border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%">
-          <span style="font-size:26px">💉</span>
+          <span class="vac-menu-icon" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><path d="m15 3 6 6M18 6l-5 5M4 20l3-3m-1-4 8-8 5 5-8 8H6v-5Zm4-3 2 2m1-5 2 2"/></svg></span>
           <div><div style="font-size:13.5px;font-weight:800;color:var(--navy)">Vacinas disponíveis no Brasil</div><div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">Busca por nome, sigla e marca, com indicações e esquemas — SUS e rede privada</div></div>
           <span style="margin-left:auto;color:var(--gray-300);font-size:18px">›</span>
         </button>
         
         <button type="button" onclick="vacShowSub('novo')" class="vac-vaccine-finder" aria-label="Saiba aqui quais vacinas seu paciente deve tomar" style="width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:9px;margin-top:12px;padding:22px 18px;border:2px solid #2d8fa8;border-radius:18px;background:linear-gradient(135deg,#e8f7f9 0%,#fff 72%);box-shadow:0 6px 22px rgba(31,105,128,.12);color:#0d1f2d;cursor:pointer;font-family:Manrope,sans-serif">
-          <span aria-hidden="true" style="display:flex;align-items:center;justify-content:center;width:46px;height:46px;border-radius:14px;background:#1f6980;color:white;font-size:24px">💉</span>
+          <span class="vac-menu-icon" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="18" rx="3"/><path d="M9 4V2h6v2M9 12l2 2 4-4M9 18h6"/></svg></span>
           <span style="display:block;font-size:16px;line-height:1.35;font-weight:750;color:#0d1f2d;max-width:290px">Saiba aqui quais vacinas seu paciente deve tomar</span>
           <span style="display:block;font-size:11.5px;line-height:1.55;color:#476474;max-width:300px">Consulta por idade e condições clínicas, sem identificação ou cadastro do paciente.</span>
           <span aria-hidden="true" style="font-size:12px;line-height:1.4;font-weight:700;color:#1f6980;text-decoration:underline">Consultar recomendações →</span>
@@ -5892,10 +5892,10 @@ function vacGerarCalendario(){
     if(!arr.length) return '';
     var x='<div class="ig-out"><h4>'+tit+'</h4>';
     arr.forEach(function(v){
-      x+='<div style="border-left:3px solid '+cor+';padding:6px 0 6px 10px;margin-bottom:9px">'
-        +'<div style="font-size:13.5px;font-weight:800;color:var(--navy)">'+v.nome+'</div>'
-        +'<div style="font-size:12.5px;color:var(--navy);margin-top:2px">'+v.quando+'</div>'
-        +'<div style="font-size:11.5px;color:var(--gray-500);margin-top:2px">'+v.motivo+'</div></div>';
+      x+='<div class="vac-result-item" style="border-left:3px solid '+cor+'">'
+        +'<div class="vac-result-name">'+v.nome+'</div> '
+        +'<div class="vac-result-dose">'+v.quando+'</div> '
+        +'<div class="vac-result-motive">'+v.motivo+'</div></div>';
     });
     return x+'</div>';
   }
@@ -5977,10 +5977,10 @@ function vacRenderVacinas(filtro){
       badge+='<span style="font-size:9.5px;font-weight:800;background:#1a3a6b;color:#fff;border-radius:7px;padding:2px 8px;letter-spacing:.03em">Particular</span>';
     }
     det.innerHTML='<summary class="vac-header">'
-      +'<span class="vac-icon" aria-hidden="true">'+(v.tipo.indexOf('Atenuada')>=0?'🧬':v.tipo.indexOf('monoclonal')>=0?'💡':'💉')+'</span>'
+      +'<span class="vac-icon" aria-hidden="true"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">'+(v.tipo.indexOf('Atenuada')>=0?'<path d="M7 3c0 8 10 10 10 18M17 3c0 8-10 10-10 18M8 5h8M9 9h6M9 15h6M8 19h8"/>':v.tipo.indexOf('monoclonal')>=0?'<path d="M5 4l7 8 7-8M12 12v9M3 6l2-2m14 0 2 2"/>':'<path d="m15 3 6 6M18 6l-5 5M4 20l3-3m-1-4 8-8 5 5-8 8H6v-5Zm4-3 2 2m1-5 2 2"/>')+'</svg></span>'
       +'<div class="vac-info"><div class="vac-name">'+v.nome+'</div>'
-      +'<div class="vac-protection">'+v.prot+'</div>'
-      +(v.comercial?'<div class="vac-brand">'+v.comercial+'</div>':'')
+      +' <div class="vac-protection">'+v.prot+'</div>'
+      +(v.comercial?' <div class="vac-brand">'+v.comercial+'</div>':'')
       +'<div class="vac-badge">'+badge+'</div>'
       +(v.particularNota?'<div class="vac-network-note">Particular: somente combinada</div>':'')
       +'</div>'
@@ -11059,7 +11059,7 @@ function chatToggle(){
 </script>
 <script src="/artigos-premium.js?v=20261118-titulos-originais"></script>
 <script src="lgpd-runtime.js?v=20261104-8"></script>
-<script src="calendarios-imunizacoes.js?v=20261113-vpc20-2"></script>
+<script src="calendarios-imunizacoes.js?v=20261124-imunizacoes-premium1"></script>
 <script src="uptodate-ui.js?v=20261114-conferencia-6"></script>
 <script src="imunoglobulinas-calculadora.js?v=20261119-paginas1"></script>
 <!-- Questionários QR: criptografia da sessão na função Edge, resposta temporária por Realtime -->
@@ -11077,7 +11077,7 @@ function chatToggle(){
 <script src="/quick-access-premium.js?v=20261112-firstpaint-1" defer></script>
 <script src="/calculadora-biologicos-asma.js?v=20261109-1"></script>
 <script src="/vacinas-cards-fixos.js?v=20261123-cards-1"></script>
-<script src="/vacinas-criterios.js?v=20261124-motor1"></script>
+<script src="/vacinas-criterios.js?v=20261124-imunizacoes-premium1"></script>
 <script src="/home-heading-icons.js?v=20261114-medicamentos1" defer></script>
 <script src="/biologicos-icones-doencas.js?v=20261115-traducao" defer></script>
 <script src="/hub-novidades.js?v=20261114-legivel-2" defer></script>
@@ -11135,7 +11135,7 @@ function chatToggle(){
 <script src="/medicamentos-catalogo.js?v=20261123-sem-formulas1" defer></script>
 
 
-<script src="/hub-paginas.js?v=20261123-formulas-inline1" defer></script>
+<script src="/hub-paginas.js?v=20261124-imunizacoes-premium1" defer></script>
 <script src="/buscas-antiautofill.js?v=20261123-buscas1" defer></script>
 <script src="/formulas-infantis.js?v=20261123-aplv-1" defer></script>
 </body>
