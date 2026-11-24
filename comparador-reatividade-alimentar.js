@@ -197,6 +197,21 @@
   SRC.push(["Revisão 2025 — Alergia a castanhas e sementes","https://doi.org/10.4168/aair.2025.17.6.672"]);
   SRC.push(["Revisão 2020 — Relevância clínica da reatividade cruzada alimentar","https://pubmed.ncbi.nlm.nih.gov/33429724/"]);
 
+
+  // Números exclusivamente observacionais / de sequência documentados em fontes nomeadas.
+  // Nunca interpretar frequência de co-alergia em coortes como probabilidade individual.
+  var PUBLISHED_PAIR_DATA={};
+  PUBLISHED_PAIR_DATA[pairKey("caju","pistache")]=
+    "Em séries com provocação oral resumidas na revisão de reatividade cruzada, aproximadamente 97% dos alérgicos a pistache também reagiram a caju, enquanto 83% dos alérgicos a caju reagiram a pistache. São frequências de coortes selecionadas, com direção distinta e sem validade como cálculo individual.";
+  PUBLISHED_PAIR_DATA[pairKey("noz","peca")]=
+    "Nos estudos de provocação compilados, 97–100% dos alérgicos a pecã também apresentaram alergia a noz; entre alérgicos a noz, 75–91% reagiram a pecã. Intervalos dependem das amostras e não substituem confirmação clínica individual.";
+  PUBLISHED_PAIR_DATA[pairKey("pessego","maca")]=
+    "A posição da WAO sobre IgE e diagnóstico molecular descreve identidade de sequência de aproximadamente 77% entre Pru p 3 (pêssego) e Mal d 3 (maçã), ambas nsLTPs. Este 77% mede semelhança de sequência, NÃO o risco de reação clínica.";
+  PAIR_SRC[pairKey("pessego","maca")].push([
+    "WAO, 2020 — exemplo de 77% de identidade Pru p 3 / Mal d 3",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC7044795/"
+  ]);
+
   function esc(t) {return String(t==null?"":t).replace(/[&<>"']/g,function(ch){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch];});}
   function clean(v){return String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"");}
   function catEntry(name) {
@@ -425,7 +440,8 @@
       html+='<div class="fx-no-families"><p>Nenhuma proteína específica de reação cruzada cadastrada para este par. Isso não significa ausência de associação clínica ou molecular: a base de componentes é incompleta.</p></div>';
     }
     html+='</section>'+
-      '<div class="fx-technical-section"><h4>Mecanismo e componentes relevantes</h4><p>'+esc(explicit.focus||"Avaliação dirigida ao fenótipo e aos alérgenos envolvidos.")+'</p>'+
+      '<div class="fx-technical-section"><h4>Dados publicados sobre semelhança e coalergia</h4><p>'+esc(PUBLISHED_PAIR_DATA[pairKey(a.id,b.id)]||"Não há um percentual de identidade sequencial verificado para este par nesta base. Semelhança de família molecular não permite derivar porcentagem de reação clínica; os dados epidemiológicos dependem da população e dos métodos dos estudos.")+'</p>'+
+      '<h4>Mecanismo e componentes relevantes</h4><p>'+esc(explicit.focus||"Avaliação dirigida ao fenótipo e aos alérgenos envolvidos.")+'</p>'+
       '<h4>Risco de reação clínica</h4><p>'+esc(info.riskNote)+'</p>'+
       '<h4>Fatores que modificam a interpretação</h4><p>Reação prévia, quantidade ingerida, preparo térmico, forma crua ou processada, tempo entre ingestão e sintomas, exercício, AINEs, álcool, infecções e comorbidades podem modificar a apresentação. Sensibilização em testes não é sinônimo de alergia alimentar.</p></div>'+
       '<div class="fx-clinical-next"><h4>Conduta orientada pelas evidências</h4><p>Documentar alimentos já tolerados e caracterizar o episódio índice. Investigar somente exposições clinicamente suspeitas, com prick test/IgE ao extrato e componentes selecionados quando acrescentarem informação. Ara h 2, Ana o 3 e Cor a 14 são exemplos validados para situações específicas. Considerar BAT, quando disponível, em casos selecionados. Se a dúvida persistir e for apropriado, o teste de provocação oral supervisionado permanece a referência diagnóstica. Não fazer desafio domiciliar após reação sistêmica.</p></div>'+
