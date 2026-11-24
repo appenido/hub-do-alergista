@@ -937,6 +937,75 @@ const CORTICOIDE_TOPICO={
  'Fludroxicortida 0,0125%':['Pediátrico','Uso pediátrico (Drenison creme/pomada), sem idade mínima numérica na bula consultada.','Baixa (VI; MS)','Baixa (VI; MS)','Concentração 0,125 mg/g. Classificações de potência diferem entre compêndios; aqui é indicada a escala do MS.','https://bula.com.br/original/drenison'],
  'Propionato de clobetasol 0,05%':['≥ 1 ano','A partir de 1 ano (Psorex creme e pomada; bula brasileira).','Muito alta (I)','Muito alta (I)','Superpotente nas duas apresentações; em crianças, tratamento curto e monitorado.','https://bula.com.br/original/psorex-pomada']
 };
+
+/* Idade e teto regulatório sempre vinculados à apresentação, indicação e via.
+   A ausência de um número verificado não deve gerar um "máximo" fictício. */
+const MED_REGULATORY={
+ olhos:{
+  'Olopatadina':{age:'A partir de 3 anos (Patanol® 0,1% e Patanol® S 0,2%).',max:'Patanol® 0,1%: até 1 gota por olho a cada 12 horas. Patanol® S 0,2%: até 1 gota por olho ao dia.',source:'https://consultaremedios.com.br/patanol/bula'},
+  'Cetotifeno':{age:'A indicação pediátrica depende da bula e da concentração do colírio.',max:'Não consolidada para todas as apresentações oftálmicas de cetotifeno.',verified:false},
+  'Epinastina':{age:'A partir de 3 anos (Relestat® 0,05%).',max:'Relestat® 0,05%: 1 gota por olho afetado a cada 12 horas.',source:'https://www.abbvie.com.br/content/dam/abbvie-dotcom/br/documents/Relestat.pdf'},
+  'Emedastina':{age:'A partir de 3 anos na rotulagem europeia de Emadine®; registro brasileiro não confirmado.',max:'Emadine® 0,05% (referência europeia): 1 gota por olho afetado 2 vezes/dia.',source:'https://www.ema.europa.eu/en/documents/product-information/emadine-epar-product-information_en.pdf'},
+  'Azelastina':{age:'Não estabelecida para produto oftálmico brasileiro específico neste catálogo.',max:'Sem limite numérico de bula brasileira validado para esta apresentação ocular.',verified:false},
+  'Cromoglicato dissódico':{age:'Depende da concentração e do produto oftálmico registrado.',max:'Sem teto único de bula validado para as diferentes apresentações.',verified:false},
+  'Hialuronato de sódio':{age:'Depende do produto e de suas indicações de uso.',max:'Lubrificante ocular: não existe teto de dose universal aplicável a todas as marcas.',verified:false},
+  'Carboximetilcelulose':{age:'Depende do produto e de suas indicações de uso.',max:'Lubrificante ocular: não existe teto de dose universal aplicável a todas as marcas.',verified:false},
+  'Hipromelose':{age:'Depende da apresentação registrada.',max:'Lubrificante ocular: sem teto numérico único entre produtos.',verified:false},
+  'Carmelose / glicerina':{age:'Depende da associação e da apresentação registrada.',max:'Lubrificante ocular: sem teto numérico único entre produtos.',verified:false},
+  'Polietilenoglicol + propilenoglicol':{age:'Depende da versão de Systane® e de sua rotulagem.',max:'Lubrificante ocular: sem teto numérico único entre produtos.',verified:false},
+  'Carbômero':{age:'Depende do gel oftálmico registrado.',max:'Gel oftálmico: sem teto numérico único validado para todas as marcas.',verified:false}
+ },
+ nasais:{
+  'Budesonida':{age:'Varia conforme Busonid®, Noex® e concentração.',max:'Não há dose máxima única para todos os sprays e concentrações; ficha agrupada não autoriza extrapolação.',verified:false},
+  'Furoato de mometasona':{age:'A partir de 2 anos para rinite alérgica (Nasonex® 50 µg/jato).',max:'Rinite: crianças 2–11 anos, 1 jato por narina/dia (100 µg/dia); adultos e ≥12 anos até 4 jatos por narina/dia (400 µg/dia) em resposta insuficiente.',source:'https://consultaremedios.com.br/nasonex/bula'},
+  'Furoato de fluticasona':{age:'A partir de 2 anos (Avamys® 27,5 µg/jato).',max:'Rinite: até 2 jatos por narina uma vez ao dia (110 µg/dia); em crianças 2–11 anos iniciar com 1 jato por narina/dia.',source:'https://consultaremedios.com.br/avamys/bula'},
+  'Propionato de fluticasona':{age:'A partir de 4 anos para Flixonase® 50 µg/jato.',max:'Rinite: crianças 4–11 anos até 1 jato por narina 2 vezes/dia (200 µg/dia); ≥12 anos até 2 jatos por narina 2 vezes/dia (400 µg/dia).',source:'https://br.gsk.com/media/6275/flixonase-spray-nasal-aquoso.pdf'},
+  'Dipropionato de beclometasona':{age:'Depende da concentração e da apresentação de Clenil Nasal®.',max:'Dose máxima não consolidada entre as formulações de beclometasona nasal.',verified:false},
+  'Triancinolona acetonida':{age:'Registro e idade brasileira não validados para Nasacort® neste catálogo.',max:'Não validada em bula brasileira da apresentação.',verified:false},
+  'Ciclesonida':{age:'Registro e idade brasileira não validados para Omnaris® neste catálogo.',max:'Não validada em bula brasileira da apresentação.',verified:false},
+  'Azelastina + propionato de fluticasona':{age:'A partir de 6 anos (Dymista®).',max:'Dymista®: 1 jato por narina a cada 12 horas (2 jatos por narina/dia).',source:'https://www.viatris.com.br/-/media/project/common/viatriscombr/pdf/leaflets_legacy_myl_brazil/1-dymista-bula-profissional.pdf'},
+  'Olopatadina + furoato de mometasona':{age:'A partir de 12 anos (Ryaltris®).',max:'Ryaltris®: 2 jatos por narina a cada 12 horas (4 jatos por narina/dia).',source:'https://glenmarkpharma.com.br/wp-content/uploads/2026/10/Ryaltris_Bula_Paciente_VP00.pdf'}
+ }
+};
+const MED_IBP_AGES={
+ 'Omeprazol':'Rotulagem da fonte citada (EUA): esofagite erosiva desde 1 mês em formulações pediátricas específicas; DRGE/EE 1–16 anos; adultos.',
+ 'Pantoprazol':'Rotulagem da fonte citada (EUA): a partir de 5 anos em apresentação oral específica para esofagite erosiva; adultos.',
+ 'Esomeprazol':'Rotulagem da fonte citada (EUA): desde 1 mês em indicações e apresentações pediátricas específicas; adultos.',
+ 'Lansoprazol':'Rotulagem da fonte citada (EUA): a partir de 1 ano para DRGE/EE nas apresentações previstas; adultos.',
+ 'Rabeprazol':'Rotulagem da fonte citada (EUA): comprimido a partir de 12 anos; sprinkle pediátrico 1–11 anos, conforme mercado.',
+ 'Dexlansoprazol':'Rotulagem da fonte citada (EUA): a partir de 12 anos; adultos.'
+};
+function medRegulatoryDetails(id,item){
+ const name=item[0];
+ let d=(MED_REGULATORY[id]||{})[name];
+ if(id==='topicos'){
+  const t=CORTICOIDE_TOPICO[name];
+  d=t?{
+   age:t[1],
+   max:name==='Propionato de clobetasol 0,05%'
+    ?'Psorex® creme/pomada: não exceder 50 g por semana; usar pelo menor período apropriado.'
+    :'Não foi consolidado um teto quantitativo de bula para esta apresentação. Frequência, área e duração dependem do veículo e da indicação.',
+   source:t[5],
+   verified:name==='Propionato de clobetasol 0,05%'
+  }:null;
+ }
+ if(id==='ibps'){
+  const b=IBP_CLINICAL[name];
+  d=b?{age:MED_IBP_AGES[name],max:b.max,source:b.source,sourceLabel:'Rotulagem da fonte (EUA)'}:null;
+ }
+ if(id==='hidratantes'){
+  d={age:'Conforme a rotulagem da versão do hidratante; não presumir liberação neonatal.',max:'Não se aplica como dose máxima sistêmica. Frequência de aplicação e cuidados seguem o produto.',verified:false};
+ }
+ if(!d)d={age:'Faixa etária da apresentação ainda não validada no catálogo.',max:'Dose máxima de bula não validada para a apresentação específica.',verified:false};
+ const source=d.source?'<a href="'+esc(d.source)+'" target="_blank" rel="noopener noreferrer">'+esc(d.sourceLabel||'Fonte da apresentação')+'</a>':'';
+ return '<section class="med-regulatory" aria-label="Faixa etária e dose máxima de bula">'+
+  '<div class="med-regulatory-item"><span class="med-mini-label">Faixa etária de utilização</span><p>'+esc(d.age)+'</p></div>'+
+  '<div class="med-regulatory-item"><span class="med-mini-label">Dose máxima em bula / por indicação</span><p>'+esc(d.max)+'</p></div>'+
+  (source?'<div class="med-regulatory-source">'+source+'</div>':'')+
+  (d.verified===false?'<p class="med-regulatory-pending">Não há limite único verificado para as apresentações agrupadas; nenhum valor foi presumido.</p>':'')+
+  '</section>';
+}
+
 function corticoidesTopicosCards(data){
  const potencia='https://www.msdmanuals.com/pt/profissional/multimedia/table/pot%C3%AAncia-relativa-dos-corticoides-t%C3%B3picos-selecionados';
  const makeForm=(name,pot)=>'<section class="med-topical-form"><span class="med-topical-form-name">'+name+'</span><span class="med-topical-strength">'+(pot?esc(pot):'Não identificada como apresentação isolada')+'</span></section>';
@@ -947,7 +1016,7 @@ function corticoidesTopicosCards(data){
     +medMakerLogo(maker)
     +'<span class="med-prod-head"><span class="hub-med-nome">'+esc(medRegisterMarks(item[0]))+'</span><span class="med-prod-brand">'+esc(medRegisterMarks(rawBrand))+'</span></span>'
     +'<span class="med-prod-tag">Idade: '+esc(t[0])+'</span><span class="med-prod-chevron">⌄</span></summary>'
-    +'<div class="med-prod-detail"><section class="med-topical-age"><span class="med-mini-label">A partir de qual idade?</span><p>'+esc(t[1])+'</p></section>'
+    +'<div class="med-prod-detail">'+medRegulatoryDetails('topicos',item)+'<section class="med-topical-age"><span class="med-mini-label">A partir de qual idade?</span><p>'+esc(t[1])+'</p></section>'
     +'<section class="med-topical-presentations"><span class="med-mini-label">Creme ou pomada: potência específica</span><div class="med-topical-form-grid">'
     +makeForm('Creme',t[2])+makeForm('Pomada',t[3])+'</div></section>'
     +'<section class="med-topical-notes"><span class="med-mini-label">Observação clínica</span><p>'+esc(t[4])+'</p></section>'
@@ -986,7 +1055,7 @@ function ibpCards(data){
   return '<details class="med-prod med-prod-ibp med-mf-'+maker+'" style="'+style+'" data-hub-medicamento>'+
    '<summary>'+medMakerLogo(maker)+'<span class="med-prod-head"><span class="hub-med-nome">'+esc(name)+'</span><span class="med-prod-brand">'+esc(medRegisterMarks(rawBrand))+'</span></span>'+
    '<span class="med-prod-tag">'+esc(d.shortTiming)+'</span><span class="med-prod-chevron">⌄</span></summary>'+
-   '<div class="med-prod-detail med-ibp-detail">'+
+   '<div class="med-prod-detail med-ibp-detail">'+medRegulatoryDetails('ibps',item)+
     '<div class="med-ibp-dose-grid">'+
      '<section><span class="med-mini-label">Melhor horário</span><p>'+esc(d.timing)+'</p></section>'+
      '<section><span class="med-mini-label">Dose no adulto</span><p>'+esc(d.adult)+'</p></section>'+
@@ -1012,7 +1081,7 @@ function cards(data,id){
   const maker=medMakerKey(rawBrand+' '+rawName), style=medMakerVars(maker);
   const name=esc(medRegisterMarks(rawName)),brand=esc(medRegisterMarks(rawBrand));
   return '<details class="med-prod med-mf-'+maker+'" style="'+style+'" data-hub-medicamento data-item="'+i+'"><summary>'+medMakerLogo(maker)+'<span class="med-prod-head"><span class="hub-med-nome">'+name+'</span><span class="med-prod-brand">'+brand+'</span></span><span class="med-prod-tag">'+tag+'</span><span class="med-prod-chevron">⌄</span></summary>'+
-  '<div class="med-prod-detail"><div><span class="med-mini-label">Apresentações / veículo</span><p>'+form+'</p></div><div><span class="med-mini-label">Indicação e orientações clínicas</span><p>'+note+'</p></div>'+
+  '<div class="med-prod-detail">'+medRegulatoryDetails(id,item)+'<div><span class="med-mini-label">Apresentações / veículo</span><p>'+form+'</p></div><div><span class="med-mini-label">Indicação e orientações clínicas</span><p>'+note+'</p></div>'+
   '<a href="'+anvisaLink+'" target="_blank" rel="noopener noreferrer">'+anvisaLabel+'</a>'+ (id==='hidratantes' && /^https:\/\//.test(item[5]||'')?'<a class="med-brand-source" href="'+esc(item[5])+'" target="_blank" rel="noopener noreferrer">Fonte do fabricante / apresentação</a>':'')+'</div></details>';
  }).join('')+'</div><p class="med-source">Os nomes comerciais são exibidos com marca registrada quando identificados no catálogo. A identidade de cor segue o fabricante ou a marca; itens sem fabricante inequívoco permanecem neutros. <a href="'+sourceHref(id)+'" target="_blank" rel="noopener noreferrer">'+sourceLabel(id)+'</a>.</p>';
 }
