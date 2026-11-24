@@ -37,7 +37,7 @@
     customLiquid: ['Líquido oral (mg/mL)', 'Oral liquid (mg/mL)', 'Líquido oral (mg/mL)'],
     customSolid: ['Comprimido (mg/unidade)', 'Tablet (mg/unit)', 'Comprimido (mg/unidad)'],
     routeUnavailable: ['Apresentação encontrada, mas não é possível calcular esta via ou associação de substâncias nesta calculadora oral.', 'Product found, but this route or combination cannot be calculated here.', 'Presentación encontrada, pero esta vía o asociación no admite cálculo aquí.'],
-    fractionNote: ['Quantidade fracionária apenas matemática: não presume que o comprimido possa ser partido, especialmente se tiver liberação modificada.', 'Fractional tablet count is mathematical only; splitting may be contraindicated.', 'La fracción de comprimido es solo matemática; puede no ser divisible.'],
+    fractionNote: ['Quantidade fracionária apenas matemática: não presume que comprimidos possam ser partidos ou cápsulas abertas. Confirme a possibilidade de fracionamento e prefira a apresentação com teor adequado.', 'Fractional tablet count is mathematical only; splitting may be contraindicated.', 'La fracción de comprimido es solo matemática; puede no ser divisible.'],
     exactPresentationHint: ['Ex. 50', 'E.g. 50', 'Ej. 50'],
     confirmPresentation: ['Usar concentração', 'Use concentration', 'Usar concentración'],
     concentrationInvalid: ['Informe concentração em mg/mL ou teor em mg por comprimido maior que zero.', 'Enter concentration in mg/mL or mg per tablet greater than zero.', 'Indique concentración en mg/mL o contenido en mg por comprimido.'],
@@ -533,7 +533,7 @@
       const { amount, times, ml, daily, maxDaily, maxDose, perKg, capped, asNeeded, intervalHours, guidance } = result;
       const amountLabel = measure(amount, 'mg', capped);
       const unitCount = unitSize > 0 ? amount / unitSize : undefined;
-      const unitLabel = selected?.form === 'capsule' ? 'cápsulas' : 'comprimidos';
+      const unitLabel = selected?.form === 'capsule' ? 'cápsulas' : selected?.form === 'dragee' ? 'drágeas' : 'comprimidos';
       const administered = unitCount != null ? measure(unitCount, unitLabel, capped) : measure(ml, 'mL', capped);
       const schedule = asNeeded ? t('asNeededFrequency', format(intervalHours), format(times))
         : times === 1 ? t('dailyFrequency')
