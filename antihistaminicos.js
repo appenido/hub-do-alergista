@@ -139,6 +139,41 @@ function maxDailyBlock(x){
  (d.external?'<p class="ah-calc-note">Referência internacional; não implica registro ou comercialização no Brasil.</p>':'')+
  '<p><a href="'+escapeHtml(d.source)+'" target="_blank" rel="noopener noreferrer">Fonte da posologia</a></p></div>';
 }
+
+/* Quadro regulatório por apresentação: uma dose de diretriz (incluindo up-dosing
+   em urticária) não substitui o teto da bula. */
+var AH_REGULATORY={
+ dexclorfeniramina:['A partir de 2 anos (solução Polaramine®).','Solução: 2–5 anos até 3 mg/dia; 6–12 anos até 6 mg/dia; adolescentes/adultos até 12 mg/dia.'],
+ hidroxizina:['Acima de 6 meses para Hixizine® xarope; varia conforme produto.','O teto depende do peso, risco de QT e bula da apresentação. Não foi consolidado um máximo único brasileiro neste catálogo.'],
+ prometazina:['Contraindicada abaixo de 2 anos; apresentações orais e injetáveis têm limites distintos.','Sem dose máxima única de bula validada para as diferentes vias neste catálogo.'],
+ ciproheptadina:['Cobavital® associação: a partir de 2 anos na bula citada.','Cobavital®: 2–6 anos até 8 mg/dia de ciproheptadina; acima de 6 anos 8 mg/dia; adultos até 12 mg/dia. Somente desta associação.'],
+ cetotifeno:['A partir de 6 meses para xarope Asmofen®; outras apresentações diferem.','Asmofen®: 6 meses–<3 anos 0,05 mg/kg/dose 12/12 h; ≥3 anos 1 mg 12/12 h. Posologia de referência, não teto absoluto para toda forma.'],
+ dimenidrinato:['Dramin® comprimidos 100 mg: adultos e acima de 12 anos; apresentações pediátricas têm outras idades.','Dramin® comprimidos 100 mg: máximo 400 mg/dia (≥12 anos). Não aplicar esse teto à formulação injetável ou às associações.'],
+ loratadina:['A partir de 2 anos (xarope 1 mg/mL).','2–12 anos, <30 kg: 5 mg/dia; ≥30 kg: 10 mg/dia. Acima dessa faixa: até 10 mg/dia na bula.'],
+ desloratadina:['Desalex® xarope: a partir de 6 meses; comprimidos 5 mg: a partir de 12 anos.','6–11 meses: 1 mg/dia; 1–5 anos: 1,25 mg/dia; 6–11 anos: 2,5 mg/dia; ≥12 anos: 5 mg/dia.'],
+ cetirizina:['Zyrtec® solução oral 1 mg/mL: a partir de 2 anos.','2–5 anos: até 5 mg/dia; 6–11 anos: até 10 mg/dia; ≥12 anos: 10 mg/dia, com ajustes renais quando indicados.'],
+ levocetirizina:['Zyxem® gotas 5 mg/mL: a partir de 2 anos.','2–5 anos: 2,5 mg/dia (1,25 mg 12/12 h); ≥6 anos: 5 mg/dia. Ajustar na disfunção renal.'],
+ fexofenadina:['Allegra® suspensão: urticária crônica desde 6 meses; rinite sazonal desde 2 anos. Comprimidos têm outras idades.','6 meses–<2 anos na urticária: 15 mg 12/12 h; 2–11 anos: 30 mg 12/12 h. Limite ≥12 anos depende da indicação e apresentação (120/180 mg).'],
+ bilastina:['Alektos Ped®: 6–11 anos e ≥20 kg; Alektos® comprimido 20 mg: a partir de 12 anos.','Alektos Ped®: 10 mg/dia (4 mL de 2,5 mg/mL); comprimido ≥12 anos: 20 mg/dia. Não confundir com quatro vezes a dose nas diretrizes de UCE.'],
+ ebastina:['Ebastel® xarope: a partir de 2 anos; comprimidos conforme apresentação.','Xarope: 2–5 anos 2,5 mg/dia; 6–11 anos 5 mg/dia; adolescentes/adultos de apresentação autorizada 10 mg/dia. Outros tetos exigem bula específica.'],
+ rupatadina:['Rupafin® comprimidos: a partir de 12 anos.','Rupafin® comprimidos: 10 mg uma vez ao dia.'],
+ epinastina:['Talerc® oral: acima de 12 anos; Relestat® ocular: a partir de 3 anos.','Talerc® oral: até 20 mg/dia. Relestat® ocular: 1 gota por olho a cada 12 horas.'],
+ azelastina:['Rino-Lastin® nasal: acima de 5 anos; posologia por faixa etária.','5–11 anos: 1 jato/narina 12/12 h; ≥12 anos: até 2 jatos/narina 12/12 h na apresentação citada.'],
+ azelastina_fluticasona:['Dymista® spray nasal: a partir de 6 anos.','Dymista®: 1 jato por narina a cada 12 horas.'],
+ olopatadina:['Patanol® e Patanol S® colírios: a partir de 3 anos.','Patanol® 0,1%: 1 gota/olho 12/12 h. Patanol S® 0,2%: 1 gota/olho uma vez ao dia.'],
+ olopatadina_mometasona:['Ryaltris® nasal: a partir de 12 anos.','Ryaltris®: 2 jatos por narina a cada 12 horas.'],
+ emedastina:['Emadine®: a partir de 3 anos em referência europeia; não implica registro brasileiro.','Emadine® (Europa): 1 gota por olho a cada 12 horas.'],
+ acrivastina:['Semprex®: a partir de 12 anos em referência britânica; não implica registro brasileiro.','Semprex® (Reino Unido): 8 mg até 3 vezes/dia (máximo 24 mg/dia).']
+};
+function ahRegulatoryPanel(x){
+ var r=AH_REGULATORY[x.id];
+ var age=r?r[0]:(x.h?'Sem registro brasileiro vigente confirmado para a apresentação citada.':'Faixa etária não consolidada para a apresentação descrita.');
+ var max=r?r[1]:(AH_DAILY_MAX[x.id]?.dose||'Dose máxima de bula não validada para esta apresentação específica.');
+ return '<div class="ah-regulatory" aria-label="Faixa etária e dose máxima da apresentação">'+
+  '<div class="ah-regulatory-item"><h3>Faixa etária de utilização</h3><p>'+escapeHtml(age)+'</p></div>'+
+  '<div class="ah-regulatory-item"><h3>Dose máxima em bula / por indicação</h3><p>'+escapeHtml(max)+'</p></div></div>';
+}
+
 function renderDetail(){
  var el=document.getElementById('ahDetail');if(!el)return;
  var x=get(state.selected);if(!x){el.hidden=true;el.innerHTML='';return;}
@@ -150,7 +185,7 @@ function renderDetail(){
  maxDailyBlock(x);
  el.innerHTML='<div class="ah-detail-top"><div><div class="ah-kicker">'+(x.combo?'Associação · anti-H1 + corticoide intranasal':(x.g===1?'Primeira':'Segunda')+' geração · anti-H1')+'</div><h2>'+escapeHtml(x.n)+'</h2><p>Via: '+(window.AH_ROUTES[x.id]||[]).map(function(v){return window.AH_ROUTE_LABELS[v];}).join(' · ')+'</p><p>'+escapeHtml(x.k)+'</p></div><button type="button" class="ah-close" data-ah-close aria-label="Fechar ficha">×</button></div>'+
   '<div class="ah-pair-grid"><div class="ah-block"><h3>Nomes comerciais</h3><p>'+escapeHtml(x.b)+'</p></div><div class="ah-block"><h3>Apresentações</h3><p>'+escapeHtml(x.f)+'</p></div><div class="ah-block"><h3>Indicações e uso clínico</h3><p>'+escapeHtml(x.i)+'</p></div><div class="ah-block"><h3>Posicionamento terapêutico</h3><p>'+escapeHtml(x.k)+'</p></div></div>'+
-  '<div class="ah-warning">'+escapeHtml(x.w)+'</div>'+form+
+  ahRegulatoryPanel(x)+'<div class="ah-warning">'+escapeHtml(x.w)+'</div>'+form+
   '<h3>Referências verificáveis</h3><div class="ah-links"><a href="'+escapeHtml(x.u||BULAS)+'" target="_blank" rel="noopener noreferrer">Bula ou fonte do fármaco</a><a href="'+SBP+'" target="_blank" rel="noopener noreferrer">Guia SBP</a><a href="'+GA2LEN+'" target="_blank" rel="noopener noreferrer">Diretriz internacional 2026</a><a href="'+BULAS+'" target="_blank" rel="noopener noreferrer">Conferir registro na Anvisa</a></div>';
 }
 function dose(rule,age,wt,ind){
