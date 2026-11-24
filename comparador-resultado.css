@@ -281,3 +281,166 @@
   #page-laboratorio #fxResult .fx-evidence-body { padding: 0 15px 18px; }
   #page-laboratorio #fxResult .fx-tolerance { margin: 12px 15px 0; }
 }
+
+
+/* Comparador premium multi-alimentos · 24/11/2026
+   Estilos isolados para evitar interferência na navegação do Hub. */
+#page-laboratorio #foodCrossCard.fx-card {
+  margin: 12px 16px 22px;
+  border: 1px solid #d6e3e8;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 9px 28px rgba(15, 42, 59, .07);
+  overflow: hidden;
+  color: #183a4b;
+}
+#page-laboratorio #foodCrossCard > summary {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; padding: 20px 22px; cursor: pointer; list-style: none;
+  background: linear-gradient(115deg,#f1f8fa,#fff 65%);
+  border-left: 5px solid #c8a45d;
+}
+#page-laboratorio #foodCrossCard > summary::-webkit-details-marker,
+#page-laboratorio #fxResult .fx-pair-summary::-webkit-details-marker { display: none; }
+#page-laboratorio #foodCrossCard .fx-title {
+  display: block; color: #123b50; font: 800 clamp(16px,1.4vw,20px)/1.3 Manrope,sans-serif;
+}
+#page-laboratorio #foodCrossCard .fx-summary-sub {
+  display: block; color: #526d7a; font: 500 12px/1.5 Manrope,sans-serif; margin-top: 5px;
+}
+#page-laboratorio #foodCrossCard .fx-chevron {
+  font-size: 24px; font-weight: 700; color: #237b88; transition: transform .2s ease;
+}
+#page-laboratorio #foodCrossCard[open] > summary .fx-chevron { transform: rotate(180deg); }
+#page-laboratorio #foodCrossCard .fx-body { padding: clamp(15px, 2.2vw, 24px); border-top: 1px solid #e2edf0; }
+#page-laboratorio #foodCrossCard .fx-intro {
+  color: #426173; font: 500 13px/1.7 Manrope,sans-serif; margin: 0 0 18px;
+}
+#page-laboratorio #foodCrossCard #fxFoods.fx-grid {
+  display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 15px; align-items: start;
+}
+#page-laboratorio #foodCrossCard .fx-field {
+  display: flex; flex-direction: column; gap: 7px; min-width: 0;
+  padding: 14px; border: 1px solid #dce8ec; border-radius: 13px; background: #fbfdfe;
+}
+#page-laboratorio #foodCrossCard .fx-field-head {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+}
+#page-laboratorio #foodCrossCard .fx-field-head label {
+  color: #193f55; font: 800 13px/1.35 Manrope,sans-serif; margin: 0;
+}
+#page-laboratorio #foodCrossCard .fx-food-select {
+  display: block; width: 100%; min-width: 0; border: 1px solid #bccfda;
+  border-radius: 10px; padding: 12px 13px; background: #fff; color: #173849;
+  font: 650 13px/1.5 Manrope,sans-serif; min-height: 45px;
+}
+#page-laboratorio #foodCrossCard .fx-index-note {
+  margin: 0; color: #77909b; font: 500 11px/1.45 Manrope,sans-serif;
+}
+#page-laboratorio #foodCrossCard .fx-tolerance-check {
+  display: flex; align-items: flex-start; gap: 8px;
+  color: #526d7b; font: 550 11px/1.45 Manrope,sans-serif; cursor: pointer;
+}
+#page-laboratorio #foodCrossCard .fx-tolerance-check input {
+  width: 15px; height: 15px; margin: 1px 0 0; flex: 0 0 auto; accent-color: #177c73;
+}
+#page-laboratorio #foodCrossCard .fx-remove-food {
+  padding: 5px 8px; border: 1px solid #ead3d0; border-radius: 8px;
+  color: #965247; background: #fff8f7; font: 700 11px Manrope,sans-serif; cursor: pointer;
+}
+#page-laboratorio #foodCrossCard .fx-form-actions {
+  display: flex; flex-wrap: wrap; gap: 10px; margin: 17px 0 10px;
+}
+#page-laboratorio #foodCrossCard .fx-form-actions button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  min-height: 44px; padding: 10px 16px; border-radius: 10px; cursor: pointer;
+  font: 800 12px/1.3 Manrope,sans-serif;
+}
+#page-laboratorio #foodCrossCard .fx-plus-food {
+  color: #176d7d; background: #ecf7f9; border: 1px solid #a9d2dc;
+}
+#page-laboratorio #foodCrossCard .fx-plus-food > span {
+  display: grid; place-items: center; width: 22px; height: 22px;
+  border-radius: 7px; color: #fff; background: #177d8c; font-size: 18px; line-height: 1;
+}
+#page-laboratorio #foodCrossCard .fx-primary-compare {
+  color: #fff; background: #164963; border: 1px solid #164963;
+  box-shadow: 0 3px 9px rgba(22,73,99,.12);
+}
+#page-laboratorio #foodCrossCard .fx-field-message {
+  font: 600 12px/1.5 Manrope,sans-serif; color: #a2602e;
+}
+#page-laboratorio #foodCrossCard .fx-note {
+  padding: 12px 15px; border-left: 3px solid #d0ad64; border-radius: 9px;
+  background: #f8f9f9; color: #526573; font: 500 12px/1.65 Manrope,sans-serif;
+}
+#page-laboratorio #fxResult .fx-overview {
+  margin: 20px 0 13px; padding: 18px 20px; border-radius: 14px;
+  border: 1px solid #d6e4e9; background: #f7fafb;
+}
+#page-laboratorio #fxResult .fx-overview-kicker {
+  color: #89703e; font: 800 11px/1.4 Manrope,sans-serif; letter-spacing: .09em;
+}
+#page-laboratorio #fxResult .fx-overview h3 {
+  margin: 4px 0 6px; color: #193e53;
+  font: 800 clamp(16px,1.55vw,21px)/1.35 Manrope,sans-serif;
+}
+#page-laboratorio #fxResult .fx-overview p,
+#page-laboratorio #fxResult .fx-integrated-note {
+  margin: 0; color: #4c6572; font: 500 13px/1.65 Manrope,sans-serif;
+}
+#page-laboratorio #fxResult .fx-pair-list { display: grid; gap: 12px; }
+#page-laboratorio #fxResult .fx-pair-card {
+  border: 1px solid #cadde5; border-radius: 14px; background: #fff; overflow: hidden;
+}
+#page-laboratorio #fxResult .fx-pair-summary {
+  list-style: none; cursor: pointer; padding: 13px 16px; display: flex;
+  align-items: center; gap: 13px; background: #fff;
+}
+#page-laboratorio #fxResult .fx-pair-card[open] > summary {
+  background: #f0f7f9; border-bottom: 1px solid #dce9ed;
+}
+#page-laboratorio #fxResult .fx-pair-number {
+  width: 30px; height: 30px; display: grid; place-items: center;
+  border-radius: 9px; flex: 0 0 auto; background: #deedf1;
+  color: #1d5e73; font: 800 11px Manrope,sans-serif;
+}
+#page-laboratorio #fxResult .fx-pair-title { display: block; min-width: 0; flex: 1; }
+#page-laboratorio #fxResult .fx-pair-title strong {
+  display: block; font: 800 14px/1.45 Manrope,sans-serif; color: #153d51;
+}
+#page-laboratorio #fxResult .fx-pair-title small {
+  display: block; color: #617986; margin-top: 2px; font: 600 11px/1.5 Manrope,sans-serif;
+}
+#page-laboratorio #fxResult .fx-pair-expand { color: #257e8b; font-size: 20px; transition: transform .2s; }
+#page-laboratorio #fxResult .fx-pair-card[open] .fx-pair-expand { transform: rotate(180deg); }
+#page-laboratorio #fxResult .fx-pair-body { padding: 12px; background: #fbfdfe; }
+#page-laboratorio #fxResult .fx-report { box-shadow: none; border: 1px solid #d6e3e9; }
+#page-laboratorio #fxResult .fx-technical-section {
+  padding: 19px 23px; border-top: 1px solid #e1ecf0; background: #fff;
+}
+#page-laboratorio #fxResult .fx-technical-section h4 {
+  color: #164458; font: 800 15px/1.4 Manrope,sans-serif; margin: 12px 0 6px;
+}
+#page-laboratorio #fxResult .fx-technical-section h4:first-child { margin-top: 0; }
+#page-laboratorio #fxResult .fx-technical-section p {
+  color: #405966; font: 500 14px/1.65 Manrope,sans-serif; margin: 0;
+}
+#page-laboratorio #fxResult .fx-integrated-note { padding: 13px 5px 0; }
+#page-laboratorio #fxResult .fx-status {
+  margin-top: 16px; padding: 14px 16px; background: #fff6ef;
+  border-left: 4px solid #c58245; border-radius: 9px;
+}
+#page-laboratorio #fxResult :is(button,a,summary):focus-visible,
+#page-laboratorio #foodCrossCard :is(button,select,input,summary):focus-visible {
+  outline: 3px solid #d2ad64; outline-offset: 3px;
+}
+@media (max-width: 700px) {
+  #page-laboratorio #foodCrossCard.fx-card { margin: 10px 10px 16px; }
+  #page-laboratorio #foodCrossCard #fxFoods.fx-grid { grid-template-columns: minmax(0,1fr); }
+  #page-laboratorio #foodCrossCard > summary { padding: 16px; }
+  #page-laboratorio #foodCrossCard .fx-form-actions button { flex: 1 1 100%; }
+  #page-laboratorio #fxResult .fx-pair-summary { padding: 11px; gap: 9px; }
+  #page-laboratorio #fxResult .fx-pair-body { padding: 6px; }
+  #page-laboratorio #fxResult .fx-technical-section { padding: 15px; }
+}
