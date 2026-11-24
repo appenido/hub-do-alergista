@@ -5,6 +5,16 @@
   "items": [
     {
       "kind": "content",
+      "id": "5780373233e1",
+      "date": "2026-11-24",
+      "publishedAt": "2026-11-24T18:29:04.000Z",
+      "type": "Novidade",
+      "category": "Laboratório",
+      "section": "laboratorio",
+      "title": "Vincular Bulário ANVISA e origem CMED com data"
+    },
+    {
+      "kind": "content",
       "id": "880e18909fac",
       "date": "2026-11-24",
       "publishedAt": "2026-11-24T07:07:42.000Z",
