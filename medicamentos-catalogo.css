@@ -744,3 +744,67 @@
   #page-medicamentos #medApp .med-ibp-dose-grid>section:nth-child(even){padding-left:0}
   #page-medicamentos #medApp .med-ibp-hydrate-grid{grid-template-columns:minmax(0,1fr)}
 }
+
+
+/* 24/11/2026 — Leitura prioritária do princípio ativo e quadro regulatório.
+   Mantém a expansão no card, com separação nítida entre idade e teto posológico. */
+#page-medicamentos #medApp .med-prod-head .hub-med-nome{
+ font-size:clamp(17px,1.34vw,20px)!important;font-weight:900!important;
+ line-height:1.25!important;letter-spacing:-.018em!important;color:#12374c!important;
+}
+#page-medicamentos #medApp #ahApp .ah-card-name{
+ font-size:clamp(17px,1.34vw,20px)!important;font-weight:900!important;
+ line-height:1.28!important;letter-spacing:-.012em!important;color:#12374c!important;
+}
+#page-medicamentos #medApp .asma-commercial-name{
+ font-size:clamp(18px,1.4vw,21px)!important;font-weight:900!important;
+ line-height:1.26!important;color:#12374c!important;
+}
+#page-medicamentos #medApp .asma-generic-name{
+ font-size:clamp(14px,1.08vw,16px)!important;font-weight:850!important;
+ line-height:1.35!important;color:#294f64!important;
+}
+#page-medicamentos #medApp .med-prod-brand,
+#page-medicamentos #medApp #ahApp .ah-card-brand{font-size:clamp(11px,.91vw,13px)!important;line-height:1.35!important}
+#page-medicamentos #medApp .med-regulatory,
+#page-medicamentos #medApp #ahApp .ah-regulatory{
+ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;
+ margin:10px 0 13px;padding:0;background:transparent;
+}
+#page-medicamentos #medApp .med-regulatory-item,
+#page-medicamentos #medApp #ahApp .ah-regulatory-item{
+ min-width:0;border:1px solid #d5e5eb;border-left:4px solid var(--med-mf,#24758c);
+ border-radius:11px;background:linear-gradient(130deg,#f8fcfd,#fff);
+ padding:13px 15px;overflow-wrap:anywhere;
+}
+#page-medicamentos #medApp .med-regulatory-item .med-mini-label,
+#page-medicamentos #medApp #ahApp .ah-regulatory-item h3{
+ display:block;color:#24566e;font:850 12px/1.4 Manrope,Arial,sans-serif!important;
+ margin:0 0 8px!important;letter-spacing:0!important;
+}
+#page-medicamentos #medApp .med-regulatory-item p,
+#page-medicamentos #medApp #ahApp .ah-regulatory-item p{
+ color:#203f51;font:650 13px/1.58 Manrope,Arial,sans-serif!important;
+ margin:0!important;
+}
+#page-medicamentos #medApp .med-regulatory-source,
+#page-medicamentos #medApp .med-regulatory-pending{grid-column:1/-1;margin:0;font-size:11px;line-height:1.5}
+#page-medicamentos #medApp .med-regulatory-source a{font-weight:750;color:#166a85}
+#page-medicamentos #medApp .med-regulatory-pending{color:#775723}
+#page-medicamentos #medApp .asma-quick{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+#page-medicamentos #medApp .asma-quick>span{font-size:12px!important;line-height:1.5!important}
+#page-medicamentos #medApp .asma-quick>span small{font-weight:850!important;letter-spacing:.02em}
+@media(max-width:800px){
+ #page-medicamentos #medApp .med-regulatory,
+ #page-medicamentos #medApp #ahApp .ah-regulatory{grid-template-columns:minmax(0,1fr)}
+ #page-medicamentos #medApp .asma-quick{grid-template-columns:minmax(0,1fr)!important}
+ #page-medicamentos #medApp .asma-quick>span+span{border-left:0!important;border-top:1px solid #e7edef}
+}
+@media(max-width:420px){
+ #page-medicamentos #medApp .med-prod-head .hub-med-nome,
+ #page-medicamentos #medApp #ahApp .ah-card-name{font-size:16px!important}
+ #page-medicamentos #medApp .asma-commercial-name{font-size:17px!important}
+ #page-medicamentos #medApp .asma-generic-name{font-size:14px!important}
+ #page-medicamentos #medApp .med-regulatory-item,
+ #page-medicamentos #medApp #ahApp .ah-regulatory-item{padding:11px 12px}
+}
