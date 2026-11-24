@@ -1,0 +1,253 @@
+/* Hub do Alergista — Home premium
+   Hierarquia visual única, títulos proporcionais e ícones vetoriais com maior presença.
+   24/11/2026 */
+
+#page-dashboard{
+  --home-card-radius:20px;
+  --home-card-border:#dfe8ee;
+  --home-card-shadow:0 8px 24px rgba(13,31,45,.065),0 1px 2px rgba(13,31,45,.04);
+  --home-title:#183148;
+}
+
+/* Cabeçalho da área principal */
+#page-dashboard > .sec-hdr{
+  padding-top:22px!important;
+  padding-bottom:13px!important;
+}
+#page-dashboard > .sec-hdr h2{
+  font-size:clamp(19px,5vw,22px)!important;
+  line-height:1.12!important;
+  font-weight:800!important;
+  letter-spacing:-.035em!important;
+  color:#102d43!important;
+  gap:10px!important;
+}
+#page-dashboard > .sec-hdr h2::before{
+  width:4px!important;
+  height:23px!important;
+  border-radius:999px!important;
+  background:linear-gradient(180deg,#35c3ca 0%,#187a97 100%)!important;
+  box-shadow:0 2px 8px rgba(45,143,168,.2);
+}
+
+/* Grade: três atalhos por linha em todas as larguras */
+#page-dashboard .quick-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:10px!important;
+  padding-inline:14px!important;
+  align-items:stretch!important;
+}
+
+/* Card-base */
+#page-dashboard .quick-grid > .qcard{
+  --accent-rgb:31,132,162;
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  min-width:0!important;
+  min-height:132px!important;
+  height:auto!important;
+  aspect-ratio:auto!important;
+  padding:12px 6px 11px!important;
+  gap:9px!important;
+  border:1px solid var(--home-card-border)!important;
+  border-radius:var(--home-card-radius)!important;
+  background:linear-gradient(160deg,#ffffff 0%,#fbfdfe 100%)!important;
+  box-shadow:var(--home-card-shadow)!important;
+  transform:translateZ(0);
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease!important;
+}
+#page-dashboard .quick-grid > .qcard::before{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:0 0 auto 0;
+  height:3px;
+  background:linear-gradient(90deg,
+    rgba(var(--accent-rgb),.92),
+    rgba(var(--accent-rgb),.36));
+  opacity:.9;
+}
+#page-dashboard .quick-grid > .qcard::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  width:72px;
+  height:72px;
+  border-radius:50%;
+  top:-38px;
+  right:-30px;
+  background:radial-gradient(circle,rgba(var(--accent-rgb),.11),rgba(var(--accent-rgb),0) 72%);
+  pointer-events:none;
+}
+#page-dashboard .quick-grid > .qcard:hover{
+  border-color:rgba(var(--accent-rgb),.26)!important;
+  box-shadow:0 11px 30px rgba(13,31,45,.09),0 2px 5px rgba(var(--accent-rgb),.07)!important;
+  transform:translateY(-2px);
+}
+#page-dashboard .quick-grid > .qcard:active{
+  transform:translateY(0) scale(.975)!important;
+  box-shadow:0 4px 13px rgba(13,31,45,.07)!important;
+}
+#page-dashboard .quick-grid > .qcard:focus-visible{
+  outline:3px solid rgba(var(--accent-rgb),.22)!important;
+  outline-offset:2px!important;
+}
+
+/* Ícones: maiores, mais nítidos e com cor própria por módulo */
+#page-dashboard .quick-grid > .qcard .qi{
+  position:relative;
+  flex:0 0 61px!important;
+  width:61px!important;
+  min-width:61px!important;
+  height:61px!important;
+  border-radius:18px!important;
+  border:1px solid rgba(var(--accent-rgb),.18)!important;
+  background:
+    radial-gradient(circle at 30% 22%,rgba(255,255,255,.94) 0 18%,rgba(255,255,255,0) 48%),
+    linear-gradient(145deg,rgba(var(--accent-rgb),.17),rgba(var(--accent-rgb),.055))!important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 5px 14px rgba(var(--accent-rgb),.11)!important;
+}
+#page-dashboard .quick-grid > .qcard .qi::after{
+  content:"";
+  position:absolute;
+  inset:5px;
+  border-radius:13px;
+  border:1px solid rgba(255,255,255,.64);
+  pointer-events:none;
+}
+#page-dashboard .quick-grid > .qcard .q-illustration{
+  display:block!important;
+  width:48px!important;
+  height:48px!important;
+  max-width:none!important;
+  filter:saturate(1.18) contrast(1.035) drop-shadow(0 2px 2px rgba(13,31,45,.08));
+}
+
+/* Títulos: uma única escala. Nenhum item reduz a fonte isoladamente. */
+#page-dashboard .quick-grid > .qcard .ql{
+  width:100%!important;
+  min-height:34px!important;
+  margin:0!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  font-family:'Manrope',sans-serif!important;
+  font-size:clamp(11.8px,3.25vw,13.4px)!important;
+  font-weight:800!important;
+  line-height:1.23!important;
+  letter-spacing:-.025em!important;
+  color:var(--home-title)!important;
+  white-space:normal!important;
+  word-break:normal!important;
+  overflow-wrap:normal!important;
+  hyphens:none!important;
+  text-wrap:balance;
+}
+#page-dashboard .quick-grid > .qcard[data-nav="imuno"] .ql{
+  min-height:38px!important;
+  flex-direction:column!important;
+  gap:2px!important;
+}
+#page-dashboard .quick-grid > .qcard[data-nav="imuno"] .ql > span:first-child{
+  font-size:inherit!important;
+  line-height:1.15!important;
+  font-weight:800!important;
+  white-space:nowrap!important;
+}
+#page-dashboard .quick-grid > .qcard[data-nav="imuno"] .ql > span:last-child{
+  font-size:clamp(8.4px,2.25vw,9.4px)!important;
+  line-height:1.1!important;
+  font-weight:650!important;
+  letter-spacing:-.01em!important;
+  color:#667b8e!important;
+  white-space:nowrap!important;
+}
+
+/* Paleta por função: cor orienta sem transformar a Home em mosaico excessivo */
+#page-dashboard .qcard[data-nav="scores"]{--accent-rgb:39,126,176;}
+#page-dashboard .qcard[data-nav="artigos"]{--accent-rgb:16,145,133;}
+#page-dashboard .qcard[data-nav="guidelines"]{--accent-rgb:91,94,196;}
+#page-dashboard .qcard[data-nav="eaaci"]{--accent-rgb:45,103,191;}
+#page-dashboard .qcard[data-nav="educacao"]{--accent-rgb:21,130,158;}
+#page-dashboard .qcard[data-nav="imuno"]{--accent-rgb:193,145,52;}
+#page-dashboard .qcard[data-nav="interacao"]{--accent-rgb:205,101,82;}
+#page-dashboard .qcard[data-nav="imunoglobulinas"]{--accent-rgb:91,101,177;}
+#page-dashboard .qcard[data-nav="medicamentos"]{--accent-rgb:23,155,167;}
+#page-dashboard .qcard[data-nav="imunizacoes"]{--accent-rgb:22,145,105;}
+#page-dashboard .qcard[href*="portal.cfm.org.br"]{--accent-rgb:42,105,188;}
+#page-dashboard .qcard[data-nav="laboratorio"]{--accent-rgb:119,84,164;}
+#page-dashboard .qcard.hub-install-card{--accent-rgb:47,105,204;}
+#page-dashboard .qcard[data-nav="formulasInfantis"]{--accent-rgb:222,126,49;}
+#page-dashboard .qcard[data-nav="favoritos"]{--accent-rgb:194,151,51;}
+
+/* A ilustração de cada módulo ganha um pouco da sua cor sem perder o desenho original */
+#page-dashboard .qcard[data-nav="guidelines"] .q-illustration{filter:saturate(1.18) hue-rotate(12deg) contrast(1.04) drop-shadow(0 2px 2px rgba(13,31,45,.08));}
+#page-dashboard .qcard[data-nav="interacao"] .q-illustration{filter:saturate(1.22) sepia(.05) contrast(1.04) drop-shadow(0 2px 2px rgba(13,31,45,.08));}
+#page-dashboard .qcard[data-nav="imunizacoes"] .q-illustration{filter:saturate(1.28) contrast(1.04) drop-shadow(0 2px 2px rgba(13,31,45,.08));}
+#page-dashboard .qcard[data-nav="favoritos"] .q-illustration{filter:saturate(1.2) contrast(1.04) drop-shadow(0 2px 2px rgba(13,31,45,.08));}
+
+/* Celulares estreitos: mantém proporção sem encolher seletivamente títulos */
+@media(max-width:359px){
+  #page-dashboard .quick-grid{
+    gap:7px!important;
+    padding-inline:9px!important;
+  }
+  #page-dashboard .quick-grid > .qcard{
+    min-height:124px!important;
+    padding-inline:4px!important;
+  }
+  #page-dashboard .quick-grid > .qcard .qi{
+    flex-basis:56px!important;
+    width:56px!important;
+    min-width:56px!important;
+    height:56px!important;
+    border-radius:16px!important;
+  }
+  #page-dashboard .quick-grid > .qcard .q-illustration{
+    width:44px!important;
+    height:44px!important;
+  }
+  #page-dashboard .quick-grid > .qcard .ql{
+    font-size:11.4px!important;
+    letter-spacing:-.03em!important;
+  }
+}
+
+/* Tablet/desktop: mesma identidade, mais espaço e escala contida */
+@media(min-width:560px){
+  #page-dashboard .quick-grid{
+    gap:13px!important;
+    padding-inline:18px!important;
+  }
+  #page-dashboard .quick-grid > .qcard{
+    min-height:145px!important;
+    padding:14px 10px 13px!important;
+  }
+  #page-dashboard .quick-grid > .qcard .qi{
+    flex-basis:64px!important;
+    width:64px!important;
+    min-width:64px!important;
+    height:64px!important;
+    border-radius:19px!important;
+  }
+  #page-dashboard .quick-grid > .qcard .q-illustration{
+    width:50px!important;
+    height:50px!important;
+  }
+  #page-dashboard .quick-grid > .qcard .ql{
+    min-height:38px!important;
+    font-size:clamp(13.4px,1.2vw,15.2px)!important;
+    line-height:1.25!important;
+  }
+  #page-dashboard .quick-grid > .qcard[data-nav="imuno"] .ql > span:last-child{
+    font-size:10px!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  #page-dashboard .quick-grid > .qcard{transition:none!important;}
+}
