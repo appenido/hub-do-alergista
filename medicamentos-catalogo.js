@@ -76,7 +76,7 @@ const MED_REGISTERED_MARKS=[
 function medRegisterMarks(value){
  let out=String(value||'');
  MED_REGISTERED_MARKS.forEach(token=>{
-  const safe=token.replace(/[.*+?^\${}()|[\]\\]/g,'\\const safe=token.replace(/[.*+?^$()|[\]\\]/g,'\\/* Cada ficha: princípio ativo/produto, marcas exemplificativas, apresentação, classificação e observação. */');');
+  const safe=token.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   out=out.replace(new RegExp(safe+'(?!®)','g'),token+'®');
  });
  return out;
