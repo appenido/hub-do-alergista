@@ -17,6 +17,125 @@ const CATS=[
  {id:'ibps',name:'IBPs',sub:'Inibidores da bomba de prótons',icon:'stomach'},
  {id:'hidratantes',name:'Cremes hidratantes',sub:'Seleção por orçamento, textura e área corporal',icon:'drop'}
 ];
+
+/* Identidade visual compartilhada dos medicamentos: nome comercial registrado,
+   fabricante e cores corporativas. Mantém fallback neutro quando a marca/fabricante
+   não pode ser determinada com segurança a partir do catálogo. */
+const MED_MANUFACTURERS={
+ gsk:{name:'GSK',logo:'GSK',color:'#f36f21',soft:'#fff4ec',ink:'#a94100'},
+ boehringer:{name:'Boehringer Ingelheim',logo:'Boehringer Ingelheim',color:'#003b5c',soft:'#eef6fa',ink:'#002c45'},
+ chiesi:{name:'Chiesi Farmacêutica',logo:'Chiesi',color:'#007b8a',soft:'#edf9f9',ink:'#005b65'},
+ astrazeneca:{name:'AstraZeneca',logo:'AstraZeneca',color:'#6f2c91',soft:'#f7f0fa',ink:'#54206d'},
+ ache:{name:'Aché Laboratórios',logo:'Aché',color:'#c6006f',soft:'#fff0f8',ink:'#920052'},
+ novartis:{name:'Novartis',logo:'Novartis',color:'#e05b22',soft:'#fff4ef',ink:'#9b3710'},
+ takeda:{name:'Takeda',logo:'Takeda',color:'#d71920',soft:'#fff1f2',ink:'#a51016'},
+ viatris:{name:'Viatris',logo:'Viatris',color:'#6f2c91',soft:'#f7f1fa',ink:'#51206a'},
+ glenmark:{name:'Glenmark',logo:'Glenmark',color:'#0057a5',soft:'#eff6fc',ink:'#003d74'},
+ eurofarma:{name:'Eurofarma',logo:'Eurofarma',color:'#007a3d',soft:'#eef9f3',ink:'#00552a'},
+ ems:{name:'EMS',logo:'EMS',color:'#005baa',soft:'#eef6fd',ink:'#00417a'},
+ biolab:{name:'Biolab',logo:'Biolab',color:'#005aa9',soft:'#eef6fc',ink:'#003f78'},
+ bayer:{name:'Bayer',logo:'Bayer',color:'#0b7d3e',soft:'#eef8f2',ink:'#07582c'},
+ organon:{name:'Organon',logo:'Organon',color:'#6f2a8e',soft:'#f7f0fa',ink:'#502067'},
+ sanofi:{name:'Sanofi',logo:'Sanofi',color:'#7a00e6',soft:'#f6effd',ink:'#5200a0'},
+ alcon:{name:'Alcon',logo:'Alcon',color:'#0067b1',soft:'#eef6fc',ink:'#00477c'},
+ abbvie:{name:'AbbVie',logo:'AbbVie',color:'#071d49',soft:'#f1f4f9',ink:'#071d49'},
+ thea:{name:'Théa',logo:'Théa',color:'#005aa8',soft:'#eef6fc',ink:'#003f76'},
+ ursapharm:{name:'URSAPHARM',logo:'URSAPHARM',color:'#006d75',soft:'#eef9f9',ink:'#004b51'},
+ bausch:{name:'Bausch + Lomb',logo:'Bausch + Lomb',color:'#005eb8',soft:'#eef6fd',ink:'#00417f'},
+ janssen:{name:'Janssen',logo:'Janssen',color:'#d2232a',soft:'#fff1f2',ink:'#97181e'},
+ bioderma:{name:'Bioderma · NAOS',logo:'Bioderma',color:'#e31b54',soft:'#fff1f5',ink:'#a1133b'},
+ cerave:{name:'CeraVe · L’Oréal',logo:'CeraVe',color:'#006f8b',soft:'#eef8fa',ink:'#004d61'},
+ cetaphil:{name:'Cetaphil · Galderma',logo:'Cetaphil',color:'#0b78bd',soft:'#eef7fc',ink:'#075486'},
+ dermage:{name:'Dermage',logo:'Dermage',color:'#8a5b4a',soft:'#faf5f2',ink:'#644136'},
+ eucerin:{name:'Eucerin · Beiersdorf',logo:'Eucerin',color:'#b11942',soft:'#fff1f4',ink:'#7f1230'},
+ fisiogel:{name:'Fisiogel',logo:'Fisiogel',color:'#8267a8',soft:'#f6f2fa',ink:'#5d487a'},
+ granado:{name:'Granado',logo:'Granado',color:'#7c1e2c',soft:'#faf1f2',ink:'#57151f'},
+ isdin:{name:'ISDIN',logo:'ISDIN',color:'#e5484d',soft:'#fff2f2',ink:'#a52e32'},
+ laroche:{name:'La Roche-Posay · L’Oréal',logo:'La Roche-Posay',color:'#009ee2',soft:'#eff9fe',ink:'#00709f'},
+ mantecorp:{name:'Mantecorp Skincare',logo:'Mantecorp',color:'#174f7c',soft:'#f0f6fa',ink:'#103854'},
+ mustela:{name:'Mustela · Expanscience',logo:'Mustela',color:'#00a6c8',soft:'#eefbfc',ink:'#00758d'},
+ neutrogena:{name:'Neutrogena',logo:'Neutrogena',color:'#111111',soft:'#f5f5f5',ink:'#111111'},
+ nivea:{name:'NIVEA · Beiersdorf',logo:'NIVEA',color:'#003b7a',soft:'#eef4fa',ink:'#002955'},
+ profuse:{name:'Profuse',logo:'Profuse',color:'#6e4a8e',soft:'#f6f1fa',ink:'#4f3566'},
+ uriage:{name:'Uriage',logo:'Uriage',color:'#225f8a',soft:'#f0f6fa',ink:'#184361'},
+ vasenol:{name:'Vasenol',logo:'Vasenol',color:'#1d4f91',soft:'#eff5fb',ink:'#143766'},
+ neutral:{name:'Fabricante não identificado',logo:'',color:'#72828a',soft:'#f5f7f8',ink:'#41535c'}
+};
+const MED_REGISTERED_MARKS=[
+ 'Bepantol','Bioderma','CeraVe','Cetaphil','Dermage','Eucerin','Fisiogel','Granado','ISDIN','La Roche-Posay','Mantecorp','Mustela','Neutrogena','NIVEA','Profuse','Uriage','Vasenol',
+ 'Berlison','Adinos','Eumovate','Elocom','Advantan','Betnovate','Diprosone','Drenison','Psorex',
+ 'Patanol','Pataday','Zaditen','Relestat','Emadine','Cromolerg','Hyabak','Hylo-Comod','Refresh Tears','Optive','Systane Ultra','Systane','Vidisic',
+ 'Busonid','Noex','Nasonex','Avamys','Flixonase','Clenil Nasal','Nasacort','Omnaris','Dymista','Ryaltris',
+ 'Aerolin','Berotec','Atrovent','Foradil','Serevent','Onbrize','Striverdi','Pulmicort','Clenil','Flixotide','Alvesco','Alenia','Symbicort','Vannair','Foraseq','Fostair','Seretide','Relvar','Flutiform','Spiriva','Seebri','Vanisto','Eklira','Ultibro','Anoro','Spiolto','Breztri','Trimbow','Trelegy',
+ 'Losec','Pantozol','Nexium','Lanz','Pariet','Dexilant',
+ 'Polaramine','Histamin','Hixizine','Prurizin','Fenergan','Cobavital','Dramin','Meclin','Claritin','Loremix','Histamix','Loralerg','Desalex','Destadin','Zyrtec','Zetalerg','Zyxem','Allegra','Praalergia','Rafex','Alektos Ped','Alektos','Ebastel','Rupafin','Talerc','Rino-Lastin','Aznite'
+].sort((a,b)=>b.length-a.length);
+function medRegisterMarks(value){
+ let out=String(value||'');
+ MED_REGISTERED_MARKS.forEach(token=>{
+  const safe=token.replace(/[.*+?^$()|[\]\\]/g,'\\/* Cada ficha: princípio ativo/produto, marcas exemplificativas, apresentação, classificação e observação. */');
+  out=out.replace(new RegExp(safe+'(?!®)','g'),token+'®');
+ });
+ return out;
+}
+function medMakerKey(value){
+ const s=String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ if(/aerolin|serevent|flixotide|seretide|relvar|trelegy|avamys|betnovate/.test(s))return 'gsk';
+ if(/berotec|atrovent|spiriva|striverdi|spiolto/.test(s))return 'boehringer';
+ if(/clenil|fostair|trimbow/.test(s))return 'chiesi';
+ if(/pulmicort|symbicort|vannair|breztri|losec|nexium/.test(s))return 'astrazeneca';
+ if(/busonid|alenia|adinos/.test(s))return 'ache';
+ if(/foradil|foraseq|onbrize|seebri|ultibro|zaditen|patanol|pataday/.test(s))return 'novartis';
+ if(/alvesco|dexilant/.test(s))return 'takeda';
+ if(/dymista|rino-lastin/.test(s))return 'viatris';
+ if(/ryaltris/.test(s))return 'glenmark';
+ if(/noex|ebastel/.test(s))return 'eurofarma';
+ if(/lanz/.test(s))return 'ems';
+ if(/drenison/.test(s))return 'biolab';
+ if(/advantan|bepantol/.test(s))return 'bayer';
+ if(/nasonex/.test(s))return 'organon';
+ if(/nasacort/.test(s))return 'sanofi';
+ if(/systane/.test(s))return 'alcon';
+ if(/relestat|refresh|optive/.test(s))return 'abbvie';
+ if(/hyabak/.test(s))return 'thea';
+ if(/hylo-comod/.test(s))return 'ursapharm';
+ if(/vidisic/.test(s))return 'bausch';
+ if(/pariet/.test(s))return 'janssen';
+ if(/bioderma/.test(s))return 'bioderma';
+ if(/cerave/.test(s))return 'cerave';
+ if(/cetaphil/.test(s))return 'cetaphil';
+ if(/dermage/.test(s))return 'dermage';
+ if(/eucerin/.test(s))return 'eucerin';
+ if(/fisiogel/.test(s))return 'fisiogel';
+ if(/granado/.test(s))return 'granado';
+ if(/isdin/.test(s))return 'isdin';
+ if(/la roche-posay|lipikar/.test(s))return 'laroche';
+ if(/mantecorp/.test(s))return 'mantecorp';
+ if(/mustela/.test(s))return 'mustela';
+ if(/neutrogena/.test(s))return 'neutrogena';
+ if(/nivea/.test(s))return 'nivea';
+ if(/profuse/.test(s))return 'profuse';
+ if(/uriage/.test(s))return 'uriage';
+ if(/vasenol/.test(s))return 'vasenol';
+ return 'neutral';
+}
+function medMakerVars(key){
+ const m=MED_MANUFACTURERS[key]||MED_MANUFACTURERS.neutral;
+ return '--med-mf:'+m.color+';--med-mf-soft:'+m.soft+';--med-mf-ink:'+m.ink+';';
+}
+function medMakerLogo(key){
+ const m=MED_MANUFACTURERS[key]||MED_MANUFACTURERS.neutral;
+ if(key==='neutral'||!m.logo)return '';
+ return '<span class="med-maker-logo" aria-label="'+esc(m.name)+'" title="'+esc(m.name)+'"><span>'+esc(m.logo)+'</span></span>';
+}
+window.HubMedBranding={
+ registeredBrand:medRegisterMarks,
+ manufacturerKey:medMakerKey,
+ manufacturerVars:medMakerVars,
+ manufacturerLogo:medMakerLogo,
+ manufacturers:MED_MANUFACTURERS
+};
+
 /* Cada ficha: princípio ativo/produto, marcas exemplificativas, apresentação, classificação e observação. */
 const DB={
  topicos:[
@@ -700,10 +819,11 @@ function corticoidesTopicosCards(data){
  const potencia='https://www.msdmanuals.com/pt/profissional/multimedia/table/pot%C3%AAncia-relativa-dos-corticoides-t%C3%B3picos-selecionados';
  const makeForm=(name,pot)=>'<section class="med-topical-form"><span class="med-topical-form-name">'+name+'</span><span class="med-topical-strength">'+(pot?esc(pot):'Não identificada como apresentação isolada')+'</span></section>';
  return '<div class="med-results med-results-topicos" aria-live="polite">'+data.map(item=>{
-   const t=CORTICOIDE_TOPICO[item[0]];
-   if(!t)return '';
-   return '<details class="med-prod med-prod-topical" data-hub-medicamento><summary>'
-    +'<span class="med-prod-head"><span class="hub-med-nome">'+esc(item[0])+'</span><span class="med-prod-brand">'+esc(item[1])+'</span></span>'
+   const t=CORTICOIDE_TOPICO[item[0]]; if(!t)return '';
+   const rawBrand=item[1]||'', maker=medMakerKey(rawBrand+' '+item[0]), style=medMakerVars(maker);
+   return '<details class="med-prod med-prod-topical med-mf-'+maker+'" style="'+style+'" data-hub-medicamento><summary>'
+    +medMakerLogo(maker)
+    +'<span class="med-prod-head"><span class="hub-med-nome">'+esc(medRegisterMarks(item[0]))+'</span><span class="med-prod-brand">'+esc(medRegisterMarks(rawBrand))+'</span></span>'
     +'<span class="med-prod-tag">Idade: '+esc(t[0])+'</span><span class="med-prod-chevron">⌄</span></summary>'
     +'<div class="med-prod-detail"><section class="med-topical-age"><span class="med-mini-label">A partir de qual idade?</span><p>'+esc(t[1])+'</p></section>'
     +'<section class="med-topical-presentations"><span class="med-mini-label">Creme ou pomada: potência específica</span><div class="med-topical-form-grid">'
@@ -711,23 +831,25 @@ function corticoidesTopicosCards(data){
     +'<section class="med-topical-notes"><span class="med-mini-label">Observação clínica</span><p>'+esc(t[4])+'</p></section>'
     +'<section class="med-topical-sources"><a target="_blank" rel="noopener noreferrer" href="'+esc(t[5])+'">Idade e apresentações</a><a target="_blank" rel="noopener noreferrer" href="'+potencia+'">Tabela de potência</a></section>'
     +'</div></details>';
-  }).join('')+'</div><p class="med-source">Classificação relativa I–VII por formulação, não equivalente à concentração isoladamente. A idade indicada depende da bula do produto específico; “pediátrico” não significa liberação desde o nascimento. Disponibilidade e registro devem ser avaliados por apresentação.</p>';
+  }).join('')+'</div><p class="med-source">Classificação relativa I–VII por formulação, não equivalente à concentração isoladamente. A idade indicada depende da apresentação específica e da evidência disponível.</p>';
 }
 function cards(data,id){
  const anvisaLink=(id==='hidratantes')?'https://www.gov.br/anvisa/pt-br/sistemas/sistema-de-consultas/':ANVISA;
- const anvisaLabel=id==='hidratantes'?'Consultar regularização do cosmético':'Conferir bula e registro na Anvisa';
+ const anvisaLabel=id==='hidratantes'?'Regularização / fonte do produto':'Registro sanitário';
  return '<div class="med-results" aria-live="polite">'+data.map((item,i)=>{
-  const name=esc(item[0]),brand=esc(item[1]),form=esc(item[2]),tag=esc(item[3]),note=esc(item[4]);
-  return '<details class="med-prod" data-hub-medicamento data-item="'+i+'"><summary><span class="med-prod-index">'+String(i+1).padStart(2,'0')+'</span><span class="med-prod-head"><span class="hub-med-nome">'+name+'</span><span class="med-prod-brand">'+brand+'</span></span><span class="med-prod-tag">'+tag+'</span><span class="med-prod-chevron">⌄</span></summary>'+
-  '<div class="med-prod-detail"><div><span class="med-mini-label">Apresentações / veículo</span><p>'+form+'</p></div><div><span class="med-mini-label">Orientações clínicas</span><p>'+note+'</p></div>'+
-  '<a href="'+anvisaLink+'" target="_blank" rel="noopener noreferrer">'+anvisaLabel+'</a>'+ (id==='hidratantes' && /^https:\/\//.test(item[5]||'')?'<a class="med-brand-source" href="'+esc(item[5])+'" target="_blank" rel="noopener noreferrer">Ver apresentação e ingredientes na fonte consultada</a>':'')+'</div></details>';
- }).join('')+'</div><p class="med-source">Marcas exemplificativas, sem confirmação automática de registro ou disponibilidade. <a href="'+sourceHref(id)+'" target="_blank" rel="noopener noreferrer">'+sourceLabel(id)+'</a>.</p>';
+  const rawName=item[0]||'', rawBrand=item[1]||'', form=esc(item[2]),tag=esc(item[3]),note=esc(item[4]);
+  const maker=medMakerKey(rawBrand+' '+rawName), style=medMakerVars(maker);
+  const name=esc(medRegisterMarks(rawName)),brand=esc(medRegisterMarks(rawBrand));
+  return '<details class="med-prod med-mf-'+maker+'" style="'+style+'" data-hub-medicamento data-item="'+i+'"><summary>'+medMakerLogo(maker)+'<span class="med-prod-head"><span class="hub-med-nome">'+name+'</span><span class="med-prod-brand">'+brand+'</span></span><span class="med-prod-tag">'+tag+'</span><span class="med-prod-chevron">⌄</span></summary>'+
+  '<div class="med-prod-detail"><div><span class="med-mini-label">Apresentações / veículo</span><p>'+form+'</p></div><div><span class="med-mini-label">Indicação e orientações clínicas</span><p>'+note+'</p></div>'+
+  '<a href="'+anvisaLink+'" target="_blank" rel="noopener noreferrer">'+anvisaLabel+'</a>'+ (id==='hidratantes' && /^https:\/\//.test(item[5]||'')?'<a class="med-brand-source" href="'+esc(item[5])+'" target="_blank" rel="noopener noreferrer">Fonte do fabricante / apresentação</a>':'')+'</div></details>';
+ }).join('')+'</div><p class="med-source">Os nomes comerciais são exibidos com marca registrada quando identificados no catálogo. A identidade de cor segue o fabricante ou a marca; itens sem fabricante inequívoco permanecem neutros. <a href="'+sourceHref(id)+'" target="_blank" rel="noopener noreferrer">'+sourceLabel(id)+'</a>.</p>';
 }
 let initDone=false,moistPrices=new Map(),moistChecked=false,moistBusy=false,moistMessage='';
 function init(){
  const root=document.getElementById('medApp');if(!root || initDone)return;
  initDone=true;
- root.innerHTML='<div class="med-intro"><div class="med-eyebrow">CATÁLOGO FARMACOLÓGICO</div><h1>Medicamentos</h1><p>Selecione uma classe. Cada ficha abre em uma página própria, com nomes genéricos, marcas, apresentações, indicações e cuidados.</p></div>'+
+ root.innerHTML='<div class="med-intro"><div class="med-eyebrow">CATÁLOGO FARMACOLÓGICO</div><h1>Medicamentos</h1><p>Selecione uma classe. Os medicamentos aparecem em cards horizontais; a ficha se expande no próprio card, com princípio ativo, nome comercial, fabricante, indicação, apresentação e cuidados.</p></div>'+
  '<div class="med-categories">'+CATS.map(c=>'<section class="med-category" data-med-category="'+c.id+'"><button type="button" class="med-category-toggle" aria-expanded="false" aria-controls="med-category-'+c.id+'"><span class="med-category-icon">'+catIcon(c.icon)+'</span><span class="med-category-copy"><span class="med-category-name">'+esc(c.name)+'</span><span class="med-category-sub">'+esc(c.sub)+'</span></span><span class="med-category-arrow" aria-hidden="true">⌄</span></button><div id="med-category-'+c.id+'" class="med-category-body" hidden></div></section>').join('')+'</div>'+
  '<p class="med-endnote">Dados editoriais com revisão em 14/11/2026. Uma marca ou forma descrita não confirma registro ativo. Consulte a apresentação exata no <a href="'+ANVISA+'" target="_blank" rel="noopener noreferrer">Bulário da Anvisa</a>. Atualizações clínicas e comerciais dependem de nova verificação documentada.</p>';
  root.addEventListener('click',e=>{
