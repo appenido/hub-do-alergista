@@ -176,6 +176,27 @@
     ["WHO/IUIS — Ana c 1, profilina do abacaxi","https://www.allergen.org/viewallergen.php?aid=43"],
     ["WHO/IUIS — catálogo de componentes reconhecidos","https://www.allergen.org/"]
   ];
+
+  PAIR_SRC[pairKey("caju","pistache")]=[
+    ["Revisão 2025 — Tree Nut and Seed Allergies: Prevalence, Clinical Characteristics, Diagnosis, and Management","https://doi.org/10.4168/aair.2025.17.6.672"],
+    ["Revisão clínica de reatividade cruzada alimentar, 2020","https://pmc.ncbi.nlm.nih.gov/articles/PMC11250430/"]
+  ];
+  PAIR_SRC[pairKey("noz","peca")]=[
+    ["Revisão 2025 — Tree Nut and Seed Allergies","https://doi.org/10.4168/aair.2025.17.6.672"],
+    ["Revisão clínica com estudos de provocação entre noz e pecã","https://pmc.ncbi.nlm.nih.gov/articles/PMC11250430/"]
+  ];
+  PAIR_SRC[pairKey("leitevaca","leitecabra")]=[
+    ["Clinical Relevance of Cross-Reactivity in Food Allergy — revisão","https://pubmed.ncbi.nlm.nih.gov/33429724/"]
+  ];
+  PAIR_SRC[pairKey("leitevaca","leiteovelha")]=PAIR_SRC[pairKey("leitevaca","leitecabra")];
+  PAIR_SRC[pairKey("pessego","maca")]=[
+    ["BSACI — Diagnosis and Management of Lipid Transfer Protein Allergy","https://doi.org/10.1111/cea.70022"],
+    ["EAACI — Molecular Allergology User’s Guide 2.0","https://doi.org/10.1111/pai.13854"]
+  ];
+  SRC.push(["WAO — Interpretação de IgE e reatividade cruzada (2020)","https://pmc.ncbi.nlm.nih.gov/articles/PMC7044795/"]);
+  SRC.push(["Revisão 2025 — Alergia a castanhas e sementes","https://doi.org/10.4168/aair.2025.17.6.672"]);
+  SRC.push(["Revisão 2020 — Relevância clínica da reatividade cruzada alimentar","https://pubmed.ncbi.nlm.nih.gov/33429724/"]);
+
   function esc(t) {return String(t==null?"":t).replace(/[&<>"']/g,function(ch){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch];});}
   function clean(v){return String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"");}
   function catEntry(name) {
@@ -186,43 +207,83 @@
   }
   function optionHTML(){return FOODS.slice().sort(function(a,b){return a.label.localeCompare(b.label,"pt-BR");})
     .map(function(f){return '<option value="'+esc(f.id)+'">'+esc(f.label)+'</option>';}).join("");}
+
+  // Seleção progressiva: os dois campos iniciais permanecem estáveis para compatibilidade.
+  var nextFoodField=3;
+  function foodFieldHTML(id,number,removable){
+    return '<div class="fx-field" data-fx-field="'+number+'">'+
+      '<div class="fx-field-head"><label for="'+esc(id)+'">Alimento '+number+'</label>'+
+      (removable?'<button type="button" class="fx-remove-food" aria-label="Remover alimento '+number+'">Remover</button>':'')+'</div>'+
+      '<select class="fx-food-select" id="'+esc(id)+'" autocomplete="off" aria-label="Alimento '+number+'">'+
+      '<option value="">Selecione um alimento</option>'+optionHTML()+'</select>'+
+      (number>1?'<label class="fx-tolerance-check"><input type="checkbox" class="fx-tolerated-item" '+(number===2?'id="fxTolerated" ':'')+'/> Consome regularmente sem sintomas</label>':'<p class="fx-index-note">Alimento de referência para a comparação</p>')+
+      '</div>';
+  }
+  function renumberFoodFields(){
+    var fields=document.querySelectorAll("#fxFoods .fx-field");
+    fields.forEach(function(field,index){
+      var n=index+1, label=field.querySelector(".fx-field-head label"), sel=field.querySelector("select"), remove=field.querySelector(".fx-remove-food");
+      field.setAttribute("data-fx-field",String(n));
+      if(label)label.textContent="Alimento "+n;
+      if(sel)sel.setAttribute("aria-label","Alimento "+n);
+      if(remove)remove.setAttribute("aria-label","Remover alimento "+n);
+    });
+  }
+  function addFoodField(){
+    var grid=document.getElementById("fxFoods");
+    if(!grid)return;
+    if(grid.querySelectorAll(".fx-field").length>=12){
+      var msg=document.getElementById("fxFieldMessage");
+      if(msg)msg.textContent="Limite de 12 alimentos por análise para manter o relatório legível.";
+      return;
+    }
+    var n=grid.querySelectorAll(".fx-field").length+1;
+    var holder=document.createElement("div");
+    holder.innerHTML=foodFieldHTML("fxFoodExtra"+nextFoodField++,n,true);
+    grid.appendChild(holder.firstElementChild);
+    var msg=document.getElementById("fxFieldMessage");if(msg)msg.textContent="";
+    var added=grid.lastElementChild.querySelector("select");
+    if(added&&typeof added.focus==="function")added.focus();
+  }
+  function selectedFoodRows(){
+    var grid=document.getElementById("fxFoods");
+    var selects=grid&&typeof grid.querySelectorAll==="function"
+      ?Array.from(grid.querySelectorAll("select.fx-food-select"))
+      :[document.getElementById("fxFoodA"),document.getElementById("fxFoodB")];
+    return selects.filter(Boolean).map(function(select,index){
+      var field=typeof select.closest==="function"?select.closest(".fx-field"):null;
+      var ck=field&&field.querySelector(".fx-tolerated-item");
+      if(!ck&&index===1)ck=document.getElementById("fxTolerated");
+      return {food:byId[select.value]||null,tolerated:!!(ck&&ck.checked),number:index+1};
+    }).filter(function(item){return !!item.food;});
+  }
   function insert() {
     var page=document.getElementById("page-laboratorio");
     if(!page||document.getElementById("foodCrossCard"))return;
-    var s=document.createElement("style");
-    s.textContent=[
-      ".fx-card{margin:6px 16px 17px;border:1px solid #d4e6ec;border-radius:14px;background:white;overflow:hidden;box-shadow:0 2px 10px rgba(13,31,45,.04)}",
-      ".fx-card summary{list-style:none;cursor:pointer;padding:13px 15px;display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--navy)}",
-      ".fx-card summary::-webkit-details-marker{display:none}.fx-title{font-size:14px;font-weight:800}.fx-summary-sub{display:block;color:#64748b;font-size:11px;font-weight:500;margin-top:3px}",
-      ".fx-chevron{font-size:20px;color:var(--teal-mid)}.fx-card[open] .fx-chevron{transform:rotate(180deg)}",
-      ".fx-body{border-top:1px solid #e5edf2;padding:14px}.fx-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}",
-      ".fx-field label{display:block;margin:0 0 6px;font-size:11px;font-weight:800;color:#35556a}.fx-field select{width:100%;min-width:0;border:1px solid #cfdde4;border-radius:9px;padding:11px 9px;background:#f8fbfc;color:#0d1f2d;font:600 12px Manrope,sans-serif}",
-      ".fx-controls{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:12px 0}.fx-controls button,.fx-add{background:var(--teal-mid);color:white;border:0;border-radius:9px;font:700 12px Manrope,sans-serif;padding:10px 13px;cursor:pointer}",
-      ".fx-controls label{display:flex;align-items:flex-start;gap:6px;color:#475569;font-size:11px;line-height:1.5}.fx-note{font-size:11px;line-height:1.65;color:#475569;background:#f3f8fa;border-radius:9px;padding:10px 12px}",
-      ".fx-results{margin-top:13px}.fx-results h4{font-size:13px;margin:13px 0 7px;color:var(--navy)}.fx-results p{font-size:12px;line-height:1.7;margin:7px 0;color:#334155}",
-      ".fx-status{border-left:3px solid #1f6980;background:#edf6f8;padding:11px 12px;border-radius:0 8px 8px 0}.fx-status strong{font-size:12px;color:#123447}",
-      ".fx-match{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 11px}.fx-tag{border:1px solid #cbdde5;border-radius:99px;background:#f5fafc;padding:5px 8px;font-size:10px;color:#315366}",
-      ".fx-group{margin:10px 0;padding:10px;border:1px solid #e0e9ed;border-radius:10px}.fx-group h5{font-size:12px;color:#1a4a5c;margin:0 0 6px}",
-      ".fx-molecule{padding:10px 0;border-top:1px solid #edf2f4}.fx-molecule:first-of-type{border-top:0}.fx-molecule-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}",
-      ".fx-molecule-name{font-size:12px;font-weight:800;color:#14364a}.fx-molecule-meta{font-size:10px;color:#64748b}.fx-molecule p{font-size:11px;margin:4px 0;line-height:1.55}.fx-add{padding:7px 9px;font-size:10px}.fx-rare{font-size:10px;color:#64748b}",
-      ".fx-sources{margin-top:12px;padding-top:10px;border-top:1px solid #e1eaf0;font-size:10px;line-height:1.8;color:#64748b}.fx-sources a{color:#186d85;text-decoration:underline}",
-      "@media(max-width:520px){.fx-grid{grid-template-columns:1fr}.fx-card{margin-left:12px;margin-right:12px}.fx-field select{font-size:13px}}"
-    ].join("\n");
-    document.head.appendChild(s);
     var wrap=document.createElement("details");
     wrap.id="foodCrossCard";wrap.className="fx-card";
-    wrap.innerHTML='<summary><span><span class="fx-title">Reatividade cruzada entre alimentos</span><span class="fx-summary-sub">Compare dois alimentos e veja os componentes e a aplicação clínica</span></span><span class="fx-chevron" aria-hidden="true">⌄</span></summary>'+
-      '<div class="fx-body"><div class="fx-grid"><div class="fx-field"><label for="fxFoodA">1º alimento</label><select id="fxFoodA"><option value="">Selecione um alimento</option>'+optionHTML()+'</select></div>'+
-      '<div class="fx-field"><label for="fxFoodB">2º alimento</label><select id="fxFoodB"><option value="">Selecione outro alimento</option>'+optionHTML()+'</select></div></div>'+
-      '<div class="fx-controls"><button id="fxCompare" type="button">Analisar comparação</button><label><input id="fxTolerated" type="checkbox"> O paciente já consome o segundo alimento sem sintomas</label></div>'+
-      '<div class="fx-note">Comparação baseada em proteínas, parentesco e dados publicados. Não estima percentual de risco individual nem diagnostica alergia. A história, a tolerância habitual, os cofatores e os testes dirigidos determinam a investigação.</div>'+
+    wrap.innerHTML='<summary><span><span class="fx-title">Reatividade cruzada entre alimentos</span>'+
+      '<span class="fx-summary-sub">Compare 2 ou mais alimentos • similaridade molecular • risco clínico • parecer técnico</span></span>'+
+      '<span class="fx-chevron" aria-hidden="true">⌄</span></summary>'+
+      '<div class="fx-body"><div class="fx-intro">Selecione os alimentos para avaliar todas as combinações entre eles. Os resultados distinguem homologia proteica, sensibilização cruzada e reação clínica comprovada.</div>'+
+      '<div id="fxFoods" class="fx-grid">'+foodFieldHTML("fxFoodA",1,false)+foodFieldHTML("fxFoodB",2,false)+'</div>'+
+      '<div class="fx-form-actions"><button class="fx-plus-food" id="fxAddFood" type="button" aria-label="Adicionar outro alimento"><span aria-hidden="true">+</span> Adicionar alimento</button>'+
+      '<button id="fxCompare" class="fx-primary-compare" type="button">Gerar parecer técnico</button></div>'+
+      '<div id="fxFieldMessage" class="fx-field-message" aria-live="polite"></div>'+
+      '<div class="fx-note">A semelhança entre famílias proteicas não é um percentual de identidade de sequência, nem uma probabilidade individual de reação. O módulo não realiza alinhamento bioinformático. Considere histórico de ingestão, sintomas, processamento térmico, cofatores e testes dirigidos; não exclua alimentos tolerados apenas por IgE positiva.</div>'+
       '<div id="fxResult" class="fx-results" aria-live="polite" aria-atomic="false"></div></div>';
     var first=page.querySelector(".lab-pane");
     if(first)page.insertBefore(wrap,first);else page.appendChild(wrap);
+    document.getElementById("fxAddFood").addEventListener("click",addFoodField);
     document.getElementById("fxCompare").addEventListener("click",render);
-    document.getElementById("fxFoodA").addEventListener("change",render);
-    document.getElementById("fxFoodB").addEventListener("change",render);
-    document.getElementById("fxTolerated").addEventListener("change",render);
+    document.getElementById("fxFoods").addEventListener("change",function(e){
+      if(e.target.matches(".fx-food-select, .fx-tolerated-item"))render();
+    });
+    document.getElementById("fxFoods").addEventListener("click",function(e){
+      var btn=e.target.closest(".fx-remove-food");if(!btn)return;
+      var field=btn.closest(".fx-field");if(field)field.remove();
+      renumberFoodFields();render();
+    });
     document.getElementById("fxResult").addEventListener("click",function(e){
       var b=e.target.closest("button[data-fx-add]");
       if(!b)return;
@@ -283,9 +344,8 @@
   // Consulta bibliográfica aberta, apenas com nomes de alimentos; nenhum dado de paciente é transmitido.
   // Resultados automáticos são referências para leitura e NÃO são convertidos em conclusão clínica.
   var literatureRequest=0;
-  function loadLiterature(a,b) {
-    var requestId=++literatureRequest;
-    var target=document.getElementById("fxLiveLiteratureBody");
+  function loadLiterature(a,b,targetId,requestId) {
+    var target=document.getElementById(targetId);
     if(!target)return;
     if(typeof fetch!=="function"){target.textContent="Busca automática indisponível neste ambiente. Consulte a pesquisa PubMed nas referências.";return;}
     var wordA=(a.synonyms||a.label).split(",")[0].trim();
@@ -297,7 +357,7 @@
       return response.json();
     }).then(function(data){
       if(requestId!==literatureRequest)return;
-      var node=document.getElementById("fxLiveLiteratureBody");
+      var node=document.getElementById(targetId);
       if(!node)return;
       var entries=(data&&data.resultList&&data.resultList.result)||[];
       if(!entries.length){node.textContent="Nenhum artigo localizado por esta estratégia automática. Isso não exclui publicações com outras palavras-chave; confira também a busca no PubMed.";return;}
@@ -308,15 +368,12 @@
       }).join("")+'</div>';
     }).catch(function(){
       if(requestId!==literatureRequest)return;
-      var node=document.getElementById("fxLiveLiteratureBody");
+      var node=document.getElementById(targetId);
       if(node)node.textContent="Consulta automática indisponível no momento. Use o link de busca específica no PubMed listado nas referências.";
     });
   }
-  function render() {
-    var out=document.getElementById("fxResult");if(!out)return;
-    var a=byId[document.getElementById("fxFoodA").value],b=byId[document.getElementById("fxFoodB").value],tol=document.getElementById("fxTolerated").checked;
-    if(!a||!b){out.innerHTML='';return;}
-    if(a.id===b.id){out.innerHTML='<div class="fx-status"><strong>Escolha dois alimentos diferentes.</strong><p>Um mesmo alimento não representa comparação de reatividade cruzada.</p></div>';return;}
+
+  function assessment(a,b) {
     var p=PAIRS[pairKey(a.id,b.id)]||null, overlap={};
     a.components.forEach(function(c){if(b.components.some(function(d){return c.family===d.family;}))overlap[c.family]=true;});
     var common=Object.keys(overlap);
@@ -332,35 +389,84 @@
     if(!explicit&&bothCereals)explicit={level:"Homologia entre cereais; clínica variável",reason:"Trigo, centeio e cevada compartilham prolaminas e outras proteínas; reatividade clínica entre eles não é obrigatória. Alergia IgE-mediada não é doença celíaca.",focus:"Extratos dirigidos; Tri a 19 apenas para suspeita de anafilaxia ao trigo dependente de cofatores."};
     if(!explicit&&common.length)explicit={level:"Semelhança molecular identificada; impacto clínico incerto",reason:"As duas fontes contêm famílias proteicas relacionadas. Isso explica eventual co-sensibilização, mas não estabelece probabilidade individual de reação ao segundo alimento.",focus:"Escolha componentes conforme fenótipo e histórico de tolerância, não por rastreamento indiscriminado."};
     if(!explicit)explicit={level:"Evidência específica ainda não cadastrada — associação não excluída",reason:"Esta base é curada e incompleta: ausência de par ou família não comprova ausência de reatividade molecular ou clínica. Consulte as referências e a pesquisa bibliográfica específica disponíveis abaixo.",focus:"Investigar cada alimento conforme a história, considerar componentes não cadastrados e conferir estudos específicos antes de concluir."};
-
     var families=comparisonFamilies(a,b,common,bothFish,marine,twoMammals);
-    var html='<section class="fx-report" role="region" aria-label="Resultado da comparação molecular">'+
-      '<header class="fx-report-header"><div class="fx-report-kicker">RESULTADO DA COMPARAÇÃO</div>'+
-      '<h3>'+esc(a.label)+' <span aria-label="comparado com">×</span> '+esc(b.label)+'</h3>'+
-      '<p>Análise específica deste par de alimentos</p></header>'+
-      '<div class="fx-assessment"><div class="fx-assessment-label">INTERPRETAÇÃO CLÍNICA</div>'+
+    var label=p&&p.level==="Associação clínica bem documentada"?"Associação clínica bem documentada":
+      p?"Evidência específica do par":bothFish||bothCrust||marine?"Associação por grupo alimentar":
+      common.length?"Homologia de família; clínica incerta":"Evidência insuficiente";
+    var riskNote=families.some(function(f){return ["2S","7S","11S","LTP","GRP","parvalbumina","tropomiosina","caseina","ovomucoide","alfagal"].includes(f);})
+      ?"Algumas famílias identificadas contêm proteínas estáveis ou associadas a reações sistêmicas em determinados fenótipos. Isso exige atenção à história e aos cofatores, mas não permite prever intensidade ou ocorrência de reação nesta pessoa."
+      :families.some(function(f){return f==="PR10"||f==="profilina";})
+        ?"PR-10 e profilinas são frequentemente lábeis e relacionadas à síndrome pólen-alimento, em especial com alimentos crus. Há exceções clinicamente importantes, como Gly m 4 na soja; não presumir ausência de risco sistêmico."
+        :"Não existe base suficiente para inferir risco clínico pela estrutura de proteínas cadastradas. A análise permanece dependente da história e da tolerância.";
+    return {explicit:explicit,families:families,label:label,riskNote:riskNote};
+  }
+  function pairReportHTML(a,b,toleratedA,toleratedB,idx,expanded){
+    var info=assessment(a,b), explicit=info.explicit, families=info.families;
+    var title=esc(a.label)+' <span aria-hidden="true">×</span> '+esc(b.label);
+    var html='<details class="fx-pair-card" data-fx-pair="'+idx+'" '+(expanded?'open ':'')+'>'+
+      '<summary class="fx-pair-summary"><span class="fx-pair-number">'+String(idx+1).padStart(2,"0")+'</span>'+
+      '<span class="fx-pair-title"><strong>'+title+'</strong><small>'+esc(info.label)+'</small></span>'+
+      '<span class="fx-pair-expand" aria-hidden="true">⌄</span></summary>'+
+      '<div class="fx-pair-body"><section class="fx-report" role="region" aria-label="Parecer técnico sobre '+esc(a.label)+' e '+esc(b.label)+'">'+
+      '<header class="fx-report-header"><div class="fx-report-kicker">PARECER TÉCNICO MOLECULAR</div>'+
+      '<h3>'+title+'</h3><p>Reatividade cruzada: análise das proteínas, relevância clínica e conduta</p></header>'+
+      '<div class="fx-assessment"><div class="fx-assessment-label">FORÇA DA EVIDÊNCIA</div>'+
       '<h4>'+esc(explicit.level)+'</h4><p>'+esc(explicit.reason)+'</p></div>';
-    if(tol){
-      html+='<div class="fx-tolerance"><span>Tolerância informada</span><p>O segundo alimento já é consumido sem sintomas na apresentação habitual. Não restringir ou solicitar IgEs apenas pela homologia molecular.</p></div>';
+    if(toleratedA||toleratedB){
+      var names=[toleratedA?a.label:null,toleratedB?b.label:null].filter(Boolean).join(" e ");
+      html+='<div class="fx-tolerance"><span>Tolerância informada: '+esc(names)+'</span><p>Há consumo habitual sem sintomas do(s) alimento(s) assinalado(s). Não restringir ou solicitar IgEs apenas pela homologia molecular. Reavaliar se a história de reações ou cofatores contradisser essa tolerância.</p></div>';
     }
-    html+='<section class="fx-molecular-section" aria-labelledby="fxMolecularHeading">'+
-      '<div class="fx-molecular-intro"><h4 id="fxMolecularHeading">Proteínas relacionadas à possível reação cruzada</h4>'+
-      '<p>Somente as famílias pertinentes à comparação selecionada. A homologia não confirma alergia clínica nem justifica solicitar todos os marcadores.</p></div>';
+    html+='<section class="fx-molecular-section" aria-labelledby="fxMolecularHeading-'+idx+'">'+
+      '<div class="fx-molecular-intro"><h4 id="fxMolecularHeading-'+idx+'">Similaridade proteica e mecanismos plausíveis</h4>'+
+      '<p>Componentes compartilhados por família, conforme a literatura. Pertencer à mesma família não demonstra identidade percentual de sequência, afinidade de IgE ou reação clínica obrigatória.</p></div>';
     if(families.length){
       html+='<div class="fx-shared-families">'+families.map(function(family){return sharedFamilyHTML(a,b,family);}).join("")+'</div>';
     }else{
       html+='<div class="fx-no-families"><p>Nenhuma proteína específica de reação cruzada cadastrada para este par. Isso não significa ausência de associação clínica ou molecular: a base de componentes é incompleta.</p></div>';
     }
     html+='</section>'+
-      '<div class="fx-clinical-next"><h4>Aplicação clínica</h4><p>Priorize história, sintomas, exposição e tolerância. Se necessário, solicite IgE específica ao extrato e somente os componentes que possam mudar a interpretação ou a conduta. Testes moleculares isolados não definem risco individual ou indicação de exclusão alimentar; TPO supervisionado pode ser necessário quando houver incerteza clínica.</p></div>'+
-      '<details class="fx-evidence"><summary>Referências científicas e pesquisa bibliográfica complementar</summary>'+
-      '<div class="fx-evidence-body"><p>Pesquisa Europe PMC para o par: apenas os nomes dos alimentos são enviados; os artigos encontrados automaticamente não são revisados criticamente nesta consulta.</p>'+
-      '<div id="fxLiveLiteratureBody">Consultando publicações indexadas para este par.</div>'+
-      '<div class="fx-sources">Diretrizes e estudos para este par: '+links(a,b,common)+'. Revisão da base: 09/11/2026.</div></div></details>'+
-      '</section>';
-    out.innerHTML=html;
-    loadLiterature(a,b);
+      '<div class="fx-technical-section"><h4>Mecanismo e componentes relevantes</h4><p>'+esc(explicit.focus||"Avaliação dirigida ao fenótipo e aos alérgenos envolvidos.")+'</p>'+
+      '<h4>Risco de reação clínica</h4><p>'+esc(info.riskNote)+'</p>'+
+      '<h4>Fatores que modificam a interpretação</h4><p>Reação prévia, quantidade ingerida, preparo térmico, forma crua ou processada, tempo entre ingestão e sintomas, exercício, AINEs, álcool, infecções e comorbidades podem modificar a apresentação. Sensibilização em testes não é sinônimo de alergia alimentar.</p></div>'+
+      '<div class="fx-clinical-next"><h4>Conduta orientada pelas evidências</h4><p>Documentar alimentos já tolerados e caracterizar o episódio índice. Investigar somente exposições clinicamente suspeitas, com prick test/IgE ao extrato e componentes selecionados quando acrescentarem informação. Ara h 2, Ana o 3 e Cor a 14 são exemplos validados para situações específicas. Considerar BAT, quando disponível, em casos selecionados. Se a dúvida persistir e for apropriado, o teste de provocação oral supervisionado permanece a referência diagnóstica. Não fazer desafio domiciliar após reação sistêmica.</p></div>'+
+      '<details class="fx-evidence" data-fx-literature="'+idx+'"><summary>Artigos e diretrizes do par</summary>'+
+      '<div class="fx-evidence-body"><p>Busca complementar na Europe PMC por nomes dos alimentos. Resultados novos são apenas referências para leitura; não modificam automaticamente a classificação clínica.</p>'+
+      '<div id="fxLiveLiteratureBody-'+idx+'">Abra esta seção para consultar publicações indexadas.</div>'+
+      '<div class="fx-sources">Fontes utilizadas e busca direcionada: '+links(a,b,families)+'. Revisão clínica da base: 24/11/2026.</div></div></details>'+
+      '</section></div></details>';
+    return html;
   }
+  function render() {
+    var out=document.getElementById("fxResult");if(!out)return;
+    var rows=selectedFoodRows();++literatureRequest;
+    if(rows.length<2){out.innerHTML='';return;}
+    var ids=rows.map(function(v){return v.food.id;});
+    if(new Set(ids).size!==ids.length){
+      out.innerHTML='<div class="fx-status"><strong>Escolha dois alimentos diferentes.</strong><p>Remova alimentos repetidos: cada alimento deve aparecer em uma única caixa.</p></div>';
+      return;
+    }
+    var pairs=[];
+    for(var i=0;i<rows.length;i++)for(var j=i+1;j<rows.length;j++)pairs.push([rows[i],rows[j]]);
+    var html='<div class="fx-overview"><div class="fx-overview-kicker">PARECER INTEGRADO</div><h3>'+rows.length+' alimentos selecionados · '+pairs.length+' comparações</h3>'+
+      '<p>A avaliação a seguir é par a par, com classificação da evidência, proteínas implicadas, potencial de reatividade clínica e conduta. Abra cada cartão para consultar o parecer completo.</p></div>'+
+      '<div class="fx-pair-list">'+pairs.map(function(items,idx){
+        return pairReportHTML(items[0].food,items[1].food,items[0].tolerated,items[1].tolerated,idx,idx===0);
+      }).join("")+'</div>'+
+      '<p class="fx-integrated-note">Síntese: não transformar co-sensibilização ou homologia em diagnóstico de coalergia. A magnitude da reatividade é heterogênea por par, proteína e população; nenhum resultado deste comparador representa probabilidade individual de anafilaxia.</p>';
+    out.innerHTML=html;
+    if(typeof out.querySelectorAll==="function"){
+      var activeEpoch=literatureRequest;
+      out.querySelectorAll("details[data-fx-literature]").forEach(function(el){
+        el.addEventListener("toggle",function(){
+          if(!el.open||el.dataset.loaded==="true")return;
+          el.dataset.loaded="true";
+          var idx=Number(el.getAttribute("data-fx-literature")), item=pairs[idx];
+          if(item)loadLiterature(item[0].food,item[1].food,"fxLiveLiteratureBody-"+idx,activeEpoch);
+        });
+      });
+    }
+  }
+
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",insert);
   else insert();
 })();
