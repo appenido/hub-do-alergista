@@ -251,3 +251,48 @@
 @media(prefers-reduced-motion:reduce){
   #page-dashboard .quick-grid > .qcard{transition:none!important;}
 }
+
+/* 24/11/2026 — títulos integrais: quebra somente entre palavras. */
+#page-dashboard .quick-grid > .qcard{
+  container-type:inline-size;
+}
+#page-dashboard .quick-grid > .qcard .ql,
+#page-dashboard .quick-grid > .qcard[data-nav] .ql,
+#page-dashboard .quick-grid > .qcard:is([data-nav="interacao"],[data-nav="imunoglobulinas"],[data-nav="imuno"]) .ql{
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+  hyphens:none!important;
+  white-space:normal!important;
+  text-overflow:clip!important;
+  overflow:visible!important;
+  text-wrap:wrap!important;
+  -webkit-line-clamp:unset!important;
+  max-height:none!important;
+}
+#page-dashboard .quick-grid > .qcard[data-nav="imuno"] .ql > span{
+  word-break:keep-all!important;
+  overflow-wrap:normal!important;
+  hyphens:none!important;
+  white-space:normal!important;
+}
+@media(max-width:559px){
+  #page-dashboard .quick-grid > .qcard .ql,
+  #page-dashboard .quick-grid > .qcard[data-nav] .ql{
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+    flex:none!important;
+    text-align:center!important;
+    font-size:clamp(10px,3.05vw,13.4px)!important;
+    font-size:min(13.4px,12cqi)!important;
+    line-height:1.25!important;
+  }
+  #page-dashboard .quick-grid > .qcard:is([data-nav="interacao"],[data-nav="imunoglobulinas"]) .ql{
+    font-size:clamp(9px,2.7vw,12.5px)!important;
+    font-size:min(13.4px,10.8cqi)!important;
+  }
+  #page-dashboard .quick-grid > .qcard[data-nav="imuno"] .ql{
+    display:flex!important;
+    flex-direction:column!important;
+  }
+}
