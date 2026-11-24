@@ -57,3 +57,47 @@ test('tolerância ao alimento permanece informada sem exclusão automática', ()
   assert.match(elements.fxResult.innerHTML, /Tolerância informada/);
   assert.match(elements.fxResult.innerHTML, /Não restringir ou solicitar IgEs apenas pela homologia molecular/);
 });
+
+
+test('três alimentos geram três pareceres par a par e preservam tolerância individual', () => {
+  const select = (value, tolerated = false) => ({
+    value,
+    closest() {
+      return { querySelector() { return { checked: tolerated }; } };
+    }
+  });
+  elements.fxFoods = {
+    querySelectorAll() { return [select('banana'), select('abacaxi'), select('pessego', true)]; }
+  };
+  try {
+    cmp.render();
+    assert.match(elements.fxResult.innerHTML, /3 alimentos selecionados · 3 comparações/);
+    assert.equal((elements.fxResult.innerHTML.match(/class="fx-pair-card"/g) || []).length, 3);
+    assert.match(elements.fxResult.innerHTML, /Tolerância informada: Pêssego/);
+    assert.match(elements.fxResult.innerHTML, /Artigos e diretrizes do par/);
+    assert.match(elements.fxResult.innerHTML, /Similaridade proteica e mecanismos plausíveis/);
+    assert.match(elements.fxResult.innerHTML, /Risco de reação clínica/);
+  } finally {
+    delete elements.fxFoods;
+  }
+});
+
+test('quatro alimentos produzem seis comparações únicas e reprovam duplicatas', () => {
+  const value = (v) => ({value:v,closest(){return {querySelector(){return null;}};}});
+  elements.fxFoods = {
+    querySelectorAll() {return [value('caju'),value('pistache'),value('noz'),value('peca')];}
+  };
+  try {
+    cmp.render();
+    assert.match(elements.fxResult.innerHTML, /4 alimentos selecionados · 6 comparações/);
+    assert.equal((elements.fxResult.innerHTML.match(/class="fx-pair-card"/g) || []).length, 6);
+    assert.match(elements.fxResult.innerHTML, /Ana o 3/);
+    assert.match(elements.fxResult.innerHTML, /Jug r 1/);
+    elements.fxFoods.querySelectorAll = () => [value('caju'),value('caju'),value('pistache')];
+    cmp.render();
+    assert.match(elements.fxResult.innerHTML, /Escolha dois alimentos diferentes/);
+    assert.doesNotMatch(elements.fxResult.innerHTML, /data-fx-pair/);
+  } finally {
+    delete elements.fxFoods;
+  }
+});
