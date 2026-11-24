@@ -297,8 +297,9 @@
       var summary=item.querySelector(':scope > summary');
       var content=item.querySelector(':scope > .vac-nat-detail');
       if(!summary||!content)return;
-      var main=summary.firstChild&&summary.firstChild.nodeType===3?summary.firstChild.nodeValue:'';
-      var subtitle=summary.querySelector('span');
+      var title=summary.querySelector('.vac-nat-item-title');
+      var main=title?title.textContent:(summary.firstChild&&summary.firstChild.nodeType===3?summary.firstChild.nodeValue:'');
+      var subtitle=summary.querySelector('.vac-nat-item-subtitle')||summary.querySelector('span');
       var keyString=main+' '+(subtitle?subtitle.textContent:'');
       var ids=catalogIdFor(keyString);
       if(!ids.length)return;
