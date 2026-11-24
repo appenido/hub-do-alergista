@@ -517,3 +517,230 @@
   #page-medicamentos #medApp .med-prod-brand,
   #page-medicamentos #medApp #ahApp .ah-card-brand{font-size:9.5px!important}
 }
+
+
+/* IBPs — ficha clínica horizontal premium, revisão 24/11/2026 */
+#page-medicamentos #medApp .med-ibp-eoe-guide{
+  margin:0 0 14px;
+  padding:14px;
+  border:1px solid #c9dfe7;
+  border-radius:15px;
+  background:linear-gradient(135deg,#f7fbfd 0%,#eef7f8 100%);
+  box-shadow:0 7px 20px rgba(20,67,86,.055);
+}
+#page-medicamentos #medApp .med-ibp-guide-kicker{
+  margin-bottom:10px;
+  color:#153f55;
+  font:900 12px/1.3 Manrope,Arial,sans-serif;
+  letter-spacing:.015em;
+}
+#page-medicamentos #medApp .med-ibp-guide-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+}
+#page-medicamentos #medApp .med-ibp-guide-grid>div{
+  min-width:0;
+  padding:10px 11px;
+  border:1px solid #d9e8ed;
+  border-radius:11px;
+  background:#fff;
+}
+#page-medicamentos #medApp .med-ibp-guide-grid span,
+#page-medicamentos #medApp .med-ibp-monitor>span{
+  display:block;
+  margin-bottom:4px;
+  color:#155a70;
+  font:900 9.5px/1.2 Manrope,Arial,sans-serif;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+#page-medicamentos #medApp .med-ibp-guide-grid p,
+#page-medicamentos #medApp .med-ibp-guide-note{
+  margin:0;
+  color:#405f6f;
+  font:600 10.5px/1.55 Manrope,Arial,sans-serif;
+}
+#page-medicamentos #medApp .med-ibp-guide-note{
+  margin-top:10px;
+  color:#5b7481;
+}
+#page-medicamentos #medApp .med-results-ibp{
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:11px!important;
+}
+#page-medicamentos #medApp .med-prod-ibp>summary{
+  min-height:88px!important;
+}
+#page-medicamentos #medApp .med-ibp-detail{
+  padding:0 17px 17px 18px!important;
+}
+#page-medicamentos #medApp .med-ibp-dose-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 14px;
+  border-top:1px solid #eef2f4;
+}
+#page-medicamentos #medApp .med-ibp-dose-grid>section{
+  min-width:0;
+  padding:12px 0;
+  border-bottom:1px solid #eef2f4;
+}
+#page-medicamentos #medApp .med-ibp-dose-grid>section:nth-child(odd){
+  padding-right:7px;
+  border-right:1px solid #eef2f4;
+}
+#page-medicamentos #medApp .med-ibp-dose-grid>section:nth-child(even){
+  padding-left:7px;
+}
+#page-medicamentos #medApp .med-ibp-detail section>p{
+  margin:5px 0 0;
+  color:#405f6f;
+  font:550 10.8px/1.58 Manrope,Arial,sans-serif;
+}
+#page-medicamentos #medApp .med-ibp-difference,
+#page-medicamentos #medApp .med-ibp-solid,
+#page-medicamentos #medApp .med-ibp-interaction,
+#page-medicamentos #medApp .med-ibp-safety{
+  padding:12px 0!important;
+}
+#page-medicamentos #medApp .med-ibp-solid{
+  border-left:3px solid var(--med-mf);
+  padding-left:10px!important;
+  background:linear-gradient(90deg,var(--med-mf-soft),transparent 72%);
+}
+#page-medicamentos #medApp .med-ibp-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:8px;
+}
+#page-medicamentos #medApp .med-ibp-chip{
+  display:inline-flex;
+  align-items:center;
+  min-height:25px;
+  padding:5px 8px;
+  border:1px solid #d9e5e9;
+  border-radius:999px;
+  background:#f7fafb;
+  color:#496575;
+  font:750 9.5px/1.2 Manrope,Arial,sans-serif;
+}
+#page-medicamentos #medApp .med-ibp-alerts{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin-top:10px;
+}
+#page-medicamentos #medApp .med-ibp-alert{
+  min-width:0;
+  padding:9px 10px;
+  border:1px solid #e6e8e6;
+  border-radius:10px;
+  background:#fffdfa;
+}
+#page-medicamentos #medApp .med-ibp-alert>span{
+  color:#6b5141;
+  font:850 9.5px/1.35 Manrope,Arial,sans-serif;
+}
+#page-medicamentos #medApp .med-ibp-alert>p{
+  margin:4px 0 0!important;
+  color:#6a625d!important;
+  font-size:9.7px!important;
+  line-height:1.5!important;
+}
+#page-medicamentos #medApp .med-ibp-monitor{
+  margin-top:10px;
+  padding:10px 11px;
+  border:1px solid #cfe2df;
+  border-radius:10px;
+  background:#f3faf8;
+}
+#page-medicamentos #medApp .med-ibp-monitor>p{
+  margin:0!important;
+  color:#37665d!important;
+  font-size:10px!important;
+}
+#page-medicamentos #medApp .med-ibp-sources{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:7px;
+  padding-top:11px;
+  border-top:1px solid #eef2f4;
+}
+#page-medicamentos #medApp .med-ibp-sources>span{
+  margin-right:2px;
+  color:#6a7d87;
+  font:850 9px/1.2 Manrope,Arial,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+}
+#page-medicamentos #medApp .med-ibp-sources>a{
+  display:inline-flex;
+  align-items:center;
+  min-height:28px;
+  margin:0!important;
+  padding:6px 9px;
+  border:1px solid color-mix(in srgb,var(--med-mf) 25%,#d7e4e8);
+  border-radius:8px;
+  background:var(--med-mf-soft);
+  color:var(--med-mf-ink)!important;
+  text-decoration:none;
+  font:800 9.5px/1.2 Manrope,Arial,sans-serif;
+}
+#page-medicamentos #medApp .med-ibp-sources>a:hover{
+  filter:brightness(.985);
+  transform:translateY(-1px);
+}
+#page-medicamentos #medApp .med-ibp-hydrate{
+  margin-top:14px;
+  padding:14px;
+  border:1px solid #dae4e8;
+  border-radius:15px;
+  background:#fbfcfd;
+}
+#page-medicamentos #medApp .med-ibp-hydrate-title{
+  color:#173e53;
+  font:900 12px/1.3 Manrope,Arial,sans-serif;
+}
+#page-medicamentos #medApp .med-ibp-hydrate-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:7px;
+  margin-top:10px;
+}
+#page-medicamentos #medApp .med-ibp-hydrate-grid>div{
+  min-width:0;
+  padding:9px;
+  border:1px solid #e2e9ec;
+  border-radius:9px;
+  background:#fff;
+}
+#page-medicamentos #medApp .med-ibp-hydrate-grid span{
+  color:#285469;
+  font:850 9.5px/1.25 Manrope,Arial,sans-serif;
+}
+#page-medicamentos #medApp .med-ibp-hydrate-grid p,
+#page-medicamentos #medApp .med-ibp-hydrate>p{
+  margin:4px 0 0;
+  color:#607783;
+  font:550 9.7px/1.5 Manrope,Arial,sans-serif;
+}
+#page-medicamentos #medApp .med-ibp-hydrate>p{
+  margin-top:10px;
+}
+@media(max-width:900px){
+  #page-medicamentos #medApp .med-ibp-guide-grid{grid-template-columns:minmax(0,1fr)}
+  #page-medicamentos #medApp .med-ibp-hydrate-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:620px){
+  #page-medicamentos #medApp .med-ibp-dose-grid,
+  #page-medicamentos #medApp .med-ibp-alerts{grid-template-columns:minmax(0,1fr)}
+  #page-medicamentos #medApp .med-ibp-dose-grid>section:nth-child(odd){
+    padding-right:0;
+    border-right:0;
+  }
+  #page-medicamentos #medApp .med-ibp-dose-grid>section:nth-child(even){padding-left:0}
+  #page-medicamentos #medApp .med-ibp-hydrate-grid{grid-template-columns:minmax(0,1fr)}
+}
