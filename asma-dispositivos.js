@@ -33,8 +33,45 @@ const URL={
  trimbow:'https://consultaremedios.com.br/trimbow/bula',
  trelegy:'https://consultaremedios.com.br/trelegy/bula'
 };
+const MANUFACTURERS={
+ gsk:{name:'GSK',logo:'GSK'},
+ boehringer:{name:'Boehringer Ingelheim',logo:'Boehringer\\nIngelheim'},
+ chiesi:{name:'Chiesi Farmacêutica',logo:'Chiesi'},
+ astrazeneca:{name:'AstraZeneca',logo:'AstraZeneca'},
+ ache:{name:'Aché Laboratórios',logo:'Aché'},
+ novartis:{name:'Novartis',logo:'Novartis'},
+ takeda:{name:'Takeda',logo:'Takeda'},
+ neutral:{name:'Fabricante / registro a confirmar',logo:'Fabricante'}
+};
+const BRAND_MARKS=[
+ 'Aerolin','Berotec','Atrovent','Foradil','Serevent','Busonid','Pulmicort','Clenil','Flixotide','Alvesco',
+ 'Symbicort','Alenia','Vannair','Foraseq','Fostair','Seretide','Relvar','Flutiform','Spiriva','Trimbow',
+ 'Onbrize','Striverdi','Seebri','Vanisto','Eklira','Ultibro','Anoro','Spiolto','Breztri','Trelegy',
+ 'Turbuhaler','Diskus','Ellipta','Respimat','Breezhaler','Genuair'
+];
+function registeredBrand(value){
+ let out=String(value||'');
+ BRAND_MARKS.forEach(token=>{out=out.replace(new RegExp(token+'(?!®)','g'),token+'®');});
+ return out;
+}
+function manufacturerKey(value){
+ const s=String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
+ if(/aerolin|serevent|flixotide|seretide|relvar|trelegy|vanisto|anoro/.test(s))return 'gsk';
+ if(/berotec|atrovent|spiriva|striverdi|spiolto/.test(s))return 'boehringer';
+ if(/clenil|fostair|trimbow/.test(s))return 'chiesi';
+ if(/pulmicort|symbicort|vannair|breztri/.test(s))return 'astrazeneca';
+ if(/busonid|alenia/.test(s))return 'ache';
+ if(/foradil|foraseq|onbrize|seebri|ultibro/.test(s))return 'novartis';
+ if(/alvesco/.test(s))return 'takeda';
+ return 'neutral';
+}
+function manufacturerLogo(key){
+ const m=MANUFACTURERS[key]||MANUFACTURERS.neutral;
+ return '<span class="asma-maker-logo" aria-label="'+htmlEscape(m.name)+'" title="'+htmlEscape(m.name)+'"><span>'+htmlEscape(m.logo).replace(/\\\\n/g,'<br>')+'</span></span>';
+}
 function p(name,brand,device,strength,age,dose,max,mart,source,note,kind){
- return {name,brand,device,strength,age,dose,max,mart,source,note:note||'',kind:kind||'asma'};
+ const branded=registeredBrand(brand);
+ return {name,brand:branded,manufacturer:manufacturerKey(branded),device,strength,age,dose,max,mart,source,note:note||'',kind:kind||'asma'};
 }
 /* "máxima" explicitamente classificada como limite de BULA, faixa da BULA ou limiar para buscar assistência.
    Sem um máximo validado, não inventar número. */
@@ -123,12 +160,14 @@ function badge(m){
  return '<span class="asma-mart asma-mart-no">Não é MART</span>';
 }
 function medicationCard(x,i){
- return '<details class="asma-inhaler-card" data-hub-medicamento>'+
-  '<summary><span class="asma-device-anchor">'+icon(x.device)+'</span><span class="asma-inhaler-main"><span class="hub-med-nome">'+htmlEscape(x.name)+'</span><span class="asma-brand">'+htmlEscape(x.brand)+'</span><span class="asma-strength">'+htmlEscape(x.strength)+'</span></span>'+
-  '<span class="asma-chevron" aria-hidden="true">⌄</span></summary>'+
+ const maker=x.manufacturer||manufacturerKey(x.brand);
+ const makerData=MANUFACTURERS[maker]||MANUFACTURERS.neutral;
+ return '<details class="asma-inhaler-card asma-mf-'+maker+'" data-hub-medicamento data-manufacturer="'+htmlEscape(maker)+'">'+
+  '<summary><span class="asma-maker-anchor">'+manufacturerLogo(maker)+'</span><span class="asma-inhaler-main"><span class="hub-med-nome asma-commercial-name">'+htmlEscape(x.brand)+'</span><span class="asma-generic-name">'+htmlEscape(x.name)+'</span><span class="asma-strength">'+htmlEscape(x.strength)+'</span></span>'+
+  '<span class="asma-device-anchor">'+icon(x.device)+'</span><span class="asma-chevron" aria-hidden="true">⌄</span></summary>'+
   '<div class="asma-quick"><span><small>DOSE USUAL</small>'+htmlEscape(x.dose)+'</span><span><small>LIMITE / DOSE MÁXIMA</small>'+htmlEscape(x.max)+'</span></div>'+
   '<div class="asma-mart-row">'+badge(x.mart)+'</div>'+
-  '<div class="asma-inhaler-more"><div><span class="asma-label">Dispositivo</span><p>'+htmlEscape(DEVICE_NAMES[x.device])+'</p></div><div><span class="asma-label">Faixa etária</span><p>'+htmlEscape(x.age)+'</p></div>'+
+  '<div class="asma-inhaler-more"><div><span class="asma-label">Fabricante</span><p>'+htmlEscape(makerData.name)+'</p></div><div><span class="asma-label">Dispositivo</span><p>'+htmlEscape(DEVICE_NAMES[x.device])+'</p></div><div><span class="asma-label">Faixa etária</span><p>'+htmlEscape(x.age)+'</p></div>'+
   (x.note?'<div><span class="asma-label">Orientações</span><p>'+htmlEscape(x.note)+'</p></div>':'')+
   '<div class="asma-inhaler-sources"><a href="'+htmlEscape(x.source)+'" target="_blank" rel="noopener noreferrer">Bula / fonte do medicamento ↗</a><a href="'+GINA+'" target="_blank" rel="noopener noreferrer">GINA 2026, Tabelas 6 e 7, pp. 44–45 ↗</a></div></div></details>';
 }
@@ -138,11 +177,10 @@ function render(slot,q){
  const shown=PRODUCTS.filter(x=>!query||norm([x.name,x.brand,x.device,x.strength,x.age,x.dose,x.max,x.mart].join(' ')).includes(query));
  const other=DPOC.filter(x=>!query||norm(x.join(' ')).includes(query));
  slot.innerHTML='<div class="asma-module">'+
- '<div class="asma-note"><span class="asma-label">ASMA · TERAPIA INALATÓRIA</span><p>Ícone desenhado do dispositivo em cada apresentação. Dose habitual e limite máximo estão separados. Em regimes MART, o número total inclui manutenção + alívio. Os limites da GINA não substituem o teto da bula brasileira do produto. As faixas de dose alta de CI na GINA não são, por si, limites máximos de bula.</p></div>'+
- '<div class="asma-legend">'+Object.keys(DEVICE_NAMES).map(k=>'<span>'+icon(k,true)+'<small>'+htmlEscape(DEVICE_NAMES[k])+'</small></span>').join('')+'</div>'+
- '<div class="asma-count">'+shown.length+' apresentações para asma</div>'+
+ '<div class="asma-catalog-header"><div><span class="asma-kicker">TERAPIA INALATÓRIA</span><h3>Medicamentos e dispositivos inalatórios</h3><p>Selecione uma apresentação para consultar dose, faixa etária, dispositivo e referências.</p></div><span class="asma-header-count">'+shown.length+' apresentações</span></div>'+
+ '<details class="asma-device-guide"><summary>Ver tipos de dispositivos</summary><div class="asma-legend">'+Object.keys(DEVICE_NAMES).map(k=>'<span>'+icon(k,true)+'<small>'+htmlEscape(DEVICE_NAMES[k])+'</small></span>').join('')+'</div></details>'+
  '<div class="asma-catalog">'+(shown.length?shown.map(medicationCard).join(''):'<p class="med-empty">Nenhuma apresentação para asma corresponde à busca.</p>')+'</div>'+
- (other.length?'<details class="asma-dpoc"><summary>Outros inaladores — DPOC / registro e indicação separados ('+other.length+')</summary><p>Os itens abaixo são mantidos no catálogo geral. Não extrapolar indicações, doses ou MART da asma para a DPOC.</p><div class="asma-dpoc-list">'+other.map(x=>'<div>'+icon(x[1],true)+'<span><strong>'+htmlEscape(x[0])+'</strong><small>'+htmlEscape(x[2])+'</small></span></div>').join('')+'</div></details>':'')+
+ (other.length?'<details class="asma-dpoc"><summary>Outros inaladores — DPOC / registro e indicação separados ('+other.length+')</summary><p>Os itens abaixo são mantidos no catálogo geral. Não extrapolar indicações, doses ou MART da asma para a DPOC.</p><div class="asma-dpoc-list">'+other.map(x=>{const maker=manufacturerKey(x[0]);return '<div class="asma-mf-'+maker+'">'+manufacturerLogo(maker)+icon(x[1],true)+'<span><strong>'+htmlEscape(registeredBrand(x[0]))+'</strong><small>'+htmlEscape(x[2])+'</small></span></div>';}).join('')+'</div></details>':'')+
  '<p class="asma-foot">Referências: <a target="_blank" rel="noopener noreferrer" href="'+GINA+'">GINA Summary Guide 2026, Tabelas 6–7, pp. 44–45</a>; <a target="_blank" rel="noopener noreferrer" href="'+GINAFULL+'">GINA Strategy Report 2026, Boxes 4-2 e 4-8, pp. 77, 90–91</a>; bulas específicas vinculadas às fichas. Revisão documental: 14/11/2026. Disponibilidade comercial e registro ativo exigem checagem independente no <a target="_blank" rel="noopener noreferrer" href="'+BULAS+'">Bulário Anvisa</a>.</p></div>';
 }
 window.hubAsmaRender=render;window.hubAsmaDataset={products:PRODUCTS,devices:DEVICE_NAMES};
