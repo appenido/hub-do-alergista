@@ -167,7 +167,7 @@ function medicationCard(x,i){
  return '<details class="asma-inhaler-card asma-mf-'+maker+'" data-hub-medicamento data-manufacturer="'+htmlEscape(maker)+'">'+
   '<summary><span class="asma-maker-anchor">'+manufacturerLogo(maker)+'</span><span class="asma-inhaler-main"><span class="hub-med-nome asma-commercial-name">'+htmlEscape(x.brand)+'</span><span class="asma-generic-name">'+htmlEscape(x.name)+'</span><span class="asma-strength">'+htmlEscape(x.strength)+'</span></span>'+
   '<span class="asma-device-anchor">'+icon(x.device,false,maker)+'</span><span class="asma-chevron" aria-hidden="true">⌄</span></summary>'+
-  '<div class="asma-quick"><span><small>DOSE USUAL</small>'+htmlEscape(x.dose)+'</span><span><small>LIMITE / DOSE MÁXIMA</small>'+htmlEscape(x.max)+'</span></div>'+
+  '<div class="asma-quick"><span><small>FAIXA ETÁRIA DA APRESENTAÇÃO</small>'+htmlEscape(x.age)+'</span><span><small>DOSE USUAL</small>'+htmlEscape(x.dose)+'</span><span><small>DOSE MÁXIMA — BULA OU DIRETRIZ IDENTIFICADA</small>'+htmlEscape(x.max)+'</span></div>'+
   '<div class="asma-mart-row">'+badge(x.mart)+'</div>'+
   '<div class="asma-inhaler-more"><div><span class="asma-label">Fabricante</span><p>'+htmlEscape(makerData.name)+'</p></div><div><span class="asma-label">Dispositivo</span><p>'+htmlEscape(DEVICE_NAMES[x.device])+'</p></div><div><span class="asma-label">Faixa etária</span><p>'+htmlEscape(x.age)+'</p></div>'+
   (x.note?'<div><span class="asma-label">Orientações</span><p>'+htmlEscape(x.note)+'</p></div>':'')+
