@@ -24,6 +24,7 @@
     const formText = raw.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     const mgMl = formText.match(/^(\d+(?:[.,]\d+)?)\s*MG\s*\/\s*(?:(\d+(?:[.,]\d+)?)\s*)?ML\b/);
     const solid = formText.match(/^(\d+(?:[.,]\d+)?)\s*(MG|G|MCG)\s+(COM|CAP|DRG|CPR)\b/);
+    const oralPowderUnprepared = formText.match(/^(\d+(?:[.,]\d+)?)\s*(MG|G)\s+PO\s+SUS(?:\s+OR)?\b/);
     const hasSolid = /\b(?:COM|CAP|DRG|CPR)\b/.test(formText);
     const combination = /\s\+\s|\d\s*MG\s*\+|\+\s*\d|^\(.*\+/.test(formText);
     let form = null;
@@ -51,9 +52,12 @@
     } else if (hasSolid && combination) {
       form = 'combination';
       strength = raw.split(/\s(?:COM|CAP|DRG|CPR)\b/)[0].trim();
+    } else if (oralPowderUnprepared) {
+      form = 'oralPowder';
+      strength = format(number(oralPowderUnprepared[1]) * (oralPowderUnprepared[2] === 'G' ? 1000 : 1)) + ' mg totais no frasco';
     }
     if (!form) return null;
-    if (!(concentration > 0) && !(unitSize > 0) && form !== 'combination') return null;
+    if (!(concentration > 0) && !(unitSize > 0) && form !== 'combination' && form !== 'oralPowder') return null;
     const qualifiers = [];
     if (/\bLIB\s+(?:PROL|RETARD|MOD)\b/.test(formText)) qualifiers.push('liberação modificada');
     if (/\bCOM\s+ORODISP\b/.test(formText)) qualifiers.push('orodispersível');
@@ -61,10 +65,11 @@
     if (/\bCOM\s+SUBL\b/.test(formText)) qualifiers.push('sublingual');
     if (/\bCOM\s+REV\b/.test(formText)) qualifiers.push('revestido');
     if (/\b(?:GASTRORRES|LIB\s+RET)\b/.test(formText)) qualifiers.push('liberação especial');
-    const calculable = !combination && (liquidForms.has(form) || solidForms.has(form));
+    const calculable = !combination && ((concentration > 0 && liquidForms.has(form)) || (unitSize > 0 && solidForms.has(form)));
     return { raw, form, strength, concentration, unitSize, calculable, label: strength + ' · ' + routes[form] +
       (qualifiers.length ? ' · ' + qualifiers.join(', ') : '') +
-      (combination && form !== 'combination' ? ' · associação (sem cálculo)' : '') };
+      (combination && form !== 'combination' ? ' · associação (sem cálculo)' : '') +
+      (oralPowderUnprepared ? ' · concentração após reconstituição não informada (sem cálculo)' : '') };
   }
 
   function buildCatalog(entries, registry, products) {
@@ -96,7 +101,10 @@
       if (!parsed.length || !active) continue;
       const item = aliasMap.get(normalize(active)) || add('outros', active);
       if (brand) item.aliases.add(brand);
-      for (const presentation of parsed) item.registered.push({ ...presentation, brand });
+      const combinedActive = /\+|;/.test(active);
+      for (const presentation of parsed) item.registered.push({ ...presentation, brand,
+        calculable: presentation.calculable && !combinedActive,
+        label: presentation.label + (combinedActive ? ' · associação: dose por componente necessária' : '') });
     }
     return [...map.values()].filter(item => item.presentations.length || item.registered.length).map(item => {
       const keywords = new Set([item.key, ...[...item.aliases].map(normalize)]);
