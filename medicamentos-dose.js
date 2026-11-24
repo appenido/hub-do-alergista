@@ -376,12 +376,35 @@
       renderApplicability();
     }
 
+    function regulatoryRanges(product) {
+      const bands = (product.bands || []).filter(b => !b.only || b.only === controls.indication.value);
+      if (!bands.length) return '<p>Faixa etária e dose máxima não cadastradas para esta indicação.</p>';
+      const unit = product.unit === 'spray' ? 'jatos' : product.unit === 'drop' ? 'gotas' :
+        product.unit === 'inhalation' ? 'inalações' : product.unit === 'application' ? 'aplicações' : 'mg';
+      const rows = bands.map(b => {
+        const age = b.before === Infinity ? t('fromAge', ageLabel(b.from)) :
+          t('ageRange', ageLabel(b.from), ageLabel(b.before));
+        const weight = b.minKg != null && b.maxKg != null ? format(b.minKg) + '–' + format(b.maxKg) + ' kg' :
+          b.minKg != null ? '≥ ' + format(b.minKg) + ' kg' :
+          b.maxKg != null ? '≤ ' + format(b.maxKg) + ' kg' :
+          b.aboveKg != null ? '> ' + format(b.aboveKg) + ' kg' :
+          b.belowKg != null ? '< ' + format(b.belowKg) + ' kg' : '';
+        const max = Number.isFinite(b.maxDaily) && b.maxDaily > 0
+          ? 'Máximo cadastrado: ' + format(b.maxDaily) + ' ' + unit + '/24 h'
+          : 'Teto numérico específico não cadastrado';
+        return '<li>' + escape(age + (weight ? ' · ' + weight : '') + ' — ' + max) + '</li>';
+      });
+      return '<div class="med-dose-regulatory"><strong>Faixa etária e dose máxima da apresentação</strong><ul>' +
+        [...new Set(rows)].join('') +
+        '</ul><small>Os limites exibidos só correspondem à indicação e à apresentação selecionadas; a ausência de teto numérico não significa dose ilimitada.</small></div>';
+    }
+
     function renderApplicability() {
       const product = chosenProduct();
       hint.replaceChildren();
       if (!product) return;
       if (product.asNeeded) {
-        hint.innerHTML = escape(t(product.outside)) + ' ' + sourceLink(product);
+        hint.innerHTML = regulatoryRanges(product) + escape(t(product.outside)) + ' ' + sourceLink(product);
         return;
       }
       const ranges = product.bands.filter(b => !b.only || b.only === controls.indication.value).map(b => {
@@ -394,7 +417,7 @@
         return age + weight;
       });
       const ageRanges = ranges.length ? escape(t('eligible')) + ' · ' + escape([...new Set(ranges)].join(' / ')) + '<br>' : '';
-      hint.innerHTML = ageRanges + sourceLink(product);
+      hint.innerHTML = regulatoryRanges(product) + ageRanges + sourceLink(product);
     }
 
     function renderMode() {
@@ -429,7 +452,7 @@
         (registryDate ? '<a href="' + CMED + '" target="_blank" rel="noopener noreferrer">' + escape(t('cmedSource', dateLabel(registryDate))) + '</a> · ' : '') +
         '<a href="' + BULARIO + '" target="_blank" rel="noopener noreferrer">' + escape(t('bularioSource')) + '</a>' +
         (unsupported ? '<p>' + escape(t('routeUnavailable')) + '</p>' : '') +
-        (selected?.raw ? '<p>' + escape(selected.raw + (selected.brand ? ' · ' + selected.brand : '')) + '</p>' : '');
+        (selected?.raw ? '<p>' + escape(selected.raw + (selected.brand ? ' · ' + selected.brand : '')) + '</p><p>Faixa etária e dose máxima de bula não foram validadas automaticamente para esta apresentação da CMED; a posologia manual não representa aprovação regulatória.</p>' : '');
       referenceDetails.hidden = (!ready && !unsupported) || (!product && registryNote.hidden);
       renderIndications();
       renderMode();
