@@ -76,7 +76,7 @@ const MED_REGISTERED_MARKS=[
 function medRegisterMarks(value){
  let out=String(value||'');
  MED_REGISTERED_MARKS.forEach(token=>{
-  const safe=token.replace(/[.*+?^$()|[\]\\]/g,'\\/* Cada ficha: princípio ativo/produto, marcas exemplificativas, apresentação, classificação e observação. */');
+  const safe=token.replace(/[.*+?^\${}()|[\]\\]/g,'\\const safe=token.replace(/[.*+?^$()|[\]\\]/g,'\\/* Cada ficha: princípio ativo/produto, marcas exemplificativas, apresentação, classificação e observação. */');');
   out=out.replace(new RegExp(safe+'(?!®)','g'),token+'®');
  });
  return out;
@@ -90,7 +90,7 @@ function medMakerKey(value){
   ['astrazeneca',/pulmicort|symbicort|vannair|breztri|losec|nexium/],
   ['ache',/busonid|alenia|adinos|talerc/],
   ['novartis',/foradil|foraseq|onbrize|seebri|ultibro|zaditen|patanol|pataday/],
-  ['takeda',/alvesco|dexilant/],
+  ['takeda',/alvesco|dexilant|pantozol/],
   ['viatris',/dymista|rino-lastin/],
   ['glenmark',/ryaltris/],
   ['eurofarma',/noex|ebastel/],
