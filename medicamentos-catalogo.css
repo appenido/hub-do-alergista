@@ -808,3 +808,18 @@
  #page-medicamentos #medApp .med-regulatory-item,
  #page-medicamentos #medApp #ahApp .ah-regulatory-item{padding:11px 12px}
 }
+
+
+/* Calculadora: hierarquia legível e limites explícitos da apresentação escolhida. */
+#page-medicamentos #medApp .med-dose select[name="medicine"],
+#page-medicamentos #medApp .med-dose select[name="presentation"]{
+ font-size:16px!important;font-weight:800!important;line-height:1.5!important;
+}
+#page-medicamentos #medApp .med-dose-regulatory{
+ margin:9px 0 12px;padding:12px 14px;background:#f8fcfe;
+ border:1px solid #cfe2e9;border-radius:11px;color:#264f64;
+}
+#page-medicamentos #medApp .med-dose-regulatory>strong{display:block;font-size:13px;font-weight:850;margin-bottom:7px}
+#page-medicamentos #medApp .med-dose-regulatory ul{margin:0 0 8px;padding-left:18px;list-style:disc}
+#page-medicamentos #medApp .med-dose-regulatory li{font-size:12px;line-height:1.55;margin-bottom:4px}
+#page-medicamentos #medApp .med-dose-regulatory small{display:block;font-size:11px;line-height:1.45;color:#667d89}
