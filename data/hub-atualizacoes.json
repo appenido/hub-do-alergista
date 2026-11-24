@@ -5,6 +5,16 @@
   "items": [
     {
       "kind": "content",
+      "id": "880e18909fac",
+      "date": "2026-11-24",
+      "publishedAt": "2026-11-24T07:07:42.000Z",
+      "type": "Melhoria",
+      "category": "Protocolos de bolso",
+      "section": "eaaci",
+      "title": "Reorganiza IBPs com doses, EoE, segurança e formulações"
+    },
+    {
+      "kind": "content",
       "id": "bfbcf9b9236d",
       "date": "2026-11-24",
       "publishedAt": "2026-11-24T06:32:27.000Z",
