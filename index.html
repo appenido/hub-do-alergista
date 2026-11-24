@@ -4010,7 +4010,8 @@ window._bloquearApp=function(){};
 
         <div class="ig-f-row"><label>Comorbidades / condições (marque as que se aplicam)</label>
           <div class="ig-chips" id="vacComorb">
-            <button type="button" class="ig-chip" data-c="asma">Asma</button>
+            <button type="button" class="ig-chip" data-c="asma">Asma (gravidade não informada / leve)</button>
+            <button type="button" class="ig-chip" data-c="asma_modgrave">Asma moderada/grave</button>
             <button type="button" class="ig-chip" data-c="dpoc">DPOC / pneumopatia crônica</button>
             <button type="button" class="ig-chip" data-c="cardio">Cardiopatia crônica</button>
             <button type="button" class="ig-chip" data-c="dm">Diabetes mellitus</button>
@@ -4022,7 +4023,7 @@ window._bloquearApp=function(){};
             <button type="button" class="ig-chip" data-c="hiv">HIV / aids</button>
             <button type="button" class="ig-chip" data-c="transplante">Transplante (TOS ou TCTH)</button>
             <button type="button" class="ig-chip" data-c="onco">Neoplasia / quimioterapia</button>
-            <button type="button" class="ig-chip" data-c="imunossup">Imunossupressor / biológico / corticoide alta dose</button>
+            <button type="button" class="ig-chip" data-c="imunossup">Imunossupressão clinicamente relevante / corticoide sistêmico em alta dose</button>
             <button type="button" class="ig-chip" data-c="autoimune">Doença autoimune</button>
             <button type="button" class="ig-chip" data-c="fistula">Fístula liquórica / implante coclear</button>
             <button type="button" class="ig-chip" data-c="obesidade">Obesidade</button>
@@ -5774,158 +5775,100 @@ function vacComorbSel(){
   return r;
 }
 
-function vacImunossup(c){
-  return ['idp','hiv','transplante','onco','imunossup','asplenia','complemento','renal'].some(function(k){return c.indexOf(k)>=0;});
-}
+function vacImunossup(c){return ['imunossup','transplante','onco','hiv','idp'].some(k=>c.includes(k));}
 
-/* Motor de recomendação — SBIm */
+/* Motor clínico revisado 24/11/2026 — SBIm 2026/27, PNI/RIE. */
 function vacCalcular(idadeMeses,sexo,situacao,comorb){
-  var A=idadeMeses/12, rec=[], alertas=[];
-  function add(nome,quando,motivo,tag){ rec.push({nome:nome,quando:quando,motivo:motivo,tag:tag||'rotina'}); }
-  var imuno=vacImunossup(comorb);
-
-  /* ===== CRIANÇAS E ADOLESCENTES (< 20 anos) ===== */
-  if(A<20){
-    if(idadeMeses<1) add('BCG-ID','Dose única ao nascer','Calendário da criança SBIm');
-    if(idadeMeses<12) add('Hepatite B','Ao nascer (≤ 12 h) + esquema básico','Calendário da criança SBIm');
-    if(idadeMeses<84) add('Pentavalente ou Hexavalente acelular','2, 4 e 6 meses + reforços 15 m e 4 anos','Difteria, tétano, coqueluche, hepatite B, Hib (+ pólio na hexa)');
-    if(idadeMeses<60) add('Poliomielite inativada (VIP)','2, 4, 6 meses + reforços 15 m e 4 anos','Esquema integralmente inativado — VOP descontinuada');
-    if(idadeMeses<=8) add('Rotavírus','1ª dose até 3 m 15 d; última até 7 m 29 d','Janela etária rígida');
-    if(A<6) add('Pneumocócica conjugada (VPC20 ou VPC15)','Início aos 2 meses: esquema 3+1 se iniciado até 6 meses (SUS em transição: VPC20 aos 2 m, VPC10 aos 4 m, VPC20 aos 12 m)','SBIm 2026/27 — VPC20 e VPC15 intercambiáveis');
-    if(A<6) add('Meningocócica ACWY conjugada','3 e 5 meses + reforço 12 meses','SBIm prefere ACWY à meningo C isolada');
-    if(A<6) add('Meningocócica B','3 e 5 meses + reforço aos 12 meses','Calendário SBIm da criança (rede privada)');
-    if(idadeMeses>=6) add('Influenza (preferir quadrivalente)','Anual — 2 doses na primovacinação até 8 anos','Recomendação universal SBIm');
-    if(idadeMeses>=6) add('COVID-19','Conforme produto e idade; reforço anual em grupos de risco','Calendário SBIm');
-    if(idadeMeses>=9&&!imuno) add('Febre amarela','9 meses + reforço aos 4 anos','Área de recomendação');
-    if(idadeMeses>=12) add('Tríplice viral (SCR)','12 meses e 15 meses (2ª dose como tetraviral)','Calendário SBIm');
-    if(idadeMeses>=12) add('Hepatite A','2 doses: 12 meses e 6 meses após','SBIm recomenda 2 doses (SUS oferece 1)');
-    if(idadeMeses>=12) add('Varicela','15 meses e 4 anos (2 doses)','Calendário SBIm');
-    if(A>=4&&A<=60) add('Dengue (TAK-003)','2 doses com intervalo de 3 meses','SBIm — avaliar epidemiologia local; contraindicada em imunodeprimidos');
-    if(A>=5) add('dTpa','Reforços aos 5 e aos 14 anos','SBIm prefere dTpa à DTP no reforço');
-    if(A>=9) add('HPV nonavalente','9–14 anos: 2 doses (0-6 m). A partir de 15 anos: 3 doses','Calendário SBIm do adolescente');
-    if(A>=11) add('Meningocócica ACWY — reforço','Dose de reforço na adolescência','Calendário SBIm do adolescente');
-    if(A>=11) add('Meningocócica B — adolescente','2 doses','Calendário SBIm do adolescente');
-  }
-
-  /* ===== ADULTOS (20–59) ===== */
-  if(A>=20&&A<60){
-    if(A>=50) add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','SBIm 2026/27 — rotina a partir dos 50 anos');
-    add('Influenza (preferir quadrivalente)','Dose anual','Recomendação SBIm para todos os adultos');
-    add('COVID-19','Esquema primário + reforço conforme risco','Calendário SBIm do adulto');
-    add('dTpa','Reforço a cada 10 anos (substituir 1 dose de dT)','Proteção contra coqueluche no adulto');
-    add('Hepatite B','3 doses se não vacinado ou esquema incompleto','Recomendada a todos os adultos não imunes');
-    add('Hepatite A','2 doses em suscetíveis (sorologia prévia opcional)','SBIm — adulto');
-    add('Tríplice viral (SCR)','Até 29 anos: 2 doses. 30–59 anos: 1 dose','Contraindicada se imunossupressão grave');
-    add('Varicela','2 doses em suscetíveis','SBIm — adulto sem história de doença ou vacinação');
-    if(A<=45) add('HPV nonavalente','3 doses (0-2-6 meses) até 45 anos','SBIm recomenda em ambos os sexos');
-    if(!imuno) add('Febre amarela','Dose única se não vacinado','Área de recomendação / viagem');
-    add('Meningocócica ACWY','Dose única, reforço a cada 5 anos em risco contínuo','SBIm — adulto');
-    if(A>=4&&A<=60) add('Dengue (TAK-003)','2 doses com intervalo de 3 meses','Avaliar epidemiologia; contraindicada em imunodeprimidos');
-  }
-
-  /* ===== IDOSOS (≥ 60) ===== */
-  if(A>=60){
-    add('Influenza (preferir quadrivalente ou alta dose)','Dose anual','Calendário SBIm do idoso');
-    add('COVID-19','Reforço conforme recomendação vigente','Grupo prioritário');
-    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única. Se já recebeu VPP23: aguardar 1 ano; se VPC13/VPC15: 2 meses','SBIm 2026/27 — idoso');
-    add('Herpes-zóster recombinante (RZV)','2 doses (0 e 2–6 meses)','SBIm — ≥ 50 anos, inclusive com história prévia de zóster');
-    add('dTpa ou dT','Reforço a cada 10 anos','Manter proteção antitetânica');
-    add('Hepatite B','3 doses se não vacinado','SBIm — idoso');
-    add('Hepatite A','2 doses em suscetíveis, sobretudo hepatopatas','SBIm — idoso');
-    add('Meningocócica ACWY','Avaliar individualmente (risco epidemiológico)','SBIm — idoso');
-    alertas.push('Febre amarela em ≥ 60 anos: na primovacinação, avaliar risco–benefício individual (maior risco de eventos adversos graves).');
-  }
-
-  /* ===== SITUAÇÕES ESPECIAIS ===== */
-  if(situacao==='gestante'){
-    add('dTpa','A cada gestação, a partir da 20ª semana','Proteção do lactente contra coqueluche','especial');
-    if(comorb.length) add('Pneumocócica conjugada 20-valente (VPC20)','Dose única, se risco de doença pneumocócica invasiva','SBIm 2026/27 — gestante de risco','especial');
-    add('Influenza','Dose anual em qualquer idade gestacional','Gestante é grupo prioritário','especial');
-    add('COVID-19','Em qualquer idade gestacional','Grupo prioritário SBIm','especial');
-    add('Hepatite B','Se não vacinada — 3 doses','Segura na gestação','especial');
-    add('VSR materna (RSVpreF)','Dose única entre 24 e 36 semanas','Proteção do lactente contra VSR','especial');
-    alertas.push('Contraindicadas na gestação: vacinas atenuadas — tríplice viral, varicela, febre amarela (salvo risco elevado de exposição) e dengue.');
-  }
-  if(situacao==='puerpera'){
-    add('Tríplice viral e varicela','Aplicar no pós-parto imediato se suscetível','Oportunidade de atualização — compatível com amamentação','especial');
-    add('dTpa','Se não recebeu na gestação, aplicar no puerpério','Estratégia cocoon','especial');
-  }
-  if(situacao==='prematuro'){
-    add('Nirsevimabe (anti-VSR)','Dose única antes ou durante a 1ª temporada de VSR','Imunização passiva — prematuros são grupo prioritário','especial');
-    alertas.push('Prematuro: vacinar pela idade cronológica, sem correção. Preferir vacinas acelulares (hexavalente). BCG se ≥ 2 kg.');
-  }
-
-  /* ===== COMORBIDADES ===== */
-  function has(k){ return comorb.indexOf(k)>=0; }
-  if(has('asma')||has('dpoc')){
-    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única (adultos de qualquer idade; crianças conforme esquema por idade)','Pneumopatia crônica','comorb');
-    add('Influenza anual','Prioridade máxima','Pneumopatia crônica — risco de exacerbação','comorb');
-    if(A>=18) add('Herpes-zóster recombinante','2 doses','Risco aumentado em DPOC e uso de corticoide','comorb');
-  }
-  if(has('cardio')||has('dm')||has('hepato')||has('obesidade')||has('tabagismo')){
-    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','Comorbidade crônica — risco de doença invasiva','comorb');
-    add('Influenza anual','Dose anual','Comorbidade crônica','comorb');
-    if(has('hepato')) add('Hepatite A e B','Esquema completo e sorologia pós-vacinal','Hepatopatia — risco de hepatite fulminante','comorb');
-  }
-  if(has('renal')){
-    add('Hepatite B — esquema reforçado','4 doses com o dobro da dose; anti-HBs 1–2 meses após','Doença renal crônica / diálise','comorb');
-    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','Alto risco de doença invasiva','comorb');
-    add('Influenza anual','Dose anual','Grupo prioritário','comorb');
-  }
-  if(has('asplenia')||has('complemento')){
-    add('Meningocócica ACWY','2 doses (0–2 meses) + reforço a cada 5 anos','Risco extremo de doença meningocócica','comorb');
-    add('Meningocócica B','2 a 3 doses conforme idade + reforços','Risco extremo','comorb');
-    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','Asplenia é indicação formal','comorb');
-    add('Haemophilus influenzae b (Hib)','Dose em qualquer idade se não vacinado','Bactéria encapsulada','comorb');
-    alertas.push('Esplenectomia eletiva: vacinar preferencialmente até 14 dias antes do procedimento (ou 14 dias após, se de urgência).');
-  }
-  if(has('fistula')){
-    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','Fístula liquórica / implante coclear','comorb');
-    add('Haemophilus influenzae b (Hib)','Dose em qualquer idade','Indicação SBIm — grupos especiais','comorb');
-    add('Meningocócica ACWY e B','Esquema completo','Risco de meningite','comorb');
-  }
-  if(has('hiv')){
-    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','HIV — indicação formal','comorb');
-    add('HPV nonavalente','3 doses (0-2-6), independentemente da idade, até 45 anos','HIV — 3 doses sempre','comorb');
-    add('Meningocócica ACWY','2 doses + reforços','HIV é indicação formal','comorb');
-    add('Hepatite A e B','Esquemas completos com sorologia pós-vacinal','Resposta subótima em HIV','comorb');
-    alertas.push('HIV: vacinas atenuadas (SCR, varicela, febre amarela) só se CD4 ≥ 200 cél/mm³ em adultos (≥ 15% em crianças) e sem imunossupressão grave.');
-  }
-  if(has('idp')){
-    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','Imunodeficiência primária','comorb');
-    add('Meningocócica ACWY e B','Esquema completo + reforços','IDP — indicação formal','comorb');
-    add('Haemophilus influenzae b (Hib)','Dose em qualquer idade','IDP','comorb');
-    add('Influenza anual','Dose anual — estender aos contactantes','Proteção do núcleo familiar','comorb');
-    alertas.push('IDP: vacinas atenuadas em geral contraindicadas (deficiências de células T/B, SCID). Em deficiências de anticorpos em reposição de IgG, a resposta vacinal pode ser prejudicada — avaliar individualmente.');
-    alertas.push('Pacientes em reposição de imunoglobulina: respeitar intervalo de 8 meses para vacinas de vírus vivo atenuado, quando indicadas.');
-  }
-  if(has('transplante')){
-    add('Esquema completo pré-transplante','Idealmente ≥ 4 semanas antes para atenuadas e ≥ 2 semanas para inativadas','Janela de oportunidade','comorb');
-    add('Pneumocócica, meningocócica ACWY/B, Hib, hepatites A e B','Esquemas completos','Transplantado é grupo de altíssimo risco','comorb');
-    add('Herpes-zóster recombinante','2 doses (vacina inativada — segura no imunodeprimido)','SBIm — ≥ 18 anos imunossuprimidos','comorb');
-    alertas.push('TCTH: revacinar integralmente a partir de 6–12 meses pós-transplante. Atenuadas apenas após 24 meses e sem DECH/imunossupressão.');
-  }
-  if(has('onco')||has('imunossup')||has('autoimune')){
-    add('Influenza anual','Dose anual','Imunossupressão','comorb');
-    add('Pneumocócica conjugada 20-valente (VPC20)','Dose única','Imunossupressão','comorb');
-    if(A>=18) add('Herpes-zóster recombinante (RZV)','2 doses (0 e 1–2 meses em imunodeprimidos)','Vacina inativada — indicada no imunossuprimido','comorb');
-    alertas.push('Imunossupressão: vacinar preferencialmente 2–4 semanas antes de iniciar o imunossupressor, ou 3 meses após suspendê-lo. Atenuadas contraindicadas durante o tratamento.');
-    alertas.push('Corticoide em dose imunossupressora: prednisona ≥ 2 mg/kg/dia ou ≥ 20 mg/dia por ≥ 14 dias.');
-  }
-  if(has('prof_saude')){
-    add('Hepatite B + anti-HBs pós-vacinal','3 doses e confirmação sorológica','Exposição ocupacional','comorb');
-    add('Tríplice viral, varicela, dTpa e influenza anual','Esquemas completos','Calendário SBIm do profissional de saúde','comorb');
-  }
-  if(has('viajante')){
-    add('Febre amarela','≥ 10 dias antes da viagem (Certificado Internacional)','Viagem internacional','comorb');
-    add('Hepatite A, febre tifoide e raiva (pré-exposição)','Conforme destino e tipo de viagem','Viajante internacional','comorb');
-    add('Meningocócica ACWY','Obrigatória para Arábia Saudita (Hajj/Umrah)','Exigência sanitária','comorb');
-  }
-
-  /* dedup por nome */
-  var vis={},fin=[];
-  rec.forEach(function(r){ if(!vis[r.nome]){vis[r.nome]=1;fin.push(r);} });
-  return {rec:fin,alertas:alertas};
+ const m=Number(idadeMeses),A=m/12, rec=new Map(), alertas=[], c=new Set((comorb||[]).filter(k=>k!=='nenhuma')), has=k=>c.has(k), any=(...ks)=>ks.some(has);
+ if(!Number.isFinite(m)||m<0||m>1560)return {rec:[],alertas:['Idade inválida.']};
+ const gest=situacao==='gestante', puer=situacao==='puerpera', pre=situacao==='prematuro', imuno=vacImunossup([...c]), liveBlocked=gest||imuno;
+ if((gest||puer)&&(sexo!=='f'||A<10||A>=65)||pre&&m>=24)return {rec:[],alertas:['Situação especial incompatível com os dados informados. Revise idade e situação.']};
+ const severeAsthma=has('asma_modgrave'), asthma=has('asma')||severeAsthma, lung=asthma||has('dpoc'), chronic=lung||any('cardio','dm','renal','hepato','obesidade','tabagismo','autoimune'), risk=chronic||imuno||any('asplenia','complemento','fistula'), occ=has('prof_saude');
+ const priority={rotina:1,condicional:2,comorb:3,especial:4};
+ function add(id,nome,quando,motivo,tag='rotina',live=false){
+  if(live&&liveBlocked){return;}
+  const old=rec.get(id);
+  if(!old){rec.set(id,{id,nome,quando,motivo,tag,live});return;}
+  if(!old.motivo.split(' · ').includes(motivo))old.motivo+=' · '+motivo;
+  if(priority[tag]>priority[old.tag]){old.tag=tag;old.quando=quando;}
+ }
+ const pnc='Pneumocócica conjugada 20-valente (VPC20)';
+ const pncDose=m<6?'Início aos 2 meses: SBIm 3 doses (2, 4, 6 meses) + reforço aos 12–15 meses; PNI 2, 4 e 12 meses.':m<12?'Se nunca vacinado: 2 doses separadas por 4–8 semanas e reforço aos 12–15 meses.':m<24?'Se nunca vacinado: 2 doses com intervalo de 2 meses.':m<72?'Se nunca vacinado: dose única; condições de alto risco podem exigir esquema adicional.':'Se nunca vacinado: dose única. Histórico de VPC/VPP23 e transplante de células-tronco alteram o esquema; não aplicar VPP23 após VPC20.';
+ const pneu=(motivo,tag='comorb')=>{if(m>=2)add('pnc',pnc,pncDose,motivo,tag);};
+ const fluDose=A>=60?'1 dose anual, preferir trivalente de alta concentração (HD3V) quando disponível.':A<9?'Anual; primeira vacinação: 2 doses separadas por 4 semanas.':'1 dose anual da formulação da temporada.';
+ const flu=(motivo,tag='comorb')=>{if(m>=6)add('flu','Influenza',fluDose,motivo,tag);};
+ const hb='Hepatite B',scr='Tríplice viral (SCR)',varic='Varicela',hz='Herpes-zóster recombinante (Shingrix)',rsv='Vírus sincicial respiratório (VSR) — adulto';
+ if(m<60&&!liveBlocked)add('bcg','BCG','Dose única se não vacinado; ao nascer, peso ≥2 kg.','Rotina PNI; resgate até 4 anos, 11 meses e 29 dias.','rotina',true);
+ add('hb',hb,m<12?'Ao nascer, preferencialmente nas primeiras 12 h; completar série infantil.':'Se esquema incompleto: completar 3 doses (0, 1, 6 meses), sem reiniciar.','Rotina por idade');
+ if(m>=2&&m<84)add('dtp','DTP/pentavalente/hexavalente','Série primária aos 2, 4, 6 meses; reforços DTP aos 15 meses e 4 anos. Resgate conforme doses anteriores.','Rotina pediátrica');
+ if(m>=2&&m<60)add('vip','Poliomielite inativada (VIP)','2, 4, 6 meses e reforço aos 15 meses (PNI); SBIm inclui reforço aos 4–5 anos.','Rotina pediátrica');
+ if(m>=1.5&&m<24&&!liveBlocked)add('rota','Rotavírus','PNI: 2 e 4 meses; D1 até 11m29d, D2 até 23m29d, intervalo mínimo 30 dias. Rede privada: limites específicos do produto.','Somente dentro da janela da dose e conforme histórico.','rotina',true);
+ if(m>=2&&m<72)pneu('Rotina pediátrica SBIm','rotina');
+ if(m>=3&&A<6)add('acwy','Meningocócica ACWY','3 e 5 meses; reforço aos 12–15 meses e aos 5–6 anos conforme histórico.','Rotina SBIm; PNI usa MenC na série infantil e ACWY no reforço.');
+ if(m>=3&&A<6)add('menb','Meningocócica B','3 e 5 meses; reforço aos 12–15 meses, conforme idade de início e produto.','Rotina SBIm, rede privada.');
+ if(A>=6&&A<20)add('acwy','Meningocócica ACWY','Atualizar reforço aos 5–6 e aos 11–14 anos conforme histórico.','Rotina SBIm; PNI 11–14 anos.');
+ if(A>=11&&A<20)add('menb','Meningocócica B','2 doses de acordo com o produto e histórico.','Rotina SBIm na adolescência.');
+ flu('Rotina SBIm','rotina');
+ if(m>=6)add('covid','COVID-19',imuno?'Esquema conforme idade e produto; reforços a cada 6 meses enquanto imunocomprometido.':gest?'1 dose a cada gestação.':A>=60?'1 dose a cada 6 meses.':m<60?'Rotina infantil conforme produto (2 ou 3 doses).':'Dose conforme histórico e grupo de risco; grupos prioritários: anual.','PNI: idade, histórico e grupos prioritários',imuno||gest?'especial':'rotina');
+ if(m>=9&&A<60)add('fa','Febre amarela',A<5?'9 meses e reforço aos 4 anos.':'Atualizar se suscetível; se primeira dose antes dos 5 anos, reforço conforme PNI.','Área de recomendação/rotina PNI','rotina',true);
+ if(A>=60&&!liveBlocked)add('fa','Febre amarela','Avaliar risco epidemiológico e histórico antes de primovacinar.','Idade ≥60 anos','condicional',true);
+ if(m>=12&&A<60)add('scr',scr,A<20?'2 doses aos 12 e 15 meses; resgate conforme histórico.':'SBIm: 2 doses separadas por 1 mês se suscetível; PNI: 2 doses até 29 anos e 1 dose dos 30 aos 59 anos.','Rotina SBIm','rotina',true);
+ if(A>=60&&!liveBlocked)add('scr',scr,'Avaliar suscetibilidade e exposição; não é rotina universal.','Risco epidemiológico','condicional',true);
+ if(m>=12)add('var',varic,A<13?'2 doses conforme idade (SBIm: 12 e 15 meses; PNI: 15 meses e 4 anos).':'2 doses, intervalo de 4–8 semanas se suscetível.','Atualizar apenas suscetíveis','rotina',true);
+ if(m>=12&&!gest)add('ha','Hepatite A','2 doses (0 e 6 meses), se suscetível. PNI: dose única infantil aos 15 meses.','Rotina SBIm',A>=60?'condicional':'rotina');
+ if(A>=4&&A<=60)add('dengue','Dengue (Qdenga/TAK-003)','2 doses (0 e 3 meses). PNI: elegibilidade e estratégia local próprias.','Faixa licenciada de 4 a 60 anos; avaliar risco epidemiológico.','condicional',true);
+ if(A>=5)add('dtpa','dTpa / dT',A<20?'Reforço aos 5–6 anos e na adolescência; completar esquema básico conforme histórico.':'Completar 3 doses se esquema básico incompleto; reforço a cada 10 anos, preferir dTpa.','Rotina SBIm');
+ if(A>=9&&A<=45&&!gest)add('hpv','HPV nonavalente',A<15&&!imuno?'2 doses (0 e 6 meses).':'3 doses (0, 2, 6 meses).','SBIm; PNI HPV4 em faixas e condições específicas.');
+ if(A>=50&&!gest){pneu('Rotina SBIm a partir de 50 anos','rotina');add('hz',hz,'2 doses (0 e 2 meses; janela 2–6 meses).','Rotina SBIm ≥50 anos');}
+ if(A>=70&&!gest)add('rsv',rsv,'1 dose IM; sem reforço rotineiro estabelecido.','Rotina SBIm por idade');
+ if(A>=20&&A<70&&risk&&!gest)add('rsv',rsv,'1 dose IM; avaliar risco e produto licenciado.','Comorbidades de risco para VSR: avaliar gravidade e fragilidade.','condicional');
+ if(A>=18&&!gest&&(severeAsthma||has('dpoc')||has('cardio')))add('rsv',rsv,'1 dose IM, sem reforço estabelecido.','Doença respiratória/cardiovascular crônica clinicamente relevante.','comorb');
+ if(A>=18&&!gest&&A<50&&(lung||any('cardio','dm')))add('hz',hz,'2 doses (0 e 2 meses), somente após avaliação individual do risco aumentado.','SBIm pacientes especiais 2026/27: considerar antecipação; '+[asthma?'asma':null,has('dpoc')?'DPOC/pneumopatia crônica':null,has('cardio')?'cardiopatia crônica':null,has('dm')?'diabetes':null].filter(Boolean).join(', ')+'.','condicional');
+ if(gest){
+   add('dtpa','dTpa / dT','1 dose de dTpa em cada gestação a partir da 20ª semana; completar esquema básico se necessário.','Proteção do lactente','especial');
+   flu('Gestação','especial');add('hb',hb,'Completar 3 doses (0, 1, 6 meses) se necessário.','Gestação','especial');
+   add('rsvmater','VSR materna (Abrysvo)','1 dose em cada gestação a partir de 28 semanas (PNI/SBIm); 24–27 semanas a critério médico na SBIm.','Proteção do lactente','especial');
+   alertas.push('Gestação: não administrar BCG, rotavírus, SCR, varicela ou dengue. Febre amarela apenas excepcionalmente após avaliação de risco-benefício. Adiar HPV e Shingrix.');
+ }
+ if(puer){add('scr',scr,'Completar 2 doses se suscetível.','Pós-parto','especial',true);add('var',varic,'2 doses, 4–8 semanas se suscetível.','Pós-parto','especial',true);add('dtpa','dTpa / dT','Aplicar dTpa se não recebeu na gestação, conforme histórico.','Pós-parto','especial');}
+ if(pre){if(m<6)add('nirse','Nirsevimabe (imunização passiva)','SUS: prematuro ≤36s6d e idade <6 meses, conforme temporada; 50 mg se <5 kg ou 100 mg se ≥5 kg.','Prematuridade','especial');alertas.push('Prematuro: idade cronológica; BCG após 2 kg. Hepatite B pode exigir 4 doses se peso <2 kg ou IG <33 semanas.');}
+ if(m<24&&any('cardio','dpoc','idp','imunossup'))add('nirse','Nirsevimabe (imunização passiva)','Avaliar critérios específicos do SUS: cardiopatia congênita com repercussão, broncodisplasia ou imunocomprometimento grave; dose conforme peso e temporada.','Condição pediátrica de risco precisa ser confirmada.','condicional');
+ if(lung){flu(asthma?'Asma':'Pneumopatia crônica');if(severeAsthma||has('dpoc'))pneu(severeAsthma?'Asma moderada/grave — SBIm e RIE':'Pneumopatia crônica — SBIm e RIE');else pneu('Asma: avaliar gravidade; RIE exclui asma intermitente/persistente leve.','condicional');}
+ if(any('cardio','dm','hepato','renal')){pneu('Doença crônica de risco — SBIm/RIE');flu('Doença crônica de risco');}
+ if(any('obesidade','tabagismo')){flu('Fator de risco respiratório');if(A>=18)pneu('Avaliar risco individual; não pressupõe acesso RIE por obesidade/tabagismo isolados.','condicional');}
+ if(has('hepato')){add('ha','Hepatite A','2 doses (0 e 6 meses) se suscetível.','Hepatopatia crônica','comorb');add('hb',hb,'3 doses (0, 1, 6 meses) se suscetível; avaliar sorologia.','Hepatopatia crônica','comorb');}
+ if(has('renal'))add('hb',hb,'DRC avançada/diálise: 4 doses (0, 1, 2, 6 meses) com dose dobrada; anti-HBs 1–2 meses após série. Outros estágios: individualizar.','Doença renal crônica','comorb');
+ if(any('asplenia','complemento')){
+   if(m>=2)add('acwy','Meningocócica ACWY',A<2?'Esquema por idade e produto; reforços enquanto persistir risco.':'2 doses com intervalo de 2 meses; reforço a cada 5 anos enquanto risco persistir.','Asplenia/deficiência de complemento','comorb');
+   if(m>=2)add('menb','Meningocócica B','Esquema por idade e produto; reforços enquanto persistir risco.','Asplenia/deficiência de complemento','comorb');
+ }
+ if(has('asplenia')){pneu('Asplenia');if(m>=2)add('hib','Haemophilus influenzae b (Hib)',A>=5?'1 dose se não vacinado.':'Completar esquema por idade e histórico.','Asplenia','comorb');alertas.push('Esplenectomia: vacinar idealmente ≥14 dias antes ou ≥14 dias após cirurgia de urgência.');}
+ if(has('fistula')){pneu('Fístula liquórica/implante coclear');if(m>=2)add('hib','Haemophilus influenzae b (Hib)','Avaliar esquema conforme idade e indicação RIE.','Fístula liquórica/implante coclear','condicional');}
+ if(imuno){
+  pneu('Imunocomprometimento / condição de risco');flu('Imunocomprometimento');
+  if(A>=18&&!gest)add('hz',hz,'2 doses (0 e 2 meses; intervalo de 1–2 meses se necessário antecipar).','Confirmar imunodeficiência/imunossupressão clinicamente relevante.','comorb');
+  if(A>=9&&A<=45&&!gest)add('hpv','HPV nonavalente','3 doses (0, 2, 6 meses).','Imunocomprometimento: três doses','comorb');
+  alertas.push('Vacinas vivas não são recomendadas automaticamente: confirmar grau de imunodeficiência, CD4 (HIV), tratamento e intervalos. Imunossupressão grave contraindica vacinas vivas.');
+ }
+ if(has('hiv')){if(m>=2)add('acwy','Meningocócica ACWY','Esquema de risco conforme idade; ≥2 anos: 2 doses (0 e 2 meses) e reforços a cada 5 anos.','HIV','comorb');add('hb',hb,'4 doses (0, 1, 2, 6 meses) com dose dobrada conforme idade; anti-HBs 1–2 meses depois.','HIV','comorb');if(m>=12)add('ha','Hepatite A','2 doses (0 e 6 meses) se suscetível.','HIV','comorb');}
+ if(has('idp'))alertas.push('Erro inato da imunidade: identificar o defeito imunológico antes de definir meningocócicas, Hib, vacinas vivas e resposta à vacinação. Em reposição de IgG, intervalo de vacinas vivas depende da dose e produto.');
+ if(has('transplante'))alertas.push('Diferenciar transplante de órgão sólido de TCTH/CAR-T. TCTH requer revacinação específica, inclusive VPC20 em múltiplas doses; não aplicar esquema de dose única sem avaliação.');
+ if(has('autoimune')&&!imuno)alertas.push('Doença autoimune isolada não implica imunossupressão; informar terapia e atividade antes de antecipar vacinas ou restringir vacinas vivas.');
+ if(occ&&A>=14){
+   flu('Profissional de saúde');add('hb',hb,'3 doses (0, 1, 6 meses) se incompleto; anti-HBs 1–2 meses após a última dose quando indicado.','Exposição ocupacional','comorb');
+   if(m>=6)add('covid','COVID-19',imuno?'Reforço a cada 6 meses.':gest?'1 dose a cada gestação.':A>=60?'1 dose a cada 6 meses.':'Dose anual, conforme PNI.','Profissional de saúde',imuno||gest?'especial':'comorb');
+   add('dtpa','dTpa / dT',gest?'1 dose em cada gestação a partir de 20 semanas.':'Completar esquema básico; reforço dTpa a cada 10 anos.','Profissional de saúde',gest?'especial':'comorb');
+   add('scr',scr,'2 doses documentadas com intervalo mínimo de 30 dias, se suscetível.','Profissional de saúde','comorb',true);
+   add('var',varic,'2 doses (4–8 semanas) se suscetível.','Profissional de saúde','comorb',true);
+   alertas.push('Hepatite A, meningocócicas e raiva por risco ocupacional específico (laboratório, exposição fecal, manejo animal etc.), não por profissão de saúde isolada.');
+ }
+ if(has('viajante')){if(m>=9&&!liveBlocked)add('fa','Febre amarela','Se indicada pelo destino, aplicar ≥10 dias antes de viajar; verificar histórico.','Viagem internacional','condicional',true);if(m>=12)add('ha','Hepatite A','2 doses (0 e 6 meses) se suscetível.','Viagem: conforme destino','condicional');if(A>=2)add('tifo','Febre tifoide','Vacina inativada: 1 dose antes da viagem, conforme risco e produto.','Destino com risco de exposição','condicional');add('raiva','Raiva pré-exposição','2 doses nos dias 0 e 7, conforme risco de exposição e condição imunológica.','Viagem: exposição a animais, destino e acesso à profilaxia','condicional');if(m>=2)add('acwy','Meningocócica ACWY','Conforme destino, idade e exigências sanitárias.','Viagem: verificar destino; não presumir Hajj/Umrah.','condicional');}
+ if(gest&&risk)alertas.push('VPC20 durante a gestação: avaliar risco-benefício individual; não é rotina apenas por gestação.');
+ if(gest&&rec.has('pnc')){const v=rec.get('pnc');v.tag='condicional';v.quando+=' Gestação: avaliar risco-benefício individual.';}
+ if(has('hiv')&&has('renal')){const v=rec.get('hb');v.quando='Avaliar esquema reforçado: 4 doses (0, 1, 2, 6 meses), dose dobrada conforme idade/DRC e controle anti-HBs.';}
+ if(has('transplante')&&rec.has('pnc')){const v=rec.get('pnc');v.quando='TOS: conforme idade e histórico. TCTH/CAR-T: esquema de revacinação em múltiplas doses conforme protocolo específico.';}
+ if(has('imunossup'))alertas.push('Imunossupressor: distinguir terapia realmente imunossupressora de biológicos não imunossupressores; vacinas vivas exigem intervalo específico por fármaco.');
+ return {rec:[...rec.values()],alertas:[...new Set(alertas)]};
 }
 
 function vacGerarCalendario(){
@@ -5958,7 +5901,8 @@ function vacGerarCalendario(){
   }
   h+=bloco('Calendário de rotina para a idade',r.rec.filter(function(v){return v.tag==='rotina';}),'var(--teal-mid)');
   h+=bloco('Situação especial',r.rec.filter(function(v){return v.tag==='especial';}),'#d69e2e');
-  h+=bloco('Indicações por comorbidade',r.rec.filter(function(v){return v.tag==='comorb';}),'var(--navy)');
+  h+=bloco('Indicações por comorbidade ou ocupação',r.rec.filter(function(v){return v.tag==='comorb';}),'var(--navy)');
+  h+=bloco('Considerar individualmente — não é indicação automática',r.rec.filter(function(v){return v.tag==='condicional';}),'#a06b19');
 
   if(r.alertas.length){
     h+='<div class="ig-out"><h4>Alertas e contraindicações</h4>';
@@ -5978,8 +5922,8 @@ function vacTexto(p){
   var t='CALENDÁRIO VACINAL — SBIm\n\nIdade: '+p.idade+' '+p.un+'\n';
   if(p.situacao!=='nao') t+='Situação: '+p.situacao+'\n';
   if(p.comorb.length) t+='Comorbidades: '+p.comorb.join(', ')+'\n';
-  t+='\nVACINAS INDICADAS:\n';
-  p.rec.forEach(function(v){ t+='\n• '+v.nome+'\n  '+v.quando+'\n  ('+v.motivo+')\n'; });
+  t+='\nVACINAS DE ROTINA, INDICAÇÕES ESPECIAIS E OPÇÕES CONDICIONAIS:\n';
+  p.rec.forEach(function(v){ t+='\n• '+(v.tag==='condicional'?'[Avaliação individual] ':'')+v.nome+'\n  '+v.quando+'\n  ('+v.motivo+')\n'; });
   if(p.alertas.length){ t+='\nALERTAS:\n'; p.alertas.forEach(function(a){ t+='– '+a+'\n'; }); }
   t+='\nReferência: Sociedade Brasileira de Imunizações (SBIm).';
   return t;
