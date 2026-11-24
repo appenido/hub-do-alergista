@@ -461,7 +461,7 @@ body:has(#page-imunizacoes.active) #hubPageTitle {
   display:block;font-size:16px!important;line-height:1.35;font-weight:800;color:var(--vac-ink);
   margin:23px 0 11px!important;padding:0 0 9px;border-bottom:1px solid var(--vac-line);
 }
-#page-imunizacoes #vacCalendariosLista .vac-nat-grid {
+#page-imunizacoes #vacCalendariosLista .vac-nat-grid:not(.hub-route-ancestor) {
   grid-template-columns:repeat(auto-fit,minmax(min(100%,205px),1fr))!important;gap:12px!important;
   align-items:stretch!important;
 }
@@ -488,7 +488,7 @@ body:has(#page-imunizacoes.active) #hubPageTitle {
   display:block;font-size:15px!important;font-weight:800!important;line-height:1.4;
   padding:14px 16px!important;background:var(--vac-soft)!important;color:var(--vac-ink)!important;
 }
-#page-imunizacoes .vac-nat-item > summary {
+#page-imunizacoes .vac-nat-item:not(.hub-route-target):not(.hub-route-ancestor) > summary {
   display:grid!important;grid-template-columns:minmax(0,1fr) 20px;gap:5px 12px;
   padding:15px 16px!important;text-align:left!important;list-style:none!important;
   line-height:1.5!important;background:white;
@@ -545,3 +545,9 @@ body:has(#page-imunizacoes.active) #hubPageTitle {
   #page-imunizacoes #vacComorb {grid-template-columns:repeat(2,minmax(0,1fr));}
 }
 @media(max-width:330px){#page-imunizacoes #vacCalendariosLista .vac-nat-grid,#page-imunizacoes #vacComorb{grid-template-columns:1fr!important;}}
+
+/* Respeita a navegação em página própria mesmo com os estilos dos cartões ativos. */
+body.hub-content-page #page-imunizacoes .hub-route-target > summary {display:none!important;}
+body.hub-content-page #page-imunizacoes .hub-route-ancestor.vac-nat-grid {display:block!important;}
+body.hub-content-page #page-imunizacoes #vacListaAll.hub-route-ancestor {display:block!important;}
+body.hub-content-page #page-imunizacoes .vac-nat-item.hub-route-target > .vac-nat-detail {padding:0!important;}
