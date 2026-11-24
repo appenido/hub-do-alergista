@@ -5,6 +5,16 @@
   "items": [
     {
       "kind": "content",
+      "id": "fcfbb564668d",
+      "date": "2026-11-24",
+      "publishedAt": "2026-11-24T19:12:16.000Z",
+      "type": "Melhoria",
+      "category": "Medicamentos",
+      "section": "medicamentos",
+      "title": "Medicamentos: inserir faixa etária e limite de bula por apresentação com dados verificados"
+    },
+    {
+      "kind": "content",
       "id": "5780373233e1",
       "date": "2026-11-24",
       "publishedAt": "2026-11-24T18:29:04.000Z",
