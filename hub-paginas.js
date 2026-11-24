@@ -2,6 +2,22 @@
 (function () {
   'use strict';
   const d = document;
+  // A pesquisa e as fichas de IgE permanecem em abas dentro do Laboratório.
+  (function carregarFichasLaboratorio() {
+    if (!d.querySelector('link[data-ige-fichas]')) {
+      const style = d.createElement('link');
+      style.rel = 'stylesheet';
+      style.href = '/laboratorio-fichas.css?v=20261124-abas-internas1';
+      style.dataset.igeFichas = '';
+      d.head.appendChild(style);
+    }
+    if (!d.querySelector('script[data-ige-fichas]')) {
+      const script = d.createElement('script');
+      script.src = '/laboratorio-fichas.js?v=20261124-abas-internas1';
+      script.dataset.igeFichas = '';
+      d.head.appendChild(script);
+    }
+  })();
   const layers = '.overlay.open,.ai-sheet.open,.sheet.open,#resumoSheet.open,#pedDrawer.open,#chatPanel.open,.igchat-drawer.open';
   const originalNav = window.navTo;
   let current = null, applying = false, pending = false, header, titleNode, crumbs;
@@ -346,6 +362,7 @@
   }
   function back() {
     if (pending || !current) return;
+    if (current.page === 'laboratorio' && current.steps.length === 0 && window.igeVoltarFicha?.()) return;
     if (current.index > 0) { pending = true; history.back(); return; }
     if (current.steps.length) navigate({...current, steps: current.steps.slice(0, -1)}, true);
     else if (current.page !== 'dashboard') navigate({page: 'dashboard', steps: []}, true);
@@ -379,6 +396,12 @@
     if (applying) return;
     const trigger = event.target.closest('button,a,summary,[role="button"],.bio-header');
     if (!trigger) return;
+    // Abas locais não devem virar rotas de página inteira.
+    if (trigger.closest('#igeLocalTabs')) return;
+    if (trigger.closest('#tbBack,.pg-back') && current?.page === 'laboratorio'
+        && !current.steps.length && window.igeVoltarFicha?.()) {
+      event.preventDefault(); event.stopImmediatePropagation(); return;
+    }
     lastTrigger = trigger;
     if (current) clickOrigin = {route: url(current), position: capturePosition(), at: Date.now()};
     if (trigger.matches('#mCalc')) byId('mResult')?.classList.remove('show');
@@ -393,6 +416,12 @@
     const bio = trigger.closest('.bio-header');
     if (bio && bio.closest('.bio-card')) { event.preventDefault(); event.stopImmediatePropagation(); const card = bio.closest('.bio-card'); open(card, card.querySelector('.bio-name')?.textContent, {kind: 'bio', key: card.id.slice(4)}); return; }
     const summary = trigger.closest('summary');
+    if (summary?.closest('#igeLista .ige-details') && typeof window.igeAbrirFicha === 'function') {
+      event.preventDefault(); event.stopImmediatePropagation();
+      const code = summary.closest('.ige-card')?.querySelector('.ige-cod')?.textContent.trim();
+      window.igeAbrirFicha(code);
+      return;
+    }
     if (summary && !summary.closest('#page-formulasInfantis') && summary.parentElement.tagName === 'DETAILS') {
       event.preventDefault(); event.stopImmediatePropagation();
       const details = summary.parentElement; open(details, label(details), {kind: 'conteudo', key: identify(details)}); return;
