@@ -34,14 +34,14 @@ const URL={
  trelegy:'https://consultaremedios.com.br/trelegy/bula'
 };
 const MANUFACTURERS={
- gsk:{name:'GSK',logo:'GSK'},
- boehringer:{name:'Boehringer Ingelheim',logo:'Boehringer\\nIngelheim'},
- chiesi:{name:'Chiesi Farmacêutica',logo:'Chiesi'},
- astrazeneca:{name:'AstraZeneca',logo:'AstraZeneca'},
- ache:{name:'Aché Laboratórios',logo:'Aché'},
- novartis:{name:'Novartis',logo:'Novartis'},
- takeda:{name:'Takeda',logo:'Takeda'},
- neutral:{name:'Fabricante / registro a confirmar',logo:'Fabricante'}
+ gsk:{name:'GSK',logo:'GSK',color:'#f36f21',light:'#ffd7bf',dark:'#a83c00'},
+ boehringer:{name:'Boehringer Ingelheim',logo:'Boehringer Ingelheim',color:'#003b5c',light:'#b9d7e5',dark:'#00263c'},
+ chiesi:{name:'Chiesi Farmacêutica',logo:'Chiesi',color:'#007b8a',light:'#bce6e8',dark:'#00535d'},
+ astrazeneca:{name:'AstraZeneca',logo:'AstraZeneca',color:'#6f2c91',light:'#dfc3ec',dark:'#4c1c66'},
+ ache:{name:'Aché Laboratórios',logo:'Aché',color:'#c6006f',light:'#f5bfdc',dark:'#87004b'},
+ novartis:{name:'Novartis',logo:'Novartis',color:'#e05b22',light:'#f6c9b5',dark:'#963510'},
+ takeda:{name:'Takeda',logo:'Takeda',color:'#d71920',light:'#f3b8ba',dark:'#941015'},
+ neutral:{name:'Fabricante / registro a confirmar',logo:'Fabricante',color:'#607783',light:'#d7e2e7',dark:'#344954'}
 };
 const BRAND_MARKS=[
  'Aerolin','Berotec','Atrovent','Foradil','Serevent','Busonid','Pulmicort','Clenil','Flixotide','Alvesco',
@@ -55,7 +55,7 @@ function registeredBrand(value){
  return out;
 }
 function manufacturerKey(value){
- const s=String(value||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
+ const s=String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
  if(/aerolin|serevent|flixotide|seretide|relvar|trelegy|vanisto|anoro/.test(s))return 'gsk';
  if(/berotec|atrovent|spiriva|striverdi|spiolto/.test(s))return 'boehringer';
  if(/clenil|fostair|trimbow/.test(s))return 'chiesi';
@@ -67,7 +67,7 @@ function manufacturerKey(value){
 }
 function manufacturerLogo(key){
  const m=MANUFACTURERS[key]||MANUFACTURERS.neutral;
- return '<span class="asma-maker-logo" aria-label="'+htmlEscape(m.name)+'" title="'+htmlEscape(m.name)+'"><span>'+htmlEscape(m.logo).replace(/\\\\n/g,'<br>')+'</span></span>';
+ return '<span class="asma-maker-logo" aria-label="'+htmlEscape(m.name)+'" title="'+htmlEscape(m.name)+'"><span>'+htmlEscape(m.logo)+'</span></span>';
 }
 function p(name,brand,device,strength,age,dose,max,mart,source,note,kind){
  const branded=registeredBrand(brand);
@@ -145,10 +145,11 @@ const SHAPES={
 };
 let iconSerial=0;
 const htmlEscape=s=>String(s==null?'':s).replace(/[&<>"']/g,x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
-function icon(type,small){
+function icon(type,small,maker){
  type=SHAPES[type]?type:'pmdi';
+ const theme=MANUFACTURERS[maker]||MANUFACTURERS.neutral;
  let id='asma-device-'+type+'-'+(++iconSerial);
- let defs='<defs><linearGradient id="'+id+'-ink" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#396f89"/><stop offset=".6" stop-color="#195168"/><stop offset="1" stop-color="#112f44"/></linearGradient><linearGradient id="'+id+'-teal" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#a7e1e7"/><stop offset=".6" stop-color="#319faf"/><stop offset="1" stop-color="#11748b"/></linearGradient><linearGradient id="'+id+'-metal" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fff"/><stop offset=".5" stop-color="#cadce6"/><stop offset="1" stop-color="#7098a8"/></linearGradient><linearGradient id="'+id+'-gold" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#ffedb5"/><stop offset=".5" stop-color="#d2aa52"/><stop offset="1" stop-color="#ad7f29"/></linearGradient></defs>';
+ let defs='<defs><linearGradient id="'+id+'-ink" x1="0" x2="1" y1="0" y2="1"><stop stop-color="'+theme.color+'"/><stop offset=".62" stop-color="'+theme.dark+'"/><stop offset="1" stop-color="'+theme.dark+'"/></linearGradient><linearGradient id="'+id+'-teal" x1="0" x2="1" y1="0" y2="1"><stop stop-color="'+theme.light+'"/><stop offset=".58" stop-color="'+theme.color+'"/><stop offset="1" stop-color="'+theme.dark+'"/></linearGradient><linearGradient id="'+id+'-metal" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fff"/><stop offset=".5" stop-color="#d9e2e7"/><stop offset="1" stop-color="#8296a0"/></linearGradient><linearGradient id="'+id+'-gold" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#fff1bd"/><stop offset=".5" stop-color="#d5ae55"/><stop offset="1" stop-color="#aa7b28"/></linearGradient></defs>';
  const body=SHAPES[type].replace(/url\(#(ink|teal|metal|gold)\)/g,(_m,n)=>'url(#'+id+'-'+n+')');
  return '<span class="asma-device'+(small?' asma-device-small':'')+'" title="'+htmlEscape(DEVICE_NAMES[type])+'" aria-label="'+htmlEscape(DEVICE_NAMES[type])+'"><svg role="img" aria-label="'+htmlEscape(DEVICE_NAMES[type])+'" viewBox="0 0 64 64">'+defs+body+'</svg></span>';
 }
@@ -164,7 +165,7 @@ function medicationCard(x,i){
  const makerData=MANUFACTURERS[maker]||MANUFACTURERS.neutral;
  return '<details class="asma-inhaler-card asma-mf-'+maker+'" data-hub-medicamento data-manufacturer="'+htmlEscape(maker)+'">'+
   '<summary><span class="asma-maker-anchor">'+manufacturerLogo(maker)+'</span><span class="asma-inhaler-main"><span class="hub-med-nome asma-commercial-name">'+htmlEscape(x.brand)+'</span><span class="asma-generic-name">'+htmlEscape(x.name)+'</span><span class="asma-strength">'+htmlEscape(x.strength)+'</span></span>'+
-  '<span class="asma-device-anchor">'+icon(x.device)+'</span><span class="asma-chevron" aria-hidden="true">⌄</span></summary>'+
+  '<span class="asma-device-anchor">'+icon(x.device,false,maker)+'</span><span class="asma-chevron" aria-hidden="true">⌄</span></summary>'+
   '<div class="asma-quick"><span><small>DOSE USUAL</small>'+htmlEscape(x.dose)+'</span><span><small>LIMITE / DOSE MÁXIMA</small>'+htmlEscape(x.max)+'</span></div>'+
   '<div class="asma-mart-row">'+badge(x.mart)+'</div>'+
   '<div class="asma-inhaler-more"><div><span class="asma-label">Fabricante</span><p>'+htmlEscape(makerData.name)+'</p></div><div><span class="asma-label">Dispositivo</span><p>'+htmlEscape(DEVICE_NAMES[x.device])+'</p></div><div><span class="asma-label">Faixa etária</span><p>'+htmlEscape(x.age)+'</p></div>'+
@@ -180,7 +181,7 @@ function render(slot,q){
  '<div class="asma-catalog-header"><div><span class="asma-kicker">TERAPIA INALATÓRIA</span><h3>Medicamentos e dispositivos inalatórios</h3><p>Selecione uma apresentação para consultar dose, faixa etária, dispositivo e referências.</p></div><span class="asma-header-count">'+shown.length+' apresentações</span></div>'+
  '<details class="asma-device-guide"><summary>Ver tipos de dispositivos</summary><div class="asma-legend">'+Object.keys(DEVICE_NAMES).map(k=>'<span>'+icon(k,true)+'<small>'+htmlEscape(DEVICE_NAMES[k])+'</small></span>').join('')+'</div></details>'+
  '<div class="asma-catalog">'+(shown.length?shown.map(medicationCard).join(''):'<p class="med-empty">Nenhuma apresentação para asma corresponde à busca.</p>')+'</div>'+
- (other.length?'<details class="asma-dpoc"><summary>Outros inaladores — DPOC / registro e indicação separados ('+other.length+')</summary><p>Os itens abaixo são mantidos no catálogo geral. Não extrapolar indicações, doses ou MART da asma para a DPOC.</p><div class="asma-dpoc-list">'+other.map(x=>{const maker=manufacturerKey(x[0]);return '<div class="asma-mf-'+maker+'">'+manufacturerLogo(maker)+icon(x[1],true)+'<span><strong>'+htmlEscape(registeredBrand(x[0]))+'</strong><small>'+htmlEscape(x[2])+'</small></span></div>';}).join('')+'</div></details>':'')+
+ (other.length?'<details class="asma-dpoc"><summary>Outros inaladores — DPOC / registro e indicação separados ('+other.length+')</summary><p>Os itens abaixo são mantidos no catálogo geral. Não extrapolar indicações, doses ou MART da asma para a DPOC.</p><div class="asma-dpoc-list">'+other.map(x=>{const maker=manufacturerKey(x[0]);return '<div class="asma-mf-'+maker+'">'+manufacturerLogo(maker)+icon(x[1],true,maker)+'<span><strong>'+htmlEscape(registeredBrand(x[0]))+'</strong><small>'+htmlEscape(x[2])+'</small></span></div>';}).join('')+'</div></details>':'')+
  '<p class="asma-foot">Referências: <a target="_blank" rel="noopener noreferrer" href="'+GINA+'">GINA Summary Guide 2026, Tabelas 6–7, pp. 44–45</a>; <a target="_blank" rel="noopener noreferrer" href="'+GINAFULL+'">GINA Strategy Report 2026, Boxes 4-2 e 4-8, pp. 77, 90–91</a>; bulas específicas vinculadas às fichas. Revisão documental: 14/11/2026. Disponibilidade comercial e registro ativo exigem checagem independente no <a target="_blank" rel="noopener noreferrer" href="'+BULAS+'">Bulário Anvisa</a>.</p></div>';
 }
 window.hubAsmaRender=render;window.hubAsmaDataset={products:PRODUCTS,devices:DEVICE_NAMES};
