@@ -96,13 +96,18 @@ function renderCards(){
  var area=document.getElementById('ahGrid');if(!area)return;
  var a=filtered(),counter=document.getElementById('ahCounter');
  if(counter)counter.textContent=a.length+' fármacos em ordem alfabética'+(state.route==='todas'?'':' · via '+window.AH_ROUTE_LABELS[state.route].toLowerCase());
+ var B=window.HubMedBranding;
  area.innerHTML=a.length?a.map(function(x){
   var selected=state.selected===x.id;
   var routes=window.AH_ROUTES[x.id]||['oral'];
   var predominant=routes[0]||'oral';
   var pills=routes.map(function(v){return '<span class="ah-chip ah-chip-'+escapeHtml(v)+'">'+escapeHtml(window.AH_ROUTE_LABELS[v]||v)+'</span>';}).join('')+(x.combo?'<span class="ah-chip">Associação com corticoide</span>':'');
-  return '<article class="ah-card-wrap ah-route-'+escapeHtml(predominant)+(routes.length>1?' ah-route-multi':'')+(selected?' ah-card-wrap-active':'')+'" data-ah-wrap="'+escapeHtml(x.id)+'">'+
-   '<button type="button" class="ah-card" data-ah-id="'+escapeHtml(x.id)+'" aria-expanded="'+String(selected)+'" aria-controls="'+(selected?'ahDetail':'')+'"><span><span class="ah-card-name">'+escapeHtml(x.n)+'</span><span class="ah-card-brand" style="display:block;margin-top:5px">'+escapeHtml(x.b)+'</span></span><span class="ah-card-foot"><span class="ah-chip-group">'+pills+'</span><span class="ah-card-chevron" aria-hidden="true">'+(selected?'⌃':'›')+'</span></span></button>'+
+  var maker=B?B.manufacturerKey((x.b||'')+' '+(x.n||'')):'neutral';
+  var style=B?B.manufacturerVars(maker):'';
+  var brand=B?B.registeredBrand(x.b):x.b;
+  var makerLogo=B?B.manufacturerLogo(maker):'';
+  return '<article class="ah-card-wrap ah-route-'+escapeHtml(predominant)+' med-mf-'+escapeHtml(maker)+(routes.length>1?' ah-route-multi':'')+(selected?' ah-card-wrap-active':'')+'" style="'+escapeHtml(style)+'" data-ah-wrap="'+escapeHtml(x.id)+'">'+
+   '<button type="button" class="ah-card" data-ah-id="'+escapeHtml(x.id)+'" aria-expanded="'+String(selected)+'" aria-controls="'+(selected?'ahDetail':'')+'">'+makerLogo+'<span class="ah-card-copy"><span class="ah-card-name">'+escapeHtml(x.n)+'</span><span class="ah-card-brand">'+escapeHtml(brand)+'</span></span><span class="ah-card-foot"><span class="ah-chip-group">'+pills+'</span><span class="ah-card-chevron" aria-hidden="true">'+(selected?'⌃':'›')+'</span></span></button>'+
    (selected?'<section class="ah-detail" id="ahDetail" aria-label="Detalhes de '+escapeHtml(x.n)+'" aria-live="polite"></section>':'')+
    '</article>';
  }).join(''):'<div class="ah-empty">Nenhum fármaco encontrado com esse termo. Experimente o princípio ativo ou a marca.</div>';
