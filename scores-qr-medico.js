@@ -233,4 +233,75 @@ if(overlay){
  new MutationObserver(()=>{if(!overlay.classList.contains("open")&&active!==null)cleanup();})
  .observe(overlay,{attributes:true,attributeFilter:["class"]});
 }
+
+/* GAD-7: card do Hub, coleta profissional com validação e sessão QR já existente. */
+enabled.add("gad7");
+(function mountGad7Card(){
+  const page=d("page-scores"), list=page&&page.querySelector(".gap-list");
+  if(!list||page.querySelector('[data-score="gad7"]'))return;
+  const card=document.createElement("div");
+  card.className="guide-card gad7-score-card";
+  card.dataset.score="gad7";
+  card.setAttribute("tabindex","0");
+  card.setAttribute("role","button");
+  card.setAttribute("aria-label","Abrir GAD-7 e QR Code para preenchimento pelo paciente");
+  card.style.cssText="cursor:pointer;border-left:3px solid #9778b5;background:linear-gradient(100deg,#fff 76%,#f5f0fa);";
+  card.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px">'
+    +'<div><div style="font-size:16px;font-weight:800;color:var(--navy)">GAD-7</div>'
+    +'<div style="font-size:11px;color:var(--gray-500)">Rastreamento de ansiedade · 0–21 · QR Code</div></div>'
+    +'<div style="display:flex;align-items:center;gap:8px">'
+    +'<button type="button" class="btn btn-sm btn-fav-score" data-score-name="GAD-7" title="Favoritar score" aria-label="Favoritar GAD-7" style="font-size:13px;padding:4px 8px;background:transparent;border:none;color:var(--gray-300)">⭐</button>'
+    +'<svg width="38" height="38" viewBox="0 0 38 38" role="img" aria-label="Cérebro" style="flex-shrink:0"><defs><linearGradient id="gad7-icon-gradient" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7457a2"/><stop offset="1" stop-color="#c9a84c"/></linearGradient></defs><rect x="1" y="1" width="36" height="36" rx="10" fill="#f0ebf8"/><path d="M19 11c-3-4-8-1-8 2-4 1-5 6-1 8-2 4 3 7 6 4 2 3 3 0 3-1V11Zm0 0c3-4 8-1 8 2 4 1 5 6 1 8 2 4-3 7-6 4-2 3-3 0-3-1V11Z" fill="none" stroke="url(#gad7-icon-gradient)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 17l3 2-2 3m13-5-3 2 2 3" stroke="#c19d54" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div></div>'
+    +'<div class="score-purpose">Para que serve: avalia sintomas de ansiedade nas últimas duas semanas. Preenchimento pelo médico ou paciente via QR Code.</div>'
+    +'<div class="bar-bg" style="margin-top:8px"><div class="bar-fill" style="width:70%;background:linear-gradient(90deg,#7c60a6,#c9a84c)"></div></div>'
+    +'<button type="button" class="sp-btn" style="margin-top:10px;background:#74579b">Aplicar GAD-7 ou gerar QR Code →</button>';
+  list.insertBefore(card,list.children[2]||null);
+  card.addEventListener("keydown",ev=>{
+    if((ev.key==="Enter"||ev.key===" ")&&!ev.target.closest("button")){
+      ev.preventDefault();window.openScore("gad7");
+    }
+  });
+})();
+const gadPreviousOpen=window.openScore;
+window.openScore=function(key){
+  gadPreviousOpen.apply(this,arguments);
+  if(key!=="gad7")return;
+  const container=d("mFields");
+  if(!container)return;
+  for(const f of SCORES.gad7.fields){
+    const select=d(f.id);
+    if(!select)continue;
+    const option=document.createElement("option");
+    option.value="";option.textContent="Selecione uma resposta";option.disabled=true;option.selected=true;
+    select.prepend(option);select.value="";select.required=true;
+    select.addEventListener("change",()=>{
+      const notice=d("gad7-manual-warning");
+      if(notice)notice.textContent="";
+      const result=d("mResult");if(result)result.classList.remove("show");
+    });
+  }
+  const info=document.createElement("div");
+  info.className="sf";
+  info.style.cssText="border:1px solid #dfd5ea;border-radius:12px;padding:13px;margin:12px 0;background:#f8f5fc;color:#425467;font-size:11.5px;line-height:1.65";
+  info.innerHTML='<div id="gad7-manual-warning" role="alert" style="font-weight:700;color:#a43e3e"></div>'
+    +'Interpretação: 0–4 mínimos · 5–9 leves · 10–14 moderados · 15–21 graves. O ponto de corte ≥ 10 indica necessidade de avaliação clínica, não diagnóstico.'
+    +'<div style="margin-top:7px">Referências: <a href="https://doi.org/10.1001/archinte.166.10.1092" target="_blank" rel="noopener noreferrer">Spitzer et al. (2006)</a> · <a href="https://recursos.opas.org.br/en/tools/gad-7" target="_blank" rel="noopener noreferrer">OPAS</a>.</div>';
+  container.append(info);
+};
+const gadPreviousCalc=window.doCalc;
+if(typeof gadPreviousCalc==="function"){
+  window.doCalc=function(){
+    if(window.currentScore==="gad7"){
+      const missing=SCORES.gad7.fields.find(f=>!d(f.id)||d(f.id).value==="");
+      if(missing){
+        const notice=d("gad7-manual-warning");
+        if(notice)notice.textContent="Responda as sete perguntas antes de calcular.";
+        const input=d(missing.id);if(input)input.focus();
+        return;
+      }
+    }
+    return gadPreviousCalc.apply(this,arguments);
+  };
+}
+
 })();
