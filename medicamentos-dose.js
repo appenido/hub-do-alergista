@@ -218,7 +218,8 @@
       '<div class="med-dose-grid med-dose-selection" data-dose-selection hidden>' +
       field('medicine', '<select name="medicine"></select>', true) +
       '<div class="med-dose-wide" data-dose-presentation hidden>' +
-      field('presentation', '<select name="presentation"></select>') + '</div>' +
+      field('presentation', '<select name="presentation"></select>') +
+      '<p class="med-dose-note" data-dose-route-alert role="status" hidden></p></div>' +
       '<div class="med-dose-wide med-dose-custom" data-dose-custom hidden>' +
       '<label class="med-dose-wide" data-dose-custom-name hidden>' + label('drugName') + '<input type="text" name="customName" maxlength="100"></label>' +
       field('customKind', '<select name="customUnit"><option value="liquid" data-dose-copy="customLiquid"></option><option value="tablet" data-dose-copy="customSolid"></option></select>') +
@@ -258,6 +259,7 @@
     const confirmPresentation = form.querySelector('[data-dose-confirm]');
     const referenceDetails = form.querySelector('[data-dose-references]');
     const registryNote = form.querySelector('[data-dose-registry-source]');
+    const routeAlert = form.querySelector('[data-dose-route-alert]');
     const manualOnly = form.querySelector('[data-dose-manual-only]');
     const searchStatus = form.querySelector('[data-dose-search-status]');
     const hint = form.querySelector('[data-dose-applicability]');
@@ -416,6 +418,8 @@
       const unsupported = selected?.calculable === false;
       const ready = !unsupported && (!!selected || (entered && customConfirmed));
       patient.hidden = !ready;
+      routeAlert.hidden = !unsupported;
+      routeAlert.textContent = unsupported ? t('routeUnavailable') : '';
       if (resetMode || !product) controls.mode.value = product ? 'auto' : 'manual';
       manualOnly.hidden = !ready || controls.mode.value !== 'manual';
       registryNote.hidden = !selected?.raw && !unsupported;
