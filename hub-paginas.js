@@ -38,7 +38,7 @@
     const exam = node?.closest('.ige-card')?.querySelector('.ige-nome');
     if (exam && node.classList.contains('ige-details')) return clean(exam.textContent) + ' · aplicação clínica';
     const summary = node?.querySelector(':scope > summary');
-    const heading = summary?.querySelector('.uci-card-title,.hub-med-nome,.vac-name,.vac-covid-title') || summary || node?.querySelector(':scope > .bio-header .bio-name,.modal-title,.ai-sheet-title,h1,h2,h3');
+    const heading = summary?.querySelector('.uci-card-title,.hub-med-nome,.vac-name,.vac-covid-title,.vac-nat-item-title') || summary || node?.querySelector(':scope > .bio-header .bio-name,.modal-title,.ai-sheet-title,h1,h2,h3');
     return clean(heading?.textContent || node?.getAttribute('aria-label') || 'Conteúdo');
   }
   function identify(node) {
@@ -261,6 +261,7 @@
     } else if (step.kind === 'calendario') {
       const [source, id] = step.key.split(':');
       const button = Array.from(d.querySelectorAll('[data-native-id]')).find(n => n.dataset.nativeId === id);
+      step.title ||= clean(button?.dataset.vacTitle || button?.querySelector('.vac-nat-title')?.textContent || (id === 'atraso' ? 'Recuperação de doses em atraso' : 'Calendário de vacinação'));
       if (button?.getAttribute('aria-expanded') !== 'true') {
         window.vacAbrirCalendarios?.(source);
         Array.from(d.querySelectorAll('[data-native-id]')).find(n => n.dataset.nativeId === id)?.click();
@@ -410,7 +411,7 @@
     if (native) setTimeout(() => {
       const source = byId('vac-sub-calendarios')?.dataset.fonte || 'sbim';
       const node = native.dataset.nativeId === 'atraso' ? byId('vac-sub-atraso') : byId('vacCalPreview');
-      open(node, byId('vacCalPreviewTitulo')?.textContent || clean(native.textContent), {kind: 'calendario', key: source + ':' + native.dataset.nativeId});
+      open(node, clean(native.dataset.vacTitle || native.querySelector('.vac-nat-title')?.textContent || byId('vacCalPreviewTitulo')?.textContent || native.innerText), {kind: 'calendario', key: source + ':' + native.dataset.nativeId});
     });
     const fav = trigger.closest('[data-fav-open]');
     if (fav) setTimeout(() => { if (byId('favDetalhe')) open(byId('favDetalhe'), clean(fav.textContent), {kind: 'favorito', key: fav.dataset.favOpen}); });
