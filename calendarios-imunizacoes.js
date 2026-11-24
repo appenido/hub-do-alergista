@@ -218,7 +218,7 @@
       '<summary class="vac-covid-summary">'+
         '<span class="vac-covid-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 10h18m-12 5 2 2 4-4"/></svg></span>'+
         '<span><span class="vac-covid-title">Calendário de vacinação contra COVID-19</span>'+
-        '<span class="vac-covid-subtitle">Ministério da Saúde / PNI · Doses e intervalos no SUS</span></span>'+
+        ' <span class="vac-covid-subtitle">Ministério da Saúde / PNI · Doses e intervalos no SUS</span></span>'+
         '<span class="vac-covid-chevron" aria-hidden="true">›</span>'+
       '</summary>'+
       '<div class="vac-nat-body vac-covid-body">'+
@@ -323,6 +323,22 @@
       }
     }
   }
+  function premiumCalendarIcon(id){
+    var paths={
+      prematuro:'<path d="M7 14c0-4 2-7 5-7s5 3 5 7-2 7-5 7-5-3-5-7Z"/><circle cx="12" cy="4.5" r="2"/><path d="m8 13 8 4m-8 0 8-4"/>',
+      crianca:'<circle cx="12" cy="7" r="3"/><path d="M5 21v-3a7 7 0 0 1 14 0v3M9 16l3 3 3-3"/>',
+      adolescente:'<path d="m2 9 10-5 10 5-10 5-10-5Zm4 2v6c3 3 9 3 12 0v-6m4-2v6"/>',
+      adulto:'<circle cx="12" cy="7" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/>',
+      idoso:'<circle cx="12" cy="7" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2M8 8h2m4 0h2m-6 0h4"/>',
+      gestante:'<circle cx="12" cy="4" r="2.5"/><path d="M10 8c-3 3-4 7-2 11h8c2-4 1-8-2-11M12 19v3m-2-10c5-1 7 2 6 5"/>',
+      ocupacional:'<path d="M8 4H5v6a5 5 0 0 0 10 0V4h-3M10 15v1a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="12" r="2"/>',
+      especiais:'<path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="M12 8v8m-4-4h8"/>',
+      atraso:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+      rie:'<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M12 8v8m-4-4h8"/>'
+    };
+    var body=paths[id]||'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>';
+    return '<svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+body+'</svg>';
+  }
   function drawList(){
     preparar();
     var list=get('vacCalendariosLista');if(!list)return;
@@ -339,10 +355,10 @@
       out+='<h3 class="vac-nat-sec">'+esc(g)+'</h3><div class="vac-nat-grid">';
       itens.forEach(function(d){
         out+='<div class="vac-nat-shell" data-vac-shell="'+esc(d[0])+'">' +
-          '<button type="button" class="vac-nat-card" data-native-id="'+esc(d[0])+'" aria-pressed="false" aria-expanded="false" aria-controls="'+(d[0]==='atraso'?'vac-sub-atraso':'vacCalPreview')+'">' +
-          '<span aria-hidden="true" style="font-size:24px">'+d[4]+'</span>' +
-          '<span style="min-width:0"><span style="display:block;font-size:12px;font-weight:750">'+esc(d[1])+'</span>' +
-          '<span style="display:block;color:#64748b;font-size:10.5px;line-height:1.4;margin-top:4px">'+esc(d[2])+'</span></span></button></div>';
+          '<button type="button" class="vac-nat-card" data-native-id="'+esc(d[0])+'" data-vac-title="'+esc(d[1])+'" aria-pressed="false" aria-expanded="false" aria-controls="'+(d[0]==='atraso'?'vac-sub-atraso':'vacCalPreview')+'">' +
+          '<span class="vac-nat-icon" aria-hidden="true">'+premiumCalendarIcon(d[0])+'</span>' +
+          '<span class="vac-nat-card-copy"><span class="vac-nat-title">'+esc(d[1])+'</span> ' +
+          '<span class="vac-nat-subtitle">'+esc(d[2])+'</span></span></button></div>';
       });
       out+='</div>';
     });
@@ -392,8 +408,8 @@
   function viewGroup(group,rows){
     var h='<div class="vac-nat-batch"><div class="vac-nat-batch-title">'+esc(group)+'</div>';
     rows.forEach(function(r){
-      h+='<details class="vac-nat-item"><summary>'+esc(r[0])+'<span style="display:block;color:#476474;font-weight:400;margin-top:4px">'+esc(r[1])+'</span></summary>'+
-        '<div class="vac-nat-detail"><span style="color:#1f6980">Orientação clínica: </span>'+esc(r[2]||'Confira observações e exceções no arquivo original.')+(/pneumoc|pneumo|VPC20/i.test(r[0])?PNEUMO20_GUIA_HTML:'')+'</div></details>';
+      h+='<details class="vac-nat-item"><summary><span class="vac-nat-item-title">'+esc(r[0])+'</span> <span class="vac-nat-item-subtitle">'+esc(r[1])+'</span></summary>'+
+        '<div class="vac-nat-detail"><div class="vac-nat-clinical-label">Orientação clínica</div><p class="vac-nat-clinical-text">'+esc(r[2]||'Confira observações e exceções no arquivo original.')+'</p>'+(/pneumoc|pneumo|VPC20/i.test(r[0])?PNEUMO20_GUIA_HTML:'')+'</div></details>';
     });
     return h+'</div>';
   }
