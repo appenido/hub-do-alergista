@@ -5,6 +5,16 @@
   "items": [
     {
       "kind": "content",
+      "id": "4e5ac959b1e0",
+      "date": "2026-11-24",
+      "publishedAt": "2026-11-24T23:04:16.000Z",
+      "type": "Melhoria",
+      "category": "Medicamentos",
+      "section": "medicamentos",
+      "title": "Preserva catálogo CMED e valida esquemas, concentrações e cálculo pediátrico"
+    },
+    {
+      "kind": "content",
       "id": "ccf14c666f93",
       "date": "2026-11-24",
       "publishedAt": "2026-11-24T23:03:52.000Z",
