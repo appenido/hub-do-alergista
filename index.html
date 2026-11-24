@@ -5490,7 +5490,7 @@ var VAC_CATALOGO=[
   sbim:'https://sbim.org.br/calendario-sbim/adultos'},
  {id:'herpes',sus:0,particular:1,nome:'Herpes zóster (Shingrix)',comercial:'Shingrix (GSK)',fabricante:'GSK',
   prot:'Herpes zóster e neuralgia pós-herpética',tipo:'Inativada (subunidade + adjuvante AS01B)',
-  pop:'A partir de 50 anos. ≥18 anos em imunocomprometidos.',
+  pop:'Rotina ≥50 anos; ≥18 anos em imunocomprometidos ou com risco aumentado. SBIm: considerar antecipação individual em cardiopatia/pneumopatia crônica e diabetes.',
   esq:'2 doses: intervalo de 2–6 meses. Imunossuprimidos: intervalo de 1–2 meses.',
   obs:'Eficácia >90% contra herpes zóster e neuralgia pós-herpética. Preferida sobre Zostavax.',
   ea:'Locais: dor, eritema, enduração (muito comuns — 70–80%). Sistêmicos: mialgia, fadiga, cefaleia, febre, calafrios, distúrbio GI (comuns a muito comuns — reatogenicidade notória). Muito raros: anafilaxia.',
@@ -5784,7 +5784,7 @@ function vacCalcular(idadeMeses,sexo,situacao,comorb){
  const gest=situacao==='gestante', puer=situacao==='puerpera', pre=situacao==='prematuro', imuno=vacImunossup([...c]), liveBlocked=gest||imuno;
  if((gest||puer)&&(sexo!=='f'||A<10||A>=65)||pre&&m>=24)return {rec:[],alertas:['Situação especial incompatível com os dados informados. Revise idade e situação.']};
  const severeAsthma=has('asma_modgrave'), asthma=has('asma')||severeAsthma, lung=asthma||has('dpoc'), chronic=lung||any('cardio','dm','renal','hepato','obesidade','tabagismo','autoimune'), risk=chronic||imuno||any('asplenia','complemento','fistula'), occ=has('prof_saude');
- const priority={rotina:1,condicional:2,comorb:3,especial:4};
+ const priority={condicional:0,rotina:1,comorb:3,especial:4};
  function add(id,nome,quando,motivo,tag='rotina',live=false){
   if(live&&liveBlocked){return;}
   const old=rec.get(id);
@@ -5821,7 +5821,7 @@ function vacCalcular(idadeMeses,sexo,situacao,comorb){
  if(A>=9&&A<=45&&!gest)add('hpv','HPV nonavalente',A<15&&!imuno?'2 doses (0 e 6 meses).':'3 doses (0, 2, 6 meses).','SBIm; PNI HPV4 em faixas e condições específicas.');
  if(A>=50&&!gest){pneu('Rotina SBIm a partir de 50 anos','rotina');add('hz',hz,'2 doses (0 e 2 meses; janela 2–6 meses).','Rotina SBIm ≥50 anos');}
  if(A>=70&&!gest)add('rsv',rsv,'1 dose IM; sem reforço rotineiro estabelecido.','Rotina SBIm por idade');
- if(A>=20&&A<70&&risk&&!gest)add('rsv',rsv,'1 dose IM; avaliar risco e produto licenciado.','Comorbidades de risco para VSR: avaliar gravidade e fragilidade.','condicional');
+ if(A>=18&&A<70&&risk&&!gest)add('rsv',rsv,'1 dose IM; avaliar risco e produto licenciado.','Comorbidades de risco para VSR: avaliar gravidade e fragilidade.','condicional');
  if(A>=18&&!gest&&(severeAsthma||has('dpoc')||has('cardio')))add('rsv',rsv,'1 dose IM, sem reforço estabelecido.','Doença respiratória/cardiovascular crônica clinicamente relevante.','comorb');
  if(A>=18&&!gest&&A<50&&(lung||any('cardio','dm')))add('hz',hz,'2 doses (0 e 2 meses), somente após avaliação individual do risco aumentado.','SBIm pacientes especiais 2026/27: considerar antecipação; '+[asthma?'asma':null,has('dpoc')?'DPOC/pneumopatia crônica':null,has('cardio')?'cardiopatia crônica':null,has('dm')?'diabetes':null].filter(Boolean).join(', ')+'.','condicional');
  if(gest){
@@ -5833,7 +5833,7 @@ function vacCalcular(idadeMeses,sexo,situacao,comorb){
  if(puer){add('scr',scr,'Completar 2 doses se suscetível.','Pós-parto','especial',true);add('var',varic,'2 doses, 4–8 semanas se suscetível.','Pós-parto','especial',true);add('dtpa','dTpa / dT','Aplicar dTpa se não recebeu na gestação, conforme histórico.','Pós-parto','especial');}
  if(pre){if(m<6)add('nirse','Nirsevimabe (imunização passiva)','SUS: prematuro ≤36s6d e idade <6 meses, conforme temporada; 50 mg se <5 kg ou 100 mg se ≥5 kg.','Prematuridade','especial');alertas.push('Prematuro: idade cronológica; BCG após 2 kg. Hepatite B pode exigir 4 doses se peso <2 kg ou IG <33 semanas.');}
  if(m<24&&any('cardio','dpoc','idp','imunossup'))add('nirse','Nirsevimabe (imunização passiva)','Avaliar critérios específicos do SUS: cardiopatia congênita com repercussão, broncodisplasia ou imunocomprometimento grave; dose conforme peso e temporada.','Condição pediátrica de risco precisa ser confirmada.','condicional');
- if(lung){flu(asthma?'Asma':'Pneumopatia crônica');if(severeAsthma||has('dpoc'))pneu(severeAsthma?'Asma moderada/grave — SBIm e RIE':'Pneumopatia crônica — SBIm e RIE');else pneu('Asma: avaliar gravidade; RIE exclui asma intermitente/persistente leve.','condicional');}
+ if(lung){if(asthma)flu('Asma');if(has('dpoc'))flu('DPOC/pneumopatia crônica');if(severeAsthma||has('dpoc'))pneu(severeAsthma?'Asma moderada/grave — SBIm e RIE':'Pneumopatia crônica — SBIm e RIE');else pneu('Asma: avaliar gravidade; RIE exclui asma intermitente/persistente leve.','condicional');}
  if(any('cardio','dm','hepato','renal')){pneu('Doença crônica de risco — SBIm/RIE');flu('Doença crônica de risco');}
  if(any('obesidade','tabagismo')){flu('Fator de risco respiratório');if(A>=18)pneu('Avaliar risco individual; não pressupõe acesso RIE por obesidade/tabagismo isolados.','condicional');}
  if(has('hepato')){add('ha','Hepatite A','2 doses (0 e 6 meses) se suscetível.','Hepatopatia crônica','comorb');add('hb',hb,'3 doses (0, 1, 6 meses) se suscetível; avaliar sorologia.','Hepatopatia crônica','comorb');}
@@ -11077,7 +11077,7 @@ function chatToggle(){
 <script src="/quick-access-premium.js?v=20261112-firstpaint-1" defer></script>
 <script src="/calculadora-biologicos-asma.js?v=20261109-1"></script>
 <script src="/vacinas-cards-fixos.js?v=20261123-cards-1"></script>
-<script src="/vacinas-criterios.js?v=20261123-busca-nome2"></script>
+<script src="/vacinas-criterios.js?v=20261124-motor1"></script>
 <script src="/home-heading-icons.js?v=20261114-medicamentos1" defer></script>
 <script src="/biologicos-icones-doencas.js?v=20261115-traducao" defer></script>
 <script src="/hub-novidades.js?v=20261114-legivel-2" defer></script>
