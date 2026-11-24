@@ -14,7 +14,7 @@ const CATS=[
  {id:'olhos',name:'Colírios',sub:'Anti-histamínicos e lubrificantes',icon:'eye'},
  {id:'nasais',name:'Corticoides nasais',sub:'Monoterapias e associações',icon:'nose'},
  {id:'inalatoria',name:'Terapia inalatória',sub:'Asma: desenhos de inaladores, doses, máximos e MART',icon:'lungs'},
- {id:'ibps',name:'IBPs',sub:'Inibidores da bomba de prótons',icon:'stomach'},
+ {id:'ibps',name:'IBPs',sub:'Horário · doses · EoE · segurança · monitorização',icon:'stomach'},
  {id:'hidratantes',name:'Cremes hidratantes',sub:'Seleção por orçamento, textura e área corporal',icon:'drop'}
 ];
 
@@ -214,14 +214,127 @@ const DB={
  ['Furoato de fluticasona + umeclidínio + vilanterol','Trelegy Ellipta','Ellipta (DPI)','CI + LABA + LAMA','Tripla terapia de manutenção; critérios específicos por doença.']
  ],
  ibps:[
- ['Omeprazol','Losec; genéricos','Cápsula/comprimido gastrorresistente; formas hospitalares conforme registro','IBP','Preferir administração conforme bula e indicação; avaliar necessidade de uso prolongado.'],
- ['Pantoprazol','Pantozol; genéricos','Comprimido gastrorresistente; forma injetável conforme registro','IBP','Apresentações 20 e 40 mg são comuns; verificar indicação e equivalência.'],
- ['Esomeprazol','Nexium; genéricos','Comprimido e granulado gastrorresistente conforme registro','IBP','Não triturar pellets gastrorresistentes; seguir instruções da bula.'],
- ['Lansoprazol','Lanz; genéricos','Cápsula de liberação retardada','IBP','Conferir apresentação e orientação de administração.'],
- ['Rabeprazol','Pariet; genéricos conforme registro','Comprimido gastrorresistente','IBP','Registro e disponibilidade variam.'],
- ['Dexlansoprazol','Dexilant','Cápsula de liberação retardada dual','IBP','Sistema de liberação diferente; não inferir equivalência mg a mg.']
+ ['Omeprazol','Losec; genéricos','Cápsula/comprimido gastrorresistente','IBP','30–60 min antes da refeição; ficha com adulto, pediatria, EoE, máximo e monitorização.'],
+ ['Pantoprazol','Pantozol; genéricos','Comprimido gastrorresistente; apresentações 20 e 40 mg','IBP','Pode ser administrado com ou sem alimento; ficha diferencia uso habitual, refratário e EoE.'],
+ ['Esomeprazol','Nexium; genéricos','Cápsula/comprimido e granulado gastrorresistente','IBP','Administrar pelo menos 1 hora antes da refeição; ficha com doses por idade e EoE.'],
+ ['Lansoprazol','Lanz; genéricos','Cápsula/ODT de liberação retardada conforme apresentação','IBP','Preferir antes da refeição; ficha com doses pediátricas por peso.'],
+ ['Rabeprazol','Pariet; genéricos','Comprimido gastrorresistente; sprinkle em alguns mercados','IBP','Comprimido pode ser usado com ou sem alimento na maioria das indicações; ficha detalha exceções.'],
+ ['Dexlansoprazol','Dexilant','Cápsula de dupla liberação retardada','IBP','Pode ser administrado independentemente de alimento; ficha explica a dupla liberação.']
  ]
 };
+/* IBPs — ficha clínica estruturada. Doses regulatórias por apresentação + EoE por diretrizes.
+   EoE pediátrica é expressa como omeprazol-equivalente quando a molécula/apresentação não tem
+   indicação específica. Revisão clínica: 24/11/2026. */
+const IBP_GUIDES={
+ brasil:'https://www.aaai-asbai.org.br/article/doi/10.4322/2526-5393.17041027',
+ acg:'https://gi.org/wp-content/uploads/2024/12/EOE-highlights.pdf',
+ espghan:'https://www.espghan.org/dam/jcr%3A9cf73630-43a3-4791-ac79-2c88f74aa1c7/J%20pediatr%20gastroenterol%20-%202024%20-%20Amil%E2%80%90Dias%20-%20Diagnosis%20and%20management%20of%20eosinophilic%20esophagitis%20in%20children%20An.pdf',
+ agaSafety:'https://pubmed.ncbi.nlm.nih.gov/28257716/'
+};
+const IBP_CLASS_SAFETY={
+ common:['Cefaleia','Dor abdominal','Diarreia','Náusea','Flatulência','Constipação'],
+ important:[
+  ['Diarreia persistente / febre','Considerar C. difficile e outras causas infecciosas; hidratação e investigação dirigida.'],
+  ['Creatinina em elevação, mal-estar, rash, piúria ou hematúria','Suspeitar nefrite tubulointersticial aguda; suspender o IBP e investigar função renal/urina.'],
+  ['Cãibras, tremor, tetania, convulsão ou arritmia','Dosar magnésio; acrescentar cálcio e potássio conforme o quadro. Repor e reavaliar manutenção do IBP.'],
+  ['Anemia, neuropatia, glossite ou fatores de risco em uso prolongado','Dosar B12; considerar hemograma, ferritina e ferro conforme contexto clínico.'],
+  ['Rash intenso, bolhas, lesão mucosa ou fotossensibilidade com artralgia','Suspender e avaliar reação cutânea grave ou lúpus cutâneo subagudo.'],
+  ['Fratura ou risco osteoporótico elevado','Tratar risco ósseo pelos critérios habituais; IBP isoladamente não exige densitometria de rotina em baixo risco.']
+ ],
+ monitor:'Em paciente de baixo risco, não pedir rotineiramente creatinina, magnésio, B12 ou densitometria apenas por usar IBP. Monitorar de forma dirigida por dose/duração, doença renal, diuréticos/digoxina, má absorção, anemia, risco ósseo ou sintomas.'
+};
+const IBP_CLINICAL={
+ 'Omeprazol':{
+  shortTiming:'30–60 min antes',
+  presentation:'Cápsula/comprimido de liberação retardada com revestimento entérico. Omeprazol é mistura racêmica dos enantiômeros R e S.',
+  timing:'Preferir 30–60 minutos antes do café da manhã. Se 2x/dia: antes do café e antes do jantar/refeição da noite. Não triturar os grânulos gastrorresistentes.',
+  adult:'DRGE sintomática/esofagite erosiva: usualmente 20 mg 1x/dia. EoE: ACG 2025 usa omeprazol 20 mg 2x/dia ou 40 mg 1x/dia, ou equivalente.',
+  pediatric:'Dose regulatória para DRGE/EE: 1–16 anos: 5–<10 kg = 5 mg/dia; 10–<20 kg = 10 mg/dia; ≥20 kg = 20 mg/dia. EE de 1 mês a <1 ano: 3–<5 kg = 2,5 mg/dia; 5–<10 kg = 5 mg/dia; ≥10 kg = 10 mg/dia.',
+  eoe:'EoE pediátrica: 1 mg/kg/dose 2x/dia (2 mg/kg/dia), em omeprazol-equivalente. ESPGHAN: 4–10 anos máximo 60 mg/dia; 11–18 anos máximo 80 mg/dia. Reavaliar em 8–12 semanas com endoscopia e biópsias; sintomas isolados não bastam.',
+  max:'Não misturar teto de EoE com hipersecreção. Em EoE, seguir o teto da diretriz. Em condições hipersecretoras, a rotulagem descreve início em 60 mg/dia e doses de até 120 mg 3x/dia; isso não é dose rotineira para DRGE/EoE.',
+  difference:'Referência histórica da classe. Maior dependência de CYP2C19 que rabeprazol; pode reduzir a ativação do clopidogrel.',
+  solid:'Omeprazol oral usual é descrito como molécula-base, sem hidrato fixo obrigatório. O ponto clínico crítico é o revestimento entérico, porque a molécula é ácido-lábil.',
+  interaction:'Clopidogrel: evitar omeprazol quando houver alternativa apropriada; pantoprazol/rabeprazol tendem a ter menor interferência CYP2C19.',
+  source:'https://www.dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=fbd71fd8-3f36-46a1-bc76-53f6820d42a2'
+ },
+ 'Pantoprazol':{
+  shortTiming:'Preferir antes do café',
+  presentation:'Comprimido gastrorresistente 20/40 mg; forma IV em contexto hospitalar. O comprimido deve ser engolido inteiro.',
+  timing:'O comprimido pode ser tomado com ou sem alimento. Para padronizar supressão ácida, preferir 30–60 minutos antes do café da manhã; se 2x/dia, antes do café e da refeição da noite.',
+  adult:'DRGE/esofagite erosiva: 40 mg 1x/dia. Pantozol® admite 40 mg 2x/dia em casos refratários. Em EoE, usar estratégia de IBP em dose alta/equivalente, sem assumir equivalência mg-a-mg com omeprazol.',
+  pediatric:'≥5 anos: 15–<40 kg = 20 mg 1x/dia; ≥40 kg = 40 mg 1x/dia por até 8 semanas para EE associada à DRGE. Abaixo disso, EoE é recomendação de classe, não validação específica desta apresentação.',
+  eoe:'Se escolhido em EoE pediátrica, ancorar a prescrição no regime de classe em omeprazol-equivalente (1 mg/kg/dose 2x/dia) e na apresentação disponível. ESPGHAN: máximo 60 mg/dia entre 4–10 anos e 80 mg/dia entre 11–18 anos.',
+  max:'DRGE/EE: usual 40 mg/dia; Pantozol® admite 80 mg/dia em casos refratários. Condições hipersecretoras podem usar doses maiores; foram administrados até 240 mg/dia. Não usar esse teto como alvo para EoE.',
+  difference:'Menor inibição de CYP2C19 que omeprazol/esomeprazol; frequentemente é opção quando há necessidade de IBP concomitante ao clopidogrel.',
+  solid:'Pantoprazol é frequentemente pantoprazol sódico sesqui-hidratado: 1,5 molécula de água de cristalização por unidade estequiométrica. Cerca de 45,1 mg do sal sesqui-hidratado equivalem a 40 mg de pantoprazol.',
+  interaction:'Clopidogrel: interferência tende a ser menor que com omeprazol/esomeprazol. Anticoagulantes cumarínicos: considerar INR/TP após início, suspensão ou mudança relevante.',
+  source:'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=f3ded82a-cf0d-4844-944a-75f9f9215ff0'
+ },
+ 'Esomeprazol':{
+  shortTiming:'≥1 h antes da refeição',
+  presentation:'Cápsula/comprimido ou granulado gastrorresistente. Esomeprazol é o enantiômero S do omeprazol.',
+  timing:'Administrar pelo menos 1 hora antes da refeição, preferencialmente antes do café da manhã. Se 2x/dia, antes do café e da refeição da noite. Não triturar pellets gastrorresistentes.',
+  adult:'DRGE/EE: 20–40 mg 1x/dia. Em EoE, utilizar dose alta equivalente à estratégia de omeprazol do ACG, individualizando pela resposta e apresentação.',
+  pediatric:'1–11 anos: DRGE sintomática 10 mg/dia; EE: <20 kg = 10 mg/dia; ≥20 kg = 10 ou 20 mg/dia. 12–17 anos com EE: 20 ou 40 mg/dia. 1 mês–<1 ano com EE: 3–5 kg 2,5 mg/dia; >5–7,5 kg 5 mg/dia; >7,5–12 kg 10 mg/dia.',
+  eoe:'EoE pediátrica: diretriz usa dose de classe como omeprazol-equivalente 1 mg/kg/dose 2x/dia. Não interpretar isso como “esomeprazol 1 mg/kg/dose” automaticamente; escolher formulação/equivalência apropriada e reavaliar em 8–12 semanas.',
+  max:'EE/DRGE: 40 mg/dia nas indicações usuais. Hipersecreção: início 40 mg 2x/dia; estudos utilizaram total diário de até 240 mg. Esse teto não se aplica à EoE rotineira.',
+  difference:'É o S-enantiômero isolado do omeprazol, com menor variabilidade farmacocinética ligada ao CYP2C19 e exposição em média mais previsível; isso não significa superioridade clínica universal.',
+  solid:'Forma clássica: esomeprazol magnésico tri-hidratado, com 3 moléculas de água na rede cristalina. Uma dose de 20 mg de esomeprazol corresponde a cerca de 22,3 mg do sal tri-hidratado.',
+  interaction:'Também inibe CYP2C19; com clopidogrel, preferir outro IBP quando clinicamente apropriado.',
+  source:'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=fed0e554-7d61-4957-9b91-356f3abc0777'
+ },
+ 'Lansoprazol':{
+  shortTiming:'Antes da refeição',
+  presentation:'Cápsula ou comprimido orodispersível de liberação retardada, conforme apresentação. É mistura racêmica de enantiômeros R e S.',
+  timing:'Preferir antes da refeição, em geral 30 minutos antes do café da manhã; se 2x/dia, antes das duas principais refeições.',
+  adult:'DRGE sintomática: 15 mg 1x/dia; esofagite erosiva: 30 mg 1x/dia. Em EoE, usar estratégia de IBP em dose alta/equivalente, sem converter mg-a-mg automaticamente.',
+  pediatric:'1–11 anos: ≤30 kg = 15 mg 1x/dia; >30 kg = 30 mg 1x/dia para DRGE/EE. 12–17 anos: DRGE não erosiva 15 mg/dia; EE 30 mg/dia.',
+  eoe:'Em EoE pediátrica, a referência é 1 mg/kg/dose 2x/dia em omeprazol-equivalente. Preferir molécula/apresentação com dados pediátricos adequados e identificar que a posologia de EoE é de diretriz.',
+  max:'DRGE/EE: 30 mg/dia nas indicações usuais. Em hipersecreção, 60 mg/dia é dose inicial e estudos utilizaram até 180 mg/dia. Não extrapolar esse teto para EoE.',
+  difference:'Há apresentações orodispersíveis úteis quando deglutição é problema. Dexlansoprazol é o R-enantiômero isolado desta molécula.',
+  solid:'Lansoprazol padrão é descrito como molécula-base, sem água de cristalização fixa na denominação. A proteção entérica é mais relevante clinicamente do que um estado de hidratação.',
+  interaction:'Metabolismo por CYP2C19/CYP3A4; revisar interações relevantes e função hepática em doença grave.',
+  source:'https://www.dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=afcc0f14-8b00-41ac-8e62-4094a15b959c'
+ },
+ 'Rabeprazol':{
+  shortTiming:'Flexível; sprinkle antes',
+  presentation:'Comprimido gastrorresistente 20 mg; cápsula sprinkle pediátrica existe em alguns mercados. Não triturar o comprimido.',
+  timing:'Para a maioria das indicações, o comprimido pode ser tomado com ou sem alimento. Úlcera duodenal: após refeição matinal; H. pylori: com alimento. Formulação sprinkle pediátrica: 30 minutos antes da refeição.',
+  adult:'DRGE/EE: 20 mg 1x/dia. Em EoE, utilizar estratégia de dose alta equivalente à classe, sem equivalência simples de miligramas.',
+  pediatric:'≥12 anos: 20 mg 1x/dia para DRGE sintomática. Formulação sprinkle de 1–11 anos: <15 kg = 5 mg/dia, podendo aumentar a 10 mg/dia; ≥15 kg = 10 mg/dia. A disponibilidade local dessa formulação varia.',
+  eoe:'Em EoE pediátrica, a evidência de dose é de classe em omeprazol-equivalente (1 mg/kg/dose 2x/dia). Dose pediátrica de DRGE não é automaticamente dose específica de EoE.',
+  max:'DRGE/EE: 20 mg/dia nas indicações usuais. Hipersecreção: início 60 mg/dia; já foram administrados 100 mg 1x/dia ou 60 mg 2x/dia (120 mg/dia). Não usar esse teto para EoE.',
+  difference:'Menor dependência relativa do CYP2C19 do que omeprazol/esomeprazol; pode ser útil quando se busca menor variabilidade metabólica/interação CYP2C19.',
+  solid:'Rabeprazol é comercializado como sal sódico; a descrição regulatória padrão não exige hidrato fixo no nome. É higroscópico e ácido-lábil, justificando revestimento entérico.',
+  interaction:'Menor interferência CYP2C19 que omeprazol/esomeprazol; ainda assim revisar interações e tratamentos concomitantes.',
+  source:'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=63e0b7ca-6b2d-42a9-b9d4-4523b8a20425'
+ },
+ 'Dexlansoprazol':{
+  shortTiming:'Qualquer horário',
+  presentation:'Cápsula de dupla liberação retardada com dois grupos de grânulos que dissolvem em faixas diferentes de pH. É o R-enantiômero do lansoprazol.',
+  timing:'Pode ser administrado independentemente do alimento e do horário. Essa flexibilidade é uma diferença real em relação à maioria dos IBPs de liberação retardada convencional.',
+  adult:'≥12 anos: cicatrização de EE 60 mg 1x/dia por até 8 semanas; manutenção de EE cicatrizada/NERD 30 mg 1x/dia.',
+  pediatric:'A indicação regulatória começa aos 12 anos. Abaixo de 12 anos não extrapolar dose de adulto. Em EoE pediátrica, preferir agente com experiência/formulação pediátrica e usar a recomendação de classe em omeprazol-equivalente.',
+  eoe:'Não converter diretamente “1 mg/kg de omeprazol” em 1 mg/kg de dexlansoprazol. EoE pediátrica deve seguir dose de classe/equivalência com molécula apropriada e monitorização histológica.',
+  max:'Dose aprovada para cicatrização de EE: 60 mg/dia. 60 mg 2x/dia não é esquema rotineiro e houve relato de hipertensão nessa exposição; não usar como “máximo terapêutico” de EoE.',
+  difference:'R-enantiômero do lansoprazol + dupla liberação retardada. Prolonga o perfil de exposição e reduz dependência do horário da refeição; não significa simplesmente “mais forte”.',
+  solid:'Dexlansoprazol pode existir como molécula anidra ou sesqui-hidratada conforme fabricante. O produto de referência usa dupla liberação; hidratação isoladamente não determina equivalência clínica.',
+  interaction:'Em insuficiência hepática moderada, reduzir a dose de cicatrização de EE; uso não é recomendado na insuficiência hepática grave. Revisar demais interações de classe.',
+  source:'https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=55c550b4-eb8b-4e69-9c09-fa5125a52e65'
+ }
+};
+const IBP_HYDRATE_EXPLAINER={
+ title:'Sal, mono/di/tri-hidratado: o que realmente muda?',
+ points:[
+  ['Anidro','Sem água de hidratação fixa na rede cristalina.'],
+  ['Monoidratado','1 molécula de água por unidade estequiométrica.'],
+  ['Di-hidratado','2 moléculas de água na rede cristalina.'],
+  ['Tri-hidratado','3 moléculas de água; exemplo: esomeprazol magnésico tri-hidratado.'],
+  ['Sesqui-hidratado','1,5 molécula de água; exemplo: pantoprazol sódico sesqui-hidratado.']
+ ],
+ note:'Isso altera massa molecular, estabilidade, solubilidade e fabricação do cristal, mas não significa que “tri-hidratado seja mais forte”. A dose clínica é expressa como equivalente do fármaco ativo. Sal (sódico/magnésico), hidratação, enantiômero e tecnologia de liberação são conceitos diferentes.'
+};
+
 const MOIST=[
  [
  "Bepantol Derma Balm Regenerador",
@@ -842,6 +955,55 @@ function corticoidesTopicosCards(data){
     +'</div></details>';
   }).join('')+'</div><p class="med-source">Classificação relativa I–VII por formulação, não equivalente à concentração isoladamente. A idade indicada depende da apresentação específica e da evidência disponível.</p>';
 }
+
+function ibpSafetyHtml(){
+ const common=IBP_CLASS_SAFETY.common.map(x=>'<span class="med-ibp-chip">'+esc(x)+'</span>').join('');
+ const important=IBP_CLASS_SAFETY.important.map(x=>'<div class="med-ibp-alert"><span>'+esc(x[0])+'</span><p>'+esc(x[1])+'</p></div>').join('');
+ return '<section class="med-ibp-safety"><span class="med-mini-label">Eventos adversos e conduta</span><div class="med-ibp-chips">'+common+'</div><div class="med-ibp-alerts">'+important+'</div><div class="med-ibp-monitor"><span>Monitorização prática</span><p>'+esc(IBP_CLASS_SAFETY.monitor)+'</p></div></section>';
+}
+function ibpGuideBox(){
+ return '<section class="med-ibp-eoe-guide"><div class="med-ibp-guide-kicker">EoE — dose de diretriz, sem “consultar bula”</div><div class="med-ibp-guide-grid">'+
+  '<div><span>Adulto</span><p>ACG 2025: omeprazol 20 mg 2x/dia ou 40 mg/dia, ou IBP equivalente.</p></div>'+
+  '<div><span>Pediatria</span><p>1 mg/kg/dose 2x/dia (2 mg/kg/dia), em omeprazol-equivalente. ESPGHAN: máximo 60 mg/dia entre 4–10 anos e 80 mg/dia entre 11–18 anos.</p></div>'+
+  '<div><span>Reavaliação</span><p>8–12 semanas com sintomas + endoscopia + biópsias. Sintomas isolados não definem resposta histológica.</p></div>'+
+  '</div><p class="med-ibp-guide-note">A ficha diferencia dose regulatória da apresentação e dose aceita por diretriz para EoE.</p></section>';
+}
+function ibpHydrateHtml(){
+ return '<section class="med-ibp-hydrate"><div class="med-ibp-hydrate-title">'+esc(IBP_HYDRATE_EXPLAINER.title)+'</div><div class="med-ibp-hydrate-grid">'+
+  IBP_HYDRATE_EXPLAINER.points.map(x=>'<div><span>'+esc(x[0])+'</span><p>'+esc(x[1])+'</p></div>').join('')+
+  '</div><p>'+esc(IBP_HYDRATE_EXPLAINER.note)+'</p></section>';
+}
+function ibpCards(data){
+ const cardsHtml=data.map(item=>{
+  const name=item[0],rawBrand=item[1]||'',d=IBP_CLINICAL[name];
+  if(!d)return '';
+  const maker=medMakerKey(rawBrand+' '+name),style=medMakerVars(maker);
+  const sources='<div class="med-ibp-sources"><span>Fontes</span>'+
+   '<a href="'+esc(IBP_GUIDES.brasil)+'" target="_blank" rel="noopener noreferrer">ASBAI/SBP 2026</a>'+
+   '<a href="'+esc(IBP_GUIDES.acg)+'" target="_blank" rel="noopener noreferrer">ACG 2025</a>'+
+   '<a href="'+esc(IBP_GUIDES.espghan)+'" target="_blank" rel="noopener noreferrer">ESPGHAN 2024</a>'+
+   '<a href="'+esc(d.source)+'" target="_blank" rel="noopener noreferrer">Fonte regulatória</a></div>';
+  return '<details class="med-prod med-prod-ibp med-mf-'+maker+'" style="'+style+'" data-hub-medicamento>'+
+   '<summary>'+medMakerLogo(maker)+'<span class="med-prod-head"><span class="hub-med-nome">'+esc(name)+'</span><span class="med-prod-brand">'+esc(medRegisterMarks(rawBrand))+'</span></span>'+
+   '<span class="med-prod-tag">'+esc(d.shortTiming)+'</span><span class="med-prod-chevron">⌄</span></summary>'+
+   '<div class="med-prod-detail med-ibp-detail">'+
+    '<div class="med-ibp-dose-grid">'+
+     '<section><span class="med-mini-label">Melhor horário</span><p>'+esc(d.timing)+'</p></section>'+
+     '<section><span class="med-mini-label">Dose no adulto</span><p>'+esc(d.adult)+'</p></section>'+
+     '<section><span class="med-mini-label">Dose na pediatria</span><p>'+esc(d.pediatric)+'</p></section>'+
+     '<section><span class="med-mini-label">EoE quando não consta na indicação do produto</span><p>'+esc(d.eoe)+'</p></section>'+
+     '<section><span class="med-mini-label">Dose máxima / teto</span><p>'+esc(d.max)+'</p></section>'+
+     '<section><span class="med-mini-label">Apresentação</span><p>'+esc(d.presentation)+'</p></section>'+
+    '</div>'+
+    '<section class="med-ibp-difference"><span class="med-mini-label">O que diferencia este IBP</span><p>'+esc(d.difference)+'</p></section>'+
+    '<section class="med-ibp-solid"><span class="med-mini-label">Sal / hidrato / forma sólida</span><p>'+esc(d.solid)+'</p></section>'+
+    '<section class="med-ibp-interaction"><span class="med-mini-label">Interações / atenção prática</span><p>'+esc(d.interaction)+'</p></section>'+
+    ibpSafetyHtml()+sources+
+   '</div></details>';
+ }).join('');
+ return ibpGuideBox()+'<div class="med-results med-results-ibp" aria-live="polite">'+cardsHtml+'</div>'+ibpHydrateHtml()+
+ '<p class="med-source">Revisão clínica: 24/11/2026. Dose de EoE pediátrica é apresentada como recomendação de diretriz/omeprazol-equivalente quando não há indicação específica da apresentação. Teto de síndrome hipersecretora não é teto de rotina para DRGE ou EoE.</p>';
+}
 function cards(data,id){
  const anvisaLink=(id==='hidratantes')?'https://www.gov.br/anvisa/pt-br/sistemas/sistema-de-consultas/':ANVISA;
  const anvisaLabel=id==='hidratantes'?'Regularização / fonte do produto':'Registro sanitário';
@@ -860,7 +1022,7 @@ function init(){
  initDone=true;
  root.innerHTML='<div class="med-intro"><div class="med-eyebrow">CATÁLOGO FARMACOLÓGICO</div><h1>Medicamentos</h1><p>Selecione uma classe. Os medicamentos aparecem em cards horizontais; a ficha se expande no próprio card, com princípio ativo, nome comercial, fabricante, indicação, apresentação e cuidados.</p></div>'+
  '<div class="med-categories">'+CATS.map(c=>'<section class="med-category" data-med-category="'+c.id+'"><button type="button" class="med-category-toggle" aria-expanded="false" aria-controls="med-category-'+c.id+'"><span class="med-category-icon">'+catIcon(c.icon)+'</span><span class="med-category-copy"><span class="med-category-name">'+esc(c.name)+'</span><span class="med-category-sub">'+esc(c.sub)+'</span></span><span class="med-category-arrow" aria-hidden="true">⌄</span></button><div id="med-category-'+c.id+'" class="med-category-body" hidden></div></section>').join('')+'</div>'+
- '<p class="med-endnote">Dados editoriais com revisão em 14/11/2026. Uma marca ou forma descrita não confirma registro ativo. Consulte a apresentação exata no <a href="'+ANVISA+'" target="_blank" rel="noopener noreferrer">Bulário da Anvisa</a>. Atualizações clínicas e comerciais dependem de nova verificação documentada.</p>';
+ '<p class="med-endnote">Dados editoriais revisados em 24/11/2026. Doses, horários, limites e condutas ficam descritos nas próprias fichas; fontes regulatórias e diretrizes aparecem apenas como documentação de apoio.</p>';
  root.addEventListener('click',e=>{
   const toggle=e.target.closest('.med-category-toggle');
   if(toggle){openCategory(toggle.closest('[data-med-category]').dataset.medCategory);return;}
@@ -914,7 +1076,7 @@ function renderCategory(id){
  const q=norm(sec.querySelector('[data-med-search]')?.value);
  if(id==='inalatoria' && typeof window.hubAsmaRender==='function') return window.hubAsmaRender(slot,q);
  const filtered=(DB[id]||[]).filter(x=>!q||norm(x.join(' ')).includes(q));
- slot.innerHTML=filtered.length?(id==='topicos'?corticoidesTopicosCards(filtered):cards(filtered,id)):'<p class="med-empty">Nenhum medicamento encontrado para esta pesquisa.</p>';
+ slot.innerHTML=filtered.length?(id==='topicos'?corticoidesTopicosCards(filtered):id==='ibps'?ibpCards(filtered):cards(filtered,id)):'<p class="med-empty">Nenhum medicamento encontrado para esta pesquisa.</p>';
 }
 function renderMoist(sec,slot){
  const texture=sec.querySelector('[data-med-texture]').value;
