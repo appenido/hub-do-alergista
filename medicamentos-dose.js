@@ -3,6 +3,7 @@
   'use strict';
   const { products, sources, reviewedOn, automatic, manual } = window.HubDoseRules;
   const CMED = 'https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/cmed/precos';
+  const BULARIO = 'https://www.gov.br/anvisa/pt-br/sistemas/bulario-eletronico';
   const { buildCatalog, routes } = window.HubDoseCatalog;
   let registryRequest;
   const copy = {
@@ -43,7 +44,8 @@
     pediatricOnly: ['Esta calculadora é para pacientes com menos de 18 anos.', 'This calculator is for patients younger than 18 years.', 'Esta calculadora es para pacientes menores de 18 años.'],
     criteria: ['Critérios e referências', 'Criteria and references', 'Criterios y referencias'],
     cmedList: ['Apresentações da CMED', 'CMED product listings', 'Presentaciones de CMED'],
-    cmedSource: ['Lista da CMED, versão de %1', 'CMED list dated %1', 'Lista de CMED del %1'],
+    cmedSource: ['Apresentações CMED · %1', 'CMED product list · %1', 'Presentaciones CMED · %1'],
+    bularioSource: ['Bulário Eletrônico da Anvisa', 'Anvisa Electronic Drug Labels', 'Vademécum de Anvisa'],
     indication: ['Indicação', 'Indication', 'Indicación'],
     basis: ['Base da posologia', 'Dose basis', 'Base de la posología'],
     unit: ['Unidade da dose', 'Dose unit', 'Unidad de dosis'],
@@ -424,7 +426,8 @@
       manualOnly.hidden = !ready || controls.mode.value !== 'manual';
       registryNote.hidden = !selected?.raw && !unsupported;
       registryNote.innerHTML = registryNote.hidden ? '' :
-        (registryDate ? '<a href="' + CMED + '" target="_blank" rel="noopener noreferrer">' + escape(t('cmedSource', dateLabel(registryDate))) + '</a>' : '') +
+        (registryDate ? '<a href="' + CMED + '" target="_blank" rel="noopener noreferrer">' + escape(t('cmedSource', dateLabel(registryDate))) + '</a> · ' : '') +
+        '<a href="' + BULARIO + '" target="_blank" rel="noopener noreferrer">' + escape(t('bularioSource')) + '</a>' +
         (unsupported ? '<p>' + escape(t('routeUnavailable')) + '</p>' : '') +
         (selected?.raw ? '<p>' + escape(selected.raw + (selected.brand ? ' · ' + selected.brand : '')) + '</p>' : '');
       referenceDetails.hidden = (!ready && !unsupported) || (!product && registryNote.hidden);
