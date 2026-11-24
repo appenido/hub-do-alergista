@@ -32,7 +32,8 @@ test('Distingue líquidos, pó para suspensão, gotas, comprimidos, cápsulas e 
   assert.equal(parsePresentation('20 MG CAP DURA').form, 'capsule');
   assert.equal(parsePresentation('5 MG COM LIB PROL').form, 'tablet');
   assert.equal(parsePresentation('100 MG COM + 25 MG COM')?.calculable, false);
-  assert.equal(parsePresentation('1500 MG PO SUS OR'), null);
+  assert.equal(parsePresentation('1500 MG PO SUS OR').calculable, false);
+  assert.match(parsePresentation('1500 MG PO SUS OR').label, /reconstituição/);
 });
 
 test('Impede converter injetáveis, colírios, sprays nasais e associações como dose oral', () => {
@@ -48,4 +49,6 @@ test('A busca é insensível a maiúsculas e acentos; marcas ficam indexadas', (
   assert.ok(list[0].keywords.has('zitromax'));
   assert.equal(normalize('AZITROMICINA'), 'azitromicina');
   assert.ok(list[0].registered.every(item => item.calculable));
+  const combined = buildCatalog([], [['AMOXICILINA + CLAVULANATO DE POTÁSSIO', 'GENÉRICO', ['40 MG/ML SUS OR']]], {});
+  assert.equal(combined[0].registered[0].calculable, false);
 });
