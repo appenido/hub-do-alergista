@@ -37,6 +37,9 @@ const MED_MANUFACTURERS={
  bayer:{name:'Bayer',logo:'Bayer',color:'#0b7d3e',soft:'#eef8f2',ink:'#07582c'},
  organon:{name:'Organon',logo:'Organon',color:'#6f2a8e',soft:'#f7f0fa',ink:'#502067'},
  sanofi:{name:'Sanofi',logo:'Sanofi',color:'#7a00e6',soft:'#f6effd',ink:'#5200a0'},
+ abbott:{name:'Abbott',logo:'Abbott',color:'#00857c',soft:'#eef9f7',ink:'#005e57'},
+ apsen:{name:'Apsen',logo:'Apsen',color:'#005baa',soft:'#eef6fd',ink:'#00417a'},
+ opella:{name:'Opella',logo:'Opella',color:'#6b2fa1',soft:'#f7f1fa',ink:'#4c2171'},
  alcon:{name:'Alcon',logo:'Alcon',color:'#0067b1',soft:'#eef6fc',ink:'#00477c'},
  abbvie:{name:'AbbVie',logo:'AbbVie',color:'#071d49',soft:'#f1f4f9',ink:'#071d49'},
  thea:{name:'Théa',logo:'Théa',color:'#005aa8',soft:'#eef6fc',ink:'#003f76'},
@@ -80,44 +83,50 @@ function medRegisterMarks(value){
 }
 function medMakerKey(value){
  const s=String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
- if(/aerolin|serevent|flixotide|seretide|relvar|trelegy|avamys|betnovate/.test(s))return 'gsk';
- if(/berotec|atrovent|spiriva|striverdi|spiolto/.test(s))return 'boehringer';
- if(/clenil|fostair|trimbow/.test(s))return 'chiesi';
- if(/pulmicort|symbicort|vannair|breztri|losec|nexium/.test(s))return 'astrazeneca';
- if(/busonid|alenia|adinos/.test(s))return 'ache';
- if(/foradil|foraseq|onbrize|seebri|ultibro|zaditen|patanol|pataday/.test(s))return 'novartis';
- if(/alvesco|dexilant/.test(s))return 'takeda';
- if(/dymista|rino-lastin/.test(s))return 'viatris';
- if(/ryaltris/.test(s))return 'glenmark';
- if(/noex|ebastel/.test(s))return 'eurofarma';
- if(/lanz/.test(s))return 'ems';
- if(/drenison/.test(s))return 'biolab';
- if(/advantan|bepantol/.test(s))return 'bayer';
- if(/nasonex/.test(s))return 'organon';
- if(/nasacort/.test(s))return 'sanofi';
- if(/systane/.test(s))return 'alcon';
- if(/relestat|refresh|optive/.test(s))return 'abbvie';
- if(/hyabak/.test(s))return 'thea';
- if(/hylo-comod/.test(s))return 'ursapharm';
- if(/vidisic/.test(s))return 'bausch';
- if(/pariet/.test(s))return 'janssen';
- if(/bioderma/.test(s))return 'bioderma';
- if(/cerave/.test(s))return 'cerave';
- if(/cetaphil/.test(s))return 'cetaphil';
- if(/dermage/.test(s))return 'dermage';
- if(/eucerin/.test(s))return 'eucerin';
- if(/fisiogel/.test(s))return 'fisiogel';
- if(/granado/.test(s))return 'granado';
- if(/isdin/.test(s))return 'isdin';
- if(/la roche-posay|lipikar/.test(s))return 'laroche';
- if(/mantecorp/.test(s))return 'mantecorp';
- if(/mustela/.test(s))return 'mustela';
- if(/neutrogena/.test(s))return 'neutrogena';
- if(/nivea/.test(s))return 'nivea';
- if(/profuse/.test(s))return 'profuse';
- if(/uriage/.test(s))return 'uriage';
- if(/vasenol/.test(s))return 'vasenol';
- return 'neutral';
+ const rules=[
+  ['gsk',/aerolin|serevent|flixotide|seretide|relvar|trelegy|avamys|betnovate/],
+  ['boehringer',/berotec|atrovent|spiriva|striverdi|spiolto/],
+  ['chiesi',/clenil|fostair|trimbow/],
+  ['astrazeneca',/pulmicort|symbicort|vannair|breztri|losec|nexium/],
+  ['ache',/busonid|alenia|adinos|talerc/],
+  ['novartis',/foradil|foraseq|onbrize|seebri|ultibro|zaditen|patanol|pataday/],
+  ['takeda',/alvesco|dexilant/],
+  ['viatris',/dymista|rino-lastin/],
+  ['glenmark',/ryaltris/],
+  ['eurofarma',/noex|ebastel/],
+  ['ems',/lanz/],
+  ['biolab',/drenison/],
+  ['bayer',/advantan|bepantol/],
+  ['organon',/nasonex/],
+  ['sanofi',/nasacort|allegra/],
+  ['abbott',/cobavital/],
+  ['apsen',/meclin/],
+  ['opella',/fenergan/],
+  ['alcon',/systane/],
+  ['abbvie',/relestat|refresh|optive/],
+  ['thea',/hyabak/],
+  ['ursapharm',/hylo-comod/],
+  ['bausch',/vidisic/],
+  ['janssen',/pariet/],
+  ['bioderma',/bioderma/],
+  ['cerave',/cerave/],
+  ['cetaphil',/cetaphil/],
+  ['dermage',/dermage/],
+  ['eucerin',/eucerin/],
+  ['fisiogel',/fisiogel/],
+  ['granado',/granado/],
+  ['isdin',/isdin/],
+  ['laroche',/la roche-posay|lipikar/],
+  ['mantecorp',/mantecorp/],
+  ['mustela',/mustela/],
+  ['neutrogena',/neutrogena/],
+  ['nivea',/nivea/],
+  ['profuse',/profuse/],
+  ['uriage',/uriage/],
+  ['vasenol',/vasenol/]
+ ];
+ const makers=[...new Set(rules.filter(([,rx])=>rx.test(s)).map(([key])=>key))];
+ return makers.length===1?makers[0]:'neutral';
 }
 function medMakerVars(key){
  const m=MED_MANUFACTURERS[key]||MED_MANUFACTURERS.neutral;
