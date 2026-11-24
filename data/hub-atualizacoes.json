@@ -1,8 +1,18 @@
 {
   "version": 1,
   "scope": "clinical-content",
-  "updatedAt": "2026-11-23",
+  "updatedAt": "2026-11-24",
   "items": [
+    {
+      "kind": "content",
+      "id": "bfbcf9b9236d",
+      "date": "2026-11-24",
+      "publishedAt": "2026-11-24T06:32:27.000Z",
+      "type": "Correção",
+      "category": "Imunizações",
+      "section": "imunizacoes",
+      "title": "Corrige motor vacinal: regras por idade, indicação condicional, risco específico e deduplicação"
+    },
     {
       "kind": "content",
       "id": "4536fe784b9d",
