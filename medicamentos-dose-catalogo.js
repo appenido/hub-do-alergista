@@ -54,8 +54,17 @@
     }
     if (!form) return null;
     if (!(concentration > 0) && !(unitSize > 0) && form !== 'combination') return null;
+    const qualifiers = [];
+    if (/\bLIB\s+(?:PROL|RETARD|MOD)\b/.test(formText)) qualifiers.push('liberação modificada');
+    if (/\bCOM\s+ORODISP\b/.test(formText)) qualifiers.push('orodispersível');
+    if (/\bCOM\s+MAST\b/.test(formText)) qualifiers.push('mastigável');
+    if (/\bCOM\s+SUBL\b/.test(formText)) qualifiers.push('sublingual');
+    if (/\bCOM\s+REV\b/.test(formText)) qualifiers.push('revestido');
+    if (/\b(?:GASTRORRES|LIB\s+RET)\b/.test(formText)) qualifiers.push('liberação especial');
     const calculable = !combination && (liquidForms.has(form) || solidForms.has(form));
-    return { raw, form, strength, concentration, unitSize, calculable, label: strength + ' · ' + routes[form] + (combination && form !== 'combination' ? ' · associação (sem cálculo)' : '') };
+    return { raw, form, strength, concentration, unitSize, calculable, label: strength + ' · ' + routes[form] +
+      (qualifiers.length ? ' · ' + qualifiers.join(', ') : '') +
+      (combination && form !== 'combination' ? ' · associação (sem cálculo)' : '') };
   }
 
   function buildCatalog(entries, registry, products) {
