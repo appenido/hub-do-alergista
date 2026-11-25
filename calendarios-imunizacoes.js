@@ -38,7 +38,7 @@
   var INFANTIL=[
     ['BCG','Dose única ao nascer','Avaliar imunodeficiência e contraindicações de vacinas vivas.'],
     ['Hepatite B','Primeira dose nas primeiras 12 horas de vida','Completar a série segundo as apresentações combinadas e histórico vacinal.'],
-    ['Rotavírus','Início a partir de 6 semanas; esquema conforme RV1 ou RV5','Há limites etários de início e término e regras específicas de resgate.'],
+    ['Rotavírus','A partir de 6 semanas: VRH1 2 doses, VRH5 3 doses; primeira até 11m29d, última até 23m29d','Há limites etários de início e término e regras específicas de resgate.'],
     ['DTPa + Hib + VIP ± hepatite B','Iniciar aos 2 meses; esquema primário e reforços na infância','Preferir apresentações combinadas; conferir idade, fabricante e intercambialidade.'],
     ['Pneumocócicas conjugadas (VPC20/VPC15)','SBIm: 2, 4 e 6 meses + reforço aos 12–15 meses; esquema de resgate conforme idade','Para crianças com doença de risco, a RIE usa VPC20: 2–6 meses, 3+1; 7–11 meses, 2+1; 12–59 meses, 2 doses. Não confundir com rotina infantil do PNI (2+1).'],
     ['Meningocócica ACWY','Iniciar na primeira infância; reforços conforme idade e produto','Preferir ACWY ao uso isolado da meningocócica C quando possível.'],
@@ -77,7 +77,7 @@
     ['Influenza','Anual; preferir apresentações mais imunogênicas quando indicadas','A oferta na rede pública pode variar.'],
     ['Pneumocócica conjugada VPC20','SBIm: dose única de rotina em idosos não previamente vacinados; no SUS, considerar idade ≥85 anos, 60–84 anos acamados/institucionalizados ou condição especial da RIE','Após VPC10/13 sem VPP23, MS/RIE: aguardar ≥8 semanas; após uma VPP23: ≥1 ano; após duas VPP23: sem nova VPC20 no SUS/RIE. Recomendação SBIm pode diferir.'],
     ['Herpes-zóster recombinante','Duas doses, habitualmente 0–2 meses','Recomendada mesmo após episódio prévio de zóster.'],
-    ['Vírus sincicial respiratório (VSR)','Uma dose; priorizar risco a partir dos 60 e rotina a partir dos 70 anos','Não há recomendação estabelecida de revacinação periódica no calendário de referência.'],
+    ['Vírus sincicial respiratório (VSR)','Uma dose; rotina ≥70 anos; condições cardiopulmonares relevantes e imunodeficiência moderada/grave ≥18 anos; outras doenças conforme idade (ver ficha de VSR adulto)','Não há recomendação estabelecida de revacinação periódica no calendário de referência.'],
     ['dTpa','Atualização e reforço de 10 em 10 anos','Checar esquema básico e necessidade de reforço antecipado em contatos de lactentes.'],
     ['Hepatite B','Esquema 0–1–6 meses quando não vacinado','Considerar comorbidades e imunogenicidade.'],
     ['Covid-19','Reforços conforme recomendações vigentes para a faixa etária','Acompanhar disponibilidade e produto atualizado.'],
@@ -120,7 +120,7 @@
     ['9 meses','Febre amarela','Primeira dose de rotina.'],
     ['12 meses','Tríplice viral, reforço com VPC20 e meningocócica ACWY','VPC20: reforço após as doses infantis aos 2 e 4 meses. MenACWY: substitui o reforço de meningocócica C na rotina do PNI.'],
     ['15 meses','DTP, VIP, hepatite A e varicela/tetraviral conforme apresentação','Reforços e atualização do segundo ano.'],
-    ['4 anos','DTP, varicela e febre amarela','Reforços da infância; conferir histórico.'],
+    ['4 anos','DTP, VIP, varicela e febre amarela','Segundo reforço VIP incluído no PNI desde 03/08/2026; conferir histórico.'],
     ['9 a 14 anos','HPV','Regra de dose e faixa etária conforme normativa vigente.']
   ];
   var PNI_YOUNG=[
@@ -403,7 +403,7 @@
     +'<p>SBIm 2026/2027: pode indicar VPC20 mesmo após uma ou duas VPP23 (respeitar um ano), e em situações com esquema sequencial completo a critério médico. Não extrapolar recomendação SBIm para elegibilidade no SUS.</p></details>'
     +'<details style="margin:7px 0"><summary style="cursor:pointer;font-weight:700">Quem recebe na rotina do SUS?</summary>'
     +'<p>Crianças, em esquema de rotina 2, 4 e reforço aos 12 meses (atenção à transição com VPC10); povos indígenas segundo histórico; idosos a partir de 85 anos; e pessoas de 60–84 anos acamadas/institucionalizadas. Na RIE, as 21 situações especiais acima. Avaliar doses prévias para não revacinar indevidamente.</p></details>'
-    +'<div style="border-top:1px solid #d0e6ec;margin-top:9px;padding-top:7px">Fontes: <a href="https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/notas-tecnicas/2026/nota-tecnica-no-52-2026-cgici-dpni-svsa-ms.pdf" target="_blank" rel="noopener noreferrer">MS, NT 52/2026, itens 4–6</a> · <a href="https://sbim.org.br/images/calend-vacinacao-pacientes-especiais-2026-27-260617a.pdf_2026-06-24.pdf" target="_blank" rel="noopener noreferrer">SBIm, pacientes especiais 2026/2027</a> · <a href="https://www.gov.br/saude/pt-br/vacinacao/calendario" target="_blank" rel="noopener noreferrer">PNI, calendário 2026</a></div></div>';
+    +'<div style="border-top:1px solid #d0e6ec;margin-top:9px;padding-top:7px">Fontes: <a href="https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/notas-tecnicas/2026/nota-tecnica-no-52-2026-cgici-dpni-svsa-ms.pdf" target="_blank" rel="noopener noreferrer">MS, NT 52/2026, itens 4–6</a> · <a href="https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/notas-tecnicas/2026/nota-tecnica-no-64-2026-dpni-svsa-ms.pdf/view" target="_blank" rel="noopener noreferrer">NT 64/2026 — atualização</a> · <a href="https://sbim.org.br/images/calend-vacinacao-pacientes-especiais-2026-27-260617a.pdf_2026-06-24.pdf" target="_blank" rel="noopener noreferrer">SBIm, pacientes especiais 2026/2027</a> · <a href="https://www.gov.br/saude/pt-br/vacinacao/calendario" target="_blank" rel="noopener noreferrer">PNI, calendário 2026</a></div></div>';
 
   function viewGroup(group,rows){
     var h='<div class="vac-nat-batch"><div class="vac-nat-batch-title">'+esc(group)+'</div>';
