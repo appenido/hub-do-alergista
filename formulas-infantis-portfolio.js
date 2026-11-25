@@ -20,7 +20,11 @@ var fotos={
 'Aptamil Profutura Gold 1':'https://images.tcdn.com.br/img/img_prod/1109462/formula_aptamil_1_profutura_gold_800g_1_20260424122423_75a20d2cb34e.png',
 'NAN Supreme Pro 0–6 meses':'https://mixalimentos.agilecdn.com.br/113295_1.jpg',
 'NAN Comfor 0–6 meses':'https://img.drogaraia.com.br/catalog/product/n/a/nan_comfor_1_1.jpg?height=450&quality=85&type=resize&width=450',
-'Nestogeno 0–6 meses':'https://down-br.img.susercontent.com/file/bfb60217cf018475d6d562b7dc8154c6'
+'Nestogeno 0–6 meses':'https://down-br.img.susercontent.com/file/bfb60217cf018475d6d562b7dc8154c6',
+'Aptamil Profutura 1':'https://images.tcdn.com.br/img/img_prod/1417340/aptamil_profutura_1_800g_4041_1_dc2593e187d930f021887d44f307ed0c.jpg',
+'Aptanutri Premium 3':'https://www.extramercado.com.br/img/uploads/1/697/33292697.png',
+'Aptamil RR':'https://down-br.img.susercontent.com/file/br-11134207-7r98o-mb72i7dq7l6hb9',
+'Aptamil Sensitive Active':'https://www.drogariaminasbrasil.com.br/media/catalog/product/cache/74c1057f7991b4edb2bc7bdaa94de933/image/452422b70/formula-infantil-aptamil-sensitive-active-800g.jpg'
 };
 function fonte(fab,cat,nome){
 if(fab==='N'){
