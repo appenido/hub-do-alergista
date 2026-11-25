@@ -1,8 +1,18 @@
 {
   "version": 1,
   "scope": "clinical-content",
-  "updatedAt": "2026-11-24",
+  "updatedAt": "2026-11-25",
   "items": [
+    {
+      "kind": "content",
+      "id": "6cc996833204",
+      "date": "2026-11-25",
+      "publishedAt": "2026-11-25T14:12:28.000Z",
+      "type": "Melhoria",
+      "category": "Imunizações",
+      "section": "imunizacoes",
+      "title": "Separar indicações SBIm 2026/27 de elegibilidade PNI/RIE em todas as fichas de vacinas"
+    },
     {
       "kind": "content",
       "id": "4e5ac959b1e0",
