@@ -150,10 +150,8 @@ const DB={
  topicos:[
  ['Hidrocortisona 1%','Berlison; genéricos','Creme, pomada','Baixa','Potência depende da concentração e do veículo. Áreas delicadas exigem uso restrito.'],
  ['Dexametasona 0,1%','Genéricos; marcas variáveis','Creme','Baixa','Verificar associação com antimicrobianos e a composição da apresentação.'],
- ['Desonida 0,05%','Desonol (descontinuado); Adinos; genéricos','Creme, loção, gel-creme','Baixa–média','Classificações variam entre referências e veículos; consultar a bula da formulação.'],
- ['Clobetasona 0,05%','Eumovate (referência internacional)','Creme','Média','Não confundir clobetasona com clobetasol.'],
+ ['Desonida 0,05%','Adinos; genéricos','Creme, loção, gel-creme','Baixa–média','Classificações variam entre referências e veículos; consultar a bula da formulação.'],
  ['Furoato de mometasona 0,1%','Elocom; genéricos','Creme, pomada, loção','Média','Pomada pode apresentar maior efeito clínico que creme; evitar uso indiscriminado em face/dobras.'],
- ['Acetonido de triancinolona 0,1%','Disponibilidade de formulação isolada não confirmada','Creme, pomada','Média','Em associações com antibiótico/antifúngico, o risco e a indicação são diferentes.'],
  ['Aceponato de metilprednisolona 0,1%','Advantan','Creme, pomada e outras formas conforme registro','Média–alta','Potência depende do veículo e da referência; individualizar área e duração.'],
  ['Valerato de betametasona 0,1%','Betnovate','Creme, pomada, loção','Alta','Mais potente; risco de atrofia e efeitos adversos com aplicação extensa ou prolongada.'],
  ['Dipropionato de betametasona 0,05%','Diprosone; genéricos','Creme, pomada','Alta','A potência varia com veículo e formulação; versões otimizadas podem ser muito potentes.'],
@@ -165,7 +163,6 @@ const DB={
  ['Cetotifeno','Zaditen; genéricos','Solução oftálmica 0,25 mg/mL','Anti-H1','Ação anti-H1 e estabilizadora de mastócitos.'],
  ['Epinastina','Relestat','Solução oftálmica 0,5 mg/mL','Anti-H1','Indicação e idade mínima conforme bula.'],
  ['Azelastina','Marcas variáveis','Solução oftálmica conforme registro','Anti-H1','Confirmar apresentação ocular, distinta da nasal.'],
- ['Emedastina','Emadine (verificar registro)','Solução oftálmica','Anti-H1','Disponibilidade no Brasil deve ser confirmada antes de prescrever.'],
  ['Cromoglicato dissódico','Cromolerg; genéricos','Solução oftálmica','Estabilizador de mastócitos','Não é anti-histamínico; incluído como opção antialérgica.'],
  ['Hialuronato de sódio','Hyabak; Hylo-Comod; similares','Solução oftálmica, com ou sem conservantes','Lubrificante','Verificar concentração e sistema conservante; preferir sem conservantes em uso frequente.'],
  ['Carboximetilcelulose','Refresh Tears; Optive (associações)','Solução oftálmica','Lubrificante','Composição e viscosidade variam entre apresentações.'],
@@ -205,7 +202,6 @@ const DB={
  ['Tiotrópio','Spiriva Respimat','Névoa suave (SMI)','LAMA','Na asma, uso adicional em situações selecionadas; em DPOC, manutenção.'],
  ['Glicopirrônio','Seebri','DPI cápsula','LAMA','Manutenção em DPOC conforme bula.'],
  ['Umeclidínio','Vanisto Ellipta','Ellipta (DPI)','LAMA','Manutenção em DPOC.'],
- ['Aclidínio','Eklira Genuair (verificar registro)','Genuair (DPI)','LAMA','Confirmar comercialização brasileira.'],
  ['Indacaterol + glicopirrônio','Ultibro Breezhaler','Breezhaler (DPI cápsula)','LABA + LAMA','Dupla broncodilatação em DPOC.'],
  ['Umeclidínio + vilanterol','Anoro Ellipta','Ellipta (DPI)','LABA + LAMA','Dupla broncodilatação em DPOC.'],
  ['Olodaterol + tiotrópio','Spiolto Respimat','Névoa suave (SMI)','LABA + LAMA','Dupla broncodilatação em DPOC.'],
@@ -218,7 +214,7 @@ const DB={
  ['Pantoprazol','Pantozol; genéricos','Comprimido gastrorresistente; apresentações 20 e 40 mg','IBP','Pode ser administrado com ou sem alimento; ficha diferencia uso habitual, refratário e EoE.'],
  ['Esomeprazol','Nexium; genéricos','Cápsula/comprimido e granulado gastrorresistente','IBP','Administrar pelo menos 1 hora antes da refeição; ficha com doses por idade e EoE.'],
  ['Lansoprazol','Lanz; genéricos','Cápsula/ODT de liberação retardada conforme apresentação','IBP','Preferir antes da refeição; ficha com doses pediátricas por peso.'],
- ['Rabeprazol','Pariet; genéricos','Comprimido gastrorresistente; sprinkle em alguns mercados','IBP','Comprimido pode ser usado com ou sem alimento na maioria das indicações; ficha detalha exceções.'],
+ ['Rabeprazol','Pariet; genéricos','Comprimido gastrorresistente','IBP','Comprimido pode ser usado com ou sem alimento na maioria das indicações; ficha detalha exceções.'],
  ['Dexlansoprazol','Dexilant','Cápsula de dupla liberação retardada','IBP','Pode ser administrado independentemente de alimento; ficha explica a dupla liberação.']
  ]
 };
