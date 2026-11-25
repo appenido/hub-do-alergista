@@ -97,6 +97,19 @@
       fonte:'https://www.nestlenutre.com.br/nutricao-infantil/formula-infantil/formula-pediatrica-alfajunior-400g'
     }
   ];
+  if (Array.isArray(window.HubFormulasCatalogoAdicional)) {
+    PRODUTOS.push.apply(PRODUTOS,window.HubFormulasCatalogoAdicional);
+  }
+  PRODUTOS.forEach(function(p){
+    if (!p.categoria) p.categoria=(p.id==='alfajunior')?'aplv-pediatria':'aplv';
+    if(p.id==='alfamino'){
+      p.alerta='ATENÇÃO — recall de janeiro/2026: não utilizar os lotes 51060017Y1, 51540017Y1 e 52720017Y2 de Alfamino 400 g, citados no recolhimento preventivo relacionado à cereulida. Outra ação regulatória por selênio/iodo, de fevereiro/2026, foi revogada em julho/2026. Verificar sempre a situação do lote.';
+      p.alertaFonte='https://www.nestlefamilynes.com.br/recolhimento-de-produto';
+      p.alertaFonteRotulo='Nestlé — lista oficial por lote';
+      p.alertaFonte2='https://www.gov.br/anvisa/pt-br/assuntos/noticias-anvisa/2026/proibida-venda-de-formula-infantil-com-risco-de-contaminacao-por-toxina/';
+      p.alertaFonte2Rotulo='Anvisa — recolhimento de janeiro';
+    }
+  });
   function safe(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   function norm(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
   var svgIcon='<svg viewBox="0 0 64 64" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">'+
@@ -106,18 +119,26 @@
     '<path d="M32 25c-3.5 5.2-8 11.2-8 14a8 8 0 0 0 16 0c0-2.8-4.5-8.8-8-14Z" fill="url(#fi-drop-g)"/>'+
     '<path d="M29 39c0-1.5 1-4 3-6" stroke="#fff4d7" stroke-width="2" stroke-linecap="round"/>'+
     '<path d="M22 16h20" stroke="#81b0be" stroke-width="2" stroke-linecap="round"/></svg>';
+  function mockup(p) {
+    var brand=p.fabricante.indexOf('Danone')>=0?'Danone':'Nestlé';
+    return '<span class="fi-no-photo fi-pack" data-brand="'+safe(brand)+'" role="img" aria-label="Identificação ilustrativa de '+safe(p.nome)+'">'+
+      '<span class="fi-pack-brand">'+safe(brand)+'</span><span class="fi-pack-name">'+safe(p.nome)+'</span>'+
+      '<span class="fi-pack-foot">Catálogo clínico</span></span>';
+  }
   function card(p){
     var body='<div class="fi-product-body">'+
       '<section class="fi-block"><h3>Indicação clínica</h3><p>'+safe(p.indicacao)+'</p></section>'+
       '<section class="fi-block"><h3>Posologia e volume diário</h3><p>'+safe(p.posologia)+'</p></section>'+
-      '<section class="fi-block"><h3>Diluição padrão — preparo exato</h3><p>'+safe(p.preparo)+'</p></section>'+
+      '<section class="fi-block"><h3>Preparo e diluição</h3><p>'+safe(p.preparo)+'</p></section>'+
       '<section class="fi-block"><h3>Como ofertar</h3><p>'+safe(p.oferta)+'</p></section>'+
       '<section class="fi-block fi-full fi-important"><h3>Segurança no preparo</h3><p>Higienizar mãos, utensílios e superfície; usar água potável previamente fervida na temperatura apropriada ao produto; medir primeiro a água e depois adicionar somente as medidas rasas indicadas. Misturar, resfriar à temperatura de oferta e verificar antes de oferecer. Preparar preferencialmente próximo ao consumo e descartar as sobras da mamada. Não concentrar nem diluir fora do esquema acima.</p></section>';
-    if(p.alerta)body+='<section class="fi-block fi-full fi-alert"><h3>Atenção — recolhimento sanitário de lotes</h3><p>'+safe(p.alerta)+' <a class="fi-link" target="_blank" rel="noopener noreferrer" href="'+safe(p.alertaFonte)+'">Revogação de julho/2026</a> · <a class="fi-link" target="_blank" rel="noopener noreferrer" href="'+safe(p.alertaFonte2)+'">Comunicado de janeiro/2026</a>.</p></section>';
-    body+='<section class="fi-block fi-full"><h3>Referência do produto</h3><p><a class="fi-link" href="'+safe(p.fonte)+'" target="_blank" rel="noopener noreferrer">Ficha do fabricante — '+safe(p.fabricante)+'</a>. Revisão de conteúdo: 23/11/2026. Imagem ilustrativa da apresentação comercial, sujeita a atualização.</p></section></div>';
+    if(p.alerta)body+='<section class="fi-block fi-full fi-alert"><h3>Atenção — alertas sanitários por lote</h3><p>'+safe(p.alerta)+' '+
+      '<a class="fi-link" target="_blank" rel="noopener noreferrer" href="'+safe(p.alertaFonte)+'">'+safe(p.alertaFonteRotulo||'Aviso oficial')+'</a>'+
+      (p.alertaFonte2?' · <a class="fi-link" target="_blank" rel="noopener noreferrer" href="'+safe(p.alertaFonte2)+'">'+safe(p.alertaFonte2Rotulo||'Aviso complementar')+'</a>':'')+'.</p></section>';
+    body+='<section class="fi-block fi-full"><h3>Referência do produto</h3><p><a class="fi-link" href="'+safe(p.fonte)+'" target="_blank" rel="noopener noreferrer">Ficha do fabricante — '+safe(p.fabricante)+'</a>. Revisão do catálogo: 25/11/2026. Conferir gramatura e técnica de preparo da versão comercial.</p></section></div>';
     return '<details class="fi-product" data-classe="'+safe(p.classe)+'" data-fabricante="'+(p.fabricante.indexOf('Danone')>=0?'danone':'nestle')+'" data-search="'+safe(norm(p.nome+' '+p.fabricante+' '+p.classeNome+' '+p.idade))+'">'+
       '<summary aria-label="Expandir ficha de '+safe(p.nome)+'">'+
-      '<img class="fi-photo" loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+safe(p.imagem)+'" alt="Embalagem da fórmula '+safe(p.nome)+'">'+
+      (p.imagem?'<img class="fi-photo" loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+safe(p.imagem)+'" alt="Embalagem da fórmula '+safe(p.nome)+'">':mockup(p))+
       '<span class="fi-summary-copy"><span class="fi-product-name">'+safe(p.nome)+'</span><span class="fi-company">'+safe(p.fabricante)+'</span><span class="fi-type" data-tipo="'+safe(p.classe)+'">'+safe(p.classeNome)+'</span><span class="fi-age">'+safe(p.idade)+' · '+safe(p.energia)+'</span></span></summary>'+body+'</details>';
   }
   function init(){
@@ -139,22 +160,40 @@
     if(document.getElementById('page-formulasInfantis'))return;
     var page=document.createElement('div');
     page.className='page';page.id='page-formulasInfantis';
-    var infantis=PRODUTOS.filter(function(p){return p.grupo==='infantil';});
-    var pediat=PRODUTOS.filter(function(p){return p.grupo==='pediatrica';});
+    var GRUPOS=[
+      ['aplv','APLV · fórmulas extensamente hidrolisadas e de aminoácidos'],
+      ['aplv-pediatria','APLV · fórmulas pediátricas de aminoácidos'],
+      ['aplv-suporte','APLV · suplementos e preparações complementares'],
+      ['aplv-alternativa','APLV · alternativas de soja (uso seletivo)'],
+      ['rotina0','Rotina · 0 a 6 meses'],
+      ['rotina1','Seguimento · 6 a 12 meses'],
+      ['primeira','Primeira infância · 1 a 3 anos'],
+      ['especial','Fórmulas especiais · refluxo, digestão e lactose'],
+      ['prematuros','Prematuridade e transição'],
+      ['metabolicas','Dietas específicas · erros inatos do metabolismo']
+    ];
+    function sectionCatalog(){
+      return GRUPOS.map(function(g){
+        var items=PRODUTOS.filter(function(p){return p.categoria===g[0];});
+        return '<section class="fi-section" data-grupo="'+g[0]+'"><div class="fi-subhead"><h2>'+g[1]+'</h2><span class="fi-section-count"></span></div><div class="fi-grid">'+items.map(card).join('')+'</div></section>';
+      }).join('');
+    }
     page.innerHTML=
-      '<header class="fi-heading"><span class="fi-mark">'+svgIcon+'</span><div><h1>Fórmulas Infantis</h1><p>Alergia à proteína do leite de vaca (APLV) · Danone e Nestlé · 23/11/2026</p></div></header>'+
-      '<p class="fi-intro">Catálogo clínico por composição, indicação e diluição. Os nomes comerciais são apresentados com imagem da embalagem e fabricante; toque em uma fórmula para expandir a ficha no próprio card.</p>'+
-      '<p class="fi-safety">Fórmulas parcialmente hidrolisadas (HA) não são adequadas para tratar APLV diagnosticada. O tratamento nutricional utiliza, conforme gravidade e resposta, fórmulas extensamente hidrolisadas ou à base de aminoácidos. O aleitamento materno continua prioritário quando possível.</p>'+
+      '<header class="fi-heading"><span class="fi-mark">'+svgIcon+'</span><div><h1>Fórmulas Infantis</h1><p>Catálogo brasileiro · Danone e Nestlé · 25/11/2026</p></div></header>'+
+      '<p class="fi-intro">Catálogo clínico por tipo de proteína, indicação e faixa etária. As opções para APLV são exibidas sempre no topo. Ao selecionar, a ficha se expande no próprio card.</p>'+
+      '<p class="fi-safety">Fórmulas parcialmente hidrolisadas e fórmulas comuns, inclusive as sem lactose, não tratam APLV. Fórmulas à base de soja são alternativas apenas em casos selecionados, em geral após 6 meses. Aleitamento materno permanece prioritário quando possível.</p>'+
       '<div class="fi-controls"><input class="fi-search" type="search" name="hub_filtro_formulas" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" data-lpignore="true" placeholder="Buscar fórmula, fabricante ou tipo…" aria-label="Buscar fórmulas infantis"><div class="fi-filters" role="group" aria-label="Filtros das fórmulas">'+
       '<button type="button" class="fi-filter is-active" data-filter="todos" aria-pressed="true">Todas</button>'+
+      '<button type="button" class="fi-filter" data-filter="aplv" aria-pressed="false">APLV</button>'+ 
       '<button type="button" class="fi-filter" data-filter="extensa" aria-pressed="false">Extensamente hidrolisadas</button>'+
+      '<button type="button" class="fi-filter" data-filter="parcial" aria-pressed="false">Parcialmente hidrolisadas</button>'+ 
+      '<button type="button" class="fi-filter" data-filter="soja" aria-pressed="false">Soja</button>'+
       '<button type="button" class="fi-filter" data-filter="amino" aria-pressed="false">Aminoácidos</button>'+
       '<button type="button" class="fi-filter" data-filter="danone" aria-pressed="false">Danone</button>'+
       '<button type="button" class="fi-filter" data-filter="nestle" aria-pressed="false">Nestlé</button></div></div>'+
-      '<section class="fi-section" data-grupo="infantil"><div class="fi-subhead"><h2>Fórmulas infantis · 0 a 36 meses</h2><span class="fi-section-count"></span></div><div class="fi-grid">'+infantis.map(card).join('')+'</div></section>'+
-      '<section class="fi-section" data-grupo="pediatrica"><div class="fi-subhead"><h2>Fórmulas pediátricas · a partir de 1 ano</h2><span class="fi-section-count"></span></div><div class="fi-grid">'+pediat.map(card).join('')+'</div></section>'+
+      sectionCatalog()+
       '<p class="fi-empty" hidden>Nenhuma fórmula encontrada com estes filtros.</p>'+
-      '<p class="fi-reference">O volume oferecido não deve ser confundido com a quantidade de água utilizada no preparo; o pó modifica o volume final. A prescrição nutricional considera idade, peso, diagnóstico, densidade calórica, oferta de leite materno e alimentação complementar. Referências: fichas dos fabricantes e comunicados de segurança da Anvisa. Conteúdo destinado a profissionais de saúde.</p>';
+      '<p class="fi-reference">Volume final preparado difere do volume inicial da água. Diluição e colheres variam por fórmula e versão comercial. O catálogo lista linhas de produtos, sem repetir embalagens de gramaturas diferentes. Informações para profissionais de saúde; disponibilidade em estoque não é monitorada em tempo real.</p>';
     var jornal=document.getElementById('page-jornal');
     if(jornal&&jornal.parentNode===scroll)scroll.insertBefore(page,jornal);else scroll.appendChild(page);
     page.querySelectorAll('.fi-photo').forEach(function(img){
@@ -162,7 +201,7 @@
         if(!img.parentElement)return;
         var p=document.createElement('span');
         p.className='fi-no-photo';p.setAttribute('aria-label','Imagem da fórmula indisponível');
-        p.textContent='◉';img.replaceWith(p);
+        var prod=PRODUTOS.find(function(x){return img.alt==='Embalagem da fórmula '+x.nome;});if(prod){img.insertAdjacentHTML('afterend',mockup(prod));img.remove();}else{p.textContent='Imagem indisponível';img.replaceWith(p);}
       },{once:true});
     });
     var filtro='todos';
@@ -175,7 +214,7 @@
         section.querySelectorAll('.fi-product').forEach(function(p){
           var tipo=p.getAttribute('data-classe'), fab=p.getAttribute('data-fabricante');
           var ok=(!termo||(p.getAttribute('data-search')||'').indexOf(termo)>=0)&&
-            (filtro==='todos'||filtro===tipo||filtro===fab);
+            (filtro==='todos'||filtro===tipo||filtro===fab||(filtro==='aplv'&&String(p.closest('[data-grupo]').dataset.grupo).indexOf('aplv')===0));
           p.hidden=!ok;
           p.style.display=ok?'':'none';
           if(!ok)p.open=false;
