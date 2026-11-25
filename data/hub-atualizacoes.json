@@ -5,6 +5,16 @@
   "items": [
     {
       "kind": "content",
+      "id": "fi-catalogo-completo-20261125",
+      "date": "2026-11-25",
+      "publishedAt": "2026-11-25T15:15:00.000Z",
+      "type": "Ampliação",
+      "category": "Fórmulas Infantis",
+      "section": "formulasInfantis",
+      "title": "Catálogo de 52 fórmulas e preparações nutricionais da Danone e Nestlé, com APLV no topo, categorias, preparo e alertas de lotes"
+    },
+    {
+      "kind": "content",
       "id": "6cc996833204",
       "date": "2026-11-25",
       "publishedAt": "2026-11-25T14:12:28.000Z",
