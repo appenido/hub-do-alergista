@@ -1,13 +1,29 @@
 {
- "ultimaTentativa": "2026-11-24T20:58:00.166Z",
- "atualizadoEm": "2026-11-24T20:58:00.166Z",
+ "ultimaTentativa": "2026-11-25T20:20:46.186Z",
+ "atualizadoEm": "2026-11-25T20:20:46.186Z",
  "status": "ok",
  "totalCandidatos": 60,
- "totalVerificados": 1,
- "totalPendentes": 9,
- "totalExcluidos": 50,
+ "totalVerificados": 4,
+ "totalPendentes": 10,
+ "totalExcluidos": 46,
  "falhasFonte": [],
  "itens": [
+  {
+   "status": "verificado",
+   "titulo": "Dermatite atópica no verão: como aliviar a coceira e proteger a pele?",
+   "fonte": "Terra",
+   "data": "2026-11-25T13:08:03.000Z",
+   "url": "https://www.terra.com.br/vida-e-estilo/saude/dermatite-atopica-no-verao-como-aliviar-a-coceira-e-proteger-a-pele,159ad12da782ef28f555ee9ff2fa506e0fz4av9t.html",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Dermatite atópica no verão: calor e suor podem intensificar coceira e irritação na pele",
+   "fonte": "Terra",
+   "data": "2026-11-24T20:01:00.000Z",
+   "url": "https://www.terra.com.br/vida-e-estilo/saude/dermatite-atopica-no-verao-calor-e-suor-podem-intensificar-coceira-e-irritacao-na-pele,6643bc86258145a8698044a1005c7cd1w9zimgx2.html",
+   "verificado": true
+  },
   {
    "status": "verificado",
    "titulo": "Farmacêutica sobre ter uma jiboia em casa: \"Para quem tem problema respiratório, como bronquite, rinite e asma\"",
@@ -79,32 +95,9 @@
    "data": "2026-11-16T16:50:12.242Z",
    "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/16/ataque-de-abelhas-causa-urticaria-inchaco-e-tremores-em-quatro-pessoas-em-mt-veja-o-que-fazer-nestes-casos.ghtml",
    "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Menino alérgico morreu após colega jogar queijo nele em escola",
-   "fonte": "iG Último Segundo",
-   "data": "2026-11-15T09:00:00.000Z",
-   "url": "https://ultimosegundo.ig.com.br/2026-11-15/menino-alergico-morreu-apos-colega-jogar-queijo-nele-em-escola.html",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Mãe de jovem que teve reação alérgica grave após cheirar pimenta revela que nem sempre consegue ser forte: 'Mantendo viva a esperança'",
-   "fonte": "G1",
-   "data": "2026-11-13T14:27:23.696Z",
-   "url": "https://g1.globo.com/go/goias/noticia/2026/11/13/mae-de-jovem-que-teve-reacao-alergica-grave-apos-cheirar-pimenta-revela-que-nem-sempre-consegue-ser-forte-mantendo-viva-a-esperanca.ghtml",
-   "verificado": true
   }
  ],
  "pendentes": [
-  {
-   "status": "pendente",
-   "titulo": "Vacina tem bons resultados contra múltiplas alergias alimentares; entenda",
-   "fonte": "O GLOBO",
-   "url": "https://oglobo.globo.com/saude/noticia/2026/11/21/vacina-tem-bons-resultados-contra-multiplas-alergias-alimentares-entenda.ghtml",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
-  },
   {
    "status": "pendente",
    "titulo": "Movido por vingança: homem é preso nos EUA acusado de enviar cartão com amendoim a mulher com alergia grave",
@@ -128,6 +121,20 @@
   },
   {
    "status": "pendente",
+   "titulo": "Amiga de Janaína Barbosa homenageia a apresentadora, que faria 49 anos e morreu de choque anafilático",
+   "fonte": "Globo",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQZnNnbHNYemEzbHhfZng0ckhGY0ZMS3M0bmRsempYMEpFbk1XY0dHdWc5WENsZUprNFNIX0stR0JjdXZ5YXdtMnlmb09INmI4UjRGTFZZdGRlcXVNLUN0alNYNUZhamludjFPZHNOV3Q0V3R4dWlSNVVEWG1UREVsTDNnYUpwcW5WeVM2QmRhdUxnZTAxVkJ3Y3hVMkczUWVXS0JQUkZVZGpkT3d5bHB4N1UwR2xtU0hwclpvNi1WSXZNNHBYWUd6dWc5SnRQWE1PNzBOTGdmekF2N21t0gHrAUFVX3lxTE9BN0FrQ0pYc2Z3bGhjZng1MkpFOS1XN0Y2SVpHT0lLTTViQm9zVmtYS0dYUUpBaWNsd1lvMWREOUVQNklPMzJyZ25oSThvUTJzUThPWWFRRzZlU2ZFSjJralh0RURiZG9PRXRsSGRkQ1dzSXNuckh1NWRBQ3psVGNlU0FsNTh0b09XZXl0NEFGbXNvWDgwZGI0ejdzdHhDR0p6YjlXc0stSVNiWDVoTFRfLURuQi14TUg2RHlrbFU4OHdHNmIyWEpBaWJKR3JFNnhlVkdBX1plYTBLTnZHdzEyQ01DbWNRSFZyVms?oc=5",
+   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
+  },
+  {
+   "status": "pendente",
+   "titulo": "O que é choque anafilático, causa da morte de Janaína Barbosa? Entenda",
+   "fonte": "viva.com.br",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMisAFBVV95cUxORWFDanVrdmVSTUZ1UnJmUHp6ZkVkWXM3R01RRkJUTDEtLWd1TUpPcDc2eGdaZ1ZZNkpWMFcwaXJaSmF6QXNPX3lDZHlJQzlKOGd6b3VqekFSZktkUHRWVWxjZFdVVzNwZk1MdllwN0Q4WF9Fd3VFQVRsMFZiRUtnUGtTTmpvY1E0RGNUb1BoQ2Z2Y2tHNWpsaFRMWkdKQVFrY3hfNWlQY1R3WE9nWWg5VA?oc=5",
+   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
+  },
+  {
+   "status": "pendente",
    "titulo": "Estudo aponta que um em cada três bebês diagnosticados com alergia a amendoim não tem a condição",
    "fonte": "O GLOBO",
    "url": "https://oglobo.globo.com/saude/noticia/2026/11/06/estudo-aponta-que-um-em-cada-tres-bebes-diagnosticados-com-alergia-a-amendoim-nao-tem-a-condicao.ghtml",
@@ -142,23 +149,23 @@
   },
   {
    "status": "pendente",
-   "titulo": "Dermatite atópica pode ser mais difícil de identificar em peles negras, revela novo estudo",
-   "fonte": "Crescer",
-   "url": "https://revistacrescer.globo.com/saude/noticia/2026/10/dermatite-atopica-pode-ser-mais-dificil-de-identificar-em-peles-negras-revela-novo-estudo.ghtml",
+   "titulo": "O que é choque anafilático, apontado como causa da morte de Janaína Barbosa",
+   "fonte": "Estadão",
+   "url": "https://www.estadao.com.br/em-alta/pulsa/medicina-e-estudos/o-que-e-choque-anafilatico-apontado-como-causa-da-morte-de-janaina-barbosa/",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   },
   {
    "status": "pendente",
-   "titulo": "Brasileira com alergia a camarão morre após comer lula durante lua de mel em Portugal",
-   "fonte": "O GLOBO",
-   "url": "https://oglobo.globo.com/brasil/noticia/2026/10/23/brasileira-com-alergia-a-camarao-morre-apos-comer-lula-durante-lua-de-mel-em-portugal.ghtml",
+   "titulo": "Janaína Barbosa morreu após choque anafilático, diz amiga",
+   "fonte": "Estadão",
+   "url": "https://www.estadao.com.br/em-alta/emais/gente/janaina-barbosa-morreu-apos-choque-anafilatico-revela-amiga-nprec/",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   },
   {
    "status": "pendente",
-   "titulo": "Morte de enfermeira em lua de mel acende alerta para alergia alimentar",
+   "titulo": "O que é choque anafilático? Entenda causas, riscos e quem é mais afetado",
    "fonte": "Band",
-   "url": "https://www.band.com.br/saude/morte-de-enfermeira-em-lua-de-mel-acende-alerta-para-alergia-alimentar",
+   "url": "https://www.band.com.br/saude/o-que-e-choque-anafilatico-entenda-causas-riscos-e-quem-e-mais-afetado",
    "motivo": "página retornou HTTP 403"
   }
  ],
@@ -166,23 +173,51 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Remédio que já deu certo antes pode causar reação grave? Alergista explica a anafilaxia",
-   "fonte": "bra1.com.br",
-   "url": "https://www.bra1.com.br/geral/id-732088/remedio_que_ja_deu_certo_antes_pode_causar_reacao_gravee_63_alergista_explica_a_anafilaxia"
+   "titulo": "Diabetes, asma e hipertensão: painel mostra internações que atenção básica pode evitar no ES",
+   "fonte": "Folha Vitória",
+   "url": "https://www.folhavitoria.com.br/saude/diabetes-asma-e-hipertensao-painel-mostra-internacoes-que-atencao-basica-pode-evitar-no-es/"
   },
   {
    "status": "excluido",
    "motivo": "veículo estrangeiro",
-   "titulo": "Estudo traça retrato do angioedema hereditário em Portugal e alerta para desigualdades no acesso a tratamentos inovadores",
-   "fonte": "Jornal Médico",
-   "url": "https://jornalmedico.pt/foco/84933-estudo-traca-retrato-do-angioedema-hereditario-em-portugal-e-alerta-para-desigualdades-no-acesso-a-tratamentos-inovadores/"
+   "titulo": "Novartis, AGAPUC e Foro Piel impulsionam uma campanha para dar visibilidade ao dia a dia da urticária crônica",
+   "fonte": "Demócrata",
+   "url": "https://www.democrata.es/pt/saude/novartis-agapuc-e-foro-piel-impulsionam-uma-campanha-para-dar-visibilidade-ao-dia-a-dia-da-urticaria-cronica/amp/"
   },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Janaína Barbosa teria morrido após choque anafilático: alergista alerta para reação que pode ser fatal em minutos",
-   "fonte": "O NORTÃO",
-   "url": "https://www.onortao.com.br/2026/11/janaina-barbosa-teria-morrido-apos.html"
+   "titulo": "GSK afirma que medicamento para asma é comparável ao seu medicamento mais antigo para uma doença imunológica rara",
+   "fonte": "TradingView",
+   "url": "https://br.tradingview.com/news/reuters.com,2026:newsml_L2N4760HX:0/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "ALERGISTA EXPLICA COMO RECONHECER A ANAFILAXIA",
+   "fonte": "Bahia Econômica",
+   "url": "https://bahiaeconomica.com.br/saude-educacao/alergista-explica-como-reconhecer-a-anafilaxia-212494"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "A crise de asma durou horas e o homem ficou em estado crítico devido a uma parada cardíaca.",
+   "fonte": "Vietnam.vn",
+   "url": "https://www.vietnam.vn/pt/con-hen-keo-dai-nhieu-gio-nguoi-dan-ong-nguy-kich-vi-ngung-tuan-hoan"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Calorão de MS agrava dermatite atópica, que pode ser confundida com sarna",
+   "fonte": "Campo Grande News",
+   "url": "https://www.campograndenews.com.br/saude-e-bem-estar/calorao-de-ms-agrava-dermatite-atopica-que-pode-ser-confundida-com-sarna"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Choque anafilático: entenda como um medicamento já utilizado pode provocar reação grave",
+   "fonte": "Jornal Correio",
+   "url": "https://www.correio24horas.com.br/saude/choque-anafilatico-entenda-como-um-medicamento-ja-utilizado-pode-provocar-reacao-grave-1126"
   },
   {
    "status": "excluido",
@@ -197,6 +232,13 @@
    "titulo": "Dermatite atópica: mercado pode dobrar até 2036",
    "fonte": "Guia da Farmácia",
    "url": "https://guiadafarmacia.com.br/mercado-de-dermatite-atopica/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "KT-621 da Kymera atinge metas em estudo de dermatite atópica - Investing.com Brasil",
+   "fonte": "Investing.com Brasil - Finanças, Câmbio e Investimentos",
+   "url": "https://br.investing.com/news/company-news/kt621-da-kymera-atinge-metas-em-estudo-de-dermatite-atopica-93CH-2135391"
   },
   {
    "status": "excluido",
@@ -228,10 +270,31 @@
   },
   {
    "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Anafilaxia: reconhecer os sinais e agir pode salvar vidas",
+   "fonte": "HealthNews",
+   "url": "https://healthnews.pt/2026/11/21/anafilaxia-reconhecer-os-sinais-e-agir-pode-salvar-vidas/"
+  },
+  {
+   "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Dermatite atópica em peles negras: os desafios entre o reconhecimento dos sinais e o diagnóstico",
    "fonte": "Mundo Negro",
    "url": "https://mundonegro.inf.br/dermatite-atopica-peles-negras-sinais-diagnostico/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "ATS 2026: Corticoide inalatório de resgate na asma",
+   "fonte": "Afya | Home",
+   "url": "https://portal.afya.com.br/terapia-intensiva/ats-2026-corticoide-inalatorio-de-resgate-na-asma"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Asma: o que acontece nos brônquios durante a crise",
+   "fonte": "Rádio Corredor",
+   "url": "https://radiocorredor.com.br/posts/asma-bronquios-crise-como-funciona"
   },
   {
    "status": "excluido",
@@ -246,62 +309,6 @@
    "titulo": "Celldex abandona programa para dermatite atópica após falha em estudo - Investing.com Brasil",
    "fonte": "Investing.com Brasil - Finanças, Câmbio e Investimentos",
    "url": "https://br.investing.com/news/company-news/celldex-abandona-programa-para-dermatite-atopica-apos-falha-em-estudo-93CH-2133270"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Cochrane compara tratamentos tópicos para dermatite atópica",
-   "fonte": "Afya | Home",
-   "url": "https://portal.afya.com.br/dermatologia/cochrane-compara-tratamentos-topicos-para-dermatite-atopica"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "O que muda no tratamento da dermatite atópica com os novos medicamentos tópicos",
-   "fonte": "Medscape",
-   "url": "https://portugues.medscape.com/viewarticle/muda-tratamento-dermatite-at%C3%B3pica-novos-medicamentos-2026a10018q7"
-  },
-  {
-   "status": "excluido",
-   "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "Caspa e coceira podem ser sinais de alergia a shampoo; entenda",
-   "fonte": "Terra",
-   "url": "https://www.terra.com.br/vida-e-estilo/caspa-e-coceira-podem-ser-sinais-de-alergia-a-shampoo-entenda,6a87f0912b216655e6ff91c28c227c25kqgcnje3.html"
-  },
-  {
-   "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Esofagite eosinofílica: uma abordagem integrada da seleção dos doentes à gestão a longo prazo",
-   "fonte": "Médico News",
-   "url": "https://mediconews.pt/esofagite-eosinofilica-uma-abordagem-integrada-da-selecao-dos-doentes-a-gestao-a-longo-prazo/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "Ataque de abelhas causa urticária, inchaço e tremores em quatro pessoas em MT; veja o que fazer nestes casos",
-   "fonte": "G1",
-   "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/16/ataque-de-abelhas-causa-urticaria-inchaco-e-tremores-em-quatro-pessoas-em-mt-veja-o-que-fazer-nestes-casos.ghtml"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Vice-presidente da AMB fala sobre doenças inflamatórias intestinais em pediatria no 53º Congresso Brasileiro de Alergia e Imunologia – AMB",
-   "fonte": "AMB – Associação Médica Brasileira",
-   "url": "https://amb.org.br/vice-presidente-da-amb-fala-sobre-doencas-inflamatorias-intestinais-em-pediatria-no-53o-congresso-brasileiro-de-alergia-e-imunologia/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Quando a garganta parece fechar: anafilaxia é um sinal de alergia que pode colocar sua vida em risco",
-   "fonte": "Rede D'Or",
-   "url": "https://www.rededorsaoluiz.com.br/noticias/artigo/quando-a-garganta-parece-fechar-anafilaxia-e-um-sinal-de-alergia-que-pode-colocar-sua-vida-em-risco"
-  },
-  {
-   "status": "excluido",
-   "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "Ex-BBB Cacau Colucci tem reação alérgica na pele após tocar em abacaxi; médica explica quando se preocupar",
-   "fonte": "Gshow",
-   "url": "https://gshow.globo.com/comportamento/saude/noticia/ex-bbb-cacau-colucci-tem-reacao-alergica-na-pele-apos-tocar-em-abacaxi-medica-explica-quando-se-preocupar.ghtml"
   }
  ]
 }
