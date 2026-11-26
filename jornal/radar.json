@@ -1,11 +1,11 @@
 {
- "ultimaTentativa": "2026-11-26T11:53:55.247Z",
- "atualizadoEm": "2026-11-26T11:53:55.247Z",
+ "ultimaTentativa": "2026-11-26T19:57:00.957Z",
+ "atualizadoEm": "2026-11-26T19:57:00.957Z",
  "status": "ok",
  "totalCandidatos": 60,
- "totalVerificados": 4,
- "totalPendentes": 8,
- "totalExcluidos": 48,
+ "totalVerificados": 2,
+ "totalPendentes": 6,
+ "totalExcluidos": 52,
  "falhasFonte": [],
  "itens": [
   {
@@ -91,27 +91,6 @@
   },
   {
    "status": "pendente",
-   "titulo": "Ex-BBB Cacau Colucci: é possível ter alergia ao abacaxi só tocando nele?",
-   "fonte": "O GLOBO",
-   "url": "https://oglobo.globo.com/saude/noticia/2026/11/11/ex-bbb-cacau-colucci-e-possivel-ter-alergia-com-abacaxi-so-tocando-nele.ghtml",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Nem sempre é alergia: entenda a doença de pele diagnosticada em Mari Menezes",
-   "fonte": "O GLOBO",
-   "url": "https://oglobo.globo.com/ela/noticia/2026/11/10/nem-sempre-e-alergia-entenda-a-doenca-de-pele-diagnosticada-em-mari-menezes.ghtml",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Estudo aponta que um em cada três bebês diagnosticados com alergia a amendoim não tem a condição",
-   "fonte": "O GLOBO",
-   "url": "https://oglobo.globo.com/saude/noticia/2026/11/06/estudo-aponta-que-um-em-cada-tres-bebes-diagnosticados-com-alergia-a-amendoim-nao-tem-a-condicao.ghtml",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
-  },
-  {
-   "status": "pendente",
    "titulo": "Apresentadora Janaína Barbosa morreu após choque anafilático; entenda a reação alérgica",
    "fonte": "O GLOBO",
    "url": "https://oglobo.globo.com/saude/noticia/2026/11/05/apresentadora-janaina-barbosa-morreu-apos-choque-anafilatico-entenda-a-reacao-alergica.ghtml",
@@ -126,20 +105,41 @@
   },
   {
    "status": "pendente",
-   "titulo": "Janaína Barbosa morreu após choque anafilático, diz amiga",
-   "fonte": "Estadão",
-   "url": "https://www.estadao.com.br/em-alta/emais/gente/janaina-barbosa-morreu-apos-choque-anafilatico-revela-amiga-nprec/",
+   "titulo": "‘Bombinha de asma’ ganha versão sustentável que reduz pegada de carbono em até 90%",
+   "fonte": "Um só Planeta",
+   "url": "https://umsoplaneta.globo.com/energia/noticia/2026/10/30/bombinha-de-asma-ganha-versao-sustentavel-que-reduz-pegada-de-carbono-em-ate-90percent.ghtml",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   },
   {
    "status": "pendente",
-   "titulo": "O que é choque anafilático? Entenda causas, riscos e quem é mais afetado",
-   "fonte": "Band",
-   "url": "https://www.band.com.br/saude/o-que-e-choque-anafilatico-entenda-causas-riscos-e-quem-e-mais-afetado",
-   "motivo": "página retornou HTTP 403"
+   "titulo": "Dermatite atópica pode ser mais difícil de identificar em peles negras, revela novo estudo",
+   "fonte": "Crescer",
+   "url": "https://revistacrescer.globo.com/saude/noticia/2026/10/dermatite-atopica-pode-ser-mais-dificil-de-identificar-em-peles-negras-revela-novo-estudo.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Pais são presos por negligência após criança morrer de crise de asma sem tratamento nos EUA",
+   "fonte": "O GLOBO",
+   "url": "https://oglobo.globo.com/saude/epoca/post/2026/10/pais-sao-presos-por-negligencia-apos-crianca-morrer-de-crise-de-asma-sem-tratamento-nos-eua.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
   }
  ],
  "excluidos": [
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Surto de alergia afeta 112 pessoas e pode estar relacionado a mariposas no interior de SP",
+   "fonte": "redeutv.com.br",
+   "url": "https://redeutv.com.br/surto-de-alergia-afeta-112-pessoas-e-pode-estar-relacionado-a-mariposas-no-interior-de-sp"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "SGC TV: Alergias respiratórias ou Covid-19: como diferenciar os sintomas",
+   "fonte": "Diário da Amazônia",
+   "url": "https://diariodaamazonia.com.br/noticia/6/456002/sgc-tv-alergias-respiratorias-ou-covid-19-como-diferenciar-os-sintomas"
+  },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
@@ -149,10 +149,17 @@
   },
   {
    "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "GSK afirma que medicamento para asma é comparável ao seu medicamento mais antigo para uma doença imunológica rara",
-   "fonte": "TradingView",
-   "url": "https://br.tradingview.com/news/reuters.com,2026:newsml_L2N4760HX:0/"
+   "motivo": "veículo estrangeiro",
+   "titulo": "Dermatite atópica: novas opções terapêuticas abrem caminho a tratamentos cada vez mais personalizados",
+   "fonte": "News Farma",
+   "url": "https://newsfarma.pt/my-especialidades/dermatite-atopica-novas-opcoes-terapeuticas-abrem-caminho-a-tratamentos-cada-vez-mais-personalizados/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Novartis, AGAPUC e Foro Piel impulsionam uma campanha para dar visibilidade ao dia a dia da urticária crônica",
+   "fonte": "Demócrata",
+   "url": "https://www.democrata.es/pt/saude/novartis-agapuc-e-foro-piel-impulsionam-uma-campanha-para-dar-visibilidade-ao-dia-a-dia-da-urticaria-cronica/"
   },
   {
    "status": "excluido",
@@ -164,23 +171,16 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Calorão em MS pode agravar dermatite atópica, que pode ser confundida com sarna",
-   "fonte": "Dourados Agora",
-   "url": "https://www.douradosagora.com.br/noticias/saude/calorao-em-ms-pode-agravar-dermatite-atopica-que-pode-ser-confundida-com-sarna"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Calorão de MS agrava dermatite atópica, que pode ser confundida com sarna",
    "fonte": "Campo Grande News",
    "url": "https://www.campograndenews.com.br/saude-e-bem-estar/calorao-de-ms-agrava-dermatite-atopica-que-pode-ser-confundida-com-sarna"
   },
   {
    "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Choque anafilático: entenda como um medicamento já utilizado pode provocar reação grave",
-   "fonte": "Jornal Correio",
-   "url": "https://www.correio24horas.com.br/saude/choque-anafilatico-entenda-como-um-medicamento-ja-utilizado-pode-provocar-reacao-grave-1126"
+   "motivo": "veículo estrangeiro",
+   "titulo": "Estudo traça retrato do angioedema hereditário em Portugal e alerta para desigualdades no acesso a tratamentos inovadores",
+   "fonte": "Jornal Médico",
+   "url": "https://jornalmedico.pt/foco/84933-estudo-traca-retrato-do-angioedema-hereditario-em-portugal-e-alerta-para-desigualdades-no-acesso-a-tratamentos-inovadores/"
   },
   {
    "status": "excluido",
@@ -198,24 +198,31 @@
   },
   {
    "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Nariz escorre quando sente perfume: é alergia ou irritação?",
-   "fonte": "Tua Saúde",
-   "url": "https://www.tuasaude.com/news/2026/11/22/nariz-escorre-quando-sente-perfume-e-alergia-ou-irritacao/"
+   "motivo": "veículo estrangeiro",
+   "titulo": "KT-621 da Kymera atinge metas em estudo de dermatite atópica - Investing.com Brasil",
+   "fonte": "Investing.com Brasil - Finanças, Câmbio e Investimentos",
+   "url": "https://br.investing.com/news/company-news/kt621-da-kymera-atinge-metas-em-estudo-de-dermatite-atopica-93CH-2135391"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Dermatite atópica canina: uma abordagem multimodal cada vez mais individualizada",
+   "fonte": "Veterinaria Atual",
+   "url": "https://www.veterinaria-atual.pt/na-pratica/dermatite-atopica-canina-3/"
   },
   {
    "status": "excluido",
    "motivo": "conteúdo de saúde animal/veterinária, fora do escopo humano",
    "titulo": "Coceira em cachorro é normal? Veja quando pode ser sintoma de dermatite atópica",
-   "fonte": "Terra",
-   "url": "https://www.terra.com.br/vida-e-estilo/pets/coceira-em-cachorro-e-normal-veja-quando-pode-ser-sintoma-de-dermatite-atopica,1cafc37838509402d30df81591f8502awn3gvt81.html"
+   "fonte": "GZH",
+   "url": "https://gauchazh.clicrbs.com.br/comportamento/mundo-pet/noticia/2026/11/coceira-em-cachorro-e-normal-veja-quando-pode-ser-sintoma-de-dermatite-atopica-cmwqh7doq020x015uplrx4bfi.html"
   },
   {
    "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Anafilaxia: reconhecer os sinais e agir pode salvar vidas",
-   "fonte": "HealthNews",
-   "url": "https://healthnews.pt/2026/11/21/anafilaxia-reconhecer-os-sinais-e-agir-pode-salvar-vidas/"
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Dermatite atópica em peles negras: os desafios entre o reconhecimento dos sinais e o diagnóstico",
+   "fonte": "Mundo Negro",
+   "url": "https://mundonegro.inf.br/dermatite-atopica-peles-negras-sinais-diagnostico/"
   },
   {
    "status": "excluido",
@@ -227,58 +234,37 @@
   {
    "status": "excluido",
    "motivo": "veículo estrangeiro",
-   "titulo": "Estudo aponta necessidade de mais acesso a medicamentos inovadores para o angioedema hereditário",
-   "fonte": "Correio da Manhã",
-   "url": "https://www.cmjornal.pt/viver-com-saude/detalhe/estudo-aponta-necessidade-de-mais-acesso-a-medicamentos-inovadores-para-o-angioedema-hereditario"
+   "titulo": "Estudo sobre angioedema hereditário em Portugal alerta para desigualdade no acesso a medicamentos inovadores",
+   "fonte": "Observador",
+   "url": "https://observador.pt/2026/11/20/estudo-sobre-angioedema-hereditario-em-portugal-alerta-para-desigualdade-no-acesso-a-medicamentos-inovadores/"
   },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Asma pode ser grave e exige cuidado contínuo, não somente em períodos de crise",
-   "fonte": "Rede PRESS",
-   "url": "https://redepress.com.br/noticias/2026/11/asma-pode-ser-grave-e-exige-cuidado-continuo-nao-somente-em-periodos-de-crise/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "Família compra casa nova e filho começa a ter crises de asma, mais tarde descobrem que a culpa era da com cozinha integrada",
-   "fonte": "Terra",
-   "url": "https://www.terra.com.br/byte/familia-compra-casa-nova-e-filho-comeca-a-ter-crises-de-asma-mais-tarde-descobrem-que-a-culpa-era-da-com-cozinha-integrada,aaf9921dfb183dcda3a7b99474185b5e2q2o9rqk.html"
-  },
-  {
-   "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Esofagite eosinofílica: uma abordagem integrada da seleção dos doentes à gestão a longo prazo",
-   "fonte": "Médico News",
-   "url": "https://mediconews.pt/esofagite-eosinofilica-uma-abordagem-integrada-da-selecao-dos-doentes-a-gestao-a-longo-prazo/"
+   "titulo": "Atlético-MG com \"alergia a finais\"? Ídolo do Galo rebate pressão antes de decisão da Sula",
+   "fonte": "Resultados",
+   "url": "https://www.flashscore.com.br/noticias/futebol-copa-sul-americana-atletico-mg-com-alergia-a-finais-idolo-do-galo-rebate-pressao-antes-de-decisao-da-sula/x6yTBSgS/"
   },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Primavera e El Niño aumentam crises de rinite alérgica",
-   "fonte": "SATC",
-   "url": "https://unisatc.com.br/primavera-e-el-nino-aumentam-crises-de-rinite-alergica/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "publicação fora da janela de 7 dias",
-   "titulo": "Tosse e falta de ar frequentes podem indicar asma ou pneumonia; entenda",
-   "fonte": "CNN Brasil",
-   "url": "https://www.cnnbrasil.com.br/saude/tosse-e-falta-de-ar-frequentes-podem-indicar-asma-ou-pneumonia-entenda/"
+   "titulo": "Cochrane compara tratamentos tópicos para dermatite atópica",
+   "fonte": "Afya | Home",
+   "url": "https://portal.afya.com.br/dermatologia/cochrane-compara-tratamentos-topicos-para-dermatite-atopica"
   },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Quando a garganta parece fechar: anafilaxia é um sinal de alergia que pode colocar sua vida em risco",
-   "fonte": "Rede D'Or",
-   "url": "https://www.rededorsaoluiz.com.br/noticias/artigo/quando-a-garganta-parece-fechar-anafilaxia-e-um-sinal-de-alergia-que-pode-colocar-sua-vida-em-risco"
+   "titulo": "Após sintomas serem confundidos com alergia, casos de sarna humana sobem para 11 em Nova Andradina",
+   "fonte": "Midiamax",
+   "url": "https://midiamax.com.br/cotidiano/2026/apos-sintomas-serem-confundidos-alergia-casos-sarna-humana-sobem-11-nova-andradina/"
   },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Vice-presidente da AMB fala sobre doenças inflamatórias intestinais em pediatria no 53º Congresso Brasileiro de Alergia e Imunologia – AMB",
-   "fonte": "Associação Médica Brasileira (AMB)",
-   "url": "https://amb.org.br/vice-presidente-da-amb-fala-sobre-doencas-inflamatorias-intestinais-em-pediatria-no-53o-congresso-brasileiro-de-alergia-e-imunologia/"
+   "titulo": "Homem é preso após enviar cartão com pasta de amendoim a mulher com alergia grave",
+   "fonte": "NSC Total",
+   "url": "https://www.nsctotal.com.br/cotidiano/homem-e-preso-apos-enviar-cartao-com-pasta-de-amendoim-a-mulher-com-alergia-grave"
   }
  ]
 }
