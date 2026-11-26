@@ -58,20 +58,44 @@
     };
   }
 
+  function normalizarManchete(titulo) {
+    return titulo.normalize('NFKD').replace(/\p{M}/gu, '')
+      .toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  }
+  
+  function manchetesRepetidas(a, b) {
+    const x = normalizarManchete(a), y = normalizarManchete(b);
+    if (x === y) return true;
+    const prefixo = titulo => normalizarManchete(titulo.split(':')[0]);
+    const pa = prefixo(a), pb = prefixo(b);
+    const ignorar = new Set('a o as os um uma uns umas de do da dos das e em no na nos nas para por com que se ao aos como sobre'.split(' '));
+    const palavras = titulo => new Set(titulo.split(' ').filter(p => p.length > 2 && !ignorar.has(p)));
+    const wa = palavras(x), wb = palavras(y);
+    const comuns = [...wa].filter(p => wb.has(p)).length;
+    // Mesmo gancho editorial e conteúdo em comum, ou grande sobreposição lexical.
+    if (a.includes(':') && b.includes(':') && pa === pb &&
+        pa.split(' ').length >= 4 && comuns >= 4) return true;
+    return comuns >= 5 && comuns / Math.max(wa.size, wb.size) >= 0.72;
+  }
+
   function reportagens() {
     const itens = [...fontes.edicao, ...fontes.radar, ...fontes.feed]
       .map(noticia).filter(Boolean)
       .sort((a, b) => (b.data?.instante ?? -Infinity) - (a.data?.instante ?? -Infinity));
     const urls = new Set();
     const titulos = new Set();
-    return itens.filter(item => {
-      const chave = item.titulo.normalize('NFKD').replace(/\p{M}/gu, '')
-        .toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
-      if (urls.has(item.chaveUrl) || titulos.has(chave)) return false;
+    const unicas = [];
+    for (const item of itens) {
+      const chave = normalizarManchete(item.titulo);
+      if (urls.has(item.chaveUrl) || titulos.has(chave) ||
+          unicas.some(anterior => anterior.data && item.data &&
+            Math.abs(anterior.data.instante - item.data.instante) <= 7 * 86400000 &&
+            manchetesRepetidas(anterior.titulo, item.titulo))) continue;
       urls.add(item.chaveUrl);
       titulos.add(chave);
-      return true;
-    });
+      unicas.push(item);
+    }
+    return unicas;
   }
 
   function elemento(tag, classe, texto) {
