@@ -1,11 +1,11 @@
 {
- "ultimaTentativa": "2026-11-25T20:20:46.186Z",
- "atualizadoEm": "2026-11-25T20:20:46.186Z",
+ "ultimaTentativa": "2026-11-26T11:53:55.247Z",
+ "atualizadoEm": "2026-11-26T11:53:55.247Z",
  "status": "ok",
  "totalCandidatos": 60,
  "totalVerificados": 4,
- "totalPendentes": 10,
- "totalExcluidos": 46,
+ "totalPendentes": 8,
+ "totalExcluidos": 48,
  "falhasFonte": [],
  "itens": [
   {
@@ -18,26 +18,10 @@
   },
   {
    "status": "verificado",
-   "titulo": "Dermatite atópica no verão: calor e suor podem intensificar coceira e irritação na pele",
-   "fonte": "Terra",
-   "data": "2026-11-24T20:01:00.000Z",
-   "url": "https://www.terra.com.br/vida-e-estilo/saude/dermatite-atopica-no-verao-calor-e-suor-podem-intensificar-coceira-e-irritacao-na-pele,6643bc86258145a8698044a1005c7cd1w9zimgx2.html",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
    "titulo": "Farmacêutica sobre ter uma jiboia em casa: \"Para quem tem problema respiratório, como bronquite, rinite e asma\"",
    "fonte": "Terra",
    "data": "2026-11-23T18:47:41.000Z",
    "url": "https://www.terra.com.br/vida-e-estilo/farmaceutica-sobre-ter-uma-jiboia-em-casa-para-quem-tem-problema-respiratorio-como-bronquite-rinite-e-asma,e58af6350d6c1c09f39e628d28fd405d4lbl6kgl.html",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Farmacêutica recomenda ter uma jiboia em casa: \"Para quem tem problema respiratório, como bronquite, rinite e asma\"",
-   "fonte": "Terra",
-   "data": "2026-11-23T18:47:41.000Z",
-   "url": "https://www.terra.com.br/vida-e-estilo/farmaceutica-recomenda-ter-uma-jiboia-em-casa-para-quem-tem-problema-respiratorio-como-bronquite-rinite-e-asma,e58af6350d6c1c09f39e628d28fd405d4lbl6kgl.html",
    "verificado": true
   },
   {
@@ -121,20 +105,6 @@
   },
   {
    "status": "pendente",
-   "titulo": "Amiga de Janaína Barbosa homenageia a apresentadora, que faria 49 anos e morreu de choque anafilático",
-   "fonte": "Globo",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQZnNnbHNYemEzbHhfZng0ckhGY0ZMS3M0bmRsempYMEpFbk1XY0dHdWc5WENsZUprNFNIX0stR0JjdXZ5YXdtMnlmb09INmI4UjRGTFZZdGRlcXVNLUN0alNYNUZhamludjFPZHNOV3Q0V3R4dWlSNVVEWG1UREVsTDNnYUpwcW5WeVM2QmRhdUxnZTAxVkJ3Y3hVMkczUWVXS0JQUkZVZGpkT3d5bHB4N1UwR2xtU0hwclpvNi1WSXZNNHBYWUd6dWc5SnRQWE1PNzBOTGdmekF2N21t0gHrAUFVX3lxTE9BN0FrQ0pYc2Z3bGhjZng1MkpFOS1XN0Y2SVpHT0lLTTViQm9zVmtYS0dYUUpBaWNsd1lvMWREOUVQNklPMzJyZ25oSThvUTJzUThPWWFRRzZlU2ZFSjJralh0RURiZG9PRXRsSGRkQ1dzSXNuckh1NWRBQ3psVGNlU0FsNTh0b09XZXl0NEFGbXNvWDgwZGI0ejdzdHhDR0p6YjlXc0stSVNiWDVoTFRfLURuQi14TUg2RHlrbFU4OHdHNmIyWEpBaWJKR3JFNnhlVkdBX1plYTBLTnZHdzEyQ01DbWNRSFZyVms?oc=5",
-   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
-  },
-  {
-   "status": "pendente",
-   "titulo": "O que é choque anafilático, causa da morte de Janaína Barbosa? Entenda",
-   "fonte": "viva.com.br",
-   "linkGoogle": "https://news.google.com/rss/articles/CBMisAFBVV95cUxORWFDanVrdmVSTUZ1UnJmUHp6ZkVkWXM3R01RRkJUTDEtLWd1TUpPcDc2eGdaZ1ZZNkpWMFcwaXJaSmF6QXNPX3lDZHlJQzlKOGd6b3VqekFSZktkUHRWVWxjZFdVVzNwZk1MdllwN0Q4WF9Fd3VFQVRsMFZiRUtnUGtTTmpvY1E0RGNUb1BoQ2Z2Y2tHNWpsaFRMWkdKQVFrY3hfNWlQY1R3WE9nWWg5VA?oc=5",
-   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
-  },
-  {
-   "status": "pendente",
    "titulo": "Estudo aponta que um em cada três bebês diagnosticados com alergia a amendoim não tem a condição",
    "fonte": "O GLOBO",
    "url": "https://oglobo.globo.com/saude/noticia/2026/11/06/estudo-aponta-que-um-em-cada-tres-bebes-diagnosticados-com-alergia-a-amendoim-nao-tem-a-condicao.ghtml",
@@ -173,16 +143,9 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Diabetes, asma e hipertensão: painel mostra internações que atenção básica pode evitar no ES",
-   "fonte": "Folha Vitória",
-   "url": "https://www.folhavitoria.com.br/saude/diabetes-asma-e-hipertensao-painel-mostra-internacoes-que-atencao-basica-pode-evitar-no-es/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Novartis, AGAPUC e Foro Piel impulsionam uma campanha para dar visibilidade ao dia a dia da urticária crônica",
-   "fonte": "Demócrata",
-   "url": "https://www.democrata.es/pt/saude/novartis-agapuc-e-foro-piel-impulsionam-uma-campanha-para-dar-visibilidade-ao-dia-a-dia-da-urticaria-cronica/amp/"
+   "titulo": "Médica morre após reação alérgica em restaurante da Disney na Flórida e família encerra processo judicial nos EUA",
+   "fonte": "Midiamax",
+   "url": "https://midiamax.com.br/trends/2026/11/26/medica-morre-apos-reacao-alergica-em-restaurante-da-disney-na-florida-e-familia-encerra-processo-judicial-nos-eua/"
   },
   {
    "status": "excluido",
@@ -200,10 +163,10 @@
   },
   {
    "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "A crise de asma durou horas e o homem ficou em estado crítico devido a uma parada cardíaca.",
-   "fonte": "Vietnam.vn",
-   "url": "https://www.vietnam.vn/pt/con-hen-keo-dai-nhieu-gio-nguoi-dan-ong-nguy-kich-vi-ngung-tuan-hoan"
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Calorão em MS pode agravar dermatite atópica, que pode ser confundida com sarna",
+   "fonte": "Dourados Agora",
+   "url": "https://www.douradosagora.com.br/noticias/saude/calorao-em-ms-pode-agravar-dermatite-atopica-que-pode-ser-confundida-com-sarna"
   },
   {
    "status": "excluido",
@@ -235,20 +198,6 @@
   },
   {
    "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "KT-621 da Kymera atinge metas em estudo de dermatite atópica - Investing.com Brasil",
-   "fonte": "Investing.com Brasil - Finanças, Câmbio e Investimentos",
-   "url": "https://br.investing.com/news/company-news/kt621-da-kymera-atinge-metas-em-estudo-de-dermatite-atopica-93CH-2135391"
-  },
-  {
-   "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Dermatite atópica canina: uma abordagem multimodal cada vez mais individualizada",
-   "fonte": "Veterinaria Atual",
-   "url": "https://www.veterinaria-atual.pt/na-pratica/dermatite-atopica-canina-3/"
-  },
-  {
-   "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Nariz escorre quando sente perfume: é alergia ou irritação?",
    "fonte": "Tua Saúde",
@@ -256,17 +205,10 @@
   },
   {
    "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Doentes com angioedema hereditário ainda sujeitos a terapêuticas antigas fora dos grandes centros",
-   "fonte": "HealthNews",
-   "url": "https://healthnews.pt/2026/11/21/doentes-com-angioedema-hereditario-ainda-sujeitos-a-terapeuticas-antigas-fora-dos-grandes-centros/"
-  },
-  {
-   "status": "excluido",
    "motivo": "conteúdo de saúde animal/veterinária, fora do escopo humano",
    "titulo": "Coceira em cachorro é normal? Veja quando pode ser sintoma de dermatite atópica",
-   "fonte": "GZH",
-   "url": "https://gauchazh.clicrbs.com.br/comportamento/mundo-pet/noticia/2026/11/coceira-em-cachorro-e-normal-veja-quando-pode-ser-sintoma-de-dermatite-atopica-cmwqh7doq020x015uplrx4bfi.html"
+   "fonte": "Terra",
+   "url": "https://www.terra.com.br/vida-e-estilo/pets/coceira-em-cachorro-e-normal-veja-quando-pode-ser-sintoma-de-dermatite-atopica,1cafc37838509402d30df81591f8502awn3gvt81.html"
   },
   {
    "status": "excluido",
@@ -278,37 +220,65 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Dermatite atópica em peles negras: os desafios entre o reconhecimento dos sinais e o diagnóstico",
-   "fonte": "Mundo Negro",
-   "url": "https://mundonegro.inf.br/dermatite-atopica-peles-negras-sinais-diagnostico/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "ATS 2026: Corticoide inalatório de resgate na asma",
    "fonte": "Afya | Home",
    "url": "https://portal.afya.com.br/terapia-intensiva/ats-2026-corticoide-inalatorio-de-resgate-na-asma"
   },
   {
    "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Estudo aponta necessidade de mais acesso a medicamentos inovadores para o angioedema hereditário",
+   "fonte": "Correio da Manhã",
+   "url": "https://www.cmjornal.pt/viver-com-saude/detalhe/estudo-aponta-necessidade-de-mais-acesso-a-medicamentos-inovadores-para-o-angioedema-hereditario"
+  },
+  {
+   "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Asma: o que acontece nos brônquios durante a crise",
-   "fonte": "Rádio Corredor",
-   "url": "https://radiocorredor.com.br/posts/asma-bronquios-crise-como-funciona"
+   "titulo": "Asma pode ser grave e exige cuidado contínuo, não somente em períodos de crise",
+   "fonte": "Rede PRESS",
+   "url": "https://redepress.com.br/noticias/2026/11/asma-pode-ser-grave-e-exige-cuidado-continuo-nao-somente-em-periodos-de-crise/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Família compra casa nova e filho começa a ter crises de asma, mais tarde descobrem que a culpa era da com cozinha integrada",
+   "fonte": "Terra",
+   "url": "https://www.terra.com.br/byte/familia-compra-casa-nova-e-filho-comeca-a-ter-crises-de-asma-mais-tarde-descobrem-que-a-culpa-era-da-com-cozinha-integrada,aaf9921dfb183dcda3a7b99474185b5e2q2o9rqk.html"
   },
   {
    "status": "excluido",
    "motivo": "veículo estrangeiro",
-   "titulo": "Estudo sobre angioedema hereditário em Portugal alerta para desigualdade no acesso a medicamentos inovadores",
-   "fonte": "Observador",
-   "url": "https://observador.pt/2026/11/20/estudo-sobre-angioedema-hereditario-em-portugal-alerta-para-desigualdade-no-acesso-a-medicamentos-inovadores/"
+   "titulo": "Esofagite eosinofílica: uma abordagem integrada da seleção dos doentes à gestão a longo prazo",
+   "fonte": "Médico News",
+   "url": "https://mediconews.pt/esofagite-eosinofilica-uma-abordagem-integrada-da-selecao-dos-doentes-a-gestao-a-longo-prazo/"
   },
   {
    "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Celldex abandona programa para dermatite atópica após falha em estudo - Investing.com Brasil",
-   "fonte": "Investing.com Brasil - Finanças, Câmbio e Investimentos",
-   "url": "https://br.investing.com/news/company-news/celldex-abandona-programa-para-dermatite-atopica-apos-falha-em-estudo-93CH-2133270"
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Primavera e El Niño aumentam crises de rinite alérgica",
+   "fonte": "SATC",
+   "url": "https://unisatc.com.br/primavera-e-el-nino-aumentam-crises-de-rinite-alergica/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "publicação fora da janela de 7 dias",
+   "titulo": "Tosse e falta de ar frequentes podem indicar asma ou pneumonia; entenda",
+   "fonte": "CNN Brasil",
+   "url": "https://www.cnnbrasil.com.br/saude/tosse-e-falta-de-ar-frequentes-podem-indicar-asma-ou-pneumonia-entenda/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Quando a garganta parece fechar: anafilaxia é um sinal de alergia que pode colocar sua vida em risco",
+   "fonte": "Rede D'Or",
+   "url": "https://www.rededorsaoluiz.com.br/noticias/artigo/quando-a-garganta-parece-fechar-anafilaxia-e-um-sinal-de-alergia-que-pode-colocar-sua-vida-em-risco"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Vice-presidente da AMB fala sobre doenças inflamatórias intestinais em pediatria no 53º Congresso Brasileiro de Alergia e Imunologia – AMB",
+   "fonte": "Associação Médica Brasileira (AMB)",
+   "url": "https://amb.org.br/vice-presidente-da-amb-fala-sobre-doencas-inflamatorias-intestinais-em-pediatria-no-53o-congresso-brasileiro-de-alergia-e-imunologia/"
   }
  ]
 }
