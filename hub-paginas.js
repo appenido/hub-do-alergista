@@ -422,7 +422,7 @@
       window.igeAbrirFicha(code);
       return;
     }
-    if (summary && !summary.closest('#page-formulasInfantis') && summary.parentElement.tagName === 'DETAILS') {
+    if (summary && !summary.closest('#page-formulasInfantis, #page-fisiopatologia') && summary.parentElement.tagName === 'DETAILS') {
       event.preventDefault(); event.stopImmediatePropagation();
       const details = summary.parentElement; open(details, label(details), {kind: 'conteudo', key: identify(details)}); return;
     }
