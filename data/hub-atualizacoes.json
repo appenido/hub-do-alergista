@@ -1,8 +1,18 @@
 {
   "version": 1,
   "scope": "clinical-content",
-  "updatedAt": "2026-11-25",
+  "updatedAt": "2026-11-26",
   "items": [
+    {
+      "kind": "content",
+      "id": "f3de3aacdc02",
+      "date": "2026-11-26",
+      "publishedAt": "2026-11-27T00:22:17.000Z",
+      "type": "Melhoria",
+      "category": "Artigos e UpToDate",
+      "section": "artigos",
+      "title": "Completa via Th2 com matriz clínica, referências e vigilância científica"
+    },
     {
       "kind": "content",
       "id": "6cc996833204",
