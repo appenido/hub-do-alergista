@@ -1,13 +1,61 @@
 {
- "ultimaTentativa": "2026-11-26T19:57:00.957Z",
- "atualizadoEm": "2026-11-26T19:57:00.957Z",
+ "ultimaTentativa": "2026-11-27T19:46:11.937Z",
+ "atualizadoEm": "2026-11-27T19:46:11.937Z",
  "status": "ok",
  "totalCandidatos": 60,
- "totalVerificados": 2,
- "totalPendentes": 6,
- "totalExcluidos": 52,
+ "totalVerificados": 10,
+ "totalPendentes": 9,
+ "totalExcluidos": 41,
  "falhasFonte": [],
  "itens": [
+  {
+   "status": "verificado",
+   "titulo": "Boa Esperança do Sul registra 112 atendimentos por alergia causada por inseto",
+   "fonte": "G1",
+   "data": "2026-11-27T12:22:59.000Z",
+   "url": "https://g1.globo.com/sp/sao-carlos-regiao/videos-bom-dia-cidade/video/boa-esperanca-do-sul-registra-112-atendimentos-por-alergia-causada-por-inseto-15286286.ghtml",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Infestação de mariposas é suspeita de causar alergia em cidade de SP",
+   "fonte": "CNN Brasil",
+   "data": "2026-11-27T00:50:38.000Z",
+   "url": "https://www.cnnbrasil.com.br/nacional/sudeste/sp/infestacao-de-mariposas-e-suspeita-de-causar-alergia-em-cidade-de-sp/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Lábios inchados surpreendem Ana Castela, que reage com comparação inusitada: “Parece preenchimento”",
+   "fonte": "InMagazine",
+   "data": "2026-11-26T23:43:59.000Z",
+   "url": "https://inmagazine.ig.com.br/celebridades/ana-castela-labio-inchado-alergia",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Ana Castela revela que inchaço unilateral nos lábios foi reação alérgica",
+   "fonte": "R7 Entretenimento",
+   "data": "2026-11-26T23:19:05.352Z",
+   "url": "https://entretenimento.r7.com/famosos-e-tv/vanity-brasil/ana-castela-revela-que-inchaco-unilateral-nos-labios-foi-reacao-alergica-26112026/",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Ana Castela nega procedimento estético ao exibir boca inchada: 'Alergia'",
+   "fonte": "UOL",
+   "data": "2026-11-26T21:20:29.000Z",
+   "url": "https://www.uol.com.br/splash/noticias/2026/11/26/ana-castela-nega-procedimento-estetico-ao-exibir-boca-inchada-alergia.ghtm",
+   "verificado": true
+  },
+  {
+   "status": "verificado",
+   "titulo": "Boa Esperança do Sul investiga casos de alergia ligados a mariposas",
+   "fonte": "G1",
+   "data": "2026-11-26T15:52:29.000Z",
+   "url": "https://g1.globo.com/sp/sao-carlos-regiao/videos-jornal-da-eptv-1-edicao/video/boa-esperanca-do-sul-investiga-casos-de-alergia-ligados-a-mariposas-15283636.ghtml",
+   "verificado": true
+  },
   {
    "status": "verificado",
    "titulo": "Dermatite atópica no verão: como aliviar a coceira e proteger a pele?",
@@ -47,47 +95,36 @@
    "data": "2026-11-18T11:47:31.813Z",
    "url": "https://noticias.r7.com/prisma/luiz-fara-monteiro/medico-salva-vida-de-comissaria-que-sofreu-reacao-alergica-grave-durante-voo-internacional-18112026/",
    "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Homem é preso após enviar cartão com pasta de amendoim a amiga da ex-esposa que tem alergia grave nos EUA",
-   "fonte": "Rede Atlântida",
-   "data": "2026-11-17T18:27:01.000Z",
-   "url": "https://atl.clicrbs.com.br/humor/noticia/2026/11/homem-e-preso-apos-enviar-cartao-com-pasta-de-amendoim-a-amiga-da-ex-esposa-que-tem-alergia-grave-nos-eua-cmwl0y0bt009501cxnf6sfktu.html",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "EUA avalia 1º tratamento para edição genética diretamente dentro do corpo",
-   "fonte": "metropoles.com",
-   "data": "2026-11-16T19:01:00.000Z",
-   "url": "https://www.metropoles.com/saude/eua-avalia-1o-tratamento-para-edicao-genetica-diretamente-dentro-do-corpo",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Homem é preso após enviar carta com amendoim para matar mulher alérgica",
-   "fonte": "Metrópoles",
-   "data": "2026-11-16T18:21:00.000Z",
-   "url": "https://www.metropoles.com/mundo/homem-e-preso-apos-enviar-carta-com-amendoim-para-matar-mulher-alergica",
-   "verificado": true
-  },
-  {
-   "status": "verificado",
-   "titulo": "Ataque de abelhas causa urticária, inchaço e tremores em quatro pessoas em MT; veja o que fazer nestes casos",
-   "fonte": "G1",
-   "data": "2026-11-16T16:50:12.242Z",
-   "url": "https://g1.globo.com/mt/mato-grosso/noticia/2026/11/16/ataque-de-abelhas-causa-urticaria-inchaco-e-tremores-em-quatro-pessoas-em-mt-veja-o-que-fazer-nestes-casos.ghtml",
-   "verificado": true
   }
  ],
  "pendentes": [
+  {
+   "status": "pendente",
+   "titulo": "Ana Castela aparece com lábios inchados; alergia pode ser confundida com preenchimento?",
+   "fonte": "O GLOBO",
+   "url": "https://oglobo.globo.com/ela/noticia/2026/11/27/ana-castela-aparece-com-labios-inchados-alergia-pode-ser-confundida-com-preenchimento.ghtml",
+   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+  },
   {
    "status": "pendente",
    "titulo": "Movido por vingança: homem é preso nos EUA acusado de enviar cartão com amendoim a mulher com alergia grave",
    "fonte": "O GLOBO",
    "url": "https://oglobo.globo.com/mundo/epoca/noticia/2026/11/17/movido-por-vinganca-homem-e-preso-nos-eua-acusado-de-enviar-cartao-com-amendoim-a-mulher-com-alergia-grave.ghtml",
    "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+  },
+  {
+   "status": "pendente",
+   "titulo": "Esofagite eosinofílica: uma abordagem integrada da seleção dos doentes à gestão a longo prazo",
+   "fonte": "Médico News",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOMGRZOTktSlVVNWUtWFpPY1hSUGxIbUxaa1lHWC1YckowQ0sxQ3lDS21iMUwzUXZPYkVaRzRSVmpHbjROWmxJUllWYkNsMlo3elVLdmREVENNX2FBeXhicFR2emU4RlI5b1YwRFRZR2pLajZ4UHp4OXZBTk5ZWHlmS1pCTUxvZDNnX2ZZTVQtSWY4VTJXeFcxdXAtQ3dyR3hYQ1I1WmRNSnh0cU1FeFFSRTdZaTdkUQ?oc=5",
+   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
+  },
+  {
+   "status": "pendente",
+   "titulo": "O que é choque anafilático, causa da morte de Janaína Barbosa? Entenda",
+   "fonte": "viva.com.br",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMisAFBVV95cUxORWFDanVrdmVSTUZ1UnJmUHp6ZkVkWXM3R01RRkJUTDEtLWd1TUpPcDc2eGdaZ1ZZNkpWMFcwaXJaSmF6QXNPX3lDZHlJQzlKOGd6b3VqekFSZktkUHRWVWxjZFdVVzNwZk1MdllwN0Q4WF9Fd3VFQVRsMFZiRUtnUGtTTmpvY1E0RGNUb1BoQ2Z2Y2tHNWpsaFRMWkdKQVFrY3hfNWlQY1R3WE9nWWg5VA?oc=5",
+   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
   },
   {
    "status": "pendente",
@@ -98,6 +135,13 @@
   },
   {
    "status": "pendente",
+   "titulo": "Choque anafilático: entenda a reação alérgica grave que levou apresentadora à morte",
+   "fonte": "Tribuna do Norte",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOUlZILTFOLXh4OVdFTUpTSEJjd0tUNlVZYnpyU3NyT200aTg2ZnNjcGpyTlRnd0Uxc2FkeUZudElvd0NzYmxOU09UYzlyYkN3MEJUTjVQUmJjSVdNVXMydGJSNzBBTVhZcUZEcmZwbWZZMFkxcWhZQVN5UWQtZXRUM2JRNWNFTFVrVDJtQXA1TXVZZER2dW1ZQmZ6cXBSdkRncURIVHpxeU1reVRSMXdqMVJCWl9QdzZ2bFUtMw?oc=5",
+   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
+  },
+  {
+   "status": "pendente",
    "titulo": "O que é choque anafilático, apontado como causa da morte de Janaína Barbosa",
    "fonte": "Estadão",
    "url": "https://www.estadao.com.br/em-alta/pulsa/medicina-e-estudos/o-que-e-choque-anafilatico-apontado-como-causa-da-morte-de-janaina-barbosa/",
@@ -105,27 +149,83 @@
   },
   {
    "status": "pendente",
-   "titulo": "‘Bombinha de asma’ ganha versão sustentável que reduz pegada de carbono em até 90%",
-   "fonte": "Um só Planeta",
-   "url": "https://umsoplaneta.globo.com/energia/noticia/2026/10/30/bombinha-de-asma-ganha-versao-sustentavel-que-reduz-pegada-de-carbono-em-ate-90percent.ghtml",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+   "titulo": "O que é choque anafilático? Entenda causas, riscos e quem é mais afetado",
+   "fonte": "Band",
+   "url": "https://www.band.com.br/saude/o-que-e-choque-anafilatico-entenda-causas-riscos-e-quem-e-mais-afetado",
+   "motivo": "página retornou HTTP 403"
   },
   {
    "status": "pendente",
-   "titulo": "Dermatite atópica pode ser mais difícil de identificar em peles negras, revela novo estudo",
-   "fonte": "Crescer",
-   "url": "https://revistacrescer.globo.com/saude/noticia/2026/10/dermatite-atopica-pode-ser-mais-dificil-de-identificar-em-peles-negras-revela-novo-estudo.ghtml",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
-  },
-  {
-   "status": "pendente",
-   "titulo": "Pais são presos por negligência após criança morrer de crise de asma sem tratamento nos EUA",
-   "fonte": "O GLOBO",
-   "url": "https://oglobo.globo.com/saude/epoca/post/2026/10/pais-sao-presos-por-negligencia-apos-crianca-morrer-de-crise-de-asma-sem-tratamento-nos-eua.ghtml",
-   "motivo": "data de publicação não encontrada na página (meta tags ausentes)"
+   "titulo": "O que é choque anafilático, reação apontada na morte de Janaína Barbosa?",
+   "fonte": "UOL",
+   "linkGoogle": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQLTh4WVBWZnJiX2hoRGYwVFJfVkZKVlJDdkU3ZnJIZF9tYWgzc09Xa2FEUnVGRjZYcXJyZjd4NUJEem0wSXdqNDAtaFdUX1VvdHk3ZnVWSTBMWUlmc0Y1aXZ0S1ZxYTRxeXJvVHVDd3NIdncwMy03c1UxZ01mR3lXQ091NlJvQTB2ZHRxMWRoWHF3S3E5RG95VE04V1lwNWpkVjlqcC1zTEY3SXZuR01BRmpQUkJ6ZjN0YXltQlEyeEQ1LVE1ekRaajNzWGJ6SE0?oc=5",
+   "motivo": "Google Notícias não forneceu assinatura de resolução para este link"
   }
  ],
  "excluidos": [
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "“Preenchimento de um lado só”: Ana Castela diverte web com alergia no lábio",
+   "fonte": "Jornal de Brasília",
+   "url": "https://jornaldebrasilia.com.br/entretenimento/katia-flavia/preenchimento-de-um-lado-so-ana-castela-diverte-web-com-alergia-no-labio/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Ana Castela se surpreende com lábio inchado e suspeita de reação alérgica",
+   "fonte": "Rádio Cultura FM 95.1",
+   "url": "https://radioculturafm.com.br/novidades/ana-castela-se-surpreende-com-labio-inchado-e-suspeita-de-reacao-alergica/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Ana Castela aparece com lábio inchado, brinca sobre preenchimento e revela reação alérgica",
+   "fonte": "Aquidauana Notícias",
+   "url": "https://aquidauananoticias.com.br/?p=27900"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Ana Castela sofre com efeitos de alergia e brinca: 'Preenchimento labial'",
+   "fonte": "Estrelando",
+   "url": "https://www.estrelando.com.br/nota/2026/11/27/ana-castela-sofre-com-efeitos-de-alergia-e-brinca-preenchimento-labial-338854"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Dermatite atópica: 84% dos tutores notam melhoria do bem-estar do cão",
+   "fonte": "Veterinaria Atual",
+   "url": "https://www.veterinaria-atual.pt/na-pratica/dermatite-atopica/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Dermatite atópica no verão: por que calor e suor agravam a pele idosa",
+   "fonte": "viva.com.br",
+   "url": "https://viva.com.br/saude-e-bem-estar/dermatite-atopica-no-verao-por-que-calor-e-suor-agravam-a-pele-idosa.html"
+  },
+  {
+   "status": "excluido",
+   "motivo": "veículo estrangeiro",
+   "titulo": "Campanha «Que a urticária não te tire o sono» dá voz aos doentes que vivem com urticária crónica",
+   "fonte": "ECO",
+   "url": "https://eco.sapo.pt/2026/11/26/campanha-que-a-urticaria-nao-te-tire-o-sono-da-voz-aos-doentes-que-vivem-com-urticaria-cronica/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "E se o remédio que você precisa tomar causar alergia? Médico explica que existe tratamento",
+   "fonte": "Folha JF",
+   "url": "https://folhajf.com.br/o-remedio-que-voce-precisa-tomar-causar-alergia/"
+  },
+  {
+   "status": "excluido",
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Por que colocar o urso de pelúcia no freezer ajuda a combater a alergia",
+   "fonte": "Goiás 246",
+   "url": "https://www.goias246.com.br/noticia/35632/saude/por-que-colocar-o-urso-de-pelucia-no-freezer-ajuda-a-combater-a-alergia.html"
+  },
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
@@ -136,30 +236,9 @@
   {
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "SGC TV: Alergias respiratórias ou Covid-19: como diferenciar os sintomas",
-   "fonte": "Diário da Amazônia",
-   "url": "https://diariodaamazonia.com.br/noticia/6/456002/sgc-tv-alergias-respiratorias-ou-covid-19-como-diferenciar-os-sintomas"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Médica morre após reação alérgica em restaurante da Disney na Flórida e família encerra processo judicial nos EUA",
-   "fonte": "Midiamax",
-   "url": "https://midiamax.com.br/trends/2026/11/26/medica-morre-apos-reacao-alergica-em-restaurante-da-disney-na-florida-e-familia-encerra-processo-judicial-nos-eua/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Dermatite atópica: novas opções terapêuticas abrem caminho a tratamentos cada vez mais personalizados",
-   "fonte": "News Farma",
-   "url": "https://newsfarma.pt/my-especialidades/dermatite-atopica-novas-opcoes-terapeuticas-abrem-caminho-a-tratamentos-cada-vez-mais-personalizados/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Novartis, AGAPUC e Foro Piel impulsionam uma campanha para dar visibilidade ao dia a dia da urticária crônica",
-   "fonte": "Demócrata",
-   "url": "https://www.democrata.es/pt/saude/novartis-agapuc-e-foro-piel-impulsionam-uma-campanha-para-dar-visibilidade-ao-dia-a-dia-da-urticaria-cronica/"
+   "titulo": "Diabetes, asma e hipertensão: painel mostra internações que atenção básica pode evitar no ES",
+   "fonte": "Folha Vitória",
+   "url": "https://www.folhavitoria.com.br/saude/diabetes-asma-e-hipertensao-painel-mostra-internacoes-que-atencao-basica-pode-evitar-no-es/"
   },
   {
    "status": "excluido",
@@ -172,22 +251,22 @@
    "status": "excluido",
    "motivo": "domínio fora da lista de mídia brasileira",
    "titulo": "Calorão de MS agrava dermatite atópica, que pode ser confundida com sarna",
-   "fonte": "Campo Grande News",
-   "url": "https://www.campograndenews.com.br/saude-e-bem-estar/calorao-de-ms-agrava-dermatite-atopica-que-pode-ser-confundida-com-sarna"
+   "fonte": "AconteceuMS",
+   "url": "https://www.aconteceums.com.br/noticia/78461/calor-atilde-o-de-ms-agrava-dermatite-at-oacute-pica-que-pode-ser-confundida-com-sarna"
   },
   {
    "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Estudo traça retrato do angioedema hereditário em Portugal e alerta para desigualdades no acesso a tratamentos inovadores",
-   "fonte": "Jornal Médico",
-   "url": "https://jornalmedico.pt/foco/84933-estudo-traca-retrato-do-angioedema-hereditario-em-portugal-e-alerta-para-desigualdades-no-acesso-a-tratamentos-inovadores/"
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Calorão em MS pode agravar dermatite atópica, que pode ser confundida com sarna",
+   "fonte": "Dourados Agora",
+   "url": "https://www.douradosagora.com.br/noticias/saude/calorao-em-ms-pode-agravar-dermatite-atopica-que-pode-ser-confundida-com-sarna"
   },
   {
    "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Doentes e profissionais de saúde elaboram um consenso pioneiro em Espanha que propõe uma abordagem integral da urticária crónica",
-   "fonte": "ECO",
-   "url": "https://eco.sapo.pt/2026/11/23/doentes-e-profissionais-de-saude-elaboram-um-consenso-pioneiro-em-espanha-que-propoe-uma-abordagem-integral-da-urticaria-cronica/"
+   "motivo": "domínio fora da lista de mídia brasileira",
+   "titulo": "Choque anafilático: entenda como um medicamento já utilizado pode provocar reação grave",
+   "fonte": "Jornal Correio",
+   "url": "https://www.correio24horas.com.br/saude/choque-anafilatico-entenda-como-um-medicamento-ja-utilizado-pode-provocar-reacao-grave-1126"
   },
   {
    "status": "excluido",
@@ -195,13 +274,6 @@
    "titulo": "Dermatite atópica: mercado pode dobrar até 2036",
    "fonte": "Guia da Farmácia",
    "url": "https://guiadafarmacia.com.br/mercado-de-dermatite-atopica/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "KT-621 da Kymera atinge metas em estudo de dermatite atópica - Investing.com Brasil",
-   "fonte": "Investing.com Brasil - Finanças, Câmbio e Investimentos",
-   "url": "https://br.investing.com/news/company-news/kt621-da-kymera-atinge-metas-em-estudo-de-dermatite-atopica-93CH-2135391"
   },
   {
    "status": "excluido",
@@ -214,15 +286,15 @@
    "status": "excluido",
    "motivo": "conteúdo de saúde animal/veterinária, fora do escopo humano",
    "titulo": "Coceira em cachorro é normal? Veja quando pode ser sintoma de dermatite atópica",
-   "fonte": "GZH",
-   "url": "https://gauchazh.clicrbs.com.br/comportamento/mundo-pet/noticia/2026/11/coceira-em-cachorro-e-normal-veja-quando-pode-ser-sintoma-de-dermatite-atopica-cmwqh7doq020x015uplrx4bfi.html"
+   "fonte": "Terra",
+   "url": "https://www.terra.com.br/vida-e-estilo/pets/coceira-em-cachorro-e-normal-veja-quando-pode-ser-sintoma-de-dermatite-atopica,1cafc37838509402d30df81591f8502awn3gvt81.html"
   },
   {
    "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Dermatite atópica em peles negras: os desafios entre o reconhecimento dos sinais e o diagnóstico",
-   "fonte": "Mundo Negro",
-   "url": "https://mundonegro.inf.br/dermatite-atopica-peles-negras-sinais-diagnostico/"
+   "motivo": "veículo estrangeiro",
+   "titulo": "Anafilaxia: reconhecer os sinais e agir pode salvar vidas",
+   "fonte": "HealthNews",
+   "url": "https://healthnews.pt/2026/11/21/anafilaxia-reconhecer-os-sinais-e-agir-pode-salvar-vidas/"
   },
   {
    "status": "excluido",
@@ -230,41 +302,6 @@
    "titulo": "ATS 2026: Corticoide inalatório de resgate na asma",
    "fonte": "Afya | Home",
    "url": "https://portal.afya.com.br/terapia-intensiva/ats-2026-corticoide-inalatorio-de-resgate-na-asma"
-  },
-  {
-   "status": "excluido",
-   "motivo": "veículo estrangeiro",
-   "titulo": "Estudo sobre angioedema hereditário em Portugal alerta para desigualdade no acesso a medicamentos inovadores",
-   "fonte": "Observador",
-   "url": "https://observador.pt/2026/11/20/estudo-sobre-angioedema-hereditario-em-portugal-alerta-para-desigualdade-no-acesso-a-medicamentos-inovadores/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Atlético-MG com \"alergia a finais\"? Ídolo do Galo rebate pressão antes de decisão da Sula",
-   "fonte": "Resultados",
-   "url": "https://www.flashscore.com.br/noticias/futebol-copa-sul-americana-atletico-mg-com-alergia-a-finais-idolo-do-galo-rebate-pressao-antes-de-decisao-da-sula/x6yTBSgS/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Cochrane compara tratamentos tópicos para dermatite atópica",
-   "fonte": "Afya | Home",
-   "url": "https://portal.afya.com.br/dermatologia/cochrane-compara-tratamentos-topicos-para-dermatite-atopica"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Após sintomas serem confundidos com alergia, casos de sarna humana sobem para 11 em Nova Andradina",
-   "fonte": "Midiamax",
-   "url": "https://midiamax.com.br/cotidiano/2026/apos-sintomas-serem-confundidos-alergia-casos-sarna-humana-sobem-11-nova-andradina/"
-  },
-  {
-   "status": "excluido",
-   "motivo": "domínio fora da lista de mídia brasileira",
-   "titulo": "Homem é preso após enviar cartão com pasta de amendoim a mulher com alergia grave",
-   "fonte": "NSC Total",
-   "url": "https://www.nsctotal.com.br/cotidiano/homem-e-preso-apos-enviar-cartao-com-pasta-de-amendoim-a-mulher-com-alergia-grave"
   }
  ]
 }
